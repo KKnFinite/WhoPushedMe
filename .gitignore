@@ -1,3 +1,12 @@
 .neon
-.env.local
+.env
+.env.*
+!.env.example
 node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store

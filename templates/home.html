@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10241c">
+  <title>Who Pushed Me?! Scorecard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">PROTOTYPE {{ version }}</div>
+      <h1>WHO PUSHED ME?!</h1>
+      <p class="subtitle">SCORECARD</p>
+      <p class="tagline">Keep score. Talk shit.</p>
+      <p class="lede">A golf scorecard for people who think encouragement is suspicious.</p>
+    </section>
+
+    <section class="mode-grid" aria-label="Choose a round type">
+      <a class="mode-card" href="{{ url_for('new_round', mode='individual') }}">
+        <span class="mode-kicker">INDIVIDUAL</span>
+        <strong>EVERY ASSHOLE FOR THEMSELVES</strong>
+        <span>Normal stroke play. Everybody owns their disaster.</span>
+      </a>
+
+      <a class="mode-card featured" href="{{ url_for('new_round', mode='scramble') }}">
+        <span class="mode-kicker">SCRAMBLE</span>
+        <strong>WE SUCK TOGETHER</strong>
+        <span>One team ball. Four golfers. Shared blame.</span>
+      </a>
+    </section>
+
+    <section class="status-strip">
+      <span>Shared rounds</span>
+      <span>Live trash talk</span>
+      <span>Score receipts</span>
+      <span>Zero dignity</span>
+    </section>
+  </main>
+</body>
+</html>

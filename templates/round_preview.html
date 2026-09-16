@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10241c">
+  <title>Round Preview · Who Pushed Me?!</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <main class="shell narrow">
+    <a class="back-link" href="{{ url_for('new_round', mode=mode) }}">← Fix this mess</a>
+
+    <section class="hero compact">
+      <div class="eyebrow">ROUND PREVIEW</div>
+      <h1>{{ course }}</h1>
+      <p class="lede">{{ holes }} holes · {{ 'Scramble' if mode == 'scramble' else 'Individual stroke play' }}</p>
+    </section>
+
+    <section class="receipt-card">
+      <h2>THE SUSPECTS</h2>
+      <ol>
+        {% for player in players %}
+          <li>{{ player }}</li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <section class="callout">
+      <span class="mode-kicker">NEXT BUILD STEP</span>
+      <strong>Hole-by-hole scoring + shared trash talk</strong>
+      <p>This setup flow is real. The next pass wires it into Postgres and turns this into a resumable live round.</p>
+    </section>
+
+    <a class="primary link-button" href="{{ url_for('home') }}">BACK TO HOME</a>
+  </main>
+</body>
+</html>

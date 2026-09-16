@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10241c">
+  <title>New Round · Who Pushed Me?!</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <main class="shell narrow">
+    <a class="back-link" href="{{ url_for('home') }}">← Back</a>
+
+    <section class="hero compact">
+      <div class="eyebrow">{{ 'SCRAMBLE' if mode == 'scramble' else 'INDIVIDUAL' }}</div>
+      <h1>{{ 'WE SUCK TOGETHER' if mode == 'scramble' else 'EVERY ASSHOLE FOR THEMSELVES' }}</h1>
+      <p class="lede">{{ 'One team score per hole. Shared blame included.' if mode == 'scramble' else 'Everybody keeps their own score and accepts the consequences.' }}</p>
+    </section>
+
+    {% if error %}
+      <div class="error" role="alert">{{ error }}</div>
+    {% endif %}
+
+    <form class="setup-form" method="post" action="{{ url_for('round_preview') }}">
+      <input type="hidden" name="mode" value="{{ mode }}">
+
+      <label>
+        <span>WHERE ARE WE RUINING THE AFTERNOON?</span>
+        <input name="course" maxlength="100" required placeholder="Course name" value="{{ values.get('course', '') }}">
+      </label>
+
+      <fieldset>
+        <legend>HOW MUCH SUFFERING?</legend>
+        <div class="segmented">
+          <label><input type="radio" name="holes" value="9" {% if values.get('holes') == '9' %}checked{% endif %}> <span>9 HOLES</span></label>
+          <label><input type="radio" name="holes" value="18" {% if values.get('holes', '18') == '18' %}checked{% endif %}> <span>18 HOLES</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>WHO'S MAKING BAD DECISIONS?</legend>
+        <div class="player-grid">
+          {% for index in range(1, 5) %}
+            <label>
+              <span>Golfer {{ index }}</span>
+              <input name="player_{{ index }}" maxlength="40" placeholder="{{ 'Required' if index <= (2 if mode == 'scramble' else 1) else 'Optional' }}" value="{{ values.get('player_' ~ index, '') }}">
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <button class="primary" type="submit">PREVIEW THE DAMAGE</button>
+    </form>
+  </main>
+</body>
+</html>
