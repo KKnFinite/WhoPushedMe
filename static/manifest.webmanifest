@@ -1,0 +1,19 @@
+{
+  "name": "Who Pushed Me?! Scorecard",
+  "short_name": "Who Pushed Me?!",
+  "description": "Keep score. Talk shit. Blame equipment.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F1E7C8",
+  "theme_color": "#314A3A",
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
