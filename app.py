@@ -5,12 +5,15 @@ from typing import Final
 
 from flask import Flask, jsonify, redirect, render_template, send_from_directory, url_for
 
-APP_VERSION: Final = "0.2.0"
+from who_pushed_me.api import api
+
+APP_VERSION: Final = "0.3.0"
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config["DATABASE_URL"] = os.getenv("DATABASE_URL", "")
+    app.register_blueprint(api)
 
     @app.get("/")
     def home():

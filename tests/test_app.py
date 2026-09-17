@@ -22,7 +22,7 @@ def test_health():
     assert response.status_code == 200
     assert payload["status"] == "ok"
     assert payload["service"] == "who-pushed-me-scorecard"
-    assert payload["version"] == "0.2.0"
+    assert payload["version"] == "0.3.0"
 
 
 def test_old_round_routes_are_parked():
