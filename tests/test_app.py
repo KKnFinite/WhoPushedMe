@@ -7,11 +7,13 @@ def client():
     return app.test_client()
 
 
-def test_home_loads():
+def test_home_loads_pwa_shell():
     response = client().get("/")
     assert response.status_code == 200
-    assert b"WHO PUSHED ME?!" in response.data
-    assert b"WE SUCK TOGETHER" in response.data
+    assert b"IT HAS BEGUN!" in response.data
+    assert b"START A ROUND" in response.data
+    assert b"APP UNDER CONSTRUCTION, DUMBASS." in response.data
+    assert b"manifest.webmanifest" in response.data
 
 
 def test_health():
@@ -20,41 +22,20 @@ def test_health():
     assert response.status_code == 200
     assert payload["status"] == "ok"
     assert payload["service"] == "who-pushed-me-scorecard"
+    assert payload["version"] == "0.2.0"
 
 
-def test_invalid_mode_redirects_home():
-    response = client().get("/new-round?mode=chaos")
-    assert response.status_code == 302
-    assert response.headers["Location"].endswith("/")
+def test_old_round_routes_are_parked():
+    get_response = client().get("/new-round")
+    post_response = client().post("/round-preview")
+    assert get_response.status_code == 302
+    assert post_response.status_code == 302
+    assert get_response.headers["Location"].endswith("/")
+    assert post_response.headers["Location"].endswith("/")
 
 
-def test_scramble_requires_two_players():
-    response = client().post(
-        "/round-preview",
-        data={
-            "mode": "scramble",
-            "course": "Test Course",
-            "holes": "18",
-            "player_1": "Khris",
-        },
-    )
-    assert response.status_code == 400
-    assert b"at least two victims" in response.data
-
-
-def test_round_preview_accepts_scramble_setup():
-    response = client().post(
-        "/round-preview",
-        data={
-            "mode": "scramble",
-            "course": "Test Course",
-            "holes": "18",
-            "player_1": "Khris",
-            "player_2": "Grayson",
-            "player_3": "Mike",
-            "player_4": "Steve",
-        },
-    )
+def test_service_worker_is_served_from_root_scope():
+    response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"Test Course" in response.data
-    assert b"Grayson" in response.data
+    assert b"wpm-shell-v1" in response.data
+    assert response.headers["Cache-Control"] == "no-cache"
