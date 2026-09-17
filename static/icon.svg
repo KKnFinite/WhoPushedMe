@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Who Pushed Me?! app icon</title>
+  <desc id="desc">A rude golf ball mascot wearing sunglasses and a cap.</desc>
+  <rect width="512" height="512" rx="112" fill="#DDE846"/>
+  <path d="M95 183c20-89 95-137 178-130 78 6 142 58 155 134l-49 12c-16-49-58-84-111-89-61-6-109 27-129 84z" fill="#314A3A" stroke="#171916" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M136 90h242l-33 92H160z" fill="#EADBAA" stroke="#171916" stroke-width="14" stroke-linejoin="round"/>
+  <text x="257" y="123" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="30" font-weight="900" fill="#171916">BAD GOLF</text>
+  <text x="257" y="157" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="30" font-weight="900" fill="#171916">GOOD TIMES</text>
+  <circle cx="255" cy="290" r="139" fill="#F2E8C9" stroke="#171916" stroke-width="18"/>
+  <g fill="#D8CBA4" opacity=".95">
+    <circle cx="177" cy="239" r="10"/><circle cx="221" cy="205" r="9"/><circle cx="299" cy="210" r="9"/><circle cx="346" cy="252" r="10"/><circle cx="161" cy="303" r="9"/><circle cx="199" cy="354" r="9"/><circle cx="310" cy="361" r="10"/><circle cx="355" cy="320" r="9"/>
+  </g>
+  <path d="M130 240c31-27 72-35 117-21l14 9 15-9c44-13 86-5 115 21l-14 65c-8 32-45 42-93 28l-23-31-25 31c-47 14-84 4-92-28z" fill="#171916" stroke="#171916" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M151 246c24-18 51-21 79-11l11 8-17 53c-24 7-48 1-61-13z" fill="#233D31"/>
+  <path d="M282 243l12-8c28-10 55-7 78 11l-12 37c-13 14-37 20-61 13z" fill="#233D31"/>
+  <path d="M214 344c26 22 58 24 84 1" fill="none" stroke="#171916" stroke-width="15" stroke-linecap="round"/>
+  <path d="M244 350c-13 42 1 91 43 98 40-13 50-52 29-91-20-16-49-18-72-7z" fill="#D86A3F" stroke="#171916" stroke-width="13"/>
+  <path d="M269 365c7 26 6 51-1 73" fill="none" stroke="#F59B6F" stroke-width="8" stroke-linecap="round"/>
+</svg>
