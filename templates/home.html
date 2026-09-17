@@ -2,41 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10241c">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#314A3A">
+  <meta name="application-name" content="Who Pushed Me?! Scorecard">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Who Pushed Me?!">
+  <meta name="description" content="Keep score. Talk shit. Blame equipment.">
   <title>Who Pushed Me?! Scorecard</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 </head>
 <body>
-  <main class="shell">
-    <section class="hero">
-      <div class="eyebrow">PROTOTYPE {{ version }}</div>
-      <h1>WHO PUSHED ME?!</h1>
-      <p class="subtitle">SCORECARD</p>
-      <p class="tagline">Keep score. Talk shit.</p>
-      <p class="lede">A golf scorecard for people who think encouragement is suspicious.</p>
+  <section id="launch-splash" class="launch-splash" aria-label="Who Pushed Me launch screen">
+    <div class="splash-noise" aria-hidden="true"></div>
+    <div class="splash-content">
+      <div class="splash-kicker">IT HAS BEGUN!</div>
+      <div class="brand-lockup brand-lockup-large" aria-label="Who Pushed Me?! Scorecard">
+        <span class="brand-line brand-who">WHO</span>
+        <span class="brand-line brand-pushed">PUSHED</span>
+        <span class="brand-line brand-me">ME<span class="brand-punctuation">?!</span></span>
+        <span class="brand-scorecard">SCORECARD</span>
+      </div>
+      <div class="splash-tagline">KEEP SCORE. TALK SHIT. BLAME EQUIPMENT.</div>
+    </div>
+  </section>
+
+  <main id="app-shell" class="app-shell" aria-hidden="true">
+    <header class="home-header">
+      <div class="header-copy">
+        <div class="mini-kicker">MUNICIPAL COURSE LEGENDS ONLY</div>
+        <div class="brand-lockup brand-lockup-home" aria-label="Who Pushed Me?! Scorecard">
+          <span class="brand-line brand-who">WHO</span>
+          <span class="brand-line brand-pushed">PUSHED</span>
+          <span class="brand-line brand-me">ME<span class="brand-punctuation">?!</span></span>
+          <span class="brand-scorecard">SCORECARD</span>
+        </div>
+      </div>
+      <img class="mascot-icon" src="{{ url_for('static', filename='icon.svg') }}" alt="Rude golf ball mascot wearing sunglasses and a cap">
+    </header>
+
+    <section class="welcome-panel">
+      <div class="panel-kicker">WELCOME BACK</div>
+      <h1>Ready to ruin a perfectly good afternoon?</h1>
     </section>
 
-    <section class="mode-grid" aria-label="Choose a round type">
-      <a class="mode-card" href="{{ url_for('new_round', mode='individual') }}">
-        <span class="mode-kicker">INDIVIDUAL</span>
-        <strong>EVERY ASSHOLE FOR THEMSELVES</strong>
-        <span>Normal stroke play. Everybody owns their disaster.</span>
-      </a>
+    <section class="home-actions" aria-label="Who Pushed Me home actions">
+      <button type="button" class="home-button home-button-primary" data-under-construction>
+        <span>START A ROUND</span>
+      </button>
 
-      <a class="mode-card featured" href="{{ url_for('new_round', mode='scramble') }}">
-        <span class="mode-kicker">SCRAMBLE</span>
-        <strong>WE SUCK TOGETHER</strong>
-        <span>One team ball. Four golfers. Shared blame.</span>
-      </a>
+      <button type="button" class="home-button home-button-dark" data-under-construction>
+        <span>JOIN A ROUND</span>
+      </button>
+
+      <div class="home-grid">
+        <button type="button" class="home-card card-green" data-under-construction>
+          <span class="card-kicker">PREVIOUS DISASTERS</span>
+          <strong>Rounds</strong>
+        </button>
+
+        <button type="button" class="home-card card-charcoal" data-under-construction>
+          <span class="card-kicker">ALLEGED TALENT</span>
+          <strong>Stats</strong>
+        </button>
+
+        <button type="button" class="home-card card-mustard" data-under-construction>
+          <span class="card-kicker">KNOWN OFFENDERS</span>
+          <strong>Golfers</strong>
+        </button>
+
+        <button type="button" class="home-card card-orange" data-under-construction>
+          <span class="card-kicker">POWER TOOLS</span>
+          <strong>Bag of Bullshit</strong>
+        </button>
+      </div>
     </section>
 
-    <section class="status-strip">
-      <span>Shared rounds</span>
-      <span>Live trash talk</span>
-      <span>Score receipts</span>
-      <span>Zero dignity</span>
-    </section>
+    <footer class="home-footer">
+      <span>PROTOTYPE {{ version }}</span>
+      <span>NO DIGNITY REQUIRED</span>
+    </footer>
   </main>
+
+  <div id="construction-modal" class="construction-modal" hidden role="dialog" aria-modal="true" aria-labelledby="construction-title">
+    <div class="construction-card">
+      <img class="construction-mascot" src="{{ url_for('static', filename='icon.svg') }}" alt="">
+      <div class="construction-kicker">EASY, TIGER.</div>
+      <h2 id="construction-title">APP UNDER CONSTRUCTION, DUMBASS.</h2>
+      <p>We haven't even finished insulting you yet.</p>
+      <button id="construction-close" type="button">FINE. JESUS.</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
 </body>
 </html>
