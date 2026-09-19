@@ -136,11 +136,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Really?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough",
@@ -150,25 +150,25 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Dumb Crew",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_IRememberYourBullshit",
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "I Remember Your Bullshit",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Old Player. Still Sus",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack",
@@ -178,11 +178,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Dumb Crew, Huh?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_OhGreatYouAgain",
@@ -192,11 +192,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Mistakes. Different Day",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_SameClownNewRound",
@@ -206,11 +206,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Clown. New Round",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillMakingBadDecisions",
@@ -220,11 +220,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Bad Ideas Club",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently",
@@ -234,11 +234,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Round Two?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_TheProblemCameBack",
@@ -248,11 +248,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Trouble Returns",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeDidntMissYou",
@@ -262,11 +262,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "We Didn't Miss You",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Miss Me? Nah",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeReallyDoingThisAgain",
@@ -276,11 +276,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Dumb Crew",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WhoLetYouBackIn",
@@ -290,11 +290,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Still A Bad Decision",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack",
@@ -304,11 +304,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Same Swing?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouSurvivedLastTime",
@@ -318,11 +318,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Still Here?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_BraveEnoughToWatchNotPlay",
