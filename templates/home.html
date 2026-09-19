@@ -269,6 +269,54 @@
         <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
         <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
+
+      <section id="live-round-panel" class="live-round-panel" hidden>
+        <header class="live-round-header">
+          <div>
+            <div class="live-round-kicker">LIVE SCORECARD</div>
+            <h3 id="live-round-place">COURSE</h3>
+          </div>
+          <div class="live-round-code">
+            <small>CODE</small>
+            <strong id="live-round-code">----</strong>
+          </div>
+        </header>
+
+        <div class="hole-strip">
+          <button id="hole-prev" type="button" aria-label="View previous hole">←</button>
+          <div class="hole-strip-copy">
+            <small id="hole-state-label">LIVE HOLE</small>
+            <strong id="hole-number">1</strong>
+            <span id="hole-par-label">PAR ?</span>
+          </div>
+          <button id="hole-next" type="button" aria-label="Advance or view next hole">→</button>
+        </div>
+
+        <form id="par-form" class="par-form">
+          <label>
+            <span>PAR</span>
+            <input id="par-input" name="par" type="number" min="2" max="7" inputmode="numeric">
+          </label>
+          <button id="par-submit" type="submit">REPORT PAR</button>
+        </form>
+
+        <div id="live-score-area" class="live-score-area"></div>
+
+        <section id="latest-presentation" class="latest-presentation" hidden>
+          <div class="latest-presentation-kicker">LATEST RECEIPT</div>
+          <img id="latest-mascot" class="latest-mascot" alt="" hidden>
+          <div class="latest-presentation-copy">
+            <strong id="latest-banter"></strong>
+            <small id="latest-fallback"></small>
+          </div>
+        </section>
+
+        <button id="bag-of-bullshit-button" class="bag-of-bullshit-button" type="button" data-under-construction>
+          BAG OF BULLSHIT
+        </button>
+
+        <button id="live-round-home" class="lobby-home" type="button">BACK HOME</button>
+      </section>
     </section>
   </div>
 
