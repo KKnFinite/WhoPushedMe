@@ -26,6 +26,19 @@ def _body() -> dict[str, Any]:
     return payload
 
 
+def session_authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
+    @wraps(view)
+    def wrapped(*args: Any, **kwargs: Any):
+        authorization = request.headers.get("Authorization", "").strip()
+        scheme, _, token = authorization.partition(" ")
+        if scheme.lower() != "bearer" or not token.strip():
+            raise PermissionDenied("Bearer session token is required")
+        g.golfer = _store().authenticate_session(token.strip())
+        return view(*args, **kwargs)
+
+    return wrapped
+
+
 def authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(view)
     def wrapped(*args: Any, **kwargs: Any):
@@ -57,6 +70,33 @@ def domain_error(error: DomainError):
 def database_error(error: psycopg.Error):
     current_app.logger.exception("database request failed")
     return jsonify(error="database request failed"), 503
+
+
+@api.post("/auth/register")
+def register_account():
+    payload = _body()
+    result = _store().register_account(
+        username=payload.get("username"),
+        password=payload.get("password"),
+        display_name=payload.get("display_name"),
+    )
+    return jsonify(result), 201
+
+
+@api.post("/auth/login")
+def login_account():
+    payload = _body()
+    result = _store().login_account(
+        username=payload.get("username"),
+        password=payload.get("password"),
+    )
+    return jsonify(result)
+
+
+@api.get("/auth/me")
+@session_authenticated
+def auth_me():
+    return jsonify(g.golfer)
 
 
 @api.post("/golfers")
