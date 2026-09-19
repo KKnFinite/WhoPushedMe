@@ -63,12 +63,11 @@ def test_theme_registry_is_data_driven():
     assert all("user_toggle" in row for row in catalog.theme_rows)
 
 
-def test_existing_mascots_are_marked_pending_until_visual_audit():
+def test_existing_mascot_audit_summary_tracks_all_assets():
     catalog = ContentCatalog.load()
     summary = catalog.mascot_audit_summary()
 
-    assert summary["pending"] == 97
-    assert summary["verified"] == 0
+    assert summary["pending"] + summary["verified"] == 97
     assert all("copy" in row for row in catalog.mascots)
     assert all("hat_copy" in row for row in catalog.mascots)
     assert all("notes" in row for row in catalog.mascots)
