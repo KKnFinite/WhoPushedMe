@@ -1304,11 +1304,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Edit Mode",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_FixingScoreOrAlibi",
@@ -1318,11 +1318,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Alibi Check",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_LookWhoFoundHonesty",
@@ -1332,11 +1332,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Honesty Found",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_NumberMovedCredibilityDidnt",
@@ -1346,11 +1346,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Still Suspect",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_OhNowYouRemember",
@@ -1360,11 +1360,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Memory Restored",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_ThatScoreAgedPoorly",
@@ -1374,11 +1374,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Aged Badly",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_TruthNeededSecondDraft",
@@ -1388,11 +1388,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Revision 2",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     }
   ]
 }
