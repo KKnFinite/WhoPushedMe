@@ -1011,14 +1011,16 @@
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
+      "copy": "v",
+      "signs": [
+        "v"
+      ],
+      "hat_copy": "#1 Asshole",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_KingOfTheDumpsterFire",
@@ -1028,11 +1030,13 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
+      "copy": "v",
+      "signs": [
+        "v"
+      ],
+      "hat_copy": "Royal Trash",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_LeastBadGolferWon",
@@ -1042,25 +1046,29 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
+      "copy": "v",
+      "signs": [
+        "v"
+      ],
+      "hat_copy": "Barely Best",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_SomehowWonThisShitshow",
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
+      "copy": "v",
+      "signs": [
+        "v"
+      ],
+      "hat_copy": "Somehow",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_18HolesZeroAccountability",
