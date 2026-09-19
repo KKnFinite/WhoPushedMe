@@ -36,6 +36,19 @@
   const lobbyParticipants = document.getElementById('lobby-participants');
   const lobbyStart = document.getElementById('lobby-start');
   const lobbyHome = document.getElementById('lobby-home');
+  const courseSearchPanel = document.getElementById('course-search-panel');
+  const freePlayField = document.getElementById('free-play-field');
+  const courseSearchInput = document.getElementById('course-search-input');
+  const courseSearchButton = document.getElementById('course-search-button');
+  const courseResults = document.getElementById('course-results');
+  const selectedCourseBox = document.getElementById('selected-course');
+  const selectedCourseName = document.getElementById('selected-course-name');
+  const selectedCourseLocation = document.getElementById('selected-course-location');
+  const startTeeField = document.getElementById('start-tee-field');
+  const startTeeSelect = document.getElementById('start-tee-select');
+  const lobbyTeePanel = document.getElementById('lobby-tee-panel');
+  const lobbyTeeSelect = document.getElementById('lobby-tee-select');
+  const lobbyTeeSave = document.getElementById('lobby-tee-save');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -43,6 +56,8 @@
 
   let pendingAccount = null;
   let currentLobbyRound = null;
+  let selectedCourse = null;
+  let lobbyRefreshTimer = null;
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
@@ -61,7 +76,7 @@
   };
 
   const setFormBusy = (form, busy) => {
-    form?.querySelectorAll('button, input').forEach((control) => {
+    form?.querySelectorAll('button, input, select').forEach((control) => {
       control.disabled = busy;
     });
   };
@@ -319,6 +334,128 @@
     showAuth('login');
   });
 
+  const teeOptionLabel = (tee) => {
+    const yardage = tee?.total_yardage ? ` • ${tee.total_yardage} YDS` : '';
+    return `${tee?.tee_name || 'Tee'}${yardage}`;
+  };
+
+  const fillTeeSelect = (select, tees, selected = '') => {
+    if (!select) return;
+    select.replaceChildren();
+
+    (tees || []).forEach((tee) => {
+      const option = document.createElement('option');
+      option.value = tee.tee_name;
+      option.textContent = teeOptionLabel(tee);
+      option.selected = tee.tee_name === selected;
+      select.append(option);
+    });
+  };
+
+  const clearSelectedCourse = () => {
+    selectedCourse = null;
+    if (selectedCourseBox) selectedCourseBox.hidden = true;
+    if (selectedCourseName) selectedCourseName.textContent = '';
+    if (selectedCourseLocation) selectedCourseLocation.textContent = '';
+    if (startTeeField) startTeeField.hidden = true;
+    if (startTeeSelect) startTeeSelect.replaceChildren();
+  };
+
+  const setCourseMode = (mode) => {
+    const useCourse = mode === 'course';
+    if (courseSearchPanel) courseSearchPanel.hidden = !useCourse;
+    if (freePlayField) freePlayField.hidden = useCourse;
+    if (!useCourse) {
+      clearSelectedCourse();
+      if (courseResults) courseResults.replaceChildren();
+    }
+  };
+
+  const selectCourseResult = async (result) => {
+    setRoundFlowMessage('Loading course...');
+    const body = result.course_id
+      ? { course_id: result.course_id }
+      : { external_course_id: result.external_course_id };
+
+    try {
+      const course = await requestJson('/api/courses/select', {
+        method: 'POST',
+        body,
+      });
+      selectedCourse = course;
+
+      if (selectedCourseName) selectedCourseName.textContent = course.name || 'Selected course';
+      if (selectedCourseLocation) {
+        const pieces = [result.city, result.state, result.country].filter(Boolean);
+        selectedCourseLocation.textContent = pieces.join(', ');
+      }
+      if (selectedCourseBox) selectedCourseBox.hidden = false;
+
+      const tees = course.tees || [];
+      fillTeeSelect(startTeeSelect, tees);
+      if (startTeeField) startTeeField.hidden = tees.length === 0;
+      if (courseResults) courseResults.replaceChildren();
+      setRoundFlowMessage('');
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    }
+  };
+
+  const renderCourseResults = (results) => {
+    if (!courseResults) return;
+    courseResults.replaceChildren();
+
+    if (!results.length) {
+      const empty = document.createElement('div');
+      empty.className = 'selected-course';
+      empty.textContent = 'No course found. Try another search or use Free Play.';
+      courseResults.append(empty);
+      return;
+    }
+
+    results.forEach((result) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'course-result';
+
+      const name = document.createElement('strong');
+      name.textContent = result.name;
+
+      const details = document.createElement('small');
+      const location = [result.city, result.state, result.country].filter(Boolean);
+      const source = result.source === 'cache' ? 'SAVED COURSE' : 'COURSE SEARCH';
+      details.textContent = location.length
+        ? `${location.join(', ')} • ${source}`
+        : source;
+
+      button.append(name, details);
+      button.addEventListener('click', () => selectCourseResult(result));
+      courseResults.append(button);
+    });
+  };
+
+  const searchCourses = async () => {
+    const query = String(courseSearchInput?.value || '').trim();
+    if (query.length < 2) {
+      setRoundFlowMessage('Type at least 2 characters to search courses.');
+      return;
+    }
+
+    setRoundFlowMessage('Searching courses...');
+    if (courseSearchButton) courseSearchButton.disabled = true;
+    try {
+      const payload = await requestJson(
+        `/api/courses/search?q=${encodeURIComponent(query)}&limit=10`
+      );
+      renderCourseResults(payload.results || []);
+      setRoundFlowMessage('');
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      if (courseSearchButton) courseSearchButton.disabled = false;
+    }
+  };
+
   const setRoundFlowMessage = (message = '') => {
     if (!roundFlowMessage) return;
     roundFlowMessage.textContent = message;
@@ -331,6 +468,11 @@
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
     currentLobbyRound = null;
+    clearSelectedCourse();
+    if (lobbyRefreshTimer) {
+      window.clearInterval(lobbyRefreshTimer);
+      lobbyRefreshTimer = null;
+    }
   };
 
   const showRoundPanel = (panel) => {
@@ -346,6 +488,13 @@
     if (roundFlowTitle) {
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
+    if (panel === 'start') {
+      clearSelectedCourse();
+      setCourseMode(
+        startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
+        || 'course'
+      );
+    }
     roundFlowClose?.focus();
   };
 
@@ -359,7 +508,7 @@
 
     const modeLabel =
       round.mode === 'scramble' ? 'WE SUCK TOGETHER' : 'EVERY ASSHOLE FOR THEMSELVES';
-    const place = round.free_play_name || 'Course round';
+    const place = round.course?.name || round.free_play_name || 'Course round';
     if (lobbySummary) {
       lobbySummary.textContent = `${modeLabel} • ${round.hole_count} HOLES • ${place}`;
     }
@@ -374,17 +523,38 @@
         name.textContent = participant.display_name || 'Unknown golfer';
 
         const role = document.createElement('small');
-        role.textContent = participant.role || 'player';
+        const tee = participant.tee_name ? ` • ${participant.tee_name} TEE` : '';
+        role.textContent = `${participant.role || 'player'}${tee}`;
 
         row.append(name, role);
         lobbyParticipants.append(row);
       });
     }
 
+    const tees = round.available_tees || [];
+    const viewer = (round.participants || []).find(
+      (participant) => String(participant.id) === String(round.viewer_participant_id)
+    );
+    const canChooseTee =
+      round.viewer_role === 'player'
+      && round.status === 'setup'
+      && tees.length > 0;
+
+    if (lobbyTeePanel) lobbyTeePanel.hidden = !canChooseTee;
+    if (canChooseTee) {
+      fillTeeSelect(lobbyTeeSelect, tees, viewer?.tee_name || '');
+    }
+
     if (lobbyStart) {
       const canStart = round.viewer_role === 'player' && round.status === 'setup';
+      const missingTee = tees.length > 0 && (round.participants || []).some(
+        (participant) => participant.role === 'player' && !participant.tee_name
+      );
       lobbyStart.hidden = !canStart;
-      lobbyStart.disabled = false;
+      lobbyStart.disabled = missingTee;
+      if (canStart && missingTee) {
+        setRoundFlowMessage('Every player needs to pick a tee before the round starts.');
+      }
     }
 
     if (round.status === 'active') {
@@ -400,12 +570,35 @@
     return round;
   };
 
+  const startLobbyPolling = (code) => {
+    if (lobbyRefreshTimer) window.clearInterval(lobbyRefreshTimer);
+    lobbyRefreshTimer = window.setInterval(async () => {
+      if (!roundFlowModal || roundFlowModal.hidden || !currentLobbyRound) return;
+      try {
+        await refreshLobby(code);
+      } catch (_error) {
+        // A manual action will surface useful errors. Polling stays quiet.
+      }
+    }, 3000);
+  };
+
   startRoundButton?.addEventListener('click', () => showRoundPanel('start'));
   joinRoundButton?.addEventListener('click', () => showRoundPanel('join'));
   roundFlowClose?.addEventListener('click', closeRoundFlow);
   lobbyHome?.addEventListener('click', closeRoundFlow);
   roundFlowModal?.addEventListener('click', (event) => {
     if (event.target === roundFlowModal) closeRoundFlow();
+  });
+
+  startRoundForm?.querySelectorAll('input[name="course_mode"]').forEach((radio) => {
+    radio.addEventListener('change', () => setCourseMode(radio.value));
+  });
+
+  courseSearchButton?.addEventListener('click', searchCourses);
+  courseSearchInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    searchCourses();
   });
 
   startRoundForm?.addEventListener('submit', async (event) => {
@@ -415,16 +608,30 @@
     const values = new FormData(startRoundForm);
 
     try {
+      const courseMode = values.get('course_mode');
+      if (courseMode === 'course' && !selectedCourse?.id) {
+        throw new Error('Pick a course first, or switch to Free Play.');
+      }
+
+      const body = {
+        mode: values.get('mode'),
+        holes: Number(values.get('holes')),
+      };
+
+      if (courseMode === 'course') {
+        body.course_id = selectedCourse.id;
+        if (startTeeSelect?.value) body.tee_name = startTeeSelect.value;
+      } else {
+        body.free_play_name =
+          String(values.get('free_play_name') || '').trim() || 'Free Play';
+      }
+
       const created = await requestJson('/api/rounds', {
         method: 'POST',
-        body: {
-          mode: values.get('mode'),
-          holes: Number(values.get('holes')),
-          free_play_name:
-            String(values.get('free_play_name') || '').trim() || 'Free Play',
-        },
+        body,
       });
       await refreshLobby(created.active_code);
+      startLobbyPolling(created.active_code);
       startRoundForm.reset();
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -449,11 +656,30 @@
         },
       });
       await refreshLobby(code);
+      startLobbyPolling(code);
       joinRoundForm.reset();
     } catch (error) {
       setRoundFlowMessage(error.message);
     } finally {
       setFormBusy(joinRoundForm, false);
+    }
+  });
+
+  lobbyTeeSave?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !lobbyTeeSelect?.value) return;
+    lobbyTeeSave.disabled = true;
+    setRoundFlowMessage('');
+
+    try {
+      await requestJson(`/api/rounds/${currentLobbyRound.id}/tee`, {
+        method: 'PATCH',
+        body: { tee_name: lobbyTeeSelect.value },
+      });
+      await refreshLobby(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      lobbyTeeSave.disabled = false;
     }
   });
 
