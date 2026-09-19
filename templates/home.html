@@ -11,7 +11,8 @@
   <meta name="description" content="Keep score. Talk shit. Blame equipment.">
   <title>Who Pushed Me?! Scorecard</title>
   <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
-  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon.svg') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/icon-32.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon-180.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 </head>
 <body>
@@ -40,7 +41,7 @@
           <span class="brand-scorecard">SCORECARD</span>
         </div>
       </div>
-      <img class="mascot-icon" src="{{ url_for('static', filename='icon.svg') }}" alt="Rude golf ball mascot wearing sunglasses and a cap">
+      <img class="mascot-icon" src="{{ url_for('static', filename='assets/icons/WPM_DesktopIcon_Official.webp') }}" alt="Rude golf ball mascot wearing sunglasses and a cap">
     </header>
 
     <section class="welcome-panel">
@@ -88,7 +89,7 @@
 
   <div id="construction-modal" class="construction-modal" hidden role="dialog" aria-modal="true" aria-labelledby="construction-title">
     <div class="construction-card">
-      <img class="construction-mascot" src="{{ url_for('static', filename='icon.svg') }}" alt="">
+      <img class="construction-mascot" src="{{ url_for('static', filename='assets/icons/WPM_DesktopIcon_Official.webp') }}" alt="">
       <div class="construction-kicker">EASY, TIGER.</div>
       <h2 id="construction-title">APP UNDER CONSTRUCTION, DUMBASS.</h2>
       <p>We haven't even finished insulting you yet.</p>

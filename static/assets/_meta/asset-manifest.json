@@ -1,0 +1,1292 @@
+{
+  "schema_version": 1,
+  "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
+  "mini_asset_count": 61,
+  "assets": [
+    {
+      "asset_id": "brand.wordmark",
+      "family": "brand",
+      "source": "static/assets_src/brand/WPM_Wordmark.png",
+      "production": "static/assets/brand/WPM_Wordmark.webp",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "brand.secondary_badge",
+      "family": "brand",
+      "source": "static/assets_src/brand/WPM_SecondaryBadge.png",
+      "production": "static/assets/brand/WPM_SecondaryBadge.webp",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mascot.full_body",
+      "family": "mascot-master",
+      "source": "static/assets_src/mascots/master/WPM_Mascot_FullBody.png",
+      "production": "static/assets/mascots/master/WPM_Mascot_FullBody.webp",
+      "dimensions": [
+        1199,
+        1312
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "icon.official",
+      "family": "icon",
+      "source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
+      "production": "static/assets/icons/WPM_DesktopIcon_Official.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "icon.alternate.WPM_AppIcon_1024",
+      "family": "icon-alternate",
+      "source": "static/assets_src/icons/alternates/WPM_AppIcon_1024.png",
+      "production": "static/assets/icons/alternates/WPM_AppIcon_1024.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "icon.alternate.WPM_Icon_Mascot_Alt2",
+      "family": "icon-alternate",
+      "source": "static/assets_src/icons/alternates/WPM_Icon_Mascot_Alt2.png",
+      "production": "static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "icon.alternate.WPM_Icon_MascotScorecard_Alt3",
+      "family": "icon-alternate",
+      "source": "static/assets_src/icons/alternates/WPM_Icon_MascotScorecard_Alt3.png",
+      "production": "static/assets/icons/alternates/WPM_Icon_MascotScorecard_Alt3.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "icon.alternate.WPM_Icon_MascotText_Alt1",
+      "family": "icon-alternate",
+      "source": "static/assets_src/icons/alternates/WPM_Icon_MascotText_Alt1.png",
+      "production": "static/assets/icons/alternates/WPM_Icon_MascotText_Alt1.webp",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "icon.alternate.WPM_TextOnly_Icon_Alt1",
+      "family": "icon-alternate",
+      "source": "static/assets_src/icons/alternates/WPM_TextOnly_Icon_Alt1.png",
+      "production": "static/assets/icons/alternates/WPM_TextOnly_Icon_Alt1.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FreshMeat",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_FreshMeat.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_FreshMeat.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_HopeYouBroughtExcuses",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_HopeYouBroughtExcuses.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_HopeYouBroughtExcuses.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewFaceSameBullshit",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_NewFaceSameBullshit.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_NewFaceSameBullshit.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewGuySameBadDecisions",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_NewGuySameBadDecisions.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_NewGuySameBadDecisions.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_SomebodyBroughtARookie",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_SomebodyBroughtARookie.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_SomebodyBroughtARookie.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WelcomeLowerYourExpectations",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WelcomeLowerYourExpectations.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WelcomeLowerYourExpectations.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WellLookWhatWalkedIn",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WellLookWhatWalkedIn.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WellLookWhatWalkedIn.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WhoInvitedThisGuy",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "new-player",
+      "event_key": "player_join_new",
+      "source": "static/assets_src/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WhoInvitedThisGuy.png",
+      "production": "static/assets/mascots/mini/joining/new-player/WPM_Join_NewPlayer_WhoInvitedThisGuy.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_AgainSeriously",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_AgainSeriously.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_AgainSeriously.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_IRememberYourBullshit",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_IRememberYourBullshit.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_IRememberYourBullshit.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_OhGreatYouAgain",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_OhGreatYouAgain.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_OhGreatYouAgain.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_SameClownNewRound",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_SameClownNewRound.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_SameClownNewRound.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillMakingBadDecisions",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_StillMakingBadDecisions.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_StillMakingBadDecisions.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_TheProblemCameBack",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_TheProblemCameBack.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_TheProblemCameBack.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeDidntMissYou",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WeDidntMissYou.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WeDidntMissYou.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeReallyDoingThisAgain",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WeReallyDoingThisAgain.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WeReallyDoingThisAgain.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WhoLetYouBackIn",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WhoLetYouBackIn.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_WhoLetYouBackIn.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouSurvivedLastTime",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "returning-player",
+      "event_key": "player_join_returning",
+      "source": "static/assets_src/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_YouSurvivedLastTime.png",
+      "production": "static/assets/mascots/mini/joining/returning-player/WPM_Join_ReturningPlayer_YouSurvivedLastTime.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_BraveEnoughToWatchNotPlay",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_BraveEnoughToWatchNotPlay.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_BraveEnoughToWatchNotPlay.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DeclinedToPlayStillHasOpinions",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_DeclinedToPlayStillHasOpinions.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_DeclinedToPlayStillHasOpinions.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DidntWantToGetEmbarrassedToday",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_DidntWantToGetEmbarrassedToday.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_DidntWantToGetEmbarrassedToday.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_JustHereToJudge",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_JustHereToJudge.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_JustHereToJudge.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_NiceOfYouToParticipateEmotionally",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_NiceOfYouToParticipateEmotionally.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_NiceOfYouToParticipateEmotionally.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_SpectatorModeCoward",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_SpectatorModeCoward.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_SpectatorModeCoward.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_TalkingShitFromASafeDistance",
+      "family": "mini-mascot",
+      "category": "joining",
+      "situation": "spectator",
+      "event_key": "player_join_spectator",
+      "source": "static/assets_src/mascots/mini/joining/spectator/WPM_Join_Spectator_TalkingShitFromASafeDistance.png",
+      "production": "static/assets/mascots/mini/joining/spectator/WPM_Join_Spectator_TalkingShitFromASafeDistance.webp",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_18HolesZeroAccountability",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_18HolesZeroAccountability.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_18HolesZeroAccountability.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_AlrightAssholesLetsGolf",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_AlrightAssholesLetsGolf.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_AlrightAssholesLetsGolf.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BadDecisionsBegin",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_BadDecisionsBegin.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_BadDecisionsBegin.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BlameTheirClubs",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_BlameTheirClubs.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_BlameTheirClubs.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BroughtBallsNeedExtra",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_BroughtBallsNeedExtra.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_BroughtBallsNeedExtra.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_CourseDoesntDeserveThis",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_CourseDoesntDeserveThis.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_CourseDoesntDeserveThis.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_EveryonesConfidentUntilFirstTee",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_EveryonesConfidentUntilFirstTee.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_EveryonesConfidentUntilFirstTee.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_FirstTeeAwaitsYourLies",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_FirstTeeAwaitsYourLies.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_FirstTeeAwaitsYourLies.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_GoodLuckYouClearlyNeedIt",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_GoodLuckYouClearlyNeedIt.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_GoodLuckYouClearlyNeedIt.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_PutTheBeerDownNeverMind",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_PutTheBeerDownNeverMind.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_PutTheBeerDownNeverMind.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_RuinPerfectlyGoodMorning",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_RuinPerfectlyGoodMorning.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_RuinPerfectlyGoodMorning.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_ScorecardAcceptingExcuses",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_ScorecardAcceptingExcuses.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_ScorecardAcceptingExcuses.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_SwingHardRegretImmediately",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_SwingHardRegretImmediately.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_SwingHardRegretImmediately.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_TodaysForecastBullshit",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_TodaysForecastBullshit.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_TodaysForecastBullshit.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_WelcomeToTheShitshow",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_WelcomeToTheShitshow.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_WelcomeToTheShitshow.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_WhoLiedAboutTheirHandicap",
+      "family": "mini-mascot",
+      "category": "round",
+      "situation": "start",
+      "event_key": "round_start",
+      "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_WhoLiedAboutTheirHandicap.png",
+      "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_WhoLiedAboutTheirHandicap.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "head-to-head-loser",
+      "event_key": "round_end_head_to_head_loser",
+      "source": "static/assets_src/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure.png",
+      "production": "static/assets/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "head-to-head-loser",
+      "event_key": "round_end_head_to_head_loser",
+      "source": "static/assets_src/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt.png",
+      "production": "static/assets/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "head-to-head-loser",
+      "event_key": "round_end_head_to_head_loser",
+      "source": "static/assets_src/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond.png",
+      "production": "static/assets/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "head-to-head-loser",
+      "event_key": "round_end_head_to_head_loser",
+      "source": "static/assets_src/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost.png",
+      "production": "static/assets/mascots/mini/round-end/head-to-head-loser/WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_FirstPlaceStillAnAsshole",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "winner",
+      "event_key": "round_end_winner",
+      "source": "static/assets_src/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_FirstPlaceStillAnAsshole.png",
+      "production": "static/assets/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_FirstPlaceStillAnAsshole.webp",
+      "dimensions": [
+        1070,
+        1470
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_KingOfTheDumpsterFire",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "winner",
+      "event_key": "round_end_winner",
+      "source": "static/assets_src/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_KingOfTheDumpsterFire.png",
+      "production": "static/assets/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_KingOfTheDumpsterFire.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_LeastBadGolferWon",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "winner",
+      "event_key": "round_end_winner",
+      "source": "static/assets_src/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_LeastBadGolferWon.png",
+      "production": "static/assets/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_LeastBadGolferWon.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_SomehowWonThisShitshow",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "winner",
+      "event_key": "round_end_winner",
+      "source": "static/assets_src/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_SomehowWonThisShitshow.png",
+      "production": "static/assets/mascots/mini/round-end/winner/WPM_RoundEnd_Winner_SomehowWonThisShitshow.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_ChangingTheStory",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_ChangingTheStory.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_ChangingTheStory.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_FixingScoreOrAlibi",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_FixingScoreOrAlibi.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_FixingScoreOrAlibi.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_LookWhoFoundHonesty",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_LookWhoFoundHonesty.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_LookWhoFoundHonesty.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_NumberMovedCredibilityDidnt",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_NumberMovedCredibilityDidnt.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_NumberMovedCredibilityDidnt.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_OhNowYouRemember",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_OhNowYouRemember.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_OhNowYouRemember.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_ThatScoreAgedPoorly",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_ThatScoreAgedPoorly.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_ThatScoreAgedPoorly.webp",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_TruthNeededSecondDraft",
+      "family": "mini-mascot",
+      "category": "score",
+      "situation": "push",
+      "event_key": "score_push",
+      "source": "static/assets_src/mascots/mini/score/push/WPM_Score_Push_TruthNeededSecondDraft.png",
+      "production": "static/assets/mascots/mini/score/push/WPM_Score_Push_TruthNeededSecondDraft.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    }
+  ]
+}
