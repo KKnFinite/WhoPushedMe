@@ -508,6 +508,56 @@ def cmd_add_mini(args: argparse.Namespace) -> None:
     print("Asset manifest and content metadata validated.")
 
 
+def cmd_remove_mini(args: argparse.Namespace) -> None:
+    catalog = ContentCatalog.load()
+    catalog.validate()
+
+    asset = next(
+        (
+            row
+            for row in catalog.asset_manifest.get("assets", [])
+            if row.get("asset_id") == args.asset_id
+        ),
+        None,
+    )
+    if asset is None or asset.get("family") != "mini-mascot":
+        raise ContentError(f"unknown mini asset_id: {args.asset_id}")
+
+    metadata_path = CONTENT_DIR / "mascots.json"
+    metadata = _read(metadata_path)
+    rows = list(metadata.get("mascots") or [])
+    if not any(row.get("asset_id") == args.asset_id for row in rows):
+        raise ContentError(f"mascot metadata not found: {args.asset_id}")
+
+    if not args.yes:
+        answer = input(
+            f"Remove {args.asset_id} from active assets and content metadata? "
+            "Type REMOVE to confirm: "
+        ).strip()
+        if answer != "REMOVE":
+            print("Cancelled.")
+            return
+
+    source = ROOT / asset["source"]
+    production = ROOT / asset["production"]
+
+    for path in (source, production):
+        if path.exists():
+            path.unlink()
+            print(f"Removed: {path.relative_to(ROOT)}")
+
+    metadata["mascots"] = [
+        row for row in rows if row.get("asset_id") != args.asset_id
+    ]
+    _write(metadata_path, metadata)
+
+    build_manifest()
+    ContentCatalog.load().validate()
+
+    print(f"Removed mini: {args.asset_id}")
+    print("Asset manifest and content metadata validated.")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="WHO PUSHED ME?! content administration")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -574,6 +624,18 @@ def build_parser() -> argparse.ArgumentParser:
     add_mini.add_argument("--family")
     add_mini.add_argument("--vulgarity", choices=["normal", "brutal"], default="normal")
     add_mini.set_defaults(func=cmd_add_mini)
+
+    remove_mini = subparsers.add_parser(
+        "remove-mini",
+        help="remove one rejected mini from active assets and content metadata",
+    )
+    remove_mini.add_argument("asset_id")
+    remove_mini.add_argument(
+        "--yes",
+        action="store_true",
+        help="remove without interactive confirmation",
+    )
+    remove_mini.set_defaults(func=cmd_remove_mini)
 
     return parser
 
