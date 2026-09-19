@@ -234,12 +234,6 @@ class ContentCatalog:
         if copy is not None and not isinstance(copy, str):
             errors.append(f"{asset_id} copy must be a string or null")
 
-        signs = row.get("signs")
-        if not isinstance(signs, list) or not all(
-            isinstance(value, str) for value in signs
-        ):
-            errors.append(f"{asset_id} signs must be a list of strings")
-
         hat_copy = row.get("hat_copy")
         if hat_copy is not None and not isinstance(hat_copy, str):
             errors.append(f"{asset_id} hat_copy must be a string or null")
@@ -251,8 +245,6 @@ class ContentCatalog:
         if audit_status == "verified":
             if not str(copy or "").strip():
                 errors.append(f"{asset_id} verified mascot is missing exact copy")
-            if not signs:
-                errors.append(f"{asset_id} verified mascot is missing sign panels")
 
         if strict_audit and audit_status != "verified":
             errors.append(f"{asset_id} has not been visually audited")
