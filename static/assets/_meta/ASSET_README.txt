@@ -17,6 +17,7 @@ CORE RULES
 - Web UI should prefer production WebP assets.
 - PWA/device icons remain PNG.
 - WPM_DesktopIcon_Official.jpg is the official app icon source.
-- WPM_Mascot_FullBody.png is the official full-body mascot; golf bag is allowed.
+- WPM_Mascot_FullBody.png is the original approved full-body mascot; golf bag is allowed.
+- WPM_Mascot_FullBody_Transparent.png is the transparent full-body app/compositing master.
 - Mini mascots use their categorized event folders.
 - Do not replace approved art with rejected generations.

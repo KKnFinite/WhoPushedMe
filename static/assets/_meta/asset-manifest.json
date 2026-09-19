@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
-  "mini_asset_count": 97,
+  "mini_asset_count": 95,
   "assets": [
     {
       "asset_id": "brand.wordmark",
@@ -47,6 +47,22 @@
       "mode": "RGB",
       "real_alpha": false,
       "alpha_extrema": null
+    },
+    {
+      "asset_id": "mascot.full_body.transparent",
+      "family": "mascot-master",
+      "source": "static/assets_src/mascots/master/WPM_Mascot_FullBody_Transparent.png",
+      "production": "static/assets/mascots/master/WPM_Mascot_FullBody_Transparent.webp",
+      "dimensions": [
+        1199,
+        1312
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
     },
     {
       "asset_id": "icon.official",
@@ -1061,25 +1077,6 @@
       ]
     },
     {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GoHomeYourWifeKnows",
-      "family": "mini-mascot",
-      "category": "round-end",
-      "situation": "complete",
-      "event_key": "round_end_complete",
-      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GoHomeYourWifeKnows.png",
-      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GoHomeYourWifeKnows.webp",
-      "dimensions": [
-        1122,
-        1402
-      ],
-      "mode": "RGBA",
-      "real_alpha": true,
-      "alpha_extrema": [
-        0,
-        255
-      ]
-    },
-    {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod",
       "family": "mini-mascot",
       "category": "round-end",
@@ -1144,25 +1141,6 @@
       "event_key": "round_end_complete",
       "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt.png",
       "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt.webp",
-      "dimensions": [
-        1122,
-        1402
-      ],
-      "mode": "RGBA",
-      "real_alpha": true,
-      "alpha_extrema": [
-        0,
-        255
-      ]
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundCanGoFuckItself",
-      "family": "mini-mascot",
-      "category": "round-end",
-      "situation": "complete",
-      "event_key": "round_end_complete",
-      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundCanGoFuckItself.png",
-      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundCanGoFuckItself.webp",
       "dimensions": [
         1122,
         1402

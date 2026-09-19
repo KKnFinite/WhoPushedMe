@@ -434,11 +434,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "You Made Eighteen Holes Look Like A Hostage Situation",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Send Help",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse",
@@ -448,11 +448,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Get Out",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf",
@@ -464,27 +464,11 @@
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "You Spent All Day Getting Drunk And Worse At Golf",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Productive Day",
       "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GoHomeYourWifeKnows",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "normal",
-      "themes": [
-        "wife"
-      ],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod",
@@ -492,15 +476,13 @@
         "round.end.scramble.complete"
       ],
       "vulgarity": "normal",
-      "themes": [
-        "drinking"
-      ],
+      "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Cut Off",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila",
@@ -512,11 +494,11 @@
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "One More",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OweTheCourseAnApology",
@@ -526,11 +508,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "You All Owe The Course An Apology",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Sorry, Course",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt",
@@ -540,25 +522,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "That's Enough",
       "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundCanGoFuckItself",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt",
@@ -570,11 +538,11 @@
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Bar's That Way",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt",
@@ -584,25 +552,25 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Good Story",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene",
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "That Round Was A Fucking Crime Scene",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Case Closed",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ScorecardStillJudging",
@@ -612,41 +580,41 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "The Scorecard Is Done Judging You. I'm Not",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Still Judging",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShitshowComplete",
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Finale",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShortStrokesBefore",
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
+      "vulgarity": "brutal",
       "themes": [
         "wife"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "Your Wife Said You've Disappointed Her With Short Strokes Before",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Short Game",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst",
@@ -658,25 +626,25 @@
         "wife"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Good Luck",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing",
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Yikes",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WellThatHappened",
@@ -686,11 +654,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Yep",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WhiskeyAndDenial",
@@ -702,11 +670,11 @@
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "That Round Deserves Whiskey And Denial",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Pour Heavy",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeChecksCreditCard",
@@ -715,77 +683,17 @@
       ],
       "vulgarity": "normal",
       "themes": [
-        "wife"
-      ],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "brutal",
-      "themes": [
-        "wife"
-      ],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "brutal",
-      "themes": [
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "Go Home Before Your Wife Checks The Credit Card",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Tab's Due",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YoureDoneThankFuck",
-      "events": [
-        "round.end.scramble.complete"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true,
-      "copy": null,
-      "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
-    },
-    {
-      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YourWifeCantFindTheHole",
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit",
       "events": [
         "round.end.scramble.complete"
       ],
@@ -794,11 +702,71 @@
         "wife"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Worth It?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "copy": "v",
+      "signs": [],
+      "hat_copy": "Great Job",
+      "notes": "",
+      "audit_status": "verified"
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "copy": "y",
+      "signs": [],
+      "hat_copy": "Nice Round",
+      "notes": "",
+      "audit_status": "verified"
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YoureDoneThankFuck",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "copy": "v",
+      "signs": [],
+      "hat_copy": "Finally",
+      "notes": "",
+      "audit_status": "verified"
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YourWifeCantFindTheHole",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "copy": "Your Wife Knows You Can't Find The Hole",
+      "signs": [],
+      "hat_copy": "Lost Again",
+      "notes": "",
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_DeadFuckingLast",
