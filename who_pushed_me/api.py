@@ -6,6 +6,7 @@ from typing import Any, Callable
 import psycopg
 from flask import Blueprint, current_app, g, jsonify, request
 
+from who_pushed_me.courses import OpenGolfAPI
 from who_pushed_me.domain import DomainError, NotFound, PermissionDenied
 from who_pushed_me.store import RoundStore
 
@@ -17,6 +18,13 @@ def _store() -> RoundStore:
     if configured is not None:
         return configured
     return RoundStore(current_app.config.get("DATABASE_URL"))
+
+
+def _course_provider():
+    configured = current_app.config.get("COURSE_PROVIDER")
+    if configured is not None:
+        return configured
+    return OpenGolfAPI(api_key=current_app.config.get("OPENGOLF_API_KEY") or None)
 
 
 def _body() -> dict[str, Any]:
@@ -139,6 +147,84 @@ def recover_golfer():
     return jsonify(golfer)
 
 
+@api.get("/courses/search")
+@authenticated
+def search_courses():
+    query = request.args.get("q", "").strip()
+    if len(query) < 2:
+        raise DomainError("course search must be at least 2 characters")
+
+    limit = min(max(request.args.get("limit", 10, type=int) or 10, 1), 25)
+    cached = _store().search_cached_courses(query, limit=limit)
+
+    results = [
+        {
+            "source": "cache",
+            "course_id": row["id"],
+            "external_course_id": row["external_course_id"],
+            "name": row["name"],
+        }
+        for row in cached
+    ]
+    seen = {str(row["external_course_id"]) for row in cached}
+
+    if len(results) < limit:
+        try:
+            provider_rows = _course_provider().search(
+                query,
+                limit=limit,
+            )
+        except Exception:
+            current_app.logger.exception("course provider search failed")
+            provider_rows = []
+
+        for row in provider_rows:
+            external_id = str(row.get("external_course_id") or "").strip()
+            name = str(row.get("name") or "").strip()
+            if not external_id or not name or external_id in seen:
+                continue
+            result = {
+                "source": "provider",
+                "external_course_id": external_id,
+                "name": name,
+            }
+            for field in ("city", "state", "country"):
+                if row.get(field):
+                    result[field] = row[field]
+            results.append(result)
+            seen.add(external_id)
+            if len(results) >= limit:
+                break
+
+    return jsonify(results=results)
+
+
+@api.post("/courses/select")
+@authenticated
+def select_course():
+    payload = _body()
+    course_id = payload.get("course_id")
+    if course_id:
+        return jsonify(_store().get_cached_course(course_id))
+
+    external_id = str(payload.get("external_course_id") or "").strip()
+    if not external_id:
+        raise DomainError("course_id or external_course_id is required")
+
+    cached = _store().get_cached_course_by_external_id(external_id)
+    if cached:
+        return jsonify(cached)
+
+    try:
+        snapshot = _course_provider().fetch(external_id)
+    except Exception as error:
+        current_app.logger.exception("course provider fetch failed")
+        raise DomainError("could not load that course right now") from error
+
+    cached_id = _store().cache_course(snapshot)
+    return jsonify(_store().get_cached_course(cached_id))
+
+
 @api.get("/preferences")
 @authenticated
 def get_preferences():
@@ -166,6 +252,7 @@ def create_round():
         holes=payload.get("holes"),
         course_id=payload.get("course_id"),
         free_play_name=payload.get("free_play_name"),
+        tee_name=payload.get("tee_name"),
     )
     return jsonify(round_row), 201
 
@@ -175,7 +262,10 @@ def create_round():
 def join_round():
     payload = _body()
     participant = _store().join_round(
-        g.golfer["id"], code=payload.get("code"), role=payload.get("role")
+        g.golfer["id"],
+        code=payload.get("code"),
+        role=payload.get("role"),
+        tee_name=payload.get("tee_name"),
     )
     return jsonify(participant), 201
 
@@ -184,6 +274,18 @@ def join_round():
 @authenticated
 def get_round(code: str):
     return jsonify(_store().get_round(g.golfer["id"], code))
+
+
+@api.patch("/rounds/<round_id>/tee")
+@authenticated
+def set_tee(round_id: str):
+    return jsonify(
+        _store().set_participant_tee(
+            g.golfer["id"],
+            round_id,
+            _body().get("tee_name"),
+        )
+    )
 
 
 @api.patch("/rounds/<round_id>/current-hole")
