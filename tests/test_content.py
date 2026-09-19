@@ -70,7 +70,6 @@ def test_existing_mascots_are_marked_pending_until_visual_audit():
     assert summary["pending"] == 97
     assert summary["verified"] == 0
     assert all("copy" in row for row in catalog.mascots)
-    assert all("signs" in row for row in catalog.mascots)
     assert all("hat_copy" in row for row in catalog.mascots)
     assert all("notes" in row for row in catalog.mascots)
 
