@@ -199,6 +199,46 @@ def _content_item(row: Mapping[str, Any] | None, *, text: str | None = None) -> 
     return item
 
 
+def _content_identity(row: Mapping[str, Any] | None) -> tuple[str, object] | None:
+    if row is None:
+        return None
+    if "id" in row:
+        return ("id", row["id"])
+    if "asset_id" in row:
+        return ("asset_id", row["asset_id"])
+    return None
+
+
+def _audience_choice(
+    choices: list[dict[str, Any]],
+    audience: str,
+    shared: Mapping[str, Any] | None,
+    *,
+    picker: Any,
+) -> dict[str, Any] | None:
+    explicit = [
+        row
+        for row in choices
+        if audience in set(row.get("audiences") or ["everyone"])
+        and "everyone" not in set(row.get("audiences") or ["everyone"])
+    ]
+    if explicit:
+        return picker.choice(explicit)
+
+    shared_identity = _content_identity(shared)
+    if shared_identity is not None:
+        for row in choices:
+            if _content_identity(row) == shared_identity:
+                return row
+
+    everyone = [
+        row
+        for row in choices
+        if "everyone" in set(row.get("audiences") or ["everyone"])
+    ]
+    return picker.choice(everyone or choices) if choices else None
+
+
 def build_shared_presentation(
     catalog: ContentCatalog,
     event_key: str,
@@ -233,36 +273,77 @@ def build_shared_presentation(
         for row in catalog.asset_manifest.get("assets", [])
         if row.get("family") == "mini-mascot"
     }
+    picker = rng or random
+
+    shared_banter = None
+    if bool(controls.get("trash_talk_enabled", True)):
+        shared_banter = catalog.choose_banter(
+            canonical,
+            audience="everyone",
+            admin_overrides=overrides,
+            rng=rng,
+        )
+
+    shared_mascot = None
+    if bool(controls.get("mini_mascots_enabled", True)):
+        shared_mascot = catalog.choose_mascot(
+            canonical,
+            audience="everyone",
+            admin_overrides=overrides,
+            rng=rng,
+        )
 
     for audience in audiences:
-        banter = None
-        mascot = None
+        banter_row = None
+        mascot_row = None
 
         if bool(controls.get("trash_talk_enabled", True)):
-            chosen = catalog.choose_banter(
+            choices = catalog.eligible_banter(
                 canonical,
                 audience=audience,
                 admin_overrides=overrides,
-                rng=rng,
             )
-            if chosen is not None:
-                banter = _content_item(
-                    chosen,
-                    text=catalog.render_banter(chosen, render_context),
+            banter_row = (
+                shared_banter
+                if audience == "everyone"
+                else _audience_choice(
+                    choices,
+                    audience,
+                    shared_banter,
+                    picker=picker,
                 )
+            )
 
         if bool(controls.get("mini_mascots_enabled", True)):
-            chosen = catalog.choose_mascot(
+            choices = catalog.eligible_mascots(
                 canonical,
                 audience=audience,
                 admin_overrides=overrides,
-                rng=rng,
             )
-            if chosen is not None:
-                mascot = _content_item(chosen)
-                asset = mini_assets.get(chosen["asset_id"])
-                if mascot is not None and asset is not None:
-                    mascot["production"] = asset.get("production")
+            mascot_row = (
+                shared_mascot
+                if audience == "everyone"
+                else _audience_choice(
+                    choices,
+                    audience,
+                    shared_mascot,
+                    picker=picker,
+                )
+            )
+
+        banter = None
+        if banter_row is not None:
+            banter = _content_item(
+                banter_row,
+                text=catalog.render_banter(banter_row, render_context),
+            )
+
+        mascot = None
+        if mascot_row is not None:
+            mascot = _content_item(mascot_row)
+            asset = mini_assets.get(mascot_row["asset_id"])
+            if mascot is not None and asset is not None:
+                mascot["production"] = asset.get("production")
 
         if banter is not None or mascot is not None:
             presentation["variants"][audience] = {
