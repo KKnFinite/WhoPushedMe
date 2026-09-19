@@ -638,8 +638,9 @@ class RoundStore:
                     cursor.execute(
                         """
                         INSERT INTO rounds (
-                            mode, hole_count, active_code, course_id, free_play_name
-                        ) VALUES (%s, %s, %s, %s, %s)
+                            mode, hole_count, active_code, status,
+                            course_id, free_play_name
+                        ) VALUES (%s, %s, %s, 'setup', %s, %s)
                         RETURNING id, mode, hole_count, active_code, current_hole, status,
                                   course_id, free_play_name, created_at
                         """,
