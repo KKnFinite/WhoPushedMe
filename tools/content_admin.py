@@ -174,6 +174,18 @@ def _manifest_mini_map(catalog: ContentCatalog) -> dict[str, dict]:
     }
 
 
+def _copy_hint(asset: dict, family: str, registry: EventRegistry) -> str:
+    stem = Path(str(asset["source"])).stem
+    prefix = str(
+        registry.asset_families.get(family, {}).get("prefix") or ""
+    )
+    if prefix and stem.startswith(prefix):
+        stem = stem[len(prefix):]
+    stem = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", stem)
+    stem = re.sub(r"(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " ", stem)
+    return " ".join(stem.split())
+
+
 def cmd_audit_status(_: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
     catalog.validate()
@@ -255,9 +267,15 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         if not args.no_open:
             _open_image(png)
 
+        suggested_copy = row.get("copy") or _copy_hint(
+            asset,
+            family,
+            catalog.registry,
+        )
+        print(f"Filename-derived copy hint: {suggested_copy}")
         copy = _prompt_keep(
             "Exact visible sign/message copy",
-            row.get("copy"),
+            suggested_copy,
             required=True,
         )
         signs = _prompt_signs(copy, list(row.get("signs") or []))
