@@ -9,7 +9,7 @@ def test_opengolfapi_adapter_normalizes_course_holes(monkeypatch):
             return {
                 "holes": [
                     {
-                        "number": 1,
+                        "hole_number": 1,
                         "par": 4,
                         "handicap_index": 7,
                         "yardages": {"blue": 401, "white": 372},
