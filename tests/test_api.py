@@ -278,3 +278,23 @@ def test_recovery_key_resets_password_rotates_key_and_returns_session():
         "a brand new password",
     )
 
+def test_score_route_accepts_new_bearer_session_authentication():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+    response = client.put(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/holes/2/score",
+        headers={"Authorization": "Bearer session-token"},
+        json={"strokes": 5, "player_participant_id": target},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-2] == ("session", "session-token")
+    assert store.calls[-1] == (
+        "score",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        2,
+        5,
+        target,
+    )
+
