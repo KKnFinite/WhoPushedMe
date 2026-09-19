@@ -252,6 +252,78 @@ class RoundStore:
                 "event_overrides": overrides,
             }
 
+    def set_content_runtime_master(
+        self,
+        *,
+        mini_mascots_enabled: bool | None = None,
+        trash_talk_enabled: bool | None = None,
+    ) -> dict[str, Any]:
+        if mini_mascots_enabled is not None and not isinstance(
+            mini_mascots_enabled, bool
+        ):
+            raise DomainError("mini_mascots_enabled must be true or false")
+        if trash_talk_enabled is not None and not isinstance(
+            trash_talk_enabled, bool
+        ):
+            raise DomainError("trash_talk_enabled must be true or false")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO content_system_settings (singleton)
+                VALUES (true)
+                ON CONFLICT (singleton) DO NOTHING
+                """
+            )
+            if mini_mascots_enabled is not None:
+                cursor.execute(
+                    """
+                    UPDATE content_system_settings
+                    SET mini_mascots_enabled = %s, updated_at = now()
+                    WHERE singleton = true
+                    """,
+                    (mini_mascots_enabled,),
+                )
+            if trash_talk_enabled is not None:
+                cursor.execute(
+                    """
+                    UPDATE content_system_settings
+                    SET trash_talk_enabled = %s, updated_at = now()
+                    WHERE singleton = true
+                    """,
+                    (trash_talk_enabled,),
+                )
+        return self.get_content_runtime_controls()
+
+    def set_content_event_override(
+        self,
+        event_key: object,
+        enabled: bool | None,
+    ) -> dict[str, Any]:
+        catalog = ContentCatalog.load()
+        key = catalog.registry.canonical_key(str(event_key or ""))
+
+        if enabled is not None and not isinstance(enabled, bool):
+            raise DomainError("event override must be true, false, or default")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            if enabled is None:
+                cursor.execute(
+                    "DELETE FROM content_event_overrides WHERE event_key = %s",
+                    (key,),
+                )
+            else:
+                cursor.execute(
+                    """
+                    INSERT INTO content_event_overrides (event_key, enabled, updated_at)
+                    VALUES (%s, %s, now())
+                    ON CONFLICT (event_key)
+                    DO UPDATE SET enabled = EXCLUDED.enabled, updated_at = now()
+                    """,
+                    (key, enabled),
+                )
+        return self.get_content_runtime_controls()
+
     def create_round(
         self,
         golfer_id: object,
