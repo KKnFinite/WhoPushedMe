@@ -71,6 +71,23 @@ def recover_golfer():
     return jsonify(golfer)
 
 
+@api.get("/preferences")
+@authenticated
+def get_preferences():
+    return jsonify(_store().get_content_preferences(g.golfer["id"]))
+
+
+@api.patch("/preferences")
+@authenticated
+def update_preferences():
+    return jsonify(
+        _store().update_content_preferences(
+            g.golfer["id"],
+            _body(),
+        )
+    )
+
+
 @api.post("/rounds")
 @authenticated
 def create_round():
