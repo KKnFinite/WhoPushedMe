@@ -41,19 +41,22 @@ def _choose_events(
     current: list[str] | None = None,
 ) -> list[str]:
     rows = registry.selectable_events(include_scopes=True)
-    print("\nSELECT ELIGIBLE EVENTS / SCOPES")
+    print("\nSELECT ELIGIBLE EVENTS")
     for index, row in enumerate(rows, start=1):
-        marker = "EVENT" if row.get("triggerable") else "SCOPE"
-        print(f"{index:>3}. [{marker}] {row['key']} - {row['label']}")
+        print(f"{index:>3}. {row['label']}")
     if current:
-        print("Current: " + ", ".join(current))
+        current_labels = [
+            registry.event(event_key)["label"]
+            for event_key in current
+        ]
+        print("Current: " + ", ".join(current_labels))
         raw = input(
-            "\nNumbers or event keys, comma-separated; ENTER keeps current: "
+            "\nNumbers, comma-separated; ENTER keeps current: "
         ).strip()
         if not raw:
             return list(current)
     else:
-        raw = input("\nNumbers or event keys, comma-separated: ").strip()
+        raw = input("\nNumbers, comma-separated: ").strip()
         if not raw:
             raise ContentError("at least one event is required")
 
@@ -267,7 +270,14 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         print(f"[{index}/{len(selected)}] {row['asset_id']}")
         print(f"Family: {family}")
         print(f"PNG: {asset['source']}")
-        print(f"Current events: {', '.join(row.get('events') or [])}")
+        current_event_labels = [
+            catalog.registry.event(event_key)["label"]
+            for event_key in row.get("events") or []
+        ]
+        print(
+            "Current events: "
+            + (", ".join(current_event_labels) or "none")
+        )
         print(f"Current vulgarity: {row.get('vulgarity', 'normal')}")
         print(
             "Current themes: "
@@ -293,9 +303,13 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         hat_copy = _prompt_keep("Hat copy (optional)", row.get("hat_copy")) or None
 
         events = list(row.get("events") or [])
-        current_events = ", ".join(events) if events else "none"
+        current_event_labels = [
+            catalog.registry.event(event_key)["label"]
+            for event_key in events
+        ]
+        current_events = ", ".join(current_event_labels) if events else "none"
         edit_events = input(
-            f"Eligible events/scopes [{current_events}]: ENTER keeps current, E edits: "
+            f"Eligible events [{current_events}]: ENTER keeps current, E edits: "
         ).strip().lower()
         if edit_events == "e":
             events = _choose_events(catalog.registry, current=events)
