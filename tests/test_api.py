@@ -50,6 +50,10 @@ class FakeStore:
             "is_admin": False,
         }
 
+    def logout_session(self, token):
+        self.calls.append(("logout", token))
+        return {"logged_out": True}
+
     def get_content_preferences(self, golfer_id):
         self.calls.append(("get_preferences", golfer_id))
         return {
@@ -224,4 +228,18 @@ def test_auth_me_requires_bearer_session():
     assert response.status_code == 200
     assert response.get_json()["username"] == "kim"
     assert store.calls[-1] == ("session", "session-token")
+
+def test_auth_logout_revokes_current_bearer_session():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/auth/logout",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json() == {"logged_out": True}
+    assert store.calls[-2:] == [
+        ("session", "session-token"),
+        ("logout", "session-token"),
+    ]
 
