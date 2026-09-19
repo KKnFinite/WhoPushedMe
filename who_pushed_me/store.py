@@ -33,7 +33,11 @@ from who_pushed_me.domain import (
 
 class RoundStore:
     def __init__(self, database_url: str | None = None) -> None:
-        self.database_url = database_url or os.getenv("DATABASE_URL", "")
+        self.database_url = (
+            database_url
+            or os.getenv("DATABASE_URL", "")
+            or os.getenv("DATABASE_URL_UNPOOLED", "")
+        )
 
     @contextmanager
     def _connection(self) -> Iterator[psycopg.Connection[dict[str, Any]]]:
