@@ -49,7 +49,7 @@ class EventRegistry:
     def load(cls, path: Path | None = None) -> "EventRegistry":
         return cls(_read_json(path or CONTENT_DIR / "events.json"))
 
-    def validate(self, *, strict_mascot_audit: bool = False) -> None:
+    def validate(self) -> None:
         if self.schema_version != 1:
             raise ContentError("unsupported events schema_version")
         if len(self.events) == 0:
@@ -161,7 +161,7 @@ class ContentCatalog:
             _read_json(ASSET_MANIFEST),
         )
 
-    def validate(self) -> None:
+    def validate(self, *, strict_mascot_audit: bool = False) -> None:
         errors: list[str] = []
 
         if len(self.themes) != len(self.theme_rows):
