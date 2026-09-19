@@ -210,14 +210,6 @@ def _prompt_themes(catalog: ContentCatalog, current: list[str]) -> list[str]:
     return list(dict.fromkeys(values))
 
 
-def _prompt_signs(copy: str, current: list[str]) -> list[str]:
-    shown = " | ".join(current) if current else copy
-    raw = input(f"Sign panels, separate with | [{shown}]: ").strip()
-    if not raw:
-        return current or [copy]
-    return [value.strip() for value in raw.split("|") if value.strip()]
-
-
 def _manifest_mini_map(catalog: ContentCatalog) -> dict[str, dict]:
     return {
         row["asset_id"]: row
@@ -337,7 +329,6 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
             suggested_copy,
             required=True,
         )
-        signs = _prompt_signs(copy, list(row.get("signs") or []))
         hat_copy = _prompt_keep("Hat copy (optional)", row.get("hat_copy")) or None
 
         events = list(row.get("events") or [])
@@ -371,7 +362,6 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         row.update(
             {
                 "copy": copy,
-                "signs": signs,
                 "hat_copy": hat_copy,
                 "events": events,
                 "vulgarity": vulgarity,
@@ -491,14 +481,12 @@ def cmd_add_mini(args: argparse.Namespace) -> None:
     copy = args.copy or input("Exact visible sign/message copy: ").strip()
     if not copy:
         raise ContentError("mini copy is required")
-    signs = list(args.sign or []) or [copy]
     hat_copy = args.hat_copy or None
 
     rows.append(
         {
             "asset_id": asset_id,
             "copy": copy,
-            "signs": signs,
             "hat_copy": hat_copy,
             "events": events,
             "vulgarity": args.vulgarity,
@@ -579,11 +567,6 @@ def build_parser() -> argparse.ArgumentParser:
     add_mini.add_argument("png")
     add_mini.add_argument("--short-name")
     add_mini.add_argument("--copy")
-    add_mini.add_argument(
-        "--sign",
-        action="append",
-        help="visible sign panel copy; repeat for multiple panels",
-    )
     add_mini.add_argument("--hat-copy")
     add_mini.add_argument("--notes")
     add_mini.add_argument("--event", action="append")
