@@ -158,13 +158,41 @@ def _prompt_choice(label: str, current: str, choices: list[str]) -> str:
 def _prompt_themes(catalog: ContentCatalog, current: list[str]) -> list[str]:
     available = sorted(catalog.themes)
     shown = ", ".join(current) if current else "none"
-    print(f"Themes currently: {shown}")
-    print("Available themes: " + (", ".join(available) if available else "none"))
-    raw = input("Themes comma-separated, ENTER to keep: ").strip()
+
+    raw = input(
+        f"Themes [{shown}]: ENTER keep | D drinking | W wife | "
+        "B both | N none | E edit all: "
+    ).strip().lower()
+
     if not raw:
         return current
-    if raw.lower() in {"none", "-"}:
+    if raw == "n":
         return []
+    if raw == "d":
+        if "drinking" not in catalog.themes:
+            raise ContentError("drinking theme is not registered")
+        return ["drinking"]
+    if raw == "w":
+        if "wife" not in catalog.themes:
+            raise ContentError("wife theme is not registered")
+        return ["wife"]
+    if raw == "b":
+        missing = [
+            theme for theme in ("drinking", "wife")
+            if theme not in catalog.themes
+        ]
+        if missing:
+            raise ContentError(f"themes are not registered: {missing}")
+        return ["drinking", "wife"]
+    if raw != "e":
+        print("Use D, W, B, N, E, or press ENTER.")
+        return _prompt_themes(catalog, current)
+
+    print("Available themes: " + (", ".join(available) if available else "none"))
+    raw = input("Themes comma-separated: ").strip()
+    if not raw or raw.lower() in {"none", "-"}:
+        return []
+
     values = [value.strip() for value in raw.split(",") if value.strip()]
     unknown = [value for value in values if value not in catalog.themes]
     if unknown:
