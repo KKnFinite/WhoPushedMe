@@ -142,7 +142,7 @@
           <strong>Golfers</strong>
         </button>
 
-        <button type="button" class="home-card card-orange" data-under-construction>
+        <button id="settings-button" type="button" class="home-card card-orange">
           <span class="card-kicker">BAD INFLUENCES</span>
           <strong>Settings</strong>
         </button>
@@ -155,6 +155,69 @@
       <button id="logout-button" class="logout-button" type="button">SIGN OUT</button>
     </footer>
   </main>
+
+  <div id="settings-modal" class="settings-modal" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <section class="settings-card">
+      <div class="settings-header">
+        <div>
+          <div class="settings-kicker">BAD INFLUENCES</div>
+          <h2 id="settings-title">SETTINGS</h2>
+        </div>
+        <button id="settings-close" class="settings-close" type="button" aria-label="Close settings">×</button>
+      </div>
+
+      <p id="settings-message" class="settings-message" hidden></p>
+
+      <form id="settings-form" class="settings-form">
+        <label class="settings-row">
+          <span>
+            <strong>MINI MASCOTS</strong>
+            <small>Let the golf ball asshole show up.</small>
+          </span>
+          <input name="mini_mascots_enabled" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
+            <strong>TRASH TALK</strong>
+            <small>Show the shared banter messages.</small>
+          </span>
+          <input name="trash_talk_enabled" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
+            <strong>DRINKING JOKES</strong>
+            <small>Beer, whiskey, tequila and bad decisions.</small>
+          </span>
+          <input name="drinking" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
+            <strong>WIFE JOKES</strong>
+            <small>Exactly what it sounds like.</small>
+          </span>
+          <input name="wife" type="checkbox">
+        </label>
+
+        <fieldset class="vulgarity-fieldset">
+          <legend>VULGARITY</legend>
+          <label>
+            <input name="max_vulgarity" type="radio" value="normal">
+            <span>NORMAL</span>
+          </label>
+          <label>
+            <input name="max_vulgarity" type="radio" value="brutal">
+            <span>BRUTAL</span>
+          </label>
+          <small>Want vulgarity OFF? Close the app and never open it again.</small>
+        </fieldset>
+
+        <button class="settings-save" type="submit">SAVE MY BAD DECISIONS</button>
+      </form>
+    </section>
+  </div>
 
   <div id="construction-modal" class="construction-modal" hidden role="dialog" aria-modal="true" aria-labelledby="construction-title">
     <div class="construction-card">
