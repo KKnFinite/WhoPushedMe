@@ -293,6 +293,60 @@ class RoundStore:
 
         raise RuntimeError("could not allocate a unique recovery key")
 
+    def recover_account_with_key(
+        self,
+        *,
+        recovery_key: object,
+        new_password: object,
+    ) -> dict[str, Any]:
+        recovery_hash = hash_recovery_key(recovery_key)
+        password_hash = hash_password(new_password)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, username, display_name, is_admin, created_at
+                FROM golfers
+                WHERE recovery_key_hash = %s
+                FOR UPDATE
+                """,
+                (recovery_hash,),
+            )
+            golfer = cursor.fetchone()
+            if not golfer:
+                raise PermissionDenied("invalid recovery key")
+
+            replacement_key = generate_account_recovery_key()
+            replacement_hash = hash_recovery_key(replacement_key)
+
+            cursor.execute(
+                """
+                UPDATE golfers
+                SET password_hash = %s,
+                    recovery_key_hash = %s,
+                    recovery_key = NULL
+                WHERE id = %s
+                """,
+                (password_hash, replacement_hash, golfer["id"]),
+            )
+            cursor.execute(
+                """
+                UPDATE auth_sessions
+                SET revoked_at = now()
+                WHERE golfer_id = %s
+                  AND revoked_at IS NULL
+                """,
+                (golfer["id"],),
+            )
+
+            session = self._issue_session(cursor, golfer["id"])
+            return {
+                "account": self._public_account(golfer),
+                "session": session,
+                "recovery_key": replacement_key,
+                "recovery_key_rotated": True,
+            }
+
     def login_account(
         self,
         *,
