@@ -75,10 +75,39 @@ class RoundStore:
             raise DomainError(f"{field} must be a UUID") from error
 
     @staticmethod
+    def _clean_tee_name(value: object | None) -> str | None:
+        if value is None:
+            return None
+        tee_name = str(value).strip()
+        if not tee_name:
+            return None
+        if len(tee_name) > 40:
+            raise DomainError("tee_name must be 40 characters or fewer")
+        return tee_name
+
+    @staticmethod
+    def _validate_course_tee(
+        cursor: Any,
+        course_id: UUID,
+        tee_name: str,
+    ) -> None:
+        cursor.execute(
+            """
+            SELECT 1
+            FROM cached_course_hole_tees
+            WHERE course_id = %s AND lower(tee_name) = lower(%s)
+            LIMIT 1
+            """,
+            (course_id, tee_name),
+        )
+        if not cursor.fetchone():
+            raise DomainError("tee is not available for this course")
+
+    @staticmethod
     def _participant(cursor: Any, round_id: UUID, golfer_id: UUID) -> dict[str, Any]:
         cursor.execute(
             """
-            SELECT id, round_id, golfer_id, role
+            SELECT id, round_id, golfer_id, role, tee_name
             FROM round_participants
             WHERE round_id = %s AND golfer_id = %s
             """,
@@ -617,6 +646,7 @@ class RoundStore:
         holes: object,
         course_id: object | None = None,
         free_play_name: object | None = None,
+        tee_name: object | None = None,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_mode = str(mode or "")
@@ -630,10 +660,30 @@ class RoundStore:
             raise DomainError("holes must be 9 or 18")
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
+        creator_tee = self._clean_tee_name(tee_name)
+
+        if cached_course_id and free_play:
+            raise DomainError("choose a cached course or Free Play, not both")
+        if not cached_course_id and not free_play:
+            raise DomainError("choose a course or enter a Free Play name")
 
         for _ in range(12):
             try:
                 with self._connection() as connection, connection.cursor() as cursor:
+                    if cached_course_id:
+                        cursor.execute(
+                            "SELECT 1 FROM cached_courses WHERE id = %s",
+                            (cached_course_id,),
+                        )
+                        if not cursor.fetchone():
+                            raise NotFound("cached course not found")
+                        if creator_tee:
+                            self._validate_course_tee(
+                                cursor,
+                                cached_course_id,
+                                creator_tee,
+                            )
+
                     code = generate_round_code()
                     cursor.execute(
                         """
@@ -649,11 +699,13 @@ class RoundStore:
                     round_row = cursor.fetchone()
                     cursor.execute(
                         """
-                        INSERT INTO round_participants (round_id, golfer_id, role)
-                        VALUES (%s, %s, 'player')
-                        RETURNING id
+                        INSERT INTO round_participants (
+                            round_id, golfer_id, role, tee_name
+                        )
+                        VALUES (%s, %s, 'player', %s)
+                        RETURNING id, tee_name
                         """,
-                        (round_row["id"], golfer_uuid),
+                        (round_row["id"], golfer_uuid, creator_tee),
                     )
                     participant = cursor.fetchone()
                     self._event(
@@ -677,16 +729,25 @@ class RoundStore:
                         )
                     round_row["participant_id"] = participant["id"]
                     round_row["role"] = "player"
+                    round_row["tee_name"] = participant["tee_name"]
                     return round_row
             except errors.UniqueViolation as error:
                 if error.diag.constraint_name != "rounds_live_code_unique":
                     raise
         raise RuntimeError("could not allocate a unique active round code")
 
-    def join_round(self, golfer_id: object, *, code: object, role: object) -> dict[str, Any]:
+    def join_round(
+        self,
+        golfer_id: object,
+        *,
+        code: object,
+        role: object,
+        tee_name: object | None = None,
+    ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_code = str(code or "").strip()
         participant_role = str(role or "")
+        selected_tee = self._clean_tee_name(tee_name)
         if len(round_code) != 4 or not round_code.isdigit():
             raise DomainError("round code must be four digits")
         if participant_role not in PARTICIPANT_ROLES:
@@ -694,7 +755,7 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, mode FROM rounds
+                SELECT id, mode, course_id, status FROM rounds
                 WHERE active_code = %s AND status IN ('setup', 'active')
                 """,
                 (round_code,),
@@ -702,6 +763,15 @@ class RoundStore:
             round_row = cursor.fetchone()
             if not round_row:
                 raise NotFound("active round not found")
+
+            if participant_role == "spectator":
+                selected_tee = None
+            elif selected_tee and round_row["course_id"]:
+                self._validate_course_tee(
+                    cursor,
+                    round_row["course_id"],
+                    selected_tee,
+                )
 
             cursor.execute(
                 """
@@ -719,12 +789,14 @@ class RoundStore:
 
             cursor.execute(
                 """
-                INSERT INTO round_participants (round_id, golfer_id, role)
-                VALUES (%s, %s, %s)
+                INSERT INTO round_participants (
+                    round_id, golfer_id, role, tee_name
+                )
+                VALUES (%s, %s, %s, %s)
                 ON CONFLICT (round_id, golfer_id) DO NOTHING
-                RETURNING id, round_id, golfer_id, role, joined_at
+                RETURNING id, round_id, golfer_id, role, tee_name, joined_at
                 """,
-                (round_row["id"], golfer_uuid, participant_role),
+                (round_row["id"], golfer_uuid, participant_role, selected_tee),
             )
             participant = cursor.fetchone()
             if participant:
@@ -748,7 +820,7 @@ class RoundStore:
 
             cursor.execute(
                 """
-                SELECT id, round_id, golfer_id, role, joined_at
+                SELECT id, round_id, golfer_id, role, tee_name, joined_at
                 FROM round_participants WHERE round_id = %s AND golfer_id = %s
                 """,
                 (round_row["id"], golfer_uuid),
@@ -782,13 +854,42 @@ class RoundStore:
             participant = self._participant(cursor, found["id"], golfer_uuid)
             cursor.execute(
                 """
-                SELECT rp.id, rp.role, rp.joined_at, g.id AS golfer_id, g.display_name
+                SELECT rp.id, rp.role, rp.tee_name, rp.joined_at,
+                       g.id AS golfer_id, g.display_name
                 FROM round_participants rp JOIN golfers g ON g.id = rp.golfer_id
                 WHERE rp.round_id = %s ORDER BY rp.joined_at, rp.id
                 """,
                 (found["id"],),
             )
             round_row["participants"] = cursor.fetchall()
+
+            if round_row["course_id"]:
+                cursor.execute(
+                    """
+                    SELECT id, external_course_id, name, cached_at
+                    FROM cached_courses
+                    WHERE id = %s
+                    """,
+                    (round_row["course_id"],),
+                )
+                round_row["course"] = cursor.fetchone()
+                cursor.execute(
+                    """
+                    SELECT tee_name,
+                           count(*) AS holes_with_tee,
+                           sum(yardage) FILTER (WHERE yardage IS NOT NULL) AS total_yardage
+                    FROM cached_course_hole_tees
+                    WHERE course_id = %s AND hole_number <= %s
+                    GROUP BY tee_name
+                    ORDER BY max(yardage) DESC NULLS LAST, tee_name
+                    """,
+                    (round_row["course_id"], round_row["hole_count"]),
+                )
+                round_row["available_tees"] = cursor.fetchall()
+            else:
+                round_row["course"] = None
+                round_row["available_tees"] = []
+
             cursor.execute(
                 """
                 SELECT hole_number, par FROM round_hole_pars
@@ -1239,6 +1340,138 @@ class RoundStore:
                     "mode": round_row["mode"],
                 },
             )
+
+    def search_cached_courses(
+        self,
+        query: object,
+        *,
+        limit: int = 10,
+    ) -> list[dict[str, Any]]:
+        search = str(query or "").strip()
+        if len(search) < 2:
+            raise DomainError("course search must be at least 2 characters")
+        size = max(1, min(int(limit), 25))
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, provider, external_course_id, name, cached_at
+                FROM cached_courses
+                WHERE name ILIKE %s
+                ORDER BY
+                    CASE WHEN lower(name) = lower(%s) THEN 0 ELSE 1 END,
+                    name
+                LIMIT %s
+                """,
+                (f"%{search}%", search, size),
+            )
+            return cursor.fetchall()
+
+    def get_cached_course_by_external_id(
+        self,
+        external_course_id: object,
+    ) -> dict[str, Any] | None:
+        external_id = str(external_course_id or "").strip()
+        if not external_id:
+            raise DomainError("external_course_id is required")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, provider, external_course_id, name, cached_at
+                FROM cached_courses
+                WHERE provider = 'opengolfapi' AND external_course_id = %s
+                """,
+                (external_id,),
+            )
+            course = cursor.fetchone()
+            if not course:
+                return None
+            course["tees"] = self._course_tees(
+                cursor,
+                course["id"],
+                hole_count=18,
+            )
+            return course
+
+    @staticmethod
+    def _course_tees(
+        cursor: Any,
+        course_id: UUID,
+        *,
+        hole_count: int,
+    ) -> list[dict[str, Any]]:
+        cursor.execute(
+            """
+            SELECT tee_name,
+                   count(*) AS holes_with_tee,
+                   sum(yardage) FILTER (WHERE yardage IS NOT NULL) AS total_yardage
+            FROM cached_course_hole_tees
+            WHERE course_id = %s AND hole_number <= %s
+            GROUP BY tee_name
+            ORDER BY max(yardage) DESC NULLS LAST, tee_name
+            """,
+            (course_id, hole_count),
+        )
+        return cursor.fetchall()
+
+    def get_cached_course(self, course_id: object) -> dict[str, Any]:
+        course_uuid = self._uuid(course_id, "course_id")
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, provider, external_course_id, name, cached_at
+                FROM cached_courses
+                WHERE id = %s
+                """,
+                (course_uuid,),
+            )
+            course = cursor.fetchone()
+            if not course:
+                raise NotFound("cached course not found")
+            course["tees"] = self._course_tees(
+                cursor,
+                course_uuid,
+                hole_count=18,
+            )
+            return course
+
+    def set_participant_tee(
+        self,
+        golfer_id: object,
+        round_id: object,
+        tee_name: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        selected_tee = self._clean_tee_name(tee_name)
+        if not selected_tee:
+            raise DomainError("tee_name is required")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            require_player(participant["role"], "choose a tee")
+
+            if round_row["status"] != "setup":
+                raise DomainError("tee can only be changed before the round starts")
+            if round_row["course_id"]:
+                self._validate_course_tee(
+                    cursor,
+                    round_row["course_id"],
+                    selected_tee,
+                )
+
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET tee_name = %s
+                WHERE id = %s
+                RETURNING id, round_id, golfer_id, role, tee_name
+                """,
+                (selected_tee, participant["id"]),
+            )
+            return cursor.fetchone()
 
     def cache_course(self, snapshot: CourseSnapshot) -> UUID:
         with self._connection() as connection, connection.cursor() as cursor:
