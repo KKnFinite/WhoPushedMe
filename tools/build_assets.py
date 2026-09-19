@@ -20,6 +20,8 @@ EVENT_MAP = {
     ("score", "push"): "score_push",
     ("round-end", "winner"): "round_end_winner",
     ("round-end", "head-to-head-loser"): "round_end_head_to_head_loser",
+    ("round-end", "not-last"): "round_end_not_last",
+    ("round-end", "dead-last"): "round_end_dead_last",
 }
 
 

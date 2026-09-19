@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
-  "mini_asset_count": 61,
+  "mini_asset_count": 72,
   "assets": [
     {
       "asset_id": "brand.wordmark",
@@ -1004,6 +1004,101 @@
       ]
     },
     {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_DeadFuckingLast",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "dead-last",
+      "event_key": "round_end_dead_last",
+      "source": "static/assets_src/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_DeadFuckingLast.png",
+      "production": "static/assets/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_DeadFuckingLast.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "dead-last",
+      "event_key": "round_end_dead_last",
+      "source": "static/assets_src/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou.png",
+      "production": "static/assets/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "dead-last",
+      "event_key": "round_end_dead_last",
+      "source": "static/assets_src/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou.png",
+      "production": "static/assets/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_NoOneSuckedWorse",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "dead-last",
+      "event_key": "round_end_dead_last",
+      "source": "static/assets_src/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_NoOneSuckedWorse.png",
+      "production": "static/assets/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_NoOneSuckedWorse.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "dead-last",
+      "event_key": "round_end_dead_last",
+      "source": "static/assets_src/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter.png",
+      "production": "static/assets/mascots/mini/round-end/dead-last/WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure",
       "family": "mini-mascot",
       "category": "round-end",
@@ -1071,6 +1166,120 @@
       "dimensions": [
         1086,
         1448
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_CongratsNotWorst",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_CongratsNotWorst.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_CongratsNotWorst.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_MiddleTrainWreck",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_MiddleTrainWreck.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_MiddleTrainWreck.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_OutSuckedSomebody",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_OutSuckedSomebody.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_OutSuckedSomebody.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_StillLoserCompanyBelow",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_StillLoserCompanyBelow.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_StillLoserCompanyBelow.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouFailedNotHardest",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_YouFailedNotHardest.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_YouFailedNotHardest.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouLostSomebodyLostWorse",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "not-last",
+      "event_key": "round_end_not_last",
+      "source": "static/assets_src/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_YouLostSomebodyLostWorse.png",
+      "production": "static/assets/mascots/mini/round-end/not-last/WPM_RoundEnd_NotLast_YouLostSomebodyLostWorse.webp",
+      "dimensions": [
+        1070,
+        1470
       ],
       "mode": "RGBA",
       "real_alpha": true,
