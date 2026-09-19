@@ -284,6 +284,71 @@ def _copy_hint(asset: dict, family: str, registry: EventRegistry) -> str:
     return " ".join(stem.split())
 
 
+def _suspicious_copy(value: object) -> bool:
+    text = str(value or "").strip()
+    return len(text) <= 1
+
+
+def cmd_repair_copy(args: argparse.Namespace) -> None:
+    path = CONTENT_DIR / "mascots.json"
+    data = _read(path)
+    rows = list(data.get("mascots") or [])
+    catalog = ContentCatalog.load()
+    catalog.validate()
+    manifest = _manifest_mini_map(catalog)
+
+    selected = []
+    for row in rows:
+        if not _suspicious_copy(row.get("copy")):
+            continue
+        asset = manifest.get(row["asset_id"])
+        if not asset:
+            continue
+        family = "/".join(
+            part
+            for part in [asset.get("category"), asset.get("situation")]
+            if part
+        )
+        if args.family and family != args.family:
+            continue
+        selected.append((row, asset, family))
+
+    if not selected:
+        print("No suspicious mascot copy values found.")
+        return
+
+    print(f"Suspicious copy values queued: {len(selected)}")
+    print("This only repairs the visible-message copy.")
+    print("Hat copy, events, vulgarity, themes, notes, and audit status are preserved.")
+    print()
+
+    for index, (row, asset, family) in enumerate(selected, start=1):
+        png = ROOT / asset["source"]
+        hint = _copy_hint(asset, family, catalog.registry)
+
+        print("=" * 72)
+        print(f"[{index}/{len(selected)}] {row['asset_id']}")
+        print(f"Current bad copy: {row.get('copy')!r}")
+        print(f"Filename-derived hint: {hint}")
+
+        if not args.no_open:
+            _open_image(png)
+
+        copy = _prompt_keep(
+            "Exact visible sign/message copy",
+            hint,
+            required=True,
+        )
+        row["copy"] = copy
+        data["mascots"] = rows
+        _write(path, data)
+        print("Copy repaired and saved.")
+        print()
+
+    ContentCatalog.load().validate(strict_mascot_audit=True)
+    print("Suspicious-copy repair complete.")
+
+
 def cmd_audit_status(_: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
     catalog.validate()
@@ -629,6 +694,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="show verified/pending mascot metadata counts",
     )
     audit_status.set_defaults(func=cmd_audit_status)
+
+    repair_copy = subparsers.add_parser(
+        "repair-copy",
+        help="repair suspicious one-character mascot message copy values",
+    )
+    repair_copy.add_argument(
+        "--family",
+        help="limit to category/situation, e.g. joining/new-player",
+    )
+    repair_copy.add_argument(
+        "--no-open",
+        action="store_true",
+        help="do not open the PNG in the default image viewer",
+    )
+    repair_copy.set_defaults(func=cmd_repair_copy)
 
     audit_minis = subparsers.add_parser(
         "audit-minis",
