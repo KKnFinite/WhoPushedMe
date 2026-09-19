@@ -193,10 +193,39 @@
           </label>
         </fieldset>
 
-        <label class="round-text-field">
+        <fieldset class="choice-fieldset">
+          <legend>WHERE ARE WE RUINING GOLF?</legend>
+          <label>
+            <input type="radio" name="course_mode" value="course" checked>
+            <span>FIND A COURSE</span>
+          </label>
+          <label>
+            <input type="radio" name="course_mode" value="free">
+            <span>FREE PLAY</span>
+          </label>
+        </fieldset>
+
+        <section id="course-search-panel" class="course-search-panel">
+          <div class="course-search-row">
+            <input id="course-search-input" type="search" placeholder="Course name" autocomplete="off">
+            <button id="course-search-button" type="button">SEARCH</button>
+          </div>
+          <div id="course-results" class="course-results"></div>
+          <div id="selected-course" class="selected-course" hidden>
+            <strong id="selected-course-name"></strong>
+            <small id="selected-course-location"></small>
+          </div>
+
+          <label id="start-tee-field" class="round-text-field" hidden>
+            <span>YOUR TEE</span>
+            <select id="start-tee-select" name="tee_name"></select>
+          </label>
+        </section>
+
+        <label id="free-play-field" class="round-text-field" hidden>
           <span>FREE PLAY NAME</span>
           <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
-          <small>Course search is the next setup step. Free Play works now.</small>
+          <small>No course record needed. Pars can be entered as you go.</small>
         </label>
 
         <button class="settings-save" type="submit">CREATE THE DISASTER</button>
@@ -228,6 +257,15 @@
         <div id="lobby-code" class="lobby-code">----</div>
         <div id="lobby-summary" class="lobby-summary"></div>
         <div id="lobby-participants" class="lobby-participants"></div>
+
+        <section id="lobby-tee-panel" class="lobby-tee-panel" hidden>
+          <label class="round-text-field">
+            <span>YOUR TEE</span>
+            <select id="lobby-tee-select"></select>
+          </label>
+          <button id="lobby-tee-save" type="button">SAVE TEE</button>
+        </section>
+
         <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
         <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
