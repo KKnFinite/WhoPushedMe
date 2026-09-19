@@ -669,6 +669,15 @@ class RoundStore:
                     event_type="current_hole_change",
                     old_value=old_hole,
                     new_value=hole_number,
+                    content_event_key=(
+                        "hole.advance"
+                        if hole_number == old_hole + 1
+                        else "hole.enter"
+                    ),
+                    presentation_context={
+                        "hole": hole_number,
+                        "mode": round_row["mode"],
+                    },
                 )
             return {"round_id": round_uuid, "current_hole": hole_number}
 
@@ -696,6 +705,7 @@ class RoundStore:
                     "UPDATE rounds SET status = %s, updated_at = now() WHERE id = %s",
                     (new_status, round_uuid),
                 )
+                content_event = status_content_event(old_status, new_status)
                 self._event(
                     cursor,
                     round_id=round_uuid,
@@ -703,6 +713,8 @@ class RoundStore:
                     event_type="round_status_change",
                     old_value=old_status,
                     new_value=new_status,
+                    content_event_key=content_event,
+                    presentation_context={"mode": round_row["mode"]},
                 )
             return {"round_id": round_uuid, "status": new_status}
 
@@ -745,6 +757,12 @@ class RoundStore:
                 hole_number=hole_number,
                 old_value=old_par,
                 new_value=par_value,
+                content_event_key=par_content_event(old_par, par_value),
+                presentation_context={
+                    "hole": hole_number,
+                    "par": par_value,
+                    "mode": round_row["mode"],
+                },
             )
             return {"round_id": round_uuid, "hole": hole_number, "par": par_value, "event": event}
 
@@ -813,6 +831,24 @@ class RoundStore:
                     """,
                     (round_uuid, hole_number, scope, target_id, stroke_value),
                 )
+            cursor.execute(
+                """
+                SELECT par
+                FROM round_hole_pars
+                WHERE round_id = %s AND hole_number = %s
+                """,
+                (round_uuid, hole_number),
+            )
+            par_row = cursor.fetchone()
+            par_value = par_row["par"] if par_row else None
+            content_event = score_content_event(
+                mode=round_row["mode"],
+                old_score=old_score,
+                new_score=stroke_value,
+                par=par_value,
+                hole_number=hole_number,
+                current_hole=round_row["current_hole"],
+            )
             event = self._event(
                 cursor,
                 round_id=round_uuid,
@@ -821,7 +857,20 @@ class RoundStore:
                 hole_number=hole_number,
                 old_value=old_score,
                 new_value=stroke_value,
-                data={"scope": scope, "player_participant_id": str(target_id) if target_id else None},
+                data={
+                    "scope": scope,
+                    "player_participant_id": str(target_id) if target_id else None,
+                },
+                content_event_key=content_event,
+                presentation_context={
+                    "hole": hole_number,
+                    "par": par_value if par_value is not None else "",
+                    "strokes": stroke_value,
+                    "old_score": old_score if old_score is not None else "",
+                    "new_score": stroke_value,
+                    "mode": round_row["mode"],
+                    "score_name": content_event.rsplit(".", 1)[-1],
+                },
             )
             return {"round_id": round_uuid, "hole": hole_number, "strokes": stroke_value, "event": event}
 
@@ -888,6 +937,11 @@ class RoundStore:
                     """,
                     (round_uuid, hole_number, normalized_type, target_id),
                 )
+            content_event = scramble_contribution_content_event(
+                old_target,
+                target_id,
+                normalized_type,
+            )
             self._event(
                 cursor,
                 round_id=round_uuid,
@@ -896,7 +950,15 @@ class RoundStore:
                 hole_number=hole_number,
                 old_value=str(old_target) if old_target else None,
                 new_value=str(target_id) if target_id else None,
-                data={"shot_type": normalized_type},
+                data={
+                    "shot_type": normalized_type,
+                    "player_participant_id": str(target_id) if target_id else None,
+                },
+                content_event_key=content_event,
+                presentation_context={
+                    "hole": hole_number,
+                    "mode": round_row["mode"],
+                },
             )
             return {
                 "round_id": round_uuid,
@@ -933,6 +995,7 @@ class RoundStore:
                 if not 1 <= len(reaction) <= 32:
                     raise DomainError("reaction must be between 1 and 32 characters")
                 payload = {"reaction": reaction}
+            content_event = social_content_event(kind, payload)
             return self._event(
                 cursor,
                 round_id=round_uuid,
@@ -940,6 +1003,11 @@ class RoundStore:
                 event_type=kind,
                 hole_number=hole_number,
                 data=payload,
+                content_event_key=content_event,
+                presentation_context={
+                    "hole": hole_number if hole_number is not None else "",
+                    "mode": round_row["mode"],
+                },
             )
 
     def cache_course(self, snapshot: CourseSnapshot) -> UUID:
