@@ -43,11 +43,22 @@ def session_authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
 def authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(view)
     def wrapped(*args: Any, **kwargs: Any):
+        authorization = request.headers.get("Authorization", "").strip()
+        scheme, _, token = authorization.partition(" ")
+
+        if scheme.lower() == "bearer" and token.strip():
+            g.session_token = token.strip()
+            g.golfer = _store().authenticate_session(g.session_token)
+            return view(*args, **kwargs)
+
         key = request.headers.get("X-Recovery-Key", "")
-        if not key:
-            raise PermissionDenied("X-Recovery-Key is required")
-        g.golfer = _store().recover_golfer(key)
-        return view(*args, **kwargs)
+        if key:
+            g.golfer = _store().recover_golfer(key)
+            return view(*args, **kwargs)
+
+        raise PermissionDenied(
+            "Bearer session token or X-Recovery-Key is required"
+        )
 
     return wrapped
 
