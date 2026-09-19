@@ -36,6 +36,7 @@ from who_pushed_me.content.presentation import (
 from who_pushed_me.domain import (
     DomainError,
     NotFound,
+    PermissionDenied,
     PARTICIPANT_ROLES,
     ROUND_MODES,
     ROUND_STATUSES,
