@@ -26,3 +26,33 @@ def test_opengolfapi_adapter_normalizes_course_holes(monkeypatch):
     assert snapshot.holes[0].par == 4
     assert snapshot.holes[0].stroke_index == 7
     assert snapshot.holes[0].tee_yardages == {"blue": 401, "white": 372}
+
+def test_opengolfapi_search_normalizes_provider_results(monkeypatch):
+    client = OpenGolfAPI()
+
+    monkeypatch.setattr(
+        client,
+        "_get",
+        lambda path, query=None: {
+            "courses": [
+                {
+                    "id": "course-9",
+                    "name": "Rockford Muni",
+                    "city": "Rockford",
+                    "state_province": "Illinois",
+                    "country": "USA",
+                }
+            ]
+        },
+    )
+
+    assert client.search("rockford") == [
+        {
+            "external_course_id": "course-9",
+            "name": "Rockford Muni",
+            "city": "Rockford",
+            "state": "Illinois",
+            "country": "USA",
+        }
+    ]
+
