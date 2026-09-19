@@ -11,7 +11,7 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
 from who_pushed_me.courses import CourseSnapshot
-from who_pushed_me.content.catalog import ContentCatalog
+from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
 from who_pushed_me.domain import (
     DomainError,
@@ -180,7 +180,10 @@ class RoundStore:
                 (golfer_uuid,),
             )
             current = cursor.fetchone()
-            merged = merge_preference_patch(current, patch, catalog.theme_rows)
+            try:
+                merged = merge_preference_patch(current, patch, catalog.theme_rows)
+            except ContentError as error:
+                raise DomainError(str(error)) from error
 
             cursor.execute(
                 """
