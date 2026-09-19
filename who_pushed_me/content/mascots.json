@@ -1082,25 +1082,25 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "No Accountability",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_AlrightAssholesLetsGolf",
       "events": [
         "round.start"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Let's Golf",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BadDecisionsBegin",
@@ -1110,11 +1110,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Bad Idea",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BlameTheirClubs",
@@ -1124,11 +1124,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Somebody's About To Blame Their Clubs",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Blame The Club",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BroughtBallsNeedExtra",
@@ -1138,11 +1138,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Hope You Brought Balls. You're Gonna Need Extra",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "More Balls",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_CourseDoesntDeserveThis",
@@ -1152,11 +1152,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "The Course Hasn't Done Anything To Deserve This",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Poor Course",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_EveryonesConfidentUntilFirstTee",
@@ -1166,11 +1166,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "First Tee",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_FirstTeeAwaitsYourLies",
@@ -1180,11 +1180,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Tee Box Lies",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_GoodLuckYouClearlyNeedIt",
@@ -1194,11 +1194,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Good Luck?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_PutTheBeerDownNeverMind",
@@ -1210,11 +1210,11 @@
         "drinking"
       ],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Keep The Beer",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_RuinPerfectlyGoodMorning",
@@ -1224,11 +1224,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Time To Ruin A Perfectly Good Morning",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Chaos On Par",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_ScorecardAcceptingExcuses",
@@ -1238,11 +1238,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "The Scorecard Is Now Accepting Excuses",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Excuses Ready",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_SwingHardRegretImmediately",
@@ -1252,39 +1252,39 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Send It",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_TodaysForecastBullshit",
       "events": [
         "round.start"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Bad Forecast",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_WelcomeToTheShitshow",
       "events": [
         "round.start"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Shitshow",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_WhoLiedAboutTheirHandicap",
@@ -1294,11 +1294,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Time To Find Out Who Lied About Their Handicap",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Liar?",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_ChangingTheStory",
