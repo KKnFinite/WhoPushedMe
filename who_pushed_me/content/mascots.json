@@ -7,14 +7,14 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Good Luck",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FreshMeat",
@@ -24,11 +24,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "New Blood",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_HopeYouBroughtExcuses",
@@ -38,25 +38,25 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Plan B",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewFaceSameBullshit",
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Nothing Changes",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewGuySameBadDecisions",
@@ -66,11 +66,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Fresh Mistake",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_SomebodyBroughtARookie",
@@ -80,11 +80,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Somebody Brought A Rookie",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Rookie Alert",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WelcomeLowerYourExpectations",
@@ -94,11 +94,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "Welcome. Lower Your Expectations",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Aim Low",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WellLookWhatWalkedIn",
@@ -108,11 +108,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Oh Boy",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WhoInvitedThisGuy",
@@ -122,11 +122,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Who's Friend",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_AgainSeriously",
