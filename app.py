@@ -12,7 +12,10 @@ APP_VERSION: Final = "0.3.0"
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config["DATABASE_URL"] = os.getenv("DATABASE_URL", "")
+    app.config["DATABASE_URL"] = (
+        os.getenv("DATABASE_URL")
+        or os.getenv("DATABASE_URL_UNPOOLED", "")
+    )
     app.register_blueprint(api)
 
     @app.get("/")
