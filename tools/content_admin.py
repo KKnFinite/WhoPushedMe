@@ -36,15 +36,26 @@ def _pascal_slug(value: str) -> str:
     return "".join(word[:1].upper() + word[1:] for word in words)
 
 
-def _choose_events(registry: EventRegistry) -> list[str]:
+def _choose_events(
+    registry: EventRegistry,
+    current: list[str] | None = None,
+) -> list[str]:
     rows = registry.selectable_events(include_scopes=True)
     print("\nSELECT ELIGIBLE EVENTS / SCOPES")
     for index, row in enumerate(rows, start=1):
         marker = "EVENT" if row.get("triggerable") else "SCOPE"
         print(f"{index:>3}. [{marker}] {row['key']} - {row['label']}")
-    raw = input("\nNumbers or event keys, comma-separated: ").strip()
-    if not raw:
-        raise ContentError("at least one event is required")
+    if current:
+        print("Current: " + ", ".join(current))
+        raw = input(
+            "\nNumbers or event keys, comma-separated; ENTER keeps current: "
+        ).strip()
+        if not raw:
+            return list(current)
+    else:
+        raw = input("\nNumbers or event keys, comma-separated: ").strip()
+        if not raw:
+            raise ContentError("at least one event is required")
 
     selected: list[str] = []
     by_key = {row["key"] for row in rows}
@@ -282,11 +293,12 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         hat_copy = _prompt_keep("Hat copy (optional)", row.get("hat_copy")) or None
 
         events = list(row.get("events") or [])
+        current_events = ", ".join(events) if events else "none"
         edit_events = input(
-            "Eligible events/scopes: ENTER keeps current, E edits: "
+            f"Eligible events/scopes [{current_events}]: ENTER keeps current, E edits: "
         ).strip().lower()
         if edit_events == "e":
-            events = _choose_events(catalog.registry)
+            events = _choose_events(catalog.registry, current=events)
 
         vulgarity = _prompt_choice(
             "Vulgarity",
