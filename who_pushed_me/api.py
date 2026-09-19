@@ -94,6 +94,16 @@ def login_account():
     return jsonify(result)
 
 
+@api.post("/auth/recover")
+def recover_account():
+    payload = _body()
+    result = _store().recover_account_with_key(
+        recovery_key=payload.get("recovery_key"),
+        new_password=payload.get("new_password"),
+    )
+    return jsonify(result)
+
+
 @api.get("/auth/me")
 @session_authenticated
 def auth_me():
