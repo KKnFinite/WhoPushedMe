@@ -233,6 +233,10 @@ class ContentCatalog:
         copy = row.get("copy")
         if copy is not None and not isinstance(copy, str):
             errors.append(f"{asset_id} copy must be a string or null")
+        elif audit_status == "verified" and len(str(copy or "").strip()) <= 1:
+            errors.append(
+                f"{asset_id} verified mascot has suspicious one-character copy"
+            )
 
         hat_copy = row.get("hat_copy")
         if hat_copy is not None and not isinstance(hat_copy, str):
