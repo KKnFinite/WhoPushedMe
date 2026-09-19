@@ -33,7 +33,8 @@ def session_authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
         scheme, _, token = authorization.partition(" ")
         if scheme.lower() != "bearer" or not token.strip():
             raise PermissionDenied("Bearer session token is required")
-        g.golfer = _store().authenticate_session(token.strip())
+        g.session_token = token.strip()
+        g.golfer = _store().authenticate_session(g.session_token)
         return view(*args, **kwargs)
 
     return wrapped
@@ -97,6 +98,12 @@ def login_account():
 @session_authenticated
 def auth_me():
     return jsonify(g.golfer)
+
+
+@api.post("/auth/logout")
+@session_authenticated
+def auth_logout():
+    return jsonify(_store().logout_session(g.session_token))
 
 
 @api.post("/golfers")
