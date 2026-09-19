@@ -298,7 +298,7 @@ def cmd_repair_copy(args: argparse.Namespace) -> None:
 
     selected = []
     for row in rows:
-        if not _suspicious_copy(row.get("copy")):
+        if not args.asset_id and not _suspicious_copy(row.get("copy")):
             continue
         asset = manifest.get(row["asset_id"])
         if not asset:
@@ -309,6 +309,8 @@ def cmd_repair_copy(args: argparse.Namespace) -> None:
             if part
         )
         if args.family and family != args.family:
+            continue
+        if args.asset_id and row["asset_id"] != args.asset_id:
             continue
         selected.append((row, asset, family))
 
@@ -701,6 +703,10 @@ def build_parser() -> argparse.ArgumentParser:
     repair_copy.add_argument(
         "--family",
         help="limit to category/situation, e.g. joining/new-player",
+    )
+    repair_copy.add_argument(
+        "--asset-id",
+        help="repair one exact mascot asset_id, including a non-suspicious wrong value",
     )
     repair_copy.add_argument(
         "--no-open",
