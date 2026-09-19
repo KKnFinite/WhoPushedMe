@@ -41,6 +41,20 @@ class FakeStore:
             "session": {"token": "session-token"},
         }
 
+    def recover_account_with_key(self, *, recovery_key, new_password):
+        self.calls.append(("recover_account", recovery_key, new_password))
+        return {
+            "account": {
+                "id": self.golfer_id,
+                "username": "kim",
+                "display_name": "Kim",
+                "is_admin": False,
+            },
+            "session": {"token": "replacement-session"},
+            "recovery_key": "WXYZ-2345-6789-ABCD",
+            "recovery_key_rotated": True,
+        }
+
     def authenticate_session(self, token):
         self.calls.append(("session", token))
         return {
@@ -242,4 +256,25 @@ def test_auth_logout_revokes_current_bearer_session():
         ("session", "session-token"),
         ("logout", "session-token"),
     ]
+
+def test_recovery_key_resets_password_rotates_key_and_returns_session():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/auth/recover",
+        json={
+            "recovery_key": "ABCD-EFGH-JKMP-QRST",
+            "new_password": "a brand new password",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["session"]["token"] == "replacement-session"
+    assert payload["recovery_key"] == "WXYZ-2345-6789-ABCD"
+    assert payload["recovery_key_rotated"] is True
+    assert store.calls[-1] == (
+        "recover_account",
+        "ABCD-EFGH-JKMP-QRST",
+        "a brand new password",
+    )
 
