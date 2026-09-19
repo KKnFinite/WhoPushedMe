@@ -426,6 +426,15 @@ class RoundStore:
                         (round_row["id"], golfer_uuid),
                     )
                     participant = cursor.fetchone()
+                    self._event(
+                        cursor,
+                        round_id=round_row["id"],
+                        actor_participant_id=participant["id"],
+                        event_type="lobby_created",
+                        data={"role": "player"},
+                        content_event_key="lobby.created",
+                        presentation_context={"mode": round_mode},
+                    )
                     if cached_course_id:
                         cursor.execute(
                             """
@@ -455,7 +464,7 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id FROM rounds
+                SELECT id, mode FROM rounds
                 WHERE active_code = %s AND status IN ('setup', 'active')
                 """,
                 (round_code,),
@@ -463,6 +472,21 @@ class RoundStore:
             round_row = cursor.fetchone()
             if not round_row:
                 raise NotFound("active round not found")
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_participants
+                    WHERE golfer_id = %s
+                      AND round_id <> %s
+                      AND role = 'player'
+                ) AS played_before
+                """,
+                (golfer_uuid, round_row["id"]),
+            )
+            played_before = bool(cursor.fetchone()["played_before"])
+
             cursor.execute(
                 """
                 INSERT INTO round_participants (round_id, golfer_id, role)
@@ -474,7 +498,24 @@ class RoundStore:
             )
             participant = cursor.fetchone()
             if participant:
+                if participant_role == "spectator":
+                    content_event = "lobby.join.spectator"
+                elif played_before:
+                    content_event = "lobby.join.returning_player"
+                else:
+                    content_event = "lobby.join.new_player"
+
+                self._event(
+                    cursor,
+                    round_id=round_row["id"],
+                    actor_participant_id=participant["id"],
+                    event_type="participant_join",
+                    data={"role": participant_role},
+                    content_event_key=content_event,
+                    presentation_context={"mode": round_row["mode"]},
+                )
                 return participant
+
             cursor.execute(
                 """
                 SELECT id, round_id, golfer_id, role, joined_at
@@ -482,7 +523,22 @@ class RoundStore:
                 """,
                 (round_row["id"], golfer_uuid),
             )
-            return cursor.fetchone()
+            participant = cursor.fetchone()
+            reconnect_event = (
+                "lobby.reconnect.spectator"
+                if participant["role"] == "spectator"
+                else "lobby.reconnect.player"
+            )
+            self._event(
+                cursor,
+                round_id=round_row["id"],
+                actor_participant_id=participant["id"],
+                event_type="participant_reconnect",
+                data={"role": participant["role"]},
+                content_event_key=reconnect_event,
+                presentation_context={"mode": round_row["mode"]},
+            )
+            return participant
 
     def get_round(self, golfer_id: object, code: object) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
@@ -532,13 +588,63 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT id, actor_participant_id, event_type, hole_number,
-                       old_value, new_value, data, created_at
+                       old_value, new_value, data, content_event_key,
+                       presentation, created_at
                 FROM round_events WHERE round_id = %s
                 ORDER BY created_at DESC, id DESC LIMIT 100
                 """,
                 (found["id"],),
             )
-            round_row["events"] = cursor.fetchall()
+            events = cursor.fetchall()
+            catalog = ContentCatalog.load()
+            preferences = self._preferences_from_cursor(
+                cursor,
+                golfer_uuid,
+                catalog,
+            )
+            for event in events:
+                raw_presentation = event.get("presentation") or {}
+                variants = dict(raw_presentation.get("variants") or {})
+                audience = "everyone"
+                event_data = event.get("data") or {}
+
+                subject_id = event_data.get("player_participant_id")
+                target_id = event_data.get("target_participant_id")
+                viewer_participant_id = str(participant["id"])
+
+                if (
+                    subject_id is not None
+                    and str(subject_id) == viewer_participant_id
+                    and "subject" in variants
+                ):
+                    audience = "subject"
+                elif (
+                    subject_id is not None
+                    and str(subject_id) != viewer_participant_id
+                    and "others" in variants
+                ):
+                    audience = "others"
+                elif (
+                    target_id is not None
+                    and str(target_id) == viewer_participant_id
+                    and "target" in variants
+                ):
+                    audience = "target"
+                elif (
+                    event.get("actor_participant_id") == participant["id"]
+                    and "actor" in variants
+                ):
+                    audience = "actor"
+                elif participant["role"] == "player" and "team" in variants:
+                    audience = "team"
+
+                event["presentation"] = filter_presentation_for_preferences(
+                    raw_presentation,
+                    preferences,
+                    audience=audience,
+                )
+
+            round_row["events"] = events
             round_row["viewer_role"] = participant["role"]
             return round_row
 
