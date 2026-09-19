@@ -332,11 +332,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Gallery Legend",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DeclinedToPlayStillHasOpinions",
@@ -346,11 +346,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Gallery Expert",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DidntWantToGetEmbarrassedToday",
@@ -360,11 +360,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Gallery Duty. Pays Off.",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_JustHereToJudge",
@@ -374,11 +374,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Gallery Therapy",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_NiceOfYouToParticipateEmotionally",
@@ -388,11 +388,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Gallery Guy",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_SpectatorModeCoward",
@@ -400,27 +400,31 @@
         "lobby.join.spectator"
       ],
       "vulgarity": "normal",
-      "themes": [],
+      "themes": [
+        "drinking"
+      ],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Spectator Mode. Coward",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_TalkingShitFromASafeDistance",
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "brutal",
-      "themes": [],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
       "enabled": true,
-      "copy": null,
+      "copy": "y",
       "signs": [],
-      "hat_copy": null,
-      "notes": "",
-      "audit_status": "pending"
+      "hat_copy": "Gallery Life",
+      "notes": "Beer Improves Judgment",
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EighteenHolesHostageSituation",
