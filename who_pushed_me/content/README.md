@@ -35,7 +35,6 @@ python tools/content_admin.py validate --strict-audit
 
 The audit command opens each PNG in the operating system's default image viewer and records:
 - exact visible message copy
-- individual sign panel copy
 - optional hat copy
 - explicit eligible event scopes
 - vulgarity level
