@@ -294,7 +294,6 @@ def cmd_repair_copy(args: argparse.Namespace) -> None:
     data = _read(path)
     rows = list(data.get("mascots") or [])
     catalog = ContentCatalog.load()
-    catalog.validate()
     manifest = _manifest_mini_map(catalog)
 
     selected = []
