@@ -13,6 +13,15 @@ from psycopg.types.json import Jsonb
 from who_pushed_me.courses import CourseSnapshot
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
+from who_pushed_me.content.presentation import (
+    build_shared_presentation,
+    filter_presentation_for_preferences,
+    par_content_event,
+    score_content_event,
+    scramble_contribution_content_event,
+    social_content_event,
+    status_content_event,
+)
 from who_pushed_me.domain import (
     DomainError,
     NotFound,
@@ -84,7 +93,62 @@ class RoundStore:
         return round_row
 
     @staticmethod
+    def _runtime_controls_from_cursor(
+        cursor: Any,
+        catalog: ContentCatalog,
+    ) -> dict[str, Any]:
+        cursor.execute(
+            """
+            SELECT mini_mascots_enabled, trash_talk_enabled
+            FROM content_system_settings
+            WHERE singleton = true
+            """
+        )
+        settings = cursor.fetchone() or {
+            "mini_mascots_enabled": True,
+            "trash_talk_enabled": True,
+        }
+
+        cursor.execute(
+            """
+            SELECT event_key, enabled
+            FROM content_event_overrides
+            ORDER BY event_key
+            """
+        )
+        overrides: dict[str, bool] = {}
+        for row in cursor.fetchall():
+            try:
+                key = catalog.registry.canonical_key(str(row["event_key"]))
+            except ContentError:
+                continue
+            overrides[key] = bool(row["enabled"])
+
+        return {
+            "mini_mascots_enabled": bool(settings["mini_mascots_enabled"]),
+            "trash_talk_enabled": bool(settings["trash_talk_enabled"]),
+            "event_overrides": overrides,
+        }
+
+    @staticmethod
+    def _preferences_from_cursor(
+        cursor: Any,
+        golfer_id: UUID,
+        catalog: ContentCatalog,
+    ) -> dict[str, Any]:
+        cursor.execute(
+            """
+            SELECT mini_mascots_enabled, trash_talk_enabled,
+                   max_vulgarity, theme_preferences
+            FROM golfer_content_preferences
+            WHERE golfer_id = %s
+            """,
+            (golfer_id,),
+        )
+        return public_preferences(cursor.fetchone(), catalog.theme_rows)
+
     def _event(
+        self,
         cursor: Any,
         *,
         round_id: UUID,
@@ -94,15 +158,32 @@ class RoundStore:
         old_value: object | None = None,
         new_value: object | None = None,
         data: dict[str, object] | None = None,
+        content_event_key: str | None = None,
+        presentation_context: dict[str, object] | None = None,
     ) -> dict[str, Any]:
+        presentation: dict[str, Any] = {}
+        canonical_content_event: str | None = None
+
+        if content_event_key:
+            catalog = ContentCatalog.load()
+            canonical_content_event = catalog.registry.canonical_key(content_event_key)
+            controls = self._runtime_controls_from_cursor(cursor, catalog)
+            presentation = build_shared_presentation(
+                catalog,
+                canonical_content_event,
+                controls=controls,
+                context=presentation_context,
+            )
+
         cursor.execute(
             """
             INSERT INTO round_events (
                 round_id, actor_participant_id, event_type, hole_number,
-                old_value, new_value, data
+                old_value, new_value, data, content_event_key, presentation
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-            RETURNING id, event_type, hole_number, old_value, new_value, data, created_at
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id, event_type, hole_number, old_value, new_value, data,
+                      content_event_key, presentation, created_at
             """,
             (
                 round_id,
@@ -112,6 +193,8 @@ class RoundStore:
                 Jsonb(old_value) if old_value is not None else None,
                 Jsonb(new_value) if new_value is not None else None,
                 Jsonb(data or {}),
+                canonical_content_event,
+                Jsonb(presentation),
             ),
         )
         return cursor.fetchone()
