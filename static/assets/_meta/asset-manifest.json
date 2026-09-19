@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
-  "mini_asset_count": 72,
+  "mini_asset_count": 97,
   "assets": [
     {
       "asset_id": "brand.wordmark",
@@ -992,6 +992,481 @@
       "event_key": "round_start",
       "source": "static/assets_src/mascots/mini/round/start/WPM_Round_Start_WhoLiedAboutTheirHandicap.png",
       "production": "static/assets/mascots/mini/round/start/WPM_Round_Start_WhoLiedAboutTheirHandicap.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EighteenHolesHostageSituation",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_EighteenHolesHostageSituation.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_EighteenHolesHostageSituation.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GoHomeYourWifeKnows",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GoHomeYourWifeKnows.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_GoHomeYourWifeKnows.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OweTheCourseAnApology",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_OweTheCourseAnApology.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_OweTheCourseAnApology.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundCanGoFuckItself",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundCanGoFuckItself.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundCanGoFuckItself.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ScorecardStillJudging",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ScorecardStillJudging.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ScorecardStillJudging.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShitshowComplete",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ShitshowComplete.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ShitshowComplete.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShortStrokesBefore",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ShortStrokesBefore.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ShortStrokesBefore.webp",
+      "dimensions": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WellThatHappened",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WellThatHappened.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WellThatHappened.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WhiskeyAndDenial",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WhiskeyAndDenial.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WhiskeyAndDenial.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeChecksCreditCard",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WifeChecksCreditCard.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WifeChecksCreditCard.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YoureDoneThankFuck",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YoureDoneThankFuck.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YoureDoneThankFuck.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YourWifeCantFindTheHole",
+      "family": "mini-mascot",
+      "category": "round-end",
+      "situation": "complete",
+      "event_key": "round_end_complete",
+      "source": "static/assets_src/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YourWifeCantFindTheHole.png",
+      "production": "static/assets/mascots/mini/round-end/complete/WPM_RoundEnd_Complete_YourWifeCantFindTheHole.webp",
       "dimensions": [
         1122,
         1402
