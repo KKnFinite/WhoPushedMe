@@ -17,6 +17,11 @@
   const recoveryKeyContinue = document.getElementById('recovery-key-continue');
   const logoutButton = document.getElementById('logout-button');
   const welcomeKicker = document.getElementById('home-welcome-kicker');
+  const settingsButton = document.getElementById('settings-button');
+  const settingsModal = document.getElementById('settings-modal');
+  const settingsClose = document.getElementById('settings-close');
+  const settingsForm = document.getElementById('settings-form');
+  const settingsMessage = document.getElementById('settings-message');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -44,6 +49,30 @@
     form?.querySelectorAll('button, input').forEach((control) => {
       control.disabled = busy;
     });
+  };
+
+  const setSettingsMessage = (message = '') => {
+    if (!settingsMessage) return;
+    settingsMessage.textContent = message;
+    settingsMessage.hidden = !message;
+  };
+
+  const populateSettings = (preferences) => {
+    if (!settingsForm) return;
+    settingsForm.elements.mini_mascots_enabled.checked =
+      Boolean(preferences?.mini_mascots_enabled);
+    settingsForm.elements.trash_talk_enabled.checked =
+      Boolean(preferences?.trash_talk_enabled);
+    settingsForm.elements.drinking.checked =
+      Boolean(preferences?.themes?.drinking);
+    settingsForm.elements.wife.checked =
+      Boolean(preferences?.themes?.wife);
+
+    const vulgarity = String(preferences?.max_vulgarity || 'normal');
+    const radio = settingsForm.querySelector(
+      `input[name="max_vulgarity"][value="${vulgarity}"]`
+    );
+    if (radio) radio.checked = true;
   };
 
   const requestJson = async (path, options = {}) => {
@@ -275,6 +304,66 @@
     showAuth('login');
   });
 
+  const openSettings = async () => {
+    if (!settingsModal || !settingsForm) return;
+    setSettingsMessage('');
+    settingsModal.hidden = false;
+    document.body.classList.add('modal-open');
+
+    try {
+      const preferences = await requestJson('/api/preferences');
+      populateSettings(preferences);
+      settingsClose?.focus();
+    } catch (error) {
+      setSettingsMessage(error.message);
+    }
+  };
+
+  const closeSettings = () => {
+    if (!settingsModal) return;
+    settingsModal.hidden = true;
+    document.body.classList.remove('modal-open');
+  };
+
+  settingsButton?.addEventListener('click', openSettings);
+  settingsClose?.addEventListener('click', closeSettings);
+  settingsModal?.addEventListener('click', (event) => {
+    if (event.target === settingsModal) closeSettings();
+  });
+
+  settingsForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setSettingsMessage('');
+    setFormBusy(settingsForm, true);
+
+    const checkedVulgarity = settingsForm.querySelector(
+      'input[name="max_vulgarity"]:checked'
+    );
+
+    try {
+      const preferences = await requestJson('/api/preferences', {
+        method: 'PATCH',
+        body: {
+          mini_mascots_enabled:
+            settingsForm.elements.mini_mascots_enabled.checked,
+          trash_talk_enabled:
+            settingsForm.elements.trash_talk_enabled.checked,
+          max_vulgarity: checkedVulgarity?.value || 'normal',
+          themes: {
+            drinking: settingsForm.elements.drinking.checked,
+            wife: settingsForm.elements.wife.checked,
+          },
+        },
+      });
+      populateSettings(preferences);
+      setSettingsMessage('Saved. Your bad decisions are now personalized.');
+    } catch (error) {
+      setSettingsMessage(error.message);
+    } finally {
+      setFormBusy(settingsForm, false);
+    }
+  });
+
   const openConstruction = () => {
     if (!modal) return;
     modal.hidden = false;
@@ -298,7 +387,12 @@
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal && !modal.hidden) closeConstruction();
+    if (event.key !== 'Escape') return;
+    if (settingsModal && !settingsModal.hidden) {
+      closeSettings();
+      return;
+    }
+    if (modal && !modal.hidden) closeConstruction();
   });
 
   if ('serviceWorker' in navigator) {
