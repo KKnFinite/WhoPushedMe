@@ -874,11 +874,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "One Failure",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt",
@@ -888,11 +888,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "One Job",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond",
@@ -902,11 +902,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Second of Two",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost",
@@ -916,11 +916,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Still Lost",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_CongratsNotWorst",
