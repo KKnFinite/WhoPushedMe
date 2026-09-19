@@ -54,9 +54,42 @@ class OpenGolfAPI:
             return json.load(response)
 
     def search(self, query: str, *, limit: int = 10) -> list[dict[str, object]]:
-        payload = self._get("courses/search", {"q": query, "limit": max(1, min(limit, 25))})
+        search = str(query or "").strip()
+        if len(search) < 2:
+            return []
+
+        payload = self._get(
+            "courses/search",
+            {"q": search, "limit": max(1, min(limit, 25))},
+        )
         courses = payload.get("courses", [])
-        return courses if isinstance(courses, list) else []
+        if not isinstance(courses, list):
+            return []
+
+        results: list[dict[str, object]] = []
+        for raw in courses:
+            if not isinstance(raw, dict):
+                continue
+            external_id = raw.get("id") or raw.get("course_id")
+            name = raw.get("name") or raw.get("course_name")
+            if external_id is None or not name:
+                continue
+
+            item: dict[str, object] = {
+                "external_course_id": str(external_id),
+                "name": str(name),
+            }
+            for source_key, target_key in (
+                ("city", "city"),
+                ("state", "state"),
+                ("state_province", "state"),
+                ("country", "country"),
+            ):
+                if raw.get(source_key) and target_key not in item:
+                    item[target_key] = str(raw[source_key])
+            results.append(item)
+
+        return results
 
     def fetch(self, external_id: str) -> CourseSnapshot:
         safe_id = quote(str(external_id), safe="")
