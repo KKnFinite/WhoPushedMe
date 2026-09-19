@@ -324,6 +324,23 @@ class RoundStore:
                 "session": session,
             }
 
+    def logout_session(self, token: object) -> dict[str, bool]:
+        token_hash = hash_session_token(token)
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE auth_sessions
+                SET revoked_at = now()
+                WHERE token_hash = %s
+                  AND revoked_at IS NULL
+                RETURNING id
+                """,
+                (token_hash,),
+            )
+            if not cursor.fetchone():
+                raise PermissionDenied("invalid or expired session")
+            return {"logged_out": True}
+
     def authenticate_session(self, token: object) -> dict[str, Any]:
         token_hash = hash_session_token(token)
         with self._connection() as connection, connection.cursor() as cursor:
