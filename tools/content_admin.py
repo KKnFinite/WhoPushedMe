@@ -17,6 +17,7 @@ from PIL import Image
 
 from tools.build_assets import ASSETS, ASSETS_SRC, build_manifest, make_webp
 from who_pushed_me.content.catalog import CONTENT_DIR, ContentCatalog, ContentError, EventRegistry
+from who_pushed_me.store import RoundStore
 MINI_SRC = ASSETS_SRC / "mascots" / "mini"
 MINI_PROD = ASSETS / "mascots" / "mini"
 
@@ -110,6 +111,59 @@ def cmd_validate(args: argparse.Namespace) -> None:
     print(f"Mini mascot metadata rows: {len(catalog.mascots)}")
     print(f"Mini audit verified: {summary.get('verified', 0)}")
     print(f"Mini audit pending: {summary.get('pending', 0)}")
+
+
+def cmd_runtime_status(_: argparse.Namespace) -> None:
+    controls = RoundStore().get_content_runtime_controls()
+    print(
+        "Mini mascots: "
+        + ("ON" if controls["mini_mascots_enabled"] else "OFF")
+    )
+    print(
+        "Trash talk: "
+        + ("ON" if controls["trash_talk_enabled"] else "OFF")
+    )
+    overrides = controls.get("event_overrides") or {}
+    print(f"Event overrides: {len(overrides)}")
+    for key, enabled in sorted(overrides.items()):
+        print(f"  {key}: {'ON' if enabled else 'OFF'}")
+
+
+def cmd_set_master(args: argparse.Namespace) -> None:
+    enabled = args.state == "on"
+    kwargs = (
+        {"mini_mascots_enabled": enabled}
+        if args.kind == "minis"
+        else {"trash_talk_enabled": enabled}
+    )
+    controls = RoundStore().set_content_runtime_master(**kwargs)
+    print(
+        f"{args.kind}: "
+        + (
+            "ON"
+            if (
+                controls["mini_mascots_enabled"]
+                if args.kind == "minis"
+                else controls["trash_talk_enabled"]
+            )
+            else "OFF"
+        )
+    )
+
+
+def cmd_set_event(args: argparse.Namespace) -> None:
+    enabled = {
+        "on": True,
+        "off": False,
+        "default": None,
+    }[args.state]
+    controls = RoundStore().set_content_event_override(args.event_key, enabled)
+    overrides = controls.get("event_overrides") or {}
+    if args.state == "default":
+        print(f"{args.event_key}: DEFAULT")
+    else:
+        key = EventRegistry.load().canonical_key(args.event_key)
+        print(f"{key}: {'ON' if overrides.get(key) else 'OFF'}")
 
 
 def cmd_list_events(_: argparse.Namespace) -> None:
@@ -599,6 +653,28 @@ def build_parser() -> argparse.ArgumentParser:
 
     list_events = subparsers.add_parser("list-events", help="list content events and scopes")
     list_events.set_defaults(func=cmd_list_events)
+
+    runtime_status = subparsers.add_parser(
+        "runtime-status",
+        help="show Neon-backed master content toggles and event overrides",
+    )
+    runtime_status.set_defaults(func=cmd_runtime_status)
+
+    set_master = subparsers.add_parser(
+        "set-master",
+        help="turn all mini mascots or all trash talk on/off",
+    )
+    set_master.add_argument("kind", choices=["minis", "banter"])
+    set_master.add_argument("state", choices=["on", "off"])
+    set_master.set_defaults(func=cmd_set_master)
+
+    set_event = subparsers.add_parser(
+        "set-event",
+        help="set or clear a runtime event/family override",
+    )
+    set_event.add_argument("event_key")
+    set_event.add_argument("state", choices=["on", "off", "default"])
+    set_event.set_defaults(func=cmd_set_event)
 
     add_banter = subparsers.add_parser("add-banter", help="add a banter message")
     add_banter.add_argument("--text")
