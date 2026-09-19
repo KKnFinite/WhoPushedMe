@@ -9,7 +9,8 @@ Current foundation:
 - Flask web app
 - Render deployment
 - Neon Postgres-backed schema and versioned migrations
-- Anonymous golfer identities with recovery keys
+- Username/password accounts with hashed no-email recovery keys and bearer sessions
+- Temporary compatibility for legacy anonymous recovery-key identities
 - Individual and Scramble round data services
 - Score/par receipts and a generic round-event ledger
 - Optional Scramble contribution records
@@ -21,10 +22,10 @@ The existing Home buttons remain intentionally parked while the backend API sett
 
 Planned next:
 
+- Finish the real account/login UI
 - Wire the Home flow to the round API
 - Add live round synchronization
-- Server-selected trash talk events
-- Large anti-repetition trash-talk bank
+- Expand event-specific trash-talk content
 
 ## Local setup
 
@@ -51,11 +52,25 @@ OpenGolfAPI cache tables. Free Play rounds leave `course_id` empty.
 
 ## Backend API
 
-Create or recover an anonymous golfer through `/api/golfers`, then send the returned
-recovery key as `X-Recovery-Key` for round requests under `/api/rounds`. The API
-supports creating/joining rounds, reading shared state, changing the shared current
-hole and lifecycle, recording pars/scores, editing Scramble contributions, and
-posting role-limited social events. It is intentionally not wired to the Home UI yet.
+The real account flow uses:
+
+- `POST /api/auth/register` with username, password, and display name
+- `POST /api/auth/login`
+- `POST /api/auth/recover` with the one-time recovery key and a new password
+- `GET /api/auth/me`
+- `POST /api/auth/logout`
+
+Passwords, recovery keys, and session tokens are stored only as hashes. Registration
+returns the recovery key once. A successful recovery rotates that key, revokes older
+sessions, and returns the replacement key once.
+
+Authenticated round requests accept `Authorization: Bearer <session-token>`.
+Legacy `X-Recovery-Key` authentication remains temporarily supported while the UI
+and old prototype identity flow are migrated.
+
+The round API supports creating/joining rounds, reading shared state, changing the
+shared current hole and lifecycle, recording pars/scores, editing Scramble
+contributions, and posting role-limited social events.
 
 ## Environment
 
