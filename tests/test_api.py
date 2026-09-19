@@ -121,3 +121,14 @@ def test_preferences_patch_passes_data_driven_theme_settings():
         },
     )
 
+def test_round_store_uses_unpooled_database_url_when_pooled_is_absent(monkeypatch):
+    from who_pushed_me.store import RoundStore
+
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    monkeypatch.setenv(
+        "DATABASE_URL_UNPOOLED",
+        "postgresql://example.invalid/wpm",
+    )
+
+    assert RoundStore().database_url == "postgresql://example.invalid/wpm"
+
