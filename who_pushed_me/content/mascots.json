@@ -233,9 +233,7 @@
         "lobby.join.spectator"
       ],
       "vulgarity": "normal",
-      "themes": [
-        "drinking"
-      ],
+      "themes": [],
       "enabled": true
     },
     {
@@ -438,9 +436,7 @@
         "round.end.scramble.complete"
       ],
       "vulgarity": "brutal",
-      "themes": [
-        "drinking"
-      ],
+      "themes": [],
       "enabled": true
     },
     {
@@ -500,7 +496,9 @@
         "round.end.scramble.complete"
       ],
       "vulgarity": "brutal",
-      "themes": [],
+      "themes": [
+        "drinking"
+      ],
       "enabled": true
     },
     {

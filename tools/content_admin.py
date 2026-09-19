@@ -4,14 +4,17 @@ import argparse
 import json
 import re
 import shutil
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from PIL import Image
 
 from tools.build_assets import ASSETS, ASSETS_SRC, build_manifest, make_webp
 from who_pushed_me.content.catalog import CONTENT_DIR, ContentCatalog, ContentError, EventRegistry
-
-ROOT = Path(__file__).resolve().parents[1]
 MINI_SRC = ASSETS_SRC / "mascots" / "mini"
 MINI_PROD = ASSETS / "mascots" / "mini"
 
