@@ -44,3 +44,32 @@ The audit command opens each PNG in the operating system's default image viewer 
 
 A verified mascot record is the authoritative content description of the artwork.
 Changing metadata does not alter text baked into the PNG.
+
+## User preferences and runtime controls
+
+User-facing content preferences are stored in Neon in `golfer_content_preferences`.
+
+V1 settings are:
+- mini mascots on/off
+- trash talk on/off
+- vulgarity normal/brutal
+- data-driven theme toggles such as drinking and wife jokes
+
+Theme choices are stored as a JSON object so future themes do not require a schema change.
+
+Global beta controls are stored separately:
+- `content_system_settings` controls all minis and all trash talk
+- `content_event_overrides` can enable/disable an exact event or an event-family scope
+
+After applying migrations, use:
+
+```
+python tools/content_admin.py runtime-status
+python tools/content_admin.py set-master minis off
+python tools/content_admin.py set-master banter off
+python tools/content_admin.py set-event mid_hole.callout off
+python tools/content_admin.py set-event mid_hole.callout default
+```
+
+Runtime controls never remove or alter the underlying factual golf event. They only control presentation content.
+
