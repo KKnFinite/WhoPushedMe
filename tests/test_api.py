@@ -16,6 +16,40 @@ class FakeStore:
         self.calls.append(("recover", recovery_key))
         return {"id": self.golfer_id, "display_name": "Kim"}
 
+    def register_account(self, *, username, password, display_name):
+        self.calls.append(("register", username, password, display_name))
+        return {
+            "account": {
+                "id": self.golfer_id,
+                "username": str(username).lower(),
+                "display_name": display_name,
+                "is_admin": False,
+            },
+            "session": {"token": "session-token"},
+            "recovery_key": "ABCD-EFGH-JKMP-QRST",
+        }
+
+    def login_account(self, *, username, password):
+        self.calls.append(("login", username, password))
+        return {
+            "account": {
+                "id": self.golfer_id,
+                "username": str(username).lower(),
+                "display_name": "Kim",
+                "is_admin": False,
+            },
+            "session": {"token": "session-token"},
+        }
+
+    def authenticate_session(self, token):
+        self.calls.append(("session", token))
+        return {
+            "id": self.golfer_id,
+            "username": "kim",
+            "display_name": "Kim",
+            "is_admin": False,
+        }
+
     def get_content_preferences(self, golfer_id):
         self.calls.append(("get_preferences", golfer_id))
         return {
@@ -131,4 +165,63 @@ def test_round_store_uses_unpooled_database_url_when_pooled_is_absent(monkeypatc
     )
 
     assert RoundStore().database_url == "postgresql://example.invalid/wpm"
+
+def test_register_account_returns_one_time_recovery_key_and_session():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/auth/register",
+        json={
+            "username": "Kim",
+            "password": "correct horse battery staple",
+            "display_name": "Kim",
+        },
+    )
+
+    assert response.status_code == 201
+    payload = response.get_json()
+    assert payload["account"]["username"] == "kim"
+    assert payload["session"]["token"] == "session-token"
+    assert payload["recovery_key"] == "ABCD-EFGH-JKMP-QRST"
+    assert store.calls[-1] == (
+        "register",
+        "Kim",
+        "correct horse battery staple",
+        "Kim",
+    )
+
+
+def test_login_account_returns_session_without_recovery_key():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/auth/login",
+        json={
+            "username": "Kim",
+            "password": "correct horse battery staple",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["session"]["token"] == "session-token"
+    assert "recovery_key" not in payload
+    assert store.calls[-1] == (
+        "login",
+        "Kim",
+        "correct horse battery staple",
+    )
+
+
+def test_auth_me_requires_bearer_session():
+    client, store = client_with_store()
+
+    missing = client.get("/api/auth/me")
+    assert missing.status_code == 403
+
+    response = client.get(
+        "/api/auth/me",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert response.status_code == 200
+    assert response.get_json()["username"] == "kim"
+    assert store.calls[-1] == ("session", "session-token")
 
