@@ -801,14 +801,14 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Last Place",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou",
@@ -818,11 +818,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Group Effort",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou",
@@ -832,11 +832,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Bottom Line",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_NoOneSuckedWorse",
@@ -846,11 +846,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Prove Me Wrong",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter",
@@ -860,11 +860,11 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true,
-      "copy": null,
+      "copy": "v",
       "signs": [],
-      "hat_copy": null,
+      "hat_copy": "Team Player",
       "notes": "",
-      "audit_status": "pending"
+      "audit_status": "verified"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure",
