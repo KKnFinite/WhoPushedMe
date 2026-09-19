@@ -551,3 +551,50 @@ def test_player_can_set_tee_before_round_start():
         "White",
     )
 
+def test_course_round_creation_passes_cached_course_and_tee():
+    client, store = client_with_store()
+    course_id = "6c2ce930-f82c-4de6-9dbf-4145872d496d"
+    response = client.post(
+        "/api/rounds",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "mode": "individual",
+            "holes": 18,
+            "course_id": course_id,
+            "tee_name": "White",
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "create_round",
+        store.golfer_id,
+        "individual",
+        18,
+        course_id,
+        None,
+        "White",
+    )
+
+
+def test_join_round_can_carry_initial_tee_choice():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds/join",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "code": "4321",
+            "role": "player",
+            "tee_name": "White",
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "join_round",
+        store.golfer_id,
+        "4321",
+        "player",
+        "White",
+    )
+
