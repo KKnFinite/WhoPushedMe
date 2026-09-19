@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from contextlib import contextmanager
+from datetime import datetime, timezone
 from typing import Any, Iterator
 from uuid import UUID
 
@@ -10,6 +11,16 @@ from psycopg import errors
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
+from who_pushed_me.auth import (
+    SESSION_TTL,
+    generate_recovery_key as generate_account_recovery_key,
+    generate_session_token,
+    hash_password,
+    hash_recovery_key,
+    hash_session_token,
+    normalize_username,
+    verify_password,
+)
 from who_pushed_me.courses import CourseSnapshot
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
@@ -198,6 +209,152 @@ class RoundStore:
             ),
         )
         return cursor.fetchone()
+
+    @staticmethod
+    def _public_account(row: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "id": row["id"],
+            "username": row.get("username"),
+            "display_name": row["display_name"],
+            "is_admin": bool(row.get("is_admin", False)),
+            "created_at": row["created_at"],
+        }
+
+    @staticmethod
+    def _issue_session(cursor: Any, golfer_id: UUID) -> dict[str, Any]:
+        token = generate_session_token()
+        token_hash = hash_session_token(token)
+        expires_at = datetime.now(timezone.utc) + SESSION_TTL
+        cursor.execute(
+            """
+            INSERT INTO auth_sessions (golfer_id, token_hash, expires_at)
+            VALUES (%s, %s, %s)
+            RETURNING id, created_at, expires_at
+            """,
+            (golfer_id, token_hash, expires_at),
+        )
+        session = cursor.fetchone()
+        return {
+            "token": token,
+            "session_id": session["id"],
+            "created_at": session["created_at"],
+            "expires_at": session["expires_at"],
+        }
+
+    def register_account(
+        self,
+        *,
+        username: object,
+        password: object,
+        display_name: object,
+    ) -> dict[str, Any]:
+        normalized_username = normalize_username(username)
+        name = clean_display_name(display_name)
+        password_hash = hash_password(password)
+
+        for _ in range(8):
+            recovery_key = generate_account_recovery_key()
+            recovery_hash = hash_recovery_key(recovery_key)
+            try:
+                with self._connection() as connection, connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        INSERT INTO golfers (
+                            display_name,
+                            username,
+                            password_hash,
+                            recovery_key_hash,
+                            recovery_key
+                        )
+                        VALUES (%s, %s, %s, %s, NULL)
+                        RETURNING id, username, display_name, is_admin, created_at
+                        """,
+                        (
+                            name,
+                            normalized_username,
+                            password_hash,
+                            recovery_hash,
+                        ),
+                    )
+                    golfer = cursor.fetchone()
+                    session = self._issue_session(cursor, golfer["id"])
+                    return {
+                        "account": self._public_account(golfer),
+                        "session": session,
+                        "recovery_key": recovery_key,
+                    }
+            except errors.UniqueViolation as error:
+                constraint = error.diag.constraint_name or ""
+                if constraint == "golfers_username_lower_unique":
+                    raise DomainError("username is already taken") from error
+                if constraint == "golfers_recovery_key_hash_unique":
+                    continue
+                raise
+
+        raise RuntimeError("could not allocate a unique recovery key")
+
+    def login_account(
+        self,
+        *,
+        username: object,
+        password: object,
+    ) -> dict[str, Any]:
+        normalized_username = normalize_username(username)
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, username, display_name, password_hash,
+                       is_admin, created_at
+                FROM golfers
+                WHERE lower(username) = %s
+                """,
+                (normalized_username,),
+            )
+            golfer = cursor.fetchone()
+            if (
+                not golfer
+                or not golfer.get("password_hash")
+                or not verify_password(golfer["password_hash"], password)
+            ):
+                raise PermissionDenied("invalid username or password")
+
+            session = self._issue_session(cursor, golfer["id"])
+            return {
+                "account": self._public_account(golfer),
+                "session": session,
+            }
+
+    def authenticate_session(self, token: object) -> dict[str, Any]:
+        token_hash = hash_session_token(token)
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT g.id, g.username, g.display_name, g.is_admin, g.created_at,
+                       s.id AS session_id, s.expires_at
+                FROM auth_sessions s
+                JOIN golfers g ON g.id = s.golfer_id
+                WHERE s.token_hash = %s
+                  AND s.revoked_at IS NULL
+                  AND s.expires_at > now()
+                """,
+                (token_hash,),
+            )
+            golfer = cursor.fetchone()
+            if not golfer:
+                raise PermissionDenied("invalid or expired session")
+
+            cursor.execute(
+                """
+                UPDATE auth_sessions
+                SET last_seen_at = now()
+                WHERE id = %s
+                """,
+                (golfer["session_id"],),
+            )
+            account = self._public_account(golfer)
+            account["session_id"] = golfer["session_id"]
+            account["session_expires_at"] = golfer["expires_at"]
+            return account
 
     def create_golfer(self, display_name: object) -> dict[str, Any]:
         name = clean_display_name(display_name)
