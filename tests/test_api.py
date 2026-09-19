@@ -89,6 +89,51 @@ class FakeStore:
             },
         }
 
+    def create_round(
+        self,
+        golfer_id,
+        *,
+        mode,
+        holes,
+        course_id=None,
+        free_play_name=None,
+    ):
+        self.calls.append(
+            ("create_round", golfer_id, mode, holes, course_id, free_play_name)
+        )
+        return {
+            "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+            "active_code": "4321",
+            "mode": mode,
+            "hole_count": holes,
+            "status": "setup",
+        }
+
+    def join_round(self, golfer_id, *, code, role):
+        self.calls.append(("join_round", golfer_id, code, role))
+        return {
+            "id": UUID("304b4411-bc80-4652-94b3-350ef2501267"),
+            "round_id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+            "golfer_id": golfer_id,
+            "role": role,
+        }
+
+    def get_round(self, golfer_id, code):
+        self.calls.append(("get_round", golfer_id, code))
+        return {
+            "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+            "active_code": code,
+            "mode": "individual",
+            "hole_count": 18,
+            "status": "setup",
+            "viewer_role": "player",
+            "participants": [],
+        }
+
+    def set_status(self, golfer_id, round_id, status):
+        self.calls.append(("set_status", golfer_id, round_id, status))
+        return {"round_id": round_id, "status": status}
+
     def set_score(self, golfer_id, round_id, hole, strokes, *, player_participant_id=None):
         self.calls.append(
             ("score", golfer_id, round_id, hole, strokes, player_participant_id)
@@ -296,5 +341,67 @@ def test_score_route_accepts_new_bearer_session_authentication():
         2,
         5,
         target,
+    )
+
+def test_create_round_with_bearer_session_enters_setup_lobby():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "mode": "scramble",
+            "holes": 9,
+            "free_play_name": "Saturday Shitshow",
+        },
+    )
+
+    assert response.status_code == 201
+    assert response.get_json()["status"] == "setup"
+    assert response.get_json()["active_code"] == "4321"
+    assert store.calls[-1] == (
+        "create_round",
+        store.golfer_id,
+        "scramble",
+        9,
+        None,
+        "Saturday Shitshow",
+    )
+
+
+def test_join_and_lobby_routes_use_bearer_session():
+    client, store = client_with_store()
+
+    joined = client.post(
+        "/api/rounds/join",
+        headers={"Authorization": "Bearer session-token"},
+        json={"code": "4321", "role": "spectator"},
+    )
+    assert joined.status_code == 201
+    assert joined.get_json()["role"] == "spectator"
+
+    lobby = client.get(
+        "/api/rounds/code/4321",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert lobby.status_code == 200
+    assert lobby.get_json()["active_code"] == "4321"
+    assert store.calls[-1] == ("get_round", store.golfer_id, "4321")
+
+
+def test_any_player_session_can_start_setup_round():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/status",
+        headers={"Authorization": "Bearer session-token"},
+        json={"status": "active"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["status"] == "active"
+    assert store.calls[-1] == (
+        "set_status",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "active",
     )
 
