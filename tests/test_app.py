@@ -13,6 +13,11 @@ def test_home_loads_pwa_shell():
     assert b"IT HAS BEGUN!" in response.data
     assert b"START A ROUND" in response.data
     assert b"APP UNDER CONSTRUCTION, DUMBASS." in response.data
+    assert b"SIGN IN" in response.data
+    assert b"CREATE ACCOUNT" in response.data
+    assert b"RECOVER" in response.data
+    assert b"Settings" in response.data
+    assert b"Bag of Bullshit" not in response.data
     assert b"manifest.webmanifest" in response.data
 
 
@@ -37,5 +42,5 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v2" in response.data
+    assert b"wpm-shell-v3" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
