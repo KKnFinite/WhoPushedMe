@@ -11,6 +11,8 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
 from who_pushed_me.courses import CourseSnapshot
+from who_pushed_me.content.catalog import ContentCatalog
+from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
 from who_pushed_me.domain import (
     DomainError,
     NotFound,
@@ -140,6 +142,112 @@ class RoundStore:
             if not golfer:
                 raise NotFound("recovery key not found")
             return golfer
+
+    def get_content_preferences(self, golfer_id: object) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        catalog = ContentCatalog.load()
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT mini_mascots_enabled, trash_talk_enabled,
+                       max_vulgarity, theme_preferences
+                FROM golfer_content_preferences
+                WHERE golfer_id = %s
+                """,
+                (golfer_uuid,),
+            )
+            return public_preferences(cursor.fetchone(), catalog.theme_rows)
+
+    def update_content_preferences(
+        self,
+        golfer_id: object,
+        patch: dict[str, Any],
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        if not isinstance(patch, dict):
+            raise DomainError("preferences patch must be a JSON object")
+
+        catalog = ContentCatalog.load()
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT mini_mascots_enabled, trash_talk_enabled,
+                       max_vulgarity, theme_preferences
+                FROM golfer_content_preferences
+                WHERE golfer_id = %s
+                FOR UPDATE
+                """,
+                (golfer_uuid,),
+            )
+            current = cursor.fetchone()
+            merged = merge_preference_patch(current, patch, catalog.theme_rows)
+
+            cursor.execute(
+                """
+                INSERT INTO golfer_content_preferences (
+                    golfer_id,
+                    mini_mascots_enabled,
+                    trash_talk_enabled,
+                    max_vulgarity,
+                    theme_preferences,
+                    updated_at
+                )
+                VALUES (%s, %s, %s, %s, %s, now())
+                ON CONFLICT (golfer_id)
+                DO UPDATE SET
+                    mini_mascots_enabled = EXCLUDED.mini_mascots_enabled,
+                    trash_talk_enabled = EXCLUDED.trash_talk_enabled,
+                    max_vulgarity = EXCLUDED.max_vulgarity,
+                    theme_preferences = EXCLUDED.theme_preferences,
+                    updated_at = now()
+                RETURNING mini_mascots_enabled, trash_talk_enabled,
+                          max_vulgarity, theme_preferences
+                """,
+                (
+                    golfer_uuid,
+                    merged["mini_mascots_enabled"],
+                    merged["trash_talk_enabled"],
+                    merged["max_vulgarity"],
+                    Jsonb(merged["theme_preferences"]),
+                ),
+            )
+            return public_preferences(cursor.fetchone(), catalog.theme_rows)
+
+    def get_content_runtime_controls(self) -> dict[str, Any]:
+        catalog = ContentCatalog.load()
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT mini_mascots_enabled, trash_talk_enabled
+                FROM content_system_settings
+                WHERE singleton = true
+                """
+            )
+            settings = cursor.fetchone() or {
+                "mini_mascots_enabled": True,
+                "trash_talk_enabled": True,
+            }
+
+            cursor.execute(
+                """
+                SELECT event_key, enabled
+                FROM content_event_overrides
+                ORDER BY event_key
+                """
+            )
+            overrides: dict[str, bool] = {}
+            for row in cursor.fetchall():
+                try:
+                    key = catalog.registry.canonical_key(str(row["event_key"]))
+                except Exception:
+                    continue
+                overrides[key] = bool(row["enabled"])
+
+            return {
+                "mini_mascots_enabled": bool(settings["mini_mascots_enabled"]),
+                "trash_talk_enabled": bool(settings["trash_talk_enabled"]),
+                "event_overrides": overrides,
+            }
 
     def create_round(
         self,
