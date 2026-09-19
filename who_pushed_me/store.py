@@ -977,6 +977,7 @@ class RoundStore:
 
             round_row["events"] = events
             round_row["viewer_role"] = participant["role"]
+            round_row["viewer_participant_id"] = participant["id"]
             return round_row
 
     def set_current_hole(self, golfer_id: object, round_id: object, hole: object) -> dict[str, Any]:
@@ -1032,6 +1033,39 @@ class RoundStore:
             if new_status != old_status:
                 if new_status not in transitions[old_status]:
                     raise DomainError(f"cannot change round from {old_status} to {new_status}")
+
+                if (
+                    old_status == "setup"
+                    and new_status == "active"
+                    and round_row["course_id"]
+                ):
+                    cursor.execute(
+                        """
+                        SELECT EXISTS (
+                            SELECT 1
+                            FROM cached_course_hole_tees
+                            WHERE course_id = %s
+                        ) AS has_tees
+                        """,
+                        (round_row["course_id"],),
+                    )
+                    has_tees = bool(cursor.fetchone()["has_tees"])
+                    if has_tees:
+                        cursor.execute(
+                            """
+                            SELECT count(*) AS missing
+                            FROM round_participants
+                            WHERE round_id = %s
+                              AND role = 'player'
+                              AND tee_name IS NULL
+                            """,
+                            (round_uuid,),
+                        )
+                        if int(cursor.fetchone()["missing"]) > 0:
+                            raise DomainError(
+                                "every player must choose a tee before starting"
+                            )
+
                 cursor.execute(
                     "UPDATE rounds SET status = %s, updated_at = now() WHERE id = %s",
                     (new_status, round_uuid),
