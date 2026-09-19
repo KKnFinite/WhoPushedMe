@@ -108,9 +108,12 @@ class OpenGolfAPI:
                 for tee, yards in raw_yardages.items()
                 if yards is not None and int(yards) > 0
             }
+            hole_number = raw_hole.get("hole_number", raw_hole.get("number"))
+            if hole_number is None:
+                continue
             holes.append(
                 CourseHole(
-                    number=int(raw_hole["number"]),
+                    number=int(hole_number),
                     par=int(raw_hole["par"]) if raw_hole.get("par") is not None else None,
                     stroke_index=(
                         int(raw_hole["handicap_index"])
