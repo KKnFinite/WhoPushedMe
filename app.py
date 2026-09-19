@@ -16,6 +16,7 @@ def create_app() -> Flask:
         os.getenv("DATABASE_URL")
         or os.getenv("DATABASE_URL_UNPOOLED", "")
     )
+    app.config["OPENGOLF_API_KEY"] = os.getenv("OPENGOLF_API_KEY", "")
     app.register_blueprint(api)
 
     @app.get("/")
