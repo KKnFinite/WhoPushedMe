@@ -306,38 +306,7 @@ class RoundStore:
     def get_content_runtime_controls(self) -> dict[str, Any]:
         catalog = ContentCatalog.load()
         with self._connection() as connection, connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT mini_mascots_enabled, trash_talk_enabled
-                FROM content_system_settings
-                WHERE singleton = true
-                """
-            )
-            settings = cursor.fetchone() or {
-                "mini_mascots_enabled": True,
-                "trash_talk_enabled": True,
-            }
-
-            cursor.execute(
-                """
-                SELECT event_key, enabled
-                FROM content_event_overrides
-                ORDER BY event_key
-                """
-            )
-            overrides: dict[str, bool] = {}
-            for row in cursor.fetchall():
-                try:
-                    key = catalog.registry.canonical_key(str(row["event_key"]))
-                except Exception:
-                    continue
-                overrides[key] = bool(row["enabled"])
-
-            return {
-                "mini_mascots_enabled": bool(settings["mini_mascots_enabled"]),
-                "trash_talk_enabled": bool(settings["trash_talk_enabled"]),
-                "event_overrides": overrides,
-            }
+            return self._runtime_controls_from_cursor(cursor, catalog)
 
     def set_content_runtime_master(
         self,
