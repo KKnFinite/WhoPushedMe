@@ -145,13 +145,23 @@ def _prompt_keep(label: str, current: str | None = None, *, required: bool = Fal
 
 
 def _prompt_choice(label: str, current: str, choices: list[str]) -> str:
-    rendered = " / ".join(choices)
+    shortcuts = {
+        choice[0].lower(): choice
+        for choice in choices
+        if sum(1 for other in choices if other.startswith(choice[0])) == 1
+    }
+    rendered = " | ".join(
+        f"{choice[0].upper()} {choice}" if choice[0].lower() in shortcuts else choice
+        for choice in choices
+    )
     while True:
-        value = input(f"{label} [{current}] ({rendered}): ").strip().lower()
+        value = input(f"{label} [{current}]: ENTER keep | {rendered}: ").strip().lower()
         if not value:
             return current
         if value in choices:
             return value
+        if value in shortcuts:
+            return shortcuts[value]
         print(f"Choose one of: {rendered}")
 
 
