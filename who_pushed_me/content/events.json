@@ -1,0 +1,2293 @@
+{
+  "schema_version": 1,
+  "aliases": {
+    "player_join_new": "lobby.join.new_player",
+    "player_join_returning": "lobby.join.returning_player",
+    "player_join_spectator": "lobby.join.spectator",
+    "round_start": "round.start",
+    "score_push": "score.push",
+    "round_end_winner": "round.end.individual.winner",
+    "round_end_head_to_head_loser": "round.end.individual.head_to_head_loser",
+    "round_end_not_last": "round.end.individual.not_last",
+    "round_end_dead_last": "round.end.individual.dead_last",
+    "round_end_complete": "round.end.scramble.complete"
+  },
+  "asset_families": {
+    "joining/new-player": {
+      "prefix": "WPM_Join_NewPlayer_"
+    },
+    "joining/returning-player": {
+      "prefix": "WPM_Join_ReturningPlayer_"
+    },
+    "joining/spectator": {
+      "prefix": "WPM_Join_Spectator_"
+    },
+    "lobby/general": {
+      "prefix": "WPM_Lobby_"
+    },
+    "round/general": {
+      "prefix": "WPM_Round_"
+    },
+    "round/start": {
+      "prefix": "WPM_Round_Start_"
+    },
+    "score/report": {
+      "prefix": "WPM_Score_Report_"
+    },
+    "score/push": {
+      "prefix": "WPM_Score_Push_"
+    },
+    "round-end/winner": {
+      "prefix": "WPM_RoundEnd_Winner_"
+    },
+    "round-end/head-to-head-loser": {
+      "prefix": "WPM_RoundEnd_HeadToHeadLoser_"
+    },
+    "round-end/not-last": {
+      "prefix": "WPM_RoundEnd_NotLast_"
+    },
+    "round-end/dead-last": {
+      "prefix": "WPM_RoundEnd_DeadLast_"
+    },
+    "round-end/complete": {
+      "prefix": "WPM_RoundEnd_Complete_"
+    },
+    "scramble/contribution": {
+      "prefix": "WPM_Scramble_Contribution_"
+    },
+    "mid-hole/callout": {
+      "prefix": "WPM_MidHole_Callout_"
+    },
+    "mid-hole/nice-shot": {
+      "prefix": "WPM_MidHole_NiceShot_"
+    },
+    "mid-hole/call-your-shot": {
+      "prefix": "WPM_MidHole_CallYourShot_"
+    },
+    "mid-hole/you-wont": {
+      "prefix": "WPM_MidHole_YouWont_"
+    },
+    "mid-hole/excuse": {
+      "prefix": "WPM_MidHole_Excuse_"
+    },
+    "mid-hole/open-mic": {
+      "prefix": "WPM_MidHole_OpenMic_"
+    }
+  },
+  "events": [
+    {
+      "key": "generic.golf",
+      "parent": null,
+      "label": "Generic golf fallback",
+      "phase": "generic",
+      "family": "generic",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": false,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "generic.auth",
+      "parent": null,
+      "label": "Generic auth fallback",
+      "phase": "generic",
+      "family": "generic",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": false,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth",
+      "parent": "generic.auth",
+      "label": "Authentication",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.welcome",
+      "parent": "auth",
+      "label": "Welcome",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.idle",
+      "parent": "auth",
+      "label": "Idle auth screen",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.login_failed",
+      "parent": "auth",
+      "label": "Login failed",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.account_created",
+      "parent": "auth",
+      "label": "Account created",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.recovery_key_warning",
+      "parent": "auth",
+      "label": "Recovery key warning",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.password_changed",
+      "parent": "auth",
+      "label": "Password changed",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.logout",
+      "parent": "auth",
+      "label": "Logged out",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby",
+      "parent": "generic.golf",
+      "label": "Lobby",
+      "phase": "lobby",
+      "family": "lobby",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "lobby/general"
+    },
+    {
+      "key": "lobby.join",
+      "parent": "lobby",
+      "label": "Lobby joins",
+      "phase": "lobby",
+      "family": "lobby.join",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.join.new_player",
+      "parent": "lobby.join",
+      "label": "New player joined",
+      "phase": "lobby",
+      "family": "lobby.join",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "joining/new-player"
+    },
+    {
+      "key": "lobby.join.returning_player",
+      "parent": "lobby.join",
+      "label": "Returning player joined",
+      "phase": "lobby",
+      "family": "lobby.join",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "joining/returning-player"
+    },
+    {
+      "key": "lobby.join.spectator",
+      "parent": "lobby.join",
+      "label": "Spectator joined",
+      "phase": "lobby",
+      "family": "lobby.join",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "joining/spectator"
+    },
+    {
+      "key": "lobby.reconnect",
+      "parent": "lobby",
+      "label": "Lobby reconnect",
+      "phase": "lobby",
+      "family": "lobby.reconnect",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.reconnect.player",
+      "parent": "lobby.reconnect",
+      "label": "Player reconnected",
+      "phase": "lobby",
+      "family": "lobby.reconnect",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.reconnect.spectator",
+      "parent": "lobby.reconnect",
+      "label": "Spectator reconnected",
+      "phase": "lobby",
+      "family": "lobby.reconnect",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.leave",
+      "parent": "lobby",
+      "label": "Lobby leave",
+      "phase": "lobby",
+      "family": "lobby.leave",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.leave.player",
+      "parent": "lobby.leave",
+      "label": "Player left",
+      "phase": "lobby",
+      "family": "lobby.leave",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.leave.spectator",
+      "parent": "lobby.leave",
+      "label": "Spectator left",
+      "phase": "lobby",
+      "family": "lobby.leave",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.created",
+      "parent": "lobby",
+      "label": "Lobby created",
+      "phase": "lobby",
+      "family": "lobby",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "lobby.starting",
+      "parent": "lobby",
+      "label": "Round starting from lobby",
+      "phase": "lobby",
+      "family": "lobby",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round",
+      "parent": "generic.golf",
+      "label": "Round",
+      "phase": "round",
+      "family": "round",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round/general"
+    },
+    {
+      "key": "round.start",
+      "parent": "round",
+      "label": "Round start",
+      "phase": "round",
+      "family": "round",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round/start"
+    },
+    {
+      "key": "round.resume",
+      "parent": "round",
+      "label": "Round resumed",
+      "phase": "round",
+      "family": "round",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.abandoned",
+      "parent": "round",
+      "label": "Round abandoned",
+      "phase": "round",
+      "family": "round",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.completed",
+      "parent": "round",
+      "label": "Round completed",
+      "phase": "round_end",
+      "family": "round.end",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end",
+      "parent": "round",
+      "label": "Round end",
+      "phase": "round_end",
+      "family": "round.end",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end.individual",
+      "parent": "round.end",
+      "label": "Individual round end",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end.individual.winner",
+      "parent": "round.end.individual",
+      "label": "Winner",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/winner"
+    },
+    {
+      "key": "round.end.individual.co_winner",
+      "parent": "round.end.individual",
+      "label": "Co-winner / tied first",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/winner"
+    },
+    {
+      "key": "round.end.individual.head_to_head_loser",
+      "parent": "round.end.individual",
+      "label": "Head-to-head loser",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/head-to-head-loser"
+    },
+    {
+      "key": "round.end.individual.not_last",
+      "parent": "round.end.individual",
+      "label": "Lost but not last",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/not-last"
+    },
+    {
+      "key": "round.end.individual.dead_last",
+      "parent": "round.end.individual",
+      "label": "Dead last",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/dead-last"
+    },
+    {
+      "key": "round.end.individual.tied_middle",
+      "parent": "round.end.individual",
+      "label": "Tied middle",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/not-last"
+    },
+    {
+      "key": "round.end.individual.tied_last",
+      "parent": "round.end.individual",
+      "label": "Tied last",
+      "phase": "round_end",
+      "family": "round.end.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/dead-last"
+    },
+    {
+      "key": "round.end.scramble",
+      "parent": "round.end",
+      "label": "Scramble round end",
+      "phase": "round_end",
+      "family": "round.end.scramble",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end.scramble.complete",
+      "parent": "round.end.scramble",
+      "label": "Scramble complete",
+      "phase": "round_end",
+      "family": "round.end.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "round-end/complete"
+    },
+    {
+      "key": "hole",
+      "parent": "generic.golf",
+      "label": "Hole lifecycle",
+      "phase": "hole",
+      "family": "hole",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "hole.enter",
+      "parent": "hole",
+      "label": "Hole entered",
+      "phase": "hole",
+      "family": "hole",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "hole.complete",
+      "parent": "hole",
+      "label": "Hole completed",
+      "phase": "hole",
+      "family": "hole",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "hole.advance",
+      "parent": "hole",
+      "label": "Hole advanced",
+      "phase": "hole",
+      "family": "hole",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "par",
+      "parent": "generic.golf",
+      "label": "Par events",
+      "phase": "hole",
+      "family": "par",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "par.report",
+      "parent": "par",
+      "label": "Par reported",
+      "phase": "hole",
+      "family": "par",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "par.push",
+      "parent": "par",
+      "label": "Par changed",
+      "phase": "hole",
+      "family": "par",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "par.push.increase",
+      "parent": "par.push",
+      "label": "Par increased",
+      "phase": "hole",
+      "family": "par",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "par.push.decrease",
+      "parent": "par.push",
+      "label": "Par decreased",
+      "phase": "hole",
+      "family": "par",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score",
+      "parent": "generic.golf",
+      "label": "Score events",
+      "phase": "score",
+      "family": "score",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.report",
+      "parent": "score",
+      "label": "Score report",
+      "phase": "score",
+      "family": "score.report",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual",
+      "parent": "score.report",
+      "label": "Individual score report",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ]
+    },
+    {
+      "key": "score.report.scramble",
+      "parent": "score.report",
+      "label": "Scramble score report",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.report.individual.ace",
+      "parent": "score.report.individual",
+      "label": "Individual Ace / hole in one",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.ace",
+      "parent": "score.report.scramble",
+      "label": "Scramble Ace / hole in one",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.albatross",
+      "parent": "score.report.individual",
+      "label": "Individual Albatross",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.albatross",
+      "parent": "score.report.scramble",
+      "label": "Scramble Albatross",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.eagle",
+      "parent": "score.report.individual",
+      "label": "Individual Eagle",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.eagle",
+      "parent": "score.report.scramble",
+      "label": "Scramble Eagle",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.birdie",
+      "parent": "score.report.individual",
+      "label": "Individual Birdie",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.birdie",
+      "parent": "score.report.scramble",
+      "label": "Scramble Birdie",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.par",
+      "parent": "score.report.individual",
+      "label": "Individual Par",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.par",
+      "parent": "score.report.scramble",
+      "label": "Scramble Par",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.bogey",
+      "parent": "score.report.individual",
+      "label": "Individual Bogey",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.bogey",
+      "parent": "score.report.scramble",
+      "label": "Scramble Bogey",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.double_bogey",
+      "parent": "score.report.individual",
+      "label": "Individual Double bogey",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.double_bogey",
+      "parent": "score.report.scramble",
+      "label": "Scramble Double bogey",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.triple_bogey",
+      "parent": "score.report.individual",
+      "label": "Individual Triple bogey",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.triple_bogey",
+      "parent": "score.report.scramble",
+      "label": "Scramble Triple bogey",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.individual.quad_plus",
+      "parent": "score.report.individual",
+      "label": "Individual Quadruple bogey or worse",
+      "phase": "score",
+      "family": "score.report.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.report.scramble.quad_plus",
+      "parent": "score.report.scramble",
+      "label": "Scramble Quadruple bogey or worse",
+      "phase": "score",
+      "family": "score.report.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/report"
+    },
+    {
+      "key": "score.push",
+      "parent": "score",
+      "label": "Score push / edit",
+      "phase": "score",
+      "family": "score.push",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.individual",
+      "parent": "score.push",
+      "label": "Individual score push",
+      "phase": "score",
+      "family": "score.push.individual",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.scramble",
+      "parent": "score.push",
+      "label": "Scramble score push",
+      "phase": "score",
+      "family": "score.push.scramble",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.individual.lowered",
+      "parent": "score.push.individual",
+      "label": "Individual Score lowered",
+      "phase": "score",
+      "family": "score.push.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.scramble.lowered",
+      "parent": "score.push.scramble",
+      "label": "Scramble Score lowered",
+      "phase": "score",
+      "family": "score.push.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.individual.raised",
+      "parent": "score.push.individual",
+      "label": "Individual Score raised",
+      "phase": "score",
+      "family": "score.push.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.scramble.raised",
+      "parent": "score.push.scramble",
+      "label": "Scramble Score raised",
+      "phase": "score",
+      "family": "score.push.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.individual.old_hole_lowered",
+      "parent": "score.push.individual",
+      "label": "Individual Old-hole score lowered",
+      "phase": "score",
+      "family": "score.push.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.scramble.old_hole_lowered",
+      "parent": "score.push.scramble",
+      "label": "Scramble Old-hole score lowered",
+      "phase": "score",
+      "family": "score.push.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.individual.old_hole_raised",
+      "parent": "score.push.individual",
+      "label": "Individual Old-hole score raised",
+      "phase": "score",
+      "family": "score.push.individual",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "subject",
+        "others"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.push.scramble.old_hole_raised",
+      "parent": "score.push.scramble",
+      "label": "Scramble Old-hole score raised",
+      "phase": "score",
+      "family": "score.push.scramble",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "score/push"
+    },
+    {
+      "key": "score.derived",
+      "parent": "score",
+      "label": "Derived score events",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.first_birdie",
+      "parent": "score.derived",
+      "label": "First birdie",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.first_eagle",
+      "parent": "score.derived",
+      "label": "First eagle",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.back_to_back_birdies",
+      "parent": "score.derived",
+      "label": "Back-to-back birdies",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.birdie_streak_3_plus",
+      "parent": "score.derived",
+      "label": "Birdie streak of three or more",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.bogey_streak_3_plus",
+      "parent": "score.derived",
+      "label": "Bogey-or-worse streak of three or more",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.blowup_hole",
+      "parent": "score.derived",
+      "label": "Blow-up hole",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.new_leader",
+      "parent": "score.derived",
+      "label": "Took the lead",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.tied_lead",
+      "parent": "score.derived",
+      "label": "Tied the lead",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.lost_lead",
+      "parent": "score.derived",
+      "label": "Lost the lead",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.entered_last",
+      "parent": "score.derived",
+      "label": "Fell into last",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "score.derived.escaped_last",
+      "parent": "score.derived",
+      "label": "Escaped last",
+      "phase": "score",
+      "family": "score.derived",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "scramble",
+      "parent": "generic.golf",
+      "label": "Scramble events",
+      "phase": "hole",
+      "family": "scramble",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "scramble.contribution",
+      "parent": "scramble",
+      "label": "Scramble contribution",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.drive",
+      "parent": "scramble.contribution",
+      "label": "Drive used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.second",
+      "parent": "scramble.contribution",
+      "label": "Second shot used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.approach",
+      "parent": "scramble.contribution",
+      "label": "Approach used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.recovery",
+      "parent": "scramble.contribution",
+      "label": "Recovery used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.bunker",
+      "parent": "scramble.contribution",
+      "label": "Bunker shot used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.putt",
+      "parent": "scramble.contribution",
+      "label": "Putt used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.other",
+      "parent": "scramble.contribution",
+      "label": "Other contribution used",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "scramble.contribution.changed",
+      "parent": "scramble.contribution",
+      "label": "Contribution changed",
+      "phase": "hole",
+      "family": "scramble.contribution",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "scramble/contribution"
+    },
+    {
+      "key": "mid_hole",
+      "parent": "generic.golf",
+      "label": "Bag of Bullshit / mid-hole",
+      "phase": "mid_hole",
+      "family": "mid_hole",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "mid_hole.callout",
+      "parent": "mid_hole",
+      "label": "Call someone out",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.water_shot",
+      "parent": "mid_hole.callout",
+      "label": "Water shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.out_of_bounds",
+      "parent": "mid_hole.callout",
+      "label": "Out of bounds",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.lost_ball",
+      "parent": "mid_hole.callout",
+      "label": "Lost ball",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.tree_shot",
+      "parent": "mid_hole.callout",
+      "label": "Tree shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.bunker",
+      "parent": "mid_hole.callout",
+      "label": "Bunker disaster",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.cart_path",
+      "parent": "mid_hole.callout",
+      "label": "Cart path",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.shank",
+      "parent": "mid_hole.callout",
+      "label": "Shank",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.slice",
+      "parent": "mid_hole.callout",
+      "label": "Slice",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.hook",
+      "parent": "mid_hole.callout",
+      "label": "Hook",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.topped",
+      "parent": "mid_hole.callout",
+      "label": "Topped shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.chunked",
+      "parent": "mid_hole.callout",
+      "label": "Chunked shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.bladed",
+      "parent": "mid_hole.callout",
+      "label": "Bladed / skulled shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.duff",
+      "parent": "mid_hole.callout",
+      "label": "Duff",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.whiff",
+      "parent": "mid_hole.callout",
+      "label": "Whiff",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.penalty",
+      "parent": "mid_hole.callout",
+      "label": "Penalty",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.mulligan",
+      "parent": "mid_hole.callout",
+      "label": "Mulligan",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.foot_wedge",
+      "parent": "mid_hole.callout",
+      "label": "Foot wedge",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.wrong_club",
+      "parent": "mid_hole.callout",
+      "label": "Wrong club",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.way_short",
+      "parent": "mid_hole.callout",
+      "label": "Way short",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.way_long",
+      "parent": "mid_hole.callout",
+      "label": "Way long",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.slow_play",
+      "parent": "mid_hole.callout",
+      "label": "Slow play",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.missed_short_putt",
+      "parent": "mid_hole.callout",
+      "label": "Missed short putt",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.three_putt",
+      "parent": "mid_hole.callout",
+      "label": "Three putt",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.callout.lip_out",
+      "parent": "mid_hole.callout",
+      "label": "Lip out",
+      "phase": "mid_hole",
+      "family": "mid_hole.callout",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/callout"
+    },
+    {
+      "key": "mid_hole.nice_shot",
+      "parent": "mid_hole",
+      "label": "Nice fucking shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.drive",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice drive",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.approach",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice approach",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.recovery",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice recovery",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.bunker",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice bunker shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.putt",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice putt",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.nice_shot.long_putt",
+      "parent": "mid_hole.nice_shot",
+      "label": "Nice long putt",
+      "phase": "mid_hole",
+      "family": "mid_hole.nice_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/nice-shot"
+    },
+    {
+      "key": "mid_hole.call_your_shot",
+      "parent": "mid_hole",
+      "label": "Call your shot",
+      "phase": "mid_hole",
+      "family": "mid_hole.call_your_shot",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/call-your-shot"
+    },
+    {
+      "key": "mid_hole.call_your_shot.issued",
+      "parent": "mid_hole.call_your_shot",
+      "label": "Shot called",
+      "phase": "mid_hole",
+      "family": "mid_hole.call_your_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/call-your-shot"
+    },
+    {
+      "key": "mid_hole.call_your_shot.succeeded",
+      "parent": "mid_hole.call_your_shot",
+      "label": "Called shot succeeded",
+      "phase": "mid_hole",
+      "family": "mid_hole.call_your_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/call-your-shot"
+    },
+    {
+      "key": "mid_hole.call_your_shot.failed",
+      "parent": "mid_hole.call_your_shot",
+      "label": "Called shot failed",
+      "phase": "mid_hole",
+      "family": "mid_hole.call_your_shot",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/call-your-shot"
+    },
+    {
+      "key": "mid_hole.you_wont",
+      "parent": "mid_hole",
+      "label": "You won't",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.you_wont.issued",
+      "parent": "mid_hole.you_wont",
+      "label": "Challenge issued",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.you_wont.accepted",
+      "parent": "mid_hole.you_wont",
+      "label": "Challenge accepted",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.you_wont.declined",
+      "parent": "mid_hole.you_wont",
+      "label": "Challenge declined",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.you_wont.succeeded",
+      "parent": "mid_hole.you_wont",
+      "label": "Challenge succeeded",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.you_wont.failed",
+      "parent": "mid_hole.you_wont",
+      "label": "Challenge failed",
+      "phase": "mid_hole",
+      "family": "mid_hole.you_wont",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/you-wont"
+    },
+    {
+      "key": "mid_hole.excuse",
+      "parent": "mid_hole",
+      "label": "Excuse Department",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.clubs",
+      "parent": "mid_hole.excuse",
+      "label": "Club excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.wind",
+      "parent": "mid_hole.excuse",
+      "label": "Wind excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.weather",
+      "parent": "mid_hole.excuse",
+      "label": "Weather excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.bad_lie",
+      "parent": "mid_hole.excuse",
+      "label": "Bad lie excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.green",
+      "parent": "mid_hole.excuse",
+      "label": "Green excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.noise",
+      "parent": "mid_hole.excuse",
+      "label": "Noise / distraction excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.alcohol",
+      "parent": "mid_hole.excuse",
+      "label": "Alcohol excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.hangover",
+      "parent": "mid_hole.excuse",
+      "label": "Hangover excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.excuse.pace",
+      "parent": "mid_hole.excuse",
+      "label": "Pace-of-play excuse",
+      "phase": "mid_hole",
+      "family": "mid_hole.excuse",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/excuse"
+    },
+    {
+      "key": "mid_hole.open_mic",
+      "parent": "mid_hole",
+      "label": "Open Mic",
+      "phase": "mid_hole",
+      "family": "mid_hole.open_mic",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ],
+      "asset_family": "mid-hole/open-mic"
+    },
+    {
+      "key": "mid_hole.reaction",
+      "parent": "mid_hole",
+      "label": "Reaction",
+      "phase": "mid_hole",
+      "family": "mid_hole.reaction",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "mid_hole.reaction.laugh",
+      "parent": "mid_hole.reaction",
+      "label": "Laugh reaction",
+      "phase": "mid_hole",
+      "family": "mid_hole.reaction",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "mid_hole.reaction.bullshit",
+      "parent": "mid_hole.reaction",
+      "label": "Bullshit reaction",
+      "phase": "mid_hole",
+      "family": "mid_hole.reaction",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "mid_hole.reaction.applause",
+      "parent": "mid_hole.reaction",
+      "label": "Applause reaction",
+      "phase": "mid_hole",
+      "family": "mid_hole.reaction",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    }
+  ]
+}

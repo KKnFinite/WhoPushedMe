@@ -1,0 +1,907 @@
+{
+  "schema_version": 1,
+  "note": "Gameplay/content eligibility for mascot assets. Physical image metadata remains in static/assets/_meta/asset-manifest.json.",
+  "mascots": [
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FreshMeat",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_HopeYouBroughtExcuses",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewFaceSameBullshit",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewGuySameBadDecisions",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_SomebodyBroughtARookie",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WelcomeLowerYourExpectations",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WellLookWhatWalkedIn",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WhoInvitedThisGuy",
+      "events": [
+        "lobby.join.new_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_AgainSeriously",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_IRememberYourBullshit",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_OhGreatYouAgain",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_SameClownNewRound",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillMakingBadDecisions",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_TheProblemCameBack",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeDidntMissYou",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeReallyDoingThisAgain",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WhoLetYouBackIn",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouSurvivedLastTime",
+      "events": [
+        "lobby.join.returning_player"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_BraveEnoughToWatchNotPlay",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DeclinedToPlayStillHasOpinions",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DidntWantToGetEmbarrassedToday",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_JustHereToJudge",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_NiceOfYouToParticipateEmotionally",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_SpectatorModeCoward",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.joining.spectator.WPM_Join_Spectator_TalkingShitFromASafeDistance",
+      "events": [
+        "lobby.join.spectator"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EighteenHolesHostageSituation",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GoHomeYourWifeKnows",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OweTheCourseAnApology",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundCanGoFuckItself",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ScorecardStillJudging",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShitshowComplete",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShortStrokesBefore",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WellThatHappened",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WhiskeyAndDenial",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeChecksCreditCard",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YoureDoneThankFuck",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YourWifeCantFindTheHole",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_DeadFuckingLast",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_NoOneSuckedWorse",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_CongratsNotWorst",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_MiddleTrainWreck",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_OutSuckedSomebody",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_StillLoserCompanyBelow",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouFailedNotHardest",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouLostSomebodyLostWorse",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_FirstPlaceStillAnAsshole",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_KingOfTheDumpsterFire",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_LeastBadGolferWon",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_SomehowWonThisShitshow",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_18HolesZeroAccountability",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_AlrightAssholesLetsGolf",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BadDecisionsBegin",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BlameTheirClubs",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_BroughtBallsNeedExtra",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_CourseDoesntDeserveThis",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_EveryonesConfidentUntilFirstTee",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_FirstTeeAwaitsYourLies",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_GoodLuckYouClearlyNeedIt",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_PutTheBeerDownNeverMind",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_RuinPerfectlyGoodMorning",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_ScorecardAcceptingExcuses",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_SwingHardRegretImmediately",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_TodaysForecastBullshit",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_WelcomeToTheShitshow",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.round.start.WPM_Round_Start_WhoLiedAboutTheirHandicap",
+      "events": [
+        "round.start"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_ChangingTheStory",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_FixingScoreOrAlibi",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_LookWhoFoundHonesty",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_NumberMovedCredibilityDidnt",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_OhNowYouRemember",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_ThatScoreAgedPoorly",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "asset_id": "mini.score.push.WPM_Score_Push_TruthNeededSecondDraft",
+      "events": [
+        "score.push"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    }
+  ]
+}

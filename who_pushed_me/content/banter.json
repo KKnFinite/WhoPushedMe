@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.generic.well_that_happened",
+      "text": "Well. That happened.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.everybody_saw_that",
+      "text": "Everybody saw that.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.receipts",
+      "text": "That’s going in the receipts.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.scorecard_remembers",
+      "text": "The scorecard will remember this.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.normal_day",
+      "text": "Another perfectly normal day of golf.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.evidence_recorded",
+      "text": "Evidence successfully recorded.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.no_context",
+      "text": "No context is making that look better.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.round_continues",
+      "text": "And somehow, the round continues.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_happened",
+      "text": "Well. That fucking happened.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_everybody_saw",
+      "text": "Everybody saw that shit.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_receipts",
+      "text": "Add that bullshit to the receipts.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_mistake",
+      "text": "Golf was a fucking mistake.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_scorecard",
+      "text": "The scorecard has seen some shit.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_masterpiece",
+      "text": "Another fucking masterpiece.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_no_pretending",
+      "text": "Nobody gets to pretend that shit didn’t happen.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_evidence",
+      "text": "Put that shit in the evidence locker.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "themes": [
+    {
+      "key": "drinking",
+      "label": "Drinking jokes",
+      "description": "Alcohol, beer, bar, shots, whiskey, tequila, drunk or drinking-related content.",
+      "user_toggle": true,
+      "default_enabled": true
+    },
+    {
+      "key": "wife",
+      "label": "Wife jokes",
+      "description": "Wife-specific golf-buddy jokes. Additional content themes can be added later without schema changes.",
+      "user_toggle": true,
+      "default_enabled": true
+    }
+  ]
+}

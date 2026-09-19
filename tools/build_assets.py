@@ -11,6 +11,7 @@ STATIC_ICONS = ROOT / "static" / "icons"
 META = ASSETS / "_meta"
 
 OFFICIAL_ICON = ASSETS_SRC / "icons" / "WPM_DesktopIcon_Official.jpg"
+TRANSPARENT_MASCOT = ASSETS_SRC / "mascots" / "master" / "WPM_Mascot_FullBody_Transparent.png"
 
 EVENT_MAP = {
     ("joining", "new-player"): "player_join_new",
@@ -84,6 +85,7 @@ def validate_sources():
         ASSETS_SRC / "brand" / "WPM_Wordmark.png",
         ASSETS_SRC / "brand" / "WPM_SecondaryBadge.png",
         ASSETS_SRC / "mascots" / "master" / "WPM_Mascot_FullBody.png",
+        TRANSPARENT_MASCOT,
         OFFICIAL_ICON,
     ]
 
@@ -144,6 +146,12 @@ def build_core_webps():
     make_webp(
         ASSETS_SRC / "mascots" / "master" / "WPM_Mascot_FullBody.png",
         ASSETS / "mascots" / "master" / "WPM_Mascot_FullBody.webp",
+        lossless=True,
+    )
+
+    make_webp(
+        TRANSPARENT_MASCOT,
+        ASSETS / "mascots" / "master" / "WPM_Mascot_FullBody_Transparent.webp",
         lossless=True,
     )
 
@@ -440,6 +448,12 @@ def build_manifest():
             "mascot-master",
         ),
         (
+            "mascot.full_body.transparent",
+            TRANSPARENT_MASCOT,
+            ASSETS / "mascots" / "master" / "WPM_Mascot_FullBody_Transparent.webp",
+            "mascot-master",
+        ),
+        (
             "icon.official",
             OFFICIAL_ICON,
             ASSETS / "icons" / "WPM_DesktopIcon_Official.webp",
@@ -557,7 +571,8 @@ CORE RULES
 - Web UI should prefer production WebP assets.
 - PWA/device icons remain PNG.
 - WPM_DesktopIcon_Official.jpg is the official app icon source.
-- WPM_Mascot_FullBody.png is the official full-body mascot; golf bag is allowed.
+- WPM_Mascot_FullBody.png is the original approved full-body mascot; golf bag is allowed.
+- WPM_Mascot_FullBody_Transparent.png is the transparent full-body app/compositing master.
 - Mini mascots use their categorized event folders.
 - Do not replace approved art with rejected generations.
 """,
