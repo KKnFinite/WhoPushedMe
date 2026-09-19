@@ -19,6 +19,9 @@ def test_home_loads_pwa_shell():
     assert b"Settings" in response.data
     assert b"EVERY ASSHOLE FOR THEMSELVES" in response.data
     assert b"WE SUCK TOGETHER" in response.data
+    assert b"FIND A COURSE" in response.data
+    assert b"FREE PLAY" in response.data
+    assert b"YOUR TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
     assert b"MINI MASCOTS" in response.data
     assert b"TRASH TALK" in response.data
@@ -50,5 +53,5 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v5" in response.data
+    assert b"wpm-shell-v6" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
