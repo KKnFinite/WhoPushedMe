@@ -118,11 +118,11 @@
     </section>
 
     <section class="home-actions" aria-label="Who Pushed Me home actions">
-      <button type="button" class="home-button home-button-primary" data-under-construction>
+      <button id="start-round-button" type="button" class="home-button home-button-primary">
         <span>START A ROUND</span>
       </button>
 
-      <button type="button" class="home-button home-button-dark" data-under-construction>
+      <button id="join-round-button" type="button" class="home-button home-button-dark">
         <span>JOIN A ROUND</span>
       </button>
 
@@ -155,6 +155,84 @@
       <button id="logout-button" class="logout-button" type="button">SIGN OUT</button>
     </footer>
   </main>
+
+  <div id="round-flow-modal" class="round-flow-modal" hidden role="dialog" aria-modal="true" aria-labelledby="round-flow-title">
+    <section class="round-flow-card">
+      <div class="settings-header">
+        <div>
+          <div class="settings-kicker">WELCOME TO THE BAD IDEA</div>
+          <h2 id="round-flow-title">ROUND SETUP</h2>
+        </div>
+        <button id="round-flow-close" class="settings-close" type="button" aria-label="Close round setup">×</button>
+      </div>
+
+      <p id="round-flow-message" class="settings-message" hidden></p>
+
+      <form id="start-round-form" class="round-flow-form" data-round-panel="start">
+        <fieldset class="choice-fieldset">
+          <legend>MODE</legend>
+          <label>
+            <input type="radio" name="mode" value="individual" checked>
+            <span>EVERY ASSHOLE FOR THEMSELVES</span>
+          </label>
+          <label>
+            <input type="radio" name="mode" value="scramble">
+            <span>WE SUCK TOGETHER</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="choice-fieldset">
+          <legend>HOLES</legend>
+          <label>
+            <input type="radio" name="holes" value="9">
+            <span>9</span>
+          </label>
+          <label>
+            <input type="radio" name="holes" value="18" checked>
+            <span>18</span>
+          </label>
+        </fieldset>
+
+        <label class="round-text-field">
+          <span>FREE PLAY NAME</span>
+          <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
+          <small>Course search is the next setup step. Free Play works now.</small>
+        </label>
+
+        <button class="settings-save" type="submit">CREATE THE DISASTER</button>
+      </form>
+
+      <form id="join-round-form" class="round-flow-form" data-round-panel="join" hidden>
+        <label class="round-text-field">
+          <span>4-DIGIT ROUND CODE</span>
+          <input name="code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1234" required>
+        </label>
+
+        <fieldset class="choice-fieldset">
+          <legend>JOIN AS</legend>
+          <label>
+            <input type="radio" name="role" value="player" checked>
+            <span>PLAYER</span>
+          </label>
+          <label>
+            <input type="radio" name="role" value="spectator">
+            <span>SPECTATOR</span>
+          </label>
+        </fieldset>
+
+        <button class="settings-save" type="submit">LET ME INTO THIS MESS</button>
+      </form>
+
+      <section id="lobby-panel" class="lobby-panel" hidden>
+        <div class="lobby-code-label">ROUND CODE</div>
+        <div id="lobby-code" class="lobby-code">----</div>
+        <div id="lobby-summary" class="lobby-summary"></div>
+        <div id="lobby-participants" class="lobby-participants"></div>
+        <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
+        <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
+      </section>
+    </section>
+  </div>
 
   <div id="settings-modal" class="settings-modal" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
     <section class="settings-card">
