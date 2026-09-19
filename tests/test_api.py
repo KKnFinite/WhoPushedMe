@@ -1,6 +1,38 @@
 from uuid import UUID
 
 from app import create_app
+from who_pushed_me.courses import CourseHole, CourseSnapshot
+
+
+class FakeCourseProvider:
+    def __init__(self):
+        self.calls = []
+
+    def search(self, query, *, limit=10):
+        self.calls.append(("search", query, limit))
+        return [
+            {
+                "external_course_id": "provider-1",
+                "name": "Provider Muni",
+                "city": "Rockford",
+                "state": "Illinois",
+            }
+        ]
+
+    def fetch(self, external_id):
+        self.calls.append(("fetch", external_id))
+        return CourseSnapshot(
+            external_id=external_id,
+            name="Provider Muni",
+            holes=(
+                CourseHole(
+                    number=1,
+                    par=4,
+                    stroke_index=1,
+                    tee_yardages={"White": 390},
+                ),
+            ),
+        )
 
 
 class FakeStore:
@@ -97,9 +129,18 @@ class FakeStore:
         holes,
         course_id=None,
         free_play_name=None,
+        tee_name=None,
     ):
         self.calls.append(
-            ("create_round", golfer_id, mode, holes, course_id, free_play_name)
+            (
+                "create_round",
+                golfer_id,
+                mode,
+                holes,
+                course_id,
+                free_play_name,
+                tee_name,
+            )
         )
         return {
             "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
@@ -109,8 +150,8 @@ class FakeStore:
             "status": "setup",
         }
 
-    def join_round(self, golfer_id, *, code, role):
-        self.calls.append(("join_round", golfer_id, code, role))
+    def join_round(self, golfer_id, *, code, role, tee_name=None):
+        self.calls.append(("join_round", golfer_id, code, role, tee_name))
         return {
             "id": UUID("304b4411-bc80-4652-94b3-350ef2501267"),
             "round_id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
@@ -134,6 +175,49 @@ class FakeStore:
         self.calls.append(("set_status", golfer_id, round_id, status))
         return {"round_id": round_id, "status": status}
 
+    def search_cached_courses(self, query, *, limit=10):
+        self.calls.append(("search_cached_courses", query, limit))
+        return [
+            {
+                "id": UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d"),
+                "provider": "opengolfapi",
+                "external_course_id": "cached-1",
+                "name": "Cached Muni",
+            }
+        ]
+
+    def get_cached_course_by_external_id(self, external_course_id):
+        self.calls.append(("cached_external", external_course_id))
+        return None
+
+    def get_cached_course(self, course_id):
+        self.calls.append(("get_cached_course", course_id))
+        return {
+            "id": UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d"),
+            "external_course_id": "provider-1",
+            "name": "Provider Muni",
+            "tees": [
+                {
+                    "tee_name": "White",
+                    "holes_with_tee": 18,
+                    "total_yardage": 6200,
+                }
+            ],
+        }
+
+    def cache_course(self, snapshot):
+        self.calls.append(("cache_course", snapshot.external_id))
+        return UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d")
+
+    def set_participant_tee(self, golfer_id, round_id, tee_name):
+        self.calls.append(("set_tee", golfer_id, round_id, tee_name))
+        return {
+            "round_id": round_id,
+            "golfer_id": golfer_id,
+            "role": "player",
+            "tee_name": tee_name,
+        }
+
     def set_score(self, golfer_id, round_id, hole, strokes, *, player_participant_id=None):
         self.calls.append(
             ("score", golfer_id, round_id, hole, strokes, player_participant_id)
@@ -146,6 +230,18 @@ def client_with_store():
     app = create_app()
     app.config.update(TESTING=True, ROUND_STORE=store)
     return app.test_client(), store
+
+
+def client_with_store_and_course_provider():
+    store = FakeStore()
+    provider = FakeCourseProvider()
+    app = create_app()
+    app.config.update(
+        TESTING=True,
+        ROUND_STORE=store,
+        COURSE_PROVIDER=provider,
+    )
+    return app.test_client(), store, provider
 
 
 def test_create_anonymous_golfer_route():
@@ -365,6 +461,7 @@ def test_create_round_with_bearer_session_enters_setup_lobby():
         9,
         None,
         "Saturday Shitshow",
+        None,
     )
 
 
@@ -403,5 +500,54 @@ def test_any_player_session_can_start_setup_round():
         store.golfer_id,
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         "active",
+    )
+
+def test_course_search_returns_cache_first_then_provider():
+    client, store, provider = client_with_store_and_course_provider()
+    response = client.get(
+        "/api/courses/search?q=muni&limit=5",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    results = response.get_json()["results"]
+    assert results[0]["source"] == "cache"
+    assert results[0]["name"] == "Cached Muni"
+    assert results[1]["source"] == "provider"
+    assert results[1]["external_course_id"] == "provider-1"
+    assert provider.calls[-1] == ("search", "muni", 5)
+
+
+def test_select_provider_course_caches_it_before_round_setup():
+    client, store, provider = client_with_store_and_course_provider()
+    response = client.post(
+        "/api/courses/select",
+        headers={"Authorization": "Bearer session-token"},
+        json={"external_course_id": "provider-1"},
+    )
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["name"] == "Provider Muni"
+    assert payload["tees"][0]["tee_name"] == "White"
+    assert ("fetch", "provider-1") in provider.calls
+    assert ("cache_course", "provider-1") in store.calls
+
+
+def test_player_can_set_tee_before_round_start():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/tee",
+        headers={"Authorization": "Bearer session-token"},
+        json={"tee_name": "White"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["tee_name"] == "White"
+    assert store.calls[-1] == (
+        "set_tee",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "White",
     )
 
