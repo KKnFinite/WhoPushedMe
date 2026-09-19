@@ -61,3 +61,26 @@ def test_theme_registry_is_data_driven():
     catalog = ContentCatalog.load()
     assert {"drinking", "wife"} <= set(catalog.themes)
     assert all("user_toggle" in row for row in catalog.theme_rows)
+
+
+def test_existing_mascots_are_marked_pending_until_visual_audit():
+    catalog = ContentCatalog.load()
+    summary = catalog.mascot_audit_summary()
+
+    assert summary["pending"] == 97
+    assert summary["verified"] == 0
+    assert all("copy" in row for row in catalog.mascots)
+    assert all("signs" in row for row in catalog.mascots)
+    assert all("hat_copy" in row for row in catalog.mascots)
+    assert all("notes" in row for row in catalog.mascots)
+
+
+def test_strict_mascot_audit_rejects_pending_metadata():
+    catalog = ContentCatalog.load()
+
+    try:
+        catalog.validate(strict_mascot_audit=True)
+    except Exception as error:
+        assert "has not been visually audited" in str(error)
+    else:
+        raise AssertionError("strict audit validation should reject pending mascot metadata")

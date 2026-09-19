@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -82,15 +84,18 @@ def _themes_from_args(catalog: ContentCatalog, values: list[str] | None) -> list
     return result
 
 
-def cmd_validate(_: argparse.Namespace) -> None:
+def cmd_validate(args: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
-    catalog.validate()
+    catalog.validate(strict_mascot_audit=args.strict_audit)
+    summary = catalog.mascot_audit_summary()
     print("Content library valid.")
     print(f"Events: {len(catalog.registry.events)}")
     print(f"Triggerable events: {sum(bool(e.get('triggerable')) for e in catalog.registry.events.values())}")
     print(f"Themes: {len(catalog.themes)}")
     print(f"Banter messages: {len(catalog.banter)}")
     print(f"Mini mascot metadata rows: {len(catalog.mascots)}")
+    print(f"Mini audit verified: {summary.get('verified', 0)}")
+    print(f"Mini audit pending: {summary.get('pending', 0)}")
 
 
 def cmd_list_events(_: argparse.Namespace) -> None:
@@ -98,6 +103,209 @@ def cmd_list_events(_: argparse.Namespace) -> None:
     for row in registry.selectable_events(include_scopes=True):
         marker = "event" if row.get("triggerable") else "scope"
         print(f"{row['key']:<48} {marker:<5} {row['label']}")
+
+
+def _open_image(path: Path) -> None:
+    try:
+        if os.name == "nt":
+            os.startfile(path)  # type: ignore[attr-defined]
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", str(path)])
+        else:
+            subprocess.Popen(["xdg-open", str(path)])
+    except OSError as error:
+        print(f"Could not open image automatically: {error}")
+
+
+def _prompt_keep(label: str, current: str | None = None, *, required: bool = False) -> str:
+    suffix = f" [{current}]" if current else ""
+    while True:
+        value = input(f"{label}{suffix}: ").strip()
+        if value:
+            return value
+        if current:
+            return current
+        if not required:
+            return ""
+        print("A value is required.")
+
+
+def _prompt_choice(label: str, current: str, choices: list[str]) -> str:
+    rendered = " / ".join(choices)
+    while True:
+        value = input(f"{label} [{current}] ({rendered}): ").strip().lower()
+        if not value:
+            return current
+        if value in choices:
+            return value
+        print(f"Choose one of: {rendered}")
+
+
+def _prompt_themes(catalog: ContentCatalog, current: list[str]) -> list[str]:
+    available = sorted(catalog.themes)
+    shown = ", ".join(current) if current else "none"
+    print(f"Themes currently: {shown}")
+    print("Available themes: " + (", ".join(available) if available else "none"))
+    raw = input("Themes comma-separated, ENTER to keep: ").strip()
+    if not raw:
+        return current
+    if raw.lower() in {"none", "-"}:
+        return []
+    values = [value.strip() for value in raw.split(",") if value.strip()]
+    unknown = [value for value in values if value not in catalog.themes]
+    if unknown:
+        raise ContentError(f"unknown content themes: {unknown}")
+    return list(dict.fromkeys(values))
+
+
+def _prompt_signs(copy: str, current: list[str]) -> list[str]:
+    shown = " | ".join(current) if current else copy
+    raw = input(f"Sign panels, separate with | [{shown}]: ").strip()
+    if not raw:
+        return current or [copy]
+    return [value.strip() for value in raw.split("|") if value.strip()]
+
+
+def _manifest_mini_map(catalog: ContentCatalog) -> dict[str, dict]:
+    return {
+        row["asset_id"]: row
+        for row in catalog.asset_manifest.get("assets", [])
+        if row.get("family") == "mini-mascot"
+    }
+
+
+def cmd_audit_status(_: argparse.Namespace) -> None:
+    catalog = ContentCatalog.load()
+    catalog.validate()
+    summary = catalog.mascot_audit_summary()
+    print(f"Verified: {summary.get('verified', 0)}")
+    print(f"Pending:  {summary.get('pending', 0)}")
+
+    manifest = _manifest_mini_map(catalog)
+    groups: dict[str, dict[str, int]] = {}
+    for row in catalog.mascots:
+        asset = manifest.get(row["asset_id"], {})
+        family = "/".join(
+            part
+            for part in [asset.get("category"), asset.get("situation")]
+            if part
+        ) or "unknown"
+        bucket = groups.setdefault(family, {"verified": 0, "pending": 0})
+        status = row.get("audit_status", "pending")
+        bucket[status] = bucket.get(status, 0) + 1
+
+    print()
+    for family in sorted(groups):
+        bucket = groups[family]
+        print(
+            f"{family:<34} "
+            f"verified={bucket.get('verified', 0):>2} "
+            f"pending={bucket.get('pending', 0):>2}"
+        )
+
+
+def cmd_audit_minis(args: argparse.Namespace) -> None:
+    path = CONTENT_DIR / "mascots.json"
+    data = _read(path)
+    rows = list(data.get("mascots") or [])
+    catalog = ContentCatalog.load()
+    catalog.validate()
+    manifest = _manifest_mini_map(catalog)
+
+    selected = []
+    for row in rows:
+        asset = manifest.get(row["asset_id"])
+        if not asset:
+            continue
+        family = "/".join(
+            part
+            for part in [asset.get("category"), asset.get("situation")]
+            if part
+        )
+        if args.family and family != args.family:
+            continue
+        if args.asset_id and row["asset_id"] != args.asset_id:
+            continue
+        if not args.all and row.get("audit_status") == "verified":
+            continue
+        selected.append((row, asset, family))
+
+    if not selected:
+        print("No mascot assets match the audit filter.")
+        return
+
+    print(f"Mascots queued for audit: {len(selected)}")
+    print("Commands at confirmation: v=verify/save, s=skip, q=quit")
+    print()
+
+    for index, (row, asset, family) in enumerate(selected, start=1):
+        png = ROOT / asset["source"]
+        print("=" * 72)
+        print(f"[{index}/{len(selected)}] {row['asset_id']}")
+        print(f"Family: {family}")
+        print(f"PNG: {asset['source']}")
+        print(f"Current events: {', '.join(row.get('events') or [])}")
+        print(f"Current vulgarity: {row.get('vulgarity', 'normal')}")
+        print(
+            "Current themes: "
+            + (", ".join(row.get("themes") or []) or "none")
+        )
+        print()
+
+        if not args.no_open:
+            _open_image(png)
+
+        copy = _prompt_keep(
+            "Exact visible sign/message copy",
+            row.get("copy"),
+            required=True,
+        )
+        signs = _prompt_signs(copy, list(row.get("signs") or []))
+        hat_copy = _prompt_keep("Hat copy (optional)", row.get("hat_copy")) or None
+
+        events = list(row.get("events") or [])
+        edit_events = input(
+            "Eligible events/scopes: ENTER keeps current, E edits: "
+        ).strip().lower()
+        if edit_events == "e":
+            events = _choose_events(catalog.registry)
+
+        vulgarity = _prompt_choice(
+            "Vulgarity",
+            str(row.get("vulgarity") or "normal"),
+            ["normal", "brutal"],
+        )
+        themes = _prompt_themes(catalog, list(row.get("themes") or []))
+        notes = _prompt_keep("Notes (optional)", row.get("notes"))
+
+        action = input("Verify/save this mascot? [v/s/q]: ").strip().lower()
+        if action == "q":
+            print("Audit stopped. Previous verified items were already saved.")
+            return
+        if action != "v":
+            print("Skipped.")
+            continue
+
+        row.update(
+            {
+                "copy": copy,
+                "signs": signs,
+                "hat_copy": hat_copy,
+                "events": events,
+                "vulgarity": vulgarity,
+                "themes": themes,
+                "notes": notes,
+                "audit_status": "verified",
+            }
+        )
+        data["mascots"] = rows
+        _write(path, data)
+        ContentCatalog.load().validate()
+        print("Verified and saved.")
+        print()
+
+    print("Audit queue complete.")
+
 
 
 def cmd_add_banter(args: argparse.Namespace) -> None:
@@ -198,13 +406,24 @@ def cmd_add_mini(args: argparse.Namespace) -> None:
     if any(row.get("asset_id") == asset_id for row in rows):
         raise ContentError(f"mascot metadata already exists: {asset_id}")
 
+    copy = args.copy or input("Exact visible sign/message copy: ").strip()
+    if not copy:
+        raise ContentError("mini copy is required")
+    signs = list(args.sign or []) or [copy]
+    hat_copy = args.hat_copy or None
+
     rows.append(
         {
             "asset_id": asset_id,
+            "copy": copy,
+            "signs": signs,
+            "hat_copy": hat_copy,
             "events": events,
             "vulgarity": args.vulgarity,
             "themes": themes,
             "enabled": True,
+            "notes": args.notes or "",
+            "audit_status": "verified",
         }
     )
     metadata["mascots"] = sorted(rows, key=lambda row: row["asset_id"])
@@ -224,7 +443,39 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate = subparsers.add_parser("validate", help="validate all event/content metadata")
+    validate.add_argument(
+        "--strict-audit",
+        action="store_true",
+        help="fail unless every existing mini has been visually audited",
+    )
     validate.set_defaults(func=cmd_validate)
+
+    audit_status = subparsers.add_parser(
+        "audit-status",
+        help="show verified/pending mascot metadata counts",
+    )
+    audit_status.set_defaults(func=cmd_audit_status)
+
+    audit_minis = subparsers.add_parser(
+        "audit-minis",
+        help="visually audit existing mascot metadata one image at a time",
+    )
+    audit_minis.add_argument(
+        "--family",
+        help="limit to category/situation, e.g. round-end/complete",
+    )
+    audit_minis.add_argument("--asset-id", help="audit one exact mascot asset_id")
+    audit_minis.add_argument(
+        "--all",
+        action="store_true",
+        help="include already verified mascot records",
+    )
+    audit_minis.add_argument(
+        "--no-open",
+        action="store_true",
+        help="do not open the PNG in the default image viewer",
+    )
+    audit_minis.set_defaults(func=cmd_audit_minis)
 
     list_events = subparsers.add_parser("list-events", help="list content events and scopes")
     list_events.set_defaults(func=cmd_list_events)
@@ -245,6 +496,14 @@ def build_parser() -> argparse.ArgumentParser:
     add_mini = subparsers.add_parser("add-mini", help="import a transparent mini PNG")
     add_mini.add_argument("png")
     add_mini.add_argument("--short-name")
+    add_mini.add_argument("--copy")
+    add_mini.add_argument(
+        "--sign",
+        action="append",
+        help="visible sign panel copy; repeat for multiple panels",
+    )
+    add_mini.add_argument("--hat-copy")
+    add_mini.add_argument("--notes")
     add_mini.add_argument("--event", action="append")
     add_mini.add_argument("--theme", action="append")
     add_mini.add_argument("--family")

@@ -9,7 +9,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FreshMeat",
@@ -18,7 +23,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_HopeYouBroughtExcuses",
@@ -27,7 +37,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewFaceSameBullshit",
@@ -36,7 +51,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_NewGuySameBadDecisions",
@@ -45,7 +65,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_SomebodyBroughtARookie",
@@ -54,7 +79,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WelcomeLowerYourExpectations",
@@ -63,7 +93,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WellLookWhatWalkedIn",
@@ -72,7 +107,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_WhoInvitedThisGuy",
@@ -81,7 +121,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_AgainSeriously",
@@ -90,7 +135,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_ApparentlyLastTimeWasntEnough",
@@ -99,7 +149,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_IRememberYourBullshit",
@@ -108,7 +163,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_LookWhoCameCrawlingBack",
@@ -117,7 +177,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_OhGreatYouAgain",
@@ -126,7 +191,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_SameClownNewRound",
@@ -135,7 +205,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillMakingBadDecisions",
@@ -144,7 +219,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_StillThinkThisEndsDifferently",
@@ -153,7 +233,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_TheProblemCameBack",
@@ -162,7 +247,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeDidntMissYou",
@@ -171,7 +261,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WeReallyDoingThisAgain",
@@ -180,7 +275,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_WhoLetYouBackIn",
@@ -189,7 +289,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouBroughtTheSameSwingBack",
@@ -198,7 +303,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.returning-player.WPM_Join_ReturningPlayer_YouSurvivedLastTime",
@@ -207,7 +317,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_BraveEnoughToWatchNotPlay",
@@ -216,7 +331,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DeclinedToPlayStillHasOpinions",
@@ -225,7 +345,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_DidntWantToGetEmbarrassedToday",
@@ -234,7 +359,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_JustHereToJudge",
@@ -243,7 +373,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_NiceOfYouToParticipateEmotionally",
@@ -252,7 +387,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_SpectatorModeCoward",
@@ -261,7 +401,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.joining.spectator.WPM_Join_Spectator_TalkingShitFromASafeDistance",
@@ -270,7 +415,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EighteenHolesHostageSituation",
@@ -279,7 +429,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_EverybodyGoHomeBeforeThisGetsWorse",
@@ -288,7 +443,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GettingDrunkAndWorseAtGolf",
@@ -299,7 +459,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_GoHomeYourWifeKnows",
@@ -310,7 +475,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_NoMoreShotsForTheLoveOfGod",
@@ -321,7 +491,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OnlyThingLeftToShootIsTequila",
@@ -332,7 +507,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_OweTheCourseAnApology",
@@ -341,7 +521,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_PutClubsAwayBeforeSomebodyGetsHurt",
@@ -350,7 +535,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundCanGoFuckItself",
@@ -359,7 +549,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundOverGoDrinkAboutIt",
@@ -370,7 +565,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundsOverStartLyingAboutIt",
@@ -379,7 +579,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_RoundWasAFuckingCrimeScene",
@@ -388,7 +593,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ScorecardStillJudging",
@@ -397,7 +607,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShitshowComplete",
@@ -406,7 +621,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ShortStrokesBefore",
@@ -417,7 +637,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_TellYourWifeCourseFuckedYouFirst",
@@ -428,7 +653,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_ThatWasFuckingEmbarrassing",
@@ -437,7 +667,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WellThatHappened",
@@ -446,7 +681,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WhiskeyAndDenial",
@@ -457,7 +697,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeChecksCreditCard",
@@ -468,7 +713,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_WifeGaveYouDayOffForThisShit",
@@ -479,7 +729,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllFuckingSuckedBeautifulWork",
@@ -488,7 +743,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YouAllPlayedLikeShitCheers",
@@ -499,7 +759,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YoureDoneThankFuck",
@@ -508,7 +773,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.complete.WPM_RoundEnd_Complete_YourWifeCantFindTheHole",
@@ -519,7 +789,12 @@
       "themes": [
         "wife"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_DeadFuckingLast",
@@ -528,7 +803,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_EverybodyGotAWinAgainstYou",
@@ -537,7 +817,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_LeaderboardEndsWithYou",
@@ -546,7 +831,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_NoOneSuckedWorse",
@@ -555,7 +845,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.dead-last.WPM_RoundEnd_DeadLast_YouMadeEveryoneElseLookBetter",
@@ -564,7 +859,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OneOpponentOneFailure",
@@ -573,7 +873,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_OnePersonToBeatCouldntDoIt",
@@ -582,7 +887,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoGolfersEnteredYouCameSecond",
@@ -591,7 +901,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.head-to-head-loser.WPM_RoundEnd_HeadToHeadLoser_TwoManRaceAndYouStillLost",
@@ -600,7 +915,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_CongratsNotWorst",
@@ -609,7 +929,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_MiddleTrainWreck",
@@ -618,7 +943,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_OutSuckedSomebody",
@@ -627,7 +957,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_StillLoserCompanyBelow",
@@ -636,7 +971,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouFailedNotHardest",
@@ -645,7 +985,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.not-last.WPM_RoundEnd_NotLast_YouLostSomebodyLostWorse",
@@ -654,7 +999,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_FirstPlaceStillAnAsshole",
@@ -663,7 +1013,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_KingOfTheDumpsterFire",
@@ -672,7 +1027,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_LeastBadGolferWon",
@@ -681,7 +1041,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round-end.winner.WPM_RoundEnd_Winner_SomehowWonThisShitshow",
@@ -690,7 +1055,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_18HolesZeroAccountability",
@@ -699,7 +1069,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_AlrightAssholesLetsGolf",
@@ -708,7 +1083,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BadDecisionsBegin",
@@ -717,7 +1097,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BlameTheirClubs",
@@ -726,7 +1111,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_BroughtBallsNeedExtra",
@@ -735,7 +1125,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_CourseDoesntDeserveThis",
@@ -744,7 +1139,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_EveryonesConfidentUntilFirstTee",
@@ -753,7 +1153,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_FirstTeeAwaitsYourLies",
@@ -762,7 +1167,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_GoodLuckYouClearlyNeedIt",
@@ -771,7 +1181,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_PutTheBeerDownNeverMind",
@@ -782,7 +1197,12 @@
       "themes": [
         "drinking"
       ],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_RuinPerfectlyGoodMorning",
@@ -791,7 +1211,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_ScorecardAcceptingExcuses",
@@ -800,7 +1225,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_SwingHardRegretImmediately",
@@ -809,7 +1239,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_TodaysForecastBullshit",
@@ -818,7 +1253,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_WelcomeToTheShitshow",
@@ -827,7 +1267,12 @@
       ],
       "vulgarity": "brutal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.round.start.WPM_Round_Start_WhoLiedAboutTheirHandicap",
@@ -836,7 +1281,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_ChangingTheStory",
@@ -845,7 +1295,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_FixingScoreOrAlibi",
@@ -854,7 +1309,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_LookWhoFoundHonesty",
@@ -863,7 +1323,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_NumberMovedCredibilityDidnt",
@@ -872,7 +1337,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_OhNowYouRemember",
@@ -881,7 +1351,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_ThatScoreAgedPoorly",
@@ -890,7 +1365,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     },
     {
       "asset_id": "mini.score.push.WPM_Score_Push_TruthNeededSecondDraft",
@@ -899,7 +1379,12 @@
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "copy": null,
+      "signs": [],
+      "hat_copy": null,
+      "notes": "",
+      "audit_status": "pending"
     }
   ]
 }

@@ -11,6 +11,7 @@ CONTENT_DIR = Path(__file__).resolve().parent
 ASSET_MANIFEST = ROOT / "static" / "assets" / "_meta" / "asset-manifest.json"
 
 VULGARITY_ORDER = {"normal": 0, "brutal": 1}
+AUDIT_STATUSES = {"pending", "verified"}
 ALLOWED_AUDIENCES = {"everyone", "actor", "target", "subject", "others", "team"}
 ALLOWED_PLACEHOLDERS = {
     "actor",
@@ -48,7 +49,7 @@ class EventRegistry:
     def load(cls, path: Path | None = None) -> "EventRegistry":
         return cls(_read_json(path or CONTENT_DIR / "events.json"))
 
-    def validate(self) -> None:
+    def validate(self, *, strict_mascot_audit: bool = False) -> None:
         if self.schema_version != 1:
             raise ContentError("unsupported events schema_version")
         if len(self.events) == 0:
@@ -196,6 +197,13 @@ class ContentCatalog:
             if asset_id not in mini_assets:
                 errors.append(f"mascot metadata references unknown mini asset {asset_id}")
             errors.extend(self._validate_content_row(row, asset_id, has_text=False))
+            errors.extend(
+                self._validate_mascot_metadata(
+                    row,
+                    asset_id,
+                    strict_audit=strict_mascot_audit,
+                )
+            )
 
         missing_metadata = sorted(mini_assets - seen_mascots)
         extra_metadata = sorted(seen_mascots - mini_assets)
@@ -206,6 +214,57 @@ class ContentCatalog:
 
         if errors:
             raise ContentError("\n".join(errors))
+
+    def _validate_mascot_metadata(
+        self,
+        row: Mapping[str, Any],
+        asset_id: str,
+        *,
+        strict_audit: bool,
+    ) -> list[str]:
+        errors: list[str] = []
+
+        audit_status = str(row.get("audit_status") or "")
+        if audit_status not in AUDIT_STATUSES:
+            errors.append(
+                f"{asset_id} has invalid audit_status {audit_status or '<missing>'}"
+            )
+
+        copy = row.get("copy")
+        if copy is not None and not isinstance(copy, str):
+            errors.append(f"{asset_id} copy must be a string or null")
+
+        signs = row.get("signs")
+        if not isinstance(signs, list) or not all(
+            isinstance(value, str) for value in signs
+        ):
+            errors.append(f"{asset_id} signs must be a list of strings")
+
+        hat_copy = row.get("hat_copy")
+        if hat_copy is not None and not isinstance(hat_copy, str):
+            errors.append(f"{asset_id} hat_copy must be a string or null")
+
+        notes = row.get("notes")
+        if notes is not None and not isinstance(notes, str):
+            errors.append(f"{asset_id} notes must be a string")
+
+        if audit_status == "verified":
+            if not str(copy or "").strip():
+                errors.append(f"{asset_id} verified mascot is missing exact copy")
+            if not signs:
+                errors.append(f"{asset_id} verified mascot is missing sign panels")
+
+        if strict_audit and audit_status != "verified":
+            errors.append(f"{asset_id} has not been visually audited")
+
+        return errors
+
+    def mascot_audit_summary(self) -> dict[str, int]:
+        summary = {status: 0 for status in sorted(AUDIT_STATUSES)}
+        for row in self.mascots:
+            status = str(row.get("audit_status") or "pending")
+            summary[status] = summary.get(status, 0) + 1
+        return summary
 
     def _validate_content_row(
         self,

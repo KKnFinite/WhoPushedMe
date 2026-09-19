@@ -19,3 +19,29 @@ python tools/content_admin.py validate
 python tools/content_admin.py list-events
 python tools/content_admin.py add-banter
 python tools/content_admin.py add-mini <path-to-transparent-png>
+
+
+## Existing-mini visual audit
+
+The first metadata pass for legacy/current minis is intentionally provisional.
+Every existing mascot must be visually audited before the content foundation is merged.
+
+Use:
+
+python tools/content_admin.py audit-status
+python tools/content_admin.py audit-minis
+python tools/content_admin.py audit-minis --family round-end/complete
+python tools/content_admin.py validate --strict-audit
+
+The audit command opens each PNG in the operating system's default image viewer and records:
+- exact visible message copy
+- individual sign panel copy
+- optional hat copy
+- explicit eligible event scopes
+- vulgarity level
+- content themes
+- notes
+- verified audit state
+
+A verified mascot record is the authoritative content description of the artwork.
+Changing metadata does not alter text baked into the PNG.
