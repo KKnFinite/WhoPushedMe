@@ -76,12 +76,22 @@ def test_existing_mascot_audit_summary_tracks_all_assets():
     assert all("notes" in row for row in catalog.mascots)
 
 
-def test_strict_mascot_audit_rejects_pending_metadata():
+def test_strict_mascot_audit_requires_verified_metadata():
     catalog = ContentCatalog.load()
 
+    # The committed catalog may legitimately be fully audited.
+    catalog.validate(strict_mascot_audit=True)
+
+    original_status = catalog.mascots[0]["audit_status"]
+    catalog.mascots[0]["audit_status"] = "pending"
     try:
-        catalog.validate(strict_mascot_audit=True)
-    except Exception as error:
-        assert "has not been visually audited" in str(error)
-    else:
-        raise AssertionError("strict audit validation should reject pending mascot metadata")
+        try:
+            catalog.validate(strict_mascot_audit=True)
+        except Exception as error:
+            assert "has not been visually audited" in str(error)
+        else:
+            raise AssertionError(
+                "strict audit validation should reject pending mascot metadata"
+            )
+    finally:
+        catalog.mascots[0]["audit_status"] = original_status
