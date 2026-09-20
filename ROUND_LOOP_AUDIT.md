@@ -63,6 +63,13 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Completion requires scores only for the holes that are part of the tracked route for the relevant player/team.
 - Individual players may have different tracked-from holes if somebody joins an already-active round late.
 
+## Tee and par rules
+- Individual play may use different tees per player; each player's score-to-par must use the par associated with that player's selected tee when course data varies by tee.
+- Scramble uses one explicitly selected scoring tee for the entire team.
+- The scramble team's par, score-to-par, standings/result math, and report output all use that one team scoring tee.
+- Individual players may physically hit from different tees during a scramble if the group wants, but that does not change the scoring tee unless the team explicitly changes it through a supported edit flow.
+- Any scoring-tee change after scores exist must create a permanent history event and recompute affected score-to-par values rather than silently rewriting history.
+
 ## Live scoring
 - Score, par, and shared-hole mutations are only allowed while status is `active`.
 - Spectators cannot change score, par, or shared current hole.
