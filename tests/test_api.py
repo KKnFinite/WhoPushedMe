@@ -159,11 +159,12 @@ class FakeStore:
             "role": role,
         }
 
-    def get_round(self, golfer_id, code):
-        self.calls.append(("get_round", golfer_id, code))
+    def get_round(self, golfer_id, code=None, *, round_id=None):
+        lookup = round_id if round_id is not None else code
+        self.calls.append(("get_round", golfer_id, lookup))
         return {
             "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
-            "active_code": code,
+            "active_code": code or "4321",
             "mode": "individual",
             "hole_count": 18,
             "status": "setup",
@@ -788,7 +789,7 @@ def test_final_damage_report_download_requires_completed_round():
     client, store = client_with_store()
 
     response = client.get(
-        "/api/rounds/code/4321/report.pdf",
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/report.pdf",
         headers={"Authorization": "Bearer session-token"},
     )
 
@@ -801,10 +802,10 @@ def test_final_damage_report_download_requires_completed_round():
 def test_final_damage_report_download_returns_pdf_attachment():
     client, store = client_with_store()
 
-    def completed_round(golfer_id, code):
+    def completed_round(golfer_id, code=None, *, round_id=None):
         return {
             "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
-            "active_code": code,
+            "active_code": "4321",
             "status": "completed",
             "mode": "scramble",
             "hole_count": 1,
