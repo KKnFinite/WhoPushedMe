@@ -135,6 +135,18 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - A whole group may explicitly end the round early; the report must clearly distinguish early termination from a normally completed round.
 - Towel events and late-round taunts must never be required to continue or finish a round.
 
+## Standings and score display
+- Display golf scoring in the familiar professional-leaderboard style: cumulative strokes plus score relative to par when the player's tracked scorecard is complete for the route being counted.
+- Example complete display: `82  |  +10`.
+- Relative-to-par is always calculated only from holes that legitimately count for that player/team; never invent missing strokes.
+- If a player has missing score entries for holes that should count, do not show a misleading cumulative stroke total.
+- Instead show the relative-to-par result from the recorded holes plus an explicit incomplete indicator.
+- Example incomplete display: `+6  |  INCOMPLETE • 12/18 SCORED`.
+- Use `THRU N` only when the recorded holes form a true contiguous progression in that player's route; otherwise use `N/M SCORED`.
+- Holes intentionally outside a player's tracked route (for example, a legitimate late join) are not treated as missing scores.
+- A player who has completed every hole in their defined tracked route may show both cumulative strokes and relative-to-par for that route, even when that route is shorter than 18 holes.
+- Assumed-par holes, when explicitly chosen, count toward displayed totals but must remain identifiable as assumed in history/Receipts/PDF.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
