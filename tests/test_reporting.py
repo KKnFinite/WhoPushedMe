@@ -1,4 +1,7 @@
-from who_pushed_me.reporting import build_round_report_pdf
+from who_pushed_me.reporting import (
+    _content_archive_entries,
+    build_round_report_pdf,
+)
 
 
 def test_completed_individual_round_builds_pdf_bytes():
@@ -151,3 +154,55 @@ def test_completed_scramble_round_builds_pdf_bytes():
 
     assert pdf.startswith(b"%PDF-")
     assert len(pdf) > 1500
+
+def test_final_report_archive_keeps_every_used_banter_and_mini_occurrence():
+    mini_path = (
+        "static/assets/mascots/mini/joining/new-player/"
+        "WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard.webp"
+    )
+    round_data = {
+        "events": [
+            {
+                "event_type": "score_push",
+                "content_event_key": "score.push.individual.raised",
+                "hole_number": 2,
+                "data": {},
+                "presentation": {
+                    "banter": {"text": "Same insult"},
+                    "mascot": {
+                        "copy": "Mini two",
+                        "production": mini_path,
+                    },
+                },
+            },
+            {
+                "event_type": "score_report",
+                "content_event_key": "score.report.individual.bogey",
+                "hole_number": 1,
+                "data": {"message": "Custom first receipt"},
+                "presentation": {
+                    "banter": {"text": "Same insult"},
+                    "mascot": {
+                        "copy": "Mini one",
+                        "production": mini_path,
+                    },
+                },
+            },
+        ]
+    }
+
+    archive = _content_archive_entries(round_data)
+
+    assert len(archive) == 2
+    assert [row["hole_number"] for row in archive] == [1, 2]
+    assert [row["banter_text"] for row in archive] == [
+        "Same insult",
+        "Same insult",
+    ]
+    assert [row["mascot_copy"] for row in archive] == [
+        "Mini one",
+        "Mini two",
+    ]
+    assert archive[0]["custom_message"] == "Custom first receipt"
+    assert all(row["mascot_path"] == mini_path for row in archive)
+
