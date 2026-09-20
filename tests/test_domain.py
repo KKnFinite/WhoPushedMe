@@ -3,6 +3,7 @@ import re
 import pytest
 
 from who_pushed_me.domain import (
+    DomainError,
     PermissionDenied,
     audit_event_type,
     generate_recovery_key,
@@ -44,15 +45,15 @@ def test_scramble_shot_types_are_flexible_but_normalized():
 
 def test_round_mutations_require_active_status():
     require_active_round("active", "change scores")
-    with pytest.raises(Exception, match="round must be active"):
+    with pytest.raises(DomainError, match="round must be active"):
         require_active_round("completed", "change scores")
-    with pytest.raises(Exception, match="round must be active"):
+    with pytest.raises(DomainError, match="round must be active"):
         require_active_round("setup", "change par")
 
 
 def test_shared_current_hole_never_moves_backward():
     assert validate_shared_hole_change(4, 4) == 4
     assert validate_shared_hole_change(4, 5) == 5
-    with pytest.raises(Exception, match="cannot move backward"):
+    with pytest.raises(DomainError, match="cannot move backward"):
         validate_shared_hole_change(4, 3)
 
