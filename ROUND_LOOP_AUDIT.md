@@ -57,6 +57,12 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Device/app absence must not downgrade the golfer to spectator or guest scoring rules.
 - The participant model should support either an account-linked golfer who is simply offline or a round-only golfer identity when no account exists.
 - If a round-only golfer later connects or is linked to an account, that link must not duplicate their participant, scores, history, reactions targeting them, or placement.
+- A round-only golfer may create an account later and explicitly claim the existing round participant identity.
+- Claiming attaches the existing participant record to the new/existing account rather than creating a second participant.
+- All previously recorded holes, score revisions, reactions, callouts, blame, praise, contributions, DNF/towel events, standings context, Receipts, awards, and Final Damage Report history tied to that participant remain intact and become part of the claimed account's round history.
+- If the claim happens while the round is still active, the golfer immediately continues from the same participant state and can use their own device for future scoring/social actions.
+- Historical score ownership is not rewritten: Receipts still show which other player originally entered or edited scores on the golfer's behalf.
+- A round-only participant can be claimed only once. The eventual claim/verification flow must prevent one account from taking another golfer's participant history.
 
 ## Lobby
 - Any player may start the round.
