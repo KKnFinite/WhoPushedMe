@@ -3,6 +3,25 @@
 This file records the functional acceptance rules for the v0.4 round loop.
 The current HTML/CSS is scaffolding only. Visual approval happens separately.
 
+## First-login install onboarding
+- After account creation/login setup, show a one-time device-specific install screen before Home unless the app is already running in standalone/PWA mode.
+- The screen must explain that installing to the Home Screen takes only a few seconds and makes Who Pushed Me?! behave like a normal downloaded app.
+- Tone should be mocking/playful, not technical or apologetic.
+- Installation is optional; the user can skip and continue in the browser.
+- Do not repeatedly nag on every launch. Store dismissal/seen state per device and keep a manual `INSTALL THE APP` entry in Settings.
+- Android/Chromium:
+  - when an install prompt is available, show a primary install button that triggers the browser's PWA install flow.
+  - otherwise show concise device/browser instructions.
+- iPhone/iPad Safari:
+  - show Share -> Add to Home Screen -> Add instructions.
+  - explain that iOS does not provide the same one-tap install prompt as Android.
+- If the app is already installed/standalone, skip this onboarding automatically.
+- Suggested copy direction:
+  - headline: `TAKE 10 SECONDS. MAKE IT AN ACTUAL APP.`
+  - body: `Yeah, you can keep opening this in a browser like a psychopath. Or add it to your Home Screen and let it behave like the app we built.`
+  - primary CTA: `FINE. INSTALL THE DAMN THING.`
+  - skip CTA: `I ENJOY MAKING THINGS HARDER.`
+
 ## Account and entry
 - A valid authenticated account can create or join a round.
 - New rounds begin in `setup`.
