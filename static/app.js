@@ -1072,6 +1072,7 @@
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = false;
     if (roundFlowTitle) roundFlowTitle.textContent = 'LIVE ROUND';
 
@@ -1115,7 +1116,19 @@
     }
 
     renderScoreCard(round, viewedHole);
+    renderScrambleContributions(round, viewedHole);
     renderLatestPresentation(round);
+    renderReceipts(round);
+
+    if (finishRoundButton) {
+      const canFinish = (
+        round.viewer_role === 'player'
+        && viewingLive
+        && Number(round.current_hole) === Number(round.hole_count)
+      );
+      finishRoundButton.hidden = !canFinish;
+      finishRoundButton.disabled = false;
+    }
 
     if (round.status === 'active') {
       setRoundFlowMessage('');
@@ -1128,6 +1141,10 @@
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
+    if (receiptsPanel) receiptsPanel.hidden = true;
+    if (scrambleContributionPanel) scrambleContributionPanel.hidden = true;
+    if (finishRoundButton) finishRoundButton.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = false;
     if (roundFlowTitle) roundFlowTitle.textContent = 'LOBBY';
     if (lobbyCode) lobbyCode.textContent = round.active_code || '----';
@@ -1187,7 +1204,9 @@
   };
 
   const renderRoundState = (round) => {
-    if (round.status === 'active') {
+    if (round.status === 'completed') {
+      renderRoundEnd(round);
+    } else if (round.status === 'active') {
       renderLiveRound(round);
     } else {
       renderLobby(round);
