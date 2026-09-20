@@ -278,10 +278,13 @@ def get_round(code: str):
     return jsonify(_store().get_round(g.golfer["id"], code))
 
 
-@api.get("/rounds/code/<code>/report.pdf")
+@api.get("/rounds/<round_id>/report.pdf")
 @authenticated
-def download_round_report(code: str):
-    round_row = _store().get_round(g.golfer["id"], code)
+def download_round_report(round_id: str):
+    round_row = _store().get_round(
+        g.golfer["id"],
+        round_id=round_id,
+    )
     if round_row["status"] != "completed":
         raise DomainError("final damage report is only available after the round is completed")
 
@@ -295,7 +298,9 @@ def download_round_report(code: str):
         BytesIO(pdf_bytes),
         mimetype="application/pdf",
         as_attachment=True,
-        download_name=f"who-pushed-me-{code}-final-damage-report.pdf",
+        download_name=(
+            f"who-pushed-me-{round_row['active_code']}-final-damage-report.pdf"
+        ),
         max_age=0,
     )
 
