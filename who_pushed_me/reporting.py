@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from io import BytesIO
 from html import escape
+from pathlib import Path
 from typing import Any, Mapping
 
 from reportlab.lib import colors
@@ -10,6 +11,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import (
+    Image as ReportImage,
     KeepTogether,
     Paragraph,
     SimpleDocTemplate,
@@ -25,6 +27,9 @@ GREEN = colors.HexColor("#314A3A")
 ORANGE = colors.HexColor("#D96B3F")
 YELLOW = colors.HexColor("#DFE94B")
 MUTED = colors.HexColor("#6B6F68")
+
+ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = (ROOT / "static" / "assets").resolve()
 
 
 def _safe(value: object) -> str:
@@ -284,21 +289,160 @@ def _best_worst_line(
     return ("Best hole: unavailable", "Worst hole: unavailable")
 
 
-def _append_receipts(story: list[Any], round_data: Mapping[str, Any], styles: dict[str, ParagraphStyle]) -> None:
-    receipts: list[str] = []
-    for event in round_data.get("events") or []:
-        text = _receipt_text(event)
-        if text and text not in receipts:
-            receipts.append(text)
-        if len(receipts) >= 8:
-            break
+def _content_archive_entries(
+    round_data: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
 
-    if not receipts:
+    for event in reversed(list(round_data.get("events") or [])):
+        presentation = event.get("presentation") or {}
+        banter = presentation.get("banter") or {}
+        mascot = presentation.get("mascot") or {}
+        data = event.get("data") or {}
+
+        custom_message = str(data.get("message") or "").strip()
+        banter_text = str(banter.get("text") or "").strip()
+        mascot_copy = str(mascot.get("copy") or "").strip()
+        mascot_path = str(mascot.get("production") or "").strip()
+
+        if not (custom_message or banter_text or mascot_copy or mascot_path):
+            continue
+
+        entries.append(
+            {
+                "event_type": str(event.get("event_type") or ""),
+                "event_key": str(event.get("content_event_key") or ""),
+                "hole_number": event.get("hole_number"),
+                "created_at": event.get("created_at"),
+                "custom_message": custom_message,
+                "banter_text": banter_text,
+                "mascot_copy": mascot_copy,
+                "mascot_path": mascot_path,
+            }
+        )
+
+    return entries
+
+
+def _asset_file(value: object) -> Path | None:
+    relative = str(value or "").strip().lstrip("/")
+    if not relative:
+        return None
+
+    candidate = (ROOT / relative).resolve()
+    if ASSET_ROOT != candidate and ASSET_ROOT not in candidate.parents:
+        return None
+    if not candidate.is_file():
+        return None
+    return candidate
+
+
+def _mini_image(value: object) -> ReportImage | None:
+    path = _asset_file(value)
+    if path is None:
+        return None
+
+    try:
+        image = ReportImage(str(path))
+    except Exception:
+        return None
+
+    max_width = 0.95 * inch
+    max_height = 1.05 * inch
+    width = float(image.imageWidth or max_width)
+    height = float(image.imageHeight or max_height)
+    scale = min(max_width / width, max_height / height)
+    image.drawWidth = width * scale
+    image.drawHeight = height * scale
+    return image
+
+
+def _append_content_archive(
+    story: list[Any],
+    round_data: Mapping[str, Any],
+    styles: dict[str, ParagraphStyle],
+) -> None:
+    entries = _content_archive_entries(round_data)
+    if not entries:
         return
 
-    story.append(Paragraph("SELECTED RECEIPTS", styles["heading"]))
-    for text in receipts:
-        story.append(Paragraph(f"- {_safe(text)}", styles["body"]))
+    story.append(Paragraph("FULL TRASH-TALK & MINI ARCHIVE", styles["heading"]))
+    story.append(
+        Paragraph(
+            (
+                "Every banter line and mini mascot actually selected during this "
+                "round is preserved below. If the same insult fired twice, it stays "
+                "twice. Evidence is evidence."
+            ),
+            styles["body"],
+        )
+    )
+
+    for entry in entries:
+        meta_parts: list[str] = []
+        if entry["hole_number"] is not None:
+            meta_parts.append(f"HOLE {entry['hole_number']}")
+        if entry["event_key"]:
+            meta_parts.append(str(entry["event_key"]))
+        elif entry["event_type"]:
+            meta_parts.append(str(entry["event_type"]))
+
+        text_flowables: list[Any] = []
+        if meta_parts:
+            text_flowables.append(
+                Paragraph(_safe(" | ".join(meta_parts)), styles["small"])
+            )
+
+        if entry["custom_message"]:
+            text_flowables.append(
+                Paragraph(
+                    f"<b>CUSTOM:</b> {_safe(entry['custom_message'])}",
+                    styles["body"],
+                )
+            )
+
+        if entry["banter_text"]:
+            text_flowables.append(
+                Paragraph(
+                    f"<b>BANTER:</b> {_safe(entry['banter_text'])}",
+                    styles["body"],
+                )
+            )
+
+        if entry["mascot_copy"]:
+            text_flowables.append(
+                Paragraph(
+                    f"<b>MINI:</b> {_safe(entry['mascot_copy'])}",
+                    styles["body"],
+                )
+            )
+
+        mini = _mini_image(entry["mascot_path"])
+        left_cell: Any = mini if mini is not None else ""
+        right_cell: Any = text_flowables or [
+            Paragraph("Presentation recorded.", styles["small"])
+        ]
+
+        row = Table(
+            [[left_cell, right_cell]],
+            colWidths=[1.1 * inch, 5.25 * inch],
+            hAlign="LEFT",
+        )
+        row.setStyle(
+            TableStyle(
+                [
+                    ("BACKGROUND", (0, 0), (-1, -1), PAPER),
+                    ("BOX", (0, 0), (-1, -1), 0.8, INK),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 7),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+                    ("TOPPADDING", (0, 0), (-1, -1), 7),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
+                ]
+            )
+        )
+        story.append(row)
+        story.append(Spacer(1, 0.07 * inch))
 
 
 def _append_individual(
@@ -506,7 +650,7 @@ def build_round_report_pdf(
     else:
         _append_individual(story, round_data, styles, preferences=prefs)
 
-    _append_receipts(story, round_data, styles)
+    _append_content_archive(story, round_data, styles)
 
     story.extend(
         [
