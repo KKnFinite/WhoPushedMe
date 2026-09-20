@@ -127,6 +127,21 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
 
+## Who can enter, edit, and remove scores
+- In individual play, any active player may enter a score for any active player in the round. A golfer does not have to enter only their own score.
+- This supports real golf behavior where one person may be keeping score while somebody else is driving, putting clubs away, drinking, or simply not paying attention.
+- Every score event must preserve both actor and subject:
+  - actor = who entered/edited/removed the score
+  - subject = whose score it is
+- Receipts may expose that distinction when useful, for example: `KHRIS ENTERED MIKE'S 6` or `JOHN CHANGED MIKE 6 -> 5`.
+- Any active player may edit or remove another active player's current score; spectators may never mutate scores.
+- Score removal is allowed and creates a permanent removal event rather than deleting history.
+- Removing a score removes it from current standings, score-to-par, completion, and derived-current-state calculations, but preserves the original score event and all reactions/replies attached to it.
+- Re-entering a removed score creates a new score event and new reaction opportunity.
+- Correcting a score that was entered for the wrong player is handled as remove-from-wrong-player plus enter-for-correct-player unless a dedicated move action is later added.
+- Completed rounds remain frozen; edits/removals require an explicit round reopen first.
+- No host or designated scorekeeper is required. The audit trail is the accountability mechanism rather than restrictive score ownership.
+
 ## Score edits after reactions
 - Editing a score never rewrites or deletes the original score event.
 - The original reported score keeps its exact banter, mascot, reactions, replies, timestamps, and Receipt history.
