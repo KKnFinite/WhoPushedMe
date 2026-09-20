@@ -7,6 +7,7 @@ from who_pushed_me.content.presentation import (
     par_content_event,
     score_content_event,
     scramble_contribution_content_event,
+    score_response_content_event,
     social_content_event,
     status_content_event,
 )
@@ -68,6 +69,14 @@ def test_other_round_actions_map_to_canonical_content_events():
         scramble_contribution_content_event("p1", "p2", "drive")
         == "scramble.contribution.changed"
     )
+
+
+def test_score_responses_map_to_specific_content_events():
+    assert score_response_content_event("bullshit") == "score.response.bullshit"
+    assert score_response_content_event("cheater") == "score.response.cheater"
+    assert score_response_content_event("blame") == "score.response.blame"
+    assert score_response_content_event("random") == "score.response.random"
+    assert score_response_content_event("wat") == "score.response.random"
 
 
 def test_social_actions_map_to_specific_mid_hole_events():
