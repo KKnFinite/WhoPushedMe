@@ -1085,6 +1085,143 @@ body.app-ready .app-shell {
   cursor: pointer;
 }
 
+.bag-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 114;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(23,25,22,.82);
+  backdrop-filter: blur(5px);
+}
+
+.bag-modal[hidden] {
+  display: none;
+}
+
+.bag-card {
+  width: min(100%, 520px);
+  max-height: min(90vh, 820px);
+  overflow: auto;
+  padding: 24px;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: 26px;
+  box-shadow: 12px 13px 0 var(--ink);
+}
+
+.bag-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bag-actions button,
+.bag-reaction-grid button,
+.bag-form-heading button {
+  min-height: 50px;
+  padding: 10px 12px;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  line-height: 1.05;
+}
+
+.bag-actions button {
+  background: var(--orange);
+  color: var(--paper);
+}
+
+.bag-actions button:nth-child(2),
+.bag-actions button:nth-child(5) {
+  background: var(--green-deep);
+}
+
+.bag-actions button:nth-child(3),
+.bag-actions button:nth-child(6) {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.bag-actions button[hidden] {
+  display: none;
+}
+
+.bag-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.bag-form[hidden] {
+  display: none;
+}
+
+.bag-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bag-form-heading strong {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 1.2rem;
+}
+
+.bag-form-heading button {
+  min-height: 40px;
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+.bag-form textarea,
+.bag-form select {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 12px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.bag-form textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.bag-reactions {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 3px solid var(--ink);
+}
+
+.bag-reactions-label {
+  margin-bottom: 8px;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .72rem;
+  letter-spacing: .1em;
+}
+
+.bag-reaction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bag-reaction-grid button {
+  min-height: 44px;
+  background: var(--charcoal);
+  color: var(--paper);
+  font-size: .76rem;
+}
+
 .settings-modal {
   position: fixed;
   inset: 0;
