@@ -991,6 +991,78 @@
     }
   });
 
+  liveRoundHome?.addEventListener('click', closeRoundFlow);
+
+  holePrev?.addEventListener('click', () => {
+    if (!currentLobbyRound || viewedHole === null) return;
+    if (Number(viewedHole) <= 1) return;
+    viewedHole = Number(viewedHole) - 1;
+    renderLiveRound(currentLobbyRound);
+  });
+
+  holeNext?.addEventListener('click', async () => {
+    if (!currentLobbyRound || viewedHole === null) return;
+
+    if (Number(viewedHole) < Number(currentLobbyRound.current_hole)) {
+      viewedHole = Number(viewedHole) + 1;
+      renderLiveRound(currentLobbyRound);
+      return;
+    }
+
+    if (
+      currentLobbyRound.viewer_role !== 'player'
+      || Number(currentLobbyRound.current_hole) >= Number(currentLobbyRound.hole_count)
+    ) {
+      return;
+    }
+
+    holeNext.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/current-hole`,
+        {
+          method: 'PATCH',
+          body: { hole: Number(currentLobbyRound.current_hole) + 1 },
+        }
+      );
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      holeNext.disabled = false;
+    }
+  });
+
+  parForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentLobbyRound || viewedHole === null) return;
+    if (currentLobbyRound.viewer_role !== 'player') return;
+
+    const par = Number(parInput?.value);
+    if (!Number.isInteger(par) || par < 2 || par > 7) {
+      setRoundFlowMessage('Par must be between 2 and 7.');
+      return;
+    }
+
+    if (parSubmit) parSubmit.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/holes/${viewedHole}/par`,
+        {
+          method: 'PUT',
+          body: { par },
+        }
+      );
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      if (parSubmit) parSubmit.disabled = false;
+    }
+  });
+
   const openSettings = async () => {
     if (!settingsModal || !settingsForm) return;
     setSettingsMessage('');
