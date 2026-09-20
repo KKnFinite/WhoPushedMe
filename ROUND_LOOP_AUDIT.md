@@ -141,9 +141,13 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Relative-to-par is always calculated only from holes that legitimately count for that player/team; never invent missing strokes.
 - If a player has missing score entries for holes that should count, do not show a misleading cumulative stroke total.
 - Instead show the relative-to-par result from the recorded holes plus an explicit incomplete indicator.
-- Example incomplete display: `+6  |  INCOMPLETE • 12/18 SCORED`.
+- Example incomplete display: `+6  |  INCOMPLETE • 6/9 SCORED` or `+6  |  INCOMPLETE • 12/18 SCORED`, depending on that player's required route.
 - Use `THRU N` only when the recorded holes form a true contiguous progression in that player's route; otherwise use `N/M SCORED`.
 - Holes intentionally outside a player's tracked route (for example, a legitimate late join) are not treated as missing scores.
+- Never hardcode 18 as the denominator. The denominator is the number of holes that actually belong to that player/team's required tracked route.
+- A planned 9-hole round uses 9. A custom route uses its actual route length. A wrapped shotgun route uses the number of holes in that route.
+- If the whole group explicitly ends the round early, holes beyond the agreed stopping point are removed from the effective required route; they are not shown as missing scores.
+- A group-ended-early round must still be visibly labeled as ended early rather than presented as a normal full-route completion.
 - A player who has completed every hole in their defined tracked route may show both cumulative strokes and relative-to-par for that route, even when that route is shorter than 18 holes.
 - Assumed-par holes, when explicitly chosen, count toward displayed totals but must remain identifiable as assumed in history/Receipts/PDF.
 
