@@ -3,3 +3,4 @@ Gunicorn>=23,<24
 psycopg[binary]>=3.2,<4
 pytest>=8,<9
 Pillow>=12,<13
+ReportLab>=4.4,<5
