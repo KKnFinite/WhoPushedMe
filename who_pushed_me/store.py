@@ -848,6 +848,7 @@ class RoundStore:
         code: object | None = None,
         *,
         round_id: object | None = None,
+        event_limit: int | None = 100,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_code = str(code or "").strip()
@@ -938,16 +939,19 @@ class RoundStore:
                 mode=round_row["mode"],
                 hole_count=round_row["hole_count"],
             )
-            cursor.execute(
-                """
+            event_query = """
                 SELECT id, actor_participant_id, event_type, hole_number,
                        old_value, new_value, data, content_event_key,
                        presentation, created_at
-                FROM round_events WHERE round_id = %s
-                ORDER BY created_at DESC, id DESC LIMIT 100
-                """,
-                (found["id"],),
-            )
+                FROM round_events
+                WHERE round_id = %s
+                ORDER BY created_at DESC, id DESC
+            """
+            event_params: list[object] = [found["id"]]
+            if event_limit is not None:
+                event_query += " LIMIT %s"
+                event_params.append(max(1, int(event_limit)))
+            cursor.execute(event_query, tuple(event_params))
             events = cursor.fetchall()
             catalog = ContentCatalog.load()
             preferences = self._preferences_from_cursor(
