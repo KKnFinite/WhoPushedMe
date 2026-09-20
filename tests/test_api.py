@@ -159,7 +159,14 @@ class FakeStore:
             "role": role,
         }
 
-    def get_round(self, golfer_id, code=None, *, round_id=None):
+    def get_round(
+        self,
+        golfer_id,
+        code=None,
+        *,
+        round_id=None,
+        event_limit=100,
+    ):
         lookup = round_id if round_id is not None else code
         self.calls.append(("get_round", golfer_id, lookup))
         return {
@@ -802,7 +809,13 @@ def test_final_damage_report_download_requires_completed_round():
 def test_final_damage_report_download_returns_pdf_attachment():
     client, store = client_with_store()
 
-    def completed_round(golfer_id, code=None, *, round_id=None):
+    def completed_round(
+        golfer_id,
+        code=None,
+        *,
+        round_id=None,
+        event_limit=100,
+    ):
         return {
             "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
             "active_code": "4321",
