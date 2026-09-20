@@ -141,6 +141,9 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Correcting a score that was entered for the wrong player is handled as remove-from-wrong-player plus enter-for-correct-player unless a dedicated move action is later added.
 - Completed rounds remain frozen; edits/removals require an explicit round reopen first.
 - No host or designated scorekeeper is required. The audit trail is the accountability mechanism rather than restrictive score ownership.
+- A player does not need an active phone/session to remain a valid round participant. Their phone may be dead, absent, disconnected, or intentionally unused while other active players keep their score.
+- Device presence must never be used to decide whether a player is eligible for scoring, standings, completion, withdrawal, or results.
+- Reconnecting later restores that player's live view and social controls without changing any scores other players entered for them.
 
 ## Score edits after reactions
 - Editing a score never rewrites or deletes the original score event.
