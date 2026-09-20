@@ -30,6 +30,7 @@ from who_pushed_me.content.presentation import (
     par_content_event,
     score_content_event,
     scramble_contribution_content_event,
+    score_response_content_event,
     social_content_event,
     status_content_event,
 )
@@ -199,6 +200,7 @@ class RoundStore:
         old_value: object | None = None,
         new_value: object | None = None,
         data: dict[str, object] | None = None,
+        reply_to_event_id: UUID | None = None,
         content_event_key: str | None = None,
         presentation_context: dict[str, object] | None = None,
     ) -> dict[str, Any]:
@@ -220,11 +222,12 @@ class RoundStore:
             """
             INSERT INTO round_events (
                 round_id, actor_participant_id, event_type, hole_number,
-                old_value, new_value, data, content_event_key, presentation
+                old_value, new_value, data, reply_to_event_id,
+                content_event_key, presentation
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id, event_type, hole_number, old_value, new_value, data,
-                      content_event_key, presentation, created_at
+                      reply_to_event_id, content_event_key, presentation, created_at
             """,
             (
                 round_id,
@@ -234,6 +237,7 @@ class RoundStore:
                 Jsonb(old_value) if old_value is not None else None,
                 Jsonb(new_value) if new_value is not None else None,
                 Jsonb(data or {}),
+                reply_to_event_id,
                 canonical_content_event,
                 Jsonb(presentation),
             ),
@@ -941,8 +945,8 @@ class RoundStore:
             )
             event_query = """
                 SELECT id, actor_participant_id, event_type, hole_number,
-                       old_value, new_value, data, content_event_key,
-                       presentation, created_at
+                       old_value, new_value, data, reply_to_event_id,
+                       content_event_key, presentation, created_at
                 FROM round_events
                 WHERE round_id = %s
                 ORDER BY created_at DESC, id DESC
@@ -1481,7 +1485,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
-            require_player(actor["role"], "change scramble contributions")
+            if round_row["status"] != "active":
+                raise DomainError("contributions are only available during an active round")
             if round_row["mode"] != "scramble":
                 raise DomainError("contributions are only available for scramble rounds")
             hole_number = validate_hole(hole, round_row["hole_count"])
@@ -1554,6 +1559,115 @@ class RoundStore:
                 "shot_type": normalized_type,
                 "player_participant_id": target_id,
             }
+
+    def add_score_response(
+        self,
+        golfer_id: object,
+        round_id: object,
+        score_event_id: object,
+        *,
+        response_kind: object,
+        message: object | None = None,
+        target_participant_id: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        parent_event_uuid = self._uuid(score_event_id, "score_event_id")
+        kind = str(response_kind or "").strip().lower()
+        allowed = {
+            "bullshit",
+            "cheater",
+            "lucky",
+            "nice",
+            "blame",
+            "random",
+            "custom",
+        }
+        if kind not in allowed:
+            raise DomainError("unsupported score response")
+
+        response_message = str(message or "").strip()
+        if len(response_message) > 280:
+            raise DomainError("score response must be 280 characters or fewer")
+        if kind == "custom" and not response_message:
+            raise DomainError("custom score response cannot be empty")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            if round_row["status"] != "active":
+                raise DomainError("score responses are only available during an active round")
+
+            cursor.execute(
+                """
+                SELECT id, event_type, hole_number, data
+                FROM round_events
+                WHERE id = %s
+                  AND round_id = %s
+                  AND event_type IN ('score_report', 'score_push')
+                """,
+                (parent_event_uuid, round_uuid),
+            )
+            score_event = cursor.fetchone()
+            if not score_event:
+                raise DomainError("response target must be a score event in this round")
+
+            score_data = score_event.get("data") or {}
+            target_id: UUID | None = None
+
+            if round_row["mode"] == "individual":
+                subject_value = score_data.get("player_participant_id")
+                if subject_value:
+                    target_id = self._uuid(
+                        subject_value,
+                        "player_participant_id",
+                    )
+            elif target_participant_id is not None:
+                target_id = self._uuid(
+                    target_participant_id,
+                    "target_participant_id",
+                )
+
+            if kind == "blame" and round_row["mode"] == "scramble" and target_id is None:
+                raise DomainError("pick who screwed up before blaming someone")
+
+            if target_id is not None:
+                cursor.execute(
+                    """
+                    SELECT role
+                    FROM round_participants
+                    WHERE id = %s AND round_id = %s
+                    """,
+                    (target_id, round_uuid),
+                )
+                target = cursor.fetchone()
+                if not target or target["role"] != "player":
+                    raise DomainError("score response target must be a player in this round")
+
+            payload: dict[str, object] = {
+                "response_kind": kind,
+                "score_event_id": str(parent_event_uuid),
+            }
+            if target_id is not None:
+                payload["target_participant_id"] = str(target_id)
+            if response_message:
+                payload["message"] = response_message
+
+            content_event = score_response_content_event(kind)
+            return self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=actor["id"],
+                event_type="score_response",
+                hole_number=score_event["hole_number"],
+                data=payload,
+                reply_to_event_id=parent_event_uuid,
+                content_event_key=content_event,
+                presentation_context={
+                    "hole": score_event["hole_number"] or "",
+                    "mode": round_row["mode"],
+                },
+            )
 
     def add_social_event(
         self,
