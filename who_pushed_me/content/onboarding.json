@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "screen": "install",
+  "assets": [
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath",
+      "copy": "STOP OPENING THIS LIKE A PSYCHOPATH.",
+      "hat_copy": "HOME SCREEN",
+      "enabled": true
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_LiterallyTellingYouWhereToTap",
+      "copy": "I'M LITERALLY TELLING YOU WHERE TO TAP.",
+      "hat_copy": "PAY ATTENTION",
+      "enabled": true
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen",
+      "copy": "PUT ME ON YOUR FUCKING HOME SCREEN.",
+      "hat_copy": "DO IT",
+      "enabled": true
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_MakeItAnAppYouLazyBastard",
+      "copy": "MAKE IT AN APP, YOU LAZY BASTARD.",
+      "hat_copy": "ADD TO HOME",
+      "enabled": true
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_47OtherUselessApps",
+      "copy": "YOU DOWNLOADED 47 OTHER USELESS APPS. ADD THIS ONE.",
+      "hat_copy": "MAKE ROOM",
+      "enabled": true
+    }
+  ]
+}
