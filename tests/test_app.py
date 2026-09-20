@@ -23,12 +23,15 @@ def test_home_loads_pwa_shell():
     assert b"FREE PLAY" in response.data
     assert b"YOUR TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
+    assert b"LIVE SCORECARD" in response.data
+    assert b"REPORT PAR" in response.data
+    assert b"LATEST RECEIPT" in response.data
+    assert b"BAG OF BULLSHIT" in response.data
     assert b"MINI MASCOTS" in response.data
     assert b"TRASH TALK" in response.data
     assert b"DRINKING JOKES" in response.data
     assert b"WIFE JOKES" in response.data
     assert b"BRUTAL" in response.data
-    assert b"Bag of Bullshit" not in response.data
     assert b"manifest.webmanifest" in response.data
 
 
@@ -53,5 +56,5 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v6" in response.data
+    assert b"wpm-shell-v7" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
