@@ -23,6 +23,10 @@ from who_pushed_me.auth import (
 )
 from who_pushed_me.courses import CourseSnapshot
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
+from who_pushed_me.content.derived import (
+    score_transition_events,
+    standing_transition_events,
+)
 from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
 from who_pushed_me.content.presentation import (
     build_shared_presentation,
@@ -1358,6 +1362,151 @@ class RoundStore:
             )
             return {"round_id": round_uuid, "hole": hole_number, "par": par_value, "event": event}
 
+    @staticmethod
+    def _score_series_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+        *,
+        scope: str,
+        participant_id: UUID | None,
+    ) -> list[dict[str, Any]]:
+        cursor.execute(
+            """
+            SELECT s.hole_number, s.strokes, p.par
+            FROM round_hole_scores s
+            LEFT JOIN round_hole_pars p
+              ON p.round_id = s.round_id
+             AND p.hole_number = s.hole_number
+            WHERE s.round_id = %s
+              AND s.score_scope = %s
+              AND s.player_participant_id IS NOT DISTINCT FROM %s
+            ORDER BY s.hole_number
+            """,
+            (round_id, scope, participant_id),
+        )
+        return cursor.fetchall()
+
+    @staticmethod
+    def _individual_standing_state_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+        *,
+        hole_count: int,
+    ) -> dict[str, Any] | None:
+        cursor.execute(
+            """
+            SELECT rp.id AS participant_id, g.display_name
+            FROM round_participants rp
+            JOIN golfers g ON g.id = rp.golfer_id
+            WHERE rp.round_id = %s
+              AND rp.role = 'player'
+            ORDER BY rp.joined_at, rp.id
+            """,
+            (round_id,),
+        )
+        players = cursor.fetchall()
+        if len(players) < 2:
+            return None
+
+        participant_ids = [row["participant_id"] for row in players]
+        names = {
+            str(row["participant_id"]): row["display_name"]
+            for row in players
+        }
+
+        cursor.execute(
+            """
+            SELECT player_participant_id, hole_number, strokes
+            FROM round_hole_scores
+            WHERE round_id = %s
+              AND score_scope = 'player'
+            ORDER BY hole_number, player_participant_id
+            """,
+            (round_id,),
+        )
+        score_rows = cursor.fetchall()
+
+        scores: dict[UUID, dict[int, int]] = {
+            participant_id: {}
+            for participant_id in participant_ids
+        }
+        for row in score_rows:
+            participant_id = row["player_participant_id"]
+            if participant_id in scores:
+                scores[participant_id][int(row["hole_number"])] = int(
+                    row["strokes"]
+                )
+
+        through_hole = 0
+        for hole in range(1, int(hole_count) + 1):
+            if all(hole in scores[participant_id] for participant_id in participant_ids):
+                through_hole = hole
+            else:
+                break
+
+        if through_hole == 0:
+            return None
+
+        totals = {
+            str(participant_id): sum(
+                scores[participant_id][hole]
+                for hole in range(1, through_hole + 1)
+            )
+            for participant_id in participant_ids
+        }
+        minimum = min(totals.values())
+        maximum = max(totals.values())
+
+        return {
+            "through_hole": through_hole,
+            "player_count": len(participant_ids),
+            "totals": totals,
+            "leaders": {
+                participant_id
+                for participant_id, total in totals.items()
+                if total == minimum
+            },
+            "last": {
+                participant_id
+                for participant_id, total in totals.items()
+                if total == maximum
+            },
+            "names": names,
+        }
+
+    @staticmethod
+    def _derived_event_exists(
+        cursor: Any,
+        round_id: UUID,
+        event_key: str,
+        *,
+        participant_id: UUID | None,
+    ) -> bool:
+        if participant_id is None:
+            cursor.execute(
+                """
+                SELECT 1
+                FROM round_events
+                WHERE round_id = %s
+                  AND content_event_key = %s
+                LIMIT 1
+                """,
+                (round_id, event_key),
+            )
+        else:
+            cursor.execute(
+                """
+                SELECT 1
+                FROM round_events
+                WHERE round_id = %s
+                  AND content_event_key = %s
+                  AND data->>'player_participant_id' = %s
+                LIMIT 1
+                """,
+                (round_id, event_key, str(participant_id)),
+            )
+        return cursor.fetchone() is not None
+
     def set_score(
         self,
         golfer_id: object,
@@ -1383,18 +1532,42 @@ class RoundStore:
             if round_row["mode"] == "individual":
                 target_id = self._uuid(player_participant_id, "player_participant_id")
                 cursor.execute(
-                    "SELECT role FROM round_participants WHERE id = %s AND round_id = %s",
+                    """
+                    SELECT rp.role, g.display_name
+                    FROM round_participants rp
+                    JOIN golfers g ON g.id = rp.golfer_id
+                    WHERE rp.id = %s AND rp.round_id = %s
+                    """,
                     (target_id, round_uuid),
                 )
                 target = cursor.fetchone()
                 if not target or target["role"] != "player":
                     raise DomainError("score target must be a player in this round")
                 scope = "player"
+                subject_name = target["display_name"]
             else:
                 if player_participant_id is not None:
                     raise DomainError("scramble rounds use one team score")
                 target_id = None
                 scope = "team"
+                subject_name = "Team"
+
+            before_series = self._score_series_from_cursor(
+                cursor,
+                round_uuid,
+                scope=scope,
+                participant_id=target_id,
+            )
+            before_standings = (
+                self._individual_standing_state_from_cursor(
+                    cursor,
+                    round_uuid,
+                    hole_count=round_row["hole_count"],
+                )
+                if round_row["mode"] == "individual"
+                else None
+            )
+
             cursor.execute(
                 """
                 SELECT id, strokes FROM round_hole_scores
@@ -1433,6 +1606,101 @@ class RoundStore:
             )
             par_row = cursor.fetchone()
             par_value = par_row["par"] if par_row else None
+
+            after_series = self._score_series_from_cursor(
+                cursor,
+                round_uuid,
+                scope=scope,
+                participant_id=target_id,
+            )
+            after_standings = (
+                self._individual_standing_state_from_cursor(
+                    cursor,
+                    round_uuid,
+                    hole_count=round_row["hole_count"],
+                )
+                if round_row["mode"] == "individual"
+                else None
+            )
+
+            for derived_event in score_transition_events(
+                before_series,
+                after_series,
+            ):
+                if (
+                    derived_event
+                    in {
+                        "score.derived.first_birdie",
+                        "score.derived.first_eagle",
+                    }
+                    and self._derived_event_exists(
+                        cursor,
+                        round_uuid,
+                        derived_event,
+                        participant_id=target_id,
+                    )
+                ):
+                    continue
+
+                self._event(
+                    cursor,
+                    round_id=round_uuid,
+                    actor_participant_id=actor["id"],
+                    event_type="score_derived",
+                    hole_number=hole_number,
+                    data={
+                        "scope": scope,
+                        "player_participant_id": (
+                            str(target_id) if target_id else None
+                        ),
+                    },
+                    content_event_key=derived_event,
+                    presentation_context={
+                        "hole": hole_number,
+                        "mode": round_row["mode"],
+                        "subject": subject_name,
+                    },
+                )
+
+            for derived_event, participant_id in standing_transition_events(
+                before_standings,
+                after_standings,
+            ):
+                standing_names = (
+                    (after_standings or {}).get("names")
+                    or (before_standings or {}).get("names")
+                    or {}
+                )
+                self._event(
+                    cursor,
+                    round_id=round_uuid,
+                    actor_participant_id=actor["id"],
+                    event_type="score_derived",
+                    hole_number=(
+                        (after_standings or before_standings or {}).get(
+                            "through_hole"
+                        )
+                    ),
+                    data={
+                        "scope": "player",
+                        "player_participant_id": participant_id,
+                    },
+                    content_event_key=derived_event,
+                    presentation_context={
+                        "hole": (
+                            (after_standings or before_standings or {}).get(
+                                "through_hole",
+                                hole_number,
+                            )
+                        ),
+                        "mode": "individual",
+                        "subject": standing_names.get(
+                            participant_id,
+                            "Golfer",
+                        ),
+                    },
+                )
+
             content_event = score_content_event(
                 mode=round_row["mode"],
                 old_score=old_score,
