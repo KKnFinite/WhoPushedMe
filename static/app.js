@@ -49,6 +49,23 @@
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
   const lobbyTeeSelect = document.getElementById('lobby-tee-select');
   const lobbyTeeSave = document.getElementById('lobby-tee-save');
+  const liveRoundPanel = document.getElementById('live-round-panel');
+  const liveRoundPlace = document.getElementById('live-round-place');
+  const liveRoundCode = document.getElementById('live-round-code');
+  const holePrev = document.getElementById('hole-prev');
+  const holeNext = document.getElementById('hole-next');
+  const holeStateLabel = document.getElementById('hole-state-label');
+  const holeNumber = document.getElementById('hole-number');
+  const holeParLabel = document.getElementById('hole-par-label');
+  const parForm = document.getElementById('par-form');
+  const parInput = document.getElementById('par-input');
+  const parSubmit = document.getElementById('par-submit');
+  const liveScoreArea = document.getElementById('live-score-area');
+  const latestPresentation = document.getElementById('latest-presentation');
+  const latestMascot = document.getElementById('latest-mascot');
+  const latestBanter = document.getElementById('latest-banter');
+  const latestFallback = document.getElementById('latest-fallback');
+  const liveRoundHome = document.getElementById('live-round-home');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -58,6 +75,7 @@
   let currentLobbyRound = null;
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
+  let viewedHole = null;
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
@@ -468,6 +486,7 @@
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
     currentLobbyRound = null;
+    viewedHole = null;
     clearSelectedCourse();
     if (lobbyRefreshTimer) {
       window.clearInterval(lobbyRefreshTimer);
@@ -485,6 +504,7 @@
     if (startRoundForm) startRoundForm.hidden = panel !== 'start';
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
     if (lobbyPanel) lobbyPanel.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
     if (roundFlowTitle) {
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
