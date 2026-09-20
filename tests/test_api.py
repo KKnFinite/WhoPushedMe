@@ -259,6 +259,38 @@ class FakeStore:
             "player_participant_id": player_participant_id,
         }
 
+    def add_score_response(
+        self,
+        golfer_id,
+        round_id,
+        score_event_id,
+        *,
+        response_kind,
+        message=None,
+        target_participant_id=None,
+    ):
+        self.calls.append(
+            (
+                "score_response",
+                golfer_id,
+                round_id,
+                score_event_id,
+                response_kind,
+                message,
+                target_participant_id,
+            )
+        )
+        return {
+            "id": UUID("4f99b4cf-4a74-48a9-b29e-908c0d2d36fc"),
+            "event_type": "score_response",
+            "reply_to_event_id": score_event_id,
+            "data": {
+                "response_kind": response_kind,
+                "message": message,
+                "target_participant_id": target_participant_id,
+            },
+        }
+
     def add_social_event(
         self,
         golfer_id,
@@ -863,5 +895,34 @@ def test_final_damage_report_download_returns_pdf_attachment():
     assert response.data.startswith(b"%PDF-")
     assert "who-pushed-me-4321-final-damage-report.pdf" in (
         response.headers["Content-Disposition"]
+    )
+
+def test_score_response_route_links_reply_to_specific_score_event():
+    client, store = client_with_store()
+    score_event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+
+    response = client.post(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"score-events/{score_event_id}/responses"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "response_kind": "blame",
+            "message": "That was all Pat.",
+            "target_participant_id": target,
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "score_response",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        score_event_id,
+        "blame",
+        "That was all Pat.",
+        target,
     )
 
