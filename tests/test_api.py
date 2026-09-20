@@ -784,3 +784,69 @@ def test_complete_round_status_can_return_final_results():
         "completed",
     )
 
+def test_final_damage_report_download_requires_completed_round():
+    client, store = client_with_store()
+
+    response = client.get(
+        "/api/rounds/code/4321/report.pdf",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 400
+    assert response.get_json()["error"] == (
+        "final damage report is only available after the round is completed"
+    )
+
+
+def test_final_damage_report_download_returns_pdf_attachment():
+    client, store = client_with_store()
+
+    def completed_round(golfer_id, code):
+        return {
+            "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+            "active_code": code,
+            "status": "completed",
+            "mode": "scramble",
+            "hole_count": 1,
+            "course": None,
+            "free_play_name": "Test Disaster",
+            "viewer_role": "player",
+            "viewer_participant_id": "p1",
+            "participants": [
+                {"id": "p1", "role": "player", "display_name": "Kim"},
+            ],
+            "pars": [{"hole_number": 1, "par": 4}],
+            "scores": [
+                {
+                    "hole_number": 1,
+                    "score_scope": "team",
+                    "player_participant_id": None,
+                    "strokes": 5,
+                }
+            ],
+            "contributions": [],
+            "results": {
+                "mode": "scramble",
+                "complete": True,
+                "score_count": 1,
+                "missing_scores": 0,
+                "team_total": 5,
+                "players": [],
+            },
+            "events": [],
+        }
+
+    store.get_round = completed_round
+
+    response = client.get(
+        "/api/rounds/code/4321/report.pdf",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.mimetype == "application/pdf"
+    assert response.data.startswith(b"%PDF-")
+    assert "who-pushed-me-4321-final-damage-report.pdf" in (
+        response.headers["Content-Disposition"]
+    )
+
