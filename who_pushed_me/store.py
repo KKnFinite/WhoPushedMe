@@ -1653,7 +1653,11 @@ class RoundStore:
             if response_message:
                 payload["message"] = response_message
 
-            content_event = score_response_content_event(kind)
+            content_event = (
+                None
+                if kind == "custom"
+                else score_response_content_event(kind)
+            )
             return self._event(
                 cursor,
                 round_id=round_uuid,
