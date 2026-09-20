@@ -36,6 +36,24 @@ def test_round_complete_pack_is_available():
     )
 
 
+def test_score_reports_have_score_specific_banter_without_needing_minis():
+    catalog = ContentCatalog.load()
+    banter = catalog.eligible_banter("score.report.individual.birdie")
+    assert banter
+    assert all(
+        "score.report.individual.birdie" in row["events"]
+        or "score.report.scramble.birdie" in row["events"]
+        for row in banter
+    )
+
+
+def test_score_response_random_has_its_own_trash_talk_bank():
+    catalog = ContentCatalog.load()
+    banter = catalog.eligible_banter("score.response.random")
+    assert banter
+    assert all("score.response.random" in row["events"] for row in banter)
+
+
 def test_score_push_pack_is_available_to_specific_push_events():
     catalog = ContentCatalog.load()
     choices = catalog.eligible_mascots("score.push.individual.old_hole_raised")
