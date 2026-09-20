@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from functools import wraps
+from io import BytesIO
 from typing import Any, Callable
 
 import psycopg
-from flask import Blueprint, current_app, g, jsonify, request
+from flask import Blueprint, current_app, g, jsonify, request, send_file
 
 from who_pushed_me.courses import OpenGolfAPI
 from who_pushed_me.domain import DomainError, NotFound, PermissionDenied
+from who_pushed_me.reporting import build_round_report_pdf
 from who_pushed_me.store import RoundStore
 
 api = Blueprint("api", __name__, url_prefix="/api")
@@ -274,6 +276,28 @@ def join_round():
 @authenticated
 def get_round(code: str):
     return jsonify(_store().get_round(g.golfer["id"], code))
+
+
+@api.get("/rounds/code/<code>/report.pdf")
+@authenticated
+def download_round_report(code: str):
+    round_row = _store().get_round(g.golfer["id"], code)
+    if round_row["status"] != "completed":
+        raise DomainError("final damage report is only available after the round is completed")
+
+    preferences = _store().get_content_preferences(g.golfer["id"])
+    pdf_bytes = build_round_report_pdf(
+        round_row,
+        preferences=preferences,
+    )
+
+    return send_file(
+        BytesIO(pdf_bytes),
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=f"who-pushed-me-{code}-final-damage-report.pdf",
+        max_age=0,
+    )
 
 
 @api.patch("/rounds/<round_id>/tee")
