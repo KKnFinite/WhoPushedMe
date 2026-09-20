@@ -70,6 +70,17 @@ def audit_event_type(subject: str, old_value: object | None) -> str:
     return f"{subject}_{'report' if old_value is None else 'push'}"
 
 
+def require_active_round(status: str, operation: str = "change golf state") -> None:
+    if status != "active":
+        raise DomainError(f"round must be active to {operation}")
+
+
+def validate_shared_hole_change(old_hole: int, new_hole: int) -> int:
+    if new_hole < old_hole:
+        raise DomainError("shared current hole cannot move backward")
+    return new_hole
+
+
 def validate_hole(hole: object, hole_count: int) -> int:
     try:
         value = int(hole)
