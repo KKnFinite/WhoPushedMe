@@ -1349,17 +1349,59 @@ class RoundStore:
             round_row = self._round(cursor, round_uuid)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
             validate_social_event(participant["role"], kind)
-            hole_number = validate_hole(hole, round_row["hole_count"]) if hole is not None else None
+
+            if round_row["status"] != "active":
+                raise DomainError("Bag of Bullshit is only available during an active round")
+
+            hole_number = (
+                validate_hole(hole, round_row["hole_count"])
+                if hole is not None
+                else round_row["current_hole"]
+            )
+
+            target_value = payload.get("target_participant_id")
+            if target_value is not None:
+                target_id = self._uuid(
+                    target_value,
+                    "target_participant_id",
+                )
+                cursor.execute(
+                    """
+                    SELECT 1
+                    FROM round_participants
+                    WHERE id = %s AND round_id = %s
+                    """,
+                    (target_id, round_uuid),
+                )
+                if not cursor.fetchone():
+                    raise DomainError(
+                        "target must be a participant in this round"
+                    )
+                payload["target_participant_id"] = str(target_id)
+
             if kind == "open_mic":
                 message = str(payload.get("message", "")).strip()
                 if not 1 <= len(message) <= 280:
-                    raise DomainError("Open Mic message must be between 1 and 280 characters")
+                    raise DomainError(
+                        "Open Mic message must be between 1 and 280 characters"
+                    )
                 payload = {"message": message}
             elif kind == "reaction":
-                reaction = str(payload.get("reaction", "")).strip()
-                if not 1 <= len(reaction) <= 32:
-                    raise DomainError("reaction must be between 1 and 32 characters")
+                reaction = str(payload.get("reaction", "")).strip().lower()
+                if reaction not in {"laugh", "bullshit", "applause"}:
+                    raise DomainError("unsupported reaction")
                 payload = {"reaction": reaction}
+            else:
+                message = str(payload.get("message", "")).strip()
+                if message:
+                    if len(message) > 280:
+                        raise DomainError(
+                            "Bag of Bullshit message must be 280 characters or fewer"
+                        )
+                    payload["message"] = message
+                else:
+                    payload.pop("message", None)
+
             content_event = social_content_event(kind, payload)
             return self._event(
                 cursor,
