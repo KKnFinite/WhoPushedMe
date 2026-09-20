@@ -39,6 +39,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectators never acquire score, par, tee, contribution, completion, or hole-advancement obligations merely by joining.
 - Any ability to browse older holes or Receipts is viewing history only and does not change what hole the spectator is "on."
 
+## Offline / no-app players
+- Any active player may add another golfer to the round even when that golfer cannot access the app on their own device.
+- An offline/no-app golfer is treated as a full player for golf state: route, tee selection, scores, standings, placement, DNF/withdrawal, awards, Receipts, and Final Damage Report.
+- Other active players may enter, edit, and remove scores for that golfer exactly as they can for any other player.
+- Shared live events, banter, minis, callouts, blame, praise, and score reactions may still target the offline golfer and remain visible to everyone who is connected.
+- What the offline golfer lacks is only a personal client/account delivery surface: no personalized unread count, no private/personalized presentation variant delivered to their own screen, and no direct social actions from them unless they later connect.
+- Device/app absence must not downgrade the golfer to spectator or guest scoring rules.
+- The participant model should support either an account-linked golfer who is simply offline or a round-only golfer identity when no account exists.
+- If a round-only golfer later connects or is linked to an account, that link must not duplicate their participant, scores, history, reactions targeting them, or placement.
+
 ## Lobby
 - Any player may start the round.
 - Spectators may not start it.
