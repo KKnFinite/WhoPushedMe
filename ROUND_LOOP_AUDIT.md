@@ -227,6 +227,29 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Scramble PDFs include team performance plus contribution audit.
 - PDF download uses the permanent round UUID, not the reusable four-digit round code.
 
+## Experience direction: social app x video game
+- The product should feel like a cross between a live social-media feed and a lightweight multiplayer video game, not like a traditional golf scorecard with jokes bolted on.
+- The scorecard remains the authoritative game-state layer, but the live experience should constantly surface social energy around it.
+- Social-app behaviors:
+  - personal unread counts
+  - live event feed / Receipts
+  - reactions attached to exact events
+  - comments / Open Mic
+  - mentions/targets through callouts, blame, praise, and challenges
+  - catch-up after time away
+  - persistent personal/history profiles later through Previous Disasters / Known Offenders
+- Video-game behaviors:
+  - clear round progress and current objective
+  - event-driven popups for birdies, blowups, lead changes, streaks, and other moments
+  - lightweight rewards/taunts/awards instead of sterile notifications
+  - dramatic but nonblocking transitions
+  - persistent player state such as score-to-par, DNF/towel status, contribution history, and round role
+  - end-of-round recap that feels like a results screen, not a spreadsheet
+- Every major action should create immediate feedback: motion, sound-ready hooks, banter, mascot, reaction opportunity, or a visible state change.
+- The app should feel alive even when the user is not entering scores; spectators and inactive players should still have meaningful social interaction.
+- Avoid dense permanent control panels. Use layered interaction: game state always visible, transient event cards for live moments, and Receipts for permanent social history.
+- Humor and personality are part of the interaction system, not decorative copy placed around conventional forms.
+
 ## UI status
 - Current UI is functional scaffolding only.
 - Final design requires explicit approval before merge to main.
