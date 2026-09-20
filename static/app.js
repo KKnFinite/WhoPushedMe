@@ -1323,6 +1323,7 @@
         await refreshRound(currentLobbyRound.active_code);
       } catch (error) {
         setBagMessage(error.message);
+      } finally {
         button.disabled = false;
       }
     });
