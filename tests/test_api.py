@@ -226,6 +226,31 @@ class FakeStore:
         self.calls.append(("par", golfer_id, round_id, hole, par))
         return {"round_id": round_id, "hole": hole, "par": par}
 
+    def set_scramble_contribution(
+        self,
+        golfer_id,
+        round_id,
+        hole,
+        shot_type,
+        player_participant_id,
+    ):
+        self.calls.append(
+            (
+                "contribution",
+                golfer_id,
+                round_id,
+                hole,
+                shot_type,
+                player_participant_id,
+            )
+        )
+        return {
+            "round_id": round_id,
+            "hole": hole,
+            "shot_type": shot_type,
+            "player_participant_id": player_participant_id,
+        }
+
     def add_social_event(
         self,
         golfer_id,
@@ -720,5 +745,42 @@ def test_bag_of_bullshit_route_passes_reaction_payload():
         "reaction",
         6,
         {"reaction": "bullshit"},
+    )
+
+def test_scramble_contribution_route_tracks_selected_player():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+    response = client.put(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/holes/7/contributions/drive",
+        headers={"Authorization": "Bearer session-token"},
+        json={"player_participant_id": target},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "contribution",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        7,
+        "drive",
+        target,
+    )
+
+
+def test_complete_round_status_can_return_final_results():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/status",
+        headers={"Authorization": "Bearer session-token"},
+        json={"status": "completed"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["status"] == "completed"
+    assert store.calls[-1] == (
+        "set_status",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "completed",
     )
 
