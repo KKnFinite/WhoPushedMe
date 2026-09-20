@@ -44,6 +44,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - An offline/no-app golfer is treated as a full player for golf state: route, tee selection, scores, standings, placement, DNF/withdrawal, awards, Receipts, and Final Damage Report.
 - Other active players may enter, edit, and remove scores for that golfer exactly as they can for any other player.
 - Shared live events, banter, minis, callouts, blame, praise, and score reactions may still target the offline golfer and remain visible to everyone who is connected.
+- The group presentation layer may use special offline/no-app banter when a golfer is being scored by others because they are not connected.
+- Offline-player jokes should target the situation, not invent a factual reason. Approved themes include being bad with technology, forgetting how phones/apps work, needing somebody else to operate the tools, or being mysteriously absent from the digital world.
+- Examples of tone:
+  - `MIKE'S PHONE HAS LEFT THE CHAT. HIS BOGEY HAS NOT.`
+  - `SOMEBODY ENTER MIKE'S SCORE. TECHNOLOGY HAS DEFEATED HIM AGAIN.`
+  - `MIKE IS CURRENTLY PARTICIPATING THROUGH A HUMAN PROXY.`
+  - `APPARENTLY USING A PHONE WAS THE HARDEST SHOT OF THE DAY.`
+  - `WE'VE ASSIGNED MIKE A DESIGNATED ADULT WITH A WORKING BATTERY.`
+- Do not state a specific cause such as dead battery, forgotten phone, or no signal unless that reason was actually supplied; use generic technology/absence jokes otherwise.
 - What the offline golfer lacks is only a personal client/account delivery surface: no personalized unread count, no private/personalized presentation variant delivered to their own screen, and no direct social actions from them unless they later connect.
 - Device/app absence must not downgrade the golfer to spectator or guest scoring rules.
 - The participant model should support either an account-linked golfer who is simply offline or a round-only golfer identity when no account exists.
