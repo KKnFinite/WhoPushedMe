@@ -694,6 +694,292 @@
       "vulgarity": "brutal",
       "themes": [],
       "enabled": true
+    },
+    {
+      "id": "banter.derived.first_birdie.normal",
+      "text": "First birdie of the day. Somebody alert the clubhouse.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_birdie.brutal",
+      "text": "First fucking birdie. Took long enough.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_eagle.normal",
+      "text": "First eagle. This is getting suspicious.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_eagle.brutal",
+      "text": "First fucking eagle. Who swapped in a real golfer?",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.back_to_back.normal",
+      "text": "Back-to-back birdies. Absolutely insufferable behavior.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.back_to_back.brutal",
+      "text": "Back-to-back fucking birdies. Somebody humble this asshole.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.birdie_streak.normal",
+      "text": "Three straight birdies. We are officially checking the scorecard.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.birdie_streak.brutal",
+      "text": "Three straight fucking birdies. This shit is under investigation.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.bogey_streak.normal",
+      "text": "Three bogeys or worse in a row. Consistency achieved.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.bogey_streak.brutal",
+      "text": "Three holes of consecutive bullshit. That's a fucking streak.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.blowup.normal",
+      "text": "That hole did not go badly. It filed a claim.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.blowup.brutal",
+      "text": "That hole was a complete fucking detonation.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.new_leader.normal",
+      "text": "{subject} took the lead. Try not to make eye contact.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.new_leader.brutal",
+      "text": "{subject} took the fucking lead. This is getting obnoxious.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.tied_lead.normal",
+      "text": "{subject} tied the lead. Nobody is allowed to feel comfortable.",
+      "events": [
+        "score.derived.tied_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.tied_lead.brutal",
+      "text": "{subject} tied the fucking lead. Now everybody can panic.",
+      "events": [
+        "score.derived.tied_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.lost_lead.normal",
+      "text": "{subject} lost the lead. Nature is healing.",
+      "events": [
+        "score.derived.lost_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.lost_lead.brutal",
+      "text": "{subject} lost the fucking lead. Beautiful collapse.",
+      "events": [
+        "score.derived.lost_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.entered_last.normal",
+      "text": "{subject} has entered last place. Welcome to the basement.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.entered_last.brutal",
+      "text": "{subject} just fell into fucking last place.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.escaped_last.normal",
+      "text": "{subject} escaped last place. Somebody else is now holding the bag.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.escaped_last.brutal",
+      "text": "{subject} escaped fucking last. Congratulations on finding a worse golfer.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
     }
   ]
 }
