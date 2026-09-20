@@ -540,6 +540,8 @@
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
+    if (receiptsPanel) receiptsPanel.hidden = true;
     if (roundFlowTitle) {
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
