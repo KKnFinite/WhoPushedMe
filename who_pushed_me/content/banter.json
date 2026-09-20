@@ -208,6 +208,492 @@
       "vulgarity": "brutal",
       "themes": [],
       "enabled": true
+    },
+    {
+      "id": "banter.score.ace.normal",
+      "text": "Hole in one. Disgusting. Nobody wanted to see competence today.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.ace.brutal",
+      "text": "A fucking ace. Great. Now we have to hear about this forever.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.albatross.normal",
+      "text": "An albatross. This round is officially suspicious.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.albatross.brutal",
+      "text": "An albatross? Somebody check the fucking scorekeeper.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.eagle.normal",
+      "text": "Eagle. Try not to become completely unbearable.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.eagle.brutal",
+      "text": "Eagle. Well, look who suddenly knows how to fucking golf.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.birdie.normal",
+      "text": "Birdie. Take a picture. This may never happen again.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.birdie.brutal",
+      "text": "Birdie. Calm the fuck down, Tour Pro.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.par.normal",
+      "text": "Par. Congratulations on meeting the minimum expectation.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.par.brutal",
+      "text": "Par. You did your fucking job. Want a medal?",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.bogey.normal",
+      "text": "Bogey. Nothing heroic, nothing surprising.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.bogey.brutal",
+      "text": "Bogey. Just enough shit to keep expectations low.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.double.normal",
+      "text": "Double bogey. The wheels are making a noise.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.double.brutal",
+      "text": "Double bogey. There goes another fucking tire.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.triple.normal",
+      "text": "Triple bogey. Please remain near the wreckage.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.triple.brutal",
+      "text": "Triple bogey. This hole beat your ass in public.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.quad.normal",
+      "text": "That is no longer a score. It is documentation.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.quad.brutal",
+      "text": "That score is a fucking incident report.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.bullshit.normal",
+      "text": "THAT'S BULLSHIT.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.bullshit.brutal",
+      "text": "That score is complete fucking bullshit.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.cheater.normal",
+      "text": "Somebody check that scorecard for creative accounting.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.cheater.brutal",
+      "text": "He's a damned cheater. Audit the fucking pencil.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.lucky.normal",
+      "text": "That had more luck than talent and everyone knows it.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.lucky.brutal",
+      "text": "Lucky bastard. Don't pretend that shit was planned.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.nice.normal",
+      "text": "Fine. That was actually a good score. Gross.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.nice.brutal",
+      "text": "Fine. That was fucking good. I hate it.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.blame.normal",
+      "text": "Somebody on this team owes everybody else an apology.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.blame.brutal",
+      "text": "Somebody fucked this hole up. Names are being taken.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.01",
+      "text": "Bold score. Not good. Bold.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.02",
+      "text": "The scorecard asked me not to comment, so naturally I am.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.03",
+      "text": "That number has witnesses.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.04",
+      "text": "That score needs an alibi.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal01",
+      "text": "That number is fucked and we all know it.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal02",
+      "text": "Put that shit under oath.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal03",
+      "text": "The fucking audacity of that score.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal04",
+      "text": "Absolutely not. Get the fuck out of here with that number.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
     }
   ]
 }
