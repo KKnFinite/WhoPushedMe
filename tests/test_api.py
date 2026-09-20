@@ -218,6 +218,14 @@ class FakeStore:
             "tee_name": tee_name,
         }
 
+    def set_current_hole(self, golfer_id, round_id, hole):
+        self.calls.append(("current_hole", golfer_id, round_id, hole))
+        return {"round_id": round_id, "current_hole": hole}
+
+    def set_par(self, golfer_id, round_id, hole, par):
+        self.calls.append(("par", golfer_id, round_id, hole, par))
+        return {"round_id": round_id, "hole": hole, "par": par}
+
     def set_score(self, golfer_id, round_id, hole, strokes, *, player_participant_id=None):
         self.calls.append(
             ("score", golfer_id, round_id, hole, strokes, player_participant_id)
@@ -596,5 +604,41 @@ def test_join_round_can_carry_initial_tee_choice():
         "4321",
         "player",
         "White",
+    )
+
+def test_live_scorecard_can_advance_shared_hole_without_touching_scores():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/current-hole",
+        headers={"Authorization": "Bearer session-token"},
+        json={"hole": 4},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["current_hole"] == 4
+    assert store.calls[-1] == (
+        "current_hole",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        4,
+    )
+
+
+def test_live_scorecard_can_report_or_push_par():
+    client, store = client_with_store()
+    response = client.put(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/holes/4/par",
+        headers={"Authorization": "Bearer session-token"},
+        json={"par": 5},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["par"] == 5
+    assert store.calls[-1] == (
+        "par",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        4,
+        5,
     )
 
