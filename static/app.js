@@ -518,10 +518,275 @@
     roundFlowClose?.focus();
   };
 
-  const renderLobby = (round) => {
+  const findPar = (round, hole) => {
+    const row = (round.pars || []).find(
+      (item) => Number(item.hole_number) === Number(hole)
+    );
+    return row ? Number(row.par) : null;
+  };
+
+  const findScore = (round, hole, participantId = null) => {
+    return (round.scores || []).find((score) => {
+      if (Number(score.hole_number) !== Number(hole)) return false;
+      if (round.mode === 'scramble') return score.score_scope === 'team';
+      return (
+        score.score_scope === 'player'
+        && String(score.player_participant_id) === String(participantId)
+      );
+    }) || null;
+  };
+
+  const scoreRelativeLabel = (strokes, par) => {
+    if (!Number.isFinite(strokes) || !Number.isFinite(par)) return '';
+    const delta = strokes - par;
+    if (delta === 0) return 'E';
+    return delta > 0 ? `+${delta}` : String(delta);
+  };
+
+  const assetUrl = (path) => {
+    const value = String(path || '').trim();
+    if (!value) return '';
+    if (value.startsWith('/')) return value;
+    return `/${value}`;
+  };
+
+  const renderLatestPresentation = (round) => {
+    if (!latestPresentation) return;
+
+    const event = (round.events || []).find((item) => {
+      const presentation = item.presentation || {};
+      return (
+        presentation.event_key
+        || presentation.banter
+        || presentation.mascot
+        || presentation.fallback?.text
+      );
+    });
+
+    if (!event) {
+      latestPresentation.hidden = true;
+      return;
+    }
+
+    const presentation = event.presentation || {};
+    const banterText = presentation.banter?.text
+      || presentation.mascot?.copy
+      || presentation.fallback?.text
+      || '';
+    const fallbackText = presentation.fallback?.text || '';
+
+    if (latestBanter) latestBanter.textContent = banterText;
+    if (latestFallback) {
+      latestFallback.textContent =
+        fallbackText && fallbackText !== banterText ? fallbackText : '';
+    }
+
+    const mascotPath = assetUrl(presentation.mascot?.production);
+    if (latestMascot) {
+      if (mascotPath) {
+        latestMascot.src = mascotPath;
+        latestMascot.alt = presentation.mascot?.copy || 'Who Pushed Me mascot';
+        latestMascot.hidden = false;
+      } else {
+        latestMascot.removeAttribute('src');
+        latestMascot.alt = '';
+        latestMascot.hidden = true;
+      }
+    }
+
+    latestPresentation.hidden = !banterText && !mascotPath;
+  };
+
+  const renderScoreCard = (round, hole) => {
+    if (!liveScoreArea) return;
+    liveScoreArea.replaceChildren();
+
+    const par = findPar(round, hole);
+    const canScore = round.viewer_role === 'player';
+
+    const addCard = (label, participantId = null, detail = '') => {
+      const score = findScore(round, hole, participantId);
+      const card = document.createElement('section');
+      card.className = 'live-score-card';
+
+      const header = document.createElement('div');
+      header.className = 'live-score-card-header';
+
+      const name = document.createElement('strong');
+      name.textContent = label;
+
+      const status = document.createElement('small');
+      const relative = score && par
+        ? scoreRelativeLabel(Number(score.strokes), Number(par))
+        : '';
+      const pieces = [];
+      if (detail) pieces.push(detail);
+      if (relative) pieces.push(relative);
+      status.textContent = pieces.join(' • ');
+
+      header.append(name, status);
+      card.append(header);
+
+      if (!canScore) {
+        const readonly = document.createElement('div');
+        readonly.className = 'live-score-readonly';
+        readonly.textContent = score
+          ? `${score.strokes} STROKES`
+          : 'NO SCORE YET';
+        card.append(readonly);
+        liveScoreArea.append(card);
+        return;
+      }
+
+      const controls = document.createElement('div');
+      controls.className = 'live-score-controls';
+
+      const input = document.createElement('input');
+      input.className = 'live-score-input';
+      input.type = 'number';
+      input.min = '1';
+      input.max = '99';
+      input.inputMode = 'numeric';
+      input.value = score ? String(score.strokes) : '';
+      input.placeholder = par ? String(par) : 'STROKES';
+      input.setAttribute('aria-label', `${label} strokes for hole ${hole}`);
+
+      const submit = document.createElement('button');
+      submit.type = 'button';
+      submit.className = 'live-score-submit';
+      submit.textContent = score ? 'PUSH' : 'REPORT';
+
+      submit.addEventListener('click', async () => {
+        if (!currentLobbyRound) return;
+
+        const strokes = Number(input.value);
+        if (!Number.isInteger(strokes) || strokes < 1 || strokes > 99) {
+          setRoundFlowMessage('Strokes must be between 1 and 99.');
+          return;
+        }
+
+        submit.disabled = true;
+        setRoundFlowMessage('');
+        try {
+          const body = { strokes };
+          if (round.mode === 'individual') {
+            body.player_participant_id = participantId;
+          }
+
+          await requestJson(
+            `/api/rounds/${round.id}/holes/${hole}/score`,
+            {
+              method: 'PUT',
+              body,
+            }
+          );
+          await refreshRound(round.active_code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+        } finally {
+          submit.disabled = false;
+        }
+      });
+
+      controls.append(input, submit);
+      card.append(controls);
+      liveScoreArea.append(card);
+    };
+
+    if (round.mode === 'scramble') {
+      addCard('TEAM SCORE', null, 'SCRAMBLE');
+      return;
+    }
+
+    (round.participants || [])
+      .filter((participant) => participant.role === 'player')
+      .forEach((participant) => {
+        addCard(
+          participant.display_name || 'Golfer',
+          participant.id,
+          participant.tee_name ? `${participant.tee_name} TEE` : ''
+        );
+      });
+  };
+
+  const renderLiveRound = (round) => {
+    const previousRound = currentLobbyRound;
+    const wasFollowingLive = (
+      viewedHole === null
+      || !previousRound
+      || Number(viewedHole) === Number(previousRound.current_hole)
+    );
+
     currentLobbyRound = round;
+
+    if (wasFollowingLive) {
+      viewedHole = Number(round.current_hole);
+    } else {
+      viewedHole = Math.min(
+        Number(viewedHole),
+        Number(round.current_hole)
+      );
+    }
+
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
+    if (lobbyPanel) lobbyPanel.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = false;
+    if (roundFlowTitle) roundFlowTitle.textContent = 'LIVE ROUND';
+
+    const place = round.course?.name || round.free_play_name || 'Golf';
+    if (liveRoundPlace) liveRoundPlace.textContent = place;
+    if (liveRoundCode) liveRoundCode.textContent = round.active_code || '----';
+
+    const par = findPar(round, viewedHole);
+    const viewingLive = Number(viewedHole) === Number(round.current_hole);
+
+    if (holeNumber) holeNumber.textContent = String(viewedHole);
+    if (holeParLabel) {
+      holeParLabel.textContent = par ? `PAR ${par}` : 'PAR ?';
+    }
+    if (holeStateLabel) {
+      holeStateLabel.textContent = viewingLive
+        ? 'LIVE HOLE'
+        : `OLD HOLE • LIVE ${round.current_hole}`;
+    }
+
+    if (holePrev) {
+      holePrev.disabled = Number(viewedHole) <= 1;
+    }
+    if (holeNext) {
+      const canBrowseForward = Number(viewedHole) < Number(round.current_hole);
+      const canAdvanceLive = (
+        viewingLive
+        && round.viewer_role === 'player'
+        && Number(round.current_hole) < Number(round.hole_count)
+      );
+      holeNext.disabled = !canBrowseForward && !canAdvanceLive;
+    }
+
+    if (parInput) {
+      parInput.value = par ? String(par) : '';
+      parInput.disabled = round.viewer_role !== 'player';
+    }
+    if (parSubmit) {
+      parSubmit.textContent = par ? 'PUSH PAR' : 'REPORT PAR';
+      parSubmit.disabled = round.viewer_role !== 'player';
+    }
+
+    renderScoreCard(round, viewedHole);
+    renderLatestPresentation(round);
+
+    if (round.status === 'active') {
+      setRoundFlowMessage('');
+    }
+  };
+
+  const renderLobby = (round) => {
+    currentLobbyRound = round;
+    viewedHole = null;
+    if (startRoundForm) startRoundForm.hidden = true;
+    if (joinRoundForm) joinRoundForm.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = false;
     if (roundFlowTitle) roundFlowTitle.textContent = 'LOBBY';
     if (lobbyCode) lobbyCode.textContent = round.active_code || '----';
@@ -574,28 +839,34 @@
       lobbyStart.disabled = missingTee;
       if (canStart && missingTee) {
         setRoundFlowMessage('Every player needs to pick a tee before the round starts.');
+      } else {
+        setRoundFlowMessage('');
       }
     }
+  };
 
+  const renderRoundState = (round) => {
     if (round.status === 'active') {
-      setRoundFlowMessage('Round is live. The scorecard view is the next build step.');
+      renderLiveRound(round);
     } else {
-      setRoundFlowMessage('');
+      renderLobby(round);
     }
   };
 
-  const refreshLobby = async (code) => {
+  const refreshRound = async (code) => {
     const round = await requestJson(`/api/rounds/code/${encodeURIComponent(code)}`);
-    renderLobby(round);
+    renderRoundState(round);
     return round;
   };
+
+  const refreshLobby = refreshRound;
 
   const startLobbyPolling = (code) => {
     if (lobbyRefreshTimer) window.clearInterval(lobbyRefreshTimer);
     lobbyRefreshTimer = window.setInterval(async () => {
       if (!roundFlowModal || roundFlowModal.hidden || !currentLobbyRound) return;
       try {
-        await refreshLobby(code);
+        await refreshRound(code);
       } catch (_error) {
         // A manual action will surface useful errors. Polling stays quiet.
       }
