@@ -842,11 +842,27 @@ class RoundStore:
             )
             return participant
 
-    def get_round(self, golfer_id: object, code: object) -> dict[str, Any]:
+    def get_round(
+        self,
+        golfer_id: object,
+        code: object | None = None,
+        *,
+        round_id: object | None = None,
+    ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_code = str(code or "").strip()
         with self._connection() as connection, connection.cursor() as cursor:
-            cursor.execute("SELECT id FROM rounds WHERE active_code = %s", (round_code,))
+            if round_id is not None:
+                requested_round_id = self._uuid(round_id, "round_id")
+                cursor.execute(
+                    "SELECT id FROM rounds WHERE id = %s",
+                    (requested_round_id,),
+                )
+            else:
+                cursor.execute(
+                    "SELECT id FROM rounds WHERE active_code = %s AND status IN ('setup', 'active', 'completed') ORDER BY updated_at DESC LIMIT 1",
+                    (round_code,),
+                )
             found = cursor.fetchone()
             if not found:
                 raise NotFound("round not found")
