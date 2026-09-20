@@ -80,6 +80,22 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Individual players may physically hit from different tees during a scramble if the group wants, but that does not change the scoring tee unless the team explicitly changes it through a supported edit flow.
 - Any scoring-tee change after scores exist must create a permanent history event and recompute affected score-to-par values rather than silently rewriting history.
 
+## Par changes after scoring
+- A par edit after one or more scores already exist must never rewrite or replace the original score event, its banter, mascot, reactions, or replies.
+- The original event remains historically true to what the app knew at the time. Example: a score that fired Bogey banter under par 4 keeps that Bogey banter even if the hole is later corrected to par 5.
+- Current score-to-par, standings, summaries, awards, and report calculations should immediately recalculate using the corrected par.
+- The par edit creates its own permanent Receipt/event that clearly records old par -> new par.
+- If scores already exist on that hole, the par-change event should receive special mocking commentary about changing par after the fact.
+- Commentary themes may include:
+  - suspicious scorecard accounting / possible cheating
+  - changing the math to improve over/under
+  - nobody knowing what par was
+  - failure to read the scorecard
+  - failure to understand numbers
+  - paperwork magically improving a bad score
+- The correction event may explicitly describe how the existing score's current classification changed (for example Bogey -> Par), but must not create a replacement historical score event.
+- After a completed round, par cannot be changed unless the round is explicitly reopened; reopening and the later par correction both remain in Receipts.
+
 ## Live scoring
 - Score, par, and shared-hole mutations are only allowed while status is `active`.
 - Spectators cannot change score, par, or shared current hole.
