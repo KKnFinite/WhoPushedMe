@@ -840,7 +840,7 @@ def test_final_damage_report_download_returns_pdf_attachment():
     store.get_round = completed_round
 
     response = client.get(
-        "/api/rounds/code/4321/report.pdf",
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/report.pdf",
         headers={"Authorization": "Bearer session-token"},
     )
 
