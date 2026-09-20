@@ -127,6 +127,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
 
+## Score edits after reactions
+- Editing a score never rewrites or deletes the original score event.
+- The original reported score keeps its exact banter, mascot, reactions, replies, timestamps, and Receipt history.
+- A changed score creates a new score-push event with its own presentation and a fresh opportunity for reactions/responses.
+- The live scorecard displays only the latest current score, while Receipts preserves the full sequence of score revisions.
+- Reactions remain attached to the exact score version they answered; they do not migrate to the corrected score.
+- Current standings, score-to-par, awards, and report calculations use the latest valid score, while the Final Damage Report may still roast the revision history.
+- Multiple revisions should remain visible as an audit trail rather than collapsing into one final value.
+
 ## Score interaction
 - Responses are optional.
 - Every recorded score event can receive responses from any participant, including spectators.
