@@ -16,6 +16,24 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Course rounds with tee data require every player to choose a tee before start.
 - Free Play does not require a tee.
 
+## Round route and starting mid-round
+- A round is defined by an explicit play order, not by assuming hole 1 through hole 18.
+- Setup supports any starting hole.
+- A full 18 wraps after hole 18 back to hole 1 until all 18 holes in the route are played.
+- Setup may instead choose an explicit ending hole, including an ending hole after wraparound.
+- Examples:
+  - start 4 / full 18 -> 4-18, then 1-3
+  - start 4 / end 18 -> 4-18
+  - start 4 / end 1 -> 4-18, then 1
+  - start 15 / end 4 -> 15-18, then 1-4
+- Mid-round adoption distinguishes the intended round route from the hole where Who Pushed Me tracking begins.
+- Earlier holes may be backfilled, left untracked, or explicitly filled as assumed par.
+- Untracked holes do not count toward totals, standings, streaks, completion, or performance awards.
+- Assumed-par holes must be stored as assumed, never silently treated as factual scores.
+- Backfilling old holes never moves the shared live hole backward.
+- Completion requires scores only for the holes that are part of the tracked route for the relevant player/team.
+- Individual players may have different tracked-from holes if somebody joins an already-active round late.
+
 ## Live scoring
 - Score, par, and shared-hole mutations are only allowed while status is `active`.
 - Spectators cannot change score, par, or shared current hole.
@@ -63,6 +81,30 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - entered last
   - escaped last
 - Extending an existing streak does not repeatedly fire the same streak-start event.
+
+## Throw in the towel / withdrawal
+- Towel actions are always explicit and require confirmation; the app never ends participation automatically.
+- Late-round towel taunts are presentation only and are based on holes remaining in the defined route, not literal hole numbers.
+- Late-round taunt tone may vary by score-to-par:
+  - suffering: meaningfully over par
+  - hanging around: near par
+  - annoyingly competent: under par
+- Scramble:
+  - an individual player may throw in the towel without ending the team round.
+  - the player remains in the round as an inactive/spectating participant for social actions.
+  - their earlier scramble contributions remain preserved.
+  - their personal towel state is comedy/history metadata, not a scoring result.
+  - they may return before the round ends; returning becomes its own event and does not erase the original quit event.
+- Individual play:
+  - a player towel throw is a real DNF/withdrawal state.
+  - future holes are no longer required from that player.
+  - the withdrawn player is excluded from normal winner/place calculations.
+  - all prior scores and events remain preserved.
+  - the withdrawn player can remain as a spectator/social participant.
+  - the player may return before the round ends; if they return, normal scoring requirements resume from the return point unless earlier missing holes are backfilled.
+- Optional surrender reason may be recorded and can be used in banter, Receipts, history, and the Final Damage Report.
+- A whole group may explicitly end the round early; the report must clearly distinguish early termination from a normally completed round.
+- Towel events and late-round taunts must never be required to continue or finish a round.
 
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
