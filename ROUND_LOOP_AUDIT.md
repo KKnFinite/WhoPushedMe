@@ -63,6 +63,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Completion requires scores only for the holes that are part of the tracked route for the relevant player/team.
 - Individual players may have different tracked-from holes if somebody joins an already-active round late.
 
+## Par availability and entry
+- Par is all-or-nothing for round-level score-to-par reporting.
+- If every counted hole in the effective route has a known par, show normal cumulative score-to-par and allow par-based round summaries.
+- If any counted hole lacks par, do not show cumulative round score-to-par at all; treat par as unavailable for that round until the missing pars are supplied.
+- Course/API data should populate hole par and tee data whenever available.
+- When API/course par is unavailable or incomplete, players may choose to enter all hole pars during setup or enter them progressively hole by hole during play.
+- Hole-level birdie/par/bogey/etc. classification is only available once that hole's par is known.
+- Adding the missing pars later may activate cumulative score-to-par and derived par-based summaries for the round; it must not fabricate historical score events that were not originally classifiable unless we explicitly add a backfill/reclassification feature later.
+- Free Play follows the same rule: either supply all counted pars and use par-based scoring, or play without par-based round scoring.
+
 ## Tee and par rules
 - Individual play may use different tees per player; each player's score-to-par must use the par associated with that player's selected tee when course data varies by tee.
 - Scramble uses one explicitly selected scoring tee for the entire team.
