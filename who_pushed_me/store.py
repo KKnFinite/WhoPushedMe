@@ -51,8 +51,10 @@ from who_pushed_me.domain import (
     generate_round_code,
     normalize_recovery_key,
     normalize_shot_type,
+    require_active_round,
     require_player,
     validate_hole,
+    validate_shared_hole_change,
     validate_social_event,
 )
 
@@ -1021,8 +1023,10 @@ class RoundStore:
             round_row = self._round(cursor, round_uuid, lock=True)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
             require_player(participant["role"], "change the current hole")
+            require_active_round(round_row["status"], "change the current hole")
             hole_number = validate_hole(hole, round_row["hole_count"])
             old_hole = round_row["current_hole"]
+            validate_shared_hole_change(old_hole, hole_number)
             if old_hole != hole_number:
                 cursor.execute(
                     "UPDATE rounds SET current_hole = %s, updated_at = now() WHERE id = %s",
@@ -1327,6 +1331,7 @@ class RoundStore:
             round_row = self._round(cursor, round_uuid)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
             require_player(participant["role"], "change par")
+            require_active_round(round_row["status"], "change par")
             hole_number = validate_hole(hole, round_row["hole_count"])
             cursor.execute(
                 "SELECT par FROM round_hole_pars WHERE round_id = %s AND hole_number = %s FOR UPDATE",
@@ -1528,6 +1533,7 @@ class RoundStore:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
             require_player(actor["role"], "change scores")
+            require_active_round(round_row["status"], "change scores")
             hole_number = validate_hole(hole, round_row["hole_count"])
             if round_row["mode"] == "individual":
                 target_id = self._uuid(player_participant_id, "player_participant_id")
