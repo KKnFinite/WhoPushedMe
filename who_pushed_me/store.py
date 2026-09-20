@@ -916,6 +916,12 @@ class RoundStore:
                 (found["id"],),
             )
             round_row["contributions"] = cursor.fetchall()
+            round_row["results"] = self._round_results_from_cursor(
+                cursor,
+                found["id"],
+                mode=round_row["mode"],
+                hole_count=round_row["hole_count"],
+            )
             cursor.execute(
                 """
                 SELECT id, actor_participant_id, event_type, hole_number,
@@ -1013,6 +1019,131 @@ class RoundStore:
                 )
             return {"round_id": round_uuid, "current_hole": hole_number}
 
+    @staticmethod
+    def _round_results_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+        *,
+        mode: str,
+        hole_count: int,
+    ) -> dict[str, Any]:
+        if mode == "scramble":
+            cursor.execute(
+                """
+                SELECT count(*) AS score_count,
+                       coalesce(sum(strokes), 0) AS total_strokes
+                FROM round_hole_scores
+                WHERE round_id = %s AND score_scope = 'team'
+                """,
+                (round_id,),
+            )
+            row = cursor.fetchone()
+            score_count = int(row["score_count"])
+            return {
+                "mode": "scramble",
+                "complete": score_count == hole_count,
+                "score_count": score_count,
+                "missing_scores": max(hole_count - score_count, 0),
+                "team_total": int(row["total_strokes"]) if score_count else None,
+                "players": [],
+            }
+
+        cursor.execute(
+            """
+            SELECT rp.id AS participant_id,
+                   g.display_name,
+                   count(s.id) AS score_count,
+                   coalesce(sum(s.strokes), 0) AS total_strokes
+            FROM round_participants rp
+            JOIN golfers g ON g.id = rp.golfer_id
+            LEFT JOIN round_hole_scores s
+              ON s.round_id = rp.round_id
+             AND s.player_participant_id = rp.id
+             AND s.score_scope = 'player'
+            WHERE rp.round_id = %s
+              AND rp.role = 'player'
+            GROUP BY rp.id, g.display_name, rp.joined_at
+            ORDER BY rp.joined_at, rp.id
+            """,
+            (round_id,),
+        )
+        players = cursor.fetchall()
+        results: list[dict[str, Any]] = []
+        complete = bool(players)
+
+        for row in players:
+            score_count = int(row["score_count"])
+            complete = complete and score_count == hole_count
+            results.append(
+                {
+                    "participant_id": row["participant_id"],
+                    "display_name": row["display_name"],
+                    "score_count": score_count,
+                    "missing_scores": max(hole_count - score_count, 0),
+                    "total_strokes": (
+                        int(row["total_strokes"]) if score_count else None
+                    ),
+                }
+            )
+
+        if complete:
+            totals = sorted(
+                {int(row["total_strokes"]) for row in results}
+            )
+            for row in results:
+                total = int(row["total_strokes"])
+                row["rank"] = totals.index(total) + 1
+                row["tie_count"] = sum(
+                    1
+                    for candidate in results
+                    if int(candidate["total_strokes"]) == total
+                )
+        else:
+            for row in results:
+                row["rank"] = None
+                row["tie_count"] = 0
+
+        return {
+            "mode": "individual",
+            "complete": complete,
+            "score_count": sum(int(row["score_count"]) for row in results),
+            "missing_scores": sum(int(row["missing_scores"]) for row in results),
+            "team_total": None,
+            "players": results,
+        }
+
+    @staticmethod
+    def _individual_round_end_event(
+        result: dict[str, Any],
+        results: list[dict[str, Any]],
+    ) -> str:
+        rank = int(result["rank"])
+        tie_count = int(result["tie_count"])
+        player_count = len(results)
+
+        if rank == 1:
+            return (
+                "round.end.individual.co_winner"
+                if tie_count > 1
+                else "round.end.individual.winner"
+            )
+
+        if player_count == 2:
+            return "round.end.individual.head_to_head_loser"
+
+        max_total = max(int(row["total_strokes"]) for row in results)
+        if int(result["total_strokes"]) == max_total:
+            return (
+                "round.end.individual.tied_last"
+                if tie_count > 1
+                else "round.end.individual.dead_last"
+            )
+
+        if tie_count > 1:
+            return "round.end.individual.tied_middle"
+
+        return "round.end.individual.not_last"
+
     def set_status(self, golfer_id: object, round_id: object, status: object) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
@@ -1066,6 +1197,23 @@ class RoundStore:
                                 "every player must choose a tee before starting"
                             )
 
+                completion_results: dict[str, Any] | None = None
+                if old_status == "active" and new_status == "completed":
+                    completion_results = self._round_results_from_cursor(
+                        cursor,
+                        round_uuid,
+                        mode=round_row["mode"],
+                        hole_count=round_row["hole_count"],
+                    )
+                    if not completion_results["complete"]:
+                        if round_row["mode"] == "scramble":
+                            raise DomainError(
+                                "every hole needs a team score before completing the round"
+                            )
+                        raise DomainError(
+                            "every player needs a score on every hole before completing the round"
+                        )
+
                 cursor.execute(
                     "UPDATE rounds SET status = %s, updated_at = now() WHERE id = %s",
                     (new_status, round_uuid),
@@ -1081,7 +1229,61 @@ class RoundStore:
                     content_event_key=content_event,
                     presentation_context={"mode": round_row["mode"]},
                 )
-            return {"round_id": round_uuid, "status": new_status}
+
+                if completion_results is not None:
+                    if round_row["mode"] == "scramble":
+                        self._event(
+                            cursor,
+                            round_id=round_uuid,
+                            actor_participant_id=participant["id"],
+                            event_type="round_end_result",
+                            data={
+                                "mode": "scramble",
+                                "total_strokes": completion_results["team_total"],
+                            },
+                            content_event_key="round.end.scramble.complete",
+                            presentation_context={
+                                "mode": "scramble",
+                                "strokes": completion_results["team_total"],
+                            },
+                        )
+                    else:
+                        for result in completion_results["players"]:
+                            event_key = self._individual_round_end_event(
+                                result,
+                                completion_results["players"],
+                            )
+                            self._event(
+                                cursor,
+                                round_id=round_uuid,
+                                actor_participant_id=participant["id"],
+                                event_type="round_end_result",
+                                data={
+                                    "mode": "individual",
+                                    "player_participant_id": str(
+                                        result["participant_id"]
+                                    ),
+                                    "display_name": result["display_name"],
+                                    "rank": result["rank"],
+                                    "tie_count": result["tie_count"],
+                                    "total_strokes": result["total_strokes"],
+                                },
+                                content_event_key=event_key,
+                                presentation_context={
+                                    "mode": "individual",
+                                    "strokes": result["total_strokes"],
+                                },
+                            )
+
+            response = {"round_id": round_uuid, "status": new_status}
+            if new_status == "completed":
+                response["results"] = self._round_results_from_cursor(
+                    cursor,
+                    round_uuid,
+                    mode=round_row["mode"],
+                    hole_count=round_row["hole_count"],
+                )
+            return response
 
     def set_par(self, golfer_id: object, round_id: object, hole: object, par: object) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
