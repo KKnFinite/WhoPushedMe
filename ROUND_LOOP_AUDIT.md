@@ -47,6 +47,11 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - If none of the listed golfers is them, they continue with the normal new-player or spectator join flow.
 - If multiple unclaimed golfers share the same display name, show enough round context to distinguish them, such as tee, tracked-from hole, or who added them.
 - A claimed participant cannot be claimed by another account unless an explicit future unlink/recovery flow is used.
+- During an active round, a newly claimed participant may use a simple `UNDO CLAIM` action if they selected the wrong round-only golfer.
+- Undoing a mistaken claim detaches the account from that participant without deleting or rewriting any scores, reactions, contributions, Receipts, or report history.
+- After undo, the participant returns to unclaimed round-only status and the user returns to the claim/new-player flow.
+- If the user has already created new golf-state events after claiming, the app should warn before undoing so the user understands those actions remain attributed to their account while the guest participant history remains intact.
+- Once the round is completed, claim changes should require an explicit account/history correction flow rather than a casual undo button.
 - The claim step should be fast and nontechnical; do not force account-linking terminology on the golfer.
 
 ## Offline / no-app players
