@@ -1087,12 +1087,13 @@ class RoundStore:
             )
 
         if complete:
-            totals = sorted(
-                {int(row["total_strokes"]) for row in results}
-            )
             for row in results:
                 total = int(row["total_strokes"])
-                row["rank"] = totals.index(total) + 1
+                row["rank"] = 1 + sum(
+                    1
+                    for candidate in results
+                    if int(candidate["total_strokes"]) < total
+                )
                 row["tie_count"] = sum(
                     1
                     for candidate in results
