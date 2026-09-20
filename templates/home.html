@@ -320,6 +320,117 @@
     </section>
   </div>
 
+  <div id="bag-modal" class="bag-modal" hidden role="dialog" aria-modal="true" aria-labelledby="bag-title">
+    <section class="bag-card">
+      <div class="settings-header">
+        <div>
+          <div class="settings-kicker">MID-HOLE BAD DECISIONS</div>
+          <h2 id="bag-title">BAG OF BULLSHIT</h2>
+        </div>
+        <button id="bag-close" class="settings-close" type="button" aria-label="Close Bag of Bullshit">×</button>
+      </div>
+
+      <p id="bag-message" class="settings-message" hidden></p>
+
+      <div id="bag-actions" class="bag-actions">
+        <button type="button" data-bag-action="callout">CALL SOMEONE OUT</button>
+        <button type="button" data-bag-action="praise">NICE FUCKING SHOT</button>
+        <button type="button" data-bag-action="shot_call">CALL YOUR SHOT</button>
+        <button type="button" data-bag-action="challenge">YOU WON'T</button>
+        <button type="button" data-bag-action="excuse">EXCUSE DEPARTMENT</button>
+        <button type="button" data-bag-action="open_mic">OPEN MIC</button>
+      </div>
+
+      <form id="bag-form" class="bag-form" hidden>
+        <div class="bag-form-heading">
+          <strong id="bag-form-title"></strong>
+          <button id="bag-form-cancel" type="button">BACK</button>
+        </div>
+
+        <label id="bag-target-field" class="round-text-field" hidden>
+          <span>TARGET</span>
+          <select id="bag-target-select"></select>
+        </label>
+
+        <label id="bag-situation-field" class="round-text-field" hidden>
+          <span>WHAT HAPPENED?</span>
+          <select id="bag-situation-select">
+            <option value="">GENERIC DISASTER</option>
+            <option value="water_shot">WATER SHOT</option>
+            <option value="out_of_bounds">OUT OF BOUNDS</option>
+            <option value="lost_ball">LOST BALL</option>
+            <option value="tree_shot">TREE SHOT</option>
+            <option value="bunker">BUNKER</option>
+            <option value="cart_path">CART PATH</option>
+            <option value="shank">SHANK</option>
+            <option value="slice">SLICE</option>
+            <option value="hook">HOOK</option>
+            <option value="topped">TOPPED IT</option>
+            <option value="chunked">CHUNKED IT</option>
+            <option value="bladed">BLADED IT</option>
+            <option value="duff">DUFF</option>
+            <option value="whiff">WHIFF</option>
+            <option value="penalty">PENALTY</option>
+            <option value="mulligan">MULLIGAN</option>
+            <option value="foot_wedge">FOOT WEDGE</option>
+            <option value="wrong_club">WRONG CLUB</option>
+            <option value="way_short">WAY SHORT</option>
+            <option value="way_long">WAY LONG</option>
+            <option value="slow_play">SLOW PLAY</option>
+            <option value="missed_short_putt">MISSED SHORT PUTT</option>
+            <option value="three_putt">THREE-PUTT</option>
+            <option value="lip_out">LIP OUT</option>
+          </select>
+        </label>
+
+        <label id="bag-shot-field" class="round-text-field" hidden>
+          <span>SHOT TYPE</span>
+          <select id="bag-shot-select">
+            <option value="">GENERIC</option>
+            <option value="drive">DRIVE</option>
+            <option value="approach">APPROACH</option>
+            <option value="recovery">RECOVERY</option>
+            <option value="bunker">BUNKER</option>
+            <option value="putt">PUTT</option>
+            <option value="long_putt">LONG PUTT</option>
+          </select>
+        </label>
+
+        <label id="bag-excuse-field" class="round-text-field" hidden>
+          <span>EXCUSE</span>
+          <select id="bag-excuse-select">
+            <option value="">GENERIC EXCUSE</option>
+            <option value="clubs">CLUBS</option>
+            <option value="wind">WIND</option>
+            <option value="weather">WEATHER</option>
+            <option value="bad_lie">BAD LIE</option>
+            <option value="green">GREEN</option>
+            <option value="noise">NOISE / DISTRACTION</option>
+            <option value="alcohol">ALCOHOL</option>
+            <option value="hangover">HANGOVER</option>
+            <option value="pace">PACE OF PLAY</option>
+          </select>
+        </label>
+
+        <label id="bag-text-field" class="round-text-field">
+          <span id="bag-text-label">SAY YOUR PIECE</span>
+          <textarea id="bag-text-input" maxlength="280" rows="4" placeholder="Optional details"></textarea>
+        </label>
+
+        <button id="bag-submit" class="settings-save" type="submit">SEND IT</button>
+      </form>
+
+      <section class="bag-reactions">
+        <div class="bag-reactions-label">REACTIONS</div>
+        <div class="bag-reaction-grid">
+          <button type="button" data-reaction="laugh">LAUGH</button>
+          <button type="button" data-reaction="bullshit">BULLSHIT</button>
+          <button type="button" data-reaction="applause">APPLAUSE</button>
+        </div>
+      </section>
+    </section>
+  </div>
+
   <div id="settings-modal" class="settings-modal" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
     <section class="settings-card">
       <div class="settings-header">
