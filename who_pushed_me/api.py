@@ -284,6 +284,7 @@ def download_round_report(round_id: str):
     round_row = _store().get_round(
         g.golfer["id"],
         round_id=round_id,
+        event_limit=None,
     )
     if round_row["status"] != "completed":
         raise DomainError("final damage report is only available after the round is completed")
