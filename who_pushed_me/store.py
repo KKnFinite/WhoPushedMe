@@ -871,8 +871,24 @@ class RoundStore:
                 )
             else:
                 cursor.execute(
-                    "SELECT id FROM rounds WHERE active_code = %s AND status IN ('setup', 'active', 'completed') ORDER BY updated_at DESC LIMIT 1",
-                    (round_code,),
+                    """
+                    SELECT r.id
+                    FROM rounds r
+                    JOIN round_participants rp
+                      ON rp.round_id = r.id
+                     AND rp.golfer_id = %s
+                    WHERE r.active_code = %s
+                      AND r.status IN ('setup', 'active', 'completed')
+                    ORDER BY
+                        CASE r.status
+                            WHEN 'setup' THEN 0
+                            WHEN 'active' THEN 1
+                            ELSE 2
+                        END,
+                        r.updated_at DESC
+                    LIMIT 1
+                    """,
+                    (golfer_uuid, round_code),
                 )
             found = cursor.fetchone()
             if not found:
