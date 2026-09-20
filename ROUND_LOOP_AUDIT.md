@@ -73,6 +73,26 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Score outcomes classify to ace/albatross/eagle/birdie/par/bogey/double/triple/quad-plus when par is known.
 - Score-specific banter does not require a mini mascot.
 
+## Live catch-up / event history
+- The live scorecard remains the primary interaction surface. Social/history content must never block scoring, hole movement, or normal play.
+- New score/social events may surface briefly as lightweight transient cards with optional reactions/actions, then collapse automatically.
+- Every factual event, selected banter, selected mini, reaction, custom response, Bag action, contribution, blame event, derived moment, and score edit remains available in a persistent live history view.
+- The live history entry point should use an on-brand unread label such as `YOU MISSED SOME SHIT • N`, with rotating equivalent phrases allowed.
+- Each participant/spectator should have a per-round last-seen event marker so unread counts are personal, not global.
+- Opening catch-up marks events seen for that viewer without altering the underlying event history.
+- A spectator joining an active round immediately sees the live state and can open the existing history to catch up on what happened before they arrived.
+- History should visually distinguish factual golf events, app commentary/mascot events, and group social bullshit.
+- History may be grouped by hole/route position and should preserve exact chronological order within each group.
+- Old score events remain readable after a score push; replies stay attached to the exact score event they answered.
+- Users may respond later from history where appropriate; missing a transient card never removes the opportunity to participate.
+- Catch-up headers/empty states may roast the viewer. Example directions include:
+  - `YOU MISSED SOME SHIT.`
+  - `WELCOME BACK. THE SCORECARD GOT WORSE.`
+  - `LOOK AWAY FOR TWO HOLES AND THIS IS WHAT HAPPENS.`
+  - `THESE IDIOTS DID THINGS WHILE YOU WEREN'T LOOKING.`
+  - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
+- Catch-up roasting is presentation only and never changes golf state.
+
 ## Score interaction
 - Responses are optional.
 - Every recorded score event can receive responses from any participant, including spectators.
