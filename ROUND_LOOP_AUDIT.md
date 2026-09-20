@@ -115,6 +115,28 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectators are limited to Open Mic and reactions.
 - Bag actions never block scoring or hole advancement.
 
+## Bag of Bullshit vs reactions
+- Live reactions respond to an existing event; Bag of Bullshit creates a new social golf event that the app could not know about on its own.
+- Reactions belong on the event they answer and remain linked to that exact score/social event in Receipts.
+- Bag actions should be fast, optional, and return the user to the live scorecard immediately.
+- Core Bag actions:
+  - `CALL SOMEONE OUT`: report a screw-up such as water, OB, lost ball, tree, bunker, shank, slice, hook, topped, chunked, bladed, whiff, penalty, mulligan, foot wedge, wrong club, way short, way long, slow play, missed short putt, three-putt, or lip-out.
+  - `NICE FUCKING SHOT`: report a good drive, approach, recovery, bunker shot, putt, or long putt.
+  - `CALL YOUR SHOT`: record a golfer's own prediction/challenge before the result.
+  - `YOU WON'T`: challenge another golfer before an attempted shot/action.
+  - `EXCUSE DEPARTMENT`: record excuses such as clubs, wind, weather, bad lie, green, noise, alcohol, hangover, pace, or custom text.
+  - `OPEN MIC`: freeform comment tied to the live round/hole.
+- Generic `Laugh / Bullshit / Applause` controls should not be primary Bag actions. They belong as contextual reactions on live events and in Receipts.
+- Any Bag event can itself receive contextual reactions later.
+- Bag activity is social history only; it never changes score, par, route, standings, contribution truth, or completion requirements.
+- Spectators may create only the Bag/social actions allowed by spectator permissions; they still never mutate golf state.
+- Mental model:
+  - Scorecard records golf.
+  - Automatic events interpret golf.
+  - Reactions answer an existing event.
+  - Bag of Bullshit reports the stuff the app cannot know.
+  - Receipts preserves everything.
+
 ## Derived moments
 - Derived moments are presentation/events, not score mutations.
 - Supported moments include:
