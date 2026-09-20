@@ -816,6 +816,7 @@ def test_final_damage_report_download_returns_pdf_attachment():
         round_id=None,
         event_limit=100,
     ):
+        assert event_limit is None
         return {
             "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
             "active_code": "4321",
