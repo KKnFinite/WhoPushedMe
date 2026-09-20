@@ -2,6 +2,7 @@
   "schema_version": 1,
   "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
   "mini_asset_count": 95,
+  "onboarding_asset_count": 5,
   "assets": [
     {
       "asset_id": "brand.wordmark",
@@ -144,6 +145,96 @@
       "mode": "RGB",
       "real_alpha": false,
       "alpha_extrema": null
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_47OtherUselessApps",
+      "family": "onboarding-mascot",
+      "category": "onboarding",
+      "situation": "install",
+      "source": "static/assets_src/mascots/onboarding/install/WPM_Onboarding_Install_47OtherUselessApps.png",
+      "production": "static/assets/mascots/onboarding/install/WPM_Onboarding_Install_47OtherUselessApps.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_LiterallyTellingYouWhereToTap",
+      "family": "onboarding-mascot",
+      "category": "onboarding",
+      "situation": "install",
+      "source": "static/assets_src/mascots/onboarding/install/WPM_Onboarding_Install_LiterallyTellingYouWhereToTap.png",
+      "production": "static/assets/mascots/onboarding/install/WPM_Onboarding_Install_LiterallyTellingYouWhereToTap.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_MakeItAnAppYouLazyBastard",
+      "family": "onboarding-mascot",
+      "category": "onboarding",
+      "situation": "install",
+      "source": "static/assets_src/mascots/onboarding/install/WPM_Onboarding_Install_MakeItAnAppYouLazyBastard.png",
+      "production": "static/assets/mascots/onboarding/install/WPM_Onboarding_Install_MakeItAnAppYouLazyBastard.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen",
+      "family": "onboarding-mascot",
+      "category": "onboarding",
+      "situation": "install",
+      "source": "static/assets_src/mascots/onboarding/install/WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen.png",
+      "production": "static/assets/mascots/onboarding/install/WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "asset_id": "onboarding.install.WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath",
+      "family": "onboarding-mascot",
+      "category": "onboarding",
+      "situation": "install",
+      "source": "static/assets_src/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.png",
+      "production": "static/assets/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp",
+      "dimensions": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "real_alpha": true,
+      "alpha_extrema": [
+        0,
+        255
+      ]
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard",

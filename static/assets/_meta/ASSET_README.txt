@@ -20,4 +20,5 @@ CORE RULES
 - WPM_Mascot_FullBody.png is the original approved full-body mascot; golf bag is allowed.
 - WPM_Mascot_FullBody_Transparent.png is the transparent full-body app/compositing master.
 - Mini mascots use their categorized event folders.
+- Onboarding mascots live under mascots/onboarding and are UI assets, not gameplay minis.
 - Do not replace approved art with rejected generations.
