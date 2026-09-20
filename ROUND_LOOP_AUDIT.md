@@ -151,6 +151,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - A player who has completed every hole in their defined tracked route may show both cumulative strokes and relative-to-par for that route, even when that route is shorter than 18 holes.
 - Assumed-par holes, when explicitly chosen, count toward displayed totals but must remain identifiable as assumed in history/Receipts/PDF.
 
+## Placement eligibility
+- Official individual placement is based on the player's effective required route, not a hardcoded 18 holes.
+- A planned 9-hole round, custom route, wrapped shotgun route, or whole-group early stop can all produce valid official standings when the remaining active players are being compared over the same effective route.
+- If every active individual golfer shares the same effective route and has all required scores, normal placement applies even when that route is shorter than 18 holes.
+- A legitimate late joiner with a shorter personal route is labeled `PARTIAL ROUND` and is not ranked against golfers who played a different effective route.
+- A player with missing required scores is labeled `INCOMPLETE` and is not eligible for official placement until those required scores are filled.
+- An individual player who throws in the towel is labeled `DNF` / `WITHDREW` and is excluded from normal winner/place calculations.
+- If the whole group ends early together, that shared stopping point becomes the effective route end for the golfers still active; those golfers can still receive official placement over the common played route, while the round remains visibly labeled `ENDED EARLY`.
+- Scramble has one team result. A team that ends early keeps its score and score-to-par over the played route, but the report must clearly label the round as ended early.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
