@@ -226,6 +226,32 @@ class FakeStore:
         self.calls.append(("par", golfer_id, round_id, hole, par))
         return {"round_id": round_id, "hole": hole, "par": par}
 
+    def add_social_event(
+        self,
+        golfer_id,
+        round_id,
+        event_type,
+        *,
+        hole=None,
+        data=None,
+    ):
+        self.calls.append(
+            (
+                "social",
+                golfer_id,
+                round_id,
+                event_type,
+                hole,
+                data,
+            )
+        )
+        return {
+            "id": UUID("fe89db21-0f73-46bc-a598-69891c14a91e"),
+            "event_type": event_type,
+            "hole_number": hole,
+            "data": data or {},
+        }
+
     def set_score(self, golfer_id, round_id, hole, strokes, *, player_participant_id=None):
         self.calls.append(
             ("score", golfer_id, round_id, hole, strokes, player_participant_id)
@@ -640,5 +666,59 @@ def test_live_scorecard_can_report_or_push_par():
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         4,
         5,
+    )
+
+def test_bag_of_bullshit_route_passes_targeted_callout_payload():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+    response = client.post(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/events",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "type": "callout",
+            "hole": 6,
+            "data": {
+                "target_participant_id": target,
+                "situation": "water_shot",
+                "message": "Splashdown.",
+            },
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "social",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "callout",
+        6,
+        {
+            "target_participant_id": target,
+            "situation": "water_shot",
+            "message": "Splashdown.",
+        },
+    )
+
+
+def test_bag_of_bullshit_route_passes_reaction_payload():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/events",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "type": "reaction",
+            "hole": 6,
+            "data": {"reaction": "bullshit"},
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "social",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "reaction",
+        6,
+        {"reaction": "bullshit"},
     )
 
