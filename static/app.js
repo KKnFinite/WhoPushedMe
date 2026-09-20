@@ -1352,6 +1352,27 @@
   });
 
   liveRoundHome?.addEventListener('click', closeRoundFlow);
+  roundEndHome?.addEventListener('click', closeRoundFlow);
+
+  finishRoundButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
+
+    finishRoundButton.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/status`,
+        {
+          method: 'PATCH',
+          body: { status: 'completed' },
+        }
+      );
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      finishRoundButton.disabled = false;
+    }
+  });
 
   holePrev?.addEventListener('click', () => {
     if (!currentLobbyRound || viewedHole === null) return;
