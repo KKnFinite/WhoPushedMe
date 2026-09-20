@@ -34,13 +34,14 @@ def _holes_with_kind(
     }
 
 
-def _consecutive_endings(holes: set[int], length: int) -> set[int]:
+def _streak_start_endings(holes: set[int], length: int) -> set[int]:
     if length <= 1:
         return set(holes)
     return {
         hole
         for hole in holes
         if all((hole - offset) in holes for offset in range(length))
+        and (hole - length) not in holes
     }
 
 
@@ -69,20 +70,20 @@ def score_transition_events(
         events.append("score.derived.first_eagle")
 
     if (
-        _consecutive_endings(after_birdies, 2)
-        - _consecutive_endings(before_birdies, 2)
+        _streak_start_endings(after_birdies, 2)
+        - _streak_start_endings(before_birdies, 2)
     ):
         events.append("score.derived.back_to_back_birdies")
 
     if (
-        _consecutive_endings(after_birdies, 3)
-        - _consecutive_endings(before_birdies, 3)
+        _streak_start_endings(after_birdies, 3)
+        - _streak_start_endings(before_birdies, 3)
     ):
         events.append("score.derived.birdie_streak_3_plus")
 
     if (
-        _consecutive_endings(after_bogeys, 3)
-        - _consecutive_endings(before_bogeys, 3)
+        _streak_start_endings(after_bogeys, 3)
+        - _streak_start_endings(before_bogeys, 3)
     ):
         events.append("score.derived.bogey_streak_3_plus")
 
