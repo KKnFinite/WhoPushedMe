@@ -661,6 +661,160 @@
     latestPresentation.hidden = !banterText && !mascotPath;
   };
 
+  const appendScoreResponsePanel = (
+    card,
+    round,
+    hole,
+    participantId,
+    score
+  ) => {
+    if (!score) return;
+
+    const scoreEvent = findScoreEvent(round, hole, participantId);
+    if (!scoreEvent) return;
+
+    const responsePanel = document.createElement('div');
+    responsePanel.className = 'score-response-panel';
+
+    const responseHeading = document.createElement('div');
+    responseHeading.className = 'score-response-heading';
+    responseHeading.textContent = 'RESPOND TO THIS SCORE';
+
+    const responseButtons = document.createElement('div');
+    responseButtons.className = 'score-response-buttons';
+
+    const sendResponse = async (
+      responseKind,
+      {
+        message = '',
+        targetParticipantId = null,
+      } = {}
+    ) => {
+      setRoundFlowMessage('');
+      try {
+        await requestJson(
+          `/api/rounds/${round.id}/score-events/${scoreEvent.id}/responses`,
+          {
+            method: 'POST',
+            body: {
+              response_kind: responseKind,
+              message: message || null,
+              target_participant_id: targetParticipantId,
+            },
+          }
+        );
+        await refreshRound(round.active_code);
+      } catch (error) {
+        setRoundFlowMessage(error.message);
+      }
+    };
+
+    [
+      ['bullshit', 'BULLSHIT'],
+      ['cheater', 'CHEATER'],
+      ['lucky', 'LUCKY'],
+      ['nice', 'NICE'],
+      ['random', 'TALK SHIT'],
+    ].forEach(([kind, labelText]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = labelText;
+      button.addEventListener('click', async () => {
+        button.disabled = true;
+        await sendResponse(kind);
+        button.disabled = false;
+      });
+      responseButtons.append(button);
+    });
+
+    if (round.mode === 'scramble') {
+      const blameWrap = document.createElement('div');
+      blameWrap.className = 'score-response-blame';
+
+      const blameSelect = document.createElement('select');
+      const blank = document.createElement('option');
+      blank.value = '';
+      blank.textContent = 'WHO SCREWED IT UP?';
+      blameSelect.append(blank);
+
+      (round.participants || [])
+        .filter((participant) => participant.role === 'player')
+        .forEach((participant) => {
+          const option = document.createElement('option');
+          option.value = participant.id;
+          option.textContent = participant.display_name || 'Golfer';
+          blameSelect.append(option);
+        });
+
+      const blameButton = document.createElement('button');
+      blameButton.type = 'button';
+      blameButton.textContent = 'BLAME THEM';
+      blameButton.addEventListener('click', async () => {
+        if (!blameSelect.value) {
+          setRoundFlowMessage('Pick who screwed it up first.');
+          return;
+        }
+        blameButton.disabled = true;
+        await sendResponse('blame', {
+          targetParticipantId: blameSelect.value,
+        });
+        blameButton.disabled = false;
+      });
+
+      blameWrap.append(blameSelect, blameButton);
+      responsePanel.append(responseHeading, responseButtons, blameWrap);
+    } else {
+      responsePanel.append(responseHeading, responseButtons);
+    }
+
+    const customWrap = document.createElement('div');
+    customWrap.className = 'score-response-custom';
+
+    const customInput = document.createElement('input');
+    customInput.type = 'text';
+    customInput.maxLength = 280;
+    customInput.placeholder = 'Say something about this score...';
+
+    const customButton = document.createElement('button');
+    customButton.type = 'button';
+    customButton.textContent = 'SEND';
+    customButton.addEventListener('click', async () => {
+      const message = customInput.value.trim();
+      if (!message) return;
+      customButton.disabled = true;
+      await sendResponse('custom', { message });
+      customButton.disabled = false;
+    });
+
+    customWrap.append(customInput, customButton);
+    responsePanel.append(customWrap);
+
+    const replies = scoreResponses(round, scoreEvent.id);
+    if (replies.length) {
+      const replyList = document.createElement('div');
+      replyList.className = 'score-response-list';
+
+      replies.slice().reverse().forEach((reply) => {
+        const actor = (round.participants || []).find(
+          (participant) =>
+            String(participant.id) === String(reply.actor_participant_id)
+        );
+        const line = document.createElement('div');
+        line.className = 'score-response-line';
+
+        const actorName = actor?.display_name || 'Someone';
+        const text = presentationText(reply)
+          || String(reply.data?.response_kind || 'responded').toUpperCase();
+        line.textContent = `${actorName}: ${text}`;
+        replyList.append(line);
+      });
+
+      responsePanel.append(replyList);
+    }
+
+    card.append(responsePanel);
+  };
+
   const renderScoreCard = (round, hole) => {
     if (!liveScoreArea) return;
     liveScoreArea.replaceChildren();
@@ -698,6 +852,13 @@
           ? `${score.strokes} STROKES`
           : 'NO SCORE YET';
         card.append(readonly);
+        appendScoreResponsePanel(
+          card,
+          round,
+          hole,
+          participantId,
+          score
+        );
         liveScoreArea.append(card);
         return;
       }
@@ -755,151 +916,13 @@
       controls.append(input, submit);
       card.append(controls);
 
-      if (score) {
-        const scoreEvent = findScoreEvent(round, hole, participantId);
-        if (scoreEvent) {
-          const responsePanel = document.createElement('div');
-          responsePanel.className = 'score-response-panel';
-
-          const responseHeading = document.createElement('div');
-          responseHeading.className = 'score-response-heading';
-          responseHeading.textContent = 'RESPOND TO THIS SCORE';
-
-          const responseButtons = document.createElement('div');
-          responseButtons.className = 'score-response-buttons';
-
-          const sendResponse = async (
-            responseKind,
-            {
-              message = '',
-              targetParticipantId = null,
-            } = {}
-          ) => {
-            setRoundFlowMessage('');
-            try {
-              await requestJson(
-                `/api/rounds/${round.id}/score-events/${scoreEvent.id}/responses`,
-                {
-                  method: 'POST',
-                  body: {
-                    response_kind: responseKind,
-                    message: message || null,
-                    target_participant_id: targetParticipantId,
-                  },
-                }
-              );
-              await refreshRound(round.active_code);
-            } catch (error) {
-              setRoundFlowMessage(error.message);
-            }
-          };
-
-          [
-            ['bullshit', 'BULLSHIT'],
-            ['cheater', 'CHEATER'],
-            ['lucky', 'LUCKY'],
-            ['nice', 'NICE'],
-            ['random', 'TALK SHIT'],
-          ].forEach(([kind, labelText]) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.textContent = labelText;
-            button.addEventListener('click', async () => {
-              button.disabled = true;
-              await sendResponse(kind);
-              button.disabled = false;
-            });
-            responseButtons.append(button);
-          });
-
-          if (round.mode === 'scramble') {
-            const blameWrap = document.createElement('div');
-            blameWrap.className = 'score-response-blame';
-
-            const blameSelect = document.createElement('select');
-            const blank = document.createElement('option');
-            blank.value = '';
-            blank.textContent = 'WHO SCREWED IT UP?';
-            blameSelect.append(blank);
-
-            (round.participants || [])
-              .filter((participant) => participant.role === 'player')
-              .forEach((participant) => {
-                const option = document.createElement('option');
-                option.value = participant.id;
-                option.textContent = participant.display_name || 'Golfer';
-                blameSelect.append(option);
-              });
-
-            const blameButton = document.createElement('button');
-            blameButton.type = 'button';
-            blameButton.textContent = 'BLAME THEM';
-            blameButton.addEventListener('click', async () => {
-              if (!blameSelect.value) {
-                setRoundFlowMessage('Pick who screwed it up first.');
-                return;
-              }
-              blameButton.disabled = true;
-              await sendResponse('blame', {
-                targetParticipantId: blameSelect.value,
-              });
-              blameButton.disabled = false;
-            });
-
-            blameWrap.append(blameSelect, blameButton);
-            responsePanel.append(responseHeading, responseButtons, blameWrap);
-          } else {
-            responsePanel.append(responseHeading, responseButtons);
-          }
-
-          const customWrap = document.createElement('div');
-          customWrap.className = 'score-response-custom';
-
-          const customInput = document.createElement('input');
-          customInput.type = 'text';
-          customInput.maxLength = 280;
-          customInput.placeholder = 'Say something about this score...';
-
-          const customButton = document.createElement('button');
-          customButton.type = 'button';
-          customButton.textContent = 'SEND';
-          customButton.addEventListener('click', async () => {
-            const message = customInput.value.trim();
-            if (!message) return;
-            customButton.disabled = true;
-            await sendResponse('custom', { message });
-            customButton.disabled = false;
-          });
-
-          customWrap.append(customInput, customButton);
-          responsePanel.append(customWrap);
-
-          const replies = scoreResponses(round, scoreEvent.id);
-          if (replies.length) {
-            const replyList = document.createElement('div');
-            replyList.className = 'score-response-list';
-
-            replies.slice().reverse().forEach((reply) => {
-              const actor = (round.participants || []).find(
-                (participant) =>
-                  String(participant.id) === String(reply.actor_participant_id)
-              );
-              const line = document.createElement('div');
-              line.className = 'score-response-line';
-
-              const actorName = actor?.display_name || 'Someone';
-              const text = presentationText(reply)
-                || String(reply.data?.response_kind || 'responded').toUpperCase();
-              line.textContent = `${actorName}: ${text}`;
-              replyList.append(line);
-            });
-
-            responsePanel.append(replyList);
-          }
-
-          card.append(responsePanel);
-        }
-      }
+      appendScoreResponsePanel(
+        card,
+        round,
+        hole,
+        participantId,
+        score
+      );
 
       liveScoreArea.append(card);
     };
