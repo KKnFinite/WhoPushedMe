@@ -365,6 +365,21 @@ def set_contribution(round_id: str, hole: int, shot_type: str):
     )
 
 
+@api.post("/rounds/<round_id>/score-events/<event_id>/responses")
+@authenticated
+def add_score_response(round_id: str, event_id: str):
+    payload = _body()
+    event = _store().add_score_response(
+        g.golfer["id"],
+        round_id,
+        event_id,
+        response_kind=payload.get("response_kind"),
+        message=payload.get("message"),
+        target_participant_id=payload.get("target_participant_id"),
+    )
+    return jsonify(event), 201
+
+
 @api.post("/rounds/<round_id>/events")
 @authenticated
 def add_social_event(round_id: str):
