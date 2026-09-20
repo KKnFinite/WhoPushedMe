@@ -12,6 +12,8 @@ META = ASSETS / "_meta"
 
 OFFICIAL_ICON = ASSETS_SRC / "icons" / "WPM_DesktopIcon_Official.jpg"
 TRANSPARENT_MASCOT = ASSETS_SRC / "mascots" / "master" / "WPM_Mascot_FullBody_Transparent.png"
+ONBOARDING_MASCOTS_SRC = ASSETS_SRC / "mascots" / "onboarding"
+ONBOARDING_MASCOTS = ASSETS / "mascots" / "onboarding"
 
 EVENT_MAP = {
     ("joining", "new-player"): "player_join_new",
@@ -177,6 +179,19 @@ def build_core_webps():
                 alt_out / f"{src.stem}.webp",
                 lossless=src.suffix.lower() == ".png",
             )
+
+
+def build_onboarding_webps():
+    if not ONBOARDING_MASCOTS_SRC.exists():
+        return
+
+    for src in sorted(ONBOARDING_MASCOTS_SRC.rglob("*.png")):
+        rel = src.relative_to(ONBOARDING_MASCOTS_SRC)
+        make_webp(
+            src,
+            (ONBOARDING_MASCOTS / rel).with_suffix(".webp"),
+            lossless=False,
+        )
 
 
 def build_pwa_icons():
@@ -499,6 +514,41 @@ def build_manifest():
                 }
             )
 
+    onboarding_root = ONBOARDING_MASCOTS_SRC
+
+    onboarding_count = 0
+
+    if onboarding_root.exists():
+        for source in sorted(onboarding_root.rglob("*.png")):
+            rel = source.relative_to(onboarding_root)
+            production = (ONBOARDING_MASCOTS / rel).with_suffix(".webp")
+
+            if not production.exists():
+                raise SystemExit(
+                    f"Missing onboarding production pair for {source.relative_to(ROOT)}"
+                )
+
+            onboarding_count += 1
+
+            situation = rel.parts[0] if len(rel.parts) >= 2 else "general"
+
+            entries.append(
+                {
+                    "asset_id": (
+                        "onboarding."
+                        + rel.with_suffix("")
+                        .as_posix()
+                        .replace("/", ".")
+                    ),
+                    "family": "onboarding-mascot",
+                    "category": "onboarding",
+                    "situation": situation,
+                    "source": source.relative_to(ROOT).as_posix(),
+                    "production": production.relative_to(ROOT).as_posix(),
+                    **image_info(source),
+                }
+            )
+
     mini_root = ASSETS_SRC / "mascots" / "mini"
 
     mini_count = 0
@@ -539,6 +589,7 @@ def build_manifest():
             "static/assets_src/icons/WPM_DesktopIcon_Official.jpg"
         ),
         "mini_asset_count": mini_count,
+        "onboarding_asset_count": onboarding_count,
         "assets": entries,
     }
 
@@ -574,6 +625,7 @@ CORE RULES
 - WPM_Mascot_FullBody.png is the original approved full-body mascot; golf bag is allowed.
 - WPM_Mascot_FullBody_Transparent.png is the transparent full-body app/compositing master.
 - Mini mascots use their categorized event folders.
+- Onboarding mascots live under mascots/onboarding and are UI assets, not gameplay minis.
 - Do not replace approved art with rejected generations.
 """,
         encoding="utf-8",
@@ -625,6 +677,7 @@ def cleanup_duplicates():
 def main():
     validate_sources()
     build_core_webps()
+    build_onboarding_webps()
     build_pwa_icons()
     archive_old_loose_minis()
 
@@ -650,6 +703,12 @@ def main():
     print("================================")
     print("Mini PNG masters:", len(mini_pngs))
     print("Mini WebPs:", len(mini_webps))
+    print(
+        "Onboarding mascot masters:",
+        len(list(ONBOARDING_MASCOTS_SRC.rglob("*.png")))
+        if ONBOARDING_MASCOTS_SRC.exists()
+        else 0,
+    )
     print("Official icon:", OFFICIAL_ICON.relative_to(ROOT))
     print("Old icon.svg exists:", (ROOT / "static/icon.svg").exists())
 
