@@ -73,6 +73,7 @@
   const roundEndTitle = document.getElementById('round-end-title');
   const roundEndSummary = document.getElementById('round-end-summary');
   const roundEndResults = document.getElementById('round-end-results');
+  const downloadReportButton = document.getElementById('download-report-button');
   const roundEndHome = document.getElementById('round-end-home');
   const receiptsPanel = document.getElementById('receipts-panel');
   const receiptsList = document.getElementById('receipts-list');
@@ -1355,6 +1356,45 @@
 
   liveRoundHome?.addEventListener('click', closeRoundFlow);
   roundEndHome?.addEventListener('click', closeRoundFlow);
+
+  downloadReportButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || currentLobbyRound.status !== 'completed') return;
+
+    downloadReportButton.disabled = true;
+    setRoundFlowMessage('');
+
+    try {
+      const token = sessionToken();
+      const response = await fetch(
+        `/api/rounds/code/${encodeURIComponent(currentLobbyRound.active_code)}/report.pdf`,
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      );
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(
+          payload.error || `Report download failed (${response.status})`
+        );
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download =
+        `who-pushed-me-${currentLobbyRound.active_code}-final-damage-report.pdf`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      downloadReportButton.disabled = false;
+    }
+  });
 
   finishRoundButton?.addEventListener('click', async () => {
     if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
