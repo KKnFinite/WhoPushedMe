@@ -39,6 +39,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectators never acquire score, par, tee, contribution, completion, or hole-advancement obligations merely by joining.
 - Any ability to browse older holes or Receipts is viewing history only and does not change what hole the spectator is "on."
 
+## Smooth claim-on-join flow
+- When an authenticated user enters a round code, the app must first check that round for any unclaimed round-only player identities before creating a new participant.
+- If unclaimed players exist, show a fast claim step such as `ARE YOU ALREADY IN THIS MESS?` with the listed unclaimed golfers.
+- The user may tap `THAT'S ME` on the correct golfer and immediately attach their account to that existing participant.
+- Claiming preserves the exact participant record and all prior scores, edits, reactions, callouts, contributions, towel/DNF state, standings context, Receipts, and report history.
+- If none of the listed golfers is them, they continue with the normal new-player or spectator join flow.
+- If multiple unclaimed golfers share the same display name, show enough round context to distinguish them, such as tee, tracked-from hole, or who added them.
+- A claimed participant cannot be claimed by another account unless an explicit future unlink/recovery flow is used.
+- The claim step should be fast and nontechnical; do not force account-linking terminology on the golfer.
+
 ## Offline / no-app players
 - Any active player may add another golfer to the round even when that golfer cannot access the app on their own device.
 - An offline/no-app golfer is treated as a full player for golf state: route, tee selection, scores, standings, placement, DNF/withdrawal, awards, Receipts, and Final Damage Report.
@@ -151,6 +161,19 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `THESE IDIOTS DID THINGS WHILE YOU WEREN'T LOOKING.`
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
+
+## Score challenges and corrections
+- Any connected participant may challenge a listed score that was entered by somebody else.
+- A challenge is social/audit state only; it does not change the current score by itself.
+- Challenges attach to the exact score event being disputed and remain in Receipts even if the score is later corrected.
+- A challenge may optionally include a proposed corrected score and/or comment.
+- Any active player may directly edit or remove any active player's current score; spectators may challenge/react but may not mutate golf state.
+- If a challenged score is edited or removed, preserve the original score, challenge(s), replies, and actor/subject history; create a new score-push/removal event for the correction.
+- Score corrections should trigger fresh mocking commentary visible to the group, especially when a change makes the golfer's result better.
+- Group mockery may target scorekeeping, selective memory, creative accounting, cheating accusations, or suddenly improved mathematics without asserting cheating as fact.
+- If several people challenged the same score, the correction event may reference the dispute count (for example `3 PEOPLE CALLED BULLSHIT. THE SCORE HAS NOW MYSTERIOUSLY CHANGED.`).
+- The live scorecard always shows the latest valid score; Receipts preserves the entire dispute/correction history.
+- A golfer may challenge a score entered for them by somebody else just like any other participant.
 
 ## Who can enter, edit, and remove scores
 - In individual play, any active player may enter a score for any active player in the round. A golfer does not have to enter only their own score.
