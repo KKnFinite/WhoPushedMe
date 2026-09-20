@@ -70,6 +70,16 @@ _EXCUSE_REASONS = {
 
 _REACTIONS = {"laugh", "bullshit", "applause"}
 
+_SCORE_RESPONSES = {
+    "bullshit",
+    "cheater",
+    "lucky",
+    "nice",
+    "blame",
+    "random",
+    "custom",
+}
+
 _CONTRIBUTION_TYPES = {
     "drive",
     "second",
@@ -127,6 +137,13 @@ def status_content_event(old_status: str, new_status: str) -> str | None:
     if new_status == "abandoned":
         return "round.abandoned"
     return None
+
+
+def score_response_content_event(response_kind: object) -> str:
+    kind = str(response_kind or "").strip().lower()
+    if kind not in _SCORE_RESPONSES:
+        kind = "random"
+    return f"score.response.{kind}"
 
 
 def scramble_contribution_content_event(
