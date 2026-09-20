@@ -250,6 +250,22 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Avoid dense permanent control panels. Use layered interaction: game state always visible, transient event cards for live moments, and Receipts for permanent social history.
 - Humor and personality are part of the interaction system, not decorative copy placed around conventional forms.
 
+## Edge-case review discipline
+- Before implementing any major round-state or UI-flow change, explicitly review edge cases and unresolved decisions rather than assuming the happy path.
+- Questions should be asked when a rule can materially change scoring truth, route semantics, standings, completion, history, spectator behavior, or report output.
+- Route modeling must distinguish course hole number from play-order position so shotgun starts, wraparound, shortened routes, and repeated physical holes can be represented correctly.
+- State changes that deserve explicit edge-case review include:
+  - joining an active round as player vs spectator
+  - changing participant role mid-round
+  - starting late, backfilling, and assumed-par entries
+  - withdrawal, return, and group early termination
+  - score edits before/after completion or resume
+  - route wraparound and repeated physical holes
+  - incomplete vs partial vs DNF placement
+  - multi-device unread/catch-up state
+  - course/tee/par differences that affect score-to-par
+- When an ambiguity is discovered, record the chosen behavior in this audit before building around it.
+
 ## UI status
 - Current UI is functional scaffolding only.
 - Final design requires explicit approval before merge to main.
