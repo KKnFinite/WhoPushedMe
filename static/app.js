@@ -748,6 +748,308 @@
       });
   };
 
+  const SCRAMBLE_SHOT_TYPES = [
+    ['drive', 'DRIVE'],
+    ['second', 'SECOND SHOT'],
+    ['approach', 'APPROACH'],
+    ['recovery', 'RECOVERY'],
+    ['bunker', 'BUNKER'],
+    ['putt', 'PUTT'],
+    ['other', 'OTHER'],
+  ];
+
+  const renderScrambleContributions = (round, hole) => {
+    if (!scrambleContributionPanel || !scrambleContributionList) return;
+
+    if (round.mode !== 'scramble') {
+      scrambleContributionPanel.hidden = true;
+      scrambleContributionList.replaceChildren();
+      return;
+    }
+
+    scrambleContributionPanel.hidden = false;
+    scrambleContributionList.replaceChildren();
+
+    const players = (round.participants || []).filter(
+      (participant) => participant.role === 'player'
+    );
+    const canEdit = round.viewer_role === 'player';
+
+    SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
+      const contribution = (round.contributions || []).find(
+        (row) =>
+          Number(row.hole_number) === Number(hole)
+          && row.shot_type === shotType
+      );
+
+      const row = document.createElement('div');
+      row.className = 'scramble-contribution-row';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+      row.append(label);
+
+      if (!canEdit) {
+        const readonly = document.createElement('div');
+        readonly.className = 'scramble-contribution-readonly';
+        const player = players.find(
+          (candidate) =>
+            String(candidate.id) === String(contribution?.player_participant_id)
+        );
+        readonly.textContent = player?.display_name || 'NOT CLAIMED';
+        row.append(readonly);
+        scrambleContributionList.append(row);
+        return;
+      }
+
+      const select = document.createElement('select');
+      select.setAttribute('aria-label', `${labelText} contribution`);
+
+      const blank = document.createElement('option');
+      blank.value = '';
+      blank.textContent = 'NOT CLAIMED';
+      select.append(blank);
+
+      players.forEach((player) => {
+        const option = document.createElement('option');
+        option.value = player.id;
+        option.textContent = player.display_name || 'Golfer';
+        option.selected = (
+          String(player.id) === String(contribution?.player_participant_id)
+        );
+        select.append(option);
+      });
+
+      select.addEventListener('change', async () => {
+        if (!currentLobbyRound) return;
+        select.disabled = true;
+        setRoundFlowMessage('');
+
+        try {
+          await requestJson(
+            `/api/rounds/${round.id}/holes/${hole}/contributions/${shotType}`,
+            {
+              method: 'PUT',
+              body: {
+                player_participant_id: select.value || null,
+              },
+            }
+          );
+          await refreshRound(round.active_code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+        } finally {
+          select.disabled = false;
+        }
+      });
+
+      row.append(select);
+      scrambleContributionList.append(row);
+    });
+  };
+
+  const presentationText = (event) => {
+    const presentation = event?.presentation || {};
+    const eventMessage = String(event?.data?.message || '').trim();
+    return (
+      eventMessage
+      || presentation.banter?.text
+      || presentation.mascot?.copy
+      || presentation.fallback?.text
+      || ''
+    );
+  };
+
+  const renderReceipts = (round) => {
+    if (!receiptsPanel || !receiptsList) return;
+
+    const events = round.events || [];
+    receiptsPanel.hidden = events.length === 0;
+    receiptsList.replaceChildren();
+
+    events.slice(0, 40).forEach((event) => {
+      const row = document.createElement('div');
+      row.className = 'receipt-row';
+
+      const title = document.createElement('strong');
+      title.textContent = (
+        presentationText(event)
+        || event.content_event_key
+        || event.event_type
+        || 'Round event'
+      );
+
+      const meta = document.createElement('small');
+      const pieces = [];
+      if (event.hole_number) pieces.push(`HOLE ${event.hole_number}`);
+      if (event.content_event_key) pieces.push(event.content_event_key);
+      if (event.created_at) {
+        const date = new Date(event.created_at);
+        if (!Number.isNaN(date.getTime())) {
+          pieces.push(
+            date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+          );
+        }
+      }
+      meta.textContent = pieces.join(' • ');
+
+      row.append(title, meta);
+      receiptsList.append(row);
+    });
+  };
+
+  const totalParForRound = (round) => {
+    const pars = round.pars || [];
+    if (pars.length < Number(round.hole_count)) return null;
+    return pars.reduce((total, row) => total + Number(row.par || 0), 0);
+  };
+
+  const roundEndEventForPlayer = (round, participantId) => {
+    return (round.events || []).find(
+      (event) =>
+        event.event_type === 'round_end_result'
+        && String(event.data?.player_participant_id || '') === String(participantId)
+    ) || null;
+  };
+
+  const appendResultPresentation = (card, event) => {
+    if (!event) return;
+    const presentation = event.presentation || {};
+    const text = presentationText(event);
+    const mascotPath = assetUrl(presentation.mascot?.production);
+    if (!text && !mascotPath) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'round-end-result-presentation';
+
+    if (mascotPath) {
+      const image = document.createElement('img');
+      image.src = mascotPath;
+      image.alt = presentation.mascot?.copy || 'Who Pushed Me mascot';
+      wrap.append(image);
+    }
+
+    const copy = document.createElement('span');
+    copy.textContent = text;
+    wrap.append(copy);
+    card.append(wrap);
+  };
+
+  const renderRoundEnd = (round) => {
+    currentLobbyRound = round;
+    viewedHole = null;
+
+    if (startRoundForm) startRoundForm.hidden = true;
+    if (joinRoundForm) joinRoundForm.hidden = true;
+    if (lobbyPanel) lobbyPanel.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = false;
+    if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND COMPLETE';
+
+    if (lobbyRefreshTimer) {
+      window.clearInterval(lobbyRefreshTimer);
+      lobbyRefreshTimer = null;
+    }
+
+    const place = round.course?.name || round.free_play_name || 'Golf';
+    if (roundEndTitle) roundEndTitle.textContent = 'THE DAMAGE IS FINAL.';
+    if (roundEndResults) roundEndResults.replaceChildren();
+
+    const totalPar = totalParForRound(round);
+
+    if (round.mode === 'scramble') {
+      const total = round.results?.team_total;
+      const relative = totalPar && total
+        ? scoreRelativeLabel(Number(total), Number(totalPar))
+        : '';
+
+      if (roundEndSummary) {
+        roundEndSummary.textContent = [
+          place,
+          total ? `${total} STROKES` : '',
+          relative ? `${relative} TO PAR` : '',
+        ].filter(Boolean).join(' • ');
+      }
+
+      const event = (round.events || []).find(
+        (item) =>
+          item.event_type === 'round_end_result'
+          && item.content_event_key === 'round.end.scramble.complete'
+      );
+
+      const card = document.createElement('section');
+      card.className = 'round-end-result-card is-first';
+
+      const rank = document.createElement('div');
+      rank.className = 'round-end-result-rank';
+      rank.textContent = '✓';
+
+      const main = document.createElement('div');
+      main.className = 'round-end-result-main';
+
+      const name = document.createElement('strong');
+      name.textContent = 'WE SUCK TOGETHER';
+
+      const score = document.createElement('small');
+      score.textContent = total ? `${total} TOTAL STROKES` : 'ROUND COMPLETE';
+
+      main.append(name, score);
+      card.append(rank, main);
+      appendResultPresentation(card, event);
+      roundEndResults?.append(card);
+    } else {
+      if (roundEndSummary) {
+        roundEndSummary.textContent = place;
+      }
+
+      const players = [...(round.results?.players || [])].sort(
+        (a, b) =>
+          Number(a.rank || 999) - Number(b.rank || 999)
+          || Number(a.total_strokes || 9999) - Number(b.total_strokes || 9999)
+      );
+
+      players.forEach((result) => {
+        const card = document.createElement('section');
+        card.className = 'round-end-result-card';
+        if (Number(result.rank) === 1) card.classList.add('is-first');
+
+        const rank = document.createElement('div');
+        rank.className = 'round-end-result-rank';
+        const tied = Number(result.tie_count) > 1;
+        rank.textContent = tied ? `T${result.rank}` : `#${result.rank}`;
+
+        const main = document.createElement('div');
+        main.className = 'round-end-result-main';
+
+        const name = document.createElement('strong');
+        name.textContent = result.display_name || 'Golfer';
+
+        const relative = totalPar && result.total_strokes
+          ? scoreRelativeLabel(
+              Number(result.total_strokes),
+              Number(totalPar)
+            )
+          : '';
+        const score = document.createElement('small');
+        score.textContent = [
+          `${result.total_strokes} STROKES`,
+          relative ? `${relative} TO PAR` : '',
+        ].filter(Boolean).join(' • ');
+
+        main.append(name, score);
+        card.append(rank, main);
+        appendResultPresentation(
+          card,
+          roundEndEventForPlayer(round, result.participant_id)
+        );
+        roundEndResults?.append(card);
+      });
+    }
+
+    renderReceipts(round);
+    setRoundFlowMessage('');
+  };
+
   const renderLiveRound = (round) => {
     const previousRound = currentLobbyRound;
     const wasFollowingLive = (
