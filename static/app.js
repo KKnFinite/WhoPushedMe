@@ -1366,7 +1366,7 @@
     try {
       const token = sessionToken();
       const response = await fetch(
-        `/api/rounds/code/${encodeURIComponent(currentLobbyRound.active_code)}/report.pdf`,
+        `/api/rounds/${encodeURIComponent(currentLobbyRound.id)}/report.pdf`,
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         }
