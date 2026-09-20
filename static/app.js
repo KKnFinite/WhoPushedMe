@@ -66,6 +66,28 @@
   const latestBanter = document.getElementById('latest-banter');
   const latestFallback = document.getElementById('latest-fallback');
   const liveRoundHome = document.getElementById('live-round-home');
+  const bagButton = document.getElementById('bag-of-bullshit-button');
+  const bagModal = document.getElementById('bag-modal');
+  const bagClose = document.getElementById('bag-close');
+  const bagMessage = document.getElementById('bag-message');
+  const bagActions = document.getElementById('bag-actions');
+  const bagActionButtons = document.querySelectorAll('[data-bag-action]');
+  const bagForm = document.getElementById('bag-form');
+  const bagFormTitle = document.getElementById('bag-form-title');
+  const bagFormCancel = document.getElementById('bag-form-cancel');
+  const bagTargetField = document.getElementById('bag-target-field');
+  const bagTargetSelect = document.getElementById('bag-target-select');
+  const bagSituationField = document.getElementById('bag-situation-field');
+  const bagSituationSelect = document.getElementById('bag-situation-select');
+  const bagShotField = document.getElementById('bag-shot-field');
+  const bagShotSelect = document.getElementById('bag-shot-select');
+  const bagExcuseField = document.getElementById('bag-excuse-field');
+  const bagExcuseSelect = document.getElementById('bag-excuse-select');
+  const bagTextField = document.getElementById('bag-text-field');
+  const bagTextLabel = document.getElementById('bag-text-label');
+  const bagTextInput = document.getElementById('bag-text-input');
+  const bagSubmit = document.getElementById('bag-submit');
+  const bagReactionButtons = document.querySelectorAll('[data-reaction]');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -76,6 +98,7 @@
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
   let viewedHole = null;
+  let currentBagAction = null;
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
@@ -485,6 +508,8 @@
     roundFlowModal.hidden = true;
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
+    if (bagModal) bagModal.hidden = true;
+    currentBagAction = null;
     currentLobbyRound = null;
     viewedHole = null;
     clearSelectedCourse();
@@ -569,11 +594,15 @@
     }
 
     const presentation = event.presentation || {};
-    const banterText = presentation.banter?.text
+    const eventMessage = String(event.data?.message || '').trim();
+    const presentationText = presentation.banter?.text
       || presentation.mascot?.copy
       || presentation.fallback?.text
       || '';
-    const fallbackText = presentation.fallback?.text || '';
+    const banterText = eventMessage || presentationText;
+    const fallbackText = eventMessage
+      ? presentationText
+      : (presentation.fallback?.text || '');
 
     if (latestBanter) latestBanter.textContent = banterText;
     if (latestFallback) {
@@ -1063,6 +1092,242 @@
     }
   });
 
+  const setBagMessage = (message = '') => {
+    if (!bagMessage) return;
+    bagMessage.textContent = message;
+    bagMessage.hidden = !message;
+  };
+
+  const populateBagTargets = () => {
+    if (!bagTargetSelect || !currentLobbyRound) return;
+    bagTargetSelect.replaceChildren();
+
+    (currentLobbyRound.participants || [])
+      .filter(
+        (participant) =>
+          String(participant.id) !== String(currentLobbyRound.viewer_participant_id)
+      )
+      .forEach((participant) => {
+        const option = document.createElement('option');
+        option.value = participant.id;
+        option.textContent = participant.display_name || 'Unknown golfer';
+        bagTargetSelect.append(option);
+      });
+  };
+
+  const resetBagComposer = () => {
+    currentBagAction = null;
+    if (bagForm) bagForm.hidden = true;
+    if (bagActions) bagActions.hidden = false;
+    if (bagTargetField) bagTargetField.hidden = true;
+    if (bagSituationField) bagSituationField.hidden = true;
+    if (bagShotField) bagShotField.hidden = true;
+    if (bagExcuseField) bagExcuseField.hidden = true;
+    if (bagTextField) bagTextField.hidden = false;
+    if (bagTextInput) {
+      bagTextInput.value = '';
+      bagTextInput.placeholder = 'Optional details';
+    }
+    if (bagSituationSelect) bagSituationSelect.value = '';
+    if (bagShotSelect) bagShotSelect.value = '';
+    if (bagExcuseSelect) bagExcuseSelect.value = '';
+    setBagMessage('');
+  };
+
+  const openBag = () => {
+    if (!bagModal || !currentLobbyRound || currentLobbyRound.status !== 'active') {
+      return;
+    }
+
+    resetBagComposer();
+    populateBagTargets();
+
+    const spectator = currentLobbyRound.viewer_role === 'spectator';
+    bagActionButtons.forEach((button) => {
+      const action = button.dataset.bagAction;
+      button.hidden = spectator && action !== 'open_mic';
+    });
+
+    bagModal.hidden = false;
+    document.body.classList.add('modal-open');
+    bagClose?.focus();
+  };
+
+  const closeBag = () => {
+    if (!bagModal) return;
+    bagModal.hidden = true;
+    resetBagComposer();
+  };
+
+  const configureBagAction = (action) => {
+    if (!bagForm || !bagActions) return;
+    currentBagAction = action;
+    bagActions.hidden = true;
+    bagForm.hidden = false;
+    setBagMessage('');
+
+    const config = {
+      callout: {
+        title: 'CALL SOMEONE OUT',
+        submit: 'CALL THEM OUT',
+        target: true,
+        situation: true,
+        textLabel: 'ADD DETAILS',
+        placeholder: 'Optional. Make it personal.',
+        requiredText: false,
+      },
+      praise: {
+        title: 'NICE FUCKING SHOT',
+        submit: 'GIVE CREDIT',
+        target: true,
+        shot: true,
+        textLabel: 'ADD DETAILS',
+        placeholder: 'Optional. Try not to sound sincere.',
+        requiredText: false,
+      },
+      shot_call: {
+        title: 'CALL YOUR SHOT',
+        submit: 'PUT IT ON THE RECORD',
+        target: false,
+        textLabel: 'WHAT ARE YOU CALLING?',
+        placeholder: 'Example: I am carrying the bunker.',
+        requiredText: true,
+      },
+      challenge: {
+        title: "YOU WON'T",
+        submit: 'ISSUE THE CHALLENGE',
+        target: true,
+        textLabel: "WHAT WON'T THEY DO?",
+        placeholder: "Example: You won't go for the green.",
+        requiredText: true,
+      },
+      excuse: {
+        title: 'EXCUSE DEPARTMENT',
+        submit: 'FILE THE EXCUSE',
+        target: false,
+        excuse: true,
+        textLabel: 'YOUR OFFICIAL STATEMENT',
+        placeholder: 'Optional additional bullshit.',
+        requiredText: false,
+      },
+      open_mic: {
+        title: 'OPEN MIC',
+        submit: 'SAY IT',
+        target: false,
+        textLabel: 'MESSAGE',
+        placeholder: 'Up to 280 characters.',
+        requiredText: true,
+      },
+    }[action];
+
+    if (!config) return;
+
+    if (bagFormTitle) bagFormTitle.textContent = config.title;
+    if (bagSubmit) bagSubmit.textContent = config.submit;
+    if (bagTargetField) bagTargetField.hidden = !config.target;
+    if (bagSituationField) bagSituationField.hidden = !config.situation;
+    if (bagShotField) bagShotField.hidden = !config.shot;
+    if (bagExcuseField) bagExcuseField.hidden = !config.excuse;
+    if (bagTextLabel) bagTextLabel.textContent = config.textLabel;
+    if (bagTextInput) {
+      bagTextInput.value = '';
+      bagTextInput.placeholder = config.placeholder;
+      bagTextInput.required = Boolean(config.requiredText);
+      bagTextInput.focus();
+    }
+
+    if (config.target && !bagTargetSelect?.options.length) {
+      setBagMessage('Nobody else is here to target.');
+      if (bagSubmit) bagSubmit.disabled = true;
+    } else if (bagSubmit) {
+      bagSubmit.disabled = false;
+    }
+  };
+
+  const sendSocialEvent = async (type, data = {}) => {
+    if (!currentLobbyRound) return;
+    return requestJson(
+      `/api/rounds/${currentLobbyRound.id}/events`,
+      {
+        method: 'POST',
+        body: {
+          type,
+          hole: currentLobbyRound.current_hole,
+          data,
+        },
+      }
+    );
+  };
+
+  bagButton?.addEventListener('click', openBag);
+  bagClose?.addEventListener('click', closeBag);
+  bagModal?.addEventListener('click', (event) => {
+    if (event.target === bagModal) closeBag();
+  });
+  bagFormCancel?.addEventListener('click', resetBagComposer);
+
+  bagActionButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      configureBagAction(button.dataset.bagAction);
+    });
+  });
+
+  bagForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentLobbyRound || !currentBagAction) return;
+
+    const message = String(bagTextInput?.value || '').trim();
+    if (bagTextInput?.required && !message) {
+      setBagMessage('You opened your mouth. Finish the thought.');
+      return;
+    }
+
+    const data = {};
+    if (!bagTargetField?.hidden && bagTargetSelect?.value) {
+      data.target_participant_id = bagTargetSelect.value;
+    }
+    if (!bagSituationField?.hidden && bagSituationSelect?.value) {
+      data.situation = bagSituationSelect.value;
+    }
+    if (!bagShotField?.hidden && bagShotSelect?.value) {
+      data.shot_type = bagShotSelect.value;
+    }
+    if (!bagExcuseField?.hidden && bagExcuseSelect?.value) {
+      data.reason = bagExcuseSelect.value;
+    }
+    if (message) data.message = message;
+
+    if (bagSubmit) bagSubmit.disabled = true;
+    setBagMessage('');
+
+    try {
+      await sendSocialEvent(currentBagAction, data);
+      closeBag();
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setBagMessage(error.message);
+      if (bagSubmit) bagSubmit.disabled = false;
+    }
+  });
+
+  bagReactionButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      if (!currentLobbyRound) return;
+      button.disabled = true;
+      setBagMessage('');
+      try {
+        await sendSocialEvent('reaction', {
+          reaction: button.dataset.reaction,
+        });
+        closeBag();
+        await refreshRound(currentLobbyRound.active_code);
+      } catch (error) {
+        setBagMessage(error.message);
+        button.disabled = false;
+      }
+    });
+  });
+
   const openSettings = async () => {
     if (!settingsModal || !settingsForm) return;
     setSettingsMessage('');
@@ -1147,6 +1412,10 @@
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
+    if (bagModal && !bagModal.hidden) {
+      closeBag();
+      return;
+    }
     if (roundFlowModal && !roundFlowModal.hidden) {
       closeRoundFlow();
       return;
