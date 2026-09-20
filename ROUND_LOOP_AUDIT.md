@@ -86,6 +86,7 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Current score-to-par, standings, summaries, awards, and report calculations should immediately recalculate using the corrected par.
 - The par edit creates its own permanent Receipt/event that clearly records old par -> new par.
 - If scores already exist on that hole, the par-change event should receive special mocking commentary about changing par after the fact.
+- If multiple individual players already have scores on that hole, create one shared par-correction event that roasts the group generally; recalculate each player's current score-to-par and standings individually rather than emitting duplicate correction events per player.
 - Commentary themes may include:
   - suspicious scorecard accounting / possible cheating
   - changing the math to improve over/under
