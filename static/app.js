@@ -65,7 +65,17 @@
   const latestMascot = document.getElementById('latest-mascot');
   const latestBanter = document.getElementById('latest-banter');
   const latestFallback = document.getElementById('latest-fallback');
+  const scrambleContributionPanel = document.getElementById('scramble-contribution-panel');
+  const scrambleContributionList = document.getElementById('scramble-contribution-list');
+  const finishRoundButton = document.getElementById('finish-round-button');
   const liveRoundHome = document.getElementById('live-round-home');
+  const roundEndPanel = document.getElementById('round-end-panel');
+  const roundEndTitle = document.getElementById('round-end-title');
+  const roundEndSummary = document.getElementById('round-end-summary');
+  const roundEndResults = document.getElementById('round-end-results');
+  const roundEndHome = document.getElementById('round-end-home');
+  const receiptsPanel = document.getElementById('receipts-panel');
+  const receiptsList = document.getElementById('receipts-list');
   const bagButton = document.getElementById('bag-of-bullshit-button');
   const bagModal = document.getElementById('bag-modal');
   const bagClose = document.getElementById('bag-close');
