@@ -29,6 +29,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Reused historical codes resolve within the authenticated golfer's own round history.
 - Spectators can join setup or active rounds.
 
+## Spectator mode
+- A spectator joins the round, not a specific hole.
+- Spectators never choose a starting hole, tracked-from hole, or scoring window.
+- Joining an active round as a spectator immediately opens the live spectator view at the round's current state.
+- As the group advances, the spectator follows the live round and sees events unfold in real time.
+- Spectators can view live scores, banter, minis, score responses, Bag activity, contributions, standings, and other shared round events as they occur.
+- Spectators may use allowed social actions such as score responses, reactions, and Open Mic.
+- Spectators never acquire score, par, tee, contribution, completion, or hole-advancement obligations merely by joining.
+- Any ability to browse older holes or Receipts is viewing history only and does not change what hole the spectator is "on."
+
 ## Lobby
 - Any player may start the round.
 - Spectators may not start it.
