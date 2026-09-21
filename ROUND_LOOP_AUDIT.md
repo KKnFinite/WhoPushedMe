@@ -277,6 +277,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Current standings, score-to-par, awards, and report calculations use the latest valid score, while the Final Damage Report may still roast the revision history.
 - Multiple revisions should remain visible as an audit trail rather than collapsing into one final value.
 
+## Reactions and challenge limits
+- Quick reactions are per participant, per event. One participant gets one active quick reaction on a given event.
+- A participant may change their quick reaction (for example `NICE` -> `BULLSHIT`) or remove it; counts update rather than stacking another reaction from the same person.
+- Reaction counts represent unique participants, not repeated button presses.
+- Freeform comments/replies may be multiple and remain separate social events.
+- Formal score challenges are separate from quick reactions.
+- A participant may have at most one active challenge on a specific score version/event.
+- A challenger may withdraw the challenge or update its comment/proposed corrected score, but cannot stack multiple challenges from the same person against the same score version.
+- If the score is edited, the new score-push event is a new score version with its own fresh reactions and challenges; reactions/challenges on the prior score version remain attached to that historical event.
+
 ## Score interaction
 - Responses are optional.
 - Every recorded score event can receive responses from any participant, including spectators.
