@@ -635,6 +635,17 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Scramble PDFs include team performance plus contribution audit.
 - PDF download uses the permanent round UUID, not the reusable four-digit round code.
 
+## Notification preferences
+- Push notifications are optional and are not required for scoring, voting, challenges, catch-up, or any other round function.
+- Default notification mode is `KEEP ME IN THE LOOP`.
+- Personal notification modes:
+  - `KEEP ME IN THE LOOP` (default): important direct items plus live round activity such as score events, lead changes, Bag activity, comments/replies, and similar social/game moments.
+  - `IMPORTANT SHIT ONLY`: direct/high-priority items such as challenges to your score, direct callouts/mentions, vote requests, removal votes, end-round votes, and other actions that specifically need your attention.
+  - `SHUT THE FUCK UP`: no push notifications; all activity accumulates normally in `YOU MISSED SOME SHIT` / Receipts.
+- Turning notifications off never removes the user from the round, changes presence/roster state, or blocks other players from continuing.
+- If push delivery is unavailable, denied, or delayed, the in-app unread/catch-up system remains the authoritative fallback.
+- Notification preference applies per golfer account, with future room for device-specific overrides if needed.
+
 ## Engagement spectrum
 - The app must work equally well for highly engaged players and low-attention golfers.
 - A golfer may react/comment on nearly every event, or may look at the app only a few times during the entire round; neither behavior should create scoring, completion, or participation problems.
