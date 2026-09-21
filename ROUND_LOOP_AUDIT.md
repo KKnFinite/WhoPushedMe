@@ -117,6 +117,19 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
 
+## Backfilling earlier scores
+- Backfilled scores are stored as normal factual scores but marked as `BACKFILLED` so history can distinguish delayed entry from live entry.
+- Backfilled scores immediately update current totals, score-to-par, stats, and current standings.
+- Each backfilled score remains individually visible in Receipts and available to the Final Damage Report.
+- Backfilling multiple old holes must not replay a flood of old live-event popups, old lead-change banners, or historical streak notifications as though those moments just happened.
+- Instead, a batch backfill should create one shared summary event for the group, such as:
+  - `MIKE JUST FILED 9 HOLES OF EVIDENCE AFTER THE FACT.`
+  - `THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED.`
+  - `NOTHING SUSPICIOUS ABOUT REMEMBERING NINE SCORES ALL AT ONCE.`
+- Historical score classifications (birdie, bogey, etc.) may still be derived and retained for stats/reporting, but their presentation should be catch-up/history oriented rather than live interruption.
+- Current standings should recalculate immediately after the backfill batch completes.
+- Old-hole backfill never changes the shared live route position.
+
 ## Replacement / late-joining player scoring
 - A replacement or late-joining individual golfer defaults to a `PARTIAL ROUND` whose tracked route begins at the live route position where they join.
 - If that golfer was already physically playing before joining the app/roster, they may backfill any legitimate earlier scores at any time while the round is active.
