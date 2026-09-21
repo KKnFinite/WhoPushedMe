@@ -446,7 +446,13 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The vote UI should show who has agreed, who is still being waited on, and who is no longer considered connected.
 - Presence state is ephemeral operational state and must not rewrite roster membership, DNF status, scores, or history.
 - Personal `THROW IN THE TOWEL` remains separate: it affects only that golfer and does not require group approval.
-- Recommended implementation: clients heartbeat while the active-round UI is open; a golfer becomes stale after a short grace period so a forgotten open session cannot block the group indefinitely. Exact timeout should be tuned for mobile background behavior and unreliable golf-course signal.
+- Presence must be intentionally tolerant of normal golf behavior. Players may go many holes without opening the app because somebody else is keeping score, so a short heartbeat timeout is not appropriate.
+- Recommended implementation: keep a long inactivity window (target about 30-45 minutes, tune during field testing) before a golfer is automatically considered unavailable for end-vote quorum.
+- Starting an end vote should not instantly exclude a golfer merely because their screen is locked or the app is backgrounded.
+- If a golfer has exceeded the long inactivity window, the end-vote UI may label them `INACTIVE / NOT CURRENTLY REQUIRED` and exclude them from quorum.
+- If a golfer has not exceeded the inactivity window but does not respond to an end vote, the group should be able to start a separate `MARK AS GONE` confirmation for that golfer; all other currently responding players must agree before that golfer is removed from the vote quorum.
+- `MARK AS GONE` changes only live-presence/quorum state. It does not withdraw the golfer, erase scores, or change their competitive status.
+- If the marked-gone golfer reconnects before the round ends, they immediately re-enter the live quorum and can vote.
 
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
