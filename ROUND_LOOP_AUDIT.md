@@ -22,6 +22,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - primary CTA: `FINE. INSTALL THE DAMN THING.`
   - skip CTA: `I ENJOY MAKING THINGS HARDER.`
 
+## Multiple devices per golfer
+- The same golfer account may be logged in on multiple devices at the same time.
+- Each device receives its own authenticated session, but all sessions resolve to the same golfer/account identity and therefore the same round participant.
+- Logging in on a second phone/tablet must never create a duplicate participant in the round.
+- Reactions, challenges, unread/catch-up state, and participant-level limits apply to the golfer identity, not separately to each device.
+- Either device may score, comment, react, or browse history using the same participant permissions.
+- Conflicting golf-state edits from two devices owned by the same golfer follow the same normal concurrency/audit rules as edits from different golfers.
+- Logging out on one device should revoke only that device's session; account recovery/password reset may revoke all active sessions as a security action.
+
 ## Account and entry
 - A valid authenticated account can create or join a round.
 - New rounds begin in `setup`.
