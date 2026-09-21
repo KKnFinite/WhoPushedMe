@@ -120,6 +120,12 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 ## Vote to remove a participant
 - Only players may initiate or vote on removing another participant; spectators do not get removal votes.
 - A removal vote may target either a spectator or a player.
+- A player removed by vote receives the distinct status `REMOVED BY GROUP`, not DNF/WITHDREW.
+- Individual play: a removed player's prior scores/history remain, but they are excluded from final placement after removal.
+- Scramble: a removed player's prior contributions/history remain, but they stop being an active team participant.
+- Player-removal votes are disabled when the round has only 2 golfers. In a 2-player round, one golfer cannot vote the other golfer out and turn the match into a solo round.
+- In a 2-player round, a golfer who wants to stop may use the normal towel/withdrawal flow, and the pair may use the normal consensus end-round flow.
+- Spectator-removal voting remains available in 2-player rounds; the no-removal rule applies specifically to kicking one of the two golfers.
 - Majority vote wins among the currently connected eligible players, excluding the participant being voted on.
 - The target does not vote on their own removal.
 - One golfer gets one vote regardless of how many devices they are logged into.
