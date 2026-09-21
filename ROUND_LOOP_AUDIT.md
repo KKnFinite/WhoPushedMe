@@ -432,6 +432,22 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Extra holes added before the round is ended are simply appended to the active route and score normally. There is no separate playoff/bonus scoring mode.
 - If the round has already been completed or ended, it stays closed. Any decision to play more golf starts a new round rather than reopening the old one merely to append extra holes.
 
+## Consensus end-of-round and live presence
+- Ending the entire round early is a group-consensus action, not a single-player action.
+- Any active connected player may initiate an `END THE ROUND` vote.
+- Every distinct golfer who is currently considered live/connected to that round must agree before the whole round ends.
+- Agreement is per golfer identity, not per device; a golfer logged in on two devices gets one vote.
+- Round-only/no-app golfers and players whose clients are offline are not part of the live vote quorum because they have no client capable of voting.
+- A connected golfer may vote `END IT` or `KEEP PLAYING`. Any explicit `KEEP PLAYING` vote blocks the end request.
+- Authentication/session existence is NOT proof that a golfer is still present. Live presence must use a short heartbeat/last-seen mechanism tied to the active round.
+- A golfer who closes the app, loses signal, leaves the course, or simply abandons the session without logging out automatically falls out of the connected vote quorum after the presence timeout.
+- If a golfer reconnects before the round actually ends, they rejoin the live presence set and must agree if the end vote is still open.
+- If only one golfer remains live/connected, that golfer may end the round by agreeing to their own end request.
+- The vote UI should show who has agreed, who is still being waited on, and who is no longer considered connected.
+- Presence state is ephemeral operational state and must not rewrite roster membership, DNF status, scores, or history.
+- Personal `THROW IN THE TOWEL` remains separate: it affects only that golfer and does not require group approval.
+- Recommended implementation: clients heartbeat while the active-round UI is open; a golfer becomes stale after a short grace period so a forgotten open session cannot block the group indefinitely. Exact timeout should be tuned for mobile background behavior and unreliable golf-course signal.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
