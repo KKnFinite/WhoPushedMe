@@ -117,6 +117,20 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
 
+## Challenges to backfilled / historical scores
+- Backfilled and other old-hole scores remain fully challengeable from Receipts/history.
+- Any connected participant may challenge an old score they did not originally enter, using the normal challenge rules.
+- Active players may correct or remove old-hole scores while the round is active; spectators may challenge/react/comment but may not mutate golf state.
+- A correction to an old/backfilled score preserves the original score event, all challenges/replies, and the correction audit trail.
+- Historical corrections update current totals, score-to-par, standings, stats, and report calculations immediately.
+- Historical corrections must not interrupt the current live hole with a large game-event takeover or replay old derived moments.
+- A compact live notice or catch-up item is appropriate, with mocking copy such as:
+  - `HISTORICAL REVISION: MIKE'S HOLE 4 HAS MIRACULOUSLY IMPROVED.`
+  - `THE ARCHIVES HAVE BEEN EDITED.`
+  - `APPARENTLY WE REMEMBER THAT HOLE DIFFERENTLY NOW.`
+  - `OLD SCORE. NEW STORY.`
+- The detailed dispute/correction stays in Receipts, while the live scorecard remains focused on the current route position.
+
 ## Backfilling earlier scores
 - Backfilled scores are stored as normal factual scores but marked as `BACKFILLED` so history can distinguish delayed entry from live entry.
 - Backfilled scores immediately update current totals, score-to-par, stats, and current standings.
