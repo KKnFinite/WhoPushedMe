@@ -54,6 +54,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Once the round is completed, claim changes should require an explicit account/history correction flow rather than a casual undo button.
 - The claim step should be fast and nontechnical; do not force account-linking terminology on the golfer.
 
+## Adding a no-app player after the round starts
+- Any active player may add a round-only/no-app golfer after the round has already started.
+- Scramble: the new golfer joins the existing team state from that point forward; prior team scores remain untouched and no earlier personal contribution history is fabricated.
+- Individual: default the new golfer's tracked route to the group's current live hole.
+- If that golfer was already physically playing before being added, earlier scores may be backfilled.
+- If earlier scores are not backfilled, those earlier holes are outside that golfer's tracked route and are treated as PARTIAL, not assumed par and not missing.
+- The new golfer can immediately be scored, targeted by banter/callouts/blame, receive reactions, throw in the towel, and appear in Receipts/results/report history according to normal player rules.
+- If the golfer later creates an account, the existing round-only participant is claimed rather than duplicated.
+- If multiple unclaimed golfers share a display name, show enough context to identify the correct participant.
+
 ## Offline / no-app players
 - Any active player may add another golfer to the round even when that golfer cannot access the app on their own device.
 - An offline/no-app golfer is treated as a full player for golf state: route, tee selection, scores, standings, placement, DNF/withdrawal, awards, Receipts, and Final Damage Report.
@@ -169,6 +179,7 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 
 ## Score challenges and corrections
 - Any connected participant may challenge a listed score that was entered by somebody else.
+- A participant cannot formally challenge a score event they themselves entered; they may simply edit/remove it or use a normal social reaction instead.
 - A challenge is social/audit state only; it does not change the current score by itself.
 - Challenges attach to the exact score event being disputed and remain in Receipts even if the score is later corrected.
 - A challenge may optionally include a proposed corrected score and/or comment.
