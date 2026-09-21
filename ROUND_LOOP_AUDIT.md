@@ -123,6 +123,14 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Adding the missing pars later may activate cumulative score-to-par and derived par-based summaries for the round; it must not fabricate historical score events that were not originally classifiable unless we explicitly add a backfill/reclassification feature later.
 - Free Play follows the same rule: either supply all counted pars and use par-based scoring, or play without par-based round scoring.
 
+## Course lock after round start
+- Course selection is locked once the round status becomes active.
+- The selected course, course identity, and hole mapping cannot be changed during an active round.
+- If the group selected the wrong course, they must explicitly end/abandon the current round and start a new round with the correct course.
+- Do not attempt to remap already-entered holes to another course after play has begun.
+- Tee/scoring-tee corrections may still follow their own audited rules when supported, but the underlying course itself remains immutable once the round starts.
+- Receipts/history should preserve that the abandoned round existed rather than silently converting it into a different course.
+
 ## Tee and par rules
 - Individual play may use different tees per player; each player's score-to-par must use the par associated with that player's selected tee when course data varies by tee.
 - Scramble uses one explicitly selected scoring tee for the entire team.
