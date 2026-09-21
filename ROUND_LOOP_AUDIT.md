@@ -581,6 +581,27 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Round completion still requires all scores that belong to each active player's/team's effective required route, unless later route/status changes legitimately remove that requirement.
 - The app should follow the golf group rather than holding the group on a hole because somebody has not entered a number yet.
 
+## Finishing with missing scores
+- Reaching the end of the route with missing required scores must not hold the entire group hostage.
+- Before finalizing, show a clear warning that one or more required scores are still missing.
+- Offer:
+  - `FIX THE SCORECARD` to review/fill the missing entries
+  - `FINISH INCOMPLETE` to close the round with the missing data preserved as missing
+- Individual play:
+  - any golfer with missing required scores finishes as `INCOMPLETE`
+  - that golfer is excluded from official placement
+  - all recorded scores, banter, reactions, Receipts, awards based on valid recorded data, and Final Damage Report history remain available
+  - golfers with complete comparable routes may still receive official placement
+- Scramble:
+  - the team may finish as `INCOMPLETE ROUND` when one or more required team scores are missing
+  - do not show a misleading final cumulative stroke total or final score-to-par when required team scores are missing
+  - preserve and report all valid recorded holes and social history
+- Finishing incomplete must never invent replacement scores, assumed pars, or synthetic totals.
+- The completion event/report should clearly distinguish `INCOMPLETE` from `ENDED EARLY`, `DNF`, and normal completion.
+- Suggested warning tone:
+  - `WE'RE MISSING A SCORE. APPARENTLY REMEMBERING HOW MANY TIMES YOU HIT THE BALL WAS TOO AMBITIOUS.`
+  - `THE SCORECARD HAS A HOLE IN IT. FITTING.`
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
