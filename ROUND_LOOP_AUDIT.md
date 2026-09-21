@@ -117,6 +117,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
 
+## Replacement / late-joining player scoring
+- A replacement or late-joining individual golfer defaults to a `PARTIAL ROUND` whose tracked route begins at the live route position where they join.
+- If that golfer was already physically playing before joining the app/roster, they may backfill any legitimate earlier scores at any time while the round is active.
+- Backfilled earlier scores become part of that golfer's tracked route and current totals once entered.
+- If the earlier scores are never entered, those earlier holes remain outside that golfer's tracked route rather than being treated as missing or assumed par.
+- A replacement golfer is not ranked against full-route players unless their effective tracked route becomes comparable under the normal placement rules.
+- The removed player's status/history remains `REMOVED BY GROUP`; adding or backfilling a replacement player never rewrites the removed golfer's history.
+- Old-hole backfill never moves the shared live route position backward.
+
 ## Removed-player roster slots
 - A player with status `REMOVED BY GROUP` does not permanently reserve one of the four active-player slots.
 - Removing a player frees an active roster slot, so the group may add another golfer up to the normal 4-player maximum.
