@@ -117,6 +117,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
 
+## Removed-player roster slots
+- A player with status `REMOVED BY GROUP` does not permanently reserve one of the four active-player slots.
+- Removing a player frees an active roster slot, so the group may add another golfer up to the normal 4-player maximum.
+- The removed player's participant record and all prior scores/history remain preserved for the life of the round; do not delete or overwrite that data when a replacement golfer is added.
+- A removed player may be reinstated later only if an active-player slot is available at that time.
+- If the active roster is already back at 4 players, the removed player cannot be reinstated until another active golfer leaves, withdraws, or is removed.
+- Reinstatement restores the same preserved participant record and history rather than creating a new golfer entry.
+- A replacement golfer's scores/history remain their own; never merge the replacement with the previously removed golfer.
+- The UI should make this state clear: a removed golfer can be `ELIGIBLE TO RETURN` when a slot exists, or `ROSTER FULL` when no slot is available.
+
 ## Reinstating a removed player
 - A player with status `REMOVED BY GROUP` may be voted back into the same active round.
 - Reinstatement requires a new majority vote of the currently connected eligible players, excluding the removed player from the voting quorum until reinstated.
