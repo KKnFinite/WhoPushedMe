@@ -100,6 +100,14 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Historical score ownership is not rewritten: Receipts still show which other player originally entered or edited scores on the golfer's behalf.
 - A round-only participant can be claimed only once. The eventual claim/verification flow must prevent one account from taking another golfer's participant history.
 
+## Player and spectator limits
+- A round supports a maximum of 4 golfers/players total, including connected, offline/no-app, and round-only golfers.
+- Individual and scramble modes both use the same 4-player cap.
+- Withdrawn/DNF golfers remain part of the round roster and continue to count toward the original 4-player roster; another golfer cannot replace them as a fifth participant.
+- Spectators have no user-facing hard cap.
+- Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
+- If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
+
 ## Lobby
 - Any player may start the round.
 - Spectators may not start it.
