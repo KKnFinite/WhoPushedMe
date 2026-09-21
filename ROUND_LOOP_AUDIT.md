@@ -402,6 +402,8 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `THEY HAD A CHANCE TO GO HOME. THEY CHOSE MORE GOLF.`
   - `BAD DECISIONS HAVE BEEN EXTENDED.`
 - Once active, the route may be changed only by extending the unfinished end or explicitly ending early; do not allow arbitrary surgery in the middle of the route.
+- Extra holes added before the round is ended are simply appended to the active route and score normally. There is no separate playoff/bonus scoring mode.
+- If the round has already been completed or ended, it stays closed. Any decision to play more golf starts a new round rather than reopening the old one merely to append extra holes.
 
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
