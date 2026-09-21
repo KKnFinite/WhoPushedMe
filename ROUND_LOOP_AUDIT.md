@@ -177,6 +177,29 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
 
+## Temporary offline play and sync conflicts
+- The live round must tolerate temporary loss of cell/data service without preventing score entry or lightweight social actions.
+- When a connected client loses service, supported actions may be queued locally with their original local timestamp and attempted when connectivity returns.
+- The UI must clearly show that an action is pending/offline rather than pretending it has already been accepted by the server.
+- Score/par/route mutations queued offline must include enough prior-state/version context for the server/client to detect whether the same golf state changed while that device was disconnected.
+- If an offline score entry/revision no longer conflicts when reconnecting, sync it normally and preserve the original actor plus queued timestamp metadata.
+- If another accepted change already modified that same current score, do not silently overwrite it.
+- Show an explicit conflict resolution such as:
+  - current server score
+  - queued offline score
+  - who last changed the server score when known
+  - actions to keep the server value or apply the queued value
+- Resolving the conflict creates a normal audited score event; the rejected alternative remains visible in conflict/history metadata where useful.
+- Conflict copy may mock the situation, for example:
+  - `SCORECARD FIGHT DETECTED.`
+  - `APPARENTLY EVEN THE INTERNET DOESN'T KNOW WHAT MIKE SHOT.`
+  - `OFFLINE ACCOUNTING HAS ENTERED THE CHAT.`
+  - `THE COURSE HAS NO SIGNAL AND APPARENTLY NO CONSENSUS EITHER.`
+- Social-only queued actions such as reactions/comments may generally replay in order when service returns, provided the target event still exists.
+- Duplicate retries must be idempotent so reconnecting does not create the same score/comment/reaction multiple times.
+- If the round ended while a device was offline, queued golf-state mutations must not automatically reopen or rewrite the completed round; surface them for explicit review.
+- Offline support must preserve the same rule as online play: current state may change, but accepted historical events are never silently deleted.
+
 ## Concurrent score edits
 - If two or more connected players edit the same current score from different devices at nearly the same time, the latest accepted edit becomes the current score.
 - Every accepted edit remains a separate immutable Receipt with actor, subject, old value, new value, and timestamp.
