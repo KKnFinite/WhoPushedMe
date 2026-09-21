@@ -567,6 +567,20 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - `MARK AS GONE` changes only live-presence/quorum state. It does not withdraw the golfer, erase scores, or change their competitive status.
 - If the marked-gone golfer reconnects before the round ends, they immediately re-enter the live quorum and can vote.
 
+## Advancing with missing scores
+- Advancing the shared live route position never requires every score on the current hole to be present.
+- Missing scores are a warning state, not a navigation blocker.
+- Before advancing, the UI may show a lightweight warning identifying the missing player/team score and offer a clear `GO ANYWAY` action.
+- Individual example tone:
+  - `DAVE'S SCORE IS STILL MISSING. APPARENTLY WE'RE DOING PAPERWORK LATER.`
+- Scramble example tone:
+  - `WE'RE LEAVING WITHOUT A SCORE? BOLD.`
+- Advancing with missing scores moves the live round forward normally and leaves the earlier route position flagged as missing.
+- Active players may backfill the missing score later without moving the shared live route position backward.
+- Current standings must reflect the player's/team's incomplete state while required scores are missing.
+- Round completion still requires all scores that belong to each active player's/team's effective required route, unless later route/status changes legitimately remove that requirement.
+- The app should follow the golf group rather than holding the group on a hole because somebody has not entered a number yet.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
