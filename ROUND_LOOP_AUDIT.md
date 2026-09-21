@@ -381,6 +381,14 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Completed rounds freeze score/par/shared-hole mutation unless explicitly resumed.
 - Round-end presentations are selected and stored server-side.
 
+## Joining a completed round
+- Entering the code for a completed round opens a read-only post-round view rather than creating a new live participant.
+- Post-round viewers may see standings/results, Receipts, awards, and Final Damage Report content that is allowed to be shared.
+- A new player cannot be added to the competitive roster after completion.
+- A round-only/unclaimed golfer who actually participated may still create an account and claim that existing participant after the round ends.
+- Post-round spectator/viewer access does not create a scored participant and does not alter historical standings, completion, or roster counts.
+- Any correction to a completed round's roster or golf state requires an explicit reopen/correction flow; ordinary post-round viewing never mutates history.
+
 ## Round-end routing
 - Two-player individual: winner / head-to-head loser.
 - Three-player individual: winner / not-last / dead-last.
