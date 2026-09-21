@@ -222,14 +222,24 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Individual players may have different tracked-from holes if somebody joins an already-active round late.
 
 ## Par availability and entry
-- Par is all-or-nothing for round-level score-to-par reporting.
-- If every counted hole in the effective route has a known par, show normal cumulative score-to-par and allow par-based round summaries.
-- If any counted hole lacks par, do not show cumulative round score-to-par at all; treat par as unavailable for that round until the missing pars are supplied.
+- Par tracking is an explicit round mode: either the round tracks par or it does not.
 - Course/API data should populate hole par and tee data whenever available.
-- When API/course par is unavailable or incomplete, players may choose to enter all hole pars during setup or enter them progressively hole by hole during play.
-- Hole-level birdie/par/bogey/etc. classification is only available once that hole's par is known.
-- Adding the missing pars later may activate cumulative score-to-par and derived par-based summaries for the round; it must not fabricate historical score events that were not originally classifiable unless we explicitly add a backfill/reclassification feature later.
-- Free Play follows the same rule: either supply all counted pars and use par-based scoring, or play without par-based round scoring.
+- When API/course par is unavailable or incomplete, setup offers:
+  - enter all pars now
+  - enter pars as you go
+  - do not track par for this round
+- If the group chooses `DO NOT TRACK PAR`, score entry proceeds without par prompts and the app does not show cumulative score-to-par, birdie/par/bogey classification, or par-based derived moments for that round.
+- If par tracking is enabled and the current route position has no known par, the first attempt to enter a score on that hole should pause that score entry with a lightweight sarcastic prompt to establish par first.
+- The prompt should be fast and nontechnical, with copy in the direction of:
+  - `HOW ABOUT WE ESTABLISH PAR BEFORE WE START INVENTING BOGEYS?`
+  - `WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY.`
+  - `NUMBERS ARE HARD. WHAT'S PAR?`
+- Once par is entered, return directly to the pending score entry so the golfer does not have to restart the flow.
+- When par tracking is enabled, every counted route position must ultimately have par before the round can show cumulative score-to-par or finalize par-based summaries.
+- Par is all-or-nothing for round-level score-to-par reporting: if any counted route position is missing par, suppress cumulative round score-to-par until the missing pars are supplied.
+- Hole-level birdie/par/bogey/etc. classification is available only once that hole's par is known.
+- Free Play follows the same rule: either track par for the route or explicitly play without par-based scoring.
+- To avoid rewriting the scoring model mid-round, the track-par vs no-par choice should be locked once the first factual score is accepted. Before the first score, the group may change that setup choice freely.
 
 ## Course lock after round start
 - Course selection is locked once the round status becomes active.
@@ -245,6 +255,12 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The scramble team's par, score-to-par, standings/result math, and report output all use that one team scoring tee.
 - Individual players may physically hit from different tees during a scramble if the group wants, but that does not change the scoring tee unless the team explicitly changes it through a supported edit flow.
 - Any scoring-tee change after scores exist must create a permanent history event and recompute affected score-to-par values rather than silently rewriting history.
+
+## Score entry when par is missing
+- If par tracking is ON, do not accept the first factual score for a route position until that route position has par.
+- This prevents a score from being recorded without knowing whether it is birdie/par/bogey and avoids retroactively fabricating the original score presentation later.
+- If par tracking is OFF for the round, accept scores normally with no par prompt and no par-based classification.
+- A later par correction is still allowed under the normal audited par-change rules; this section only governs the initial missing-par case.
 
 ## Par changes after scoring
 - A par edit after one or more scores already exist must never rewrite or replace the original score event, its banter, mascot, reactions, or replies.
