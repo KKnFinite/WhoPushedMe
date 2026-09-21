@@ -117,6 +117,18 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
 
+## Reinstating a removed player
+- A player with status `REMOVED BY GROUP` may be voted back into the same active round.
+- Reinstatement requires a new majority vote of the currently connected eligible players, excluding the removed player from the voting quorum until reinstated.
+- The removed player cannot reinstate themselves.
+- Reinstatement restores the same participant record; never create a replacement participant.
+- All prior scores, reactions, comments, contributions, callouts, removal-vote history, and Receipts remain attached to that participant.
+- Reinstatement creates its own permanent Receipt/event and does not erase the original removal event.
+- In individual play, scoring obligation resumes from the route position where the player returns unless earlier missed holes are explicitly backfilled.
+- Missed holes during removal are not silently assumed, fabricated, or required unless the group/player chooses to backfill them.
+- In scramble, the reinstated golfer simply becomes active for future contributions/social actions again; prior team scores remain untouched.
+- Reinstatement is available only while the round is active. Once the round has ended, roster correction requires the explicit post-round correction flow.
+
 ## Vote to remove a participant
 - Only players may initiate or vote on removing another participant; spectators do not get removal votes.
 - A removal vote may target either a spectator or a player.
