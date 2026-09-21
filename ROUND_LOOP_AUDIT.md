@@ -487,6 +487,18 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Scramble PDFs include team performance plus contribution audit.
 - PDF download uses the permanent round UUID, not the reusable four-digit round code.
 
+## Engagement spectrum
+- The app must work equally well for highly engaged players and low-attention golfers.
+- A golfer may react/comment on nearly every event, or may look at the app only a few times during the entire round; neither behavior should create scoring, completion, or participation problems.
+- Core golf state must continue to function when only one person is actively operating the app for the group.
+- Social actions, reactions, Bag activity, contributions, comments, challenges, catch-up, and mascot interactions are optional enrichment, never required workflow.
+- The live scorecard should remain useful with zero social interaction.
+- Highly engaged users should have deep social/gameplay interaction available without forcing that complexity onto everyone else.
+- Low-attention users should be able to reopen the app after a long gap, land on the current live state, and use `YOU MISSED SOME SHIT` / Receipts to catch up at their own pace.
+- Notifications/presence logic must not assume frequent screen use or continuous foreground activity.
+- Personalized unread state should accumulate safely without blocking the round, and large unread counts should collapse into useful catch-up summaries rather than demanding item-by-item acknowledgment.
+- The design target is progressive engagement: score-only users can stay score-only; social users can go as deep as they want.
+
 ## Experience direction: social app x video game
 - The product should feel like a cross between a live social-media feed and a lightweight multiplayer video game, not like a traditional golf scorecard with jokes bolted on.
 - The scorecard remains the authoritative game-state layer, but the live experience should constantly surface social energy around it.
