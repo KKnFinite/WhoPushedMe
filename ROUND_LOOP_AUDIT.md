@@ -37,6 +37,8 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectators can view live scores, banter, minis, score responses, Bag activity, contributions, standings, and other shared round events as they occur.
 - Spectators may use allowed social actions such as score responses, reactions, and Open Mic.
 - Spectators never acquire score, par, tee, contribution, completion, or hole-advancement obligations merely by joining.
+- A spectator may become a player during an active round. On conversion, they choose whether to start scoring from the current live route position or backfill earlier scores if they were already physically playing.
+- In individual play, an active player who stops playing should use the towel/withdrawal flow rather than silently changing themselves to spectator, so DNF history and completion rules stay honest.
 - Any ability to browse older holes or Receipts is viewing history only and does not change what hole the spectator is "on."
 
 ## Smooth claim-on-join flow
@@ -97,6 +99,9 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 
 ## Round route and starting mid-round
 - A round is defined by an explicit play order, not by assuming hole 1 through hole 18.
+- Route position is distinct from physical course hole number. This is required for 9-hole courses played twice, shotgun starts, wraparound routes, and any route where the same physical hole can appear more than once.
+- Example: route position 3 may be physical Hole 3 on the first loop, while route position 12 may be physical Hole 3 on the second loop.
+- If `CUSTOM END` equals the selected starting hole, interpret that as playing only that one hole. A full loop must be expressed explicitly with `FULL 9` or `FULL 18`.
 - Setup supports any starting hole.
 - A full 18 wraps after hole 18 back to hole 1 until all 18 holes in the route are played.
 - Setup may instead choose an explicit ending hole, including an ending hole after wraparound.
@@ -345,6 +350,7 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - their earlier scramble contributions remain preserved.
   - their personal towel state is comedy/history metadata, not a scoring result.
   - they may return before the round ends; returning becomes its own event and does not erase the original quit event.
+- If an individual golfer withdraws and later returns, holes missed during the withdrawal remain outside their competitive continuity unless they are backfilled; returning does not silently invent scores for the gap.
 - Individual play:
   - a player towel throw is a real DNF/withdrawal state.
   - future holes are no longer required from that player.
@@ -387,6 +393,7 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Individual completion requires every player to have a score on every hole.
 - Scramble completion requires one team score on every hole.
 - Completed rounds freeze score/par/shared-hole mutation unless explicitly resumed.
+- A completed round may be explicitly reopened for a correction. Reopening creates a permanent Receipt/event, and any later correction creates its own normal audited event. Results/standings/awards are then recomputed from the corrected current state.
 - Round-end presentations are selected and stored server-side.
 
 ## Joining a completed round
