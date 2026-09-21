@@ -38,6 +38,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Reused historical codes resolve within the authenticated golfer's own round history.
 - Spectators can join setup or active rounds.
 
+## Round-code privacy and access
+- The 4-digit round code is optimized for easy live joining and must not be treated as a permanent secret.
+- Joining a live round by code requires an authenticated account unless the golfer is being represented as a round-only/no-app participant added by an existing player.
+- Wrong-code attempts must be aggressively rate-limited so 4-digit codes cannot be brute-forced efficiently.
+- If an account enters a code for a round they already belong to, resume the existing participant identity rather than creating a duplicate.
+- Knowing a round code grants access only to that round's allowed live/post-round surface; it does not expose a golfer's unrelated profile/history.
+- After a round is completed, the simple 4-digit code should not be the long-term public sharing mechanism for brand-new viewers.
+- Existing participants/viewers retain access through their account/history; future sharing with new people should use a separate unguessable share link/token.
+
 ## Spectator mode
 - A spectator joins the round, not a specific hole.
 - Spectators never choose a starting hole, tracked-from hole, or scoring window.
@@ -107,6 +116,19 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Spectators have no user-facing hard cap.
 - Spectator access should instead be protected by ordinary technical safeguards such as authentication, rate limiting, efficient event delivery, and abuse controls so an unexpectedly large audience cannot overwhelm live polling/database resources.
 - If a future infrastructure safety ceiling is needed, it should be a high technical limit rather than a normal product rule shown to golfers.
+
+## Vote to remove a participant
+- Only players may initiate or vote on removing another participant; spectators do not get removal votes.
+- A removal vote may target either a spectator or a player.
+- Majority vote wins among the currently connected eligible players, excluding the participant being voted on.
+- The target does not vote on their own removal.
+- One golfer gets one vote regardless of how many devices they are logged into.
+- Offline/no-app/round-only golfers who have no connected client are not part of the live voting quorum.
+- The vote UI must show who initiated it, who has voted, and whether the threshold has been reached.
+- A successful removal must create a permanent Receipt/event. Removal is never silent.
+- Removing a participant must preserve all historical scores, reactions, comments, contributions, callouts, and other events already associated with them.
+- Removed participants lose live access to that round unless a later explicit re-invite/restore flow permits return.
+- The exact competitive treatment of a removed player (for example REMOVED vs DNF and how placement is handled) must follow the player-removal rule chosen before implementation.
 
 ## Lobby
 - Any player may start the round.
@@ -388,6 +410,17 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Optional surrender reason may be recorded and can be used in banter, Receipts, history, and the Final Damage Report.
 - A whole group may explicitly end the round early; the report must clearly distinguish early termination from a normally completed round.
 - Towel events and late-round taunts must never be required to continue or finish a round.
+
+## Handicap and net scoring
+- Gross scoring is always the factual foundation and is always recorded.
+- Handicap/net scoring is optional and never required to create, join, or complete a round.
+- When handicap play is disabled, standings/results use gross scoring only.
+- When handicap play is enabled, the UI may show both gross and net values in familiar golf format.
+- Round setup determines whether official individual placement is based on gross or net scoring.
+- A golfer without handicap data may still participate normally; the round must not block them from playing.
+- Handicap data belongs to the golfer profile when available, with support for a round-specific value/override when needed.
+- Who Pushed Me?! should not present itself as an official handicap authority unless a future sanctioned handicap integration is added.
+- Gross history must remain preserved even when net scoring is used for competitive placement.
 
 ## Standings and score display
 - Display golf scoring in the familiar professional-leaderboard style: cumulative strokes plus score relative to par when the player's tracked scorecard is complete for the route being counted.
