@@ -177,6 +177,16 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
 
+## Reconnect after the round advances
+- If a device is offline while the group advances one or more holes, reconnecting must snap that client to the round's current live hole/state.
+- Do not replay old holes as forced navigation and do not move the shared round backward to match the reconnecting device.
+- Any old hole the user was locally viewing before disconnect remains only as local viewing context; the live round state wins on reconnect.
+- Reconnection should surface a personal catch-up count through `YOU MISSED SOME SHIT • N` so the user can review everything that happened while they were away.
+- Pending offline actions keep their original target hole/event and are reconciled against current server state independently of where the live round has advanced.
+- If a pending offline score targets an older hole and does not conflict, it may sync without moving the live hole backward.
+- If it conflicts with a newer accepted value, use the normal offline conflict-resolution flow.
+- Spectators follow the same reconnect rule: resume at the current live round state, with history available for catch-up.
+
 ## Temporary offline play and sync conflicts
 - The live round must tolerate temporary loss of cell/data service without preventing score entry or lightweight social actions.
 - When a connected client loses service, supported actions may be queued locally with their original local timestamp and attempted when connectivity returns.
