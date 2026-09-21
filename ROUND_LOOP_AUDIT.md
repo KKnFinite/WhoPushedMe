@@ -388,6 +388,21 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - If the whole group ends early together, that shared stopping point becomes the effective route end for the golfers still active; those golfers can still receive official placement over the common played route, while the round remains visibly labeled `ENDED EARLY`.
 - Scramble has one team result. A team that ends early keeps its score and score-to-par over the played route, but the report must clearly label the round as ended early.
 
+## Extending an active round
+- An active round may be deliberately extended forward from its planned endpoint without changing the locked course or rewriting already-played route positions.
+- Use an explicit `EXTEND THE ROUND` action rather than arbitrary mid-route editing.
+- Examples:
+  - planned 1-9 may be extended to 1-18
+  - custom 4-12 may be extended through 18
+  - on a 9-hole course, a second loop creates new route positions rather than overwriting the first 1-9
+- Already-played route positions, scores, pars, reactions, and Receipts remain unchanged.
+- Newly appended route positions immediately become part of the effective required route for active players/team completion.
+- Extending the round creates a permanent history event and may trigger mocking presentation such as:
+  - `APPARENTLY NINE HOLES OF THIS SHIT WASN'T ENOUGH.`
+  - `THEY HAD A CHANCE TO GO HOME. THEY CHOSE MORE GOLF.`
+  - `BAD DECISIONS HAVE BEEN EXTENDED.`
+- Once active, the route may be changed only by extending the unfinished end or explicitly ending early; do not allow arbitrary surgery in the middle of the route.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
