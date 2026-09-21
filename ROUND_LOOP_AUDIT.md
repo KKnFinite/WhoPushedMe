@@ -177,6 +177,19 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `CATCH UP BEFORE SOMEBODY CHANGES THEIR STORY.`
 - Catch-up roasting is presentation only and never changes golf state.
 
+## Concurrent score edits
+- If two or more connected players edit the same current score from different devices at nearly the same time, the latest accepted edit becomes the current score.
+- Every accepted edit remains a separate immutable Receipt with actor, subject, old value, new value, and timestamp.
+- A later edit never deletes or rewrites an earlier accepted edit, even when the edits were only seconds apart.
+- The live scorecard shows only the latest accepted value; Receipts preserves the full edit race in order.
+- If near-simultaneous conflicting edits occur, the app may emit a special shared chaos/correction event and mock the group for fighting over the scorecard.
+- Suggested tone includes:
+  - `TWO PHONES. THREE OPINIONS. ONE SCORECARD.`
+  - `THE SCORE HAS CHANGED AGAIN. NOBODY APPEARS TO BE IN CHARGE.`
+  - `MULTIPLAYER ACCOUNTING IS GOING GREAT.`
+  - `EVERYBODY STOP TOUCHING THE FUCKING SCORE.`
+- Concurrency handling must never silently discard an accepted edit from history, even though only one value can be current.
+
 ## Score challenges and corrections
 - Any connected participant may challenge a listed score that was entered by somebody else.
 - A participant cannot formally challenge a score event they themselves entered; they may simply edit/remove it or use a normal social reaction instead.
