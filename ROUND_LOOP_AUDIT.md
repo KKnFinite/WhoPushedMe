@@ -631,6 +631,13 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `WE'RE CALLING THIS ONE A STRATEGIC RETREAT.`
   - `THE HOLE SURVIVES ANOTHER GROUP OF IDIOTS.`
 - Skipping is a shared golf-state action and should create a permanent Receipt.
+- Any active player may propose `SKIP THIS HOLE`, but the skip takes effect only after a majority of currently connected eligible players approve it.
+- Spectators do not vote on hole skips.
+- One golfer gets one vote regardless of device count.
+- Offline/no-app golfers without a connected client do not block the skip vote.
+- The proposer may count as one approving vote.
+- The vote UI should show who has approved, who has rejected, and whether the majority threshold has been reached.
+- A rejected skip vote leaves the active hole unchanged.
 - Future-hole preview does not imply skip; the hole is skipped only through an explicit action.
 
 ## Extending an active round
