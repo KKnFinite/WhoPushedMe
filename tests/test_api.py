@@ -244,6 +244,15 @@ class FakeStore:
             "tee_name": tee_name,
         }
 
+    def promote_spectator_to_player(self, golfer_id, round_id, *, tee_name=None):
+        self.calls.append(("join_play", golfer_id, round_id, tee_name))
+        return {
+            "round_id": round_id,
+            "role": "player",
+            "tee_name": tee_name,
+            "tracked_from_position": 7,
+        }
+
     def set_participation_state(self, golfer_id, round_id, state, *, reason=None):
         self.calls.append(("participation", golfer_id, round_id, state, reason))
         return {
@@ -834,6 +843,24 @@ def test_join_round_can_carry_initial_tee_choice():
         "player",
         "White",
     )
+
+def test_spectator_can_join_play_mid_round_with_tee():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/join-play",
+        headers={"Authorization": "Bearer session-token"},
+        json={"tee_name": "White"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["role"] == "player"
+    assert store.calls[-1] == (
+        "join_play",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "White",
+    )
+
 
 def test_player_can_throw_in_the_towel_with_optional_reason():
     client, store = client_with_store()
