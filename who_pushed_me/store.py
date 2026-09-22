@@ -3088,7 +3088,8 @@ class RoundStore:
                         int(row["total_strokes"])
                         - int(row["round_handicap"])
                         if (
-                            score_count
+                            coverage_state == "complete"
+                            and score_count == required_count
                             and row["round_handicap"] is not None
                         )
                         else None
