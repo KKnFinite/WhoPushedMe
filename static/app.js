@@ -1937,9 +1937,25 @@
   };
 
   const totalParForRound = (round) => {
-    const pars = round.pars || [];
-    if (pars.length < Number(round.hole_count)) return null;
-    return pars.reduce((total, row) => total + Number(row.par || 0), 0);
+    const plannedPositions = (round.route || [])
+      .filter((route) => route.state !== 'skipped')
+      .map((route) => Number(route.route_position));
+    const pars = new Map(
+      (round.pars || []).map((row) => [
+        Number(row.route_position),
+        Number(row.par),
+      ])
+    );
+    if (
+      !plannedPositions.length
+      || plannedPositions.some((position) => !pars.has(position))
+    ) {
+      return null;
+    }
+    return plannedPositions.reduce(
+      (total, position) => total + Number(pars.get(position) || 0),
+      0
+    );
   };
 
   const roundEndEventForPlayer = (round, participantId) => {
@@ -2063,9 +2079,23 @@
     } else {
       if (roundEndSummary) {
         const missing = Number(round.results?.missing_scores || 0);
-        roundEndSummary.textContent = resultsComplete || missing === 0
+        const baseSummary = resultsComplete || missing === 0
           ? place
           : `${place} • ${missing} REQUIRED SCORE${missing === 1 ? '' : 'S'} MISSING`;
+        if (round.net_scoring_enabled) {
+          const missingHandicaps = Number(
+            round.results?.missing_handicaps || 0
+          );
+          roundEndSummary.textContent = round.results?.net_official
+            ? `${baseSummary} • GROSS + NET OFFICIAL`
+            : (
+                missingHandicaps > 0
+                  ? `${baseSummary} • NET WAITING ON ${missingHandicaps} HANDICAP${missingHandicaps === 1 ? '' : 'S'}`
+                  : `${baseSummary} • NET PLACEMENT PENDING`
+              );
+        } else {
+          roundEndSummary.textContent = baseSummary;
+        }
       }
 
       const players = [...(round.results?.players || [])].sort(
@@ -2127,10 +2157,41 @@
                 Number(totalPar)
               )
             : '';
-          score.textContent = [
-            `${result.total_strokes} STROKES`,
+          const pieces = [
+            `${result.total_strokes} GROSS`,
             relative ? `${relative} TO PAR` : '',
-          ].filter(Boolean).join(' • ');
+          ];
+          if (round.net_scoring_enabled) {
+            if (
+              result.round_handicap === null
+              || result.round_handicap === undefined
+            ) {
+              pieces.push('NET PENDING HANDICAP');
+            } else {
+              pieces.push(`HCP ${result.round_handicap}`);
+              if (
+                result.net_total_strokes !== null
+                && result.net_total_strokes !== undefined
+              ) {
+                pieces.push(`${result.net_total_strokes} NET`);
+              }
+              if (
+                round.results?.net_official
+                && result.net_rank !== null
+                && result.net_rank !== undefined
+              ) {
+                const tiedNet = Number(result.net_tie_count || 0) > 1;
+                pieces.push(
+                  tiedNet
+                    ? `NET T${result.net_rank}`
+                    : `NET #${result.net_rank}`
+                );
+              } else {
+                pieces.push('NET PLACEMENT PENDING');
+              }
+            }
+          }
+          score.textContent = pieces.filter(Boolean).join(' • ');
         }
 
         main.append(name, score);
