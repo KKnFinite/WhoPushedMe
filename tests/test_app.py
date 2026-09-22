@@ -33,6 +33,8 @@ def test_home_loads_pwa_shell():
     assert b"START THE SHITSHOW" in response.data
     assert b"LIVE SCORECARD" in response.data
     assert b"NEXT HOLE" in response.data
+    assert b"JOIN THE ROUND" in response.data
+    assert b"FINE. I'LL PLAY." in response.data
     assert b"BACK TO LIVE" in response.data
     assert b"REPORT PAR" in response.data
     assert b"LATEST RECEIPT" in response.data
@@ -82,7 +84,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v23" in response.data
+    assert b"wpm-shell-v24" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -91,7 +93,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v23" in builder
+    assert "wpm-shell-v24" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -134,3 +136,10 @@ def test_round_setup_sends_route_and_par_tracking_choices():
     assert b"par_tracking_enabled: parSetup !== 'off'" in response.data
     assert b"course_hole_count" in response.data
     assert b"Saving pars..." in response.data
+
+
+def test_live_spectator_can_promote_into_play():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/join-play" in response.data
+    assert b"Pick a tee before joining the round." in response.data
