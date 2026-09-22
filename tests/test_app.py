@@ -22,6 +22,11 @@ def test_home_loads_pwa_shell():
     assert b"Settings" in response.data
     assert b"EVERY ASSHOLE FOR THEMSELVES" in response.data
     assert b"WE SUCK TOGETHER" in response.data
+    assert b"STARTING HOLE" in response.data
+    assert b"ENTER PARS NOW" in response.data
+    assert b"ENTER AS WE GO" in response.data
+    assert b"DON'T TRACK PAR" in response.data
+    assert b"PHYSICAL COURSE" in response.data
     assert b"FIND A COURSE" in response.data
     assert b"FREE PLAY" in response.data
     assert b"YOUR TEE" in response.data
@@ -77,7 +82,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v22" in response.data
+    assert b"wpm-shell-v23" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -86,7 +91,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v22" in builder
+    assert "wpm-shell-v23" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -120,3 +125,12 @@ def test_install_onboarding_uses_approved_mascot_assets():
     assert b"WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen.webp" in response.data
     assert b"WPM_Onboarding_Install_MakeItAnAppYouLazyBastard.webp" in response.data
     assert b"WPM_Onboarding_Install_47OtherUselessApps.webp" in response.data
+
+
+def test_round_setup_sends_route_and_par_tracking_choices():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"start_hole: startHole" in response.data
+    assert b"par_tracking_enabled: parSetup !== 'off'" in response.data
+    assert b"course_hole_count" in response.data
+    assert b"Saving pars..." in response.data
