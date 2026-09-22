@@ -692,17 +692,26 @@ class RoundStore:
         course_id: object | None = None,
         free_play_name: object | None = None,
         tee_name: object | None = None,
+        start_hole: object = 1,
+        end_hole: object | None = None,
+        course_hole_count: object | None = None,
+        par_tracking_enabled: object = True,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_mode = str(mode or "")
         if round_mode not in ROUND_MODES:
             raise DomainError("mode must be individual or scramble")
+
         try:
-            hole_count = int(holes)
+            requested_holes = int(holes)
         except (TypeError, ValueError) as error:
-            raise DomainError("holes must be 9 or 18") from error
-        if hole_count not in {9, 18}:
-            raise DomainError("holes must be 9 or 18")
+            raise DomainError("holes must be a positive number") from error
+        if not 1 <= requested_holes <= 99:
+            raise DomainError("holes must be between 1 and 99")
+
+        if not isinstance(par_tracking_enabled, bool):
+            raise DomainError("par_tracking_enabled must be true or false")
+
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
         creator_tee = self._clean_tee_name(tee_name)
@@ -715,70 +724,201 @@ class RoundStore:
         for _ in range(12):
             try:
                 with self._connection() as connection, connection.cursor() as cursor:
+                    physical_hole_count: int
+
                     if cached_course_id:
                         cursor.execute(
-                            "SELECT 1 FROM cached_courses WHERE id = %s",
+                            """
+                            SELECT max(hole_number) AS max_hole
+                            FROM cached_course_holes
+                            WHERE course_id = %s
+                            """,
                             (cached_course_id,),
                         )
-                        if not cursor.fetchone():
-                            raise NotFound("cached course not found")
+                        course_row = cursor.fetchone()
+                        max_hole = int(course_row["max_hole"] or 0)
+                        if max_hole < 1:
+                            raise NotFound("cached course has no hole data")
+                        physical_hole_count = 9 if max_hole <= 9 else 18
+
                         if creator_tee:
                             self._validate_course_tee(
                                 cursor,
                                 cached_course_id,
                                 creator_tee,
                             )
+                    else:
+                        if course_hole_count is None:
+                            physical_hole_count = (
+                                9 if requested_holes <= 9 else 18
+                            )
+                        else:
+                            try:
+                                physical_hole_count = int(course_hole_count)
+                            except (TypeError, ValueError) as error:
+                                raise DomainError(
+                                    "course_hole_count must be 9 or 18"
+                                ) from error
+                            if physical_hole_count not in {9, 18}:
+                                raise DomainError(
+                                    "course_hole_count must be 9 or 18"
+                                )
 
+                    if end_hole is None:
+                        route = build_route(
+                            course_hole_count=physical_hole_count,
+                            start_hole=start_hole,
+                            hole_count=requested_holes,
+                        )
+                    else:
+                        route = build_route(
+                            course_hole_count=physical_hole_count,
+                            start_hole=start_hole,
+                            end_hole=end_hole,
+                        )
+
+                    route_length = len(route)
+                    first_hole = route[0].hole_number
                     code = generate_round_code()
+
                     cursor.execute(
                         """
                         INSERT INTO rounds (
-                            mode, hole_count, active_code, status,
-                            course_id, free_play_name
-                        ) VALUES (%s, %s, %s, 'setup', %s, %s)
-                        RETURNING id, mode, hole_count, active_code, current_hole, status,
-                                  course_id, free_play_name, created_at
+                            mode, hole_count, active_code, current_hole,
+                            current_route_position, par_tracking_enabled,
+                            status, course_id, free_play_name
+                        )
+                        VALUES (%s, %s, %s, %s, 1, %s, 'setup', %s, %s)
+                        RETURNING id, mode, hole_count, active_code,
+                                  current_hole, current_route_position,
+                                  par_tracking_enabled, status, course_id,
+                                  free_play_name, created_at
                         """,
-                        (round_mode, hole_count, code, cached_course_id, free_play),
+                        (
+                            round_mode,
+                            route_length,
+                            code,
+                            first_hole,
+                            par_tracking_enabled,
+                            cached_course_id,
+                            free_play,
+                        ),
                     )
                     round_row = cursor.fetchone()
+
+                    cursor.executemany(
+                        """
+                        INSERT INTO round_route_positions (
+                            round_id, route_position, hole_number
+                        )
+                        VALUES (%s, %s, %s)
+                        """,
+                        [
+                            (
+                                round_row["id"],
+                                item.route_position,
+                                item.hole_number,
+                            )
+                            for item in route
+                        ],
+                    )
+
                     cursor.execute(
                         """
                         INSERT INTO round_participants (
-                            round_id, golfer_id, role, tee_name
+                            round_id, golfer_id, role, tee_name,
+                            participation_state, tracked_from_position
                         )
-                        VALUES (%s, %s, 'player', %s)
-                        RETURNING id, tee_name
+                        VALUES (%s, %s, 'player', %s, 'active', 1)
+                        RETURNING id, tee_name, participation_state,
+                                  tracked_from_position
                         """,
                         (round_row["id"], golfer_uuid, creator_tee),
                     )
                     participant = cursor.fetchone()
+
+                    cursor.executemany(
+                        """
+                        INSERT INTO round_participant_route_positions (
+                            round_id, participant_id, route_position, required
+                        )
+                        VALUES (%s, %s, %s, true)
+                        """,
+                        [
+                            (
+                                round_row["id"],
+                                participant["id"],
+                                item.route_position,
+                            )
+                            for item in route
+                        ],
+                    )
+
                     self._event(
                         cursor,
                         round_id=round_row["id"],
                         actor_participant_id=participant["id"],
                         event_type="lobby_created",
-                        data={"role": "player"},
+                        data={
+                            "role": "player",
+                            "start_hole": first_hole,
+                            "route_length": route_length,
+                        },
                         content_event_key="lobby.created",
                         presentation_context={"mode": round_mode},
                     )
-                    if cached_course_id:
+
+                    if cached_course_id and par_tracking_enabled:
                         cursor.execute(
                             """
-                            INSERT INTO round_hole_pars (round_id, hole_number, par)
-                            SELECT %s, hole_number, par
-                            FROM cached_course_holes
-                            WHERE course_id = %s AND hole_number <= %s AND par IS NOT NULL
+                            INSERT INTO round_route_pars (
+                                round_id, route_position, par, source
+                            )
+                            SELECT rr.round_id, rr.route_position, ch.par, 'course'
+                            FROM round_route_positions rr
+                            JOIN cached_course_holes ch
+                              ON ch.course_id = %s
+                             AND ch.hole_number = rr.hole_number
+                            WHERE rr.round_id = %s
+                              AND ch.par IS NOT NULL
                             """,
-                            (round_row["id"], cached_course_id, hole_count),
+                            (cached_course_id, round_row["id"]),
                         )
+                        cursor.execute(
+                            """
+                            INSERT INTO round_hole_pars (
+                                round_id, hole_number, par
+                            )
+                            SELECT DISTINCT %s, ch.hole_number, ch.par
+                            FROM cached_course_holes ch
+                            JOIN round_route_positions rr
+                              ON rr.round_id = %s
+                             AND rr.hole_number = ch.hole_number
+                            WHERE ch.course_id = %s
+                              AND ch.par IS NOT NULL
+                            ON CONFLICT (round_id, hole_number)
+                            DO UPDATE SET par = EXCLUDED.par,
+                                          updated_at = now()
+                            """,
+                            (
+                                round_row["id"],
+                                round_row["id"],
+                                cached_course_id,
+                            ),
+                        )
+
                     round_row["participant_id"] = participant["id"]
                     round_row["role"] = "player"
                     round_row["tee_name"] = participant["tee_name"]
+                    round_row["route"] = [
+                        item.as_dict()
+                        for item in route
+                    ]
                     return round_row
             except errors.UniqueViolation as error:
                 if error.diag.constraint_name != "rounds_live_code_unique":
                     raise
+
         raise RuntimeError("could not allocate a unique active round code")
 
     def join_round(
