@@ -51,10 +51,12 @@
   const selectedCourseName = document.getElementById('selected-course-name');
   const selectedCourseLocation = document.getElementById('selected-course-location');
   const startTeeField = document.getElementById('start-tee-field');
+  const startTeeLabel = document.getElementById('start-tee-label');
   const startTeeSelect = document.getElementById('start-tee-select');
   const startHoleInput = document.getElementById('start-hole-input');
   const routePreview = document.getElementById('route-preview');
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
+  const lobbyTeeLabel = document.getElementById('lobby-tee-label');
   const lobbyTeeSelect = document.getElementById('lobby-tee-select');
   const lobbyTeeSave = document.getElementById('lobby-tee-save');
   const lobbyParSetup = document.getElementById('lobby-par-setup');
@@ -538,6 +540,20 @@
     });
   };
 
+  const selectedRoundMode = () => {
+    return String(
+      startRoundForm?.querySelector('input[name="mode"]:checked')?.value
+      || 'individual'
+    );
+  };
+
+  const refreshStartTeeLabel = () => {
+    if (!startTeeLabel) return;
+    startTeeLabel.textContent = selectedRoundMode() === 'scramble'
+      ? 'TEAM SCORING TEE'
+      : 'YOUR TEE';
+  };
+
   const clearSelectedCourse = () => {
     selectedCourse = null;
     if (selectedCourseBox) selectedCourseBox.hidden = true;
@@ -625,6 +641,7 @@
       if (selectedCourseBox) selectedCourseBox.hidden = false;
 
       const tees = course.tees || [];
+      refreshStartTeeLabel();
       fillTeeSelect(startTeeSelect, tees);
       if (startTeeField) startTeeField.hidden = tees.length === 0;
       if (courseResults) courseResults.replaceChildren();
@@ -1454,7 +1471,20 @@
       row.className = 'receipt-row';
 
       const title = document.createElement('strong');
-      if (event.event_type === 'score_removed') {
+      if (event.event_type === 'tee_change') {
+        const actor = (round.participants || []).find(
+          (participant) =>
+            String(participant.id) === String(event.actor_participant_id)
+        );
+        const actorName = String(
+          actor?.display_name || 'SOMEONE'
+        ).toUpperCase();
+        const oldTee = String(event.old_value || 'UNSET').toUpperCase();
+        const newTee = String(event.new_value || 'UNSET').toUpperCase();
+        const scope = event.data?.scope === 'team' ? 'TEAM TEE' : 'TEE';
+        title.textContent =
+          `${actorName} CHANGED ${scope} ${oldTee} → ${newTee}`;
+      } else if (event.event_type === 'score_removed') {
         const actor = (round.participants || []).find(
           (participant) =>
             String(participant.id) === String(event.actor_participant_id)
@@ -1825,10 +1855,15 @@
     if (spectatorJoinPlayPanel) {
       spectatorJoinPlayPanel.hidden = !spectatorCanJoinPlay;
     }
+    const spectatorNeedsPersonalTee = (
+      spectatorCanJoinPlay
+      && round.mode === 'individual'
+      && availableTees.length > 0
+    );
     if (spectatorJoinTeeField) {
-      spectatorJoinTeeField.hidden = !spectatorCanJoinPlay || availableTees.length === 0;
+      spectatorJoinTeeField.hidden = !spectatorNeedsPersonalTee;
     }
-    if (spectatorCanJoinPlay && availableTees.length) {
+    if (spectatorNeedsPersonalTee) {
       fillTeeSelect(spectatorJoinTeeSelect, availableTees);
     } else if (spectatorJoinTeeSelect) {
       spectatorJoinTeeSelect.replaceChildren();
@@ -1969,7 +2004,11 @@
       round.mode === 'scramble' ? 'WE SUCK TOGETHER' : 'EVERY ASSHOLE FOR THEMSELVES';
     const place = round.course?.name || round.free_play_name || 'Course round';
     if (lobbySummary) {
-      lobbySummary.textContent = `${modeLabel} • ${round.hole_count} HOLES • ${place}`;
+      const teamTee = round.mode === 'scramble' && round.scramble_tee_name
+        ? ` • TEAM TEE: ${round.scramble_tee_name}`
+        : '';
+      lobbySummary.textContent =
+        `${modeLabel} • ${round.hole_count} HOLES • ${place}${teamTee}`;
     }
 
     if (lobbyParticipants) {
@@ -1982,7 +2021,11 @@
         name.textContent = participant.display_name || 'Unknown golfer';
 
         const role = document.createElement('small');
-        const tee = participant.tee_name ? ` • ${participant.tee_name} TEE` : '';
+        const tee = (
+          round.mode === 'individual' && participant.tee_name
+            ? ` • ${participant.tee_name} TEE`
+            : ''
+        );
         role.textContent = `${participant.role || 'player'}${tee}`;
 
         row.append(name, role);
@@ -2049,20 +2092,40 @@
       && tees.length > 0;
 
     if (lobbyTeePanel) lobbyTeePanel.hidden = !canChooseTee;
+    if (lobbyTeeLabel) {
+      lobbyTeeLabel.textContent = round.mode === 'scramble'
+        ? 'TEAM SCORING TEE'
+        : 'YOUR TEE';
+    }
     if (canChooseTee) {
-      fillTeeSelect(lobbyTeeSelect, tees, viewer?.tee_name || '');
+      fillTeeSelect(
+        lobbyTeeSelect,
+        tees,
+        round.mode === 'scramble'
+          ? (round.scramble_tee_name || '')
+          : (viewer?.tee_name || '')
+      );
     }
 
     if (lobbyStart) {
       const canStart = round.viewer_role === 'player' && round.status === 'setup';
-      const missingTee = tees.length > 0 && (round.participants || []).some(
-        (participant) => participant.role === 'player' && !participant.tee_name
+      const missingTee = tees.length > 0 && (
+        round.mode === 'scramble'
+          ? !round.scramble_tee_name
+          : (round.participants || []).some(
+              (participant) =>
+                participant.role === 'player' && !participant.tee_name
+            )
       );
       lobbyStart.hidden = !canStart;
       const missingRequiredPars = parSetupNow && missingParPositions.length > 0;
       lobbyStart.disabled = missingTee || missingRequiredPars;
       if (canStart && missingTee) {
-        setRoundFlowMessage('Every player needs to pick a tee before the round starts.');
+        setRoundFlowMessage(
+          round.mode === 'scramble'
+            ? 'Pick one team scoring tee before the round starts.'
+            : 'Every player needs to pick a tee before the round starts.'
+        );
       } else if (canStart && missingRequiredPars) {
         setRoundFlowMessage('Finish entering pars before starting.');
       } else {
@@ -2111,6 +2174,10 @@
 
   startRoundForm?.querySelectorAll('input[name="course_mode"]').forEach((radio) => {
     radio.addEventListener('change', () => setCourseMode(radio.value));
+  });
+
+  startRoundForm?.querySelectorAll('input[name="mode"]').forEach((radio) => {
+    radio.addEventListener('change', refreshStartTeeLabel);
   });
 
   startRoundForm?.querySelectorAll(
@@ -2175,6 +2242,7 @@
       await refreshLobby(created.active_code);
       startLobbyPolling(created.active_code);
       startRoundForm.reset();
+      refreshStartTeeLabel();
       renderRoutePreview();
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -2290,7 +2358,11 @@
 
     const tees = currentLobbyRound.available_tees || [];
     const teeName = spectatorJoinTeeSelect?.value || '';
-    if (tees.length && !teeName) {
+    if (
+      currentLobbyRound.mode === 'individual'
+      && tees.length
+      && !teeName
+    ) {
       setRoundFlowMessage('Pick a tee before joining the round.');
       return;
     }
