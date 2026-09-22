@@ -241,6 +241,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Free Play follows the same rule: either track par for the route or explicitly play without par-based scoring.
 - To avoid rewriting the scoring model mid-round, the track-par vs no-par choice should be locked once the first factual score is accepted. Before the first score, the group may change that setup choice freely.
 
+## Game-mode lock after round start
+- Round mode is editable only during setup/lobby before the round becomes active.
+- Once the round starts, the mode is permanently locked for that round.
+- Do not show individual/scramble mode controls anywhere in the active-round UI; the option should disappear rather than appear disabled.
+- An active round cannot switch between `EVERY ASSHOLE FOR THEMSELVES` and `WE SUCK TOGETHER`.
+- If the wrong mode was chosen, the group must abandon/end that round and start a new one in the correct mode.
+- Do not attempt to convert individual scores into team scores or vice versa.
+- Mode history remains part of the abandoned round record rather than being silently rewritten.
+
 ## Course lock after round start
 - Course selection is locked once the round status becomes active.
 - The selected course, course identity, and hole mapping cannot be changed during an active round.
