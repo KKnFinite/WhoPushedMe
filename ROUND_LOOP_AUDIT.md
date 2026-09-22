@@ -304,6 +304,14 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The correction event may explicitly describe how the existing score's current classification changed (for example Bogey -> Par), but must not create a replacement historical score event.
 - After a completed round, par cannot be changed unless the round is explicitly reopened; reopening and the later par correction both remain in Receipts.
 
+## Repeated physical-hole display
+- When the route visits the same physical course hole more than once, keep the physical hole number as the primary label and use route progress to disambiguate it.
+- Example:
+  - first occurrence: `HOLE 3 • 3 OF 18`
+  - second occurrence: `HOLE 3 • 12 OF 18`
+- Do not add `FIRST LOOP` / `SECOND LOOP` labels or other special loop terminology.
+- Route progress is the universal disambiguator for repeated holes, shotgun routes, wraparound routes, and custom-length rounds.
+
 ## Future-hole preview
 - Any participant may browse ahead to future route positions to preview hole data without changing the shared active hole.
 - Future route positions are read-only for scoring until the round actually reaches them.
