@@ -1280,6 +1280,22 @@
           return;
         }
 
+        if (round.par_tracking_enabled && !par) {
+          pendingScoreAfterPar = {
+            roundId: String(round.id),
+            activeCode: round.active_code,
+            position: Number(position),
+            participantId,
+            strokes,
+          };
+          setRoundFlowMessage(
+            'WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY.'
+          );
+          parInput?.focus();
+          return;
+        }
+
+        pendingScoreAfterPar = null;
         submit.disabled = true;
         setRoundFlowMessage('');
         try {
@@ -1842,6 +1858,16 @@
     );
 
     currentLobbyRound = round;
+
+    if (
+      pendingScoreAfterPar
+      && (
+        String(pendingScoreAfterPar.roundId) !== String(round.id)
+        || Number(pendingScoreAfterPar.position) !== Number(viewedRoutePosition)
+      )
+    ) {
+      pendingScoreAfterPar = null;
+    }
 
     if (wasFollowingLive) {
       viewedRoutePosition = livePosition;
@@ -2773,6 +2799,30 @@
           body: { par },
         }
       );
+
+      const pending = (
+        pendingScoreAfterPar
+        && String(pendingScoreAfterPar.roundId) === String(currentLobbyRound.id)
+        && Number(pendingScoreAfterPar.position) === Number(viewedRoutePosition)
+      )
+        ? pendingScoreAfterPar
+        : null;
+
+      if (pending) {
+        const body = { strokes: pending.strokes };
+        if (currentLobbyRound.mode === 'individual') {
+          body.player_participant_id = pending.participantId;
+        }
+        await requestJson(
+          `/api/rounds/${currentLobbyRound.id}/positions/${pending.position}/score`,
+          {
+            method: 'PUT',
+            body,
+          }
+        );
+        pendingScoreAfterPar = null;
+      }
+
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
