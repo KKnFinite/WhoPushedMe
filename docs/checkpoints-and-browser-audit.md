@@ -32,33 +32,31 @@ Command Prompt. Keep setup and verification separate from shell exit behavior.
 Runner unit tests mock subprocesses: they do not access Git remotes or databases.
 They do not replace application integration or browser testing.
 
-## Unresolved frontend blockers
+## Frontend blockers found in the baseline
 
-These findings describe the reviewed baseline. This checkpoint-tools commit does
-**not** repair the application JavaScript.
+The reviewed baseline had two real browser-flow defects. They are now repaired on
+the feature branch.
 
-### Form values are read after controls are disabled
+### Form submission capture
 
-In `static/app.js`, the login, registration and recovery submit handlers call
-`setFormBusy(form, true)` before constructing `new FormData(form)`. The helper
-disables inputs and selects. A minimal Chromium reproduction confirmed that the
-same form yields its populated values before disabling, but an empty FormData
-after disabling. The reviewed start-round and join-round handlers use this same
-ordering and must be covered by the fix as well.
+Authentication, round-start and round-join forms now snapshot their values before
+temporary busy-state disabling. The busy-state helper also remembers and restores
+each control's prior disabled state instead of blindly enabling everything.
 
-Fix at the source: capture and validate submission data before disabling controls;
-restore each control's prior state afterward. Add browser tests exercising actual
-submitted request bodies, not just string-presence or fake-store API tests.
+Regression tests verify the source ordering for all affected handlers and verify
+that the busy-state restoration mechanism remains present.
 
-### Install listeners are bound inside auth-tab switching
+### Install onboarding listener binding
 
-`switchAuthView` registers `beforeinstallprompt`, `appinstalled`, install-primary,
-and install-skip handlers. Each auth-tab change adds more listeners. A restored
-session can also enter `showApp` without calling `switchAuthView`, so this binding
-location is not a reliable application initialization path.
+The PWA install listeners now bind once during application initialization instead
+of being added every time the authentication tab changes. Restored sessions,
+repeated auth-tab changes and install dismissal therefore share one listener set.
 
-Move one-time listener registration outside `switchAuthView`. Check initial
-login, restored sessions, repeated auth-tab changes, and install dismissal.
+Regression tests assert one registration for each install listener and ensure
+`switchAuthView` contains no install-listener binding.
+
+These tests are source-level regression coverage. A future dedicated browser
+suite should still exercise full DOM/network behavior in Chromium/WebKit.
 
 ## Verification boundary
 
