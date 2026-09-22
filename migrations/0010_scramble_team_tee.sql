@@ -6,8 +6,7 @@ ALTER TABLE rounds
         );
 
 UPDATE rounds r
-SET scramble_tee_name = existing.tee_name
-FROM LATERAL (
+SET scramble_tee_name = (
     SELECT rp.tee_name
     FROM round_participants rp
     WHERE rp.round_id = r.id
@@ -15,7 +14,7 @@ FROM LATERAL (
       AND rp.tee_name IS NOT NULL
     ORDER BY rp.joined_at, rp.id
     LIMIT 1
-) existing
+)
 WHERE r.mode = 'scramble';
 
 UPDATE round_participants rp
