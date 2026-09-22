@@ -1687,6 +1687,177 @@ class RoundStore:
             claimed["round_only"] = False
             return claimed
 
+    @staticmethod
+    def _end_early_state_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+    ) -> dict[str, Any]:
+        cursor.execute(
+            """
+            SELECT rp.id AS participant_id, g.display_name
+            FROM round_participants rp
+            JOIN golfers g ON g.id = rp.golfer_id
+            WHERE rp.round_id = %s
+              AND rp.role = 'player'
+              AND rp.participation_state = 'active'
+              AND EXISTS (
+                  SELECT 1
+                  FROM auth_sessions session
+                  WHERE session.golfer_id = rp.golfer_id
+                    AND session.revoked_at IS NULL
+                    AND session.expires_at > now()
+                    AND session.last_seen_at >= now() - interval '30 minutes'
+              )
+            ORDER BY rp.joined_at, rp.id
+            """,
+            (round_id,),
+        )
+        eligible = cursor.fetchall()
+
+        cursor.execute(
+            """
+            SELECT participant_id, vote, updated_at
+            FROM round_end_early_votes
+            WHERE round_id = %s
+            ORDER BY updated_at, participant_id
+            """,
+            (round_id,),
+        )
+        vote_rows = cursor.fetchall()
+        votes = {
+            str(row["participant_id"]): bool(row["vote"])
+            for row in vote_rows
+        }
+
+        eligible_rows = [
+            {
+                "participant_id": row["participant_id"],
+                "display_name": row["display_name"],
+                "vote": votes.get(str(row["participant_id"])),
+            }
+            for row in eligible
+        ]
+        yes_count = sum(
+            1 for row in eligible_rows if row["vote"] is True
+        )
+        required_count = len(eligible_rows)
+        return {
+            "proposal_active": bool(vote_rows),
+            "required_count": required_count,
+            "yes_count": yes_count,
+            "eligible": eligible_rows,
+            "unanimous": (
+                required_count > 0
+                and yes_count == required_count
+            ),
+        }
+
+    def set_end_early_vote(
+        self,
+        golfer_id: object,
+        round_id: object,
+        vote: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        if not isinstance(vote, bool):
+            raise DomainError("end-early vote must be true or false")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(
+                participant,
+                "vote to end the round early",
+            )
+            require_active_round(
+                round_row["status"],
+                "vote to end the round early",
+            )
+
+            cursor.execute(
+                """
+                INSERT INTO round_end_early_votes (
+                    round_id, participant_id, vote, updated_at
+                )
+                VALUES (%s, %s, %s, now())
+                ON CONFLICT (round_id, participant_id)
+                DO UPDATE SET vote = EXCLUDED.vote,
+                              updated_at = now()
+                """,
+                (round_uuid, participant["id"], vote),
+            )
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="round_end_early_vote",
+                route_position=int(round_row["current_route_position"]),
+                hole_number=int(round_row["current_hole"]),
+                data={"vote": vote},
+                content_event_key=(
+                    "round.end_early.vote_yes"
+                    if vote
+                    else "round.end_early.vote_no"
+                ),
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "hole": int(round_row["current_hole"]),
+                },
+            )
+
+            state = self._end_early_state_from_cursor(
+                cursor,
+                round_uuid,
+            )
+            if not state["unanimous"]:
+                return {
+                    "round_id": round_uuid,
+                    "status": "active",
+                    "end_early": state,
+                }
+
+            cursor.execute(
+                """
+                UPDATE rounds
+                SET status = 'completed',
+                    end_reason = 'ended_early',
+                    updated_at = now()
+                WHERE id = %s
+                """,
+                (round_uuid,),
+            )
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="round_end_early_completed",
+                route_position=int(round_row["current_route_position"]),
+                hole_number=int(round_row["current_hole"]),
+                data={
+                    "yes_count": state["yes_count"],
+                    "required_count": state["required_count"],
+                },
+                content_event_key="round.ended_early",
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "hole": int(round_row["current_hole"]),
+                },
+            )
+            return {
+                "round_id": round_uuid,
+                "status": "completed",
+                "end_reason": "ended_early",
+                "end_early": state,
+                "results": self._round_results_from_cursor(
+                    cursor,
+                    round_uuid,
+                    mode=round_row["mode"],
+                    hole_count=round_row["hole_count"],
+                ),
+            }
+
     def get_round(
         self,
         golfer_id: object,
@@ -1928,6 +2099,10 @@ class RoundStore:
             )
             round_row["score_challenges"] = cursor.fetchall()
 
+            round_row["end_early"] = self._end_early_state_from_cursor(
+                cursor,
+                found["id"],
+            )
             round_row["viewer_role"] = participant["role"]
             round_row["viewer_participant_id"] = participant["id"]
             return round_row
