@@ -968,6 +968,41 @@ body.app-ready .app-shell {
   letter-spacing: .08em;
 }
 
+.spectator-join-play-panel {
+  display: grid;
+  gap: 9px;
+  padding: 13px;
+  background: var(--cream-deep);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.spectator-join-play-panel[hidden] {
+  display: none;
+}
+
+.spectator-join-play-panel h4,
+.spectator-join-play-panel p {
+  margin: 0;
+}
+
+.spectator-join-play-panel p {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+#spectator-join-play-button {
+  min-height: 46px;
+  padding: 9px 12px;
+  background: var(--orange);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+}
+
 .hole-strip {
   display: grid;
   grid-template-columns: 54px minmax(0, 1fr) 54px;
