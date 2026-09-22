@@ -137,6 +137,17 @@ def auth_logout():
     return jsonify(_store().logout_session(g.session_token))
 
 
+@api.patch("/profile/handicap")
+@authenticated
+def set_profile_handicap():
+    return jsonify(
+        _store().set_profile_handicap_index(
+            g.golfer["id"],
+            _body().get("handicap_index"),
+        )
+    )
+
+
 @api.post("/golfers")
 def create_golfer():
     golfer = _store().create_golfer(_body().get("display_name"))
