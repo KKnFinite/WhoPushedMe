@@ -147,12 +147,22 @@ class RoundStore:
         cursor.execute(
             """
             SELECT count(*) AS planned_count,
-                   count(pars.par) AS par_count,
-                   coalesce(sum(pars.par), 0) AS total_par
+                   count(
+                     coalesce(pars.par, course_hole.par)
+                   ) AS par_count,
+                   coalesce(
+                     sum(coalesce(pars.par, course_hole.par)),
+                     0
+                   ) AS total_par
             FROM round_route_positions route
+            JOIN rounds round_row
+              ON round_row.id = route.round_id
             LEFT JOIN round_route_pars pars
               ON pars.round_id = route.round_id
              AND pars.route_position = route.route_position
+            LEFT JOIN cached_course_holes course_hole
+              ON course_hole.course_id = round_row.course_id
+             AND course_hole.hole_number = route.hole_number
             WHERE route.round_id = %s
               AND route.state = 'planned'
             """,
@@ -193,6 +203,56 @@ class RoundStore:
             rating["course_rating"],
             course_par,
         )
+
+    @classmethod
+    def _recalculate_course_handicaps(
+        cls,
+        cursor: Any,
+        round_row: dict[str, Any],
+    ) -> None:
+        if (
+            round_row["mode"] != "individual"
+            or not round_row["net_scoring_enabled"]
+        ):
+            return
+
+        cursor.execute(
+            """
+            SELECT id, tee_name, handicap_index,
+                   handicap_source
+            FROM round_participants
+            WHERE round_id = %s
+              AND role = 'player'
+              AND participation_state <> 'removed'
+              AND handicap_source IS DISTINCT FROM 'manual'
+            """,
+            (round_row["id"],),
+        )
+        for participant in cursor.fetchall():
+            calculated = cls._calculated_round_handicap(
+                cursor,
+                round_id=round_row["id"],
+                course_id=round_row["course_id"],
+                tee_name=participant["tee_name"],
+                handicap_index=(
+                    float(participant["handicap_index"])
+                    if participant["handicap_index"] is not None
+                    else None
+                ),
+            )
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET round_handicap = %s,
+                    handicap_source = %s
+                WHERE id = %s
+                """,
+                (
+                    calculated,
+                    "course" if calculated is not None else None,
+                    participant["id"],
+                ),
+            )
 
     @staticmethod
     def _participant(cursor: Any, round_id: UUID, golfer_id: UUID) -> dict[str, Any]:
