@@ -1182,7 +1182,7 @@ class RoundStore:
                 """
                 SELECT id, mode, course_id, status,
                        current_route_position, hole_count,
-                       scramble_tee_name
+                       scramble_tee_name, net_scoring_enabled
                 FROM rounds
                 WHERE active_code = %s
                   AND status IN ('setup', 'active')
@@ -1250,15 +1250,35 @@ class RoundStore:
                 tracked_from = int(round_row["current_route_position"])
 
             cursor.execute(
+                "SELECT handicap_index FROM golfers WHERE id = %s",
+                (golfer_uuid,),
+            )
+            handicap_row = cursor.fetchone()
+            participant_handicap_index = (
+                float(handicap_row["handicap_index"])
+                if (
+                    participant_role == "player"
+                    and round_row["mode"] == "individual"
+                    and round_row["net_scoring_enabled"]
+                    and handicap_row
+                    and handicap_row["handicap_index"] is not None
+                )
+                else None
+            )
+
+            cursor.execute(
                 """
                 INSERT INTO round_participants (
                     round_id, golfer_id, role, tee_name,
-                    participation_state, tracked_from_position
+                    participation_state, tracked_from_position,
+                    handicap_index
                 )
-                VALUES (%s, %s, %s, %s, 'active', %s)
+                VALUES (%s, %s, %s, %s, 'active', %s, %s)
                 ON CONFLICT (round_id, golfer_id) DO NOTHING
                 RETURNING id, round_id, golfer_id, role, tee_name,
-                          participation_state, tracked_from_position, joined_at
+                          participation_state, tracked_from_position,
+                          handicap_index, round_handicap, handicap_source,
+                          joined_at
                 """,
                 (
                     round_row["id"],
@@ -1266,11 +1286,37 @@ class RoundStore:
                     participant_role,
                     selected_tee,
                     tracked_from,
+                    participant_handicap_index,
                 ),
             )
             participant = cursor.fetchone()
 
             if participant:
+                if (
+                    participant_role == "player"
+                    and round_row["mode"] == "individual"
+                    and round_row["net_scoring_enabled"]
+                ):
+                    calculated_handicap = self._calculated_round_handicap(
+                        cursor,
+                        round_id=round_row["id"],
+                        course_id=round_row["course_id"],
+                        tee_name=selected_tee,
+                        handicap_index=participant_handicap_index,
+                    )
+                    if calculated_handicap is not None:
+                        cursor.execute(
+                            """
+                            UPDATE round_participants
+                            SET round_handicap = %s,
+                                handicap_source = 'course'
+                            WHERE id = %s
+                            """,
+                            (calculated_handicap, participant["id"]),
+                        )
+                        participant["round_handicap"] = calculated_handicap
+                        participant["handicap_source"] = "course"
+
                 if participant_role == "player":
                     cursor.execute(
                         """
