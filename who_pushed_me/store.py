@@ -1306,40 +1306,212 @@ class RoundStore:
             round_row["viewer_participant_id"] = participant["id"]
             return round_row
 
-    def set_current_hole(self, golfer_id: object, round_id: object, hole: object) -> dict[str, Any]:
+    def set_current_hole(
+        self,
+        golfer_id: object,
+        round_id: object,
+        hole: object,
+    ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
+
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid, lock=True)
-            participant = self._participant(cursor, round_uuid, golfer_uuid)
-            require_player(participant["role"], "change the current hole")
-            require_active_round(round_row["status"], "change the current hole")
-            hole_number = validate_hole(hole, round_row["hole_count"])
-            old_hole = round_row["current_hole"]
-            validate_shared_hole_change(old_hole, hole_number)
-            if old_hole != hole_number:
+            participant = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
+            require_player(
+                participant["role"],
+                "change the current hole",
+            )
+            require_active_round(
+                round_row["status"],
+                "change the current hole",
+            )
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                hole,
+                lock=True,
+            )
+            new_position = int(route_row["route_position"])
+            old_position = int(round_row["current_route_position"])
+
+            validate_shared_hole_change(
+                old_position,
+                new_position,
+            )
+            if new_position > old_position + 1:
+                raise DomainError(
+                    "shared active hole can only advance one route position at a time"
+                )
+
+            if new_position != old_position:
+                old_hole = int(round_row["current_hole"])
+                new_hole = int(route_row["hole_number"])
                 cursor.execute(
-                    "UPDATE rounds SET current_hole = %s, updated_at = now() WHERE id = %s",
-                    (hole_number, round_uuid),
+                    """
+                    UPDATE rounds
+                    SET current_route_position = %s,
+                        current_hole = %s,
+                        updated_at = now()
+                    WHERE id = %s
+                    """,
+                    (new_position, new_hole, round_uuid),
                 )
                 self._event(
                     cursor,
                     round_id=round_uuid,
                     actor_participant_id=participant["id"],
                     event_type="current_hole_change",
-                    old_value=old_hole,
-                    new_value=hole_number,
-                    content_event_key=(
-                        "hole.advance"
-                        if hole_number == old_hole + 1
-                        else "hole.enter"
-                    ),
+                    hole_number=new_hole,
+                    route_position=new_position,
+                    old_value={
+                        "route_position": old_position,
+                        "hole_number": old_hole,
+                    },
+                    new_value={
+                        "route_position": new_position,
+                        "hole_number": new_hole,
+                    },
+                    content_event_key="hole.advance",
                     presentation_context={
-                        "hole": hole_number,
+                        "hole": new_hole,
                         "mode": round_row["mode"],
                     },
                 )
-            return {"round_id": round_uuid, "current_hole": hole_number}
+
+            return {
+                "round_id": round_uuid,
+                "current_hole": int(route_row["hole_number"]),
+                "current_route_position": new_position,
+            }
+
+    def _maybe_advance_active_route(
+        self,
+        cursor: Any,
+        *,
+        round_row: dict[str, Any],
+        actor_participant_id: UUID,
+        scored_route_position: int,
+    ) -> dict[str, int] | None:
+        current_position = int(round_row["current_route_position"])
+        if scored_route_position != current_position:
+            return None
+
+        if round_row["mode"] == "scramble":
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                      AND route_position = %s
+                      AND score_scope = 'team'
+                ) AS complete
+                """,
+                (round_row["id"], current_position),
+            )
+            complete = bool(cursor.fetchone()["complete"])
+        else:
+            cursor.execute(
+                """
+                SELECT
+                    count(prp.participant_id)
+                        FILTER (
+                            WHERE rp.participation_state = 'active'
+                        ) AS required_players,
+                    count(s.id)
+                        FILTER (
+                            WHERE rp.participation_state = 'active'
+                        ) AS scored_players
+                FROM round_participant_route_positions prp
+                JOIN round_participants rp
+                  ON rp.id = prp.participant_id
+                 AND rp.round_id = prp.round_id
+                 AND rp.role = 'player'
+                LEFT JOIN round_hole_scores s
+                  ON s.round_id = prp.round_id
+                 AND s.route_position = prp.route_position
+                 AND s.player_participant_id = prp.participant_id
+                 AND s.score_scope = 'player'
+                WHERE prp.round_id = %s
+                  AND prp.route_position = %s
+                  AND prp.required
+                """,
+                (round_row["id"], current_position),
+            )
+            counts = cursor.fetchone()
+            required_players = int(counts["required_players"] or 0)
+            scored_players = int(counts["scored_players"] or 0)
+            complete = (
+                required_players > 0
+                and scored_players >= required_players
+            )
+
+        if not complete:
+            return None
+
+        cursor.execute(
+            """
+            SELECT route_position, hole_number
+            FROM round_route_positions
+            WHERE round_id = %s
+              AND route_position > %s
+              AND state = 'planned'
+            ORDER BY route_position
+            LIMIT 1
+            """,
+            (round_row["id"], current_position),
+        )
+        next_route = cursor.fetchone()
+        if not next_route:
+            return None
+
+        next_position = int(next_route["route_position"])
+        next_hole = int(next_route["hole_number"])
+        cursor.execute(
+            """
+            UPDATE rounds
+            SET current_route_position = %s,
+                current_hole = %s,
+                updated_at = now()
+            WHERE id = %s
+            """,
+            (
+                next_position,
+                next_hole,
+                round_row["id"],
+            ),
+        )
+        self._event(
+            cursor,
+            round_id=round_row["id"],
+            actor_participant_id=actor_participant_id,
+            event_type="current_hole_auto_advance",
+            hole_number=next_hole,
+            route_position=next_position,
+            old_value={
+                "route_position": current_position,
+                "hole_number": int(round_row["current_hole"]),
+            },
+            new_value={
+                "route_position": next_position,
+                "hole_number": next_hole,
+            },
+            content_event_key="hole.advance",
+            presentation_context={
+                "hole": next_hole,
+                "mode": round_row["mode"],
+            },
+        )
+        return {
+            "current_route_position": next_position,
+            "current_hole": next_hole,
+        }
 
     @staticmethod
     def _round_results_from_cursor(
