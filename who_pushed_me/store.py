@@ -264,6 +264,28 @@ class RoundStore:
                 context=presentation_context,
             )
 
+        event_data = dict(data or {})
+        if actor_participant_id:
+            cursor.execute(
+                """
+                SELECT g.id AS golfer_id, g.display_name
+                FROM round_participants rp
+                JOIN golfers g ON g.id = rp.golfer_id
+                WHERE rp.id = %s AND rp.round_id = %s
+                """,
+                (actor_participant_id, round_id),
+            )
+            actor_identity = cursor.fetchone()
+            if actor_identity:
+                event_data.setdefault(
+                    "actor_golfer_id",
+                    str(actor_identity["golfer_id"]),
+                )
+                event_data.setdefault(
+                    "actor_display_name",
+                    actor_identity["display_name"],
+                )
+
         cursor.execute(
             """
             INSERT INTO round_events (
@@ -284,7 +306,7 @@ class RoundStore:
                 route_position,
                 Jsonb(old_value) if old_value is not None else None,
                 Jsonb(new_value) if new_value is not None else None,
-                Jsonb(data or {}),
+                Jsonb(event_data),
                 reply_to_event_id,
                 canonical_content_event,
                 Jsonb(presentation),
