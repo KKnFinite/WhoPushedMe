@@ -2835,6 +2835,15 @@ class RoundStore:
         hole_count: int,
     ) -> dict[str, Any]:
         cursor.execute(
+            "SELECT net_scoring_enabled FROM rounds WHERE id = %s",
+            (round_id,),
+        )
+        net_row = cursor.fetchone()
+        net_scoring_enabled = bool(
+            net_row and net_row["net_scoring_enabled"]
+        )
+
+        cursor.execute(
             """
             SELECT count(*) AS required_count
             FROM round_route_positions
@@ -2878,6 +2887,9 @@ class RoundStore:
                     if score_count
                     else None
                 ),
+                "net_scoring_enabled": False,
+                "net_official": False,
+                "missing_handicaps": 0,
                 "players": [],
             }
 
@@ -2887,6 +2899,9 @@ class RoundStore:
                    g.display_name,
                    rp.participation_state,
                    rp.tracked_from_position,
+                   rp.handicap_index,
+                   rp.round_handicap,
+                   rp.handicap_source,
                    count(prp.route_position)
                      FILTER (
                          WHERE prp.required
@@ -2915,7 +2930,9 @@ class RoundStore:
               AND rp.role = 'player'
               AND rp.participation_state <> 'removed'
             GROUP BY rp.id, g.display_name, rp.joined_at,
-                     rp.participation_state, rp.tracked_from_position
+                     rp.participation_state, rp.tracked_from_position,
+                     rp.handicap_index, rp.round_handicap,
+                     rp.handicap_source
             ORDER BY rp.joined_at, rp.id
             """,
             (round_id,),
@@ -2964,8 +2981,31 @@ class RoundStore:
                         if score_count
                         else None
                     ),
+                    "handicap_index": (
+                        float(row["handicap_index"])
+                        if row["handicap_index"] is not None
+                        else None
+                    ),
+                    "round_handicap": (
+                        int(row["round_handicap"])
+                        if row["round_handicap"] is not None
+                        else None
+                    ),
+                    "handicap_source": row["handicap_source"],
+                    "net_total_strokes": (
+                        int(row["total_strokes"])
+                        - int(row["round_handicap"])
+                        if (
+                            score_count
+                            and row["round_handicap"] is not None
+                        )
+                        else None
+                    ),
                     "rank": None,
                     "tie_count": 0,
+                    "net_rank": None,
+                    "net_tie_count": 0,
+                    "net_placement_eligible": False,
                 }
             )
 
@@ -2990,6 +3030,35 @@ class RoundStore:
                     if int(candidate["total_strokes"]) == total
                 )
 
+        missing_handicaps = (
+            sum(
+                1
+                for row in eligible
+                if row["round_handicap"] is None
+            )
+            if net_scoring_enabled
+            else 0
+        )
+        net_official = (
+            net_scoring_enabled
+            and bool(eligible)
+            and missing_handicaps == 0
+        )
+        if net_official:
+            for row in eligible:
+                row["net_placement_eligible"] = True
+                net_total = int(row["net_total_strokes"])
+                row["net_rank"] = 1 + sum(
+                    1
+                    for candidate in eligible
+                    if int(candidate["net_total_strokes"]) < net_total
+                )
+                row["net_tie_count"] = sum(
+                    1
+                    for candidate in eligible
+                    if int(candidate["net_total_strokes"]) == net_total
+                )
+
         active_results = [
             row
             for row in results
@@ -3003,6 +3072,9 @@ class RoundStore:
         return {
             "mode": "individual",
             "complete": complete,
+            "net_scoring_enabled": net_scoring_enabled,
+            "net_official": net_official,
+            "missing_handicaps": missing_handicaps,
             "score_count": sum(
                 int(row["score_count"])
                 for row in results
