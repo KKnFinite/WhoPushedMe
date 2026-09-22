@@ -38,7 +38,7 @@ from who_pushed_me.content.presentation import (
     social_content_event,
     status_content_event,
 )
-from who_pushed_me.routes import build_route
+from who_pushed_me.routes import build_route, build_tracking_plan
 from who_pushed_me.domain import (
     DomainError,
     NotFound,
@@ -743,18 +743,6 @@ class RoundStore:
         if not isinstance(par_tracking_enabled, bool):
             raise DomainError("par_tracking_enabled must be true or false")
 
-        try:
-            requested_tracking_start = int(tracking_start_position)
-        except (TypeError, ValueError) as error:
-            raise DomainError(
-                "tracking_start_position must be a number"
-            ) from error
-        prior_mode = str(prior_holes_mode or "untracked").strip().lower()
-        if prior_mode not in {"untracked", "backfill"}:
-            raise DomainError(
-                "prior_holes_mode must be untracked or backfill"
-            )
-
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
         creator_tee = self._clean_tee_name(tee_name)
@@ -823,18 +811,22 @@ class RoundStore:
                         )
 
                     route_length = len(route)
-                    if not 1 <= requested_tracking_start <= route_length:
-                        raise DomainError(
-                            "tracking_start_position must be within the round route"
-                        )
+                    tracking = build_tracking_plan(
+                        route_length=route_length,
+                        tracking_start_position=tracking_start_position,
+                        prior_holes_mode=prior_holes_mode,
+                    )
+                    requested_tracking_start = int(
+                        tracking["tracking_start_position"]
+                    )
+                    prior_mode = str(tracking["prior_holes_mode"])
+                    skipped_positions = tracking["skipped_positions"]
+                    participant_tracked_from = int(
+                        tracking["participant_tracked_from"]
+                    )
                     first_hole = route[0].hole_number
                     current_route = route[requested_tracking_start - 1]
                     current_hole = current_route.hole_number
-                    participant_tracked_from = (
-                        requested_tracking_start
-                        if prior_mode == "untracked"
-                        else 1
-                    )
                     code = generate_round_code()
 
                     cursor.execute(
@@ -880,20 +872,12 @@ class RoundStore:
                                 item.hole_number,
                                 (
                                     "skipped"
-                                    if (
-                                        prior_mode == "untracked"
-                                        and item.route_position
-                                        < requested_tracking_start
-                                    )
+                                    if item.route_position in skipped_positions
                                     else "planned"
                                 ),
                                 (
                                     "untracked_before_app"
-                                    if (
-                                        prior_mode == "untracked"
-                                        and item.route_position
-                                        < requested_tracking_start
-                                    )
+                                    if item.route_position in skipped_positions
                                     else None
                                 ),
                             )
@@ -934,11 +918,7 @@ class RoundStore:
                                 item.route_position,
                             )
                             for item in route
-                            if not (
-                                prior_mode == "untracked"
-                                and item.route_position
-                                < requested_tracking_start
-                            )
+                            if item.route_position not in skipped_positions
                         ],
                     )
 
