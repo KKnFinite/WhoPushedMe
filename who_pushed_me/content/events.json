@@ -390,6 +390,58 @@
       "audiences": ["everyone"]
     },
     {
+      "key": "handicap",
+      "parent": null,
+      "label": "Handicap",
+      "phase": "round",
+      "family": "handicap",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": false,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "handicap.set",
+      "parent": "handicap",
+      "label": "Round handicap set",
+      "phase": "round",
+      "family": "handicap",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "handicap.corrected",
+      "parent": "handicap",
+      "label": "Round handicap corrected",
+      "phase": "round",
+      "family": "handicap",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "handicap.cleared",
+      "parent": "handicap",
+      "label": "Round handicap cleared",
+      "phase": "round",
+      "family": "handicap",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
       "key": "participant.proxy_added",
       "parent": "participant",
       "label": "Round-only golfer added",
