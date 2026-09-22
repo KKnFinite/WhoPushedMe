@@ -4715,15 +4715,48 @@ class RoundStore:
     ) -> list[dict[str, Any]]:
         cursor.execute(
             """
-            SELECT tee_name,
-                   count(*) AS holes_with_tee,
-                   sum(yardage) FILTER (WHERE yardage IS NOT NULL) AS total_yardage
-            FROM cached_course_hole_tees
-            WHERE course_id = %s AND hole_number <= %s
-            GROUP BY tee_name
-            ORDER BY max(yardage) DESC NULLS LAST, tee_name
+            WITH tee_holes AS (
+                SELECT tee_name,
+                       count(*) AS holes_with_tee,
+                       sum(yardage)
+                         FILTER (WHERE yardage IS NOT NULL) AS total_yardage,
+                       max(yardage) AS max_yardage
+                FROM cached_course_hole_tees
+                WHERE course_id = %s AND hole_number <= %s
+                GROUP BY tee_name
+            ),
+            rating_summary AS (
+                SELECT lower(tee_name) AS tee_key,
+                       CASE
+                         WHEN count(*) FILTER (
+                           WHERE course_rating IS NOT NULL
+                             AND slope_rating IS NOT NULL
+                         ) = 1
+                         THEN max(course_rating)
+                       END AS course_rating,
+                       CASE
+                         WHEN count(*) FILTER (
+                           WHERE course_rating IS NOT NULL
+                             AND slope_rating IS NOT NULL
+                         ) = 1
+                         THEN max(slope_rating)
+                       END AS slope_rating
+                FROM cached_course_tee_ratings
+                WHERE course_id = %s
+                GROUP BY lower(tee_name)
+            )
+            SELECT tee_holes.tee_name,
+                   tee_holes.holes_with_tee,
+                   tee_holes.total_yardage,
+                   rating_summary.course_rating,
+                   rating_summary.slope_rating
+            FROM tee_holes
+            LEFT JOIN rating_summary
+              ON rating_summary.tee_key = lower(tee_holes.tee_name)
+            ORDER BY tee_holes.max_yardage DESC NULLS LAST,
+                     tee_holes.tee_name
             """,
-            (course_id, hole_count),
+            (course_id, hole_count, course_id),
         )
         return cursor.fetchall()
 
@@ -4837,7 +4870,32 @@ class RoundStore:
                 (snapshot.external_id, snapshot.name),
             )
             course_id = cursor.fetchone()["id"]
-            cursor.execute("DELETE FROM cached_course_holes WHERE course_id = %s", (course_id,))
+            cursor.execute(
+                "DELETE FROM cached_course_tee_ratings WHERE course_id = %s",
+                (course_id,),
+            )
+            for tee in snapshot.tee_ratings:
+                cursor.execute(
+                    """
+                    INSERT INTO cached_course_tee_ratings (
+                        course_id, tee_name, gender,
+                        course_rating, slope_rating
+                    )
+                    VALUES (%s, %s, %s, %s, %s)
+                    """,
+                    (
+                        course_id,
+                        tee.tee_name,
+                        tee.gender,
+                        tee.course_rating,
+                        tee.slope_rating,
+                    ),
+                )
+
+            cursor.execute(
+                "DELETE FROM cached_course_holes WHERE course_id = %s",
+                (course_id,),
+            )
             for hole in snapshot.holes:
                 cursor.execute(
                     """
