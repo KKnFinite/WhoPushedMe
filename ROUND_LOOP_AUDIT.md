@@ -304,6 +304,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The correction event may explicitly describe how the existing score's current classification changed (for example Bogey -> Par), but must not create a replacement historical score event.
 - After a completed round, par cannot be changed unless the round is explicitly reopened; reopening and the later par correction both remain in Receipts.
 
+## Future-hole preview
+- Any participant may browse ahead to future route positions to preview hole data without changing the shared active hole.
+- Future route positions are read-only for scoring until the round actually reaches them.
+- Show available hole data such as par, yardage, tee/course details, and route position while hiding/disabling score-entry and score-mutation controls.
+- The UI should clearly label future browsing, for example `PREVIEWING HOLE 12 • LIVE: HOLE 8`, and offer `BACK TO LIVE`.
+- Active players may freely edit the current active hole and previously reached holes, but may not pre-enter factual scores on unreached future route positions.
+- Preventing future score entry avoids accidental score events, standings changes, banter, and auto-advance behavior for golf that has not happened yet.
+- When the shared active route reaches that future position, normal score controls become available automatically.
+
 ## Active hole vs browsing old holes
 - The round has one shared active route position/hole that represents where the group is currently playing.
 - The live scorecard defaults to that active hole and shows the relevant hole data for each golfer/team, including tee-specific yardage/par data when available.
