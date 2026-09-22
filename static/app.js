@@ -2066,7 +2066,6 @@
     const canOpenRoundSettings = (
       viewerIsActivePlayer(round)
       && round.status === 'active'
-      && availableTees.length > 0
     );
     if (roundSettingsButton) {
       roundSettingsButton.hidden = !canOpenRoundSettings;
@@ -2078,24 +2077,58 @@
       const selectedTee = round.mode === 'scramble'
         ? (round.scramble_tee_name || '')
         : (viewer?.tee_name || '');
+      const hasTeeChoices = availableTees.length > 0;
+
       if (roundSettingsTeeLabel) {
         roundSettingsTeeLabel.textContent = round.mode === 'scramble'
           ? 'TEAM SCORING TEE'
           : 'YOUR TEE';
       }
-      if (roundSettingsTeeField) roundSettingsTeeField.hidden = false;
+      if (roundSettingsTeeField) {
+        roundSettingsTeeField.hidden = !hasTeeChoices;
+      }
       const settingsOpen = roundSettingsPanel && !roundSettingsPanel.hidden;
       if (
-        !settingsOpen
-        || !roundSettingsTeeSelect
-        || roundSettingsTeeSelect.options.length === 0
+        hasTeeChoices
+        && (
+          !settingsOpen
+          || !roundSettingsTeeSelect
+          || roundSettingsTeeSelect.options.length === 0
+        )
       ) {
         fillTeeSelect(roundSettingsTeeSelect, availableTees, selectedTee);
       }
       if (roundSettingsTeeSave) {
-        roundSettingsTeeSave.hidden = false;
+        roundSettingsTeeSave.hidden = !hasTeeChoices;
         roundSettingsTeeSave.disabled = false;
       }
+
+      const activePlayerCount = (round.participants || []).filter(
+        (participant) =>
+          participant.role === 'player'
+          && participant.participation_state === 'active'
+      ).length;
+      const canAddOffline = activePlayerCount < 4;
+      if (offlinePlayerPanel) offlinePlayerPanel.hidden = !canAddOffline;
+      const offlineNeedsTee = (
+        canAddOffline
+        && round.mode === 'individual'
+        && hasTeeChoices
+      );
+      if (offlinePlayerTeeField) {
+        offlinePlayerTeeField.hidden = !offlineNeedsTee;
+      }
+      if (
+        offlineNeedsTee
+        && (
+          !settingsOpen
+          || !offlinePlayerTeeSelect
+          || offlinePlayerTeeSelect.options.length === 0
+        )
+      ) {
+        fillTeeSelect(offlinePlayerTeeSelect, availableTees);
+      }
+      if (offlinePlayerAdd) offlinePlayerAdd.disabled = false;
     }
 
     const canEditViewedHole = (
