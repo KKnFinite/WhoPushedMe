@@ -2875,6 +2875,50 @@
     }
   });
 
+  offlinePlayerAdd?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    const displayName = String(offlinePlayerName?.value || '').trim();
+    if (!displayName) {
+      setRoundFlowMessage('Give the offline golfer a name first.');
+      offlinePlayerName?.focus();
+      return;
+    }
+
+    const tees = currentLobbyRound.available_tees || [];
+    const teeName = String(offlinePlayerTeeSelect?.value || '').trim();
+    if (
+      currentLobbyRound.mode === 'individual'
+      && tees.length
+      && !teeName
+    ) {
+      setRoundFlowMessage('Pick a tee for the offline golfer.');
+      offlinePlayerTeeSelect?.focus();
+      return;
+    }
+
+    offlinePlayerAdd.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/round-only-players`,
+        {
+          method: 'POST',
+          body: {
+            display_name: displayName,
+            tee_name: teeName || null,
+          },
+        }
+      );
+      if (offlinePlayerName) offlinePlayerName.value = '';
+      if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      offlinePlayerAdd.disabled = false;
+    }
+  });
+
   parForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!currentLobbyRound || viewedRoutePosition === null) return;
