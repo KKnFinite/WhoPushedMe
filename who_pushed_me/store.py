@@ -4833,11 +4833,53 @@ class RoundStore:
                     UPDATE round_participants
                     SET tee_name = %s
                     WHERE id = %s
-                    RETURNING id, round_id, golfer_id, role, tee_name
+                    RETURNING id, round_id, golfer_id, role, tee_name,
+                              handicap_index, round_handicap,
+                              handicap_source
                     """,
                     (selected_tee, participant["id"]),
                 )
                 updated = cursor.fetchone()
+
+                if (
+                    round_row["net_scoring_enabled"]
+                    and participant.get("handicap_source") != "manual"
+                ):
+                    calculated_handicap = self._calculated_round_handicap(
+                        cursor,
+                        round_id=round_uuid,
+                        course_id=round_row["course_id"],
+                        tee_name=selected_tee,
+                        handicap_index=(
+                            float(participant["handicap_index"])
+                            if participant.get("handicap_index") is not None
+                            else None
+                        ),
+                    )
+                    cursor.execute(
+                        """
+                        UPDATE round_participants
+                        SET round_handicap = %s,
+                            handicap_source = %s
+                        WHERE id = %s
+                        """,
+                        (
+                            calculated_handicap,
+                            (
+                                "course"
+                                if calculated_handicap is not None
+                                else None
+                            ),
+                            participant["id"],
+                        ),
+                    )
+                    updated["round_handicap"] = calculated_handicap
+                    updated["handicap_source"] = (
+                        "course"
+                        if calculated_handicap is not None
+                        else None
+                    )
+
                 scope = "player"
                 subject_id = str(participant["id"])
 
@@ -4855,6 +4897,157 @@ class RoundStore:
                     },
                     presentation_context={"mode": round_row["mode"]},
                 )
+            return updated
+
+    def set_participant_round_handicap(
+        self,
+        golfer_id: object,
+        round_id: object,
+        player_participant_id: object,
+        round_handicap: object | None,
+        *,
+        confirm_correction: bool = False,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        target_uuid = self._uuid(
+            player_participant_id,
+            "player_participant_id",
+        )
+        handicap_value = normalize_round_handicap(round_handicap)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(actor, "change a round handicap")
+
+            if round_row["mode"] != "individual":
+                raise DomainError(
+                    "scramble rounds are gross scoring only"
+                )
+            if not round_row["net_scoring_enabled"]:
+                raise DomainError(
+                    "net scoring is not enabled for this round"
+                )
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "round handicaps can only be changed before or during an active round"
+                )
+
+            cursor.execute(
+                """
+                SELECT rp.id, rp.role, rp.round_handicap,
+                       rp.handicap_source, g.display_name
+                FROM round_participants rp
+                JOIN golfers g ON g.id = rp.golfer_id
+                WHERE rp.id = %s AND rp.round_id = %s
+                FOR UPDATE
+                """,
+                (target_uuid, round_uuid),
+            )
+            target = cursor.fetchone()
+            if not target or target["role"] != "player":
+                raise DomainError(
+                    "handicap target must be a player in this round"
+                )
+
+            old_handicap = (
+                int(target["round_handicap"])
+                if target["round_handicap"] is not None
+                else None
+            )
+            if old_handicap == handicap_value:
+                return {
+                    "round_id": round_uuid,
+                    "participant_id": target_uuid,
+                    "round_handicap": handicap_value,
+                    "handicap_source": (
+                        "manual" if handicap_value is not None else None
+                    ),
+                    "changed": False,
+                }
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                ) AS has_scores
+                """,
+                (round_uuid,),
+            )
+            has_scores = bool(cursor.fetchone()["has_scores"])
+            requires_confirmation = (
+                has_scores
+                and old_handicap is not None
+                and old_handicap != handicap_value
+            )
+            if requires_confirmation and not confirm_correction:
+                return {
+                    "round_id": round_uuid,
+                    "participant_id": target_uuid,
+                    "round_handicap": old_handicap,
+                    "proposed_round_handicap": handicap_value,
+                    "requires_confirmation": True,
+                    "changed": False,
+                }
+
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET round_handicap = %s,
+                    handicap_source = %s
+                WHERE id = %s
+                RETURNING id, round_id, golfer_id, role, tee_name,
+                          handicap_index, round_handicap,
+                          handicap_source
+                """,
+                (
+                    handicap_value,
+                    (
+                        "manual"
+                        if handicap_value is not None
+                        else None
+                    ),
+                    target_uuid,
+                ),
+            )
+            updated = cursor.fetchone()
+
+            content_event = (
+                "handicap.corrected"
+                if old_handicap is not None and has_scores
+                else (
+                    "handicap.cleared"
+                    if handicap_value is None
+                    else "handicap.set"
+                )
+            )
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=actor["id"],
+                event_type="round_handicap_change",
+                old_value=old_handicap,
+                new_value=handicap_value,
+                data={
+                    "player_participant_id": str(target_uuid),
+                    "display_name": target["display_name"],
+                    "late": has_scores,
+                    "confirmed_correction": bool(
+                        requires_confirmation and confirm_correction
+                    ),
+                },
+                content_event_key=content_event,
+                presentation_context={
+                    "mode": "individual",
+                    "subject": target["display_name"],
+                },
+            )
+
+            updated["requires_confirmation"] = False
+            updated["changed"] = True
             return updated
 
     def cache_course(self, snapshot: CourseSnapshot) -> UUID:
