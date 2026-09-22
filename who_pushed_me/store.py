@@ -2408,6 +2408,8 @@ class RoundStore:
                 """
                 SELECT rp.id, rp.role, rp.tee_name, rp.joined_at,
                        rp.participation_state, rp.tracked_from_position,
+                       rp.handicap_index, rp.round_handicap,
+                       rp.handicap_source,
                        g.id AS golfer_id, g.display_name,
                        (
                            g.username IS NULL
