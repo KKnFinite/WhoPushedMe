@@ -2149,6 +2149,28 @@
         fillTeeSelect(offlinePlayerTeeSelect, availableTees);
       }
       if (offlinePlayerAdd) offlinePlayerAdd.disabled = false;
+
+      const claimUndo = round.claim_undo;
+      const canUndoClaim = Boolean(claimUndo?.available);
+      if (claimUndoPanel) claimUndoPanel.hidden = !canUndoClaim;
+      if (!canUndoClaim) {
+        claimUndoConfirmPending = false;
+      } else {
+        const actions = Number(claimUndo.actions_after_claim || 0);
+        if (claimUndoCopy) {
+          claimUndoCopy.textContent = actions > 0
+            ? `${actions} ACTION${actions === 1 ? '' : 'S'} HAPPENED AFTER YOU CLAIMED THIS PLAYER. THOSE RECEIPTS STAY ATTRIBUTED TO YOUR ACCOUNT.`
+            : 'UNDOING THE CLAIM PUTS THIS PLAYER BACK INTO ROUND-ONLY MODE.';
+        }
+        if (claimUndoButton) {
+          claimUndoButton.disabled = false;
+          claimUndoButton.textContent = (
+            claimUndoConfirmPending && actions > 0
+              ? 'UNDO ANYWAY'
+              : 'UNDO PLAYER CLAIM'
+          );
+        }
+      }
     }
 
     const canEditViewedHole = (
