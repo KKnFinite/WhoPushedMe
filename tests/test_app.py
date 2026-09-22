@@ -30,6 +30,7 @@ def test_home_loads_pwa_shell():
     assert b"FIND A COURSE" in response.data
     assert b"FREE PLAY" in response.data
     assert b"YOUR TEE" in response.data
+    assert b"TEAM SCORING TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
     assert b"LIVE SCORECARD" in response.data
     assert b"NEXT HOLE" in response.data
@@ -84,7 +85,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v24" in response.data
+    assert b"wpm-shell-v25" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -93,7 +94,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v24" in builder
+    assert "wpm-shell-v25" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -143,3 +144,22 @@ def test_live_spectator_can_promote_into_play():
     assert response.status_code == 200
     assert b"/join-play" in response.data
     assert b"Pick a tee before joining the round." in response.data
+
+
+def test_scramble_uses_one_shared_team_tee():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"scramble_tee_name" in response.data
+    assert b"TEAM TEE:" in response.data
+    assert b"Pick one team scoring tee before the round starts." in response.data
+
+
+def test_scramble_team_tee_migration_is_present():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    migration = (
+        root / "migrations" / "0010_scramble_team_tee.sql"
+    ).read_text(encoding="utf-8")
+    assert "ADD COLUMN scramble_tee_name" in migration
+    assert "r.mode = 'scramble'" in migration
