@@ -249,6 +249,45 @@
       "enabled": true
     },
     {
+      "id": "banter.handicap.set.normal",
+      "text": "{subject}'s round handicap is officially on the record.",
+      "events": [
+        "handicap.set"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.handicap.corrected.normal",
+      "text": "{subject}'s handicap changed after the evidence started. Very convenient.",
+      "events": [
+        "handicap.corrected"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.handicap.cleared.normal",
+      "text": "{subject}'s net math has been removed from polite society.",
+      "events": [
+        "handicap.cleared"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.participant.proxy_added.normal",
       "text": "{subject} is participating through a human proxy.",
       "events": [
