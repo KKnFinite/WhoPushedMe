@@ -304,6 +304,29 @@ class FakeStore:
             "round_only": False,
         }
 
+    def undo_round_only_claim(
+        self,
+        golfer_id,
+        round_id,
+        *,
+        confirm_actor_history=False,
+    ):
+        self.calls.append(
+            (
+                "undo_claim",
+                golfer_id,
+                round_id,
+                confirm_actor_history,
+            )
+        )
+        return {
+            "round_id": round_id,
+            "participant_id": "304b4411-bc80-4652-94b3-350ef2501267",
+            "undone": confirm_actor_history,
+            "requires_confirmation": not confirm_actor_history,
+            "actions_after_claim": 2,
+        }
+
     def set_participation_state(self, golfer_id, round_id, state, *, reason=None):
         self.calls.append(("participation", golfer_id, round_id, state, reason))
         return {
@@ -976,6 +999,24 @@ def test_account_can_claim_exact_round_only_participant():
         store.golfer_id,
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         participant_id,
+    )
+
+
+def test_active_round_claim_undo_can_confirm_actor_history_warning():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/claim-player/undo",
+        headers={"Authorization": "Bearer session-token"},
+        json={"confirm_actor_history": True},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["undone"] is True
+    assert store.calls[-1] == (
+        "undo_claim",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        True,
     )
 
 
