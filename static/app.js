@@ -36,6 +36,10 @@
   const roundFlowMessage = document.getElementById('round-flow-message');
   const startRoundForm = document.getElementById('start-round-form');
   const joinRoundForm = document.getElementById('join-round-form');
+  const joinRoundSubmit = document.getElementById('join-round-submit');
+  const claimPlayerPanel = document.getElementById('claim-player-panel');
+  const claimPlayerList = document.getElementById('claim-player-list');
+  const claimPlayerNone = document.getElementById('claim-player-none');
   const lobbyPanel = document.getElementById('lobby-panel');
   const lobbyCode = document.getElementById('lobby-code');
   const lobbySummary = document.getElementById('lobby-summary');
@@ -82,6 +86,11 @@
   const roundSettingsTeeLabel = document.getElementById('round-settings-tee-label');
   const roundSettingsTeeSelect = document.getElementById('round-settings-tee-select');
   const roundSettingsTeeSave = document.getElementById('round-settings-tee-save');
+  const offlinePlayerPanel = document.getElementById('offline-player-panel');
+  const offlinePlayerName = document.getElementById('offline-player-name');
+  const offlinePlayerTeeField = document.getElementById('offline-player-tee-field');
+  const offlinePlayerTeeSelect = document.getElementById('offline-player-tee-select');
+  const offlinePlayerAdd = document.getElementById('offline-player-add');
   const roundSettingsClose = document.getElementById('round-settings-close');
   const backToLive = document.getElementById('back-to-live');
   const holeStateLabel = document.getElementById('hole-state-label');
@@ -151,6 +160,7 @@
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
+  let pendingClaimJoin = null;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
 
@@ -734,6 +744,7 @@
     currentLobbyRound = null;
     viewedRoutePosition = null;
     finishIncompletePending = false;
+    resetClaimPlayerPanel();
     advanceWarningPosition = null;
     pendingScoreAfterPar = null;
     if (advanceWarningPanel) advanceWarningPanel.hidden = true;
@@ -747,12 +758,20 @@
     }
   };
 
+  const resetClaimPlayerPanel = () => {
+    pendingClaimJoin = null;
+    if (claimPlayerPanel) claimPlayerPanel.hidden = true;
+    if (claimPlayerList) claimPlayerList.replaceChildren();
+    if (joinRoundSubmit) joinRoundSubmit.hidden = false;
+  };
+
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
     roundFlowModal.hidden = false;
     document.body.classList.add('modal-open');
     setRoundFlowMessage('');
     currentLobbyRound = null;
+    resetClaimPlayerPanel();
 
     if (startRoundForm) startRoundForm.hidden = panel !== 'start';
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
