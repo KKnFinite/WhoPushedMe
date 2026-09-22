@@ -248,13 +248,25 @@ def update_preferences():
 @authenticated
 def create_round():
     payload = _body()
+    kwargs = {
+        "mode": payload.get("mode"),
+        "holes": payload.get("holes"),
+        "course_id": payload.get("course_id"),
+        "free_play_name": payload.get("free_play_name"),
+        "tee_name": payload.get("tee_name"),
+    }
+    for key in (
+        "start_hole",
+        "end_hole",
+        "course_hole_count",
+        "par_tracking_enabled",
+    ):
+        if key in payload:
+            kwargs[key] = payload.get(key)
+
     round_row = _store().create_round(
         g.golfer["id"],
-        mode=payload.get("mode"),
-        holes=payload.get("holes"),
-        course_id=payload.get("course_id"),
-        free_play_name=payload.get("free_play_name"),
-        tee_name=payload.get("tee_name"),
+        **kwargs,
     )
     return jsonify(round_row), 201
 
@@ -321,7 +333,18 @@ def set_tee(round_id: str):
 @api.patch("/rounds/<round_id>/current-hole")
 @authenticated
 def set_current_hole(round_id: str):
-    return jsonify(_store().set_current_hole(g.golfer["id"], round_id, _body().get("hole")))
+    payload = _body()
+    position = payload.get(
+        "route_position",
+        payload.get("hole"),
+    )
+    return jsonify(
+        _store().set_current_hole(
+            g.golfer["id"],
+            round_id,
+            position,
+        )
+    )
 
 
 @api.patch("/rounds/<round_id>/status")
@@ -330,35 +353,49 @@ def set_status(round_id: str):
     return jsonify(_store().set_status(g.golfer["id"], round_id, _body().get("status")))
 
 
-@api.put("/rounds/<round_id>/holes/<int:hole>/par")
+@api.put("/rounds/<round_id>/holes/<int:position>/par")
+@api.put("/rounds/<round_id>/positions/<int:position>/par")
 @authenticated
-def set_par(round_id: str, hole: int):
-    return jsonify(_store().set_par(g.golfer["id"], round_id, hole, _body().get("par")))
+def set_par(round_id: str, position: int):
+    return jsonify(
+        _store().set_par(
+            g.golfer["id"],
+            round_id,
+            position,
+            _body().get("par"),
+        )
+    )
 
 
-@api.put("/rounds/<round_id>/holes/<int:hole>/score")
+@api.put("/rounds/<round_id>/holes/<int:position>/score")
+@api.put("/rounds/<round_id>/positions/<int:position>/score")
 @authenticated
-def set_score(round_id: str, hole: int):
+def set_score(round_id: str, position: int):
     payload = _body()
     return jsonify(
         _store().set_score(
             g.golfer["id"],
             round_id,
-            hole,
+            position,
             payload.get("strokes"),
             player_participant_id=payload.get("player_participant_id"),
         )
     )
 
 
-@api.put("/rounds/<round_id>/holes/<int:hole>/contributions/<shot_type>")
+@api.put("/rounds/<round_id>/holes/<int:position>/contributions/<shot_type>")
+@api.put("/rounds/<round_id>/positions/<int:position>/contributions/<shot_type>")
 @authenticated
-def set_contribution(round_id: str, hole: int, shot_type: str):
+def set_contribution(
+    round_id: str,
+    position: int,
+    shot_type: str,
+):
     return jsonify(
         _store().set_scramble_contribution(
             g.golfer["id"],
             round_id,
-            hole,
+            position,
             shot_type,
             _body().get("player_participant_id"),
         )
