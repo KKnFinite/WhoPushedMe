@@ -43,12 +43,30 @@ def _participant_name(round_data: Mapping[str, Any], participant_id: object) -> 
     return "Golfer"
 
 
+def _route_entries(
+    round_data: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    return sorted(
+        [dict(row) for row in (round_data.get("route") or [])],
+        key=lambda row: int(row.get("route_position") or 0),
+    )
+
+
 def _par_map(round_data: Mapping[str, Any]) -> dict[int, int]:
-    return {
-        int(row["hole_number"]): int(row["par"])
-        for row in round_data.get("pars") or []
-        if row.get("par") is not None
-    }
+    route_aware = bool(_route_entries(round_data))
+    result: dict[int, int] = {}
+    for row in round_data.get("pars") or []:
+        if row.get("par") is None:
+            continue
+        key = (
+            row.get("route_position")
+            if route_aware and row.get("route_position") is not None
+            else row.get("hole_number")
+        )
+        if key is None:
+            continue
+        result[int(key)] = int(row["par"])
+    return result
 
 
 def _score_map(
@@ -56,6 +74,7 @@ def _score_map(
     *,
     participant_id: object | None = None,
 ) -> dict[int, int]:
+    route_aware = bool(_route_entries(round_data))
     result: dict[int, int] = {}
     for row in round_data.get("scores") or []:
         if round_data.get("mode") == "scramble":
@@ -66,7 +85,14 @@ def _score_map(
                 continue
             if str(row.get("player_participant_id")) != str(participant_id):
                 continue
-        result[int(row["hole_number"])] = int(row["strokes"])
+        key = (
+            row.get("route_position")
+            if route_aware and row.get("route_position") is not None
+            else row.get("hole_number")
+        )
+        if key is None:
+            continue
+        result[int(key)] = int(row["strokes"])
     return result
 
 
