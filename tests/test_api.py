@@ -130,6 +130,10 @@ class FakeStore:
         course_id=None,
         free_play_name=None,
         tee_name=None,
+        start_hole=1,
+        end_hole=None,
+        course_hole_count=None,
+        par_tracking_enabled=True,
     ):
         self.calls.append(
             (
@@ -140,6 +144,10 @@ class FakeStore:
                 course_id,
                 free_play_name,
                 tee_name,
+                start_hole,
+                end_hole,
+                course_hole_count,
+                par_tracking_enabled,
             )
         )
         return {
@@ -561,6 +569,41 @@ def test_create_round_with_bearer_session_enters_setup_lobby():
         None,
         "Saturday Shitshow",
         None,
+        1,
+        None,
+        None,
+        True,
+    )
+
+
+def test_create_round_passes_explicit_route_setup():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "mode": "scramble",
+            "holes": 18,
+            "free_play_name": "Shotgun Disaster",
+            "start_hole": 14,
+            "course_hole_count": 18,
+            "par_tracking_enabled": False,
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "create_round",
+        store.golfer_id,
+        "scramble",
+        18,
+        None,
+        "Shotgun Disaster",
+        None,
+        14,
+        None,
+        18,
+        False,
     )
 
 
@@ -673,6 +716,10 @@ def test_course_round_creation_passes_cached_course_and_tee():
         course_id,
         None,
         "White",
+        1,
+        None,
+        None,
+        True,
     )
 
 
@@ -712,6 +759,23 @@ def test_live_scorecard_can_advance_shared_hole_without_touching_scores():
         store.golfer_id,
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         4,
+    )
+
+
+def test_active_hole_route_accepts_route_position_payload():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/current-hole",
+        headers={"Authorization": "Bearer session-token"},
+        json={"route_position": 7},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "current_hole",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        7,
     )
 
 
