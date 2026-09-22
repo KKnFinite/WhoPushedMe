@@ -518,6 +518,58 @@
       ]
     },
     {
+      "key": "round.end_early",
+      "parent": "round",
+      "label": "End round early vote",
+      "phase": "round",
+      "family": "round.end_early",
+      "triggerable": false,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end_early.vote_yes",
+      "parent": "round.end_early",
+      "label": "Voted yes to end early",
+      "phase": "round",
+      "family": "round.end_early",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.end_early.vote_no",
+      "parent": "round.end_early",
+      "label": "Voted no to end early",
+      "phase": "round",
+      "family": "round.end_early",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round.ended_early",
+      "parent": "round",
+      "label": "Round ended early",
+      "phase": "round_end",
+      "family": "round.end",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
       "key": "round.end",
       "parent": "round",
       "label": "Round end",
