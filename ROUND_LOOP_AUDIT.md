@@ -491,6 +491,21 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - A whole group may explicitly end the round early; the report must clearly distinguish early termination from a normally completed round.
 - Towel events and late-round taunts must never be required to continue or finish a round.
 
+## Handicap availability and correction
+- Individual play may use optional net scoring; scramble is gross-only in v1.
+- If an individual round uses net scoring for official placement, every golfer needs a round handicap before becoming eligible for net placement.
+- A golfer without a saved handicap may still play and score normally; show gross scoring and mark them `NET HANDICAP MISSING` until a round handicap is supplied.
+- Existing account handicap data should prefill automatically when available.
+- A round-only/no-app golfer's handicap may be entered by any active player.
+- Once the golfer's first factual score is accepted, their round handicap is locked against casual editing.
+- A later handicap correction is allowed only through an audited correction flow that preserves old value -> new value in Receipts and recalculates current net standings.
+- Handicap corrections may trigger mocking group commentary, for example:
+  - `AMAZING. FOUR STROKES APPEARED WITHOUT ANYONE SWINGING A CLUB.`
+  - `THE HANDICAP HAS BEEN CONVENIENTLY REVISED.`
+  - `NET SCORING JUST GOT A LITTLE MORE CREATIVE.`
+- Gross scoring/history is never rewritten by handicap changes.
+- Scramble ignores handicap/net calculations entirely in v1 and always uses gross team scoring.
+
 ## Handicap and net scoring
 - Gross scoring is always the factual foundation and is always recorded.
 - Handicap/net scoring is optional and never required to create, join, or complete a round.
