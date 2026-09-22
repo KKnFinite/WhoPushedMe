@@ -1372,6 +1372,67 @@ body.app-ready .app-shell {
   font-weight: 900;
 }
 
+.advance-warning-panel,
+.round-settings-panel {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.advance-warning-panel[hidden],
+.round-settings-panel[hidden] {
+  display: none;
+}
+
+.advance-warning-panel strong,
+.round-settings-panel h4 {
+  margin: 0;
+  font-family: "Arial Black", Arial, sans-serif;
+}
+
+.advance-warning-panel p {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.advance-warning-panel > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.advance-warning-panel button,
+.round-settings-panel button {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .7rem;
+}
+
+#advance-warning-fix,
+#round-settings-close {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+#advance-warning-go,
+#round-settings-tee-save {
+  background: var(--orange);
+  color: var(--paper);
+}
+
+.round-settings-panel {
+  background: var(--cream-deep);
+}
+
 .towel-button {
   width: 100%;
   min-height: 48px;
