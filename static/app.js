@@ -54,6 +54,7 @@
   const liveRoundCode = document.getElementById('live-round-code');
   const holePrev = document.getElementById('hole-prev');
   const holeNext = document.getElementById('hole-next');
+  const advanceLiveHole = document.getElementById('advance-live-hole');
   const backToLive = document.getElementById('back-to-live');
   const holeStateLabel = document.getElementById('hole-state-label');
   const holeNumber = document.getElementById('hole-number');
@@ -1352,6 +1353,16 @@
     if (backToLive) {
       backToLive.hidden = viewingLive;
     }
+    if (advanceLiveHole) {
+      const canAdvanceLive = (
+        round.viewer_role === 'player'
+        && round.status === 'active'
+        && viewingLive
+        && livePosition < length
+      );
+      advanceLiveHole.hidden = !canAdvanceLive;
+      advanceLiveHole.disabled = false;
+    }
 
     const canEditViewedHole = (
       round.viewer_role === 'player'
@@ -1687,8 +1698,18 @@
     renderLiveRound(currentLobbyRound);
   });
 
-  holeNext?.addEventListener('click', async () => {
+  holeNext?.addEventListener('click', () => {
     if (!currentLobbyRound || viewedRoutePosition === null) return;
+    const length = routeLength(currentLobbyRound);
+    const viewed = Number(viewedRoutePosition);
+    if (viewed >= length) return;
+
+    viewedRoutePosition = viewed + 1;
+    renderLiveRound(currentLobbyRound);
+  });
+
+  advanceLiveHole?.addEventListener('click', async () => {
+    if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
 
     const length = routeLength(currentLobbyRound);
     const livePosition = Number(
@@ -1696,21 +1717,9 @@
       || currentLobbyRound.current_hole
       || 1
     );
-    const viewed = Number(viewedRoutePosition);
-    if (viewed >= length) return;
+    if (livePosition >= length) return;
 
-    const shouldAdvanceLive = (
-      currentLobbyRound.viewer_role === 'player'
-      && viewed === livePosition
-    );
-
-    if (!shouldAdvanceLive) {
-      viewedRoutePosition = viewed + 1;
-      renderLiveRound(currentLobbyRound);
-      return;
-    }
-
-    holeNext.disabled = true;
+    advanceLiveHole.disabled = true;
     setRoundFlowMessage('');
     try {
       await requestJson(
@@ -1723,8 +1732,7 @@
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
-    } finally {
-      holeNext.disabled = false;
+      advanceLiveHole.disabled = false;
     }
   });
 

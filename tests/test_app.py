@@ -24,6 +24,7 @@ def test_home_loads_pwa_shell():
     assert b"YOUR TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
     assert b"LIVE SCORECARD" in response.data
+    assert b"NEXT HOLE" in response.data
     assert b"BACK TO LIVE" in response.data
     assert b"REPORT PAR" in response.data
     assert b"LATEST RECEIPT" in response.data
@@ -69,5 +70,13 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v15" in response.data
+    assert b"wpm-shell-v16" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
+
+
+def test_asset_builder_keeps_shell_cache_version_in_sync():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
+    assert "wpm-shell-v16" in builder
