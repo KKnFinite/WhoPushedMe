@@ -288,6 +288,19 @@
       "enabled": true
     },
     {
+      "id": "banter.participant.claim_undone.normal",
+      "text": "{subject} is back to being represented by committee.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.participant.spectator_to_player.normal",
       "text": "Spectating was apparently too safe.",
       "events": [
