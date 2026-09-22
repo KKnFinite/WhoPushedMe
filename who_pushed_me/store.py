@@ -1349,13 +1349,29 @@ class RoundStore:
         mode: str,
         hole_count: int,
     ) -> dict[str, Any]:
+        cursor.execute(
+            """
+            SELECT count(*) AS required_count
+            FROM round_route_positions
+            WHERE round_id = %s
+              AND state = 'planned'
+            """,
+            (round_id,),
+        )
+        route_required = int(cursor.fetchone()["required_count"])
+
         if mode == "scramble":
             cursor.execute(
                 """
-                SELECT count(*) AS score_count,
-                       coalesce(sum(strokes), 0) AS total_strokes
-                FROM round_hole_scores
-                WHERE round_id = %s AND score_scope = 'team'
+                SELECT count(s.id) AS score_count,
+                       coalesce(sum(s.strokes), 0) AS total_strokes
+                FROM round_route_positions rr
+                LEFT JOIN round_hole_scores s
+                  ON s.round_id = rr.round_id
+                 AND s.route_position = rr.route_position
+                 AND s.score_scope = 'team'
+                WHERE rr.round_id = %s
+                  AND rr.state = 'planned'
                 """,
                 (round_id,),
             )
@@ -1363,10 +1379,20 @@ class RoundStore:
             score_count = int(row["score_count"])
             return {
                 "mode": "scramble",
-                "complete": score_count == hole_count,
+                "complete": score_count == route_required,
+                "coverage_state": (
+                    "complete"
+                    if score_count == route_required
+                    else "incomplete"
+                ),
                 "score_count": score_count,
-                "missing_scores": max(hole_count - score_count, 0),
-                "team_total": int(row["total_strokes"]) if score_count else None,
+                "required_scores": route_required,
+                "missing_scores": max(route_required - score_count, 0),
+                "team_total": (
+                    int(row["total_strokes"])
+                    if score_count
+                    else None
+                ),
                 "players": [],
             }
 
@@ -1374,63 +1400,131 @@ class RoundStore:
             """
             SELECT rp.id AS participant_id,
                    g.display_name,
+                   rp.participation_state,
+                   rp.tracked_from_position,
+                   count(prp.route_position)
+                     FILTER (WHERE prp.required) AS required_count,
                    count(s.id) AS score_count,
                    coalesce(sum(s.strokes), 0) AS total_strokes
             FROM round_participants rp
-            JOIN golfers g ON g.id = rp.golfer_id
+            JOIN golfers g
+              ON g.id = rp.golfer_id
+            LEFT JOIN round_participant_route_positions prp
+              ON prp.round_id = rp.round_id
+             AND prp.participant_id = rp.id
+             AND prp.required
+            LEFT JOIN round_route_positions rr
+              ON rr.round_id = prp.round_id
+             AND rr.route_position = prp.route_position
+             AND rr.state = 'planned'
             LEFT JOIN round_hole_scores s
               ON s.round_id = rp.round_id
+             AND s.route_position = prp.route_position
              AND s.player_participant_id = rp.id
              AND s.score_scope = 'player'
+             AND rr.route_position IS NOT NULL
             WHERE rp.round_id = %s
               AND rp.role = 'player'
-            GROUP BY rp.id, g.display_name, rp.joined_at
+            GROUP BY rp.id, g.display_name, rp.joined_at,
+                     rp.participation_state, rp.tracked_from_position
             ORDER BY rp.joined_at, rp.id
             """,
             (round_id,),
         )
         players = cursor.fetchall()
         results: list[dict[str, Any]] = []
-        complete = bool(players)
 
         for row in players:
-            score_count = int(row["score_count"])
-            complete = complete and score_count == hole_count
+            required_count = int(row["required_count"] or 0)
+            score_count = int(row["score_count"] or 0)
+            participation_state = str(
+                row["participation_state"] or "active"
+            )
+            is_partial = (
+                int(row["tracked_from_position"] or 1) > 1
+                or required_count < route_required
+            )
+            if score_count < required_count:
+                coverage_state = "incomplete"
+            elif is_partial:
+                coverage_state = "partial"
+            else:
+                coverage_state = "complete"
+
+            placement_eligible = (
+                participation_state == "active"
+                and coverage_state == "complete"
+                and required_count == route_required
+            )
+
             results.append(
                 {
                     "participant_id": row["participant_id"],
                     "display_name": row["display_name"],
-                    "score_count": score_count,
-                    "missing_scores": max(hole_count - score_count, 0),
-                    "total_strokes": (
-                        int(row["total_strokes"]) if score_count else None
+                    "participation_state": participation_state,
+                    "coverage_state": coverage_state,
+                    "placement_eligible": placement_eligible,
+                    "tracked_from_position": int(
+                        row["tracked_from_position"] or 1
                     ),
+                    "required_scores": required_count,
+                    "score_count": score_count,
+                    "missing_scores": max(
+                        required_count - score_count,
+                        0,
+                    ),
+                    "total_strokes": (
+                        int(row["total_strokes"])
+                        if score_count
+                        else None
+                    ),
+                    "rank": None,
+                    "tie_count": 0,
                 }
             )
 
-        if complete:
-            for row in results:
+        eligible = [
+            row
+            for row in results
+            if row["placement_eligible"]
+            and row["total_strokes"] is not None
+        ]
+
+        if eligible:
+            for row in eligible:
                 total = int(row["total_strokes"])
                 row["rank"] = 1 + sum(
                     1
-                    for candidate in results
+                    for candidate in eligible
                     if int(candidate["total_strokes"]) < total
                 )
                 row["tie_count"] = sum(
                     1
-                    for candidate in results
+                    for candidate in eligible
                     if int(candidate["total_strokes"]) == total
                 )
-        else:
-            for row in results:
-                row["rank"] = None
-                row["tie_count"] = 0
+
+        active_results = [
+            row
+            for row in results
+            if row["participation_state"] == "active"
+        ]
+        complete = bool(active_results) and all(
+            row["missing_scores"] == 0
+            for row in active_results
+        )
 
         return {
             "mode": "individual",
             "complete": complete,
-            "score_count": sum(int(row["score_count"]) for row in results),
-            "missing_scores": sum(int(row["missing_scores"]) for row in results),
+            "score_count": sum(
+                int(row["score_count"])
+                for row in results
+            ),
+            "missing_scores": sum(
+                int(row["missing_scores"])
+                for row in active_results
+            ),
             "team_total": None,
             "players": results,
         }
