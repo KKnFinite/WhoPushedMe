@@ -89,8 +89,7 @@ WHERE hole_number IS NOT NULL;
 ALTER TABLE round_events
     ADD CONSTRAINT round_events_route_fk
         FOREIGN KEY (round_id, route_position)
-        REFERENCES round_route_positions(round_id, route_position)
-        ON DELETE SET NULL;
+        REFERENCES round_route_positions(round_id, route_position);
 
 CREATE INDEX round_events_route_idx
     ON round_events(round_id, route_position, created_at, id)
