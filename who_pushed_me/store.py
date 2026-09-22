@@ -1876,7 +1876,13 @@ class RoundStore:
                 )
             return response
 
-    def set_par(self, golfer_id: object, round_id: object, hole: object, par: object) -> dict[str, Any]:
+    def set_par(
+        self,
+        golfer_id: object,
+        round_id: object,
+        hole: object,
+        par: object,
+    ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
         try:
@@ -1885,45 +1891,90 @@ class RoundStore:
             raise DomainError("par must be between 2 and 7") from error
         if not 2 <= par_value <= 7:
             raise DomainError("par must be between 2 and 7")
+
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
-            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            participant = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
             require_player(participant["role"], "change par")
             require_active_round(round_row["status"], "change par")
-            hole_number = validate_hole(hole, round_row["hole_count"])
+            if not bool(round_row["par_tracking_enabled"]):
+                raise DomainError("par tracking is disabled for this round")
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                hole,
+                lock=True,
+            )
+            route_position = int(route_row["route_position"])
+            hole_number = int(route_row["hole_number"])
+
             cursor.execute(
-                "SELECT par FROM round_hole_pars WHERE round_id = %s AND hole_number = %s FOR UPDATE",
-                (round_uuid, hole_number),
+                """
+                SELECT par
+                FROM round_route_pars
+                WHERE round_id = %s
+                  AND route_position = %s
+                FOR UPDATE
+                """,
+                (round_uuid, route_position),
             )
             previous = cursor.fetchone()
             old_par = previous["par"] if previous else None
             if old_par == par_value:
-                return {"round_id": round_uuid, "hole": hole_number, "par": par_value, "event": None}
+                return {
+                    "round_id": round_uuid,
+                    "route_position": route_position,
+                    "hole": hole_number,
+                    "par": par_value,
+                    "event": None,
+                }
+
             cursor.execute(
                 """
-                INSERT INTO round_hole_pars (round_id, hole_number, par)
-                VALUES (%s, %s, %s)
-                ON CONFLICT (round_id, hole_number)
-                DO UPDATE SET par = EXCLUDED.par, updated_at = now()
+                INSERT INTO round_route_pars (
+                    round_id, route_position, par, source
+                )
+                VALUES (%s, %s, %s, 'manual')
+                ON CONFLICT (round_id, route_position)
+                DO UPDATE SET
+                    par = EXCLUDED.par,
+                    source = 'manual',
+                    updated_at = now()
                 """,
-                (round_uuid, hole_number, par_value),
+                (round_uuid, route_position, par_value),
             )
+
             event = self._event(
                 cursor,
                 round_id=round_uuid,
                 actor_participant_id=participant["id"],
                 event_type=audit_event_type("par", old_par),
                 hole_number=hole_number,
+                route_position=route_position,
                 old_value=old_par,
                 new_value=par_value,
-                content_event_key=par_content_event(old_par, par_value),
+                content_event_key=par_content_event(
+                    old_par,
+                    par_value,
+                ),
                 presentation_context={
                     "hole": hole_number,
                     "par": par_value,
                     "mode": round_row["mode"],
                 },
             )
-            return {"round_id": round_uuid, "hole": hole_number, "par": par_value, "event": event}
+            return {
+                "round_id": round_uuid,
+                "route_position": route_position,
+                "hole": hole_number,
+                "par": par_value,
+                "event": event,
+            }
 
     @staticmethod
     def _score_series_from_cursor(
