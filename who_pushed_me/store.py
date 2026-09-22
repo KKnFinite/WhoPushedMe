@@ -1587,19 +1587,67 @@ class RoundStore:
 
             tracked_from = int(round_row["current_route_position"])
             cursor.execute(
+                "SELECT handicap_index FROM golfers WHERE id = %s",
+                (golfer_uuid,),
+            )
+            handicap_row = cursor.fetchone()
+            participant_handicap_index = (
+                float(handicap_row["handicap_index"])
+                if (
+                    round_row["mode"] == "individual"
+                    and round_row["net_scoring_enabled"]
+                    and handicap_row
+                    and handicap_row["handicap_index"] is not None
+                )
+                else None
+            )
+
+            cursor.execute(
                 """
                 UPDATE round_participants
                 SET role = 'player',
                     tee_name = %s,
                     participation_state = 'active',
-                    tracked_from_position = %s
+                    tracked_from_position = %s,
+                    handicap_index = %s
                 WHERE id = %s
                 RETURNING id, round_id, golfer_id, role, tee_name,
-                          participation_state, tracked_from_position, joined_at
+                          participation_state, tracked_from_position,
+                          handicap_index, round_handicap, handicap_source,
+                          joined_at
                 """,
-                (selected_tee, tracked_from, participant["id"]),
+                (
+                    selected_tee,
+                    tracked_from,
+                    participant_handicap_index,
+                    participant["id"],
+                ),
             )
             promoted = cursor.fetchone()
+
+            if (
+                round_row["mode"] == "individual"
+                and round_row["net_scoring_enabled"]
+            ):
+                calculated_handicap = self._calculated_round_handicap(
+                    cursor,
+                    round_id=round_uuid,
+                    course_id=round_row["course_id"],
+                    tee_name=selected_tee,
+                    handicap_index=participant_handicap_index,
+                )
+                if calculated_handicap is not None:
+                    cursor.execute(
+                        """
+                        UPDATE round_participants
+                        SET round_handicap = %s,
+                            handicap_source = 'course'
+                        WHERE id = %s
+                        """,
+                        (calculated_handicap, participant["id"]),
+                    )
+                    promoted["round_handicap"] = calculated_handicap
+                    promoted["handicap_source"] = "course"
 
             cursor.execute(
                 """
