@@ -933,15 +933,21 @@ class RoundStore:
         round_code = str(code or "").strip()
         participant_role = str(role or "")
         selected_tee = self._clean_tee_name(tee_name)
+
         if len(round_code) != 4 or not round_code.isdigit():
             raise DomainError("round code must be four digits")
         if participant_role not in PARTICIPANT_ROLES:
             raise DomainError("role must be player or spectator")
+
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, mode, course_id, status FROM rounds
-                WHERE active_code = %s AND status IN ('setup', 'active')
+                SELECT id, mode, course_id, status,
+                       current_route_position, hole_count
+                FROM rounds
+                WHERE active_code = %s
+                  AND status IN ('setup', 'active')
+                FOR UPDATE
                 """,
                 (round_code,),
             )
@@ -951,12 +957,26 @@ class RoundStore:
 
             if participant_role == "spectator":
                 selected_tee = None
-            elif selected_tee and round_row["course_id"]:
-                self._validate_course_tee(
-                    cursor,
-                    round_row["course_id"],
-                    selected_tee,
+            else:
+                cursor.execute(
+                    """
+                    SELECT count(*) AS active_players
+                    FROM round_participants
+                    WHERE round_id = %s
+                      AND role = 'player'
+                      AND participation_state = 'active'
+                    """,
+                    (round_row["id"],),
                 )
+                if int(cursor.fetchone()["active_players"]) >= 4:
+                    raise DomainError("this round already has 4 active golfers")
+
+                if selected_tee and round_row["course_id"]:
+                    self._validate_course_tee(
+                        cursor,
+                        round_row["course_id"],
+                        selected_tee,
+                    )
 
             cursor.execute(
                 """
@@ -972,19 +992,56 @@ class RoundStore:
             )
             played_before = bool(cursor.fetchone()["played_before"])
 
+            tracked_from = (
+                1
+                if round_row["status"] == "setup"
+                else int(round_row["current_route_position"])
+            )
+
             cursor.execute(
                 """
                 INSERT INTO round_participants (
-                    round_id, golfer_id, role, tee_name
+                    round_id, golfer_id, role, tee_name,
+                    participation_state, tracked_from_position
                 )
-                VALUES (%s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, 'active', %s)
                 ON CONFLICT (round_id, golfer_id) DO NOTHING
-                RETURNING id, round_id, golfer_id, role, tee_name, joined_at
+                RETURNING id, round_id, golfer_id, role, tee_name,
+                          participation_state, tracked_from_position, joined_at
                 """,
-                (round_row["id"], golfer_uuid, participant_role, selected_tee),
+                (
+                    round_row["id"],
+                    golfer_uuid,
+                    participant_role,
+                    selected_tee,
+                    tracked_from,
+                ),
             )
             participant = cursor.fetchone()
+
             if participant:
+                if participant_role == "player":
+                    cursor.execute(
+                        """
+                        INSERT INTO round_participant_route_positions (
+                            round_id, participant_id, route_position, required
+                        )
+                        SELECT %s, %s, rr.route_position, true
+                        FROM round_route_positions rr
+                        WHERE rr.round_id = %s
+                          AND rr.route_position >= %s
+                          AND rr.state = 'planned'
+                        ON CONFLICT (participant_id, route_position)
+                        DO NOTHING
+                        """,
+                        (
+                            round_row["id"],
+                            participant["id"],
+                            round_row["id"],
+                            tracked_from,
+                        ),
+                    )
+
                 if participant_role == "spectator":
                     content_event = "lobby.join.spectator"
                 elif played_before:
@@ -997,7 +1054,19 @@ class RoundStore:
                     round_id=round_row["id"],
                     actor_participant_id=participant["id"],
                     event_type="participant_join",
-                    data={"role": participant_role},
+                    route_position=(
+                        tracked_from
+                        if participant_role == "player"
+                        else None
+                    ),
+                    data={
+                        "role": participant_role,
+                        "tracked_from_position": (
+                            tracked_from
+                            if participant_role == "player"
+                            else None
+                        ),
+                    },
                     content_event_key=content_event,
                     presentation_context={"mode": round_row["mode"]},
                 )
@@ -1005,8 +1074,10 @@ class RoundStore:
 
             cursor.execute(
                 """
-                SELECT id, round_id, golfer_id, role, tee_name, joined_at
-                FROM round_participants WHERE round_id = %s AND golfer_id = %s
+                SELECT id, round_id, golfer_id, role, tee_name,
+                       participation_state, tracked_from_position, joined_at
+                FROM round_participants
+                WHERE round_id = %s AND golfer_id = %s
                 """,
                 (round_row["id"], golfer_uuid),
             )
@@ -1021,6 +1092,7 @@ class RoundStore:
                 round_id=round_row["id"],
                 actor_participant_id=participant["id"],
                 event_type="participant_reconnect",
+                route_position=round_row["current_route_position"],
                 data={"role": participant["role"]},
                 content_event_key=reconnect_event,
                 presentation_context={"mode": round_row["mode"]},
