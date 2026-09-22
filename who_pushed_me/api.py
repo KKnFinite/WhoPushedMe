@@ -273,6 +273,7 @@ def create_round():
         "par_tracking_enabled",
         "tracking_start_position",
         "prior_holes_mode",
+        "net_scoring_enabled",
     ):
         if key in payload:
             kwargs[key] = payload.get(key)
@@ -380,6 +381,28 @@ def download_round_report(round_id: str):
             f"who-pushed-me-{round_row['active_code']}-final-damage-report.pdf"
         ),
         max_age=0,
+    )
+
+
+@api.patch("/rounds/<round_id>/handicap")
+@authenticated
+def set_round_handicap(round_id: str):
+    payload = _body()
+    if "player_participant_id" not in payload:
+        raise DomainError("player_participant_id is required")
+    if "round_handicap" not in payload:
+        raise DomainError("round_handicap is required")
+
+    return jsonify(
+        _store().set_participant_round_handicap(
+            g.golfer["id"],
+            round_id,
+            payload.get("player_participant_id"),
+            payload.get("round_handicap"),
+            confirm_correction=(
+                payload.get("confirm_correction") is True
+            ),
+        )
     )
 
 
