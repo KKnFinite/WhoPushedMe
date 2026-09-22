@@ -783,6 +783,116 @@ body.app-ready .app-shell {
   margin: 0;
 }
 
+.lobby-handicap-panel,
+.round-handicap-panel {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  background: var(--cream-deep);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.lobby-handicap-panel[hidden],
+.round-handicap-panel[hidden] {
+  display: none;
+}
+
+.lobby-handicap-panel h4,
+.lobby-handicap-panel p,
+.round-handicap-panel h5,
+.round-handicap-panel p {
+  margin: 0;
+}
+
+.lobby-handicap-panel p,
+.round-handicap-panel p {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.round-handicap-list {
+  display: grid;
+  gap: 8px;
+}
+
+.round-handicap-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px auto;
+  gap: 8px;
+  align-items: center;
+  padding: 9px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+}
+
+.round-handicap-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.round-handicap-copy strong {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .8rem;
+}
+
+.round-handicap-copy small {
+  font-family: Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+}
+
+.round-handicap-row input {
+  width: 100%;
+  min-height: 42px;
+  padding: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  text-align: center;
+}
+
+.round-handicap-row button {
+  min-height: 42px;
+  padding: 7px 9px;
+  background: var(--green-deep);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .65rem;
+}
+
+.settings-handicap-row input {
+  width: 96px;
+  min-height: 42px;
+  padding: 7px 8px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .round-handicap-row {
+    grid-template-columns: minmax(0, 1fr) 82px;
+  }
+
+  .round-handicap-row button {
+    grid-column: 1 / -1;
+  }
+}
+
 .lobby-par-setup {
   display: grid;
   gap: 10px;
