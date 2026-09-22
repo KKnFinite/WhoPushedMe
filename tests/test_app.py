@@ -89,7 +89,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v30" in response.data
+    assert b"wpm-shell-v31" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -98,7 +98,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v30" in builder
+    assert "wpm-shell-v31" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -255,3 +255,59 @@ def test_receipts_prefer_actor_identity_snapshot():
     response = client().get("/static/app.js")
     assert response.status_code == 200
     assert b"actor_display_name" in response.data
+
+
+def test_forms_capture_values_before_busy_state():
+    response = client().get("/static/app.js")
+    source = response.data.decode("utf-8")
+
+    for form_name in (
+        "loginForm",
+        "registerForm",
+        "recoverForm",
+        "startRoundForm",
+        "joinRoundForm",
+    ):
+        marker = f"{form_name}?.addEventListener('submit'"
+        start = source.index(marker)
+        end = source.index("\n  });", start) + len("\n  });")
+        block = source[start:end]
+        assert block.index(f"new FormData({form_name})") < block.index(
+            f"setFormBusy({form_name}, true)"
+        )
+
+
+def test_form_busy_restores_prior_disabled_state():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"const formBusyState = new WeakMap();" in response.data
+    assert b"control.disabled = previous?.get(control) ?? false;" in response.data
+
+
+def test_install_onboarding_listeners_are_bound_once():
+    response = client().get("/static/app.js")
+    source = response.data.decode("utf-8")
+
+    assert source.count("window.addEventListener('beforeinstallprompt'") == 1
+    assert source.count("window.addEventListener('appinstalled'") == 1
+    assert source.count("installOnboardingPrimary?.addEventListener('click'") == 1
+    assert source.count("installOnboardingSkip?.addEventListener('click'") == 1
+
+    switch_start = source.index("const switchAuthView = (view) => {")
+    switch_end = source.index("\n  };", switch_start)
+    switch_block = source[switch_start:switch_end]
+    assert "beforeinstallprompt" not in switch_block
+    assert "installOnboardingPrimary?.addEventListener" not in switch_block
+
+
+def test_settings_values_are_snapshotted_before_busy_state():
+    response = client().get("/static/app.js")
+    source = response.data.decode("utf-8")
+    start = source.index("settingsForm?.addEventListener('submit'")
+    end = source.index("\n  });", start) + len("\n  });")
+    block = source[start:end]
+
+    assert block.index("const patch = {") < block.index(
+        "setFormBusy(settingsForm, true)"
+    )
+    assert "body: patch" in block
