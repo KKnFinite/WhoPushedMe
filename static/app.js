@@ -2334,6 +2334,19 @@
         roundSettingsTeeSave.disabled = false;
       }
 
+      const showRoundHandicaps = (
+        round.mode === 'individual'
+        && Boolean(round.net_scoring_enabled)
+      );
+      if (roundHandicapPanel) {
+        roundHandicapPanel.hidden = !showRoundHandicaps;
+      }
+      if (showRoundHandicaps) {
+        renderRoundHandicapEditor(roundHandicapList, round);
+      } else if (roundHandicapList) {
+        roundHandicapList.replaceChildren();
+      }
+
       const activePlayerCount = (round.participants || []).filter(
         (participant) =>
           participant.role === 'player'
@@ -2632,6 +2645,19 @@
       );
     }
 
+    const showLobbyHandicaps = (
+      round.mode === 'individual'
+      && Boolean(round.net_scoring_enabled)
+    );
+    if (lobbyHandicapPanel) {
+      lobbyHandicapPanel.hidden = !showLobbyHandicaps;
+    }
+    if (showLobbyHandicaps) {
+      renderRoundHandicapEditor(lobbyHandicapList, round);
+    } else if (lobbyHandicapList) {
+      lobbyHandicapList.replaceChildren();
+    }
+
     if (lobbyStart) {
       const canStart = round.viewer_role === 'player' && round.status === 'setup';
       const missingTee = tees.length > 0 && (
@@ -2746,13 +2772,21 @@
       const priorMode = String(
         values.get('prior_holes_mode') || 'untracked'
       );
+      const mode = String(values.get('mode') || 'individual');
+      const individualScoring = String(
+        values.get('individual_scoring') || 'gross'
+      );
       const body = {
-        mode: values.get('mode'),
+        mode,
         holes,
         start_hole: startHole,
         par_tracking_enabled: parSetup !== 'off',
         tracking_start_position: trackingStart,
         prior_holes_mode: priorMode,
+        net_scoring_enabled: (
+          mode === 'individual'
+          && individualScoring === 'net'
+        ),
       };
 
       if (courseMode === 'course') {
