@@ -1443,10 +1443,13 @@
     (round.participants || [])
       .filter((participant) => participant.role === 'player')
       .forEach((participant) => {
+        const details = [];
+        if (participant.round_only) details.push('OFFLINE');
+        if (participant.tee_name) details.push(`${participant.tee_name} TEE`);
         addCard(
           participant.display_name || 'Golfer',
           participant.id,
-          participant.tee_name ? `${participant.tee_name} TEE` : ''
+          details.join(' • ')
         );
       });
   };
@@ -2212,7 +2215,8 @@
             ? ` • ${participant.tee_name} TEE`
             : ''
         );
-        role.textContent = `${participant.role || 'player'}${tee}`;
+        const offline = participant.round_only ? ' • OFFLINE' : '';
+        role.textContent = `${participant.role || 'player'}${offline}${tee}`;
 
         row.append(name, role);
         lobbyParticipants.append(row);
