@@ -198,10 +198,30 @@
     authMessage.hidden = !message;
   };
 
+  const formBusyState = new WeakMap();
+
   const setFormBusy = (form, busy) => {
-    form?.querySelectorAll('button, input, select').forEach((control) => {
-      control.disabled = busy;
+    if (!form) return;
+    const controls = [...form.querySelectorAll('button, input, select')];
+
+    if (busy) {
+      if (!formBusyState.has(form)) {
+        formBusyState.set(
+          form,
+          new Map(controls.map((control) => [control, control.disabled]))
+        );
+      }
+      controls.forEach((control) => {
+        control.disabled = true;
+      });
+      return;
+    }
+
+    const previous = formBusyState.get(form);
+    controls.forEach((control) => {
+      control.disabled = previous?.get(control) ?? false;
     });
+    formBusyState.delete(form);
   };
 
   const setSettingsMessage = (message = '') => {
@@ -267,49 +287,7 @@
     if (recoveryCard) recoveryCard.hidden = true;
     if (authTabs) authTabs.hidden = false;
 
-    window.addEventListener('beforeinstallprompt', (event) => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-  });
-
-  window.addEventListener('appinstalled', () => {
-    deferredInstallPrompt = null;
-    closeInstallOnboarding({ remember: true });
-  });
-
-  installOnboardingPrimary?.addEventListener('click', async () => {
-    if (deferredInstallPrompt) {
-      const prompt = deferredInstallPrompt;
-      deferredInstallPrompt = null;
-      await prompt.prompt();
-      const choice = await prompt.userChoice.catch(() => null);
-      if (choice?.outcome === 'accepted') {
-        closeInstallOnboarding({ remember: true });
-      }
-      return;
-    }
-
-    if (installOnboardingPrimary.dataset.instructionsShown === '1') {
-      closeInstallOnboarding({ remember: true });
-      return;
-    }
-
-    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (installOnboardingInstructions) {
-      installOnboardingInstructions.textContent = isAppleMobile
-        ? 'Tap the Share button, then choose Add to Home Screen.'
-        : 'Open your browser menu and choose Install app or Add to Home screen.';
-      installOnboardingInstructions.hidden = false;
-    }
-    installOnboardingPrimary.dataset.instructionsShown = '1';
-    installOnboardingPrimary.textContent = 'FINE. I GET IT.';
-  });
-
-  installOnboardingSkip?.addEventListener('click', () => {
-    closeInstallOnboarding({ remember: true });
-  });
-
-  authViewButtons.forEach((button) => {
+    authViewButtons.forEach((button) => {
       button.classList.toggle('is-active', button.dataset.authView === view);
     });
     authPanels.forEach((panel) => {
@@ -351,6 +329,48 @@
       installOnboardingPrimary.dataset.instructionsShown = '';
     }
   };
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    closeInstallOnboarding({ remember: true });
+  });
+
+  installOnboardingPrimary?.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      const prompt = deferredInstallPrompt;
+      deferredInstallPrompt = null;
+      await prompt.prompt();
+      const choice = await prompt.userChoice.catch(() => null);
+      if (choice?.outcome === 'accepted') {
+        closeInstallOnboarding({ remember: true });
+      }
+      return;
+    }
+
+    if (installOnboardingPrimary.dataset.instructionsShown === '1') {
+      closeInstallOnboarding({ remember: true });
+      return;
+    }
+
+    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (installOnboardingInstructions) {
+      installOnboardingInstructions.textContent = isAppleMobile
+        ? 'Tap the Share button, then choose Add to Home Screen.'
+        : 'Open your browser menu and choose Install app or Add to Home screen.';
+      installOnboardingInstructions.hidden = false;
+    }
+    installOnboardingPrimary.dataset.instructionsShown = '1';
+    installOnboardingPrimary.textContent = 'FINE. I GET IT.';
+  });
+
+  installOnboardingSkip?.addEventListener('click', () => {
+    closeInstallOnboarding({ remember: true });
+  });
 
   const maybeShowInstallOnboarding = (account) => {
     if (!installOnboardingModal) return;
@@ -450,8 +470,8 @@
   loginForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setAuthMessage('');
-    setFormBusy(loginForm, true);
     const values = new FormData(loginForm);
+    setFormBusy(loginForm, true);
 
     try {
       const result = await requestJson('/api/auth/login', {
@@ -474,8 +494,8 @@
   registerForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setAuthMessage('');
-    setFormBusy(registerForm, true);
     const values = new FormData(registerForm);
+    setFormBusy(registerForm, true);
 
     try {
       const result = await requestJson('/api/auth/register', {
@@ -499,8 +519,8 @@
   recoverForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setAuthMessage('');
-    setFormBusy(recoverForm, true);
     const values = new FormData(recoverForm);
+    setFormBusy(recoverForm, true);
 
     try {
       const result = await requestJson('/api/auth/recover', {
@@ -2516,8 +2536,8 @@
   startRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
-    setFormBusy(startRoundForm, true);
     const values = new FormData(startRoundForm);
+    setFormBusy(startRoundForm, true);
 
     try {
       const courseMode = values.get('course_mode');
@@ -2639,8 +2659,8 @@
   joinRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
-    setFormBusy(joinRoundForm, true);
     const values = new FormData(joinRoundForm);
+    setFormBusy(joinRoundForm, true);
     const code = String(values.get('code') || '').trim();
     const role = String(values.get('role') || 'player');
 
