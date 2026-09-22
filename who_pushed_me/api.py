@@ -260,6 +260,8 @@ def create_round():
         "end_hole",
         "course_hole_count",
         "par_tracking_enabled",
+        "tracking_start_position",
+        "prior_holes_mode",
     ):
         if key in payload:
             kwargs[key] = payload.get(key)
