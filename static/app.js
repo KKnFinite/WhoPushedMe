@@ -1759,8 +1759,11 @@
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     if (roundEndPanel) roundEndPanel.hidden = false;
+    const endedEarly = round.end_reason === 'ended_early';
     if (roundFlowTitle) {
-      roundFlowTitle.textContent = round.results?.complete ? 'ROUND COMPLETE' : 'ROUND ENDED';
+      roundFlowTitle.textContent = endedEarly
+        ? 'ROUND ENDED EARLY'
+        : (round.results?.complete ? 'ROUND COMPLETE' : 'ROUND ENDED');
     }
 
     if (lobbyRefreshTimer) {
@@ -1771,9 +1774,13 @@
     const place = round.course?.name || round.free_play_name || 'Golf';
     const resultsComplete = Boolean(round.results?.complete);
     if (roundEndTitle) {
-      roundEndTitle.textContent = resultsComplete
-        ? 'THE DAMAGE IS FINAL.'
-        : 'INCOMPLETE SCORECARD.';
+      roundEndTitle.textContent = endedEarly
+        ? 'THE GROUP CALLED IT.'
+        : (
+            resultsComplete
+              ? 'THE DAMAGE IS FINAL.'
+              : 'INCOMPLETE SCORECARD.'
+          );
     }
     if (roundEndResults) roundEndResults.replaceChildren();
 
@@ -2177,6 +2184,46 @@
     }
     if (towelPanel && viewerWithdrew) {
       towelPanel.hidden = true;
+    }
+
+    const endEarly = round.end_early || {};
+    const canVoteEndEarly = viewerIsActivePlayer(round);
+    const proposalActive = Boolean(endEarly.proposal_active);
+    if (endEarlyButton) {
+      endEarlyButton.hidden = !canVoteEndEarly || proposalActive;
+      endEarlyButton.disabled = false;
+    }
+    if (endEarlyPanel) {
+      endEarlyPanel.hidden = !canVoteEndEarly || !proposalActive;
+    }
+    if (proposalActive && canVoteEndEarly) {
+      const eligible = endEarly.eligible || [];
+      const required = Number(endEarly.required_count || eligible.length || 0);
+      const yes = Number(endEarly.yes_count || 0);
+      if (endEarlyCopy) {
+        endEarlyCopy.textContent =
+          `${yes} OF ${required} CONNECTED GOLFER${required === 1 ? '' : 'S'} HAVE AGREED.`;
+      }
+      if (endEarlyVoters) {
+        endEarlyVoters.replaceChildren();
+        eligible.forEach((row) => {
+          const item = document.createElement('div');
+          item.className = 'end-early-voter';
+
+          const name = document.createElement('span');
+          name.textContent = row.display_name || 'Golfer';
+
+          const vote = document.createElement('strong');
+          vote.textContent = row.vote === true
+            ? 'YES'
+            : (row.vote === false ? 'NO' : 'WAITING');
+
+          item.append(name, vote);
+          endEarlyVoters.append(item);
+        });
+      }
+      if (endEarlyYes) endEarlyYes.disabled = false;
+      if (endEarlyNo) endEarlyNo.disabled = false;
     }
 
     const canFinish = (
