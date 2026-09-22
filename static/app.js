@@ -108,7 +108,7 @@
   let currentLobbyRound = null;
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
-  let viewedHole = null;
+  let viewedRoutePosition = null;
   let currentBagAction = null;
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
@@ -522,7 +522,7 @@
     if (bagModal) bagModal.hidden = true;
     currentBagAction = null;
     currentLobbyRound = null;
-    viewedHole = null;
+    viewedRoutePosition = null;
     clearSelectedCourse();
     if (lobbyRefreshTimer) {
       window.clearInterval(lobbyRefreshTimer);
@@ -556,16 +556,27 @@
     roundFlowClose?.focus();
   };
 
-  const findPar = (round, hole) => {
+  const routeEntry = (round, position) => {
+    return (round.route || []).find(
+      (item) => Number(item.route_position) === Number(position)
+    ) || null;
+  };
+
+  const routeLength = (round) => {
+    const route = round.route || [];
+    return route.length || Number(round.hole_count || 0);
+  };
+
+  const findPar = (round, position) => {
     const row = (round.pars || []).find(
-      (item) => Number(item.hole_number) === Number(hole)
+      (item) => Number(item.route_position) === Number(position)
     );
     return row ? Number(row.par) : null;
   };
 
-  const findScore = (round, hole, participantId = null) => {
+  const findScore = (round, position, participantId = null) => {
     return (round.scores || []).find((score) => {
-      if (Number(score.hole_number) !== Number(hole)) return false;
+      if (Number(score.route_position) !== Number(position)) return false;
       if (round.mode === 'scramble') return score.score_scope === 'team';
       return (
         score.score_scope === 'player'
@@ -574,10 +585,10 @@
     }) || null;
   };
 
-  const findScoreEvent = (round, hole, participantId = null) => {
+  const findScoreEvent = (round, position, participantId = null) => {
     return (round.events || []).find((event) => {
       if (!['score_report', 'score_push'].includes(event.event_type)) return false;
-      if (Number(event.hole_number) !== Number(hole)) return false;
+      if (Number(event.route_position) !== Number(position)) return false;
       const data = event.data || {};
       if (round.mode === 'scramble') return data.scope === 'team';
       return (
@@ -670,7 +681,7 @@
   ) => {
     if (!score) return;
 
-    const scoreEvent = findScoreEvent(round, hole, participantId);
+    const scoreEvent = findScoreEvent(round, position, participantId);
     if (!scoreEvent) return;
 
     const responsePanel = document.createElement('div');
@@ -815,15 +826,20 @@
     card.append(responsePanel);
   };
 
-  const renderScoreCard = (round, hole) => {
+  const renderScoreCard = (round, position) => {
     if (!liveScoreArea) return;
     liveScoreArea.replaceChildren();
 
-    const par = findPar(round, hole);
-    const canScore = round.viewer_role === 'player';
+    const route = routeEntry(round, position);
+    const hole = Number(route?.hole_number || position);
+    const par = findPar(round, position);
+    const canScore = (
+      round.viewer_role === 'player'
+      && Number(position) <= Number(round.current_route_position)
+    );
 
     const addCard = (label, participantId = null, detail = '') => {
-      const score = findScore(round, hole, participantId);
+      const score = findScore(round, position, participantId);
       const card = document.createElement('section');
       card.className = 'live-score-card';
 
@@ -855,7 +871,7 @@
         appendScoreResponsePanel(
           card,
           round,
-          hole,
+          position,
           participantId,
           score
         );
@@ -899,7 +915,7 @@
           }
 
           await requestJson(
-            `/api/rounds/${round.id}/holes/${hole}/score`,
+            `/api/rounds/${round.id}/positions/${position}/score`,
             {
               method: 'PUT',
               body,
@@ -953,8 +969,11 @@
     ['other', 'OTHER'],
   ];
 
-  const renderScrambleContributions = (round, hole) => {
+  const renderScrambleContributions = (round, position) => {
     if (!scrambleContributionPanel || !scrambleContributionList) return;
+
+    const route = routeEntry(round, position);
+    const hole = Number(route?.hole_number || position);
 
     if (round.mode !== 'scramble') {
       scrambleContributionPanel.hidden = true;
@@ -962,7 +981,7 @@
       return;
     }
 
-    const teamScore = findScore(round, hole);
+    const teamScore = findScore(round, position);
     if (!teamScore) {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
@@ -980,7 +999,7 @@
     SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
       const contribution = (round.contributions || []).find(
         (row) =>
-          Number(row.hole_number) === Number(hole)
+          Number(row.route_position) === Number(position)
           && row.shot_type === shotType
       );
 
@@ -1029,7 +1048,7 @@
 
         try {
           await requestJson(
-            `/api/rounds/${round.id}/holes/${hole}/contributions/${shotType}`,
+            `/api/rounds/${round.id}/positions/${position}/contributions/${shotType}`,
             {
               method: 'PUT',
               body: {
@@ -1139,7 +1158,7 @@
 
   const renderRoundEnd = (round) => {
     currentLobbyRound = round;
-    viewedHole = null;
+    viewedRoutePosition = null;
 
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
@@ -1254,20 +1273,31 @@
 
   const renderLiveRound = (round) => {
     const previousRound = currentLobbyRound;
+    const previousLivePosition = Number(
+      previousRound?.current_route_position
+      || previousRound?.current_hole
+      || 1
+    );
+    const livePosition = Number(
+      round.current_route_position
+      || round.current_hole
+      || 1
+    );
+    const length = routeLength(round);
     const wasFollowingLive = (
-      viewedHole === null
+      viewedRoutePosition === null
       || !previousRound
-      || Number(viewedHole) === Number(previousRound.current_hole)
+      || Number(viewedRoutePosition) === previousLivePosition
     );
 
     currentLobbyRound = round;
 
     if (wasFollowingLive) {
-      viewedHole = Number(round.current_hole);
+      viewedRoutePosition = livePosition;
     } else {
-      viewedHole = Math.min(
-        Number(viewedHole),
-        Number(round.current_hole)
+      viewedRoutePosition = Math.max(
+        1,
+        Math.min(Number(viewedRoutePosition), length)
       );
     }
 
@@ -1282,43 +1312,62 @@
     if (liveRoundPlace) liveRoundPlace.textContent = place;
     if (liveRoundCode) liveRoundCode.textContent = round.active_code || '----';
 
-    const par = findPar(round, viewedHole);
-    const viewingLive = Number(viewedHole) === Number(round.current_hole);
+    const viewedRoute = routeEntry(round, viewedRoutePosition);
+    const viewedPhysicalHole = Number(
+      viewedRoute?.hole_number || viewedRoutePosition
+    );
+    const liveRoute = routeEntry(round, livePosition);
+    const livePhysicalHole = Number(
+      liveRoute?.hole_number || round.current_hole || livePosition
+    );
+    const par = findPar(round, viewedRoutePosition);
+    const viewingLive = Number(viewedRoutePosition) === livePosition;
+    const viewingPast = Number(viewedRoutePosition) < livePosition;
+    const viewingFuture = Number(viewedRoutePosition) > livePosition;
 
-    if (holeNumber) holeNumber.textContent = String(viewedHole);
+    if (holeNumber) holeNumber.textContent = String(viewedPhysicalHole);
     if (holeParLabel) {
       holeParLabel.textContent = par ? `PAR ${par}` : 'PAR ?';
     }
     if (holeStateLabel) {
-      holeStateLabel.textContent = viewingLive
-        ? 'LIVE HOLE'
-        : `OLD HOLE • LIVE ${round.current_hole}`;
+      if (viewingLive) {
+        holeStateLabel.textContent =
+          `LIVE HOLE • ${viewedRoutePosition} OF ${length}`;
+      } else if (viewingPast) {
+        holeStateLabel.textContent =
+          `VIEWING HOLE ${viewedPhysicalHole} • ${viewedRoutePosition} OF ${length} • LIVE ${livePhysicalHole}`;
+      } else {
+        holeStateLabel.textContent =
+          `PREVIEWING HOLE ${viewedPhysicalHole} • ${viewedRoutePosition} OF ${length} • LIVE ${livePhysicalHole}`;
+      }
     }
 
     if (holePrev) {
-      holePrev.disabled = Number(viewedHole) <= 1;
+      holePrev.disabled = Number(viewedRoutePosition) <= 1;
     }
     if (holeNext) {
-      const canBrowseForward = Number(viewedHole) < Number(round.current_hole);
-      const canAdvanceLive = (
-        viewingLive
-        && round.viewer_role === 'player'
-        && Number(round.current_hole) < Number(round.hole_count)
-      );
-      holeNext.disabled = !canBrowseForward && !canAdvanceLive;
+      holeNext.disabled = Number(viewedRoutePosition) >= length;
     }
 
+    const canEditViewedHole = (
+      round.viewer_role === 'player'
+      && !viewingFuture
+      && round.status === 'active'
+    );
+    if (parForm) {
+      parForm.hidden = !Boolean(round.par_tracking_enabled);
+    }
     if (parInput) {
       parInput.value = par ? String(par) : '';
-      parInput.disabled = round.viewer_role !== 'player';
+      parInput.disabled = !canEditViewedHole;
     }
     if (parSubmit) {
       parSubmit.textContent = par ? 'PUSH PAR' : 'REPORT PAR';
-      parSubmit.disabled = round.viewer_role !== 'player';
+      parSubmit.disabled = !canEditViewedHole;
     }
 
-    renderScoreCard(round, viewedHole);
-    renderScrambleContributions(round, viewedHole);
+    renderScoreCard(round, viewedRoutePosition);
+    renderScrambleContributions(round, viewedRoutePosition);
     renderLatestPresentation(round);
     renderReceipts(round);
 
@@ -1326,20 +1375,22 @@
       const canFinish = (
         round.viewer_role === 'player'
         && viewingLive
-        && Number(round.current_hole) === Number(round.hole_count)
+        && livePosition === length
       );
       finishRoundButton.hidden = !canFinish;
       finishRoundButton.disabled = false;
     }
 
     if (round.status === 'active') {
-      setRoundFlowMessage('');
+      setRoundFlowMessage(
+        viewingFuture ? 'Future holes are preview-only.' : ''
+      );
     }
   };
 
   const renderLobby = (round) => {
     currentLobbyRound = round;
-    viewedHole = null;
+    viewedRoutePosition = null;
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
@@ -1616,25 +1667,32 @@
   });
 
   holePrev?.addEventListener('click', () => {
-    if (!currentLobbyRound || viewedHole === null) return;
-    if (Number(viewedHole) <= 1) return;
-    viewedHole = Number(viewedHole) - 1;
+    if (!currentLobbyRound || viewedRoutePosition === null) return;
+    if (Number(viewedRoutePosition) <= 1) return;
+    viewedRoutePosition = Number(viewedRoutePosition) - 1;
     renderLiveRound(currentLobbyRound);
   });
 
   holeNext?.addEventListener('click', async () => {
-    if (!currentLobbyRound || viewedHole === null) return;
+    if (!currentLobbyRound || viewedRoutePosition === null) return;
 
-    if (Number(viewedHole) < Number(currentLobbyRound.current_hole)) {
-      viewedHole = Number(viewedHole) + 1;
+    const length = routeLength(currentLobbyRound);
+    const livePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    const viewed = Number(viewedRoutePosition);
+    if (viewed >= length) return;
+
+    const shouldAdvanceLive = (
+      currentLobbyRound.viewer_role === 'player'
+      && viewed === livePosition
+    );
+
+    if (!shouldAdvanceLive) {
+      viewedRoutePosition = viewed + 1;
       renderLiveRound(currentLobbyRound);
-      return;
-    }
-
-    if (
-      currentLobbyRound.viewer_role !== 'player'
-      || Number(currentLobbyRound.current_hole) >= Number(currentLobbyRound.hole_count)
-    ) {
       return;
     }
 
@@ -1645,7 +1703,7 @@
         `/api/rounds/${currentLobbyRound.id}/current-hole`,
         {
           method: 'PATCH',
-          body: { hole: Number(currentLobbyRound.current_hole) + 1 },
+          body: { route_position: livePosition + 1 },
         }
       );
       await refreshRound(currentLobbyRound.active_code);
@@ -1658,8 +1716,18 @@
 
   parForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!currentLobbyRound || viewedHole === null) return;
+    if (!currentLobbyRound || viewedRoutePosition === null) return;
     if (currentLobbyRound.viewer_role !== 'player') return;
+
+    const livePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    if (Number(viewedRoutePosition) > livePosition) {
+      setRoundFlowMessage('Future holes are preview-only.');
+      return;
+    }
 
     const par = Number(parInput?.value);
     if (!Number.isInteger(par) || par < 2 || par > 7) {
@@ -1671,7 +1739,7 @@
     setRoundFlowMessage('');
     try {
       await requestJson(
-        `/api/rounds/${currentLobbyRound.id}/holes/${viewedHole}/par`,
+        `/api/rounds/${currentLobbyRound.id}/positions/${viewedRoutePosition}/par`,
         {
           method: 'PUT',
           body: { par },
