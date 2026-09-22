@@ -308,6 +308,21 @@ def add_round_only_player(round_id: str):
     return jsonify(participant), 201
 
 
+@api.patch("/rounds/<round_id>/claim-player/undo")
+@authenticated
+def undo_round_only_claim(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().undo_round_only_claim(
+            g.golfer["id"],
+            round_id,
+            confirm_actor_history=(
+                payload.get("confirm_actor_history") is True
+            ),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/claim-player")
 @authenticated
 def claim_round_only_player(round_id: str):
