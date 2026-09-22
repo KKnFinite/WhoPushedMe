@@ -725,6 +725,8 @@ class RoundStore:
         end_hole: object | None = None,
         course_hole_count: object | None = None,
         par_tracking_enabled: object = True,
+        tracking_start_position: object = 1,
+        prior_holes_mode: object = "untracked",
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_mode = str(mode or "")
@@ -740,6 +742,18 @@ class RoundStore:
 
         if not isinstance(par_tracking_enabled, bool):
             raise DomainError("par_tracking_enabled must be true or false")
+
+        try:
+            requested_tracking_start = int(tracking_start_position)
+        except (TypeError, ValueError) as error:
+            raise DomainError(
+                "tracking_start_position must be a number"
+            ) from error
+        prior_mode = str(prior_holes_mode or "untracked").strip().lower()
+        if prior_mode not in {"untracked", "backfill"}:
+            raise DomainError(
+                "prior_holes_mode must be untracked or backfill"
+            )
 
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
@@ -809,7 +823,18 @@ class RoundStore:
                         )
 
                     route_length = len(route)
+                    if not 1 <= requested_tracking_start <= route_length:
+                        raise DomainError(
+                            "tracking_start_position must be within the round route"
+                        )
                     first_hole = route[0].hole_number
+                    current_route = route[requested_tracking_start - 1]
+                    current_hole = current_route.hole_number
+                    participant_tracked_from = (
+                        requested_tracking_start
+                        if prior_mode == "untracked"
+                        else 1
+                    )
                     code = generate_round_code()
 
                     cursor.execute(
@@ -820,7 +845,7 @@ class RoundStore:
                             status, course_id, free_play_name,
                             scramble_tee_name
                         )
-                        VALUES (%s, %s, %s, %s, 1, %s, 'setup', %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, 'setup', %s, %s, %s)
                         RETURNING id, mode, hole_count, active_code,
                                   current_hole, current_route_position,
                                   par_tracking_enabled, status, course_id,
@@ -830,7 +855,8 @@ class RoundStore:
                             round_mode,
                             route_length,
                             code,
-                            first_hole,
+                            current_hole,
+                            requested_tracking_start,
                             par_tracking_enabled,
                             cached_course_id,
                             free_play,
@@ -842,15 +868,34 @@ class RoundStore:
                     cursor.executemany(
                         """
                         INSERT INTO round_route_positions (
-                            round_id, route_position, hole_number
+                            round_id, route_position, hole_number,
+                            state, skip_reason
                         )
-                        VALUES (%s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s)
                         """,
                         [
                             (
                                 round_row["id"],
                                 item.route_position,
                                 item.hole_number,
+                                (
+                                    "skipped"
+                                    if (
+                                        prior_mode == "untracked"
+                                        and item.route_position
+                                        < requested_tracking_start
+                                    )
+                                    else "planned"
+                                ),
+                                (
+                                    "untracked_before_app"
+                                    if (
+                                        prior_mode == "untracked"
+                                        and item.route_position
+                                        < requested_tracking_start
+                                    )
+                                    else None
+                                ),
                             )
                             for item in route
                         ],
@@ -862,11 +907,16 @@ class RoundStore:
                             round_id, golfer_id, role, tee_name,
                             participation_state, tracked_from_position
                         )
-                        VALUES (%s, %s, 'player', %s, 'active', 1)
+                        VALUES (%s, %s, 'player', %s, 'active', %s)
                         RETURNING id, tee_name, participation_state,
                                   tracked_from_position
                         """,
-                        (round_row["id"], golfer_uuid, participant_tee),
+                        (
+                            round_row["id"],
+                            golfer_uuid,
+                            participant_tee,
+                            participant_tracked_from,
+                        ),
                     )
                     participant = cursor.fetchone()
 
@@ -884,6 +934,11 @@ class RoundStore:
                                 item.route_position,
                             )
                             for item in route
+                            if not (
+                                prior_mode == "untracked"
+                                and item.route_position
+                                < requested_tracking_start
+                            )
                         ],
                     )
 
@@ -895,7 +950,10 @@ class RoundStore:
                         data={
                             "role": "player",
                             "start_hole": first_hole,
+                            "live_hole": current_hole,
                             "route_length": route_length,
+                            "tracking_start_position": requested_tracking_start,
+                            "prior_holes_mode": prior_mode,
                         },
                         content_event_key="lobby.created",
                         presentation_context={"mode": round_mode},
