@@ -210,6 +210,32 @@
       "enabled": true
     },
     {
+      "id": "banter.participant.spectator_to_player.normal",
+      "text": "Spectating was apparently too safe.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.spectator_to_player.brutal",
+      "text": "Look who finally grew a pair and joined the disaster.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.participant.towel.normal",
       "text": "The towel has been thrown. Dignity left earlier.",
       "events": ["participant.towel"],
