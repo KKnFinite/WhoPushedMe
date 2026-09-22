@@ -217,6 +217,27 @@
             <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
             <small>Shotgun start? Start wherever the damage actually begins.</small>
           </label>
+
+          <label class="round-text-field">
+            <span>APP STARTS COUNTING AT</span>
+            <select id="tracking-start-position" name="tracking_start_position">
+              <option value="1">HOLE 1 • 1 OF 18</option>
+            </select>
+            <small>Already partway through? Tell the app where it joins reality.</small>
+          </label>
+
+          <fieldset id="prior-holes-mode" class="choice-fieldset compact-choice-fieldset" hidden>
+            <legend>EARLIER HOLES</legend>
+            <label>
+              <input type="radio" name="prior_holes_mode" value="untracked" checked>
+              <span>LEAVE IT UNTRACKED</span>
+            </label>
+            <label>
+              <input type="radio" name="prior_holes_mode" value="backfill">
+              <span>ENTER THE DAMAGE SO FAR</span>
+            </label>
+          </fieldset>
+
           <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
         </section>
 
