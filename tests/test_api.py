@@ -312,6 +312,18 @@ class FakeStore:
             "participation_state": state,
         }
 
+    def set_end_early_vote(self, golfer_id, round_id, vote):
+        self.calls.append(("end_early_vote", golfer_id, round_id, vote))
+        return {
+            "round_id": round_id,
+            "status": "active",
+            "end_early": {
+                "proposal_active": True,
+                "required_count": 2,
+                "yes_count": 1,
+            },
+        }
+
     def set_current_hole(self, golfer_id, round_id, hole):
         self.calls.append(("current_hole", golfer_id, round_id, hole))
         return {"round_id": round_id, "current_hole": hole}
@@ -1002,6 +1014,24 @@ def test_withdrawn_player_can_return_to_round():
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         "active",
         None,
+    )
+
+
+def test_player_can_vote_to_end_round_early():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/end-early-vote",
+        headers={"Authorization": "Bearer session-token"},
+        json={"vote": True},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["end_early"]["yes_count"] == 1
+    assert store.calls[-1] == (
+        "end_early_vote",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        True,
     )
 
 
