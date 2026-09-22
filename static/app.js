@@ -1321,6 +1321,67 @@
       meta.textContent = pieces.join(' • ');
 
       row.append(title, meta);
+
+      if (['score_report', 'score_push'].includes(event.event_type)) {
+        const social = document.createElement('div');
+        social.className = 'receipt-social-summary';
+
+        const reactions = eventReactions(round, event.id);
+        if (reactions.length) {
+          const counts = new Map();
+          reactions.forEach((reaction) => {
+            const kind = String(reaction.reaction_kind || '').toUpperCase();
+            counts.set(kind, (counts.get(kind) || 0) + 1);
+          });
+          const reactionLine = document.createElement('small');
+          reactionLine.textContent = `REACTIONS: ${[...counts.entries()]
+            .map(([kind, count]) => `${kind} ${count}`)
+            .join(' • ')}`;
+          social.append(reactionLine);
+        }
+
+        const replies = scoreResponses(round, event.id);
+        replies
+          .filter((reply) => ['custom', 'blame'].includes(reply.data?.response_kind))
+          .slice()
+          .reverse()
+          .forEach((reply) => {
+            const actor = (round.participants || []).find(
+              (participant) =>
+                String(participant.id) === String(reply.actor_participant_id)
+            );
+            const line = document.createElement('small');
+            line.textContent =
+              `${actor?.display_name || 'Someone'}: ${presentationText(reply)
+                || String(reply.data?.message || reply.data?.response_kind || '')}`;
+            social.append(line);
+          });
+
+        const challenges = activeScoreChallenges(round, event.id);
+        if (challenges.length) {
+          const challengeLine = document.createElement('small');
+          challengeLine.textContent =
+            `CHALLENGES: ${challenges.map((challenge) => {
+              const challenger = (round.participants || []).find(
+                (participant) =>
+                  String(participant.id)
+                  === String(challenge.challenger_participant_id)
+              );
+              const pieces = [
+                challenger?.display_name || 'Someone',
+                challenge.proposed_score
+                  ? `SAYS ${challenge.proposed_score}`
+                  : '',
+                challenge.comment || '',
+              ].filter(Boolean);
+              return pieces.join(' ');
+            }).join(' • ')}`;
+          social.append(challengeLine);
+        }
+
+        if (social.childElementCount) row.append(social);
+      }
+
       receiptsList.append(row);
     });
   };

@@ -3309,17 +3309,11 @@ class RoundStore:
         round_uuid = self._uuid(round_id, "round_id")
         parent_event_uuid = self._uuid(score_event_id, "score_event_id")
         kind = str(response_kind or "").strip().lower()
-        allowed = {
-            "bullshit",
-            "cheater",
-            "lucky",
-            "nice",
-            "blame",
-            "random",
-            "custom",
-        }
+        allowed = {"blame", "custom"}
         if kind not in allowed:
-            raise DomainError("unsupported score response")
+            raise DomainError(
+                "quick reactions must use the event reaction endpoint"
+            )
 
         response_message = str(message or "").strip()
         if len(response_message) > 280:
@@ -3330,8 +3324,10 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
-            if round_row["status"] != "active":
-                raise DomainError("score responses are only available during an active round")
+            if round_row["status"] not in {"active", "completed"}:
+                raise DomainError(
+                    "score responses are only available on active or completed rounds"
+                )
 
             cursor.execute(
                 """
