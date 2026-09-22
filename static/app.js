@@ -1,5 +1,6 @@
 (() => {
   const SESSION_KEY = 'wpm_session_token';
+  const PAR_SETUP_NOW_KEY = 'wpm_par_setup_now_round';
 
   const splash = document.getElementById('launch-splash');
   const authShell = document.getElementById('auth-shell');
@@ -51,9 +52,14 @@
   const selectedCourseLocation = document.getElementById('selected-course-location');
   const startTeeField = document.getElementById('start-tee-field');
   const startTeeSelect = document.getElementById('start-tee-select');
+  const startHoleInput = document.getElementById('start-hole-input');
+  const routePreview = document.getElementById('route-preview');
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
   const lobbyTeeSelect = document.getElementById('lobby-tee-select');
   const lobbyTeeSave = document.getElementById('lobby-tee-save');
+  const lobbyParSetup = document.getElementById('lobby-par-setup');
+  const lobbyParGrid = document.getElementById('lobby-par-grid');
+  const lobbyParSave = document.getElementById('lobby-par-save');
   const liveRoundPanel = document.getElementById('live-round-panel');
   const liveRoundPlace = document.getElementById('live-round-place');
   const liveRoundCode = document.getElementById('live-round-code');
@@ -545,6 +551,52 @@
       clearSelectedCourse();
       if (courseResults) courseResults.replaceChildren();
     }
+    renderRoutePreview();
+  };
+
+  const selectedRoundHoleCount = () => {
+    const checked = startRoundForm?.querySelector('input[name="holes"]:checked');
+    return Number(checked?.value || 18);
+  };
+
+  const selectedPhysicalHoleCount = () => {
+    const courseMode = startRoundForm?.querySelector(
+      'input[name="course_mode"]:checked'
+    )?.value;
+    if (courseMode === 'free') {
+      const checked = startRoundForm?.querySelector(
+        'input[name="course_hole_count"]:checked'
+      );
+      return Number(checked?.value || 18);
+    }
+
+    const teeHoleCounts = (selectedCourse?.tees || [])
+      .map((tee) => Number(tee.holes_with_tee || 0))
+      .filter((count) => count > 0);
+    return teeHoleCounts.length ? Math.max(...teeHoleCounts) : 18;
+  };
+
+  const renderRoutePreview = () => {
+    if (!routePreview || !startHoleInput) return;
+    const physicalCount = selectedPhysicalHoleCount();
+    const holes = selectedRoundHoleCount();
+    const start = Number(startHoleInput.value || 1);
+    startHoleInput.max = String(physicalCount);
+
+    if (!Number.isInteger(start) || start < 1 || start > physicalCount) {
+      routePreview.textContent = `STARTING HOLE MUST BE 1-${physicalCount}`;
+      return;
+    }
+
+    const route = [];
+    for (let index = 0; index < holes; index += 1) {
+      route.push(((start - 1 + index) % physicalCount) + 1);
+    }
+    const short = route.length <= 9
+      ? route.join(', ')
+      : `${route.slice(0, 6).join(', ')} … ${route.slice(-3).join(', ')}`;
+    routePreview.textContent =
+      `ROUTE: ${short} • ${holes} HOLE${holes === 1 ? '' : 'S'}`;
   };
 
   const selectCourseResult = async (result) => {
@@ -559,6 +611,7 @@
         body,
       });
       selectedCourse = course;
+      renderRoutePreview();
 
       if (selectedCourseName) selectedCourseName.textContent = course.name || 'Selected course';
       if (selectedCourseLocation) {
@@ -1912,6 +1965,55 @@
       });
     }
 
+    const parsByPosition = new Map(
+      (round.pars || []).map((row) => [
+        Number(row.route_position),
+        Number(row.par),
+      ])
+    );
+    const parSetupNow = (
+      round.par_tracking_enabled
+      && String(window.localStorage.getItem(PAR_SETUP_NOW_KEY) || '')
+        === String(round.id)
+    );
+    const missingParPositions = (round.route || []).filter(
+      (route) => !parsByPosition.has(Number(route.route_position))
+    );
+
+    if (lobbyParSetup) lobbyParSetup.hidden = !parSetupNow;
+    if (lobbyParGrid) {
+      lobbyParGrid.replaceChildren();
+      if (parSetupNow) {
+        (round.route || []).forEach((route) => {
+          const position = Number(route.route_position);
+          const row = document.createElement('label');
+          row.className = 'lobby-par-row';
+
+          const label = document.createElement('span');
+          label.textContent =
+            `HOLE ${route.hole_number} • ${position} OF ${routeLength(round)}`;
+
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.min = '2';
+          input.max = '7';
+          input.inputMode = 'numeric';
+          input.dataset.routePosition = String(position);
+          input.value = parsByPosition.has(position)
+            ? String(parsByPosition.get(position))
+            : '';
+          input.placeholder = 'PAR';
+
+          row.append(label, input);
+          lobbyParGrid.append(row);
+        });
+      }
+    }
+    if (lobbyParSave) {
+      lobbyParSave.hidden = !parSetupNow;
+      lobbyParSave.disabled = false;
+    }
+
     const tees = round.available_tees || [];
     const viewer = (round.participants || []).find(
       (participant) => String(participant.id) === String(round.viewer_participant_id)
@@ -1932,9 +2034,12 @@
         (participant) => participant.role === 'player' && !participant.tee_name
       );
       lobbyStart.hidden = !canStart;
-      lobbyStart.disabled = missingTee;
+      const missingRequiredPars = parSetupNow && missingParPositions.length > 0;
+      lobbyStart.disabled = missingTee || missingRequiredPars;
       if (canStart && missingTee) {
         setRoundFlowMessage('Every player needs to pick a tee before the round starts.');
+      } else if (canStart && missingRequiredPars) {
+        setRoundFlowMessage('Finish entering pars before starting.');
       } else {
         setRoundFlowMessage('');
       }
@@ -1983,6 +2088,13 @@
     radio.addEventListener('change', () => setCourseMode(radio.value));
   });
 
+  startRoundForm?.querySelectorAll(
+    'input[name="holes"], input[name="course_hole_count"]'
+  ).forEach((control) => {
+    control.addEventListener('change', renderRoutePreview);
+  });
+  startHoleInput?.addEventListener('input', renderRoutePreview);
+
   courseSearchButton?.addEventListener('click', searchCourses);
   courseSearchInput?.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
@@ -2002,9 +2114,19 @@
         throw new Error('Pick a course first, or switch to Free Play.');
       }
 
+      const holes = Number(values.get('holes'));
+      const startHole = Number(values.get('start_hole') || 1);
+      const physicalCount = selectedPhysicalHoleCount();
+      if (!Number.isInteger(startHole) || startHole < 1 || startHole > physicalCount) {
+        throw new Error(`Starting hole must be between 1 and ${physicalCount}.`);
+      }
+
+      const parSetup = String(values.get('par_setup') || 'as_go');
       const body = {
         mode: values.get('mode'),
-        holes: Number(values.get('holes')),
+        holes,
+        start_hole: startHole,
+        par_tracking_enabled: parSetup !== 'off',
       };
 
       if (courseMode === 'course') {
@@ -2013,15 +2135,22 @@
       } else {
         body.free_play_name =
           String(values.get('free_play_name') || '').trim() || 'Free Play';
+        body.course_hole_count = Number(values.get('course_hole_count') || 18);
       }
 
       const created = await requestJson('/api/rounds', {
         method: 'POST',
         body,
       });
+      if (parSetup === 'now') {
+        window.localStorage.setItem(PAR_SETUP_NOW_KEY, String(created.id));
+      } else {
+        window.localStorage.removeItem(PAR_SETUP_NOW_KEY);
+      }
       await refreshLobby(created.active_code);
       startLobbyPolling(created.active_code);
       startRoundForm.reset();
+      renderRoutePreview();
     } catch (error) {
       setRoundFlowMessage(error.message);
     } finally {
@@ -2051,6 +2180,45 @@
       setRoundFlowMessage(error.message);
     } finally {
       setFormBusy(joinRoundForm, false);
+    }
+  });
+
+  lobbyParSave?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !lobbyParGrid) return;
+
+    const inputs = [...lobbyParGrid.querySelectorAll('input[data-route-position]')];
+    const rows = inputs.map((input) => ({
+      input,
+      position: Number(input.dataset.routePosition),
+      par: Number(input.value),
+    }));
+    const invalid = rows.find(
+      (row) => !Number.isInteger(row.par) || row.par < 2 || row.par > 7
+    );
+    if (invalid) {
+      invalid.input.focus();
+      setRoundFlowMessage('Every par must be between 2 and 7.');
+      return;
+    }
+
+    lobbyParSave.disabled = true;
+    setRoundFlowMessage('Saving pars...');
+    try {
+      for (const row of rows) {
+        await requestJson(
+          `/api/rounds/${currentLobbyRound.id}/positions/${row.position}/par`,
+          {
+            method: 'PUT',
+            body: { par: row.par },
+          }
+        );
+      }
+      window.localStorage.removeItem(PAR_SETUP_NOW_KEY);
+      await refreshLobby(currentLobbyRound.active_code);
+      setRoundFlowMessage('');
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      lobbyParSave.disabled = false;
     }
   });
 
