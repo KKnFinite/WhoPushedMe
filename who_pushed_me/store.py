@@ -139,7 +139,8 @@ class RoundStore:
             f"""
             SELECT id, mode, hole_count, active_code, current_hole,
                    current_route_position, par_tracking_enabled, end_reason,
-                   status, course_id, free_play_name, created_at, updated_at
+                   status, course_id, free_play_name, scramble_tee_name,
+                   created_at, updated_at
             FROM rounds WHERE id = %s{' FOR UPDATE' if lock else ''}
             """,
             (round_id,),
@@ -721,6 +722,8 @@ class RoundStore:
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
         creator_tee = self._clean_tee_name(tee_name)
+        scramble_tee = creator_tee if round_mode == "scramble" else None
+        participant_tee = creator_tee if round_mode == "individual" else None
 
         if cached_course_id and free_play:
             raise DomainError("choose a cached course or Free Play, not both")
@@ -792,13 +795,14 @@ class RoundStore:
                         INSERT INTO rounds (
                             mode, hole_count, active_code, current_hole,
                             current_route_position, par_tracking_enabled,
-                            status, course_id, free_play_name
+                            status, course_id, free_play_name,
+                            scramble_tee_name
                         )
-                        VALUES (%s, %s, %s, %s, 1, %s, 'setup', %s, %s)
+                        VALUES (%s, %s, %s, %s, 1, %s, 'setup', %s, %s, %s)
                         RETURNING id, mode, hole_count, active_code,
                                   current_hole, current_route_position,
                                   par_tracking_enabled, status, course_id,
-                                  free_play_name, created_at
+                                  free_play_name, scramble_tee_name, created_at
                         """,
                         (
                             round_mode,
@@ -808,6 +812,7 @@ class RoundStore:
                             par_tracking_enabled,
                             cached_course_id,
                             free_play,
+                            scramble_tee,
                         ),
                     )
                     round_row = cursor.fetchone()
@@ -839,7 +844,7 @@ class RoundStore:
                         RETURNING id, tee_name, participation_state,
                                   tracked_from_position
                         """,
-                        (round_row["id"], golfer_uuid, creator_tee),
+                        (round_row["id"], golfer_uuid, participant_tee),
                     )
                     participant = cursor.fetchone()
 
@@ -915,7 +920,11 @@ class RoundStore:
 
                     round_row["participant_id"] = participant["id"]
                     round_row["role"] = "player"
-                    round_row["tee_name"] = participant["tee_name"]
+                    round_row["tee_name"] = (
+                        round_row["scramble_tee_name"]
+                        if round_mode == "scramble"
+                        else participant["tee_name"]
+                    )
                     round_row["route"] = [
                         item.as_dict()
                         for item in route
@@ -949,7 +958,8 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT id, mode, course_id, status,
-                       current_route_position, hole_count
+                       current_route_position, hole_count,
+                       scramble_tee_name
                 FROM rounds
                 WHERE active_code = %s
                   AND status IN ('setup', 'active')
@@ -962,6 +972,8 @@ class RoundStore:
                 raise NotFound("active round not found")
 
             if participant_role == "spectator":
+                selected_tee = None
+            elif round_row["mode"] == "scramble":
                 selected_tee = None
             else:
                 cursor.execute(
@@ -1271,7 +1283,9 @@ class RoundStore:
             if int(cursor.fetchone()["active_players"] or 0) >= 4:
                 raise DomainError("this round already has 4 active golfers")
 
-            if round_row["course_id"]:
+            if round_row["mode"] == "scramble":
+                selected_tee = None
+            elif round_row["course_id"]:
                 cursor.execute(
                     """
                     SELECT EXISTS (
@@ -2069,20 +2083,26 @@ class RoundStore:
                     )
                     has_tees = bool(cursor.fetchone()["has_tees"])
                     if has_tees:
-                        cursor.execute(
-                            """
-                            SELECT count(*) AS missing
-                            FROM round_participants
-                            WHERE round_id = %s
-                              AND role = 'player'
-                              AND tee_name IS NULL
-                            """,
-                            (round_uuid,),
-                        )
-                        if int(cursor.fetchone()["missing"]) > 0:
-                            raise DomainError(
-                                "every player must choose a tee before starting"
+                        if round_row["mode"] == "scramble":
+                            if not round_row.get("scramble_tee_name"):
+                                raise DomainError(
+                                    "choose one team scoring tee before starting"
+                                )
+                        else:
+                            cursor.execute(
+                                """
+                                SELECT count(*) AS missing
+                                FROM round_participants
+                                WHERE round_id = %s
+                                  AND role = 'player'
+                                  AND tee_name IS NULL
+                                """,
+                                (round_uuid,),
                             )
+                            if int(cursor.fetchone()["missing"]) > 0:
+                                raise DomainError(
+                                    "every player must choose a tee before starting"
+                                )
 
                 completion_results: dict[str, Any] | None = None
                 completion_incomplete = False
@@ -3732,12 +3752,14 @@ class RoundStore:
             raise DomainError("tee_name is required")
 
         with self._connection() as connection, connection.cursor() as cursor:
-            round_row = self._round(cursor, round_uuid)
+            round_row = self._round(cursor, round_uuid, lock=True)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
-            require_player(participant["role"], "choose a tee")
+            self._require_active_player(participant, "choose a tee")
 
-            if round_row["status"] != "setup":
-                raise DomainError("tee can only be changed before the round starts")
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "tee can only be changed before or during an active round"
+                )
             if round_row["course_id"]:
                 self._validate_course_tee(
                     cursor,
@@ -3745,16 +3767,53 @@ class RoundStore:
                     selected_tee,
                 )
 
-            cursor.execute(
-                """
-                UPDATE round_participants
-                SET tee_name = %s
-                WHERE id = %s
-                RETURNING id, round_id, golfer_id, role, tee_name
-                """,
-                (selected_tee, participant["id"]),
-            )
-            return cursor.fetchone()
+            if round_row["mode"] == "scramble":
+                old_tee = round_row.get("scramble_tee_name")
+                cursor.execute(
+                    """
+                    UPDATE rounds
+                    SET scramble_tee_name = %s, updated_at = now()
+                    WHERE id = %s
+                    RETURNING id AS round_id, scramble_tee_name
+                    """,
+                    (selected_tee, round_uuid),
+                )
+                updated = cursor.fetchone()
+                updated["role"] = "team"
+                updated["tee_name"] = updated["scramble_tee_name"]
+                updated.pop("scramble_tee_name", None)
+                scope = "team"
+                subject_id = None
+            else:
+                old_tee = participant.get("tee_name")
+                cursor.execute(
+                    """
+                    UPDATE round_participants
+                    SET tee_name = %s
+                    WHERE id = %s
+                    RETURNING id, round_id, golfer_id, role, tee_name
+                    """,
+                    (selected_tee, participant["id"]),
+                )
+                updated = cursor.fetchone()
+                scope = "player"
+                subject_id = str(participant["id"])
+
+            if old_tee != selected_tee:
+                self._event(
+                    cursor,
+                    round_id=round_uuid,
+                    actor_participant_id=participant["id"],
+                    event_type="tee_change",
+                    old_value=old_tee,
+                    new_value=selected_tee,
+                    data={
+                        "scope": scope,
+                        "player_participant_id": subject_id,
+                    },
+                    presentation_context={"mode": round_row["mode"]},
+                )
+            return updated
 
     def cache_course(self, snapshot: CourseSnapshot) -> UUID:
         with self._connection() as connection, connection.cursor() as cursor:
