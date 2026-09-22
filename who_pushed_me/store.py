@@ -2817,11 +2817,21 @@ class RoundStore:
             if round_row["status"] != "active":
                 raise DomainError("Bag of Bullshit is only available during an active round")
 
-            hole_number = (
-                validate_hole(hole, round_row["hole_count"])
+            route_position = (
+                int(hole)
                 if hole is not None
-                else round_row["current_hole"]
+                else int(round_row["current_route_position"])
             )
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                route_position,
+            )
+            if route_position > int(round_row["current_route_position"]):
+                raise DomainError(
+                    "future holes are preview-only until they become active"
+                )
+            hole_number = int(route_row["hole_number"])
 
             target_value = payload.get("target_participant_id")
             if target_value is not None:
@@ -2873,6 +2883,7 @@ class RoundStore:
                 actor_participant_id=participant["id"],
                 event_type=kind,
                 hole_number=hole_number,
+                route_position=route_position,
                 data=payload,
                 content_event_key=content_event,
                 presentation_context={
