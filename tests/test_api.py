@@ -134,6 +134,8 @@ class FakeStore:
         end_hole=None,
         course_hole_count=None,
         par_tracking_enabled=True,
+        tracking_start_position=1,
+        prior_holes_mode="untracked",
     ):
         self.calls.append(
             (
@@ -148,6 +150,8 @@ class FakeStore:
                 end_hole,
                 course_hole_count,
                 par_tracking_enabled,
+                tracking_start_position,
+                prior_holes_mode,
             )
         )
         return {
@@ -759,6 +763,8 @@ def test_create_round_with_bearer_session_enters_setup_lobby():
         None,
         None,
         True,
+        1,
+        "untracked",
     )
 
 
@@ -790,6 +796,41 @@ def test_create_round_passes_explicit_route_setup():
         None,
         18,
         False,
+        1,
+        "untracked",
+    )
+
+
+def test_create_round_passes_tracking_start_and_prior_hole_choice():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "mode": "individual",
+            "holes": 18,
+            "free_play_name": "Already Ruined It",
+            "start_hole": 1,
+            "tracking_start_position": 11,
+            "prior_holes_mode": "backfill",
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "create_round",
+        store.golfer_id,
+        "individual",
+        18,
+        None,
+        "Already Ruined It",
+        None,
+        1,
+        None,
+        None,
+        True,
+        11,
+        "backfill",
     )
 
 
@@ -906,6 +947,8 @@ def test_course_round_creation_passes_cached_course_and_tee():
         None,
         None,
         True,
+        1,
+        "untracked",
     )
 
 
