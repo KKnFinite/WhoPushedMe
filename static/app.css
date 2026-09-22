@@ -684,6 +684,93 @@ body.app-ready .app-shell {
   line-height: 1.3;
 }
 
+.round-route-setup,
+.free-play-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.free-play-fields[hidden] {
+  display: none;
+}
+
+.route-preview {
+  padding: 9px 11px;
+  background: var(--charcoal);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .72rem;
+  line-height: 1.25;
+}
+
+.compact-choice-fieldset {
+  margin: 0;
+}
+
+.lobby-par-setup {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.lobby-par-setup[hidden] {
+  display: none;
+}
+
+.lobby-par-setup h4,
+.lobby-par-setup p {
+  margin: 0;
+}
+
+.lobby-par-setup p {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+}
+
+.lobby-par-grid {
+  display: grid;
+  gap: 7px;
+}
+
+.lobby-par-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px;
+  gap: 8px;
+  align-items: center;
+}
+
+.lobby-par-row span {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .74rem;
+}
+
+.lobby-par-row input {
+  min-height: 42px;
+  width: 100%;
+  padding: 7px 8px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  text-align: center;
+}
+
+#lobby-par-save {
+  min-height: 46px;
+  background: var(--green-deep);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+}
+
 .course-search-panel {
   display: grid;
   gap: 12px;
