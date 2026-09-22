@@ -1839,10 +1839,15 @@ class RoundStore:
                             },
                         )
                     else:
-                        for result in completion_results["players"]:
+                        placement_results = [
+                            row
+                            for row in completion_results["players"]
+                            if row.get("rank") is not None
+                        ]
+                        for result in placement_results:
                             event_key = self._individual_round_end_event(
                                 result,
-                                completion_results["players"],
+                                placement_results,
                             )
                             self._event(
                                 cursor,
@@ -2506,58 +2511,133 @@ class RoundStore:
         round_uuid = self._uuid(round_id, "round_id")
         normalized_type = normalize_shot_type(shot_type)
         target_id = (
-            self._uuid(player_participant_id, "player_participant_id")
+            self._uuid(
+                player_participant_id,
+                "player_participant_id",
+            )
             if player_participant_id is not None
             else None
         )
+
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
-            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            actor = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
             if round_row["status"] != "active":
-                raise DomainError("contributions are only available during an active round")
+                raise DomainError(
+                    "contributions are only available during an active round"
+                )
             if round_row["mode"] != "scramble":
-                raise DomainError("contributions are only available for scramble rounds")
-            hole_number = validate_hole(hole, round_row["hole_count"])
+                raise DomainError(
+                    "contributions are only available for scramble rounds"
+                )
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                hole,
+                lock=True,
+            )
+            route_position = int(route_row["route_position"])
+            hole_number = int(route_row["hole_number"])
+
+            if route_position > int(round_row["current_route_position"]):
+                raise DomainError(
+                    "future holes are preview-only until they become active"
+                )
+            if route_row["state"] != "planned":
+                raise DomainError(
+                    "cannot edit contributions on a skipped route position"
+                )
+
             if target_id:
                 cursor.execute(
-                    "SELECT role FROM round_participants WHERE id = %s AND round_id = %s",
+                    """
+                    SELECT role
+                    FROM round_participants
+                    WHERE id = %s AND round_id = %s
+                    """,
                     (target_id, round_uuid),
                 )
                 target = cursor.fetchone()
                 if not target or target["role"] != "player":
-                    raise DomainError("contribution target must be a player in this round")
+                    raise DomainError(
+                        "contribution target must be a player in this round"
+                    )
+
             cursor.execute(
                 """
-                SELECT player_participant_id FROM scramble_contributions
-                WHERE round_id = %s AND hole_number = %s AND shot_type = %s
+                SELECT player_participant_id
+                FROM scramble_contributions
+                WHERE round_id = %s
+                  AND route_position = %s
+                  AND shot_type = %s
                 FOR UPDATE
                 """,
-                (round_uuid, hole_number, normalized_type),
+                (
+                    round_uuid,
+                    route_position,
+                    normalized_type,
+                ),
             )
             previous = cursor.fetchone()
-            old_target = previous["player_participant_id"] if previous else None
+            old_target = (
+                previous["player_participant_id"]
+                if previous
+                else None
+            )
             if old_target == target_id:
-                return {"round_id": round_uuid, "hole": hole_number, "shot_type": normalized_type}
+                return {
+                    "round_id": round_uuid,
+                    "route_position": route_position,
+                    "hole": hole_number,
+                    "shot_type": normalized_type,
+                    "player_participant_id": target_id,
+                }
+
             if target_id is None:
                 cursor.execute(
                     """
                     DELETE FROM scramble_contributions
-                    WHERE round_id = %s AND hole_number = %s AND shot_type = %s
+                    WHERE round_id = %s
+                      AND route_position = %s
+                      AND shot_type = %s
                     """,
-                    (round_uuid, hole_number, normalized_type),
+                    (
+                        round_uuid,
+                        route_position,
+                        normalized_type,
+                    ),
                 )
             else:
                 cursor.execute(
                     """
                     INSERT INTO scramble_contributions (
-                        round_id, hole_number, shot_type, player_participant_id
-                    ) VALUES (%s, %s, %s, %s)
-                    ON CONFLICT (round_id, hole_number, shot_type)
-                    DO UPDATE SET player_participant_id = EXCLUDED.player_participant_id,
-                                  updated_at = now()
+                        round_id, route_position, hole_number,
+                        shot_type, player_participant_id
+                    )
+                    VALUES (%s, %s, %s, %s, %s)
+                    ON CONFLICT (
+                        round_id, route_position, shot_type
+                    )
+                    DO UPDATE SET
+                        hole_number = EXCLUDED.hole_number,
+                        player_participant_id =
+                            EXCLUDED.player_participant_id,
+                        updated_at = now()
                     """,
-                    (round_uuid, hole_number, normalized_type, target_id),
+                    (
+                        round_uuid,
+                        route_position,
+                        hole_number,
+                        normalized_type,
+                        target_id,
+                    ),
                 )
+
             content_event = scramble_contribution_content_event(
                 old_target,
                 target_id,
@@ -2569,11 +2649,24 @@ class RoundStore:
                 actor_participant_id=actor["id"],
                 event_type="scramble_contribution_change",
                 hole_number=hole_number,
-                old_value=str(old_target) if old_target else None,
-                new_value=str(target_id) if target_id else None,
+                route_position=route_position,
+                old_value=(
+                    str(old_target)
+                    if old_target
+                    else None
+                ),
+                new_value=(
+                    str(target_id)
+                    if target_id
+                    else None
+                ),
                 data={
                     "shot_type": normalized_type,
-                    "player_participant_id": str(target_id) if target_id else None,
+                    "player_participant_id": (
+                        str(target_id)
+                        if target_id
+                        else None
+                    ),
                 },
                 content_event_key=content_event,
                 presentation_context={
@@ -2583,6 +2676,7 @@ class RoundStore:
             )
             return {
                 "round_id": round_uuid,
+                "route_position": route_position,
                 "hole": hole_number,
                 "shot_type": normalized_type,
                 "player_participant_id": target_id,
@@ -2628,7 +2722,7 @@ class RoundStore:
 
             cursor.execute(
                 """
-                SELECT id, event_type, hole_number, data
+                SELECT id, event_type, hole_number, route_position, data
                 FROM round_events
                 WHERE id = %s
                   AND round_id = %s
@@ -2692,6 +2786,7 @@ class RoundStore:
                 actor_participant_id=actor["id"],
                 event_type="score_response",
                 hole_number=score_event["hole_number"],
+                route_position=score_event["route_position"],
                 data=payload,
                 reply_to_event_id=parent_event_uuid,
                 content_event_key=content_event,
