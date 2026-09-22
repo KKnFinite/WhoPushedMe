@@ -137,7 +137,6 @@
   const bagTextLabel = document.getElementById('bag-text-label');
   const bagTextInput = document.getElementById('bag-text-input');
   const bagSubmit = document.getElementById('bag-submit');
-  const bagReactionButtons = document.querySelectorAll('[data-reaction]');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -151,6 +150,7 @@
   let currentBagAction = null;
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
+  let pendingScoreAfterPar = null;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
 
@@ -735,6 +735,7 @@
     viewedRoutePosition = null;
     finishIncompletePending = false;
     advanceWarningPosition = null;
+    pendingScoreAfterPar = null;
     if (advanceWarningPanel) advanceWarningPanel.hidden = true;
     if (roundSettingsPanel) roundSettingsPanel.hidden = true;
     if (towelPanel) towelPanel.hidden = true;
@@ -2998,24 +2999,6 @@
     }
   });
 
-  bagReactionButtons.forEach((button) => {
-    button.addEventListener('click', async () => {
-      if (!currentLobbyRound) return;
-      button.disabled = true;
-      setBagMessage('');
-      try {
-        await sendSocialEvent('reaction', {
-          reaction: button.dataset.reaction,
-        });
-        closeBag();
-        await refreshRound(currentLobbyRound.active_code);
-      } catch (error) {
-        setBagMessage(error.message);
-      } finally {
-        button.disabled = false;
-      }
-    });
-  });
 
   const openSettings = async () => {
     if (!settingsModal || !settingsForm) return;
