@@ -210,6 +210,32 @@
       "enabled": true
     },
     {
+      "id": "banter.score.removed.normal",
+      "text": "Score removed. The receipt isn't.",
+      "events": [
+        "score.removed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.removed.brutal",
+      "text": "Score deleted. The bullshit trail stays.",
+      "events": [
+        "score.removed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.score.ace.normal",
       "text": "Hole in one. Disgusting. Nobody wanted to see competence today.",
       "events": [

@@ -727,6 +727,19 @@
       ]
     },
     {
+      "key": "score.removed",
+      "parent": "score",
+      "label": "Score removed",
+      "phase": "score",
+      "family": "score.removed",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
       "key": "score.report",
       "parent": "score",
       "label": "Score report",

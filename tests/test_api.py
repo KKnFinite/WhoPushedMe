@@ -341,6 +341,12 @@ class FakeStore:
         )
         return {"hole": hole, "strokes": strokes}
 
+    def remove_score(self, golfer_id, round_id, hole, *, player_participant_id=None):
+        self.calls.append(
+            ("remove_score", golfer_id, round_id, hole, player_participant_id)
+        )
+        return {"hole": hole, "removed_strokes": 6}
+
 
 def client_with_store():
     store = FakeStore()
@@ -396,6 +402,27 @@ def test_score_route_authenticates_and_passes_target_without_moving_hole():
         6,
         target,
     )
+
+def test_remove_score_route_preserves_explicit_target():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+
+    response = client.delete(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/positions/2/score",
+        headers={"Authorization": "Bearer session-token"},
+        json={"player_participant_id": target},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["removed_strokes"] == 6
+    assert store.calls[-1] == (
+        "remove_score",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        2,
+        target,
+    )
+
 
 def test_preferences_route_requires_authentication():
     client, store = client_with_store()

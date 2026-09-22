@@ -2544,6 +2544,133 @@ class RoundStore:
                 response.update(auto_advance)
             return response
 
+    def remove_score(
+        self,
+        golfer_id: object,
+        round_id: object,
+        hole: object,
+        *,
+        player_participant_id: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            actor = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
+            require_player(actor["role"], "change scores")
+            require_active_round(round_row["status"], "change scores")
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                hole,
+                lock=True,
+            )
+            route_position = int(route_row["route_position"])
+            hole_number = int(route_row["hole_number"])
+
+            if route_row["state"] != "planned":
+                raise DomainError("cannot remove a score from a skipped route position")
+            if route_position > int(round_row["current_route_position"]):
+                raise DomainError(
+                    "future holes are preview-only until they become active"
+                )
+
+            if round_row["mode"] == "individual":
+                target_id = self._uuid(
+                    player_participant_id,
+                    "player_participant_id",
+                )
+                cursor.execute(
+                    """
+                    SELECT rp.role, g.display_name
+                    FROM round_participants rp
+                    JOIN golfers g ON g.id = rp.golfer_id
+                    WHERE rp.id = %s AND rp.round_id = %s
+                    """,
+                    (target_id, round_uuid),
+                )
+                target = cursor.fetchone()
+                if not target or target["role"] != "player":
+                    raise DomainError(
+                        "score target must be a player in this round"
+                    )
+                scope = "player"
+                subject_name = target["display_name"]
+            else:
+                if player_participant_id is not None:
+                    raise DomainError(
+                        "scramble rounds use one team score"
+                    )
+                target_id = None
+                scope = "team"
+                subject_name = "Team"
+
+            cursor.execute(
+                """
+                SELECT id, strokes
+                FROM round_hole_scores
+                WHERE round_id = %s
+                  AND route_position = %s
+                  AND score_scope = %s
+                  AND player_participant_id IS NOT DISTINCT FROM %s
+                FOR UPDATE
+                """,
+                (
+                    round_uuid,
+                    route_position,
+                    scope,
+                    target_id,
+                ),
+            )
+            score = cursor.fetchone()
+            if not score:
+                raise DomainError("there is no score to remove")
+
+            old_score = int(score["strokes"])
+            cursor.execute(
+                "DELETE FROM round_hole_scores WHERE id = %s",
+                (score["id"],),
+            )
+
+            event = self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=actor["id"],
+                event_type="score_removed",
+                hole_number=hole_number,
+                route_position=route_position,
+                old_value=old_score,
+                new_value=None,
+                data={
+                    "scope": scope,
+                    "player_participant_id": (
+                        str(target_id) if target_id else None
+                    ),
+                    "subject": subject_name,
+                },
+                content_event_key="score.removed",
+                presentation_context={
+                    "hole": hole_number,
+                    "mode": round_row["mode"],
+                    "subject": subject_name,
+                    "old_score": old_score,
+                },
+            )
+
+            return {
+                "round_id": round_uuid,
+                "route_position": route_position,
+                "hole": hole_number,
+                "removed_strokes": old_score,
+                "event": event,
+            }
+
     def set_scramble_contribution(
         self,
         golfer_id: object,

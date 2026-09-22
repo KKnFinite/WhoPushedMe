@@ -391,6 +391,21 @@ def set_score(round_id: str, position: int):
     )
 
 
+@api.delete("/rounds/<round_id>/holes/<int:position>/score")
+@api.delete("/rounds/<round_id>/positions/<int:position>/score")
+@authenticated
+def remove_score(round_id: str, position: int):
+    payload = _body()
+    return jsonify(
+        _store().remove_score(
+            g.golfer["id"],
+            round_id,
+            position,
+            player_participant_id=payload.get("player_participant_id"),
+        )
+    )
+
+
 @api.put("/rounds/<round_id>/holes/<int:position>/contributions/<shot_type>")
 @api.put("/rounds/<round_id>/positions/<int:position>/contributions/<shot_type>")
 @authenticated

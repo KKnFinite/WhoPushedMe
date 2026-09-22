@@ -940,10 +940,42 @@
       controls.append(input, submit);
       card.append(controls);
 
+      if (score) {
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'live-score-remove';
+        remove.textContent = 'REMOVE SCORE';
+        remove.addEventListener('click', async () => {
+          if (!currentLobbyRound) return;
+
+          remove.disabled = true;
+          setRoundFlowMessage('');
+          try {
+            const body = {};
+            if (round.mode === 'individual') {
+              body.player_participant_id = participantId;
+            }
+
+            await requestJson(
+              `/api/rounds/${round.id}/positions/${position}/score`,
+              {
+                method: 'DELETE',
+                body,
+              }
+            );
+            await refreshRound(round.active_code);
+          } catch (error) {
+            setRoundFlowMessage(error.message);
+            remove.disabled = false;
+          }
+        });
+        card.append(remove);
+      }
+
       appendScoreResponsePanel(
         card,
         round,
-        hole,
+        position,
         participantId,
         score
       );
@@ -1101,12 +1133,26 @@
       row.className = 'receipt-row';
 
       const title = document.createElement('strong');
-      title.textContent = (
-        presentationText(event)
-        || event.content_event_key
-        || event.event_type
-        || 'Round event'
-      );
+      if (event.event_type === 'score_removed') {
+        const actor = (round.participants || []).find(
+          (participant) =>
+            String(participant.id) === String(event.actor_participant_id)
+        );
+        const subject = event.data?.scope === 'team'
+          ? 'TEAM SCORE'
+          : String(event.data?.subject || 'GOLFER').toUpperCase();
+        const oldScore = Number(event.old_value);
+        title.textContent = event.data?.scope === 'team'
+          ? `${String(actor?.display_name || 'SOMEONE').toUpperCase()} REMOVED ${subject} ${oldScore}`
+          : `${String(actor?.display_name || 'SOMEONE').toUpperCase()} REMOVED ${subject}'S ${oldScore}`;
+      } else {
+        title.textContent = (
+          presentationText(event)
+          || event.content_event_key
+          || event.event_type
+          || 'Round event'
+        );
+      }
 
       const meta = document.createElement('small');
       const pieces = [];

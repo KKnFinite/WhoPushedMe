@@ -1015,6 +1015,23 @@ body.app-ready .app-shell {
   gap: 8px;
 }
 
+.live-score-remove {
+  min-height: 40px;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--orange-deep);
+  border: 2px solid var(--orange-deep);
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .7rem;
+}
+
+.live-score-remove:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+
 .score-response-panel {
   display: grid;
   gap: 9px;
