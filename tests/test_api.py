@@ -253,6 +253,57 @@ class FakeStore:
             "tracked_from_position": 7,
         }
 
+    def list_claimable_round_only_players(self, golfer_id, code):
+        self.calls.append(("claimable_players", golfer_id, code))
+        return {
+            "round_id": "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+            "active_code": code,
+            "players": [
+                {
+                    "participant_id": "304b4411-bc80-4652-94b3-350ef2501267",
+                    "display_name": "Mike",
+                    "tee_name": "White",
+                }
+            ],
+        }
+
+    def add_round_only_player(
+        self,
+        golfer_id,
+        round_id,
+        *,
+        display_name,
+        tee_name=None,
+    ):
+        self.calls.append(
+            ("add_round_only", golfer_id, round_id, display_name, tee_name)
+        )
+        return {
+            "id": "304b4411-bc80-4652-94b3-350ef2501267",
+            "round_id": round_id,
+            "role": "player",
+            "display_name": display_name,
+            "tee_name": tee_name,
+            "round_only": True,
+        }
+
+    def claim_round_only_player(
+        self,
+        golfer_id,
+        round_id,
+        participant_id,
+    ):
+        self.calls.append(
+            ("claim_round_only", golfer_id, round_id, participant_id)
+        )
+        return {
+            "id": participant_id,
+            "round_id": round_id,
+            "role": "player",
+            "display_name": "Kim",
+            "round_only": False,
+        }
+
     def set_participation_state(self, golfer_id, round_id, state, *, reason=None):
         self.calls.append(("participation", golfer_id, round_id, state, reason))
         return {
@@ -859,6 +910,60 @@ def test_spectator_can_join_play_mid_round_with_tee():
         store.golfer_id,
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
         "White",
+    )
+
+
+def test_join_flow_can_list_claimable_round_only_players():
+    client, store = client_with_store()
+    response = client.get(
+        "/api/rounds/code/4321/claimable-players",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["players"][0]["display_name"] == "Mike"
+    assert store.calls[-1] == (
+        "claimable_players",
+        store.golfer_id,
+        "4321",
+    )
+
+
+def test_active_player_can_add_round_only_golfer():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/round-only-players",
+        headers={"Authorization": "Bearer session-token"},
+        json={"display_name": "Mike", "tee_name": "White"},
+    )
+
+    assert response.status_code == 201
+    assert response.get_json()["round_only"] is True
+    assert store.calls[-1] == (
+        "add_round_only",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "Mike",
+        "White",
+    )
+
+
+def test_account_can_claim_exact_round_only_participant():
+    client, store = client_with_store()
+    participant_id = "304b4411-bc80-4652-94b3-350ef2501267"
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/claim-player",
+        headers={"Authorization": "Bearer session-token"},
+        json={"participant_id": participant_id},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["round_only"] is False
+    assert store.calls[-1] == (
+        "claim_round_only",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        participant_id,
     )
 
 
