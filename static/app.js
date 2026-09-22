@@ -885,7 +885,58 @@
   const renderLatestPresentation = (round) => {
     if (!latestPresentation) return;
 
-    const event = (round.events || []).find((item) => {
+    const events = round.events || [];
+    const backfilled = [];
+    for (const item of events) {
+      if (
+        ['score_report', 'score_push'].includes(item.event_type)
+        && item.data?.backfilled
+      ) {
+        backfilled.push(item);
+        continue;
+      }
+      break;
+    }
+
+    if (backfilled.length) {
+      const participantIds = new Set(
+        backfilled
+          .map((item) => item.data?.player_participant_id)
+          .filter(Boolean)
+          .map(String)
+      );
+      let subject = 'THE HISTORICAL RECORD';
+      if (participantIds.size === 1) {
+        const participantId = [...participantIds][0];
+        const participant = (round.participants || []).find(
+          (row) => String(row.id) === participantId
+        );
+        if (participant?.display_name) {
+          subject = participant.display_name.toUpperCase();
+        }
+      } else if (round.mode === 'scramble') {
+        subject = 'THE TEAM';
+      }
+
+      const count = backfilled.length;
+      if (latestBanter) {
+        latestBanter.textContent =
+          `${subject} JUST FILED ${count} SCORE${count === 1 ? '' : 'S'} AFTER THE FACT.`;
+      }
+      if (latestFallback) {
+        latestFallback.textContent =
+          'THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED.';
+      }
+      if (latestMascot) {
+        latestMascot.removeAttribute('src');
+        latestMascot.alt = '';
+        latestMascot.hidden = true;
+      }
+      latestPresentation.hidden = false;
+      return;
+    }
+
+    const event = events.find((item) => {
       const presentation = item.presentation || {};
       return (
         presentation.event_key
