@@ -54,6 +54,7 @@
   const liveRoundCode = document.getElementById('live-round-code');
   const holePrev = document.getElementById('hole-prev');
   const holeNext = document.getElementById('hole-next');
+  const backToLive = document.getElementById('back-to-live');
   const holeStateLabel = document.getElementById('hole-state-label');
   const holeNumber = document.getElementById('hole-number');
   const holeParLabel = document.getElementById('hole-par-label');
@@ -1348,6 +1349,9 @@
     if (holeNext) {
       holeNext.disabled = Number(viewedRoutePosition) >= length;
     }
+    if (backToLive) {
+      backToLive.hidden = viewingLive;
+    }
 
     const canEditViewedHole = (
       round.viewer_role === 'player'
@@ -1670,6 +1674,16 @@
     if (!currentLobbyRound || viewedRoutePosition === null) return;
     if (Number(viewedRoutePosition) <= 1) return;
     viewedRoutePosition = Number(viewedRoutePosition) - 1;
+    renderLiveRound(currentLobbyRound);
+  });
+
+  backToLive?.addEventListener('click', () => {
+    if (!currentLobbyRound) return;
+    viewedRoutePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
     renderLiveRound(currentLobbyRound);
   });
 
