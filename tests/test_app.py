@@ -33,6 +33,9 @@ def test_home_loads_pwa_shell():
     assert b"START THE SHITSHOW" in response.data
     assert b"LIVE SCORECARD" in response.data
     assert b"NEXT HOLE" in response.data
+    assert b"GO ANYWAY" in response.data
+    assert b"ROUND SETTINGS" in response.data
+    assert b"SAVE TEE CORRECTION" in response.data
     assert b"JOIN THE ROUND" in response.data
     assert b"FINE. I'LL PLAY." in response.data
     assert b"BACK TO LIVE" in response.data
@@ -84,7 +87,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v25" in response.data
+    assert b"wpm-shell-v26" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -93,7 +96,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v25" in builder
+    assert "wpm-shell-v26" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -163,3 +166,19 @@ def test_scramble_team_tee_migration_is_present():
     ).read_text(encoding="utf-8")
     assert "ADD COLUMN scramble_tee_name" in migration
     assert "r.mode = 'scramble'" in migration
+
+
+def test_manual_next_hole_warns_but_can_go_anyway():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"missingScoresAtPosition" in response.data
+    assert b"YOU CAN FIX IT NOW OR MOVE ON WITHOUT INVENTING A SCORE." in response.data
+    assert b"advanceWarningGo" in response.data
+
+
+def test_live_round_settings_exposes_tee_correction():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"round-settings-tee-select" in response.data
+    assert b"/tee" in response.data
+    assert b"TEAM SCORING TEE" in response.data
