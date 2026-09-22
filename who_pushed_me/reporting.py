@@ -441,26 +441,53 @@ def _best_worst_line(
 ) -> tuple[str, str]:
     par_map = _par_map(round_data)
     score_map = _score_map(round_data, participant_id=participant_id)
+    route = _route_entries(round_data)
+    route_by_position = {
+        int(row["route_position"]): row
+        for row in route
+    }
+
+    def label(key: int) -> str:
+        entry = route_by_position.get(int(key))
+        if not entry:
+            return f"#{key}"
+        return (
+            f"#{int(entry['hole_number'])} "
+            f"({int(entry['route_position'])}/{len(route)})"
+        )
+
     candidates: list[tuple[int, int, int]] = []
-    for hole, strokes in score_map.items():
-        par = par_map.get(hole)
+    for key, strokes in score_map.items():
+        par = par_map.get(key)
         if par is not None:
-            candidates.append((strokes - par, hole, strokes))
+            candidates.append((strokes - par, key, strokes))
 
     if candidates:
         best = min(candidates, key=lambda item: (item[0], item[1]))
         worst = max(candidates, key=lambda item: (item[0], -item[1]))
         return (
-            f"Best hole: #{best[1]} ({_relative_label(best[2], par_map[best[1]])})",
-            f"Worst hole: #{worst[1]} ({_relative_label(worst[2], par_map[worst[1]])})",
+            (
+                f"Best hole: {label(best[1])} "
+                f"({_relative_label(best[2], par_map[best[1]])})"
+            ),
+            (
+                f"Worst hole: {label(worst[1])} "
+                f"({_relative_label(worst[2], par_map[worst[1]])})"
+            ),
         )
 
     if score_map:
-        best_hole = min(score_map, key=lambda hole: (score_map[hole], hole))
-        worst_hole = max(score_map, key=lambda hole: (score_map[hole], -hole))
+        best_key = min(
+            score_map,
+            key=lambda key: (score_map[key], key),
+        )
+        worst_key = max(
+            score_map,
+            key=lambda key: (score_map[key], -key),
+        )
         return (
-            f"Lowest stroke hole: #{best_hole} ({score_map[best_hole]})",
-            f"Highest stroke hole: #{worst_hole} ({score_map[worst_hole]})",
+            f"Lowest stroke hole: {label(best_key)} ({score_map[best_key]})",
+            f"Highest stroke hole: {label(worst_key)} ({score_map[worst_key]})",
         )
 
     return ("Best hole: unavailable", "Worst hole: unavailable")
@@ -729,7 +756,7 @@ def _append_individual(
         story.append(
             _table(
                 _hole_summary_rows(round_data, participant_id=viewer_id),
-                [0.75 * inch, 0.75 * inch, 1.0 * inch, 0.8 * inch],
+                [1.1 * inch, 0.75 * inch, 1.0 * inch, 0.8 * inch],
             )
         )
 
@@ -860,7 +887,7 @@ def _append_scramble(
     story.append(
         _table(
             _hole_summary_rows(round_data, participant_id=None),
-            [0.75 * inch, 0.75 * inch, 1.0 * inch, 0.8 * inch],
+            [1.1 * inch, 0.75 * inch, 1.0 * inch, 0.8 * inch],
         )
     )
 
