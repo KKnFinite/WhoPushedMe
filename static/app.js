@@ -91,6 +91,9 @@
   const offlinePlayerTeeField = document.getElementById('offline-player-tee-field');
   const offlinePlayerTeeSelect = document.getElementById('offline-player-tee-select');
   const offlinePlayerAdd = document.getElementById('offline-player-add');
+  const claimUndoPanel = document.getElementById('claim-undo-panel');
+  const claimUndoCopy = document.getElementById('claim-undo-copy');
+  const claimUndoButton = document.getElementById('claim-undo-button');
   const roundSettingsClose = document.getElementById('round-settings-close');
   const backToLive = document.getElementById('back-to-live');
   const holeStateLabel = document.getElementById('hole-state-label');
@@ -167,6 +170,7 @@
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
   let pendingClaimJoin = null;
+  let claimUndoConfirmPending = false;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
 
@@ -755,6 +759,8 @@
     pendingScoreAfterPar = null;
     if (advanceWarningPanel) advanceWarningPanel.hidden = true;
     if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+    claimUndoConfirmPending = false;
+    if (claimUndoPanel) claimUndoPanel.hidden = true;
     if (endEarlyPanel) endEarlyPanel.hidden = true;
     if (towelPanel) towelPanel.hidden = true;
     if (towelReason) towelReason.value = '';
