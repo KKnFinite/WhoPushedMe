@@ -284,6 +284,43 @@ def join_round():
     return jsonify(participant), 201
 
 
+@api.get("/rounds/code/<code>/claimable-players")
+@authenticated
+def claimable_round_only_players(code: str):
+    return jsonify(
+        _store().list_claimable_round_only_players(
+            g.golfer["id"],
+            code,
+        )
+    )
+
+
+@api.post("/rounds/<round_id>/round-only-players")
+@authenticated
+def add_round_only_player(round_id: str):
+    payload = _body()
+    participant = _store().add_round_only_player(
+        g.golfer["id"],
+        round_id,
+        display_name=payload.get("display_name"),
+        tee_name=payload.get("tee_name"),
+    )
+    return jsonify(participant), 201
+
+
+@api.patch("/rounds/<round_id>/claim-player")
+@authenticated
+def claim_round_only_player(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().claim_round_only_player(
+            g.golfer["id"],
+            round_id,
+            payload.get("participant_id"),
+        )
+    )
+
+
 @api.get("/rounds/code/<code>")
 @authenticated
 def get_round(code: str):
