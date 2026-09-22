@@ -1234,6 +1234,126 @@ class RoundStore:
                 "event": event,
             }
 
+    def promote_spectator_to_player(
+        self,
+        golfer_id: object,
+        round_id: object,
+        *,
+        tee_name: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        selected_tee = self._clean_tee_name(tee_name)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+
+            if round_row["status"] != "active":
+                raise DomainError(
+                    "spectators can only join play during an active round"
+                )
+            if participant["role"] == "player":
+                return participant
+            if participant["role"] != "spectator":
+                raise DomainError("only spectators can join play this way")
+
+            cursor.execute(
+                """
+                SELECT count(*) AS active_players
+                FROM round_participants
+                WHERE round_id = %s
+                  AND role = 'player'
+                  AND participation_state = 'active'
+                """,
+                (round_uuid,),
+            )
+            if int(cursor.fetchone()["active_players"] or 0) >= 4:
+                raise DomainError("this round already has 4 active golfers")
+
+            if round_row["course_id"]:
+                cursor.execute(
+                    """
+                    SELECT EXISTS (
+                        SELECT 1
+                        FROM cached_course_hole_tees
+                        WHERE course_id = %s
+                    ) AS has_tees
+                    """,
+                    (round_row["course_id"],),
+                )
+                has_tees = bool(cursor.fetchone()["has_tees"])
+                if has_tees and not selected_tee:
+                    raise DomainError("choose a tee before joining as a player")
+                if selected_tee:
+                    self._validate_course_tee(
+                        cursor,
+                        round_row["course_id"],
+                        selected_tee,
+                    )
+
+            tracked_from = int(round_row["current_route_position"])
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET role = 'player',
+                    tee_name = %s,
+                    participation_state = 'active',
+                    tracked_from_position = %s
+                WHERE id = %s
+                RETURNING id, round_id, golfer_id, role, tee_name,
+                          participation_state, tracked_from_position, joined_at
+                """,
+                (selected_tee, tracked_from, participant["id"]),
+            )
+            promoted = cursor.fetchone()
+
+            cursor.execute(
+                """
+                INSERT INTO round_participant_route_positions (
+                    round_id, participant_id, route_position, required
+                )
+                SELECT %s, %s, rr.route_position, true
+                FROM round_route_positions rr
+                WHERE rr.round_id = %s
+                  AND rr.route_position >= %s
+                  AND rr.state = 'planned'
+                ON CONFLICT (participant_id, route_position)
+                DO UPDATE SET required = true
+                """,
+                (
+                    round_uuid,
+                    participant["id"],
+                    round_uuid,
+                    tracked_from,
+                ),
+            )
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                tracked_from,
+            )
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="spectator_joined_play",
+                hole_number=int(route_row["hole_number"]),
+                route_position=tracked_from,
+                data={
+                    "participant_id": str(participant["id"]),
+                    "tracked_from_position": tracked_from,
+                    "tee_name": selected_tee,
+                },
+                content_event_key="participant.spectator_to_player",
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "hole": int(route_row["hole_number"]),
+                },
+            )
+            return promoted
+
     def get_round(
         self,
         golfer_id: object,
