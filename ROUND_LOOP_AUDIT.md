@@ -491,6 +491,19 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - A whole group may explicitly end the round early; the report must clearly distinguish early termination from a normally completed round.
 - Towel events and late-round taunts must never be required to continue or finish a round.
 
+## Simple handicap setup
+- Keep handicap setup familiar to mainstream scorecard apps and optional for casual golfers.
+- Individual play only; scramble remains gross-only in v1.
+- A golfer profile may store a Handicap Index when the golfer knows it.
+- If the selected course/tee provides Course Rating and Slope Rating, calculate the golfer's round/course handicap automatically from the stored Index and tee data.
+- If the required course/tee rating data is unavailable, allow a simple manual `ROUND HANDICAP` number instead of forcing the golfer through handicap math.
+- Round setup should prefill saved handicap data and require as little input as possible.
+- Gross score is always recorded and displayed regardless of handicap availability.
+- Net scoring appears only when the group has enabled net competition and the golfer has a usable round handicap.
+- Do not require GHIN/USGA linkage, membership, or an official Handicap Index to use Who Pushed Me?!.
+- A future official handicap-provider integration may be added separately; v1 should not attempt to become an official handicap authority.
+- UI should explain only what the golfer needs at that moment. Prefer `HANDICAP INDEX` when available and fall back to `ROUND HANDICAP` when course data cannot calculate it.
+
 ## Handicap availability and correction
 - Individual play may use optional net scoring; scramble is gross-only in v1.
 - If an individual round uses net scoring for official placement, every golfer needs a round handicap before becoming eligible for net placement.
