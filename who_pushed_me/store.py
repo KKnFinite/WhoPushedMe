@@ -1710,6 +1710,172 @@ class RoundStore:
             return claimed
 
     @staticmethod
+    def _claim_undo_state_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+        participant_id: UUID,
+    ) -> dict[str, Any] | None:
+        cursor.execute(
+            """
+            SELECT id, data, created_at
+            FROM round_events
+            WHERE round_id = %s
+              AND actor_participant_id = %s
+              AND event_type = 'participant_claimed'
+            ORDER BY created_at DESC, id DESC
+            LIMIT 1
+            """,
+            (round_id, participant_id),
+        )
+        claim_event = cursor.fetchone()
+        if not claim_event:
+            return None
+
+        claim_data = claim_event.get("data") or {}
+        round_only_golfer_id = claim_data.get("round_only_golfer_id")
+        if not round_only_golfer_id:
+            return None
+
+        cursor.execute(
+            """
+            SELECT count(*) AS actions
+            FROM round_events
+            WHERE round_id = %s
+              AND actor_participant_id = %s
+              AND created_at > %s
+              AND id <> %s
+            """,
+            (
+                round_id,
+                participant_id,
+                claim_event["created_at"],
+                claim_event["id"],
+            ),
+        )
+        actions = int(cursor.fetchone()["actions"] or 0)
+        return {
+            "available": True,
+            "claim_event_id": claim_event["id"],
+            "round_only_golfer_id": round_only_golfer_id,
+            "old_display_name": claim_data.get("old_display_name"),
+            "actions_after_claim": actions,
+            "requires_confirmation": actions > 0,
+        }
+
+    def undo_round_only_claim(
+        self,
+        golfer_id: object,
+        round_id: object,
+        *,
+        confirm_actor_history: bool = False,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            if round_row["status"] != "active":
+                raise DomainError(
+                    "a player claim can only be undone during an active round"
+                )
+
+            participant = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
+            state = self._claim_undo_state_from_cursor(
+                cursor,
+                round_uuid,
+                participant["id"],
+            )
+            if not state:
+                raise DomainError(
+                    "this participant was not claimed from a round-only golfer"
+                )
+
+            if (
+                state["requires_confirmation"]
+                and not confirm_actor_history
+            ):
+                return {
+                    "round_id": round_uuid,
+                    "participant_id": participant["id"],
+                    "undone": False,
+                    **state,
+                }
+
+            round_only_golfer_id = self._uuid(
+                state["round_only_golfer_id"],
+                "round_only_golfer_id",
+            )
+            cursor.execute(
+                """
+                SELECT id, display_name
+                FROM golfers
+                WHERE id = %s
+                  AND username IS NULL
+                  AND password_hash IS NULL
+                  AND recovery_key_hash IS NULL
+                  AND recovery_key IS NULL
+                """,
+                (round_only_golfer_id,),
+            )
+            round_only_golfer = cursor.fetchone()
+            if not round_only_golfer:
+                raise DomainError(
+                    "the original round-only golfer is no longer available"
+                )
+
+            cursor.execute(
+                """
+                SELECT display_name
+                FROM golfers
+                WHERE id = %s
+                """,
+                (golfer_uuid,),
+            )
+            account = cursor.fetchone()
+
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET golfer_id = %s
+                WHERE id = %s
+                """,
+                (round_only_golfer_id, participant["id"]),
+            )
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="participant_claim_undone",
+                data={
+                    "player_participant_id": str(participant["id"]),
+                    "account_golfer_id": str(golfer_uuid),
+                    "account_display_name": (
+                        account["display_name"] if account else None
+                    ),
+                    "display_name": round_only_golfer["display_name"],
+                    "actions_after_claim": state["actions_after_claim"],
+                },
+                content_event_key="participant.claim_undone",
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "subject": round_only_golfer["display_name"],
+                },
+            )
+
+            return {
+                "round_id": round_uuid,
+                "participant_id": participant["id"],
+                "undone": True,
+                "display_name": round_only_golfer["display_name"],
+                "actions_after_claim": state["actions_after_claim"],
+            }
+
+    @staticmethod
     def _end_early_state_from_cursor(
         cursor: Any,
         round_id: UUID,
@@ -2124,6 +2290,15 @@ class RoundStore:
             round_row["end_early"] = self._end_early_state_from_cursor(
                 cursor,
                 found["id"],
+            )
+            round_row["claim_undo"] = (
+                self._claim_undo_state_from_cursor(
+                    cursor,
+                    found["id"],
+                    participant["id"],
+                )
+                if round_row["status"] == "active"
+                else None
             )
             round_row["viewer_role"] = participant["role"]
             round_row["viewer_participant_id"] = participant["id"]
