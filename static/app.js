@@ -58,6 +58,8 @@
   const startTeeLabel = document.getElementById('start-tee-label');
   const startTeeSelect = document.getElementById('start-tee-select');
   const startHoleInput = document.getElementById('start-hole-input');
+  const trackingStartPosition = document.getElementById('tracking-start-position');
+  const priorHolesMode = document.getElementById('prior-holes-mode');
   const routePreview = document.getElementById('route-preview');
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
   const lobbyTeeLabel = document.getElementById('lobby-tee-label');
@@ -664,11 +666,39 @@
     for (let index = 0; index < holes; index += 1) {
       route.push(((start - 1 + index) % physicalCount) + 1);
     }
+
+    const previousTracking = Number(trackingStartPosition?.value || 1);
+    const selectedTracking = Math.max(
+      1,
+      Math.min(
+        Number.isInteger(previousTracking) ? previousTracking : 1,
+        route.length
+      )
+    );
+    if (trackingStartPosition) {
+      trackingStartPosition.replaceChildren();
+      route.forEach((holeNumber, index) => {
+        const position = index + 1;
+        const option = document.createElement('option');
+        option.value = String(position);
+        option.textContent =
+          `HOLE ${holeNumber} • ${position} OF ${route.length}`;
+        option.selected = position === selectedTracking;
+        trackingStartPosition.append(option);
+      });
+    }
+    if (priorHolesMode) {
+      priorHolesMode.hidden = selectedTracking <= 1;
+    }
+
     const short = route.length <= 9
       ? route.join(', ')
       : `${route.slice(0, 6).join(', ')} … ${route.slice(-3).join(', ')}`;
+    const trackingCopy = selectedTracking > 1
+      ? ` • APP JOINS AT ${selectedTracking} OF ${route.length}`
+      : '';
     routePreview.textContent =
-      `ROUTE: ${short} • ${holes} HOLE${holes === 1 ? '' : 'S'}`;
+      `ROUTE: ${short} • ${holes} HOLE${holes === 1 ? '' : 'S'}${trackingCopy}`;
   };
 
   const selectCourseResult = async (result) => {
@@ -2525,6 +2555,7 @@
     control.addEventListener('change', renderRoutePreview);
   });
   startHoleInput?.addEventListener('input', renderRoutePreview);
+  trackingStartPosition?.addEventListener('change', renderRoutePreview);
 
   courseSearchButton?.addEventListener('click', searchCourses);
   courseSearchInput?.addEventListener('keydown', (event) => {
@@ -2553,11 +2584,19 @@
       }
 
       const parSetup = String(values.get('par_setup') || 'as_go');
+      const trackingStart = Number(
+        values.get('tracking_start_position') || 1
+      );
+      const priorMode = String(
+        values.get('prior_holes_mode') || 'untracked'
+      );
       const body = {
         mode: values.get('mode'),
         holes,
         start_hole: startHole,
         par_tracking_enabled: parSetup !== 'off',
+        tracking_start_position: trackingStart,
+        prior_holes_mode: priorMode,
       };
 
       if (courseMode === 'course') {
