@@ -244,6 +244,14 @@ class FakeStore:
             "tee_name": tee_name,
         }
 
+    def set_participation_state(self, golfer_id, round_id, state, *, reason=None):
+        self.calls.append(("participation", golfer_id, round_id, state, reason))
+        return {
+            "round_id": round_id,
+            "participant_id": "participant-1",
+            "participation_state": state,
+        }
+
     def set_current_hole(self, golfer_id, round_id, hole):
         self.calls.append(("current_hole", golfer_id, round_id, hole))
         return {"round_id": round_id, "current_hole": hole}
@@ -826,6 +834,44 @@ def test_join_round_can_carry_initial_tee_choice():
         "player",
         "White",
     )
+
+def test_player_can_throw_in_the_towel_with_optional_reason():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/participation",
+        headers={"Authorization": "Bearer session-token"},
+        json={"state": "withdrew", "reason": "I have seen enough."},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["participation_state"] == "withdrew"
+    assert store.calls[-1] == (
+        "participation",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "withdrew",
+        "I have seen enough.",
+    )
+
+
+def test_withdrawn_player_can_return_to_round():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/participation",
+        headers={"Authorization": "Bearer session-token"},
+        json={"state": "active"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["participation_state"] == "active"
+    assert store.calls[-1] == (
+        "participation",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "active",
+        None,
+    )
+
 
 def test_live_scorecard_can_advance_shared_hole_without_touching_scores():
     client, store = client_with_store()

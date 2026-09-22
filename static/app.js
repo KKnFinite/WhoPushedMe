@@ -84,6 +84,11 @@
   const receiptsPanel = document.getElementById('receipts-panel');
   const receiptsList = document.getElementById('receipts-list');
   const bagButton = document.getElementById('bag-of-bullshit-button');
+  const towelButton = document.getElementById('towel-button');
+  const towelPanel = document.getElementById('towel-panel');
+  const towelReason = document.getElementById('towel-reason');
+  const towelConfirm = document.getElementById('towel-confirm');
+  const towelCancel = document.getElementById('towel-cancel');
   const bagModal = document.getElementById('bag-modal');
   const bagClose = document.getElementById('bag-close');
   const bagMessage = document.getElementById('bag-message');
@@ -531,6 +536,8 @@
     currentLobbyRound = null;
     viewedRoutePosition = null;
     finishIncompletePending = false;
+    if (towelPanel) towelPanel.hidden = true;
+    if (towelReason) towelReason.value = '';
     clearSelectedCourse();
     if (lobbyRefreshTimer) {
       window.clearInterval(lobbyRefreshTimer);
@@ -573,6 +580,21 @@
   const routeLength = (round) => {
     const route = round.route || [];
     return route.length || Number(round.hole_count || 0);
+  };
+
+  const viewerParticipant = (round) => {
+    return (round.participants || []).find(
+      (participant) =>
+        String(participant.id) === String(round.viewer_participant_id)
+    ) || null;
+  };
+
+  const viewerIsActivePlayer = (round) => {
+    const viewer = viewerParticipant(round);
+    return (
+      round.viewer_role === 'player'
+      && viewer?.participation_state === 'active'
+    );
   };
 
   const findPar = (round, position) => {
@@ -958,7 +980,7 @@
     const hole = Number(route?.hole_number || position);
     const par = findPar(round, position);
     const canScore = (
-      round.viewer_role === 'player'
+      viewerIsActivePlayer(round)
       && Number(position) <= Number(round.current_route_position)
     );
 
@@ -985,7 +1007,18 @@
       header.append(name, status);
       card.append(header);
 
-      if (!canScore) {
+      const target = participantId
+        ? (round.participants || []).find(
+            (participant) => String(participant.id) === String(participantId)
+          )
+        : null;
+      const targetCanReceiveScore = (
+        round.mode === 'scramble'
+        || target?.participation_state === 'active'
+        || Number(position) < Number(round.current_route_position)
+      );
+
+      if (!canScore || !targetCanReceiveScore) {
         const readonly = document.createElement('div');
         readonly.className = 'live-score-readonly';
         readonly.textContent = score
@@ -1150,7 +1183,10 @@
     const players = (round.participants || []).filter(
       (participant) => participant.role === 'player'
     );
-    const canEdit = round.status === 'active';
+    const canEdit = (
+      round.status === 'active'
+      && viewerIsActivePlayer(round)
+    );
 
     SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
       const contribution = (round.contributions || []).find(
@@ -1577,7 +1613,7 @@
     }
     if (advanceLiveHole) {
       const canAdvanceLive = (
-        round.viewer_role === 'player'
+        viewerIsActivePlayer(round)
         && round.status === 'active'
         && viewingLive
         && livePosition < length
@@ -1587,7 +1623,7 @@
     }
 
     const canEditViewedHole = (
-      round.viewer_role === 'player'
+      viewerIsActivePlayer(round)
       && !viewingFuture
       && round.status === 'active'
     );
@@ -1608,8 +1644,28 @@
     renderLatestPresentation(round);
     renderReceipts(round);
 
-    const canFinish = (
+    const viewer = viewerParticipant(round);
+    const viewerWithdrew = (
       round.viewer_role === 'player'
+      && viewer?.participation_state === 'withdrew'
+    );
+    const canToggleTowel = (
+      round.viewer_role === 'player'
+      && ['active', 'withdrew'].includes(viewer?.participation_state)
+    );
+    if (towelButton) {
+      towelButton.hidden = !canToggleTowel;
+      towelButton.textContent = viewerWithdrew
+        ? 'GET BACK IN THIS MESS'
+        : 'THROW IN THE TOWEL';
+      towelButton.disabled = false;
+    }
+    if (towelPanel && viewerWithdrew) {
+      towelPanel.hidden = true;
+    }
+
+    const canFinish = (
+      viewerIsActivePlayer(round)
       && viewingLive
       && livePosition === length
     );
@@ -1862,6 +1918,52 @@
 
   liveRoundHome?.addEventListener('click', closeRoundFlow);
   roundEndHome?.addEventListener('click', closeRoundFlow);
+
+  const changeParticipation = async (state, reason = '') => {
+    if (!currentLobbyRound) return;
+    setRoundFlowMessage('');
+    if (towelButton) towelButton.disabled = true;
+    if (towelConfirm) towelConfirm.disabled = true;
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/participation`,
+        {
+          method: 'PATCH',
+          body: {
+            state,
+            reason: reason || null,
+          },
+        }
+      );
+      if (towelPanel) towelPanel.hidden = true;
+      if (towelReason) towelReason.value = '';
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      if (towelButton) towelButton.disabled = false;
+      if (towelConfirm) towelConfirm.disabled = false;
+    }
+  };
+
+  towelButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound) return;
+    const viewer = viewerParticipant(currentLobbyRound);
+    if (viewer?.participation_state === 'withdrew') {
+      await changeParticipation('active');
+      return;
+    }
+    if (towelPanel) towelPanel.hidden = false;
+    towelReason?.focus();
+  });
+
+  towelCancel?.addEventListener('click', () => {
+    if (towelPanel) towelPanel.hidden = true;
+    if (towelReason) towelReason.value = '';
+  });
+
+  towelConfirm?.addEventListener('click', async () => {
+    await changeParticipation('withdrew', towelReason?.value.trim() || '');
+  });
 
   downloadReportButton?.addEventListener('click', async () => {
     if (!currentLobbyRound || currentLobbyRound.status !== 'completed') return;

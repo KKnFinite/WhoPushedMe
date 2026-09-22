@@ -330,6 +330,20 @@ def set_tee(round_id: str):
     )
 
 
+@api.patch("/rounds/<round_id>/participation")
+@authenticated
+def set_participation_state(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().set_participation_state(
+            g.golfer["id"],
+            round_id,
+            payload.get("state"),
+            reason=payload.get("reason"),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/current-hole")
 @authenticated
 def set_current_hole(round_id: str):

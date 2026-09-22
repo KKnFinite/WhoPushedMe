@@ -128,6 +128,12 @@ class RoundStore:
         return participant
 
     @staticmethod
+    def _require_active_player(participant: dict[str, Any], operation: str) -> None:
+        require_player(participant["role"], operation)
+        if participant.get("participation_state") != "active":
+            raise PermissionDenied(f"withdrawn players cannot {operation}")
+
+    @staticmethod
     def _round(cursor: Any, round_id: UUID, *, lock: bool = False) -> dict[str, Any]:
         cursor.execute(
             f"""
@@ -1099,6 +1105,135 @@ class RoundStore:
             )
             return participant
 
+    def set_participation_state(
+        self,
+        golfer_id: object,
+        round_id: object,
+        state: object,
+        *,
+        reason: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        requested = str(state or "").strip().lower()
+        if requested not in {"active", "withdrew"}:
+            raise DomainError("participation state must be active or withdrew")
+
+        surrender_reason = str(reason or "").strip()
+        if len(surrender_reason) > 280:
+            raise DomainError("surrender reason must be 280 characters or fewer")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            require_player(participant["role"], "change participation state")
+            require_active_round(round_row["status"], "change participation state")
+
+            old_state = str(participant.get("participation_state") or "active")
+            if old_state == requested:
+                return {
+                    "round_id": round_uuid,
+                    "participant_id": participant["id"],
+                    "participation_state": requested,
+                    "event": None,
+                }
+
+            current_position = int(round_row["current_route_position"])
+            if requested == "active":
+                cursor.execute(
+                    """
+                    SELECT count(*) AS active_players
+                    FROM round_participants
+                    WHERE round_id = %s
+                      AND role = 'player'
+                      AND participation_state = 'active'
+                      AND id <> %s
+                    """,
+                    (round_uuid, participant["id"]),
+                )
+                if int(cursor.fetchone()["active_players"] or 0) >= 4:
+                    raise DomainError("this round already has 4 active golfers")
+
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET participation_state = %s
+                WHERE id = %s
+                """,
+                (requested, participant["id"]),
+            )
+
+            if round_row["mode"] == "individual":
+                if requested == "withdrew":
+                    cursor.execute(
+                        """
+                        UPDATE round_participant_route_positions
+                        SET required = false
+                        WHERE participant_id = %s
+                          AND route_position >= %s
+                        """,
+                        (participant["id"], current_position),
+                    )
+                else:
+                    cursor.execute(
+                        """
+                        INSERT INTO round_participant_route_positions (
+                            round_id, participant_id, route_position, required
+                        )
+                        SELECT %s, %s, route_position, true
+                        FROM round_route_positions
+                        WHERE round_id = %s
+                          AND route_position >= %s
+                          AND state = 'planned'
+                        ON CONFLICT (participant_id, route_position)
+                        DO UPDATE SET required = true
+                        """,
+                        (
+                            round_uuid,
+                            participant["id"],
+                            round_uuid,
+                            current_position,
+                        ),
+                    )
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                current_position,
+            )
+            event = self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type=(
+                    "participant_withdrew"
+                    if requested == "withdrew"
+                    else "participant_returned"
+                ),
+                hole_number=int(route_row["hole_number"]),
+                route_position=current_position,
+                data={
+                    "participant_id": str(participant["id"]),
+                    "reason": surrender_reason or None,
+                    "mode": round_row["mode"],
+                },
+                content_event_key=(
+                    "participant.towel"
+                    if requested == "withdrew"
+                    else "participant.return"
+                ),
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "reason": surrender_reason,
+                },
+            )
+            return {
+                "round_id": round_uuid,
+                "participant_id": participant["id"],
+                "participation_state": requested,
+                "event": event,
+            }
+
     def get_round(
         self,
         golfer_id: object,
@@ -1354,8 +1489,8 @@ class RoundStore:
                 round_uuid,
                 golfer_uuid,
             )
-            require_player(
-                participant["role"],
+            self._require_active_player(
+                participant,
                 "change the current hole",
             )
             require_active_round(
@@ -1632,8 +1767,7 @@ class RoundStore:
              AND rr.route_position IS NOT NULL
             WHERE rp.round_id = %s
               AND rp.role = 'player'
-              AND rp.participation_state = 'active'
-              AND rp.tracked_from_position = 1
+              AND rp.participation_state <> 'removed'
             GROUP BY rp.id, g.display_name, rp.joined_at,
                      rp.participation_state, rp.tracked_from_position
             ORDER BY rp.joined_at, rp.id
@@ -1792,7 +1926,7 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid, lock=True)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
-            require_player(participant["role"], "change round status")
+            self._require_active_player(participant, "change round status")
             old_status = round_row["status"]
             if new_status != old_status:
                 if new_status not in transitions[old_status]:
@@ -1979,7 +2113,7 @@ class RoundStore:
                 round_uuid,
                 golfer_uuid,
             )
-            require_player(participant["role"], "change par")
+            self._require_active_player(participant, "change par")
             require_active_round(round_row["status"], "change par")
             if not bool(round_row["par_tracking_enabled"]):
                 raise DomainError("par tracking is disabled for this round")
@@ -2228,7 +2362,7 @@ class RoundStore:
                 round_uuid,
                 golfer_uuid,
             )
-            require_player(actor["role"], "change scores")
+            self._require_active_player(actor, "change scores")
             require_active_round(round_row["status"], "change scores")
 
             route_row = self._route_position(
@@ -2269,6 +2403,13 @@ class RoundStore:
                     )
                 scope = "player"
                 subject_name = target["display_name"]
+                if (
+                    target["participation_state"] != "active"
+                    and route_position >= int(round_row["current_route_position"])
+                ):
+                    raise DomainError(
+                        "withdrawn players can only backfill earlier scores until they return"
+                    )
 
                 cursor.execute(
                     """
@@ -2594,7 +2735,7 @@ class RoundStore:
                 round_uuid,
                 golfer_uuid,
             )
-            require_player(actor["role"], "change scores")
+            self._require_active_player(actor, "change scores")
             require_active_round(round_row["status"], "change scores")
 
             route_row = self._route_position(
@@ -2730,6 +2871,7 @@ class RoundStore:
                 round_uuid,
                 golfer_uuid,
             )
+            self._require_active_player(actor, "change contributions")
             if round_row["status"] != "active":
                 raise DomainError(
                     "contributions are only available during an active round"

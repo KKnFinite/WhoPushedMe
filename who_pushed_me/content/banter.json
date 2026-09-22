@@ -210,6 +210,42 @@
       "enabled": true
     },
     {
+      "id": "banter.participant.towel.normal",
+      "text": "The towel has been thrown. Dignity left earlier.",
+      "events": ["participant.towel"],
+      "audiences": ["everyone"],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.towel.brutal",
+      "text": "Fuck it. Somebody finally admitted defeat.",
+      "events": ["participant.towel"],
+      "audiences": ["everyone"],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.return.normal",
+      "text": "Look who decided suffering builds character.",
+      "events": ["participant.return"],
+      "audiences": ["everyone"],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.return.brutal",
+      "text": "Back for more? Apparently quitting didn't fucking take.",
+      "events": ["participant.return"],
+      "audiences": ["everyone"],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.score.challenge.normal",
       "text": "Score challenged. Apparently numbers need witnesses now.",
       "events": [
