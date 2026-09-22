@@ -1259,7 +1259,10 @@
         const line = document.createElement('div');
         line.className = 'score-response-line';
 
-        const actorName = actor?.display_name || 'Someone';
+        const actorName =
+          reply.data?.actor_display_name
+          || actor?.display_name
+          || 'Someone';
         const text = presentationText(reply)
           || String(reply.data?.response_kind || 'responded').toUpperCase();
         line.textContent = `${actorName}: ${text}`;
@@ -1610,7 +1613,9 @@
             String(participant.id) === String(event.actor_participant_id)
         );
         const actorName = String(
-          actor?.display_name || 'SOMEONE'
+          event.data?.actor_display_name
+          || actor?.display_name
+          || 'SOMEONE'
         ).toUpperCase();
         const oldTee = String(event.old_value || 'UNSET').toUpperCase();
         const newTee = String(event.new_value || 'UNSET').toUpperCase();
@@ -1626,9 +1631,14 @@
           ? 'TEAM SCORE'
           : String(event.data?.subject || 'GOLFER').toUpperCase();
         const oldScore = Number(event.old_value);
+        const actorName = String(
+          event.data?.actor_display_name
+          || actor?.display_name
+          || 'SOMEONE'
+        ).toUpperCase();
         title.textContent = event.data?.scope === 'team'
-          ? `${String(actor?.display_name || 'SOMEONE').toUpperCase()} REMOVED ${subject} ${oldScore}`
-          : `${String(actor?.display_name || 'SOMEONE').toUpperCase()} REMOVED ${subject}'S ${oldScore}`;
+          ? `${actorName} REMOVED ${subject} ${oldScore}`
+          : `${actorName} REMOVED ${subject}'S ${oldScore}`;
       } else {
         title.textContent = (
           presentationText(event)
@@ -1683,8 +1693,12 @@
                 String(participant.id) === String(reply.actor_participant_id)
             );
             const line = document.createElement('small');
+            const actorName =
+              reply.data?.actor_display_name
+              || actor?.display_name
+              || 'Someone';
             line.textContent =
-              `${actor?.display_name || 'Someone'}: ${presentationText(reply)
+              `${actorName}: ${presentationText(reply)
                 || String(reply.data?.message || reply.data?.response_kind || '')}`;
             social.append(line);
           });
