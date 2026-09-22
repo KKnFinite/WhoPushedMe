@@ -2788,6 +2788,42 @@
     await changeParticipation('withdrew', towelReason?.value.trim() || '');
   });
 
+  const castEndEarlyVote = async (vote) => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    if (endEarlyButton) endEarlyButton.disabled = true;
+    if (endEarlyYes) endEarlyYes.disabled = true;
+    if (endEarlyNo) endEarlyNo.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/end-early-vote`,
+        {
+          method: 'PATCH',
+          body: { vote: Boolean(vote) },
+        }
+      );
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      if (endEarlyButton) endEarlyButton.disabled = false;
+      if (endEarlyYes) endEarlyYes.disabled = false;
+      if (endEarlyNo) endEarlyNo.disabled = false;
+    }
+  };
+
+  endEarlyButton?.addEventListener('click', async () => {
+    await castEndEarlyVote(true);
+  });
+
+  endEarlyYes?.addEventListener('click', async () => {
+    await castEndEarlyVote(true);
+  });
+
+  endEarlyNo?.addEventListener('click', async () => {
+    await castEndEarlyVote(false);
+  });
+
   downloadReportButton?.addEventListener('click', async () => {
     if (!currentLobbyRound || currentLobbyRound.status !== 'completed') return;
 
