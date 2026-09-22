@@ -140,6 +140,31 @@ class RoundStore:
         return rows[0]
 
     @staticmethod
+    def _supports_standard_course_handicap(
+        cursor: Any,
+        round_id: UUID,
+    ) -> bool:
+        cursor.execute(
+            """
+            SELECT count(*) AS planned_count,
+                   count(DISTINCT hole_number) AS unique_holes,
+                   min(hole_number) AS min_hole,
+                   max(hole_number) AS max_hole
+            FROM round_route_positions
+            WHERE round_id = %s
+              AND state = 'planned'
+            """,
+            (round_id,),
+        )
+        row = cursor.fetchone()
+        return (
+            int(row["planned_count"] or 0) == 18
+            and int(row["unique_holes"] or 0) == 18
+            and int(row["min_hole"] or 0) == 1
+            and int(row["max_hole"] or 0) == 18
+        )
+
+    @staticmethod
     def _planned_round_par(
         cursor: Any,
         round_id: UUID,
@@ -186,6 +211,11 @@ class RoundStore:
         handicap_index: float | None,
     ) -> int | None:
         if not course_id or not tee_name or handicap_index is None:
+            return None
+        if not cls._supports_standard_course_handicap(
+            cursor,
+            round_id,
+        ):
             return None
         rating = cls._unique_course_tee_rating(
             cursor,
