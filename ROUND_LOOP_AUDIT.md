@@ -619,6 +619,20 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - If the whole group ends early together, that shared stopping point becomes the effective route end for the golfers still active; those golfers can still receive official placement over the common played route, while the round remains visibly labeled `ENDED EARLY`.
 - Scramble has one team result. A team that ends early keeps its score and score-to-par over the played route, but the report must clearly label the round as ended early.
 
+## Skipping a hole
+- The group may explicitly skip the current active route position when a physical hole is unavailable, closed, flooded, excessively backed up, or otherwise not being played.
+- `SKIP HOLE` advances the shared active route to the next route position without creating a fake score.
+- The skipped route position remains in Receipts/history as `SKIPPED` with the physical hole number, route position, actor, and optional reason.
+- A skipped hole is removed from the effective scoring route for totals, score-to-par, completion, streaks, standings, and awards.
+- Skipping a hole must not fabricate par, assumed par, zero strokes, or any other placeholder golf result.
+- If the group later returns to that physical hole before the round ends, it should be added as a new future route position rather than silently unskipping/reusing the old skipped position.
+- Skip actions may trigger mocking commentary, for example:
+  - `HOLE SKIPPED. APPARENTLY EVEN THE COURSE HAS HAD ENOUGH.`
+  - `WE'RE CALLING THIS ONE A STRATEGIC RETREAT.`
+  - `THE HOLE SURVIVES ANOTHER GROUP OF IDIOTS.`
+- Skipping is a shared golf-state action and should create a permanent Receipt.
+- Future-hole preview does not imply skip; the hole is skipped only through an explicit action.
+
 ## Extending an active round
 - An active round may be deliberately extended forward from its planned endpoint without changing the locked course or rewriting already-played route positions.
 - Use an explicit `EXTEND THE ROUND` action rather than arbitrary mid-route editing.
