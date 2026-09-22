@@ -22,6 +22,11 @@
   const settingsClose = document.getElementById('settings-close');
   const settingsForm = document.getElementById('settings-form');
   const settingsMessage = document.getElementById('settings-message');
+  const installOnboardingModal = document.getElementById('install-onboarding-modal');
+  const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
+  const installOnboardingInstructions = document.getElementById('install-onboarding-instructions');
+  const installOnboardingPrimary = document.getElementById('install-onboarding-primary');
+  const installOnboardingSkip = document.getElementById('install-onboarding-skip');
   const startRoundButton = document.getElementById('start-round-button');
   const joinRoundButton = document.getElementById('join-round-button');
   const roundFlowModal = document.getElementById('round-flow-modal');
@@ -122,6 +127,16 @@
   let viewedRoutePosition = null;
   let currentBagAction = null;
   let finishIncompletePending = false;
+  let deferredInstallPrompt = null;
+  let installOnboardingAccountKey = '';
+
+  const INSTALL_ONBOARDING_ASSETS = [
+    '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp',
+    '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_LiterallyTellingYouWhereToTap.webp',
+    '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen.webp',
+    '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_MakeItAnAppYouLazyBastard.webp',
+    '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_47OtherUselessApps.webp',
+  ];
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
@@ -208,7 +223,49 @@
     if (recoveryCard) recoveryCard.hidden = true;
     if (authTabs) authTabs.hidden = false;
 
-    authViewButtons.forEach((button) => {
+    window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    closeInstallOnboarding({ remember: true });
+  });
+
+  installOnboardingPrimary?.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      const prompt = deferredInstallPrompt;
+      deferredInstallPrompt = null;
+      await prompt.prompt();
+      const choice = await prompt.userChoice.catch(() => null);
+      if (choice?.outcome === 'accepted') {
+        closeInstallOnboarding({ remember: true });
+      }
+      return;
+    }
+
+    if (installOnboardingPrimary.dataset.instructionsShown === '1') {
+      closeInstallOnboarding({ remember: true });
+      return;
+    }
+
+    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (installOnboardingInstructions) {
+      installOnboardingInstructions.textContent = isAppleMobile
+        ? 'Tap the Share button, then choose Add to Home Screen.'
+        : 'Open your browser menu and choose Install app or Add to Home screen.';
+      installOnboardingInstructions.hidden = false;
+    }
+    installOnboardingPrimary.dataset.instructionsShown = '1';
+    installOnboardingPrimary.textContent = 'FINE. I GET IT.';
+  });
+
+  installOnboardingSkip?.addEventListener('click', () => {
+    closeInstallOnboarding({ remember: true });
+  });
+
+  authViewButtons.forEach((button) => {
       button.classList.toggle('is-active', button.dataset.authView === view);
     });
     authPanels.forEach((panel) => {
@@ -223,6 +280,60 @@
     switchAuthView(view);
   };
 
+  const isStandaloneApp = () => {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true
+    );
+  };
+
+  const installOnboardingKey = (account) => {
+    const identity = String(account?.id || account?.username || 'account');
+    return `wpm_install_onboarding_seen:${identity}`;
+  };
+
+  const closeInstallOnboarding = ({ remember = true } = {}) => {
+    if (remember && installOnboardingAccountKey) {
+      window.localStorage.setItem(installOnboardingAccountKey, '1');
+    }
+    if (installOnboardingModal) installOnboardingModal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if (installOnboardingInstructions) {
+      installOnboardingInstructions.hidden = true;
+      installOnboardingInstructions.textContent = '';
+    }
+    if (installOnboardingPrimary) {
+      installOnboardingPrimary.textContent = 'FINE. INSTALL THE DAMN THING.';
+      installOnboardingPrimary.dataset.instructionsShown = '';
+    }
+  };
+
+  const maybeShowInstallOnboarding = (account) => {
+    if (!installOnboardingModal) return;
+
+    installOnboardingAccountKey = installOnboardingKey(account);
+    if (isStandaloneApp()) {
+      window.localStorage.setItem(installOnboardingAccountKey, '1');
+      return;
+    }
+    if (window.localStorage.getItem(installOnboardingAccountKey) === '1') {
+      return;
+    }
+
+    const identity = String(account?.id || account?.username || 'wpm');
+    const assetIndex = [...identity].reduce(
+      (total, character) => total + character.charCodeAt(0),
+      0
+    ) % INSTALL_ONBOARDING_ASSETS.length;
+    if (installOnboardingMascot) {
+      installOnboardingMascot.src = INSTALL_ONBOARDING_ASSETS[assetIndex];
+    }
+
+    installOnboardingModal.hidden = false;
+    document.body.classList.add('modal-open');
+    installOnboardingPrimary?.focus();
+  };
+
   const showApp = (account) => {
     pendingAccount = null;
     if (authShell) authShell.hidden = true;
@@ -234,6 +345,7 @@
         : 'WELCOME BACK';
     }
     document.body.classList.add('app-ready');
+    window.setTimeout(() => maybeShowInstallOnboarding(account), 0);
   };
 
   const showRecoveryKey = (result) => {

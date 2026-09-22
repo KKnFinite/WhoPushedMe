@@ -12,6 +12,9 @@ def test_home_loads_pwa_shell():
     assert response.status_code == 200
     assert b"IT HAS BEGUN!" in response.data
     assert b"START A ROUND" in response.data
+    assert b"TAKE 10 SECONDS. MAKE IT AN ACTUAL APP." in response.data
+    assert b"FINE. INSTALL THE DAMN THING." in response.data
+    assert b"I ENJOY MAKING THINGS HARDER." in response.data
     assert b"APP UNDER CONSTRUCTION, DUMBASS." in response.data
     assert b"SIGN IN" in response.data
     assert b"CREATE ACCOUNT" in response.data
@@ -74,7 +77,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v21" in response.data
+    assert b"wpm-shell-v22" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -83,7 +86,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v21" in builder
+    assert "wpm-shell-v22" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -107,3 +110,13 @@ def test_receipts_keep_score_social_history_visible():
     assert response.status_code == 200
     assert b"REACTIONS:" in response.data
     assert b"CHALLENGES:" in response.data
+
+
+def test_install_onboarding_uses_approved_mascot_assets():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp" in response.data
+    assert b"WPM_Onboarding_Install_LiterallyTellingYouWhereToTap.webp" in response.data
+    assert b"WPM_Onboarding_Install_PutMeOnYourFuckingHomeScreen.webp" in response.data
+    assert b"WPM_Onboarding_Install_MakeItAnAppYouLazyBastard.webp" in response.data
+    assert b"WPM_Onboarding_Install_47OtherUselessApps.webp" in response.data

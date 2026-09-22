@@ -1719,6 +1719,75 @@ body.app-ready .app-shell {
   font-size: .76rem;
 }
 
+.install-onboarding-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 118;
+  display: grid;
+  place-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+  background: rgba(23,25,22,.82);
+  backdrop-filter: blur(5px);
+}
+
+.install-onboarding-modal[hidden] {
+  display: none;
+}
+
+.install-onboarding-card {
+  width: min(100%, 500px);
+  max-height: min(92vh, 820px);
+  overflow: auto;
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: 26px;
+  box-shadow: 12px 13px 0 var(--ink);
+  text-align: center;
+}
+
+.install-onboarding-mascot {
+  width: min(100%, 300px);
+  max-height: 270px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.install-onboarding-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.install-onboarding-copy h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 8vw, 2.7rem);
+  line-height: .95;
+}
+
+.install-onboarding-copy p {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.install-onboarding-instructions {
+  padding: 10px;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+}
+
+.install-onboarding-instructions[hidden] {
+  display: none;
+}
+
+.install-onboarding-card .lobby-home {
+  margin-top: 0;
+}
+
 .settings-modal {
   position: fixed;
   inset: 0;
