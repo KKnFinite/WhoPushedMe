@@ -16,10 +16,19 @@ class CourseHole:
 
 
 @dataclass(frozen=True)
+class CourseTeeRating:
+    tee_name: str
+    gender: str = "unspecified"
+    course_rating: float | None = None
+    slope_rating: int | None = None
+
+
+@dataclass(frozen=True)
 class CourseSnapshot:
     external_id: str
     name: str
     holes: tuple[CourseHole, ...]
+    tee_ratings: tuple[CourseTeeRating, ...] = ()
 
 
 class CourseProvider(Protocol):
@@ -123,8 +132,57 @@ class OpenGolfAPI:
                     tee_yardages=yardages,
                 )
             )
+        tee_ratings: list[CourseTeeRating] = []
+        raw_tees = course.get("tees") or detail.get("tees") or []
+        if isinstance(raw_tees, list):
+            for raw_tee in raw_tees:
+                if not isinstance(raw_tee, dict):
+                    continue
+                tee_name = (
+                    raw_tee.get("tee_name")
+                    or raw_tee.get("name")
+                    or raw_tee.get("tee")
+                )
+                if not tee_name:
+                    continue
+
+                raw_rating = (
+                    raw_tee.get("course_rating")
+                    if raw_tee.get("course_rating") is not None
+                    else raw_tee.get("rating")
+                )
+                raw_slope = (
+                    raw_tee.get("slope_rating")
+                    if raw_tee.get("slope_rating") is not None
+                    else raw_tee.get("slope")
+                )
+                rating = (
+                    float(raw_rating)
+                    if raw_rating not in (None, "")
+                    else None
+                )
+                slope = (
+                    int(raw_slope)
+                    if raw_slope not in (None, "")
+                    else None
+                )
+                gender = str(
+                    raw_tee.get("gender")
+                    or raw_tee.get("sex")
+                    or "unspecified"
+                ).strip().lower() or "unspecified"
+                tee_ratings.append(
+                    CourseTeeRating(
+                        tee_name=str(tee_name),
+                        gender=gender,
+                        course_rating=rating,
+                        slope_rating=slope,
+                    )
+                )
+
         return CourseSnapshot(
             external_id=str(course.get("id", external_id)),
             name=str(course.get("name") or course.get("course_name") or external_id),
             holes=tuple(holes),
+            tee_ratings=tuple(tee_ratings),
         )
