@@ -256,6 +256,16 @@
     if (radio) radio.checked = true;
   };
 
+  const populateProfileHandicap = (account) => {
+    if (!settingsHandicapIndex) return;
+    settingsHandicapIndex.value = (
+      account?.handicap_index !== null
+      && account?.handicap_index !== undefined
+    )
+      ? Number(account.handicap_index).toFixed(1)
+      : '';
+  };
+
   const requestJson = async (path, options = {}) => {
     const {
       method = 'GET',
@@ -3711,8 +3721,12 @@
     document.body.classList.add('modal-open');
 
     try {
-      const preferences = await requestJson('/api/preferences');
+      const [preferences, account] = await Promise.all([
+        requestJson('/api/preferences'),
+        requestJson('/api/auth/me'),
+      ]);
       populateSettings(preferences);
+      populateProfileHandicap(account);
       settingsClose?.focus();
     } catch (error) {
       setSettingsMessage(error.message);
@@ -3749,6 +3763,25 @@
         wife: settingsForm.elements.wife.checked,
       },
     };
+    const rawHandicapIndex = String(
+      settingsHandicapIndex?.value || ''
+    ).trim();
+    const handicapIndex = rawHandicapIndex === ''
+      ? null
+      : Number(rawHandicapIndex);
+    if (
+      handicapIndex !== null
+      && (
+        !Number.isFinite(handicapIndex)
+        || handicapIndex < -10
+        || handicapIndex > 54
+      )
+    ) {
+      setSettingsMessage('Handicap Index must be between -10.0 and 54.0.');
+      settingsHandicapIndex?.focus();
+      return;
+    }
+
     setFormBusy(settingsForm, true);
 
     try {
@@ -3756,7 +3789,12 @@
         method: 'PATCH',
         body: patch,
       });
+      const account = await requestJson('/api/profile/handicap', {
+        method: 'PATCH',
+        body: { handicap_index: handicapIndex },
+      });
       populateSettings(preferences);
+      populateProfileHandicap(account);
       setSettingsMessage('Saved. Your bad decisions are now personalized.');
     } catch (error) {
       setSettingsMessage(error.message);
