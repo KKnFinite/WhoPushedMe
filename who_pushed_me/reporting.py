@@ -396,6 +396,30 @@ def _hole_summary_rows(
     par_map = _par_map(round_data)
     score_map = _score_map(round_data, participant_id=participant_id)
     rows: list[list[object]] = [["Hole", "Par", "Strokes", "+/-"]]
+    route = _route_entries(round_data)
+
+    if route:
+        route_length = len(route)
+        for entry in route:
+            position = int(entry["route_position"])
+            hole_number = int(entry["hole_number"])
+            label = f"{hole_number} ({position}/{route_length})"
+            if str(entry.get("state") or "planned") == "skipped":
+                rows.append([label, "-", "-", "UNTRACKED"])
+                continue
+
+            par = par_map.get(position)
+            strokes = score_map.get(position)
+            rows.append(
+                [
+                    label,
+                    par if par is not None else "-",
+                    strokes if strokes is not None else "-",
+                    _relative_label(strokes, par),
+                ]
+            )
+        return rows
+
     for hole in range(1, int(round_data.get("hole_count") or 0) + 1):
         par = par_map.get(hole)
         strokes = score_map.get(hole)
