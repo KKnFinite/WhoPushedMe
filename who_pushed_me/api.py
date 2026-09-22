@@ -411,6 +411,18 @@ def set_current_hole(round_id: str):
     )
 
 
+@api.patch("/rounds/<round_id>/end-early-vote")
+@authenticated
+def set_end_early_vote(round_id: str):
+    return jsonify(
+        _store().set_end_early_vote(
+            g.golfer["id"],
+            round_id,
+            _body().get("vote"),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/status")
 @authenticated
 def set_status(round_id: str):
