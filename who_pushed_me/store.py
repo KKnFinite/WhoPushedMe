@@ -1368,6 +1368,325 @@ class RoundStore:
             )
             return promoted
 
+    def add_round_only_player(
+        self,
+        golfer_id: object,
+        round_id: object,
+        *,
+        display_name: object,
+        tee_name: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        name = clean_display_name(display_name)
+        selected_tee = self._clean_tee_name(tee_name)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(actor, "add an offline golfer")
+
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "offline golfers can only be added before or during an active round"
+                )
+
+            cursor.execute(
+                """
+                SELECT count(*) AS active_players
+                FROM round_participants
+                WHERE round_id = %s
+                  AND role = 'player'
+                  AND participation_state = 'active'
+                """,
+                (round_uuid,),
+            )
+            if int(cursor.fetchone()["active_players"] or 0) >= 4:
+                raise DomainError("this round already has 4 active golfers")
+
+            if round_row["mode"] == "scramble":
+                selected_tee = None
+            elif round_row["course_id"]:
+                cursor.execute(
+                    """
+                    SELECT EXISTS (
+                        SELECT 1
+                        FROM cached_course_hole_tees
+                        WHERE course_id = %s
+                    ) AS has_tees
+                    """,
+                    (round_row["course_id"],),
+                )
+                has_tees = bool(cursor.fetchone()["has_tees"])
+                if has_tees and not selected_tee:
+                    raise DomainError(
+                        "choose a tee for the offline golfer"
+                    )
+                if selected_tee:
+                    self._validate_course_tee(
+                        cursor,
+                        round_row["course_id"],
+                        selected_tee,
+                    )
+
+            tracked_from = (
+                1
+                if round_row["status"] == "setup"
+                else int(round_row["current_route_position"])
+            )
+
+            cursor.execute(
+                """
+                INSERT INTO golfers (display_name)
+                VALUES (%s)
+                RETURNING id, display_name
+                """,
+                (name,),
+            )
+            round_only_golfer = cursor.fetchone()
+
+            cursor.execute(
+                """
+                INSERT INTO round_participants (
+                    round_id, golfer_id, role, tee_name,
+                    participation_state, tracked_from_position
+                )
+                VALUES (%s, %s, 'player', %s, 'active', %s)
+                RETURNING id, round_id, golfer_id, role, tee_name,
+                          participation_state, tracked_from_position, joined_at
+                """,
+                (
+                    round_uuid,
+                    round_only_golfer["id"],
+                    selected_tee,
+                    tracked_from,
+                ),
+            )
+            participant = cursor.fetchone()
+
+            cursor.execute(
+                """
+                INSERT INTO round_participant_route_positions (
+                    round_id, participant_id, route_position, required
+                )
+                SELECT %s, %s, rr.route_position, true
+                FROM round_route_positions rr
+                WHERE rr.round_id = %s
+                  AND rr.route_position >= %s
+                  AND rr.state = 'planned'
+                ON CONFLICT (participant_id, route_position)
+                DO UPDATE SET required = true
+                """,
+                (
+                    round_uuid,
+                    participant["id"],
+                    round_uuid,
+                    tracked_from,
+                ),
+            )
+
+            route_position = (
+                tracked_from
+                if round_row["status"] == "active"
+                else None
+            )
+            hole_number = None
+            if route_position is not None:
+                hole_number = int(
+                    self._route_position(
+                        cursor,
+                        round_uuid,
+                        route_position,
+                    )["hole_number"]
+                )
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=actor["id"],
+                event_type="participant_proxy_added",
+                hole_number=hole_number,
+                route_position=route_position,
+                data={
+                    "player_participant_id": str(participant["id"]),
+                    "display_name": name,
+                    "round_only": True,
+                    "tracked_from_position": tracked_from,
+                },
+                content_event_key="participant.proxy_added",
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "subject": name,
+                    "hole": hole_number or "",
+                },
+            )
+
+            participant["display_name"] = name
+            participant["round_only"] = True
+            return participant
+
+    def list_claimable_round_only_players(
+        self,
+        golfer_id: object,
+        code: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_code = str(code or "").strip()
+        if len(round_code) != 4 or not round_code.isdigit():
+            raise DomainError("round code must be four digits")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, active_code, status, mode
+                FROM rounds
+                WHERE active_code = %s
+                  AND status IN ('setup', 'active')
+                """,
+                (round_code,),
+            )
+            round_row = cursor.fetchone()
+            if not round_row:
+                raise NotFound("active round not found")
+
+            cursor.execute(
+                """
+                SELECT 1
+                FROM round_participants
+                WHERE round_id = %s AND golfer_id = %s
+                LIMIT 1
+                """,
+                (round_row["id"], golfer_uuid),
+            )
+            if cursor.fetchone():
+                return {
+                    "round_id": round_row["id"],
+                    "active_code": round_code,
+                    "players": [],
+                }
+
+            cursor.execute(
+                """
+                SELECT rp.id AS participant_id, g.display_name,
+                       rp.tee_name, rp.participation_state,
+                       rp.tracked_from_position
+                FROM round_participants rp
+                JOIN golfers g ON g.id = rp.golfer_id
+                WHERE rp.round_id = %s
+                  AND rp.role = 'player'
+                  AND rp.participation_state <> 'removed'
+                  AND g.username IS NULL
+                  AND g.password_hash IS NULL
+                  AND g.recovery_key_hash IS NULL
+                  AND g.recovery_key IS NULL
+                ORDER BY rp.joined_at, rp.id
+                """,
+                (round_row["id"],),
+            )
+            return {
+                "round_id": round_row["id"],
+                "active_code": round_code,
+                "players": cursor.fetchall(),
+            }
+
+    def claim_round_only_player(
+        self,
+        golfer_id: object,
+        round_id: object,
+        participant_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        participant_uuid = self._uuid(participant_id, "participant_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "round-only golfers can only be claimed before the round ends"
+                )
+
+            cursor.execute(
+                """
+                SELECT 1
+                FROM round_participants
+                WHERE round_id = %s AND golfer_id = %s
+                LIMIT 1
+                """,
+                (round_uuid, golfer_uuid),
+            )
+            if cursor.fetchone():
+                raise DomainError(
+                    "this account is already a participant in the round"
+                )
+
+            cursor.execute(
+                """
+                SELECT rp.id, rp.golfer_id, rp.role, rp.tee_name,
+                       rp.participation_state, rp.tracked_from_position,
+                       g.display_name
+                FROM round_participants rp
+                JOIN golfers g ON g.id = rp.golfer_id
+                WHERE rp.id = %s
+                  AND rp.round_id = %s
+                  AND rp.role = 'player'
+                  AND g.username IS NULL
+                  AND g.password_hash IS NULL
+                  AND g.recovery_key_hash IS NULL
+                  AND g.recovery_key IS NULL
+                FOR UPDATE
+                """,
+                (participant_uuid, round_uuid),
+            )
+            target = cursor.fetchone()
+            if not target:
+                raise DomainError(
+                    "that player is not an unclaimed round-only golfer"
+                )
+
+            old_golfer_id = target["golfer_id"]
+            old_display_name = target["display_name"]
+
+            cursor.execute(
+                """
+                UPDATE round_participants
+                SET golfer_id = %s
+                WHERE id = %s
+                RETURNING id, round_id, golfer_id, role, tee_name,
+                          participation_state, tracked_from_position, joined_at
+                """,
+                (golfer_uuid, participant_uuid),
+            )
+            claimed = cursor.fetchone()
+
+            cursor.execute(
+                "SELECT display_name FROM golfers WHERE id = %s",
+                (golfer_uuid,),
+            )
+            account = cursor.fetchone()
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant_uuid,
+                event_type="participant_claimed",
+                data={
+                    "player_participant_id": str(participant_uuid),
+                    "round_only_golfer_id": str(old_golfer_id),
+                    "old_display_name": old_display_name,
+                    "display_name": account["display_name"],
+                },
+                content_event_key="participant.claimed",
+                presentation_context={
+                    "mode": round_row["mode"],
+                    "subject": account["display_name"],
+                },
+            )
+
+            claimed["display_name"] = account["display_name"]
+            claimed["round_only"] = False
+            return claimed
+
     def get_round(
         self,
         golfer_id: object,
@@ -1415,7 +1734,13 @@ class RoundStore:
                 """
                 SELECT rp.id, rp.role, rp.tee_name, rp.joined_at,
                        rp.participation_state, rp.tracked_from_position,
-                       g.id AS golfer_id, g.display_name
+                       g.id AS golfer_id, g.display_name,
+                       (
+                           g.username IS NULL
+                           AND g.password_hash IS NULL
+                           AND g.recovery_key_hash IS NULL
+                           AND g.recovery_key IS NULL
+                       ) AS round_only
                 FROM round_participants rp JOIN golfers g ON g.id = rp.golfer_id
                 WHERE rp.round_id = %s ORDER BY rp.joined_at, rp.id
                 """,
