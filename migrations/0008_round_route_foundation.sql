@@ -1,4 +1,14 @@
 ALTER TABLE rounds
+    DROP CONSTRAINT IF EXISTS rounds_hole_count_check,
+    DROP CONSTRAINT IF EXISTS rounds_current_hole_check;
+
+ALTER TABLE rounds
+    ADD CONSTRAINT rounds_hole_count_route_check
+        CHECK (hole_count BETWEEN 1 AND 99),
+    ADD CONSTRAINT rounds_current_hole_physical_check
+        CHECK (current_hole BETWEEN 1 AND 18);
+
+ALTER TABLE rounds
     ADD COLUMN current_route_position integer NOT NULL DEFAULT 1
         CHECK (current_route_position >= 1),
     ADD COLUMN par_tracking_enabled boolean NOT NULL DEFAULT true,
