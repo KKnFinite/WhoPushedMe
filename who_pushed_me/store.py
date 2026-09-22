@@ -1090,11 +1090,21 @@ class RoundStore:
             )
             played_before = bool(cursor.fetchone()["played_before"])
 
-            tracked_from = (
-                1
-                if round_row["status"] == "setup"
-                else int(round_row["current_route_position"])
-            )
+            if round_row["status"] == "setup":
+                cursor.execute(
+                    """
+                    SELECT min(route_position) AS first_planned
+                    FROM round_route_positions
+                    WHERE round_id = %s
+                      AND state = 'planned'
+                    """,
+                    (round_row["id"],),
+                )
+                tracked_from = int(
+                    cursor.fetchone()["first_planned"] or 1
+                )
+            else:
+                tracked_from = int(round_row["current_route_position"])
 
             cursor.execute(
                 """
@@ -1509,11 +1519,21 @@ class RoundStore:
                         selected_tee,
                     )
 
-            tracked_from = (
-                1
-                if round_row["status"] == "setup"
-                else int(round_row["current_route_position"])
-            )
+            if round_row["status"] == "setup":
+                cursor.execute(
+                    """
+                    SELECT min(route_position) AS first_planned
+                    FROM round_route_positions
+                    WHERE round_id = %s
+                      AND state = 'planned'
+                    """,
+                    (round_uuid,),
+                )
+                tracked_from = int(
+                    cursor.fetchone()["first_planned"] or 1
+                )
+            else:
+                tracked_from = int(round_row["current_route_position"])
 
             cursor.execute(
                 """
@@ -2672,10 +2692,7 @@ class RoundStore:
             participation_state = str(
                 row["participation_state"] or "active"
             )
-            is_partial = (
-                int(row["tracked_from_position"] or 1) > 1
-                or required_count < route_required
-            )
+            is_partial = required_count < route_required
             if score_count < required_count:
                 coverage_state = "incomplete"
             elif is_partial:
