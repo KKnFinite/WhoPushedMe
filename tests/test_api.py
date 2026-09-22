@@ -722,6 +722,24 @@ def test_auth_me_requires_bearer_session():
     assert response.get_json()["username"] == "kim"
     assert store.calls[-1] == ("session", "session-token")
 
+def test_profile_handicap_index_can_be_set_or_cleared():
+    client, store = client_with_store()
+
+    response = client.patch(
+        "/api/profile/handicap",
+        headers={"Authorization": "Bearer session-token"},
+        json={"handicap_index": 12.4},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["handicap_index"] == 12.4
+    assert store.calls[-1] == (
+        "profile_handicap",
+        store.golfer_id,
+        12.4,
+    )
+
+
 def test_auth_logout_revokes_current_bearer_session():
     client, store = client_with_store()
     response = client.post(
@@ -875,6 +893,38 @@ def test_create_round_passes_tracking_start_and_prior_hole_choice():
         11,
         "backfill",
         False,
+    )
+
+
+def test_create_individual_round_can_enable_net_scoring():
+    client, store = client_with_store()
+    response = client.post(
+        "/api/rounds",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "mode": "individual",
+            "holes": 18,
+            "free_play_name": "Net Disaster",
+            "net_scoring_enabled": True,
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "create_round",
+        store.golfer_id,
+        "individual",
+        18,
+        None,
+        "Net Disaster",
+        None,
+        1,
+        None,
+        None,
+        True,
+        1,
+        "untracked",
+        True,
     )
 
 
@@ -1104,6 +1154,56 @@ def test_active_round_claim_undo_can_confirm_actor_history_warning():
         "undo_claim",
         store.golfer_id,
         "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        True,
+    )
+
+
+def test_player_can_set_manual_round_handicap():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/handicap",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "player_participant_id": target,
+            "round_handicap": 11,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["round_handicap"] == 11
+    assert store.calls[-1] == (
+        "round_handicap",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        target,
+        11,
+        False,
+    )
+
+
+def test_round_handicap_correction_confirmation_is_forwarded():
+    client, store = client_with_store()
+    target = "304b4411-bc80-4652-94b3-350ef2501267"
+
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/handicap",
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "player_participant_id": target,
+            "round_handicap": 9,
+            "confirm_correction": True,
+        },
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "round_handicap",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        target,
+        9,
         True,
     )
 
