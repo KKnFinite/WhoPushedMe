@@ -330,6 +330,19 @@ def set_tee(round_id: str):
     )
 
 
+@api.patch("/rounds/<round_id>/join-play")
+@authenticated
+def promote_spectator_to_player(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().promote_spectator_to_player(
+            g.golfer["id"],
+            round_id,
+            tee_name=payload.get("tee_name"),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/participation")
 @authenticated
 def set_participation_state(round_id: str):
