@@ -30,7 +30,6 @@ def test_home_loads_pwa_shell():
     assert b"FIND A COURSE" in response.data
     assert b"FREE PLAY" in response.data
     assert b"YOUR TEE" in response.data
-    assert b"TEAM SCORING TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
     assert b"LIVE SCORECARD" in response.data
     assert b"NEXT HOLE" in response.data
@@ -150,6 +149,7 @@ def test_scramble_uses_one_shared_team_tee():
     response = client().get("/static/app.js")
     assert response.status_code == 200
     assert b"scramble_tee_name" in response.data
+    assert b"TEAM SCORING TEE" in response.data
     assert b"TEAM TEE:" in response.data
     assert b"Pick one team scoring tee before the round starts." in response.data
 
