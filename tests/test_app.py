@@ -37,6 +37,9 @@ def test_home_loads_pwa_shell():
     assert b"ROUND SETTINGS" in response.data
     assert b"SAVE TEE CORRECTION" in response.data
     assert b"JOIN THE ROUND" in response.data
+    assert b"ARE YOU ALREADY IN THIS MESS?" in response.data
+    assert b"ADD OFFLINE GOLFER" in response.data
+    assert b"END ROUND EARLY" in response.data
     assert b"FINE. I'LL PLAY." in response.data
     assert b"BACK TO LIVE" in response.data
     assert b"REPORT PAR" in response.data
@@ -86,7 +89,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v28" in response.data
+    assert b"wpm-shell-v29" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -95,7 +98,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v28" in builder
+    assert "wpm-shell-v29" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -203,3 +206,38 @@ def test_backfilled_scores_use_compact_summary_instead_of_old_popup_replay():
     assert b"JUST FILED" in response.data
     assert b"AFTER THE FACT." in response.data
     assert b"THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED." in response.data
+
+
+def test_join_flow_checks_round_only_golfers_before_new_player():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/claimable-players" in response.data
+    assert b"THAT'S ME" in response.data
+    assert b"/claim-player" in response.data
+
+
+def test_live_round_can_add_offline_golfer_proxy():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/round-only-players" in response.data
+    assert b"Give the offline golfer a name first." in response.data
+    assert b"OFFLINE" in response.data
+
+
+def test_end_early_vote_uses_connected_eligible_players():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/end-early-vote" in response.data
+    assert b"CONNECTED GOLFER" in response.data
+    assert b"NO. KEEP SUFFERING." in client().get("/").data
+
+
+def test_end_early_vote_migration_is_present():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    migration = (
+        root / "migrations" / "0011_end_early_votes.sql"
+    ).read_text(encoding="utf-8")
+    assert "CREATE TABLE round_end_early_votes" in migration
+    assert "PRIMARY KEY (round_id, participant_id)" in migration
