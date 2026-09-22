@@ -1145,6 +1145,7 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT rp.id, rp.role, rp.tee_name, rp.joined_at,
+                       rp.participation_state, rp.tracked_from_position,
                        g.id AS golfer_id, g.display_name
                 FROM round_participants rp JOIN golfers g ON g.id = rp.golfer_id
                 WHERE rp.round_id = %s ORDER BY rp.joined_at, rp.id
@@ -1152,6 +1153,17 @@ class RoundStore:
                 (found["id"],),
             )
             round_row["participants"] = cursor.fetchall()
+
+            cursor.execute(
+                """
+                SELECT route_position, hole_number, state, skip_reason
+                FROM round_route_positions
+                WHERE round_id = %s
+                ORDER BY route_position
+                """,
+                (found["id"],),
+            )
+            round_row["route"] = cursor.fetchall()
 
             if round_row["course_id"]:
                 cursor.execute(
@@ -1168,12 +1180,18 @@ class RoundStore:
                     SELECT tee_name,
                            count(*) AS holes_with_tee,
                            sum(yardage) FILTER (WHERE yardage IS NOT NULL) AS total_yardage
-                    FROM cached_course_hole_tees
-                    WHERE course_id = %s AND hole_number <= %s
+                    FROM cached_course_hole_tees tees
+                    JOIN (
+                        SELECT DISTINCT hole_number
+                        FROM round_route_positions
+                        WHERE round_id = %s
+                    ) route_holes
+                      ON route_holes.hole_number = tees.hole_number
+                    WHERE tees.course_id = %s
                     GROUP BY tee_name
                     ORDER BY max(yardage) DESC NULLS LAST, tee_name
                     """,
-                    (round_row["course_id"], round_row["hole_count"]),
+                    (found["id"], round_row["course_id"]),
                 )
                 round_row["available_tees"] = cursor.fetchall()
             else:
@@ -1182,26 +1200,35 @@ class RoundStore:
 
             cursor.execute(
                 """
-                SELECT hole_number, par FROM round_hole_pars
-                WHERE round_id = %s ORDER BY hole_number
+                SELECT rp.route_position, rr.hole_number, rp.par, rp.source
+                FROM round_route_pars rp
+                JOIN round_route_positions rr
+                  ON rr.round_id = rp.round_id
+                 AND rr.route_position = rp.route_position
+                WHERE rp.round_id = %s
+                ORDER BY rp.route_position
                 """,
                 (found["id"],),
             )
             round_row["pars"] = cursor.fetchall()
             cursor.execute(
                 """
-                SELECT id, hole_number, score_scope, player_participant_id, strokes, updated_at
-                FROM round_hole_scores WHERE round_id = %s
-                ORDER BY hole_number, player_participant_id NULLS FIRST
+                SELECT id, route_position, hole_number, score_scope,
+                       player_participant_id, strokes, updated_at
+                FROM round_hole_scores
+                WHERE round_id = %s
+                ORDER BY route_position, player_participant_id NULLS FIRST
                 """,
                 (found["id"],),
             )
             round_row["scores"] = cursor.fetchall()
             cursor.execute(
                 """
-                SELECT hole_number, shot_type, player_participant_id, updated_at
-                FROM scramble_contributions WHERE round_id = %s
-                ORDER BY hole_number, shot_type
+                SELECT route_position, hole_number, shot_type,
+                       player_participant_id, updated_at
+                FROM scramble_contributions
+                WHERE round_id = %s
+                ORDER BY route_position, shot_type
                 """,
                 (found["id"],),
             )
@@ -1214,7 +1241,7 @@ class RoundStore:
             )
             event_query = """
                 SELECT id, actor_participant_id, event_type, hole_number,
-                       old_value, new_value, data, reply_to_event_id,
+                       route_position, old_value, new_value, data, reply_to_event_id,
                        content_event_key, presentation, created_at
                 FROM round_events
                 WHERE round_id = %s
