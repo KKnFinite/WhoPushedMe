@@ -23,6 +23,7 @@
   const settingsClose = document.getElementById('settings-close');
   const settingsForm = document.getElementById('settings-form');
   const settingsMessage = document.getElementById('settings-message');
+  const settingsHandicapIndex = document.getElementById('settings-handicap-index');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
   const installOnboardingInstructions = document.getElementById('install-onboarding-instructions');
@@ -35,6 +36,7 @@
   const roundFlowTitle = document.getElementById('round-flow-title');
   const roundFlowMessage = document.getElementById('round-flow-message');
   const startRoundForm = document.getElementById('start-round-form');
+  const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
   const joinRoundSubmit = document.getElementById('join-round-submit');
   const claimPlayerPanel = document.getElementById('claim-player-panel');
@@ -68,6 +70,8 @@
   const lobbyParSetup = document.getElementById('lobby-par-setup');
   const lobbyParGrid = document.getElementById('lobby-par-grid');
   const lobbyParSave = document.getElementById('lobby-par-save');
+  const lobbyHandicapPanel = document.getElementById('lobby-handicap-panel');
+  const lobbyHandicapList = document.getElementById('lobby-handicap-list');
   const liveRoundPanel = document.getElementById('live-round-panel');
   const liveRoundPlace = document.getElementById('live-round-place');
   const spectatorJoinPlayPanel = document.getElementById('spectator-join-play-panel');
@@ -88,6 +92,8 @@
   const roundSettingsTeeLabel = document.getElementById('round-settings-tee-label');
   const roundSettingsTeeSelect = document.getElementById('round-settings-tee-select');
   const roundSettingsTeeSave = document.getElementById('round-settings-tee-save');
+  const roundHandicapPanel = document.getElementById('round-handicap-panel');
+  const roundHandicapList = document.getElementById('round-handicap-list');
   const offlinePlayerPanel = document.getElementById('offline-player-panel');
   const offlinePlayerName = document.getElementById('offline-player-name');
   const offlinePlayerTeeField = document.getElementById('offline-player-tee-field');
@@ -601,11 +607,22 @@
     );
   };
 
-  const refreshStartTeeLabel = () => {
-    if (!startTeeLabel) return;
-    startTeeLabel.textContent = selectedRoundMode() === 'scramble'
-      ? 'TEAM SCORING TEE'
-      : 'YOUR TEE';
+  const refreshStartModeControls = () => {
+    const mode = selectedRoundMode();
+    if (startTeeLabel) {
+      startTeeLabel.textContent = mode === 'scramble'
+        ? 'TEAM SCORING TEE'
+        : 'YOUR TEE';
+    }
+    if (individualScoringFieldset) {
+      individualScoringFieldset.hidden = mode === 'scramble';
+    }
+    if (mode === 'scramble' && startRoundForm) {
+      const gross = startRoundForm.querySelector(
+        'input[name="individual_scoring"][value="gross"]'
+      );
+      if (gross) gross.checked = true;
+    }
   };
 
   const clearSelectedCourse = () => {
@@ -723,7 +740,7 @@
       if (selectedCourseBox) selectedCourseBox.hidden = false;
 
       const tees = course.tees || [];
-      refreshStartTeeLabel();
+      refreshStartModeControls();
       fillTeeSelect(startTeeSelect, tees);
       if (startTeeField) startTeeField.hidden = tees.length === 0;
       if (courseResults) courseResults.replaceChildren();
@@ -2563,7 +2580,7 @@
   });
 
   startRoundForm?.querySelectorAll('input[name="mode"]').forEach((radio) => {
-    radio.addEventListener('change', refreshStartTeeLabel);
+    radio.addEventListener('change', refreshStartModeControls);
   });
 
   startRoundForm?.querySelectorAll(
@@ -2637,7 +2654,7 @@
       await refreshLobby(created.active_code);
       startLobbyPolling(created.active_code);
       startRoundForm.reset();
-      refreshStartTeeLabel();
+      refreshStartModeControls();
       renderRoutePreview();
     } catch (error) {
       setRoundFlowMessage(error.message);
