@@ -1984,7 +1984,14 @@
           : 'YOUR TEE';
       }
       if (roundSettingsTeeField) roundSettingsTeeField.hidden = false;
-      fillTeeSelect(roundSettingsTeeSelect, availableTees, selectedTee);
+      const settingsOpen = roundSettingsPanel && !roundSettingsPanel.hidden;
+      if (
+        !settingsOpen
+        || !roundSettingsTeeSelect
+        || roundSettingsTeeSelect.options.length === 0
+      ) {
+        fillTeeSelect(roundSettingsTeeSelect, availableTees, selectedTee);
+      }
       if (roundSettingsTeeSave) {
         roundSettingsTeeSave.hidden = false;
         roundSettingsTeeSave.disabled = false;
