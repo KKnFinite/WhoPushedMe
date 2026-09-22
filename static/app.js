@@ -1334,6 +1334,7 @@
     const par = findPar(round, position);
     const canScore = (
       viewerIsActivePlayer(round)
+      && route?.state !== 'skipped'
       && Number(position) <= Number(round.current_route_position)
     );
 
@@ -1374,9 +1375,13 @@
       if (!canScore || !targetCanReceiveScore) {
         const readonly = document.createElement('div');
         readonly.className = 'live-score-readonly';
-        readonly.textContent = score
-          ? `${score.strokes} STROKES`
-          : 'NO SCORE YET';
+        readonly.textContent = route?.state === 'skipped'
+          ? 'UNTRACKED'
+          : (
+              score
+                ? `${score.strokes} STROKES`
+                : 'NO SCORE YET'
+            );
         card.append(readonly);
         appendScoreResponsePanel(
           card,
@@ -2091,7 +2096,10 @@
       holeParLabel.textContent = par ? `PAR ${par}` : 'PAR ?';
     }
     if (holeStateLabel) {
-      if (viewingLive) {
+      if (viewedRoute?.state === 'skipped') {
+        holeStateLabel.textContent =
+          `UNTRACKED HOLE ${viewedPhysicalHole} • ${viewedRoutePosition} OF ${length} • LIVE ${livePhysicalHole}`;
+      } else if (viewingLive) {
         holeStateLabel.textContent =
           `LIVE HOLE • ${viewedRoutePosition} OF ${length}`;
       } else if (viewingPast) {
@@ -2239,11 +2247,15 @@
 
     const canEditViewedHole = (
       viewerIsActivePlayer(round)
+      && viewedRoute?.state !== 'skipped'
       && !viewingFuture
       && round.status === 'active'
     );
     if (parForm) {
-      parForm.hidden = !Boolean(round.par_tracking_enabled);
+      parForm.hidden = (
+        !Boolean(round.par_tracking_enabled)
+        || viewedRoute?.state === 'skipped'
+      );
     }
     if (parInput) {
       parInput.value = par ? String(par) : '';
@@ -2349,7 +2361,9 @@
 
     if (round.status === 'active') {
       setRoundFlowMessage(
-        viewingFuture ? 'Future holes are preview-only.' : ''
+        viewedRoute?.state === 'skipped'
+          ? 'This hole was deliberately left untracked.'
+          : (viewingFuture ? 'Future holes are preview-only.' : '')
       );
     }
   };
@@ -2413,7 +2427,10 @@
       && String(window.localStorage.getItem(PAR_SETUP_NOW_KEY) || '')
         === String(round.id)
     );
-    const missingParPositions = (round.route || []).filter(
+    const plannedRoute = (round.route || []).filter(
+      (route) => route.state !== 'skipped'
+    );
+    const missingParPositions = plannedRoute.filter(
       (route) => !parsByPosition.has(Number(route.route_position))
     );
 
@@ -2421,7 +2438,7 @@
     if (lobbyParGrid) {
       lobbyParGrid.replaceChildren();
       if (parSetupNow) {
-        (round.route || []).forEach((route) => {
+        plannedRoute.forEach((route) => {
           const position = Number(route.route_position);
           const row = document.createElement('label');
           row.className = 'lobby-par-row';
