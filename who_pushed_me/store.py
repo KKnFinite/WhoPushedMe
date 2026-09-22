@@ -621,6 +621,30 @@ class RoundStore:
             account["session_expires_at"] = golfer["expires_at"]
             return account
 
+    def set_profile_handicap_index(
+        self,
+        golfer_id: object,
+        handicap_index: object | None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        index = normalize_handicap_index(handicap_index)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE golfers
+                SET handicap_index = %s
+                WHERE id = %s
+                RETURNING id, username, display_name, is_admin,
+                          handicap_index, created_at
+                """,
+                (index, golfer_uuid),
+            )
+            golfer = cursor.fetchone()
+            if not golfer:
+                raise NotFound("golfer not found")
+            return self._public_account(golfer)
+
     def create_golfer(self, display_name: object) -> dict[str, Any]:
         name = clean_display_name(display_name)
         for _ in range(8):
