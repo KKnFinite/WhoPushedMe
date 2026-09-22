@@ -1597,6 +1597,8 @@ class RoundStore:
              AND rr.route_position IS NOT NULL
             WHERE rp.round_id = %s
               AND rp.role = 'player'
+              AND rp.participation_state = 'active'
+              AND rp.tracked_from_position = 1
             GROUP BY rp.id, g.display_name, rp.joined_at,
                      rp.participation_state, rp.tracked_from_position
             ORDER BY rp.joined_at, rp.id
@@ -1933,15 +1935,15 @@ class RoundStore:
     ) -> list[dict[str, Any]]:
         cursor.execute(
             """
-            SELECT s.hole_number, s.strokes, p.par
+            SELECT s.route_position AS hole_number, s.strokes, p.par
             FROM round_hole_scores s
-            LEFT JOIN round_hole_pars p
+            LEFT JOIN round_route_pars p
               ON p.round_id = s.round_id
-             AND p.hole_number = s.hole_number
+             AND p.route_position = s.route_position
             WHERE s.round_id = %s
               AND s.score_scope = %s
               AND s.player_participant_id IS NOT DISTINCT FROM %s
-            ORDER BY s.hole_number
+            ORDER BY s.route_position
             """,
             (round_id, scope, participant_id),
         )
@@ -1977,11 +1979,11 @@ class RoundStore:
 
         cursor.execute(
             """
-            SELECT player_participant_id, hole_number, strokes
+            SELECT player_participant_id, route_position, strokes
             FROM round_hole_scores
             WHERE round_id = %s
               AND score_scope = 'player'
-            ORDER BY hole_number, player_participant_id
+            ORDER BY route_position, player_participant_id
             """,
             (round_id,),
         )
@@ -1994,7 +1996,7 @@ class RoundStore:
         for row in score_rows:
             participant_id = row["player_participant_id"]
             if participant_id in scores:
-                scores[participant_id][int(row["hole_number"])] = int(
+                scores[participant_id][int(row["route_position"])] = int(
                     row["strokes"]
                 )
 
