@@ -1939,6 +1939,58 @@
       advanceLiveHole.disabled = false;
     }
 
+    const missingCurrentScores = missingScoresAtPosition(round, livePosition);
+    if (
+      advanceWarningPosition !== null
+      && (
+        Number(advanceWarningPosition) !== livePosition
+        || !viewingLive
+        || missingCurrentScores.length === 0
+      )
+    ) {
+      advanceWarningPosition = null;
+      if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+    }
+    if (
+      advanceWarningPosition !== null
+      && Number(advanceWarningPosition) === livePosition
+      && advanceWarningCopy
+    ) {
+      const who = missingCurrentScores.join(', ');
+      advanceWarningCopy.textContent =
+        `${who} ${missingCurrentScores.length === 1 ? 'IS' : 'ARE'} STILL MISSING. `
+        + 'YOU CAN FIX IT NOW OR MOVE ON WITHOUT INVENTING A SCORE.';
+      if (advanceWarningPanel) advanceWarningPanel.hidden = false;
+    }
+
+    const canOpenRoundSettings = (
+      viewerIsActivePlayer(round)
+      && round.status === 'active'
+      && availableTees.length > 0
+    );
+    if (roundSettingsButton) {
+      roundSettingsButton.hidden = !canOpenRoundSettings;
+    }
+    if (!canOpenRoundSettings && roundSettingsPanel) {
+      roundSettingsPanel.hidden = true;
+    }
+    if (canOpenRoundSettings) {
+      const selectedTee = round.mode === 'scramble'
+        ? (round.scramble_tee_name || '')
+        : (viewer?.tee_name || '');
+      if (roundSettingsTeeLabel) {
+        roundSettingsTeeLabel.textContent = round.mode === 'scramble'
+          ? 'TEAM SCORING TEE'
+          : 'YOUR TEE';
+      }
+      if (roundSettingsTeeField) roundSettingsTeeField.hidden = false;
+      fillTeeSelect(roundSettingsTeeSelect, availableTees, selectedTee);
+      if (roundSettingsTeeSave) {
+        roundSettingsTeeSave.hidden = false;
+        roundSettingsTeeSave.disabled = false;
+      }
+    }
+
     const canEditViewedHole = (
       viewerIsActivePlayer(round)
       && !viewingFuture
