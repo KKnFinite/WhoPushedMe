@@ -305,7 +305,16 @@
           </label>
         </fieldset>
 
-        <button class="settings-save" type="submit">LET ME INTO THIS MESS</button>
+        <section id="claim-player-panel" class="claim-player-panel" hidden>
+          <div class="live-round-kicker">ARE YOU ALREADY IN THIS MESS?</div>
+          <p>We found round-only golfers with no account attached.</p>
+          <div id="claim-player-list" class="claim-player-list"></div>
+          <button id="claim-player-none" type="button">
+            NONE OF THESE. JOIN NEW.
+          </button>
+        </section>
+
+        <button id="join-round-submit" class="settings-save" type="submit">LET ME INTO THIS MESS</button>
       </form>
 
       <section id="lobby-panel" class="lobby-panel" hidden>
@@ -396,6 +405,23 @@
           <button id="round-settings-tee-save" type="button" hidden>
             SAVE TEE CORRECTION
           </button>
+
+          <section id="offline-player-panel" class="offline-player-panel">
+            <div class="live-round-kicker">PHONE OPTIONAL. BOGEYS AREN'T.</div>
+            <h5>ADD OFFLINE GOLFER</h5>
+            <label class="round-text-field">
+              <span>NAME</span>
+              <input id="offline-player-name" type="text" maxlength="40" placeholder="MIKE">
+            </label>
+            <label id="offline-player-tee-field" class="round-text-field" hidden>
+              <span>TEE</span>
+              <select id="offline-player-tee-select"></select>
+            </label>
+            <button id="offline-player-add" type="button">
+              ADD THEM TO THE DAMAGE
+            </button>
+          </section>
+
           <button id="round-settings-close" type="button">
             CLOSE SETTINGS
           </button>
