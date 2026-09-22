@@ -661,6 +661,23 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Extra holes added before the round is ended are simply appended to the active route and score normally. There is no separate playoff/bonus scoring mode.
 - If the round has already been completed or ended, it stays closed. Any decision to play more golf starts a new round rather than reopening the old one merely to append extra holes.
 
+## Vote math
+- Majority actions use a strict majority of currently connected eligible voters: floor(eligible / 2) + 1 yes votes.
+- Majority actions include hole skip, participant removal, and participant reinstatement unless a more specific rule overrides them.
+- End-the-round-early remains unanimous among currently connected eligible players.
+- One golfer gets one vote regardless of how many devices they are logged into.
+- The target of a removal or reinstatement vote is excluded from that vote's eligible-voter count.
+- No-app/offline golfers without a connected client are excluded from live quorum.
+- An abstention / no response is treated as waiting, not as a yes or no vote.
+- A vote may remain open while passage is still mathematically possible; once enough explicit no votes make passage impossible, the vote fails.
+- Examples:
+  - 4 eligible voters, majority action -> 3 yes required.
+  - 3 eligible voters, majority action -> 2 yes required.
+  - 2 eligible voters, majority action -> 2 yes required.
+  - 4 connected golfers, remove 1 target -> 3 eligible voters -> 2 yes required.
+  - 3 connected golfers, remove 1 target -> 2 eligible voters -> 2 yes required.
+- Player-removal votes remain disabled entirely in a 2-player golf group, regardless of generic majority math.
+
 ## Consensus end-of-round and live presence
 - Ending the entire round early is a group-consensus action, not a single-player action.
 - Any active connected player may initiate an `END THE ROUND` vote.
