@@ -265,6 +265,15 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Tee/scoring-tee corrections may still follow their own audited rules when supported, but the underlying course itself remains immutable once the round starts.
 - Receipts/history should preserve that the abandoned round existed rather than silently converting it into a different course.
 
+## Tee selection behavior
+- Each individual golfer selects a tee during round setup; scramble selects one team scoring tee during setup.
+- The selected tee controls the tee-specific hole data shown for that golfer/team, including yardage, par when tee-specific, Course Rating/Slope when available, and handicap calculations.
+- Keep tee controls out of the normal live-hole UI. Tee selection is a round setting, not something golfers toggle hole-by-hole.
+- During an active round, allow a tee selection to be corrected from round settings if the wrong tee was chosen, following the familiar pattern used by mainstream scorecard apps.
+- A tee correction applies to that golfer's/team's round scoring context rather than creating per-hole mixed-tee scoring in v1.
+- If a tee correction changes par, rating, slope, or handicap math, recalculate current derived standings/net values while preserving the prior tee choice and the correction in Receipts.
+- Completed rounds require the explicit correction/reopen flow before tee data can be changed.
+
 ## Tee and par rules
 - Individual play may use different tees per player; each player's score-to-par must use the par associated with that player's selected tee when course data varies by tee.
 - Scramble uses one explicitly selected scoring tee for the entire team.
@@ -299,12 +308,22 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The round has one shared active route position/hole that represents where the group is currently playing.
 - The live scorecard defaults to that active hole and shows the relevant hole data for each golfer/team, including tee-specific yardage/par data when available.
 - Players and spectators may browse back to any previously reached route position to review hole data, scores, events, contributions, reactions, and Receipts for that hole.
+- Players and spectators may also browse ahead to future route positions to preview hole data such as par, yardage, tee information, and course details without changing the shared active hole.
 - Active players may edit/add/remove scores or other editable golf data on an older hole while viewing it.
 - Editing an older hole never changes the shared active hole and never drags other connected users backward.
 - After an old-hole edit, the user may stay on that viewed hole or return to the active hole; the app should always make the current live hole obvious.
 - Route position, not just physical hole number, identifies the viewed hole so repeated holes on wrapped/9-hole-loop routes remain distinct.
 - The shared active hole changes only through explicit live-round advancement/navigation rules, not because somebody browsed history.
 - Tee selection is a separate concept from hole navigation. A golfer's selected tee determines which tee-specific hole data/scoring inputs apply; browsing backward does not change that tee selection.
+
+## Active-hole progression
+- The round has one shared active route position.
+- The active hole automatically advances to the next route position once every currently active individual golfer has a score for the active hole.
+- In scramble, the active hole automatically advances once the team score for the active hole is entered.
+- Automatic advancement is convenience only; it must not prevent old-hole editing or future-hole preview.
+- Any active player may manually advance the shared active hole before all scores are present. Missing scores remain flagged and may be backfilled later under the normal rules.
+- Browsing an old or future hole never changes the shared active hole.
+- When the active hole changes automatically or manually, connected clients should follow the new live state unless that user is intentionally browsing another route position, in which case the UI should clearly show `LIVE: HOLE X` and offer `BACK TO LIVE`.
 
 ## Live scoring
 - Score, par, and shared-hole mutations are only allowed while status is `active`.
