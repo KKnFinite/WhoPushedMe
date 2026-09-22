@@ -2114,7 +2114,10 @@ class RoundStore:
                 golfer_uuid,
             )
             self._require_active_player(participant, "change par")
-            require_active_round(round_row["status"], "change par")
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "par can only be changed before or during an active round"
+                )
             if not bool(round_row["par_tracking_enabled"]):
                 raise DomainError("par tracking is disabled for this round")
 
