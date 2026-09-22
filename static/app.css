@@ -1798,7 +1798,6 @@ body.app-ready .app-shell {
 }
 
 .bag-actions button,
-.bag-reaction-grid button,
 .bag-form-heading button {
   min-height: 50px;
   padding: 10px 12px;
@@ -1874,32 +1873,6 @@ body.app-ready .app-shell {
 .bag-form textarea {
   resize: vertical;
   min-height: 96px;
-}
-
-.bag-reactions {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 3px solid var(--ink);
-}
-
-.bag-reactions-label {
-  margin-bottom: 8px;
-  font-family: "Arial Black", Arial, sans-serif;
-  font-size: .72rem;
-  letter-spacing: .1em;
-}
-
-.bag-reaction-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.bag-reaction-grid button {
-  min-height: 44px;
-  background: var(--charcoal);
-  color: var(--paper);
-  font-size: .76rem;
 }
 
 .install-onboarding-modal {
