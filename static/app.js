@@ -126,6 +126,12 @@
   const towelReason = document.getElementById('towel-reason');
   const towelConfirm = document.getElementById('towel-confirm');
   const towelCancel = document.getElementById('towel-cancel');
+  const endEarlyButton = document.getElementById('end-early-button');
+  const endEarlyPanel = document.getElementById('end-early-panel');
+  const endEarlyCopy = document.getElementById('end-early-copy');
+  const endEarlyVoters = document.getElementById('end-early-voters');
+  const endEarlyYes = document.getElementById('end-early-yes');
+  const endEarlyNo = document.getElementById('end-early-no');
   const bagModal = document.getElementById('bag-modal');
   const bagClose = document.getElementById('bag-close');
   const bagMessage = document.getElementById('bag-message');
@@ -749,6 +755,7 @@
     pendingScoreAfterPar = null;
     if (advanceWarningPanel) advanceWarningPanel.hidden = true;
     if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+    if (endEarlyPanel) endEarlyPanel.hidden = true;
     if (towelPanel) towelPanel.hidden = true;
     if (towelReason) towelReason.value = '';
     clearSelectedCourse();
