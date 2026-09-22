@@ -609,6 +609,35 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - A player who has completed every hole in their defined tracked route may show both cumulative strokes and relative-to-par for that route, even when that route is shorter than 18 holes.
 - Assumed-par holes, when explicitly chosen, count toward displayed totals but must remain identifiable as assumed in history/Receipts/PDF.
 
+## Participant state model
+- Participant state is split into independent dimensions rather than one overloaded status.
+
+### Participation state
+- `ACTIVE`: currently part of live play.
+- `WITHDREW`: voluntarily threw in the towel; individual play treats this as DNF.
+- `REMOVED BY GROUP`: removed by player vote.
+
+### Scorecard coverage state
+- `COMPLETE`: every score required by that participant's effective tracked route is present.
+- `PARTIAL`: the participant legitimately has a shorter tracked route, such as a late join or approved shortened participation window.
+- `INCOMPLETE`: one or more scores are missing that are required by that participant's effective tracked route.
+- During an active round, a golfer may also simply be `IN PROGRESS` until their route is finished.
+
+### Connection state
+- `CONNECTED`: the golfer currently has a live client/presence.
+- `OFFLINE / NO-APP`: the golfer has no active client but remains a normal round participant.
+
+- These dimensions may coexist. Examples:
+  - active + in progress + offline
+  - active + partial + connected
+  - active + incomplete + connected
+  - removed by group + partial
+- Connection state never changes competitive state by itself.
+- Reconnecting restores client/presence only; it does not alter participation or coverage state.
+- Returning after withdrawal creates a return event and restores participation to active without erasing the withdrawal Receipt.
+- Reinstatement after removal creates a reinstatement event and restores participation to active without erasing the removal Receipt.
+- Scorecard coverage is always derived from the participant's effective required route and current accepted scores, not from whether their device is online.
+
 ## Placement eligibility
 - Official individual placement is based on the player's effective required route, not a hardcoded 18 holes.
 - A planned 9-hole round, custom route, wrapped shotgun route, or whole-group early stop can all produce valid official standings when the remaining active players are being compared over the same effective route.
