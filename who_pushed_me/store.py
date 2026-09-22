@@ -38,6 +38,11 @@ from who_pushed_me.content.presentation import (
     social_content_event,
     status_content_event,
 )
+from who_pushed_me.handicap import (
+    calculate_course_handicap,
+    normalize_handicap_index,
+    normalize_round_handicap,
+)
 from who_pushed_me.routes import build_route, build_tracking_plan
 from who_pushed_me.domain import (
     DomainError,
@@ -116,7 +121,8 @@ class RoundStore:
         cursor.execute(
             """
             SELECT id, round_id, golfer_id, role, tee_name,
-                   participation_state, tracked_from_position
+                   participation_state, tracked_from_position,
+                   handicap_index, round_handicap, handicap_source
             FROM round_participants
             WHERE round_id = %s AND golfer_id = %s
             """,
@@ -140,7 +146,7 @@ class RoundStore:
             SELECT id, mode, hole_count, active_code, current_hole,
                    current_route_position, par_tracking_enabled, end_reason,
                    status, course_id, free_play_name, scramble_tee_name,
-                   created_at, updated_at
+                   net_scoring_enabled, created_at, updated_at
             FROM rounds WHERE id = %s{' FOR UPDATE' if lock else ''}
             """,
             (round_id,),
@@ -321,6 +327,11 @@ class RoundStore:
             "username": row.get("username"),
             "display_name": row["display_name"],
             "is_admin": bool(row.get("is_admin", False)),
+            "handicap_index": (
+                float(row["handicap_index"])
+                if row.get("handicap_index") is not None
+                else None
+            ),
             "created_at": row["created_at"],
         }
 
@@ -371,7 +382,7 @@ class RoundStore:
                             recovery_key
                         )
                         VALUES (%s, %s, %s, %s, NULL)
-                        RETURNING id, username, display_name, is_admin, created_at
+                        RETURNING id, username, display_name, is_admin, handicap_index, created_at
                         """,
                         (
                             name,
@@ -409,7 +420,7 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, username, display_name, is_admin, created_at
+                SELECT id, username, display_name, is_admin, handicap_index, created_at
                 FROM golfers
                 WHERE recovery_key_hash = %s
                 FOR UPDATE
@@ -462,7 +473,7 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT id, username, display_name, password_hash,
-                       is_admin, created_at
+                       is_admin, handicap_index, created_at
                 FROM golfers
                 WHERE lower(username) = %s
                 """,
@@ -504,7 +515,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT g.id, g.username, g.display_name, g.is_admin, g.created_at,
+                SELECT g.id, g.username, g.display_name, g.is_admin,
+                       g.handicap_index, g.created_at,
                        s.id AS session_id, s.expires_at
                 FROM auth_sessions s
                 JOIN golfers g ON g.id = s.golfer_id
