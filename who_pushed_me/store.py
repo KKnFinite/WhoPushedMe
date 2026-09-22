@@ -3101,6 +3101,20 @@ class RoundStore:
                 }
             )
 
+        active_results = [
+            row
+            for row in results
+            if row["participation_state"] == "active"
+        ]
+        complete = bool(active_results) and all(
+            row["missing_scores"] == 0
+            for row in active_results
+        )
+
+        if not complete:
+            for row in results:
+                row["placement_eligible"] = False
+
         eligible = [
             row
             for row in results
@@ -3128,11 +3142,12 @@ class RoundStore:
                 for row in eligible
                 if row["round_handicap"] is None
             )
-            if net_scoring_enabled
+            if net_scoring_enabled and complete
             else 0
         )
         net_official = (
             net_scoring_enabled
+            and complete
             and bool(eligible)
             and missing_handicaps == 0
         )
@@ -3150,16 +3165,6 @@ class RoundStore:
                     for candidate in eligible
                     if int(candidate["net_total_strokes"]) == net_total
                 )
-
-        active_results = [
-            row
-            for row in results
-            if row["participation_state"] == "active"
-        ]
-        complete = bool(active_results) and all(
-            row["missing_scores"] == 0
-            for row in active_results
-        )
 
         return {
             "mode": "individual",
