@@ -210,6 +210,45 @@
       "enabled": true
     },
     {
+      "id": "banter.round.end_early.yes.normal",
+      "text": "One vote for mercy has entered the record.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.round.end_early.no.normal",
+      "text": "Mercy denied. Somebody wants the suffering to continue.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.round.ended_early.normal",
+      "text": "Round ended early. The evidence collected so far remains admissible.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.participant.proxy_added.normal",
       "text": "{subject} is participating through a human proxy.",
       "events": [
