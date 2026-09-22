@@ -639,6 +639,10 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The vote UI should show who has approved, who has rejected, and whether the majority threshold has been reached.
 - A rejected skip vote leaves the active hole unchanged.
 - Future-hole preview does not imply skip; the hole is skipped only through an explicit action.
+- A hole cannot be skipped once any factual score has been entered for that route position.
+- Do not provide a separate `VOID THIS HOLE` action after scoring has begun.
+- If a score was entered by mistake and the group truly intends to skip the hole, the erroneous score(s) must first be removed through the normal audited score-removal flow; only then may the normal skip vote be started.
+- Removing those mistaken scores does not erase their Receipts/history.
 
 ## Extending an active round
 - An active round may be deliberately extended forward from its planned endpoint without changing the locked course or rewriting already-played route positions.
