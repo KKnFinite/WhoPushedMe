@@ -2474,24 +2474,103 @@
     }
   });
 
+  const enterJoinedRound = async (code) => {
+    await refreshLobby(code);
+    startLobbyPolling(code);
+    joinRoundForm?.reset();
+    resetClaimPlayerPanel();
+  };
+
+  const joinAsNewParticipant = async (code, role) => {
+    await requestJson('/api/rounds/join', {
+      method: 'POST',
+      body: { code, role },
+    });
+    await enterJoinedRound(code);
+  };
+
+  const showClaimablePlayers = (payload, code) => {
+    const players = payload?.players || [];
+    if (!claimPlayerPanel || !claimPlayerList || !players.length) return false;
+
+    pendingClaimJoin = {
+      code,
+      roundId: payload.round_id,
+      role: 'player',
+    };
+    claimPlayerList.replaceChildren();
+
+    players.forEach((player) => {
+      const row = document.createElement('div');
+      row.className = 'claim-player-row';
+
+      const copy = document.createElement('span');
+      const tee = player.tee_name ? ` • ${player.tee_name} TEE` : '';
+      copy.textContent =
+        `${player.display_name || 'Unknown golfer'}${tee}`;
+
+      const claim = document.createElement('button');
+      claim.type = 'button';
+      claim.textContent = "THAT'S ME";
+      claim.addEventListener('click', async () => {
+        setFormBusy(joinRoundForm, true);
+        setRoundFlowMessage('');
+        try {
+          await requestJson(
+            `/api/rounds/${payload.round_id}/claim-player`,
+            {
+              method: 'PATCH',
+              body: { participant_id: player.participant_id },
+            }
+          );
+          await enterJoinedRound(code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+        } finally {
+          setFormBusy(joinRoundForm, false);
+        }
+      });
+
+      row.append(copy, claim);
+      claimPlayerList.append(row);
+    });
+
+    claimPlayerPanel.hidden = false;
+    if (joinRoundSubmit) joinRoundSubmit.hidden = true;
+    return true;
+  };
+
   joinRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
     setFormBusy(joinRoundForm, true);
     const values = new FormData(joinRoundForm);
     const code = String(values.get('code') || '').trim();
+    const role = String(values.get('role') || 'player');
 
     try {
-      await requestJson('/api/rounds/join', {
-        method: 'POST',
-        body: {
-          code,
-          role: values.get('role'),
-        },
-      });
-      await refreshLobby(code);
-      startLobbyPolling(code);
-      joinRoundForm.reset();
+      if (role === 'player') {
+        const claimable = await requestJson(
+          `/api/rounds/code/${encodeURIComponent(code)}/claimable-players`
+        );
+        if (showClaimablePlayers(claimable, code)) return;
+      }
+
+      await joinAsNewParticipant(code, role);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      setFormBusy(joinRoundForm, false);
+    }
+  });
+
+  claimPlayerNone?.addEventListener('click', async () => {
+    if (!pendingClaimJoin) return;
+    const { code, role } = pendingClaimJoin;
+    setFormBusy(joinRoundForm, true);
+    setRoundFlowMessage('');
+    try {
+      await joinAsNewParticipant(code, role);
     } catch (error) {
       setRoundFlowMessage(error.message);
     } finally {
