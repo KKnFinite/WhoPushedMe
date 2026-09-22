@@ -1575,7 +1575,10 @@ class RoundStore:
                    rp.participation_state,
                    rp.tracked_from_position,
                    count(prp.route_position)
-                     FILTER (WHERE prp.required) AS required_count,
+                     FILTER (
+                         WHERE prp.required
+                           AND rr.route_position IS NOT NULL
+                     ) AS required_count,
                    count(s.id) AS score_count,
                    coalesce(sum(s.strokes), 0) AS total_strokes
             FROM round_participants rp
@@ -2019,6 +2022,8 @@ class RoundStore:
             JOIN golfers g ON g.id = rp.golfer_id
             WHERE rp.round_id = %s
               AND rp.role = 'player'
+              AND rp.participation_state = 'active'
+              AND rp.tracked_from_position = 1
             ORDER BY rp.joined_at, rp.id
             """,
             (round_id,),
