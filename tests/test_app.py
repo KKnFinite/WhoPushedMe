@@ -50,7 +50,6 @@ def test_home_loads_pwa_shell():
     assert b"YOU WON'T" in response.data
     assert b"EXCUSE DEPARTMENT" in response.data
     assert b"OPEN MIC" in response.data
-    assert b"REACTIONS" in response.data
     assert b"SCRAMBLE CONTRIBUTIONS" in response.data
     assert b"FINISH THE DISASTER" in response.data
     assert b"FIX THE SCORECARD" in response.data
@@ -87,7 +86,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v26" in response.data
+    assert b"wpm-shell-v27" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -96,7 +95,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v26" in builder
+    assert "wpm-shell-v27" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -182,3 +181,17 @@ def test_live_round_settings_exposes_tee_correction():
     assert b"round-settings-tee-select" in response.data
     assert b"/tee" in response.data
     assert b"TEAM SCORING TEE" in response.data
+
+
+def test_bag_does_not_offer_generic_reaction_strip():
+    response = client().get("/")
+    assert response.status_code == 200
+    assert b'data-reaction=' not in response.data
+
+
+def test_missing_par_blocks_score_then_resumes_after_par_entry():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"pendingScoreAfterPar" in response.data
+    assert b"WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY." in response.data
+    assert b"player_participant_id = pending.participantId" in response.data
