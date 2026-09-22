@@ -72,6 +72,17 @@
   const holePrev = document.getElementById('hole-prev');
   const holeNext = document.getElementById('hole-next');
   const advanceLiveHole = document.getElementById('advance-live-hole');
+  const advanceWarningPanel = document.getElementById('advance-warning-panel');
+  const advanceWarningCopy = document.getElementById('advance-warning-copy');
+  const advanceWarningFix = document.getElementById('advance-warning-fix');
+  const advanceWarningGo = document.getElementById('advance-warning-go');
+  const roundSettingsButton = document.getElementById('round-settings-button');
+  const roundSettingsPanel = document.getElementById('round-settings-panel');
+  const roundSettingsTeeField = document.getElementById('round-settings-tee-field');
+  const roundSettingsTeeLabel = document.getElementById('round-settings-tee-label');
+  const roundSettingsTeeSelect = document.getElementById('round-settings-tee-select');
+  const roundSettingsTeeSave = document.getElementById('round-settings-tee-save');
+  const roundSettingsClose = document.getElementById('round-settings-close');
   const backToLive = document.getElementById('back-to-live');
   const holeStateLabel = document.getElementById('hole-state-label');
   const holeNumber = document.getElementById('hole-number');
@@ -139,6 +150,7 @@
   let viewedRoutePosition = null;
   let currentBagAction = null;
   let finishIncompletePending = false;
+  let advanceWarningPosition = null;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
 
@@ -722,6 +734,9 @@
     currentLobbyRound = null;
     viewedRoutePosition = null;
     finishIncompletePending = false;
+    advanceWarningPosition = null;
+    if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+    if (roundSettingsPanel) roundSettingsPanel.hidden = true;
     if (towelPanel) towelPanel.hidden = true;
     if (towelReason) towelReason.value = '';
     clearSelectedCourse();
@@ -799,6 +814,21 @@
         && String(score.player_participant_id) === String(participantId)
       );
     }) || null;
+  };
+
+  const missingScoresAtPosition = (round, position) => {
+    if (round.mode === 'scramble') {
+      return findScore(round, position) ? [] : ['TEAM SCORE'];
+    }
+
+    return (round.participants || [])
+      .filter((participant) =>
+        participant.role === 'player'
+        && participant.participation_state === 'active'
+        && Number(participant.tracked_from_position || 1) <= Number(position)
+      )
+      .filter((participant) => !findScore(round, position, participant.id))
+      .map((participant) => participant.display_name || 'Golfer');
   };
 
   const findScoreEvent = (round, position, participantId = null) => {
