@@ -295,6 +295,17 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - The correction event may explicitly describe how the existing score's current classification changed (for example Bogey -> Par), but must not create a replacement historical score event.
 - After a completed round, par cannot be changed unless the round is explicitly reopened; reopening and the later par correction both remain in Receipts.
 
+## Active hole vs browsing old holes
+- The round has one shared active route position/hole that represents where the group is currently playing.
+- The live scorecard defaults to that active hole and shows the relevant hole data for each golfer/team, including tee-specific yardage/par data when available.
+- Players and spectators may browse back to any previously reached route position to review hole data, scores, events, contributions, reactions, and Receipts for that hole.
+- Active players may edit/add/remove scores or other editable golf data on an older hole while viewing it.
+- Editing an older hole never changes the shared active hole and never drags other connected users backward.
+- After an old-hole edit, the user may stay on that viewed hole or return to the active hole; the app should always make the current live hole obvious.
+- Route position, not just physical hole number, identifies the viewed hole so repeated holes on wrapped/9-hole-loop routes remain distinct.
+- The shared active hole changes only through explicit live-round advancement/navigation rules, not because somebody browsed history.
+- Tee selection is a separate concept from hole navigation. A golfer's selected tee determines which tee-specific hole data/scoring inputs apply; browsing backward does not change that tee selection.
+
 ## Live scoring
 - Score, par, and shared-hole mutations are only allowed while status is `active`.
 - Spectators cannot change score, par, or shared current hole.
