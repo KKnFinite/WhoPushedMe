@@ -463,36 +463,66 @@ def _append_individual(
     is_player = str(round_data.get("viewer_role")) == "player" and viewer is not None
 
     if is_player:
-        total_strokes = int(viewer.get("total_strokes") or 0)
+        coverage = str(
+            viewer.get("coverage_state")
+            or ("incomplete" if int(viewer.get("missing_scores") or 0) else "complete")
+        )
+        participation = str(viewer.get("participation_state") or "active")
+        official = (
+            participation == "active"
+            and coverage == "complete"
+            and viewer.get("rank") is not None
+        )
         title = f"{viewer.get('display_name') or 'Golfer'} - Final Damage Report"
         story.append(Paragraph(_safe(title), styles["heading"]))
-        story.append(
-            Paragraph(
-                _safe(
-                    _roast_line(
-                        total_strokes=total_strokes,
-                        total_par=total_par,
-                        max_vulgarity=str(preferences.get("max_vulgarity") or "normal"),
-                    )
-                ),
-                styles["roast"],
+
+        if official:
+            total_strokes = int(viewer.get("total_strokes") or 0)
+            story.append(
+                Paragraph(
+                    _safe(
+                        _roast_line(
+                            total_strokes=total_strokes,
+                            total_par=total_par,
+                            max_vulgarity=str(preferences.get("max_vulgarity") or "normal"),
+                        )
+                    ),
+                    styles["roast"],
+                )
             )
-        )
+            summary = (
+                f"Final position: {_rank_label(viewer)} | "
+                f"{total_strokes} strokes | "
+                f"{_relative_label(total_strokes, total_par)} to par"
+                if total_par is not None
+                else f"Final position: {_rank_label(viewer)} | {total_strokes} strokes"
+            )
+        else:
+            if participation != "active":
+                status_label = "DNF"
+            elif coverage == "partial":
+                status_label = "PARTIAL"
+            else:
+                status_label = "INCOMPLETE"
+            story.append(
+                Paragraph(
+                    "The scorecard closed with missing evidence. No fake final total was invented.",
+                    styles["roast"],
+                )
+            )
+            score_count = int(viewer.get("score_count") or 0)
+            required = int(viewer.get("required_scores") or 0)
+            summary = (
+                f"Status: {status_label} | "
+                f"{score_count} of {required} required scores recorded"
+                if required
+                else f"Status: {status_label} | {score_count} scores recorded"
+            )
+
+        story.append(Paragraph(_safe(summary), styles["body"]))
         best, worst = _best_worst_line(
             round_data,
             participant_id=viewer_id,
-        )
-        story.append(
-            Paragraph(
-                _safe(
-                    f"Final position: {_rank_label(viewer)} | "
-                    f"{total_strokes} strokes | "
-                    f"{_relative_label(total_strokes, total_par)} to par"
-                    if total_par is not None
-                    else f"Final position: {_rank_label(viewer)} | {total_strokes} strokes"
-                ),
-                styles["body"],
-            )
         )
         story.append(Paragraph(_safe(f"{best} | {worst}"), styles["body"]))
 
@@ -513,13 +543,37 @@ def _append_individual(
             int(item.get("total_strokes") or 9999),
         ),
     ):
-        strokes = int(row.get("total_strokes") or 0)
+        coverage = str(
+            row.get("coverage_state")
+            or ("incomplete" if int(row.get("missing_scores") or 0) else "complete")
+        )
+        participation = str(row.get("participation_state") or "active")
+        official = (
+            participation == "active"
+            and coverage == "complete"
+            and row.get("rank") is not None
+        )
+        if official:
+            strokes = int(row.get("total_strokes") or 0)
+            place = _rank_label(row)
+            relative = _relative_label(strokes, total_par)
+            strokes_cell: object = strokes
+        else:
+            place = (
+                "DNF"
+                if participation != "active"
+                else "PARTIAL"
+                if coverage == "partial"
+                else "INCOMPLETE"
+            )
+            strokes_cell = "-"
+            relative = "-"
         standings.append(
             [
-                _rank_label(row),
+                place,
                 row.get("display_name") or "Golfer",
-                strokes,
-                _relative_label(strokes, total_par),
+                strokes_cell,
+                relative,
             ]
         )
     story.append(_table(standings, [0.65 * inch, 2.7 * inch, 0.85 * inch, 0.75 * inch]))
@@ -532,7 +586,9 @@ def _append_scramble(
     *,
     preferences: Mapping[str, Any],
 ) -> None:
-    total = (round_data.get("results") or {}).get("team_total")
+    results = round_data.get("results") or {}
+    complete = bool(results.get("complete"))
+    total = results.get("team_total")
     total_strokes = int(total) if total is not None else None
     par_map = _par_map(round_data)
     total_par = (
@@ -541,23 +597,42 @@ def _append_scramble(
         else None
     )
 
-    story.append(Paragraph("TEAM FINAL DAMAGE REPORT", styles["heading"]))
-    story.append(
-        Paragraph(
-            _safe(
-                _roast_line(
-                    total_strokes=total_strokes,
-                    total_par=total_par,
-                    max_vulgarity=str(preferences.get("max_vulgarity") or "normal"),
-                )
-            ),
-            styles["roast"],
+    if complete:
+        story.append(Paragraph("TEAM FINAL DAMAGE REPORT", styles["heading"]))
+        story.append(
+            Paragraph(
+                _safe(
+                    _roast_line(
+                        total_strokes=total_strokes,
+                        total_par=total_par,
+                        max_vulgarity=str(preferences.get("max_vulgarity") or "normal"),
+                    )
+                ),
+                styles["roast"],
+            )
         )
-    )
-
-    summary = f"{total_strokes} team strokes" if total_strokes is not None else "Team total unavailable"
-    if total_strokes is not None and total_par is not None:
-        summary += f" | {_relative_label(total_strokes, total_par)} to par"
+        summary = (
+            f"{total_strokes} team strokes"
+            if total_strokes is not None
+            else "Team total unavailable"
+        )
+        if total_strokes is not None and total_par is not None:
+            summary += f" | {_relative_label(total_strokes, total_par)} to par"
+    else:
+        story.append(Paragraph("INCOMPLETE ROUND", styles["heading"]))
+        story.append(
+            Paragraph(
+                "The round ended with missing team scores. No fake final total was invented.",
+                styles["roast"],
+            )
+        )
+        score_count = int(results.get("score_count") or 0)
+        required = int(results.get("required_scores") or round_data.get("hole_count") or 0)
+        missing = int(results.get("missing_scores") or max(required - score_count, 0))
+        summary = (
+            f"{score_count} of {required} team scores recorded | "
+            f"{missing} missing"
+        )
     story.append(Paragraph(_safe(summary), styles["body"]))
 
     best, worst = _best_worst_line(round_data, participant_id=None)

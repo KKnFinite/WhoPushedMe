@@ -38,6 +38,8 @@ def test_home_loads_pwa_shell():
     assert b"REACTIONS" in response.data
     assert b"SCRAMBLE CONTRIBUTIONS" in response.data
     assert b"FINISH THE DISASTER" in response.data
+    assert b"FIX THE SCORECARD" in response.data
+    assert b"FINISH INCOMPLETE" in response.data
     assert b"ROUND OVER" in response.data
     assert b"RECEIPTS" in response.data
     assert b"DOWNLOAD FINAL DAMAGE REPORT (PDF)" in response.data
@@ -70,7 +72,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v16" in response.data
+    assert b"wpm-shell-v17" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -79,4 +81,4 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v16" in builder
+    assert "wpm-shell-v17" in builder

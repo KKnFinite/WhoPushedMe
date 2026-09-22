@@ -155,6 +155,97 @@ def test_completed_scramble_round_builds_pdf_bytes():
     assert pdf.startswith(b"%PDF-")
     assert len(pdf) > 1500
 
+def test_completed_incomplete_individual_round_still_builds_report():
+    round_data = {
+        "status": "completed",
+        "mode": "individual",
+        "hole_count": 2,
+        "free_play_name": "Missing Receipt",
+        "course": None,
+        "viewer_role": "player",
+        "viewer_participant_id": "p1",
+        "participants": [
+            {"id": "p1", "role": "player", "display_name": "Kim"},
+        ],
+        "pars": [],
+        "scores": [
+            {
+                "hole_number": 1,
+                "score_scope": "player",
+                "player_participant_id": "p1",
+                "strokes": 5,
+            },
+        ],
+        "contributions": [],
+        "results": {
+            "mode": "individual",
+            "complete": False,
+            "missing_scores": 1,
+            "team_total": None,
+            "players": [
+                {
+                    "participant_id": "p1",
+                    "display_name": "Kim",
+                    "participation_state": "active",
+                    "coverage_state": "incomplete",
+                    "required_scores": 2,
+                    "score_count": 1,
+                    "missing_scores": 1,
+                    "total_strokes": 5,
+                    "rank": None,
+                    "tie_count": 0,
+                },
+            ],
+        },
+        "events": [],
+    }
+
+    pdf = build_round_report_pdf(round_data)
+
+    assert pdf.startswith(b"%PDF-")
+    assert len(pdf) > 1500
+
+
+def test_completed_incomplete_scramble_round_still_builds_report():
+    round_data = {
+        "status": "completed",
+        "mode": "scramble",
+        "hole_count": 2,
+        "free_play_name": "Team Missing Receipt",
+        "course": None,
+        "viewer_role": "player",
+        "viewer_participant_id": "p1",
+        "participants": [
+            {"id": "p1", "role": "player", "display_name": "Kim"},
+        ],
+        "pars": [],
+        "scores": [
+            {
+                "hole_number": 1,
+                "score_scope": "team",
+                "player_participant_id": None,
+                "strokes": 5,
+            },
+        ],
+        "contributions": [],
+        "results": {
+            "mode": "scramble",
+            "complete": False,
+            "score_count": 1,
+            "required_scores": 2,
+            "missing_scores": 1,
+            "team_total": 5,
+            "players": [],
+        },
+        "events": [],
+    }
+
+    pdf = build_round_report_pdf(round_data)
+
+    assert pdf.startswith(b"%PDF-")
+    assert len(pdf) > 1500
+
+
 def test_final_report_archive_keeps_every_used_banter_and_mini_occurrence():
     mini_path = (
         "static/assets/mascots/mini/joining/new-player/"

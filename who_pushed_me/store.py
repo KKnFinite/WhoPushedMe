@@ -1738,7 +1738,14 @@ class RoundStore:
 
         return "round.end.individual.not_last"
 
-    def set_status(self, golfer_id: object, round_id: object, status: object) -> dict[str, Any]:
+    def set_status(
+        self,
+        golfer_id: object,
+        round_id: object,
+        status: object,
+        *,
+        finish_incomplete: bool = False,
+    ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
         new_status = str(status or "")
@@ -1792,6 +1799,7 @@ class RoundStore:
                             )
 
                 completion_results: dict[str, Any] | None = None
+                completion_incomplete = False
                 if old_status == "active" and new_status == "completed":
                     completion_results = self._round_results_from_cursor(
                         cursor,
@@ -1799,20 +1807,43 @@ class RoundStore:
                         mode=round_row["mode"],
                         hole_count=round_row["hole_count"],
                     )
-                    if not completion_results["complete"]:
-                        if round_row["mode"] == "scramble":
+                    completion_incomplete = not completion_results["complete"]
+                    if completion_incomplete:
+                        if not finish_incomplete:
+                            if round_row["mode"] == "scramble":
+                                raise DomainError(
+                                    "team scores are missing; explicitly finish incomplete or fix the scorecard"
+                                )
                             raise DomainError(
-                                "every hole needs a team score before completing the round"
+                                "player scores are missing; explicitly finish incomplete or fix the scorecard"
                             )
-                        raise DomainError(
-                            "every player needs a score on every hole before completing the round"
+
+                        cursor.execute(
+                            """
+                            SELECT max(route_position) AS final_position
+                            FROM round_route_positions
+                            WHERE round_id = %s AND state = 'planned'
+                            """,
+                            (round_uuid,),
                         )
+                        final_position = int(
+                            cursor.fetchone()["final_position"]
+                            or round_row["current_route_position"]
+                        )
+                        if int(round_row["current_route_position"]) != final_position:
+                            raise DomainError(
+                                "finish incomplete is only available at the final route position"
+                            )
 
                 cursor.execute(
                     "UPDATE rounds SET status = %s, updated_at = now() WHERE id = %s",
                     (new_status, round_uuid),
                 )
-                content_event = status_content_event(old_status, new_status)
+                content_event = (
+                    None
+                    if completion_incomplete
+                    else status_content_event(old_status, new_status)
+                )
                 self._event(
                     cursor,
                     round_id=round_uuid,
@@ -1820,27 +1851,36 @@ class RoundStore:
                     event_type="round_status_change",
                     old_value=old_status,
                     new_value=new_status,
+                    data=(
+                        {
+                            "finish_incomplete": True,
+                            "missing_scores": completion_results["missing_scores"],
+                        }
+                        if completion_incomplete and completion_results is not None
+                        else {}
+                    ),
                     content_event_key=content_event,
                     presentation_context={"mode": round_row["mode"]},
                 )
 
                 if completion_results is not None:
                     if round_row["mode"] == "scramble":
-                        self._event(
-                            cursor,
-                            round_id=round_uuid,
-                            actor_participant_id=participant["id"],
-                            event_type="round_end_result",
-                            data={
-                                "mode": "scramble",
-                                "total_strokes": completion_results["team_total"],
-                            },
-                            content_event_key="round.end.scramble.complete",
-                            presentation_context={
-                                "mode": "scramble",
-                                "strokes": completion_results["team_total"],
-                            },
-                        )
+                        if completion_results["complete"]:
+                            self._event(
+                                cursor,
+                                round_id=round_uuid,
+                                actor_participant_id=participant["id"],
+                                event_type="round_end_result",
+                                data={
+                                    "mode": "scramble",
+                                    "total_strokes": completion_results["team_total"],
+                                },
+                                content_event_key="round.end.scramble.complete",
+                                presentation_context={
+                                    "mode": "scramble",
+                                    "strokes": completion_results["team_total"],
+                                },
+                            )
                     else:
                         placement_results = [
                             row

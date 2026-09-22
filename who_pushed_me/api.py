@@ -350,7 +350,15 @@ def set_current_hole(round_id: str):
 @api.patch("/rounds/<round_id>/status")
 @authenticated
 def set_status(round_id: str):
-    return jsonify(_store().set_status(g.golfer["id"], round_id, _body().get("status")))
+    payload = _body()
+    return jsonify(
+        _store().set_status(
+            g.golfer["id"],
+            round_id,
+            payload.get("status"),
+            finish_incomplete=payload.get("finish_incomplete") is True,
+        )
+    )
 
 
 @api.put("/rounds/<round_id>/holes/<int:position>/par")

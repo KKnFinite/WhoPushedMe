@@ -70,6 +70,10 @@
   const scrambleContributionPanel = document.getElementById('scramble-contribution-panel');
   const scrambleContributionList = document.getElementById('scramble-contribution-list');
   const finishRoundButton = document.getElementById('finish-round-button');
+  const finishIncompletePanel = document.getElementById('finish-incomplete-panel');
+  const finishIncompleteCopy = document.getElementById('finish-incomplete-copy');
+  const fixScorecardButton = document.getElementById('fix-scorecard-button');
+  const finishIncompleteButton = document.getElementById('finish-incomplete-button');
   const liveRoundHome = document.getElementById('live-round-home');
   const roundEndPanel = document.getElementById('round-end-panel');
   const roundEndTitle = document.getElementById('round-end-title');
@@ -112,6 +116,7 @@
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
   let currentBagAction = null;
+  let finishIncompletePending = false;
 
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
@@ -525,6 +530,7 @@
     currentBagAction = null;
     currentLobbyRound = null;
     viewedRoutePosition = null;
+    finishIncompletePending = false;
     clearSelectedCourse();
     if (lobbyRefreshTimer) {
       window.clearInterval(lobbyRefreshTimer);
@@ -1161,13 +1167,16 @@
   const renderRoundEnd = (round) => {
     currentLobbyRound = round;
     viewedRoutePosition = null;
+    finishIncompletePending = false;
 
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     if (roundEndPanel) roundEndPanel.hidden = false;
-    if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND COMPLETE';
+    if (roundFlowTitle) {
+      roundFlowTitle.textContent = round.results?.complete ? 'ROUND COMPLETE' : 'ROUND ENDED';
+    }
 
     if (lobbyRefreshTimer) {
       window.clearInterval(lobbyRefreshTimer);
@@ -1175,54 +1184,72 @@
     }
 
     const place = round.course?.name || round.free_play_name || 'Golf';
-    if (roundEndTitle) roundEndTitle.textContent = 'THE DAMAGE IS FINAL.';
+    const resultsComplete = Boolean(round.results?.complete);
+    if (roundEndTitle) {
+      roundEndTitle.textContent = resultsComplete
+        ? 'THE DAMAGE IS FINAL.'
+        : 'INCOMPLETE SCORECARD.';
+    }
     if (roundEndResults) roundEndResults.replaceChildren();
 
     const totalPar = totalParForRound(round);
 
     if (round.mode === 'scramble') {
       const total = round.results?.team_total;
-      const relative = totalPar && total
+      const scoreCount = Number(round.results?.score_count || 0);
+      const requiredScores = Number(round.results?.required_scores || round.hole_count || 0);
+      const missingScores = Number(round.results?.missing_scores || 0);
+      const relative = resultsComplete && totalPar && total
         ? scoreRelativeLabel(Number(total), Number(totalPar))
         : '';
 
       if (roundEndSummary) {
-        roundEndSummary.textContent = [
-          place,
-          total ? `${total} STROKES` : '',
-          relative ? `${relative} TO PAR` : '',
-        ].filter(Boolean).join(' • ');
+        roundEndSummary.textContent = resultsComplete
+          ? [
+              place,
+              total ? `${total} STROKES` : '',
+              relative ? `${relative} TO PAR` : '',
+            ].filter(Boolean).join(' • ')
+          : `${place} • ${scoreCount} OF ${requiredScores} TEAM SCORES RECORDED`;
       }
 
-      const event = (round.events || []).find(
-        (item) =>
-          item.event_type === 'round_end_result'
-          && item.content_event_key === 'round.end.scramble.complete'
-      );
+      const event = resultsComplete
+        ? (round.events || []).find(
+            (item) =>
+              item.event_type === 'round_end_result'
+              && item.content_event_key === 'round.end.scramble.complete'
+          )
+        : null;
 
       const card = document.createElement('section');
-      card.className = 'round-end-result-card is-first';
+      card.className = 'round-end-result-card';
+      if (resultsComplete) card.classList.add('is-first');
 
       const rank = document.createElement('div');
       rank.className = 'round-end-result-rank';
-      rank.textContent = '✓';
+      rank.textContent = resultsComplete ? '✓' : 'INC';
 
       const main = document.createElement('div');
       main.className = 'round-end-result-main';
 
       const name = document.createElement('strong');
-      name.textContent = 'WE SUCK TOGETHER';
+      name.textContent = resultsComplete ? 'WE SUCK TOGETHER' : 'INCOMPLETE ROUND';
 
       const score = document.createElement('small');
-      score.textContent = total ? `${total} TOTAL STROKES` : 'ROUND COMPLETE';
+      score.textContent = resultsComplete
+        ? (total ? `${total} TOTAL STROKES` : 'ROUND COMPLETE')
+        : `${missingScores} TEAM SCORE${missingScores === 1 ? '' : 'S'} MISSING`;
 
       main.append(name, score);
       card.append(rank, main);
-      appendResultPresentation(card, event);
+      if (resultsComplete) appendResultPresentation(card, event);
       roundEndResults?.append(card);
     } else {
       if (roundEndSummary) {
-        roundEndSummary.textContent = place;
+        const missing = Number(round.results?.missing_scores || 0);
+        roundEndSummary.textContent = resultsComplete || missing === 0
+          ? place
+          : `${place} • ${missing} REQUIRED SCORE${missing === 1 ? '' : 'S'} MISSING`;
       }
 
       const players = [...(round.results?.players || [])].sort(
@@ -1232,14 +1259,33 @@
       );
 
       players.forEach((result) => {
+        const coverage = String(result.coverage_state || (
+          Number(result.missing_scores || 0) > 0 ? 'incomplete' : 'complete'
+        ));
+        const participation = String(result.participation_state || 'active');
+        const official = (
+          participation === 'active'
+          && coverage === 'complete'
+          && result.rank !== null
+          && result.rank !== undefined
+        );
+
         const card = document.createElement('section');
         card.className = 'round-end-result-card';
-        if (Number(result.rank) === 1) card.classList.add('is-first');
+        if (official && Number(result.rank) === 1) card.classList.add('is-first');
 
         const rank = document.createElement('div');
         rank.className = 'round-end-result-rank';
-        const tied = Number(result.tie_count) > 1;
-        rank.textContent = tied ? `T${result.rank}` : `#${result.rank}`;
+        if (participation !== 'active') {
+          rank.textContent = 'DNF';
+        } else if (coverage === 'incomplete') {
+          rank.textContent = 'INC';
+        } else if (coverage === 'partial' || !official) {
+          rank.textContent = 'PART';
+        } else {
+          const tied = Number(result.tie_count) > 1;
+          rank.textContent = tied ? `T${result.rank}` : `#${result.rank}`;
+        }
 
         const main = document.createElement('div');
         main.className = 'round-end-result-main';
@@ -1247,24 +1293,38 @@
         const name = document.createElement('strong');
         name.textContent = result.display_name || 'Golfer';
 
-        const relative = totalPar && result.total_strokes
-          ? scoreRelativeLabel(
-              Number(result.total_strokes),
-              Number(totalPar)
-            )
-          : '';
         const score = document.createElement('small');
-        score.textContent = [
-          `${result.total_strokes} STROKES`,
-          relative ? `${relative} TO PAR` : '',
-        ].filter(Boolean).join(' • ');
+        if (!official) {
+          const scoreCount = Number(result.score_count || 0);
+          const required = Number(result.required_scores || 0);
+          if (participation !== 'active') {
+            score.textContent = `DNF • ${scoreCount} SCORES RECORDED`;
+          } else if (coverage === 'incomplete') {
+            score.textContent = `INCOMPLETE • ${scoreCount} OF ${required} SCORES`;
+          } else {
+            score.textContent = `PARTIAL • ${scoreCount} SCORES RECORDED`;
+          }
+        } else {
+          const relative = totalPar && result.total_strokes
+            ? scoreRelativeLabel(
+                Number(result.total_strokes),
+                Number(totalPar)
+              )
+            : '';
+          score.textContent = [
+            `${result.total_strokes} STROKES`,
+            relative ? `${relative} TO PAR` : '',
+          ].filter(Boolean).join(' • ');
+        }
 
         main.append(name, score);
         card.append(rank, main);
-        appendResultPresentation(
-          card,
-          roundEndEventForPlayer(round, result.participant_id)
-        );
+        if (official) {
+          appendResultPresentation(
+            card,
+            roundEndEventForPlayer(round, result.participant_id)
+          );
+        }
         roundEndResults?.append(card);
       });
     }
@@ -1386,14 +1446,33 @@
     renderLatestPresentation(round);
     renderReceipts(round);
 
+    const canFinish = (
+      round.viewer_role === 'player'
+      && viewingLive
+      && livePosition === length
+    );
+    const resultsComplete = Boolean(round.results?.complete);
+    if (!canFinish || resultsComplete) {
+      finishIncompletePending = false;
+    }
     if (finishRoundButton) {
-      const canFinish = (
-        round.viewer_role === 'player'
-        && viewingLive
-        && livePosition === length
-      );
-      finishRoundButton.hidden = !canFinish;
+      finishRoundButton.hidden = !canFinish || finishIncompletePending;
       finishRoundButton.disabled = false;
+    }
+    if (finishIncompletePanel) {
+      finishIncompletePanel.hidden = !(
+        canFinish
+        && finishIncompletePending
+        && !resultsComplete
+      );
+    }
+    if (finishIncompleteCopy) {
+      const missing = Number(round.results?.missing_scores || 0);
+      const noun = round.mode === 'scramble' ? 'TEAM SCORE' : 'REQUIRED SCORE';
+      finishIncompleteCopy.textContent =
+        `${missing} ${noun}${missing === 1 ? '' : 'S'} `
+        + 'ARE STILL MISSING. FINISHING NOW MARKS THE SCORECARD INCOMPLETE. '
+        + 'NOTHING GETS INVENTED.';
     }
 
     if (round.status === 'active') {
@@ -1661,24 +1740,54 @@
     }
   });
 
-  finishRoundButton?.addEventListener('click', async () => {
+  const completeRound = async (finishIncomplete = false) => {
     if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
 
-    finishRoundButton.disabled = true;
+    if (finishRoundButton) finishRoundButton.disabled = true;
+    if (finishIncompleteButton) finishIncompleteButton.disabled = true;
     setRoundFlowMessage('');
+
     try {
       await requestJson(
         `/api/rounds/${currentLobbyRound.id}/status`,
         {
           method: 'PATCH',
-          body: { status: 'completed' },
+          body: {
+            status: 'completed',
+            finish_incomplete: Boolean(finishIncomplete),
+          },
         }
       );
+      finishIncompletePending = false;
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
-      finishRoundButton.disabled = false;
+      if (finishRoundButton) finishRoundButton.disabled = false;
+      if (finishIncompleteButton) finishIncompleteButton.disabled = false;
     }
+  };
+
+  finishRoundButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
+
+    if (!currentLobbyRound.results?.complete) {
+      finishIncompletePending = true;
+      renderLiveRound(currentLobbyRound);
+      return;
+    }
+
+    await completeRound(false);
+  });
+
+  fixScorecardButton?.addEventListener('click', () => {
+    finishIncompletePending = false;
+    if (finishIncompletePanel) finishIncompletePanel.hidden = true;
+    if (finishRoundButton) finishRoundButton.hidden = false;
+    setRoundFlowMessage('Use the hole arrows to fix the missing scores, then come back here.');
+  });
+
+  finishIncompleteButton?.addEventListener('click', async () => {
+    await completeRound(true);
   });
 
   holePrev?.addEventListener('click', () => {

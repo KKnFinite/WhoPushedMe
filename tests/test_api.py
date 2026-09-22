@@ -187,8 +187,18 @@ class FakeStore:
             "participants": [],
         }
 
-    def set_status(self, golfer_id, round_id, status):
-        self.calls.append(("set_status", golfer_id, round_id, status))
+    def set_status(
+        self,
+        golfer_id,
+        round_id,
+        status,
+        *,
+        finish_incomplete=False,
+    ):
+        call = ("set_status", golfer_id, round_id, status)
+        if finish_incomplete:
+            call += (True,)
+        self.calls.append(call)
         return {"round_id": round_id, "status": status}
 
     def search_cached_courses(self, query, *, limit=10):
@@ -868,6 +878,24 @@ def test_scramble_contribution_route_tracks_selected_player():
         7,
         "drive",
         target,
+    )
+
+
+def test_finish_incomplete_requires_explicit_api_confirmation():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/status",
+        headers={"Authorization": "Bearer session-token"},
+        json={"status": "completed", "finish_incomplete": True},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "set_status",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        "completed",
+        True,
     )
 
 

@@ -1173,6 +1173,35 @@ body.app-ready .app-shell {
   display: none;
 }
 
+.finish-incomplete-panel {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.finish-incomplete-panel[hidden] {
+  display: none;
+}
+
+.finish-incomplete-panel strong {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 1.05rem;
+}
+
+.finish-incomplete-panel p {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.finish-incomplete-panel .finish-round-button {
+  width: 100%;
+}
+
 .round-end-panel {
   display: grid;
   gap: 14px;
