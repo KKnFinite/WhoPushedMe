@@ -117,6 +117,84 @@ class RoundStore:
             raise DomainError("tee is not available for this course")
 
     @staticmethod
+    def _unique_course_tee_rating(
+        cursor: Any,
+        course_id: UUID,
+        tee_name: str,
+    ) -> dict[str, Any] | None:
+        cursor.execute(
+            """
+            SELECT course_rating, slope_rating
+            FROM cached_course_tee_ratings
+            WHERE course_id = %s
+              AND lower(tee_name) = lower(%s)
+              AND course_rating IS NOT NULL
+              AND slope_rating IS NOT NULL
+            ORDER BY gender, tee_name
+            """,
+            (course_id, tee_name),
+        )
+        rows = cursor.fetchall()
+        if len(rows) != 1:
+            return None
+        return rows[0]
+
+    @staticmethod
+    def _planned_round_par(
+        cursor: Any,
+        round_id: UUID,
+    ) -> int | None:
+        cursor.execute(
+            """
+            SELECT count(*) AS planned_count,
+                   count(pars.par) AS par_count,
+                   coalesce(sum(pars.par), 0) AS total_par
+            FROM round_route_positions route
+            LEFT JOIN round_route_pars pars
+              ON pars.round_id = route.round_id
+             AND pars.route_position = route.route_position
+            WHERE route.round_id = %s
+              AND route.state = 'planned'
+            """,
+            (round_id,),
+        )
+        row = cursor.fetchone()
+        planned = int(row["planned_count"] or 0)
+        par_count = int(row["par_count"] or 0)
+        if planned < 1 or par_count != planned:
+            return None
+        return int(row["total_par"])
+
+    @classmethod
+    def _calculated_round_handicap(
+        cls,
+        cursor: Any,
+        *,
+        round_id: UUID,
+        course_id: UUID | None,
+        tee_name: str | None,
+        handicap_index: float | None,
+    ) -> int | None:
+        if not course_id or not tee_name or handicap_index is None:
+            return None
+        rating = cls._unique_course_tee_rating(
+            cursor,
+            course_id,
+            tee_name,
+        )
+        if not rating:
+            return None
+        course_par = cls._planned_round_par(cursor, round_id)
+        if course_par is None:
+            return None
+        return calculate_course_handicap(
+            handicap_index,
+            rating["slope_rating"],
+            rating["course_rating"],
+            course_par,
+        )
+
+    @staticmethod
     def _participant(cursor: Any, round_id: UUID, golfer_id: UUID) -> dict[str, Any]:
         cursor.execute(
             """
