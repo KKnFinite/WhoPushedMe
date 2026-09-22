@@ -200,6 +200,13 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
 - Course rounds with tee data require every player to choose a tee before start.
 - Free Play does not require a tee.
 
+## Route editing before round start
+- While the round is still in setup/lobby, the planned route remains freely editable.
+- Players may change starting hole, planned length, custom ending hole, wraparound choice, and whether the round is 9/full/custom before `START THE SHITSHOW`.
+- Pre-start route edits may rebuild the planned play order because no live golf state has begun yet.
+- Once the round becomes active, the normal active-route rules take over: the played route is locked, and the route may only be extended forward or ended early.
+- Pre-start route changes must not create noisy Receipts/history events; only the final route at round start becomes the authoritative starting plan.
+
 ## Round route and starting mid-round
 - A round is defined by an explicit play order, not by assuming hole 1 through hole 18.
 - Route position is distinct from physical course hole number. This is required for 9-hole courses played twice, shotgun starts, wraparound routes, and any route where the same physical hole can appear more than once.
