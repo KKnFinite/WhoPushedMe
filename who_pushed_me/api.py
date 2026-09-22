@@ -425,6 +425,58 @@ def set_contribution(
     )
 
 
+@api.put("/rounds/<round_id>/events/<event_id>/reaction")
+@authenticated
+def set_event_reaction(round_id: str, event_id: str):
+    return jsonify(
+        _store().set_event_reaction(
+            g.golfer["id"],
+            round_id,
+            event_id,
+            _body().get("reaction"),
+        )
+    )
+
+
+@api.delete("/rounds/<round_id>/events/<event_id>/reaction")
+@authenticated
+def remove_event_reaction(round_id: str, event_id: str):
+    return jsonify(
+        _store().remove_event_reaction(
+            g.golfer["id"],
+            round_id,
+            event_id,
+        )
+    )
+
+
+@api.put("/rounds/<round_id>/score-events/<event_id>/challenge")
+@authenticated
+def set_score_challenge(round_id: str, event_id: str):
+    payload = _body()
+    return jsonify(
+        _store().set_score_challenge(
+            g.golfer["id"],
+            round_id,
+            event_id,
+            proposed_score=payload.get("proposed_score"),
+            comment=payload.get("comment"),
+        )
+    )
+
+
+@api.delete("/rounds/<round_id>/score-events/<event_id>/challenge")
+@authenticated
+def withdraw_score_challenge(round_id: str, event_id: str):
+    return jsonify(
+        _store().withdraw_score_challenge(
+            g.golfer["id"],
+            round_id,
+            event_id,
+        )
+    )
+
+
 @api.post("/rounds/<round_id>/score-events/<event_id>/responses")
 @authenticated
 def add_score_response(round_id: str, event_id: str):

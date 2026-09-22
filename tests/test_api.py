@@ -277,6 +277,52 @@ class FakeStore:
             "player_participant_id": player_participant_id,
         }
 
+    def set_event_reaction(self, golfer_id, round_id, event_id, reaction_kind):
+        self.calls.append(
+            ("set_reaction", golfer_id, round_id, event_id, reaction_kind)
+        )
+        return {
+            "event_id": event_id,
+            "actor_participant_id": "participant-1",
+            "reaction_kind": reaction_kind,
+        }
+
+    def remove_event_reaction(self, golfer_id, round_id, event_id):
+        self.calls.append(("remove_reaction", golfer_id, round_id, event_id))
+        return {"event_id": event_id, "removed": True}
+
+    def set_score_challenge(
+        self,
+        golfer_id,
+        round_id,
+        score_event_id,
+        *,
+        proposed_score=None,
+        comment=None,
+    ):
+        self.calls.append(
+            (
+                "score_challenge",
+                golfer_id,
+                round_id,
+                score_event_id,
+                proposed_score,
+                comment,
+            )
+        )
+        return {
+            "score_event_id": score_event_id,
+            "status": "active",
+            "proposed_score": proposed_score,
+            "comment": comment,
+        }
+
+    def withdraw_score_challenge(self, golfer_id, round_id, score_event_id):
+        self.calls.append(
+            ("withdraw_score_challenge", golfer_id, round_id, score_event_id)
+        )
+        return {"score_event_id": score_event_id, "status": "withdrawn"}
+
     def add_score_response(
         self,
         golfer_id,
@@ -1015,6 +1061,95 @@ def test_final_damage_report_download_returns_pdf_attachment():
     assert "who-pushed-me-4321-final-damage-report.pdf" in (
         response.headers["Content-Disposition"]
     )
+
+def test_event_reaction_route_sets_one_current_reaction():
+    client, store = client_with_store()
+    event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+
+    response = client.put(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"events/{event_id}/reaction"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+        json={"reaction": "bullshit"},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "set_reaction",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        event_id,
+        "bullshit",
+    )
+
+
+def test_event_reaction_route_can_remove_current_reaction():
+    client, store = client_with_store()
+    event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+
+    response = client.delete(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"events/{event_id}/reaction"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "remove_reaction",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        event_id,
+    )
+
+
+def test_score_challenge_route_accepts_proposed_score_and_comment():
+    client, store = client_with_store()
+    event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+
+    response = client.put(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"score-events/{event_id}/challenge"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+        json={"proposed_score": 5, "comment": "That was a five."},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "score_challenge",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        event_id,
+        5,
+        "That was a five.",
+    )
+
+
+def test_score_challenge_route_can_withdraw():
+    client, store = client_with_store()
+    event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+
+    response = client.delete(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"score-events/{event_id}/challenge"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert store.calls[-1] == (
+        "withdraw_score_challenge",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        event_id,
+    )
+
 
 def test_score_response_route_links_reply_to_specific_score_event():
     client, store = client_with_store()

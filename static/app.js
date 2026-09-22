@@ -615,6 +615,20 @@
     );
   };
 
+  const eventReactions = (round, eventId) => {
+    return (round.reactions || []).filter(
+      (reaction) => String(reaction.event_id) === String(eventId)
+    );
+  };
+
+  const activeScoreChallenges = (round, scoreEventId) => {
+    return (round.score_challenges || []).filter(
+      (challenge) =>
+        String(challenge.score_event_id) === String(scoreEventId)
+        && challenge.status === 'active'
+    );
+  };
+
   const scoreRelativeLabel = (strokes, par) => {
     if (!Number.isFinite(strokes) || !Number.isFinite(par)) return '';
     const delta = strokes - par;
@@ -702,49 +716,56 @@
     const responseButtons = document.createElement('div');
     responseButtons.className = 'score-response-buttons';
 
-    const sendResponse = async (
-      responseKind,
-      {
-        message = '',
-        targetParticipantId = null,
-      } = {}
-    ) => {
-      setRoundFlowMessage('');
-      try {
-        await requestJson(
-          `/api/rounds/${round.id}/score-events/${scoreEvent.id}/responses`,
-          {
-            method: 'POST',
-            body: {
-              response_kind: responseKind,
-              message: message || null,
-              target_participant_id: targetParticipantId,
-            },
-          }
-        );
-        await refreshRound(round.active_code);
-      } catch (error) {
-        setRoundFlowMessage(error.message);
-      }
-    };
+    const reactions = eventReactions(round, scoreEvent.id);
+    const viewerId = String(round.viewer_participant_id || '');
+    const viewerReaction = reactions.find(
+      (reaction) => String(reaction.actor_participant_id) === viewerId
+    );
 
     [
       ['bullshit', 'BULLSHIT'],
       ['cheater', 'CHEATER'],
       ['lucky', 'LUCKY'],
       ['nice', 'NICE'],
-      ['random', 'TALK SHIT'],
+      ['talk_shit', 'TALK SHIT'],
     ].forEach(([kind, labelText]) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.textContent = labelText;
+      const count = reactions.filter(
+        (reaction) => reaction.reaction_kind === kind
+      ).length;
+      button.textContent = count ? `${labelText} · ${count}` : labelText;
+      if (viewerReaction?.reaction_kind === kind) {
+        button.classList.add('is-active');
+        button.setAttribute('aria-pressed', 'true');
+      } else {
+        button.setAttribute('aria-pressed', 'false');
+      }
+
       button.addEventListener('click', async () => {
         button.disabled = true;
-        await sendResponse(kind);
-        button.disabled = false;
+        setRoundFlowMessage('');
+        try {
+          const active = viewerReaction?.reaction_kind === kind;
+          await requestJson(
+            `/api/rounds/${round.id}/events/${scoreEvent.id}/reaction`,
+            active
+              ? { method: 'DELETE' }
+              : {
+                  method: 'PUT',
+                  body: { reaction: kind },
+                }
+          );
+          await refreshRound(round.active_code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+          button.disabled = false;
+        }
       });
       responseButtons.append(button);
     });
+
+    responsePanel.append(responseHeading, responseButtons);
 
     if (round.mode === 'scramble') {
       const blameWrap = document.createElement('div');
@@ -781,9 +802,104 @@
       });
 
       blameWrap.append(blameSelect, blameButton);
-      responsePanel.append(responseHeading, responseButtons, blameWrap);
-    } else {
-      responsePanel.append(responseHeading, responseButtons);
+      responsePanel.append(blameWrap);
+    }
+
+    const canChallenge = (
+      String(scoreEvent.actor_participant_id || '') !== viewerId
+    );
+    if (canChallenge) {
+      const existingChallenge = activeScoreChallenges(
+        round,
+        scoreEvent.id
+      ).find(
+        (challenge) =>
+          String(challenge.challenger_participant_id) === viewerId
+      );
+
+      const challengeWrap = document.createElement('div');
+      challengeWrap.className = 'score-challenge-controls';
+
+      const proposed = document.createElement('input');
+      proposed.type = 'number';
+      proposed.min = '1';
+      proposed.max = '99';
+      proposed.inputMode = 'numeric';
+      proposed.placeholder = 'CORRECT SCORE?';
+      proposed.value = existingChallenge?.proposed_score
+        ? String(existingChallenge.proposed_score)
+        : '';
+
+      const comment = document.createElement('input');
+      comment.type = 'text';
+      comment.maxLength = 280;
+      comment.placeholder = 'Why is this bullshit?';
+      comment.value = existingChallenge?.comment || '';
+
+      const challengeButton = document.createElement('button');
+      challengeButton.type = 'button';
+      challengeButton.textContent = existingChallenge
+        ? 'UPDATE CHALLENGE'
+        : 'CHALLENGE SCORE';
+      challengeButton.addEventListener('click', async () => {
+        const proposedValue = proposed.value.trim();
+        const commentValue = comment.value.trim();
+        if (!proposedValue && !commentValue) {
+          setRoundFlowMessage('Give a corrected score or say why you are challenging it.');
+          return;
+        }
+        challengeButton.disabled = true;
+        try {
+          await requestJson(
+            `/api/rounds/${round.id}/score-events/${scoreEvent.id}/challenge`,
+            {
+              method: 'PUT',
+              body: {
+                proposed_score: proposedValue || null,
+                comment: commentValue || null,
+              },
+            }
+          );
+          await refreshRound(round.active_code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+          challengeButton.disabled = false;
+        }
+      });
+
+      challengeWrap.append(proposed, comment, challengeButton);
+
+      if (existingChallenge) {
+        const withdraw = document.createElement('button');
+        withdraw.type = 'button';
+        withdraw.textContent = 'WITHDRAW';
+        withdraw.className = 'score-challenge-withdraw';
+        withdraw.addEventListener('click', async () => {
+          withdraw.disabled = true;
+          try {
+            await requestJson(
+              `/api/rounds/${round.id}/score-events/${scoreEvent.id}/challenge`,
+              { method: 'DELETE' }
+            );
+            await refreshRound(round.active_code);
+          } catch (error) {
+            setRoundFlowMessage(error.message);
+            withdraw.disabled = false;
+          }
+        });
+        challengeWrap.append(withdraw);
+      }
+
+      const activeChallenges = activeScoreChallenges(round, scoreEvent.id);
+      if (activeChallenges.length) {
+        const summary = document.createElement('small');
+        summary.className = 'score-challenge-summary';
+        summary.textContent =
+          `${activeChallenges.length} ACTIVE CHALLENGE${activeChallenges.length === 1 ? '' : 'S'}`;
+        challengeWrap.append(summary);
+      }
+
+      responsePanel.append(challengeWrap);
     }
 
     const customWrap = document.createElement('div');

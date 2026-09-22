@@ -1302,6 +1302,38 @@ class RoundStore:
                 )
 
             round_row["events"] = events
+
+            cursor.execute(
+                """
+                SELECT reactions.event_id, reactions.actor_participant_id,
+                       reactions.reaction_kind, reactions.updated_at
+                FROM round_event_reactions reactions
+                JOIN round_events event
+                  ON event.id = reactions.event_id
+                WHERE event.round_id = %s
+                ORDER BY reactions.updated_at, reactions.actor_participant_id
+                """,
+                (found["id"],),
+            )
+            round_row["reactions"] = cursor.fetchall()
+
+            cursor.execute(
+                """
+                SELECT challenges.score_event_id,
+                       challenges.challenger_participant_id,
+                       challenges.proposed_score, challenges.comment,
+                       challenges.status, challenges.created_at,
+                       challenges.updated_at
+                FROM score_challenges challenges
+                JOIN round_events event
+                  ON event.id = challenges.score_event_id
+                WHERE event.round_id = %s
+                ORDER BY challenges.updated_at, challenges.challenger_participant_id
+                """,
+                (found["id"],),
+            )
+            round_row["score_challenges"] = cursor.fetchall()
+
             round_row["viewer_role"] = participant["role"]
             round_row["viewer_participant_id"] = participant["id"]
             return round_row
@@ -2853,6 +2885,273 @@ class RoundStore:
                 "shot_type": normalized_type,
                 "player_participant_id": target_id,
             }
+
+    @staticmethod
+    def _response_target_event(
+        cursor: Any,
+        *,
+        round_id: UUID,
+        event_id: UUID,
+        score_only: bool = False,
+    ) -> dict[str, Any]:
+        event_types = (
+            "AND event_type IN ('score_report', 'score_push')"
+            if score_only
+            else ""
+        )
+        cursor.execute(
+            f"""
+            SELECT id, actor_participant_id, event_type, hole_number,
+                   route_position, data
+            FROM round_events
+            WHERE id = %s AND round_id = %s
+              {event_types}
+            """,
+            (event_id, round_id),
+        )
+        event = cursor.fetchone()
+        if not event:
+            label = "score event" if score_only else "event"
+            raise DomainError(f"response target must be an {label} in this round")
+        return event
+
+    def set_event_reaction(
+        self,
+        golfer_id: object,
+        round_id: object,
+        event_id: object,
+        reaction_kind: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        event_uuid = self._uuid(event_id, "event_id")
+        kind = str(reaction_kind or "").strip().lower()
+        allowed = {"bullshit", "cheater", "lucky", "nice", "talk_shit"}
+        if kind not in allowed:
+            raise DomainError("unsupported reaction")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            if round_row["status"] not in {"active", "completed"}:
+                raise DomainError("reactions are only available on active or completed rounds")
+            self._response_target_event(
+                cursor,
+                round_id=round_uuid,
+                event_id=event_uuid,
+            )
+
+            cursor.execute(
+                """
+                INSERT INTO round_event_reactions (
+                    event_id, actor_participant_id, reaction_kind
+                )
+                VALUES (%s, %s, %s)
+                ON CONFLICT (event_id, actor_participant_id)
+                DO UPDATE SET reaction_kind = EXCLUDED.reaction_kind,
+                              updated_at = now()
+                RETURNING event_id, actor_participant_id,
+                          reaction_kind, created_at, updated_at
+                """,
+                (event_uuid, actor["id"], kind),
+            )
+            return cursor.fetchone()
+
+    def remove_event_reaction(
+        self,
+        golfer_id: object,
+        round_id: object,
+        event_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        event_uuid = self._uuid(event_id, "event_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            if round_row["status"] not in {"active", "completed"}:
+                raise DomainError("reactions are only available on active or completed rounds")
+            self._response_target_event(
+                cursor,
+                round_id=round_uuid,
+                event_id=event_uuid,
+            )
+            cursor.execute(
+                """
+                DELETE FROM round_event_reactions
+                WHERE event_id = %s AND actor_participant_id = %s
+                RETURNING reaction_kind
+                """,
+                (event_uuid, actor["id"]),
+            )
+            removed = cursor.fetchone()
+            return {
+                "event_id": event_uuid,
+                "actor_participant_id": actor["id"],
+                "removed": bool(removed),
+            }
+
+    def set_score_challenge(
+        self,
+        golfer_id: object,
+        round_id: object,
+        score_event_id: object,
+        *,
+        proposed_score: object | None = None,
+        comment: object | None = None,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        score_event_uuid = self._uuid(score_event_id, "score_event_id")
+
+        proposed: int | None = None
+        if proposed_score not in (None, ""):
+            try:
+                proposed = int(proposed_score)
+            except (TypeError, ValueError) as error:
+                raise DomainError("proposed score must be between 1 and 99") from error
+            if not 1 <= proposed <= 99:
+                raise DomainError("proposed score must be between 1 and 99")
+
+        challenge_comment = str(comment or "").strip()
+        if len(challenge_comment) > 280:
+            raise DomainError("challenge comment must be 280 characters or fewer")
+        if proposed is None and not challenge_comment:
+            raise DomainError("challenge needs a proposed score or comment")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            challenger = self._participant(cursor, round_uuid, golfer_uuid)
+            if round_row["status"] not in {"active", "completed"}:
+                raise DomainError("score challenges are only available on active or completed rounds")
+
+            score_event = self._response_target_event(
+                cursor,
+                round_id=round_uuid,
+                event_id=score_event_uuid,
+                score_only=True,
+            )
+            if score_event["actor_participant_id"] == challenger["id"]:
+                raise DomainError("you cannot challenge a score you entered yourself")
+
+            cursor.execute(
+                """
+                SELECT status
+                FROM score_challenges
+                WHERE score_event_id = %s
+                  AND challenger_participant_id = %s
+                """,
+                (score_event_uuid, challenger["id"]),
+            )
+            previous = cursor.fetchone()
+            action = "updated" if previous and previous["status"] == "active" else "filed"
+
+            cursor.execute(
+                """
+                INSERT INTO score_challenges (
+                    score_event_id, challenger_participant_id,
+                    proposed_score, comment, status
+                )
+                VALUES (%s, %s, %s, %s, 'active')
+                ON CONFLICT (score_event_id, challenger_participant_id)
+                DO UPDATE SET proposed_score = EXCLUDED.proposed_score,
+                              comment = EXCLUDED.comment,
+                              status = 'active',
+                              updated_at = now()
+                RETURNING score_event_id, challenger_participant_id,
+                          proposed_score, comment, status,
+                          created_at, updated_at
+                """,
+                (
+                    score_event_uuid,
+                    challenger["id"],
+                    proposed,
+                    challenge_comment or None,
+                ),
+            )
+            challenge = cursor.fetchone()
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=challenger["id"],
+                event_type="score_challenge",
+                hole_number=score_event["hole_number"],
+                route_position=score_event["route_position"],
+                data={
+                    "score_event_id": str(score_event_uuid),
+                    "proposed_score": proposed,
+                    "message": challenge_comment or None,
+                    "action": action,
+                },
+                reply_to_event_id=score_event_uuid,
+                content_event_key="score.challenge",
+                presentation_context={
+                    "hole": score_event["hole_number"] or "",
+                    "mode": round_row["mode"],
+                },
+            )
+            return challenge
+
+    def withdraw_score_challenge(
+        self,
+        golfer_id: object,
+        round_id: object,
+        score_event_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        score_event_uuid = self._uuid(score_event_id, "score_event_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid)
+            challenger = self._participant(cursor, round_uuid, golfer_uuid)
+            if round_row["status"] not in {"active", "completed"}:
+                raise DomainError("score challenges are only available on active or completed rounds")
+
+            score_event = self._response_target_event(
+                cursor,
+                round_id=round_uuid,
+                event_id=score_event_uuid,
+                score_only=True,
+            )
+            cursor.execute(
+                """
+                UPDATE score_challenges
+                SET status = 'withdrawn', updated_at = now()
+                WHERE score_event_id = %s
+                  AND challenger_participant_id = %s
+                  AND status = 'active'
+                RETURNING score_event_id, challenger_participant_id,
+                          proposed_score, comment, status,
+                          created_at, updated_at
+                """,
+                (score_event_uuid, challenger["id"]),
+            )
+            challenge = cursor.fetchone()
+            if not challenge:
+                raise DomainError("you do not have an active challenge on this score")
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=challenger["id"],
+                event_type="score_challenge_withdrawn",
+                hole_number=score_event["hole_number"],
+                route_position=score_event["route_position"],
+                data={
+                    "score_event_id": str(score_event_uuid),
+                    "action": "withdrawn",
+                },
+                reply_to_event_id=score_event_uuid,
+                content_event_key="score.challenge.withdrawn",
+                presentation_context={
+                    "hole": score_event["hole_number"] or "",
+                    "mode": round_row["mode"],
+                },
+            )
+            return challenge
 
     def add_score_response(
         self,

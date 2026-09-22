@@ -210,6 +210,45 @@
       "enabled": true
     },
     {
+      "id": "banter.score.challenge.normal",
+      "text": "Score challenged. Apparently numbers need witnesses now.",
+      "events": [
+        "score.challenge"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.challenge.brutal",
+      "text": "Score challenged. Somebody smelled bullshit.",
+      "events": [
+        "score.challenge"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.challenge.withdrawn.normal",
+      "text": "Challenge withdrawn. Courage had a short round.",
+      "events": [
+        "score.challenge.withdrawn"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.score.removed.normal",
       "text": "Score removed. The receipt isn't.",
       "events": [

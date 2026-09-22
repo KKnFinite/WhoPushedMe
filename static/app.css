@@ -1075,6 +1075,69 @@ body.app-ready .app-shell {
   background: var(--green-deep);
 }
 
+.score-response-buttons button.is-active {
+  outline: 3px solid var(--yellow);
+  outline-offset: 1px;
+}
+
+.score-challenge-controls {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+  padding-top: 9px;
+  border-top: 2px dashed rgba(23,25,22,.35);
+}
+
+.score-challenge-controls input {
+  min-width: 0;
+  min-height: 40px;
+  padding: 7px 9px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  font-family: Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.score-challenge-controls button {
+  min-height: 40px;
+  padding: 7px 9px;
+  background: var(--orange);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .62rem;
+}
+
+.score-challenge-controls .score-challenge-withdraw {
+  grid-column: 3;
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+.score-challenge-summary {
+  grid-column: 1 / -1;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .64rem;
+  letter-spacing: .06em;
+}
+
+@media (max-width: 520px) {
+  .score-challenge-controls {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+  .score-challenge-controls button,
+  .score-challenge-controls .score-challenge-withdraw {
+    grid-column: 1 / -1;
+  }
+}
+
 .score-response-blame,
 .score-response-custom {
   display: grid;
