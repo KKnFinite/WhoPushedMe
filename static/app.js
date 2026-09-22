@@ -675,7 +675,7 @@
   const appendScoreResponsePanel = (
     card,
     round,
-    hole,
+    position,
     participantId,
     score
   ) => {
