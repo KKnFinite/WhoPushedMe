@@ -973,8 +973,6 @@ class RoundStore:
 
             if participant_role == "spectator":
                 selected_tee = None
-            elif round_row["mode"] == "scramble":
-                selected_tee = None
             else:
                 cursor.execute(
                     """
@@ -989,7 +987,9 @@ class RoundStore:
                 if int(cursor.fetchone()["active_players"]) >= 4:
                     raise DomainError("this round already has 4 active golfers")
 
-                if selected_tee and round_row["course_id"]:
+                if round_row["mode"] == "scramble":
+                    selected_tee = None
+                elif selected_tee and round_row["course_id"]:
                     self._validate_course_tee(
                         cursor,
                         round_row["course_id"],
