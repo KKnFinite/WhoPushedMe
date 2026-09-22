@@ -86,6 +86,133 @@ def _rank_label(row: Mapping[str, Any]) -> str:
     return f"T{rank}" if int(row.get("tie_count") or 0) > 1 else f"#{rank}"
 
 
+def _net_rank_label(row: Mapping[str, Any]) -> str:
+    rank = row.get("net_rank")
+    if rank is None:
+        return "-"
+    return (
+        f"T{rank}"
+        if int(row.get("net_tie_count") or 0) > 1
+        else f"#{rank}"
+    )
+
+
+def _total_par(round_data: Mapping[str, Any]) -> int | None:
+    route = list(round_data.get("route") or [])
+    pars = list(round_data.get("pars") or [])
+
+    if route:
+        planned = [
+            row
+            for row in route
+            if str(row.get("state") or "planned") != "skipped"
+        ]
+        if not planned:
+            return None
+        pars_by_position = {
+            int(row["route_position"]): int(row["par"])
+            for row in pars
+            if (
+                row.get("route_position") is not None
+                and row.get("par") is not None
+            )
+        }
+        positions = [
+            int(row["route_position"])
+            for row in planned
+        ]
+        if any(position not in pars_by_position for position in positions):
+            return None
+        return sum(pars_by_position[position] for position in positions)
+
+    expected = int(round_data.get("hole_count") or 0)
+    if expected < 1 or len(pars) < expected:
+        return None
+    values = [
+        int(row["par"])
+        for row in pars
+        if row.get("par") is not None
+    ]
+    if len(values) != expected:
+        return None
+    return sum(values)
+
+
+def _net_standings_rows(
+    round_data: Mapping[str, Any],
+) -> list[list[object]]:
+    results = round_data.get("results") or {}
+    if not bool(
+        round_data.get("net_scoring_enabled")
+        or results.get("net_scoring_enabled")
+    ):
+        return []
+
+    official_net = bool(results.get("net_official"))
+    rows: list[list[object]] = [["Net Place", "Golfer", "Hcp", "Net"]]
+    players = sorted(
+        results.get("players") or [],
+        key=lambda row: (
+            int(row.get("net_rank") or 999),
+            int(row.get("rank") or 999),
+            int(row.get("total_strokes") or 9999),
+        ),
+    )
+
+    for row in players:
+        participation = str(row.get("participation_state") or "active")
+        coverage = str(
+            row.get("coverage_state")
+            or (
+                "incomplete"
+                if int(row.get("missing_scores") or 0)
+                else "complete"
+            )
+        )
+        gross_eligible = (
+            participation == "active"
+            and coverage == "complete"
+            and row.get("rank") is not None
+        )
+
+        if participation != "active":
+            place = "DNF"
+        elif coverage == "partial":
+            place = "PARTIAL"
+        elif coverage != "complete":
+            place = "INCOMPLETE"
+        elif (
+            official_net
+            and row.get("net_placement_eligible")
+            and row.get("net_rank") is not None
+        ):
+            place = _net_rank_label(row)
+        elif gross_eligible:
+            place = "PENDING"
+        else:
+            place = "-"
+
+        handicap = row.get("round_handicap")
+        net_total = row.get("net_total_strokes")
+        rows.append(
+            [
+                place,
+                row.get("display_name") or "Golfer",
+                (
+                    int(handicap)
+                    if handicap is not None
+                    else "-"
+                ),
+                (
+                    int(net_total)
+                    if net_total is not None
+                    else "-"
+                ),
+            ]
+        )
+    return rows
+
+
 def _roast_line(
     *,
     total_strokes: int | None,
@@ -453,11 +580,7 @@ def _append_individual(
     preferences: Mapping[str, Any],
 ) -> None:
     results = (round_data.get("results") or {}).get("players") or []
-    total_par = (
-        sum(_par_map(round_data).values())
-        if len(_par_map(round_data)) == int(round_data.get("hole_count") or 0)
-        else None
-    )
+    total_par = _total_par(round_data)
     viewer = _viewer_result(round_data)
     viewer_id = round_data.get("viewer_participant_id")
     is_player = str(round_data.get("viewer_role")) == "player" and viewer is not None
@@ -519,6 +642,32 @@ def _append_individual(
                 else f"Status: {status_label} | {score_count} scores recorded"
             )
 
+        if (
+            official
+            and bool(
+                round_data.get("net_scoring_enabled")
+                or (round_data.get("results") or {}).get(
+                    "net_scoring_enabled"
+                )
+            )
+        ):
+            round_handicap = viewer.get("round_handicap")
+            net_total = viewer.get("net_total_strokes")
+            if round_handicap is None:
+                summary += " | Net pending handicap"
+            elif net_total is not None:
+                summary += (
+                    f" | Hcp {int(round_handicap)}"
+                    f" | {int(net_total)} net"
+                )
+                if (
+                    (round_data.get("results") or {}).get("net_official")
+                    and viewer.get("net_rank") is not None
+                ):
+                    summary += (
+                        f" | Net position: {_net_rank_label(viewer)}"
+                    )
+
         story.append(Paragraph(_safe(summary), styles["body"]))
         best, worst = _best_worst_line(
             round_data,
@@ -534,7 +683,7 @@ def _append_individual(
             )
         )
 
-    story.append(Paragraph("FINAL STANDINGS", styles["heading"]))
+    story.append(Paragraph("FINAL GROSS STANDINGS", styles["heading"]))
     standings = [["Place", "Golfer", "Strokes", "To Par"]]
     for row in sorted(
         results,
@@ -576,7 +725,31 @@ def _append_individual(
                 relative,
             ]
         )
-    story.append(_table(standings, [0.65 * inch, 2.7 * inch, 0.85 * inch, 0.75 * inch]))
+    story.append(
+        _table(
+            standings,
+            [0.65 * inch, 2.7 * inch, 0.85 * inch, 0.75 * inch],
+        )
+    )
+
+    net_rows = _net_standings_rows(round_data)
+    if net_rows:
+        story.append(Paragraph("NET STANDINGS", styles["heading"]))
+        story.append(
+            Paragraph(
+                (
+                    "Net placement is official only when every gross-placement-"
+                    "eligible golfer has a round handicap."
+                ),
+                styles["small"],
+            )
+        )
+        story.append(
+            _table(
+                net_rows,
+                [0.85 * inch, 2.65 * inch, 0.75 * inch, 0.85 * inch],
+            )
+        )
 
 
 def _append_scramble(
@@ -590,12 +763,7 @@ def _append_scramble(
     complete = bool(results.get("complete"))
     total = results.get("team_total")
     total_strokes = int(total) if total is not None else None
-    par_map = _par_map(round_data)
-    total_par = (
-        sum(par_map.values())
-        if len(par_map) == int(round_data.get("hole_count") or 0)
-        else None
-    )
+    total_par = _total_par(round_data)
 
     if complete:
         story.append(Paragraph("TEAM FINAL DAMAGE REPORT", styles["heading"]))
