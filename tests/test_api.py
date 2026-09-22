@@ -100,6 +100,18 @@ class FakeStore:
         self.calls.append(("logout", token))
         return {"logged_out": True}
 
+    def set_profile_handicap_index(self, golfer_id, handicap_index):
+        self.calls.append(
+            ("profile_handicap", golfer_id, handicap_index)
+        )
+        return {
+            "id": golfer_id,
+            "username": "kim",
+            "display_name": "Kim",
+            "is_admin": False,
+            "handicap_index": handicap_index,
+        }
+
     def get_content_preferences(self, golfer_id):
         self.calls.append(("get_preferences", golfer_id))
         return {
@@ -136,6 +148,7 @@ class FakeStore:
         par_tracking_enabled=True,
         tracking_start_position=1,
         prior_holes_mode="untracked",
+        net_scoring_enabled=False,
     ):
         self.calls.append(
             (
@@ -152,6 +165,7 @@ class FakeStore:
                 par_tracking_enabled,
                 tracking_start_position,
                 prior_holes_mode,
+                net_scoring_enabled,
             )
         )
         return {
@@ -329,6 +343,33 @@ class FakeStore:
             "undone": confirm_actor_history,
             "requires_confirmation": not confirm_actor_history,
             "actions_after_claim": 2,
+        }
+
+    def set_participant_round_handicap(
+        self,
+        golfer_id,
+        round_id,
+        player_participant_id,
+        round_handicap,
+        *,
+        confirm_correction=False,
+    ):
+        self.calls.append(
+            (
+                "round_handicap",
+                golfer_id,
+                round_id,
+                player_participant_id,
+                round_handicap,
+                confirm_correction,
+            )
+        )
+        return {
+            "round_id": round_id,
+            "participant_id": player_participant_id,
+            "round_handicap": round_handicap,
+            "handicap_source": "manual",
+            "changed": True,
         }
 
     def set_participation_state(self, golfer_id, round_id, state, *, reason=None):
@@ -765,6 +806,7 @@ def test_create_round_with_bearer_session_enters_setup_lobby():
         True,
         1,
         "untracked",
+        False,
     )
 
 
@@ -798,6 +840,7 @@ def test_create_round_passes_explicit_route_setup():
         False,
         1,
         "untracked",
+        False,
     )
 
 
@@ -831,6 +874,7 @@ def test_create_round_passes_tracking_start_and_prior_hole_choice():
         True,
         11,
         "backfill",
+        False,
     )
 
 
@@ -949,6 +993,7 @@ def test_course_round_creation_passes_cached_course_and_tee():
         True,
         1,
         "untracked",
+        False,
     )
 
 
