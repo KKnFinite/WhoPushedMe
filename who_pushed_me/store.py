@@ -841,6 +841,7 @@ class RoundStore:
         par_tracking_enabled: object = True,
         tracking_start_position: object = 1,
         prior_holes_mode: object = "untracked",
+        net_scoring_enabled: object = False,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_mode = str(mode or "")
@@ -856,6 +857,10 @@ class RoundStore:
 
         if not isinstance(par_tracking_enabled, bool):
             raise DomainError("par_tracking_enabled must be true or false")
+        if not isinstance(net_scoring_enabled, bool):
+            raise DomainError("net_scoring_enabled must be true or false")
+        if round_mode == "scramble" and net_scoring_enabled:
+            raise DomainError("scramble rounds are gross scoring only")
 
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
@@ -949,13 +954,14 @@ class RoundStore:
                             mode, hole_count, active_code, current_hole,
                             current_route_position, par_tracking_enabled,
                             status, course_id, free_play_name,
-                            scramble_tee_name
+                            scramble_tee_name, net_scoring_enabled
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, 'setup', %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, 'setup', %s, %s, %s, %s)
                         RETURNING id, mode, hole_count, active_code,
                                   current_hole, current_route_position,
                                   par_tracking_enabled, status, course_id,
-                                  free_play_name, scramble_tee_name, created_at
+                                  free_play_name, scramble_tee_name,
+                                  net_scoring_enabled, created_at
                         """,
                         (
                             round_mode,
@@ -967,6 +973,7 @@ class RoundStore:
                             cached_course_id,
                             free_play,
                             scramble_tee,
+                            net_scoring_enabled,
                         ),
                     )
                     round_row = cursor.fetchone()
@@ -1000,20 +1007,38 @@ class RoundStore:
                     )
 
                     cursor.execute(
+                        "SELECT handicap_index FROM golfers WHERE id = %s",
+                        (golfer_uuid,),
+                    )
+                    profile_handicap = cursor.fetchone()
+                    creator_handicap_index = (
+                        float(profile_handicap["handicap_index"])
+                        if (
+                            net_scoring_enabled
+                            and profile_handicap
+                            and profile_handicap["handicap_index"] is not None
+                        )
+                        else None
+                    )
+
+                    cursor.execute(
                         """
                         INSERT INTO round_participants (
                             round_id, golfer_id, role, tee_name,
-                            participation_state, tracked_from_position
+                            participation_state, tracked_from_position,
+                            handicap_index
                         )
-                        VALUES (%s, %s, 'player', %s, 'active', %s)
+                        VALUES (%s, %s, 'player', %s, 'active', %s, %s)
                         RETURNING id, tee_name, participation_state,
-                                  tracked_from_position
+                                  tracked_from_position, handicap_index,
+                                  round_handicap, handicap_source
                         """,
                         (
                             round_row["id"],
                             golfer_uuid,
                             participant_tee,
                             participant_tracked_from,
+                            creator_handicap_index,
                         ),
                     )
                     participant = cursor.fetchone()
@@ -1091,6 +1116,30 @@ class RoundStore:
                                 cached_course_id,
                             ),
                         )
+
+                    if net_scoring_enabled and round_mode == "individual":
+                        calculated_handicap = self._calculated_round_handicap(
+                            cursor,
+                            round_id=round_row["id"],
+                            course_id=cached_course_id,
+                            tee_name=participant_tee,
+                            handicap_index=creator_handicap_index,
+                        )
+                        if calculated_handicap is not None:
+                            cursor.execute(
+                                """
+                                UPDATE round_participants
+                                SET round_handicap = %s,
+                                    handicap_source = 'course'
+                                WHERE id = %s
+                                """,
+                                (
+                                    calculated_handicap,
+                                    participant["id"],
+                                ),
+                            )
+                            participant["round_handicap"] = calculated_handicap
+                            participant["handicap_source"] = "course"
 
                     round_row["participant_id"] = participant["id"]
                     round_row["role"] = "player"
