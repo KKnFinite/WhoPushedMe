@@ -764,6 +764,28 @@ The current HTML/CSS is scaffolding only. Visual approval happens separately.
   - `WE'RE MISSING A SCORE. APPARENTLY REMEMBERING HOW MANY TIMES YOU HIT THE BALL WAS TOO AMBITIOUS.`
   - `THE SCORECARD HAS A HOLE IN IT. FITTING.`
 
+## Round end-state model
+- Round lifecycle remains a small independent state machine:
+  - `SETUP`
+  - `ACTIVE`
+  - `COMPLETED`
+  - `ABANDONED`
+- Completed rounds also record how play ended:
+  - `NORMAL`: the group reached the current planned/effective route end.
+  - `ENDED EARLY`: the group explicitly agreed to stop before the planned/effective route end.
+- Data completeness is derived independently:
+  - `COMPLETE`: every score required by the effective route(s) is present.
+  - `INCOMPLETE`: one or more required scores are missing.
+- Valid examples include:
+  - `COMPLETED • NORMAL • COMPLETE`
+  - `COMPLETED • NORMAL • INCOMPLETE`
+  - `COMPLETED • ENDED EARLY • COMPLETE`
+  - `COMPLETED • ENDED EARLY • INCOMPLETE`
+- `ABANDONED` is for a discarded round record, such as wrong course, wrong game mode, or a mistaken/invalid start that the group intentionally throws away.
+- Abandoned rounds preserve audit/history/Receipts but do not count as normal competitive results, wins/losses, awards, or handicap results.
+- Reopening a completed round is for corrections only. It does not append new golf to the finished round.
+- If golfers decide to play more after a completed round, they start a new round.
+
 ## Completion
 - Contributions, Bag actions, reactions, and score responses are never required to finish.
 - Individual completion requires every player to have a score on every hole.
