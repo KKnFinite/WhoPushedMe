@@ -21,6 +21,10 @@ def test_home_loads_pwa_shell():
     assert b"RECOVER" in response.data
     assert b"Settings" in response.data
     assert b"EVERY ASSHOLE FOR THEMSELVES" in response.data
+    assert b"GROSS ONLY" in response.data
+    assert b"GROSS + NET" in response.data
+    assert b"ROUND HANDICAPS" in response.data
+    assert b"HANDICAP INDEX" in response.data
     assert b"WE SUCK TOGETHER" in response.data
     assert b"STARTING HOLE" in response.data
     assert b"APP STARTS COUNTING AT" in response.data
@@ -92,7 +96,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v32" in response.data
+    assert b"wpm-shell-v33" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -101,7 +105,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v32" in builder
+    assert "wpm-shell-v33" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -332,3 +336,52 @@ def test_untracked_prior_holes_are_read_only_and_not_par_required():
     assert b"UNTRACKED HOLE" in response.data
     assert b"This hole was deliberately left untracked." in response.data
     assert b"const plannedRoute = (round.route || []).filter" in response.data
+
+
+
+def test_individual_round_setup_can_enable_optional_net_scoring():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"net_scoring_enabled:" in response.data
+    assert b"individualScoring === 'net'" in response.data
+    assert b"individualScoringFieldset.hidden = mode === 'scramble'" in response.data
+
+
+def test_round_handicap_editor_allows_manual_fallback_and_confirmed_correction():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/handicap" in response.data
+    assert b"MANUAL ROUND HANDICAP" in response.data
+    assert b"NET PLACEMENT PENDING" in response.data
+    assert b"CONFIRM CORRECTION" in response.data
+    assert b"confirm_correction:" in response.data
+
+
+def test_net_results_never_show_official_rank_without_official_net_state():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"round.results?.net_official" in response.data
+    assert b"NET PENDING HANDICAP" in response.data
+    assert b"NET PLACEMENT PENDING" in response.data
+    assert b"GROSS + NET OFFICIAL" in response.data
+
+
+def test_settings_support_optional_profile_handicap_without_ghin():
+    response = client().get("/static/app.js")
+    shell = client().get("/")
+    assert response.status_code == 200
+    assert b"/api/profile/handicap" in response.data
+    assert b"Handicap Index must be between -10.0 and 54.0." in response.data
+    assert b"No GHIN required." in shell.data
+
+
+def test_net_handicap_migration_is_present():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    migration = (
+        root / "migrations" / "0012_net_handicap_foundation.sql"
+    ).read_text(encoding="utf-8")
+    assert "ADD COLUMN handicap_index" in migration
+    assert "ADD COLUMN net_scoring_enabled" in migration
+    assert "CREATE TABLE cached_course_tee_ratings" in migration
