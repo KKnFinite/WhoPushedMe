@@ -16,7 +16,18 @@ def test_opengolfapi_adapter_normalizes_course_holes(monkeypatch):
                     }
                 ]
             }
-        return {"id": "course-123", "name": "Muni National"}
+        return {
+            "id": "course-123",
+            "name": "Muni National",
+            "tees": [
+                {
+                    "name": "White",
+                    "rating": 70.4,
+                    "slope": 121,
+                    "gender": "male",
+                }
+            ],
+        }
 
     monkeypatch.setattr(client, "_get", fake_get)
     snapshot = client.fetch("course-123")
@@ -26,6 +37,10 @@ def test_opengolfapi_adapter_normalizes_course_holes(monkeypatch):
     assert snapshot.holes[0].par == 4
     assert snapshot.holes[0].stroke_index == 7
     assert snapshot.holes[0].tee_yardages == {"blue": 401, "white": 372}
+    assert snapshot.tee_ratings[0].tee_name == "White"
+    assert snapshot.tee_ratings[0].course_rating == 70.4
+    assert snapshot.tee_ratings[0].slope_rating == 121
+    assert snapshot.tee_ratings[0].gender == "male"
 
 def test_opengolfapi_search_normalizes_provider_results(monkeypatch):
     client = OpenGolfAPI()
