@@ -2138,17 +2138,42 @@ class RoundStore:
             raise DomainError("strokes must be between 1 and 99") from error
         if not 1 <= stroke_value <= 99:
             raise DomainError("strokes must be between 1 and 99")
+
         with self._connection() as connection, connection.cursor() as cursor:
-            round_row = self._round(cursor, round_uuid)
-            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            round_row = self._round(cursor, round_uuid, lock=True)
+            actor = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
             require_player(actor["role"], "change scores")
             require_active_round(round_row["status"], "change scores")
-            hole_number = validate_hole(hole, round_row["hole_count"])
+
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                hole,
+                lock=True,
+            )
+            route_position = int(route_row["route_position"])
+            hole_number = int(route_row["hole_number"])
+
+            if route_row["state"] != "planned":
+                raise DomainError("cannot score a skipped route position")
+            if route_position > int(round_row["current_route_position"]):
+                raise DomainError(
+                    "future holes are preview-only until they become active"
+                )
+
             if round_row["mode"] == "individual":
-                target_id = self._uuid(player_participant_id, "player_participant_id")
+                target_id = self._uuid(
+                    player_participant_id,
+                    "player_participant_id",
+                )
                 cursor.execute(
                     """
-                    SELECT rp.role, g.display_name
+                    SELECT rp.role, rp.participation_state,
+                           rp.tracked_from_position, g.display_name
                     FROM round_participants rp
                     JOIN golfers g ON g.id = rp.golfer_id
                     WHERE rp.id = %s AND rp.round_id = %s
@@ -2157,12 +2182,39 @@ class RoundStore:
                 )
                 target = cursor.fetchone()
                 if not target or target["role"] != "player":
-                    raise DomainError("score target must be a player in this round")
+                    raise DomainError(
+                        "score target must be a player in this round"
+                    )
                 scope = "player"
                 subject_name = target["display_name"]
+
+                cursor.execute(
+                    """
+                    INSERT INTO round_participant_route_positions (
+                        round_id, participant_id, route_position, required
+                    )
+                    VALUES (%s, %s, %s, true)
+                    ON CONFLICT (participant_id, route_position)
+                    DO UPDATE SET required = true
+                    """,
+                    (round_uuid, target_id, route_position),
+                )
+                if route_position < int(
+                    target["tracked_from_position"] or route_position
+                ):
+                    cursor.execute(
+                        """
+                        UPDATE round_participants
+                        SET tracked_from_position = %s
+                        WHERE id = %s
+                        """,
+                        (route_position, target_id),
+                    )
             else:
                 if player_participant_id is not None:
-                    raise DomainError("scramble rounds use one team score")
+                    raise DomainError(
+                        "scramble rounds use one team score"
+                    )
                 target_id = None
                 scope = "team"
                 subject_name = "Team"
@@ -2185,42 +2237,85 @@ class RoundStore:
 
             cursor.execute(
                 """
-                SELECT id, strokes FROM round_hole_scores
-                WHERE round_id = %s AND hole_number = %s
+                SELECT id, strokes
+                FROM round_hole_scores
+                WHERE round_id = %s
+                  AND route_position = %s
                   AND score_scope = %s
                   AND player_participant_id IS NOT DISTINCT FROM %s
                 FOR UPDATE
                 """,
-                (round_uuid, hole_number, scope, target_id),
+                (
+                    round_uuid,
+                    route_position,
+                    scope,
+                    target_id,
+                ),
             )
             previous = cursor.fetchone()
             old_score = previous["strokes"] if previous else None
             if old_score == stroke_value:
-                return {"round_id": round_uuid, "hole": hole_number, "strokes": stroke_value, "event": None}
+                return {
+                    "round_id": round_uuid,
+                    "route_position": route_position,
+                    "hole": hole_number,
+                    "strokes": stroke_value,
+                    "event": None,
+                }
+
             if previous:
                 cursor.execute(
-                    "UPDATE round_hole_scores SET strokes = %s, updated_at = now() WHERE id = %s",
-                    (stroke_value, previous["id"]),
+                    """
+                    UPDATE round_hole_scores
+                    SET strokes = %s,
+                        hole_number = %s,
+                        updated_at = now()
+                    WHERE id = %s
+                    """,
+                    (
+                        stroke_value,
+                        hole_number,
+                        previous["id"],
+                    ),
                 )
             else:
                 cursor.execute(
                     """
                     INSERT INTO round_hole_scores (
-                        round_id, hole_number, score_scope, player_participant_id, strokes
-                    ) VALUES (%s, %s, %s, %s, %s)
+                        round_id, route_position, hole_number,
+                        score_scope, player_participant_id, strokes
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s)
                     """,
-                    (round_uuid, hole_number, scope, target_id, stroke_value),
+                    (
+                        round_uuid,
+                        route_position,
+                        hole_number,
+                        scope,
+                        target_id,
+                        stroke_value,
+                    ),
                 )
+
             cursor.execute(
                 """
                 SELECT par
-                FROM round_hole_pars
-                WHERE round_id = %s AND hole_number = %s
+                FROM round_route_pars
+                WHERE round_id = %s
+                  AND route_position = %s
                 """,
-                (round_uuid, hole_number),
+                (round_uuid, route_position),
             )
             par_row = cursor.fetchone()
             par_value = par_row["par"] if par_row else None
+
+            if (
+                bool(round_row["par_tracking_enabled"])
+                and par_value is None
+            ):
+                raise DomainError(
+                    "establish par for this hole before entering a score"
+                )
 
             after_series = self._score_series_from_cursor(
                 cursor,
@@ -2238,91 +2333,121 @@ class RoundStore:
                 else None
             )
 
-            for derived_event in score_transition_events(
-                before_series,
-                after_series,
-            ):
-                if (
-                    derived_event
-                    in {
-                        "score.derived.first_birdie",
-                        "score.derived.first_eagle",
-                    }
-                    and self._derived_event_exists(
-                        cursor,
-                        round_uuid,
-                        derived_event,
-                        participant_id=target_id,
-                    )
+            is_backfill = (
+                old_score is None
+                and route_position
+                < int(round_row["current_route_position"])
+            )
+
+            if not is_backfill:
+                for derived_event in score_transition_events(
+                    before_series,
+                    after_series,
                 ):
-                    continue
-
-                self._event(
-                    cursor,
-                    round_id=round_uuid,
-                    actor_participant_id=actor["id"],
-                    event_type="score_derived",
-                    hole_number=hole_number,
-                    data={
-                        "scope": scope,
-                        "player_participant_id": (
-                            str(target_id) if target_id else None
-                        ),
-                    },
-                    content_event_key=derived_event,
-                    presentation_context={
-                        "hole": hole_number,
-                        "mode": round_row["mode"],
-                        "subject": subject_name,
-                    },
-                )
-
-            for derived_event, participant_id in standing_transition_events(
-                before_standings,
-                after_standings,
-            ):
-                standing_names = (
-                    (after_standings or {}).get("names")
-                    or (before_standings or {}).get("names")
-                    or {}
-                )
-                self._event(
-                    cursor,
-                    round_id=round_uuid,
-                    actor_participant_id=actor["id"],
-                    event_type="score_derived",
-                    hole_number=(
-                        (after_standings or before_standings or {}).get(
-                            "through_hole"
+                    if (
+                        derived_event
+                        in {
+                            "score.derived.first_birdie",
+                            "score.derived.first_eagle",
+                        }
+                        and self._derived_event_exists(
+                            cursor,
+                            round_uuid,
+                            derived_event,
+                            participant_id=target_id,
                         )
-                    ),
-                    data={
-                        "scope": "player",
-                        "player_participant_id": participant_id,
-                    },
-                    content_event_key=derived_event,
-                    presentation_context={
-                        "hole": (
-                            (after_standings or before_standings or {}).get(
-                                "through_hole",
-                                hole_number,
-                            )
-                        ),
-                        "mode": "individual",
-                        "subject": standing_names.get(
-                            participant_id,
-                            "Golfer",
-                        ),
-                    },
-                )
+                    ):
+                        continue
+
+                    self._event(
+                        cursor,
+                        round_id=round_uuid,
+                        actor_participant_id=actor["id"],
+                        event_type="score_derived",
+                        hole_number=hole_number,
+                        route_position=route_position,
+                        data={
+                            "scope": scope,
+                            "player_participant_id": (
+                                str(target_id)
+                                if target_id
+                                else None
+                            ),
+                        },
+                        content_event_key=derived_event,
+                        presentation_context={
+                            "hole": hole_number,
+                            "mode": round_row["mode"],
+                            "subject": subject_name,
+                        },
+                    )
+
+                for (
+                    derived_event,
+                    participant_id,
+                ) in standing_transition_events(
+                    before_standings,
+                    after_standings,
+                ):
+                    standing_names = (
+                        (after_standings or {}).get("names")
+                        or (before_standings or {}).get("names")
+                        or {}
+                    )
+                    standing_position = (
+                        after_standings
+                        or before_standings
+                        or {}
+                    ).get("through_hole")
+                    physical_hole = hole_number
+                    if standing_position:
+                        standing_route = self._route_position(
+                            cursor,
+                            round_uuid,
+                            standing_position,
+                        )
+                        physical_hole = int(
+                            standing_route["hole_number"]
+                        )
+
+                    self._event(
+                        cursor,
+                        round_id=round_uuid,
+                        actor_participant_id=actor["id"],
+                        event_type="score_derived",
+                        hole_number=physical_hole,
+                        route_position=standing_position,
+                        data={
+                            "scope": "player",
+                            "player_participant_id": participant_id,
+                        },
+                        content_event_key=derived_event,
+                        presentation_context={
+                            "hole": physical_hole,
+                            "mode": "individual",
+                            "subject": standing_names.get(
+                                participant_id,
+                                "Golfer",
+                            ),
+                        },
+                    )
+
+            auto_advance = self._maybe_advance_active_route(
+                cursor,
+                round_row=round_row,
+                actor_participant_id=actor["id"],
+                scored_route_position=route_position,
+            )
 
             content_event = score_content_event(
                 mode=round_row["mode"],
                 old_score=old_score,
                 new_score=stroke_value,
                 par=par_value,
-                hole_number=hole_number,
-                current_hole=round_row["current_hole"],
+                hole_number=route_position,
+                current_hole=int(
+                    round_row["current_route_position"]
+                ),
             )
             event = self._event(
                 cursor,
@@ -2330,24 +2455,44 @@ class RoundStore:
                 actor_participant_id=actor["id"],
                 event_type=audit_event_type("score", old_score),
                 hole_number=hole_number,
+                route_position=route_position,
                 old_value=old_score,
                 new_value=stroke_value,
                 data={
                     "scope": scope,
-                    "player_participant_id": str(target_id) if target_id else None,
+                    "player_participant_id": (
+                        str(target_id) if target_id else None
+                    ),
+                    "backfilled": is_backfill,
                 },
                 content_event_key=content_event,
                 presentation_context={
                     "hole": hole_number,
-                    "par": par_value if par_value is not None else "",
+                    "par": (
+                        par_value
+                        if par_value is not None
+                        else ""
+                    ),
                     "strokes": stroke_value,
-                    "old_score": old_score if old_score is not None else "",
+                    "old_score": (
+                        old_score if old_score is not None else ""
+                    ),
                     "new_score": stroke_value,
                     "mode": round_row["mode"],
                     "score_name": content_event.rsplit(".", 1)[-1],
                 },
             )
-            return {"round_id": round_uuid, "hole": hole_number, "strokes": stroke_value, "event": event}
+
+            response = {
+                "round_id": round_uuid,
+                "route_position": route_position,
+                "hole": hole_number,
+                "strokes": stroke_value,
+                "event": event,
+            }
+            if auto_advance:
+                response.update(auto_advance)
+            return response
 
     def set_scramble_contribution(
         self,
