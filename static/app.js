@@ -62,6 +62,10 @@
   const lobbyParSave = document.getElementById('lobby-par-save');
   const liveRoundPanel = document.getElementById('live-round-panel');
   const liveRoundPlace = document.getElementById('live-round-place');
+  const spectatorJoinPlayPanel = document.getElementById('spectator-join-play-panel');
+  const spectatorJoinTeeField = document.getElementById('spectator-join-tee-field');
+  const spectatorJoinTeeSelect = document.getElementById('spectator-join-tee-select');
+  const spectatorJoinPlayButton = document.getElementById('spectator-join-play-button');
   const liveRoundCode = document.getElementById('live-round-code');
   const holePrev = document.getElementById('hole-prev');
   const holeNext = document.getElementById('hole-next');
@@ -1807,9 +1811,31 @@
       liveRoute?.hole_number || round.current_hole || livePosition
     );
     const par = findPar(round, viewedRoutePosition);
+    const viewer = viewerParticipant(round);
     const viewingLive = Number(viewedRoutePosition) === livePosition;
     const viewingPast = Number(viewedRoutePosition) < livePosition;
     const viewingFuture = Number(viewedRoutePosition) > livePosition;
+
+    const spectatorCanJoinPlay = (
+      round.status === 'active'
+      && round.viewer_role === 'spectator'
+      && viewer?.role === 'spectator'
+    );
+    const availableTees = round.available_tees || [];
+    if (spectatorJoinPlayPanel) {
+      spectatorJoinPlayPanel.hidden = !spectatorCanJoinPlay;
+    }
+    if (spectatorJoinTeeField) {
+      spectatorJoinTeeField.hidden = !spectatorCanJoinPlay || availableTees.length === 0;
+    }
+    if (spectatorCanJoinPlay && availableTees.length) {
+      fillTeeSelect(spectatorJoinTeeSelect, availableTees);
+    } else if (spectatorJoinTeeSelect) {
+      spectatorJoinTeeSelect.replaceChildren();
+    }
+    if (spectatorJoinPlayButton) {
+      spectatorJoinPlayButton.disabled = false;
+    }
 
     if (holeNumber) holeNumber.textContent = String(viewedPhysicalHole);
     if (holeParLabel) {
@@ -1870,7 +1896,6 @@
     renderLatestPresentation(round);
     renderReceipts(round);
 
-    const viewer = viewerParticipant(round);
     const viewerWithdrew = (
       round.viewer_role === 'player'
       && viewer?.participation_state === 'withdrew'
@@ -2259,6 +2284,35 @@
 
   liveRoundHome?.addEventListener('click', closeRoundFlow);
   roundEndHome?.addEventListener('click', closeRoundFlow);
+
+  spectatorJoinPlayButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'spectator') return;
+
+    const tees = currentLobbyRound.available_tees || [];
+    const teeName = spectatorJoinTeeSelect?.value || '';
+    if (tees.length && !teeName) {
+      setRoundFlowMessage('Pick a tee before joining the round.');
+      return;
+    }
+
+    spectatorJoinPlayButton.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/join-play`,
+        {
+          method: 'PATCH',
+          body: {
+            tee_name: teeName || null,
+          },
+        }
+      );
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      spectatorJoinPlayButton.disabled = false;
+    }
+  });
 
   const changeParticipation = async (state, reason = '') => {
     if (!currentLobbyRound) return;
