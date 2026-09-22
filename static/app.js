@@ -584,7 +584,14 @@
 
   const teeOptionLabel = (tee) => {
     const yardage = tee?.total_yardage ? ` • ${tee.total_yardage} YDS` : '';
-    return `${tee?.tee_name || 'Tee'}${yardage}`;
+    const rating = (
+      tee?.course_rating !== null
+      && tee?.course_rating !== undefined
+      && tee?.slope_rating
+    )
+      ? ` • ${tee.course_rating}/${tee.slope_rating}`
+      : '';
+    return `${tee?.tee_name || 'Tee'}${yardage}${rating}`;
   };
 
   const fillTeeSelect = (select, tees, selected = '') => {
@@ -597,6 +604,121 @@
       option.textContent = teeOptionLabel(tee);
       option.selected = tee.tee_name === selected;
       select.append(option);
+    });
+  };
+
+  const renderRoundHandicapEditor = (container, round) => {
+    if (!container) return;
+    container.replaceChildren();
+
+    const canEdit = viewerIsActivePlayer(round);
+    const players = (round.participants || []).filter(
+      (participant) =>
+        participant.role === 'player'
+        && participant.participation_state !== 'removed'
+    );
+
+    players.forEach((participant) => {
+      const row = document.createElement('div');
+      row.className = 'round-handicap-row';
+
+      const copy = document.createElement('div');
+      copy.className = 'round-handicap-copy';
+
+      const name = document.createElement('strong');
+      name.textContent = participant.display_name || 'Golfer';
+
+      const source = document.createElement('small');
+      const index = (
+        participant.handicap_index !== null
+        && participant.handicap_index !== undefined
+      )
+        ? `HI ${Number(participant.handicap_index).toFixed(1)}`
+        : 'NO PROFILE INDEX';
+      const sourceLabel = participant.handicap_source === 'course'
+        ? 'AUTO FROM COURSE'
+        : (
+            participant.handicap_source === 'manual'
+              ? 'MANUAL ROUND HANDICAP'
+              : 'NET PLACEMENT PENDING'
+          );
+      source.textContent = `${index} • ${sourceLabel}`;
+      copy.append(name, source);
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '-20';
+      input.max = '80';
+      input.step = '1';
+      input.inputMode = 'numeric';
+      input.placeholder = 'ROUND HCP';
+      input.setAttribute(
+        'aria-label',
+        `${participant.display_name || 'Golfer'} round handicap`
+      );
+      input.value = (
+        participant.round_handicap !== null
+        && participant.round_handicap !== undefined
+      )
+        ? String(participant.round_handicap)
+        : '';
+      input.disabled = !canEdit;
+
+      const save = document.createElement('button');
+      save.type = 'button';
+      save.textContent = 'SAVE HCP';
+      save.disabled = !canEdit;
+
+      save.addEventListener('click', async () => {
+        const raw = input.value.trim();
+        const handicap = raw === '' ? null : Number(raw);
+        if (
+          handicap !== null
+          && (
+            !Number.isInteger(handicap)
+            || handicap < -20
+            || handicap > 80
+          )
+        ) {
+          setRoundFlowMessage('Round handicap must be between -20 and 80.');
+          input.focus();
+          return;
+        }
+
+        save.disabled = true;
+        setRoundFlowMessage('');
+        try {
+          const result = await requestJson(
+            `/api/rounds/${round.id}/handicap`,
+            {
+              method: 'PATCH',
+              body: {
+                player_participant_id: participant.id,
+                round_handicap: handicap,
+                confirm_correction: save.dataset.confirm === '1',
+              },
+            }
+          );
+
+          if (result.requires_confirmation) {
+            save.dataset.confirm = '1';
+            save.textContent = 'CONFIRM CORRECTION';
+            save.disabled = false;
+            setRoundFlowMessage(
+              'Scores already exist. Confirm the handicap correction so the receipt stays honest.'
+            );
+            return;
+          }
+
+          await refreshRound(round.active_code);
+        } catch (error) {
+          setRoundFlowMessage(error.message);
+          save.disabled = false;
+        }
+      });
+
+      row.append(copy, input, save);
+      container.append(row);
     });
   };
 
