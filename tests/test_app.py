@@ -89,7 +89,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v29" in response.data
+    assert b"wpm-shell-v30" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -98,7 +98,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v29" in builder
+    assert "wpm-shell-v30" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -241,3 +241,17 @@ def test_end_early_vote_migration_is_present():
     ).read_text(encoding="utf-8")
     assert "CREATE TABLE round_end_early_votes" in migration
     assert "PRIMARY KEY (round_id, participant_id)" in migration
+
+
+def test_claim_undo_warns_before_detaching_account_history():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"claimUndoConfirmPending" in response.data
+    assert b"THOSE RECEIPTS STAY ATTRIBUTED TO YOUR ACCOUNT." in response.data
+    assert b"/claim-player/undo" in response.data
+
+
+def test_receipts_prefer_actor_identity_snapshot():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"actor_display_name" in response.data
