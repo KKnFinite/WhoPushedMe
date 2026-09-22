@@ -23,6 +23,9 @@ def test_home_loads_pwa_shell():
     assert b"EVERY ASSHOLE FOR THEMSELVES" in response.data
     assert b"WE SUCK TOGETHER" in response.data
     assert b"STARTING HOLE" in response.data
+    assert b"APP STARTS COUNTING AT" in response.data
+    assert b"LEAVE IT UNTRACKED" in response.data
+    assert b"ENTER THE DAMAGE SO FAR" in response.data
     assert b"ENTER PARS NOW" in response.data
     assert b"ENTER AS WE GO" in response.data
     assert b"DON'T TRACK PAR" in response.data
@@ -89,7 +92,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v31" in response.data
+    assert b"wpm-shell-v32" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -98,7 +101,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v31" in builder
+    assert "wpm-shell-v32" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -311,3 +314,21 @@ def test_settings_values_are_snapshotted_before_busy_state():
         "setFormBusy(settingsForm, true)"
     )
     assert "body: patch" in block
+
+
+
+def test_round_setup_sends_tracking_start_and_prior_hole_mode():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"tracking_start_position: trackingStart" in response.data
+    assert b"prior_holes_mode: priorMode" in response.data
+    assert b"APP JOINS AT" in response.data
+
+
+def test_untracked_prior_holes_are_read_only_and_not_par_required():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"route?.state !== 'skipped'" in response.data
+    assert b"UNTRACKED HOLE" in response.data
+    assert b"This hole was deliberately left untracked." in response.data
+    assert b"const plannedRoute = (round.route || []).filter" in response.data
