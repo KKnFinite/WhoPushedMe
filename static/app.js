@@ -3505,26 +3505,27 @@
   settingsForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setSettingsMessage('');
-    setFormBusy(settingsForm, true);
 
     const checkedVulgarity = settingsForm.querySelector(
       'input[name="max_vulgarity"]:checked'
     );
+    const patch = {
+      mini_mascots_enabled:
+        settingsForm.elements.mini_mascots_enabled.checked,
+      trash_talk_enabled:
+        settingsForm.elements.trash_talk_enabled.checked,
+      max_vulgarity: checkedVulgarity?.value || 'normal',
+      themes: {
+        drinking: settingsForm.elements.drinking.checked,
+        wife: settingsForm.elements.wife.checked,
+      },
+    };
+    setFormBusy(settingsForm, true);
 
     try {
       const preferences = await requestJson('/api/preferences', {
         method: 'PATCH',
-        body: {
-          mini_mascots_enabled:
-            settingsForm.elements.mini_mascots_enabled.checked,
-          trash_talk_enabled:
-            settingsForm.elements.trash_talk_enabled.checked,
-          max_vulgarity: checkedVulgarity?.value || 'normal',
-          themes: {
-            drinking: settingsForm.elements.drinking.checked,
-            wife: settingsForm.elements.wife.checked,
-          },
-        },
+        body: patch,
       });
       populateSettings(preferences);
       setSettingsMessage('Saved. Your bad decisions are now personalized.');
