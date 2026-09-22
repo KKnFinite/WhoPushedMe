@@ -86,7 +86,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v27" in response.data
+    assert b"wpm-shell-v28" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -95,7 +95,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v27" in builder
+    assert "wpm-shell-v28" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -195,3 +195,11 @@ def test_missing_par_blocks_score_then_resumes_after_par_entry():
     assert b"pendingScoreAfterPar" in response.data
     assert b"WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY." in response.data
     assert b"player_participant_id = pending.participantId" in response.data
+
+
+def test_backfilled_scores_use_compact_summary_instead_of_old_popup_replay():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"JUST FILED" in response.data
+    assert b"AFTER THE FACT." in response.data
+    assert b"THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED." in response.data
