@@ -145,6 +145,44 @@ def extend_route(
     return result
 
 
+def build_tracking_plan(
+    *,
+    route_length: object,
+    tracking_start_position: object = 1,
+    prior_holes_mode: object = "untracked",
+) -> dict[str, object]:
+    try:
+        length = int(route_length)
+        start = int(tracking_start_position)
+    except (TypeError, ValueError) as error:
+        raise DomainError("tracking route values must be numbers") from error
+
+    if length < 1 or not 1 <= start <= length:
+        raise DomainError(
+            "tracking_start_position must be within the round route"
+        )
+
+    mode = str(prior_holes_mode or "untracked").strip().lower()
+    if mode not in {"untracked", "backfill"}:
+        raise DomainError(
+            "prior_holes_mode must be untracked or backfill"
+        )
+
+    skipped_positions = (
+        frozenset(range(1, start))
+        if mode == "untracked"
+        else frozenset()
+    )
+    return {
+        "tracking_start_position": start,
+        "prior_holes_mode": mode,
+        "participant_tracked_from": (
+            start if mode == "untracked" else 1
+        ),
+        "skipped_positions": skipped_positions,
+    }
+
+
 def route_progress_label(route_position: object, route_length: object) -> str:
     try:
         position = int(route_position)
