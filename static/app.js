@@ -3116,6 +3116,49 @@
     }
   });
 
+  claimUndoButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    const state = currentLobbyRound.claim_undo;
+    if (!state?.available) return;
+    const actions = Number(state.actions_after_claim || 0);
+
+    if (actions > 0 && !claimUndoConfirmPending) {
+      claimUndoConfirmPending = true;
+      renderLiveRound(currentLobbyRound);
+      return;
+    }
+
+    claimUndoButton.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      const result = await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/claim-player/undo`,
+        {
+          method: 'PATCH',
+          body: {
+            confirm_actor_history: (
+              claimUndoConfirmPending || actions === 0
+            ),
+          },
+        }
+      );
+
+      if (result.requires_confirmation && !result.undone) {
+        claimUndoConfirmPending = true;
+        currentLobbyRound.claim_undo = result;
+        renderLiveRound(currentLobbyRound);
+        return;
+      }
+
+      claimUndoConfirmPending = false;
+      closeRoundFlow();
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      claimUndoButton.disabled = false;
+    }
+  });
+
   parForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!currentLobbyRound || viewedRoutePosition === null) return;
