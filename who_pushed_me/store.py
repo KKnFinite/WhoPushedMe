@@ -38,6 +38,7 @@ from who_pushed_me.content.presentation import (
     social_content_event,
     status_content_event,
 )
+from who_pushed_me.routes import build_route
 from who_pushed_me.domain import (
     DomainError,
     NotFound,
@@ -114,7 +115,8 @@ class RoundStore:
     def _participant(cursor: Any, round_id: UUID, golfer_id: UUID) -> dict[str, Any]:
         cursor.execute(
             """
-            SELECT id, round_id, golfer_id, role, tee_name
+            SELECT id, round_id, golfer_id, role, tee_name,
+                   participation_state, tracked_from_position
             FROM round_participants
             WHERE round_id = %s AND golfer_id = %s
             """,
@@ -129,8 +131,9 @@ class RoundStore:
     def _round(cursor: Any, round_id: UUID, *, lock: bool = False) -> dict[str, Any]:
         cursor.execute(
             f"""
-            SELECT id, mode, hole_count, active_code, current_hole, status,
-                   course_id, free_play_name, created_at, updated_at
+            SELECT id, mode, hole_count, active_code, current_hole,
+                   current_route_position, par_tracking_enabled, end_reason,
+                   status, course_id, free_play_name, created_at, updated_at
             FROM rounds WHERE id = %s{' FOR UPDATE' if lock else ''}
             """,
             (round_id,),
@@ -139,6 +142,35 @@ class RoundStore:
         if not round_row:
             raise NotFound("round not found")
         return round_row
+
+    @staticmethod
+    def _route_position(
+        cursor: Any,
+        round_id: UUID,
+        route_position: object,
+        *,
+        lock: bool = False,
+    ) -> dict[str, Any]:
+        try:
+            position = int(route_position)
+        except (TypeError, ValueError) as error:
+            raise DomainError("route_position must be a number") from error
+        if position < 1:
+            raise DomainError("route_position must be at least 1")
+
+        cursor.execute(
+            f"""
+            SELECT round_id, route_position, hole_number, state, skip_reason
+            FROM round_route_positions
+            WHERE round_id = %s AND route_position = %s
+            {'FOR UPDATE' if lock else ''}
+            """,
+            (round_id, position),
+        )
+        row = cursor.fetchone()
+        if not row:
+            raise DomainError("route_position is not part of this round")
+        return row
 
     @staticmethod
     def _runtime_controls_from_cursor(
@@ -203,6 +235,7 @@ class RoundStore:
         actor_participant_id: UUID,
         event_type: str,
         hole_number: int | None = None,
+        route_position: int | None = None,
         old_value: object | None = None,
         new_value: object | None = None,
         data: dict[str, object] | None = None,
@@ -228,18 +261,20 @@ class RoundStore:
             """
             INSERT INTO round_events (
                 round_id, actor_participant_id, event_type, hole_number,
-                old_value, new_value, data, reply_to_event_id,
+                route_position, old_value, new_value, data, reply_to_event_id,
                 content_event_key, presentation
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            RETURNING id, event_type, hole_number, old_value, new_value, data,
-                      reply_to_event_id, content_event_key, presentation, created_at
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id, event_type, hole_number, route_position,
+                      old_value, new_value, data, reply_to_event_id,
+                      content_event_key, presentation, created_at
             """,
             (
                 round_id,
                 actor_participant_id,
                 event_type,
                 hole_number,
+                route_position,
                 Jsonb(old_value) if old_value is not None else None,
                 Jsonb(new_value) if new_value is not None else None,
                 Jsonb(data or {}),
