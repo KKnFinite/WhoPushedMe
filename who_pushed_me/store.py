@@ -3449,6 +3449,11 @@ class RoundStore:
                 (round_uuid, route_position, par_value),
             )
 
+            self._recalculate_course_handicaps(
+                cursor,
+                round_row,
+            )
+
             event = self._event(
                 cursor,
                 round_id=round_uuid,
