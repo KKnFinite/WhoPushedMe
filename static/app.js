@@ -2630,8 +2630,8 @@
     renderLiveRound(currentLobbyRound);
   });
 
-  advanceLiveHole?.addEventListener('click', async () => {
-    if (!currentLobbyRound || currentLobbyRound.viewer_role !== 'player') return;
+  const advanceSharedLiveHole = async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
 
     const length = routeLength(currentLobbyRound);
     const livePosition = Number(
@@ -2641,7 +2641,8 @@
     );
     if (livePosition >= length) return;
 
-    advanceLiveHole.disabled = true;
+    if (advanceLiveHole) advanceLiveHole.disabled = true;
+    if (advanceWarningGo) advanceWarningGo.disabled = true;
     setRoundFlowMessage('');
     try {
       await requestJson(
@@ -2651,10 +2652,85 @@
           body: { route_position: livePosition + 1 },
         }
       );
+      advanceWarningPosition = null;
+      if (advanceWarningPanel) advanceWarningPanel.hidden = true;
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
-      advanceLiveHole.disabled = false;
+      if (advanceLiveHole) advanceLiveHole.disabled = false;
+      if (advanceWarningGo) advanceWarningGo.disabled = false;
+    }
+  };
+
+  advanceLiveHole?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    const livePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    const missing = missingScoresAtPosition(currentLobbyRound, livePosition);
+    if (missing.length) {
+      advanceWarningPosition = livePosition;
+      if (advanceWarningCopy) {
+        const who = missing.join(', ');
+        advanceWarningCopy.textContent =
+          `${who} ${missing.length === 1 ? 'IS' : 'ARE'} STILL MISSING. `
+          + 'YOU CAN FIX IT NOW OR MOVE ON WITHOUT INVENTING A SCORE.';
+      }
+      if (advanceWarningPanel) advanceWarningPanel.hidden = false;
+      return;
+    }
+
+    await advanceSharedLiveHole();
+  });
+
+  advanceWarningFix?.addEventListener('click', () => {
+    advanceWarningPosition = null;
+    if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+    if (!currentLobbyRound) return;
+    viewedRoutePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    renderLiveRound(currentLobbyRound);
+    liveScoreArea?.querySelector('input:not([disabled])')?.focus();
+  });
+
+  advanceWarningGo?.addEventListener('click', advanceSharedLiveHole);
+
+  roundSettingsButton?.addEventListener('click', () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    if (roundSettingsPanel) roundSettingsPanel.hidden = false;
+    roundSettingsTeeSelect?.focus();
+  });
+
+  roundSettingsClose?.addEventListener('click', () => {
+    if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+  });
+
+  roundSettingsTeeSave?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    const teeName = String(roundSettingsTeeSelect?.value || '').trim();
+    if (!teeName) return;
+
+    roundSettingsTeeSave.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/tee`,
+        {
+          method: 'PATCH',
+          body: { tee_name: teeName },
+        }
+      );
+      if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      roundSettingsTeeSave.disabled = false;
     }
   });
 
