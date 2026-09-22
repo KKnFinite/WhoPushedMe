@@ -210,6 +210,45 @@
       "enabled": true
     },
     {
+      "id": "banter.participant.proxy_added.normal",
+      "text": "{subject} is participating through a human proxy.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.proxy_added.brutal",
+      "text": "{subject}'s phone has left the chat. The scorecard has not.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.claimed.normal",
+      "text": "{subject} has officially claimed the evidence.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
       "id": "banter.participant.spectator_to_player.normal",
       "text": "Spectating was apparently too safe.",
       "events": [
