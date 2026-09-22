@@ -616,6 +616,80 @@ body.app-ready .app-shell {
   box-shadow: 12px 13px 0 var(--ink);
 }
 
+.claim-player-panel,
+.offline-player-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background: var(--cream-deep);
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+}
+
+.claim-player-panel[hidden],
+.offline-player-panel[hidden] {
+  display: none;
+}
+
+.claim-player-panel p,
+.offline-player-panel h5 {
+  margin: 0;
+}
+
+.claim-player-panel p {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+}
+
+.claim-player-list {
+  display: grid;
+  gap: 8px;
+}
+
+.claim-player-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+}
+
+.claim-player-row span {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .76rem;
+}
+
+.claim-player-row button,
+#claim-player-none,
+#offline-player-add {
+  min-height: 40px;
+  padding: 7px 9px;
+  background: var(--orange);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .68rem;
+}
+
+#claim-player-none {
+  background: var(--charcoal);
+}
+
+.offline-player-panel {
+  margin-top: 8px;
+  background: var(--paper);
+}
+
+.offline-player-panel h5 {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .9rem;
+}
+
 .round-flow-form {
   display: grid;
   gap: 14px;
