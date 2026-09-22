@@ -199,6 +199,19 @@
           </label>
         </fieldset>
 
+        <fieldset id="individual-scoring-fieldset" class="choice-fieldset">
+          <legend>INDIVIDUAL SCORING</legend>
+          <label>
+            <input type="radio" name="individual_scoring" value="gross" checked>
+            <span>GROSS ONLY</span>
+          </label>
+          <label>
+            <input type="radio" name="individual_scoring" value="net">
+            <span>GROSS + NET</span>
+          </label>
+          <small>Missing handicaps never block play. Net placement waits until the math exists.</small>
+        </fieldset>
+
         <fieldset class="choice-fieldset">
           <legend>HOLES</legend>
           <label>
@@ -360,6 +373,13 @@
           <button id="lobby-tee-save" type="button">SAVE TEE</button>
         </section>
 
+        <section id="lobby-handicap-panel" class="lobby-handicap-panel" hidden>
+          <div class="live-round-kicker">NET WITHOUT THE COUNTRY-CLUB PAPERWORK</div>
+          <h4>ROUND HANDICAPS</h4>
+          <p>Gross always counts. Missing handicap math only holds back official net placement.</p>
+          <div id="lobby-handicap-list" class="round-handicap-list"></div>
+        </section>
+
         <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
         <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
@@ -426,6 +446,13 @@
           <button id="round-settings-tee-save" type="button" hidden>
             SAVE TEE CORRECTION
           </button>
+
+          <section id="round-handicap-panel" class="round-handicap-panel" hidden>
+            <div class="live-round-kicker">NET MATH</div>
+            <h5>ROUND HANDICAPS</h5>
+            <p>Once scoring starts, changing an existing handicap needs an explicit correction.</p>
+            <div id="round-handicap-list" class="round-handicap-list"></div>
+          </section>
 
           <section id="offline-player-panel" class="offline-player-panel">
             <div class="live-round-kicker">PHONE OPTIONAL. BOGEYS AREN'T.</div>
@@ -698,6 +725,14 @@
             <small>Exactly what it sounds like.</small>
           </span>
           <input name="wife" type="checkbox">
+        </label>
+
+        <label class="settings-row settings-handicap-row">
+          <span>
+            <strong>HANDICAP INDEX</strong>
+            <small>Optional. No GHIN required. Used to calculate a round handicap when course rating and slope are available.</small>
+          </span>
+          <input id="settings-handicap-index" name="handicap_index" type="number" min="-10" max="54" step="0.1" inputmode="decimal" placeholder="NONE">
         </label>
 
         <fieldset class="vulgarity-fieldset">
