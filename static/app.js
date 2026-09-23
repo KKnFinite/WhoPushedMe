@@ -78,6 +78,10 @@
   const spectatorJoinTeeField = document.getElementById('spectator-join-tee-field');
   const spectatorJoinTeeSelect = document.getElementById('spectator-join-tee-select');
   const spectatorJoinPlayButton = document.getElementById('spectator-join-play-button');
+  const lateBackfillPanel = document.getElementById('late-backfill-panel');
+  const lateBackfillStart = document.getElementById('late-backfill-start');
+  const lateBackfillGo = document.getElementById('late-backfill-go');
+  const lateBackfillDismiss = document.getElementById('late-backfill-dismiss');
   const liveRoundCode = document.getElementById('live-round-code');
   const holePrev = document.getElementById('hole-prev');
   const holeNext = document.getElementById('hole-next');
@@ -2329,6 +2333,44 @@
       && viewer?.role === 'spectator'
     );
     const availableTees = round.available_tees || [];
+    const viewerTrackedFrom = Number(viewer?.tracked_from_position || 1);
+    const earlierBackfillable = (round.route || []).filter(
+      (route) =>
+        route.state !== 'skipped'
+        && Number(route.route_position) < viewerTrackedFrom
+    );
+    const lateBackfillDismissKey = viewer
+      ? `wpm_late_backfill_dismissed:${round.id}:${viewer.id}`
+      : '';
+    const lateBackfillDismissed = Boolean(
+      lateBackfillDismissKey
+      && window.localStorage.getItem(lateBackfillDismissKey) === '1'
+    );
+    const showLateBackfill = (
+      viewerIsActivePlayer(round)
+      && viewingLive
+      && earlierBackfillable.length > 0
+      && !lateBackfillDismissed
+    );
+    if (lateBackfillPanel) lateBackfillPanel.hidden = !showLateBackfill;
+    if (showLateBackfill && lateBackfillStart) {
+      const selected = Number(lateBackfillStart.value || 0);
+      lateBackfillStart.replaceChildren();
+      earlierBackfillable.forEach((route, index) => {
+        const position = Number(route.route_position);
+        const option = document.createElement('option');
+        option.value = String(position);
+        option.textContent =
+          `HOLE ${route.hole_number} • ${position} OF ${length}`;
+        option.selected = (
+          selected
+            ? position === selected
+            : index === 0
+        );
+        lateBackfillStart.append(option);
+      });
+    }
+
     if (spectatorJoinPlayPanel) {
       spectatorJoinPlayPanel.hidden = !spectatorCanJoinPlay;
     }
@@ -3172,6 +3214,34 @@
       setRoundFlowMessage(error.message);
       spectatorJoinPlayButton.disabled = false;
     }
+  });
+
+  const dismissLateBackfillPrompt = () => {
+    if (!currentLobbyRound) return;
+    const viewer = viewerParticipant(currentLobbyRound);
+    if (!viewer) return;
+    window.localStorage.setItem(
+      `wpm_late_backfill_dismissed:${currentLobbyRound.id}:${viewer.id}`,
+      '1'
+    );
+    if (lateBackfillPanel) lateBackfillPanel.hidden = true;
+  };
+
+  lateBackfillGo?.addEventListener('click', () => {
+    if (!currentLobbyRound) return;
+    const position = Number(lateBackfillStart?.value || 0);
+    if (!Number.isInteger(position) || position < 1) return;
+
+    dismissLateBackfillPrompt();
+    viewedRoutePosition = position;
+    renderLiveRound(currentLobbyRound);
+    setRoundFlowMessage(
+      'BACKFILLING OLD DAMAGE. USE BACK TO LIVE WHEN YOU ARE DONE.'
+    );
+  });
+
+  lateBackfillDismiss?.addEventListener('click', () => {
+    dismissLateBackfillPrompt();
   });
 
   const changeParticipation = async (state, reason = '') => {
