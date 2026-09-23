@@ -99,7 +99,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v38" in response.data
+    assert b"wpm-shell-v39" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -108,7 +108,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v38" in builder
+    assert "wpm-shell-v39" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -123,6 +123,18 @@ def test_launch_splash_uses_random_mini_for_three_seconds():
     assert b"item.family === 'mini-mascot'" in script.data
     assert b"Math.floor(Math.random() * minis.length)" in script.data
     assert b"window.setTimeout(revealShell, 3000)" in script.data
+
+
+def test_home_is_compact_game_dashboard_instead_of_box_grid():
+    response = client().get("/")
+    assert response.status_code == 200
+    assert b'class="app-shell home-screen"' in response.data
+    assert b'class="home-play-panel"' in response.data
+    assert b'class="home-primary-action"' in response.data
+    assert b'class="home-secondary-action"' in response.data
+    assert b'class="home-quick-grid"' in response.data
+    assert b'KEEP SCORE. TALK SHIT. RECEIPTS REMEMBER.' in response.data
+    assert b'class="mascot-icon"' not in response.data
 
 
 def test_live_scorecard_exposes_score_removal_control():

@@ -101,7 +101,7 @@
     </section>
   </main>
 
-  <main id="app-shell" class="app-shell" aria-hidden="true">
+  <main id="app-shell" class="app-shell home-screen" aria-hidden="true">
     <header class="home-header">
       <div class="header-copy">
         <div class="mini-kicker">MUNICIPAL COURSE LEGENDS ONLY</div>
@@ -112,49 +112,51 @@
           <span class="brand-scorecard">SCORECARD</span>
         </div>
       </div>
-      <img class="mascot-icon" src="{{ url_for('static', filename='assets/icons/WPM_DesktopIcon_Official.webp') }}" alt="Rude golf ball mascot wearing sunglasses and a cap">
+      <button id="settings-button" type="button" class="home-settings-button">SETTINGS</button>
     </header>
 
-    <section class="welcome-panel">
+    <section class="home-intro" aria-labelledby="home-welcome-title">
       <div id="home-welcome-kicker" class="panel-kicker">WELCOME BACK</div>
       <h1 id="home-welcome-title">Ready to ruin a perfectly good afternoon?</h1>
+      <p>KEEP SCORE. TALK SHIT. RECEIPTS REMEMBER.</p>
     </section>
 
-    <section class="home-actions" aria-label="Who Pushed Me home actions">
-      <button id="start-round-button" type="button" class="home-button home-button-primary">
-        <span>START A ROUND</span>
+    <section class="home-play-panel" aria-label="Start or join a round">
+      <div class="home-section-heading">
+        <span>PLAY</span>
+        <small>1–4 GOLFERS • INDIVIDUAL / SCRAMBLE</small>
+      </div>
+      <button id="start-round-button" type="button" class="home-primary-action">
+        <span class="home-action-copy"><small>CREATE A ROUND</small><strong>START A ROUND</strong></span>
+        <span class="home-action-arrow" aria-hidden="true">→</span>
       </button>
-
-      <button id="join-round-button" type="button" class="home-button home-button-dark">
-        <span>JOIN A ROUND</span>
+      <button id="join-round-button" type="button" class="home-secondary-action">
+        <span class="home-action-copy"><small>GOT A CODE?</small><strong>JOIN A ROUND</strong></span>
+        <span class="home-action-arrow" aria-hidden="true">→</span>
       </button>
+    </section>
 
-      <div class="home-grid">
-        <button type="button" class="home-card card-green" data-under-construction>
-          <span class="card-kicker">PREVIOUS DISASTERS</span>
-          <strong>Rounds</strong>
+    <section class="home-shortcuts" aria-label="Player history and social shortcuts">
+      <div class="home-section-heading">
+        <span>YOUR DAMAGE</span>
+        <small>DENIAL ONLY GOES SO FAR</small>
+      </div>
+      <div class="home-quick-grid">
+        <button type="button" class="home-quick-item" data-under-construction>
+          <small>PREVIOUS DISASTERS</small><strong>ROUNDS</strong>
         </button>
-
-        <button type="button" class="home-card card-charcoal" data-under-construction>
-          <span class="card-kicker">ALLEGED TALENT</span>
-          <strong>Stats</strong>
+        <button type="button" class="home-quick-item" data-under-construction>
+          <small>ALLEGED TALENT</small><strong>STATS</strong>
         </button>
-
-        <button type="button" class="home-card card-mustard" data-under-construction>
-          <span class="card-kicker">KNOWN OFFENDERS</span>
-          <strong>Golfers</strong>
-        </button>
-
-        <button id="settings-button" type="button" class="home-card card-orange">
-          <span class="card-kicker">BAD INFLUENCES</span>
-          <strong>Settings</strong>
+        <button type="button" class="home-quick-item" data-under-construction>
+          <small>KNOWN OFFENDERS</small><strong>GOLFERS</strong>
         </button>
       </div>
     </section>
 
     <footer class="home-footer">
-      <span>PROTOTYPE {{ version }}</span>
       <span>NO DIGNITY REQUIRED</span>
+      <span>PROTOTYPE {{ version }}</span>
       <button id="logout-button" class="logout-button" type="button">SIGN OUT</button>
     </footer>
   </main>
