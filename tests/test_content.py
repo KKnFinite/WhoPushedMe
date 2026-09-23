@@ -113,3 +113,18 @@ def test_strict_mascot_audit_requires_verified_metadata():
             )
     finally:
         catalog.mascots[0]["audit_status"] = original_status
+
+
+def test_signin_idle_has_approved_heckle_bank():
+    catalog = ContentCatalog.load()
+    catalog.validate()
+
+    rows = catalog.eligible_banter(
+        "auth.signin.idle",
+        max_vulgarity="brutal",
+    )
+    assert len(rows) == 46
+    assert all(row["events"] == ["auth.signin.idle"] for row in rows)
+    assert all(row.get("enabled", True) for row in rows)
+    assert any("FUCKING PUTT" in row["text"] for row in rows)
+    assert any("DELICATE FLOWER" in row["text"] for row in rows)

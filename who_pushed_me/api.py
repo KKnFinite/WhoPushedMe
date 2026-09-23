@@ -7,6 +7,7 @@ from typing import Any, Callable
 import psycopg
 from flask import Blueprint, current_app, g, jsonify, request, send_file
 
+from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.courses import OpenGolfAPI
 from who_pushed_me.domain import DomainError, NotFound, PermissionDenied
 from who_pushed_me.reporting import build_round_report_pdf
@@ -92,6 +93,41 @@ def domain_error(error: DomainError):
 def database_error(error: psycopg.Error):
     current_app.logger.exception("database request failed")
     return jsonify(error="database request failed"), 503
+
+
+@api.get("/content/messages")
+def public_content_messages():
+    event_key = request.args.get("event", "").strip()
+    if not event_key:
+        raise DomainError("event is required")
+
+    catalog = ContentCatalog.load()
+    try:
+        event = catalog.registry.event(event_key)
+        canonical = catalog.registry.canonical_key(event_key)
+    except ContentError as error:
+        raise DomainError(str(error)) from error
+
+    if event.get("phase") != "auth":
+        raise DomainError("only auth messages are public before sign-in")
+
+    rows = catalog.eligible_banter(
+        canonical,
+        max_vulgarity="brutal",
+    )
+    return jsonify(
+        event=canonical,
+        messages=[
+            {
+                "id": row["id"],
+                "text": row["text"],
+                "vulgarity": row.get("vulgarity", "normal"),
+                "themes": row.get("themes") or [],
+                "weight": int(row.get("weight") or 1),
+            }
+            for row in rows
+        ],
+    )
 
 
 @api.post("/auth/register")

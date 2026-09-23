@@ -368,8 +368,12 @@
     {
       "id": "banter.participant.towel.normal",
       "text": "The towel has been thrown. Dignity left earlier.",
-      "events": ["participant.towel"],
-      "audiences": ["everyone"],
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "vulgarity": "normal",
       "themes": [],
       "enabled": true
@@ -377,8 +381,12 @@
     {
       "id": "banter.participant.towel.brutal",
       "text": "Fuck it. Somebody finally admitted defeat.",
-      "events": ["participant.towel"],
-      "audiences": ["everyone"],
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "vulgarity": "brutal",
       "themes": [],
       "enabled": true
@@ -386,8 +394,12 @@
     {
       "id": "banter.participant.return.normal",
       "text": "Look who decided suffering builds character.",
-      "events": ["participant.return"],
-      "audiences": ["everyone"],
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "vulgarity": "normal",
       "themes": [],
       "enabled": true
@@ -395,8 +407,12 @@
     {
       "id": "banter.participant.return.brutal",
       "text": "Back for more? Apparently quitting didn't fucking take.",
-      "events": ["participant.return"],
-      "audiences": ["everyone"],
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "vulgarity": "brutal",
       "themes": [],
       "enabled": true
@@ -1237,6 +1253,652 @@
       "vulgarity": "brutal",
       "themes": [],
       "enabled": true
+    },
+    {
+      "id": "banter.auth.signin_idle.001",
+      "text": "YOU GONNA SIGN IN OR JUST STARE AT IT?",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.002",
+      "text": "FORGOT YOUR LOGIN ALREADY? STRONG START.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.003",
+      "text": "USERNAME. PASSWORD. THIS SHOULDN'T BE THE HARD PART.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.004",
+      "text": "STILL THINKING? IT'S NOT A FUCKING PUTT.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.005",
+      "text": "CAN'T REMEMBER YOUR PASSWORD? WE'RE OFF TO A GREAT START.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.006",
+      "text": "NO ACCOUNT? THERE'S LITERALLY A BUTTON FOR THAT.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.007",
+      "text": "YOU LOOK LIKE SOMEONE WHO FORGOT THEIR PASSWORD.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.008",
+      "text": "WE CAN'T SIGN IN FOR YOU, CHAMP.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.009",
+      "text": "TAKE YOUR TIME. THE COURSE ISN'T GETTING ANY SAFER.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.010",
+      "text": "IF YOU'RE WAITING FOR A CADDIE TO TYPE IT, DON'T.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.011",
+      "text": "THIS IS THE EASY PART OF YOUR ROUND.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.012",
+      "text": "HAVEN'T MADE AN ACCOUNT? QUIT FUCKING AROUND.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.013",
+      "text": "SIGN IN. OR MAKE AN ACCOUNT. PICK A STRUGGLE.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.014",
+      "text": "IF THREE FIELDS SCARE YOU, WAIT UNTIL THE BACK NINE.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.015",
+      "text": "CAN'T REMEMBER IT? HIT RECOVER BEFORE SOMEONE NOTICES.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.016",
+      "text": "YOU HAVEN'T EVEN LOGGED IN AND YOU'RE ALREADY HOLDING EVERYONE UP.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.017",
+      "text": "THE PASSWORD IS PROBABLY NOT \"PASSWORD.\" PROBABLY.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.018",
+      "text": "FORGOT YOUR LOGIN? BLAME THE BEER.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.019",
+      "text": "NO ACCOUNT? WHAT HAVE YOU BEEN DOING THIS WHOLE TIME?",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.020",
+      "text": "THIS SCREEN HAS THREE OPTIONS. SOMEHOW YOU'RE STILL LOSING.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.021",
+      "text": "ACCOUNT? LOGIN? ANYTHING? HELLO?",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.022",
+      "text": "WE BELIEVE IN YOU. BARELY.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.023",
+      "text": "STUCK ALREADY? WE HAVEN'T EVEN STARTED KEEPING SCORE.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.024",
+      "text": "MAKE AN ACCOUNT OR REMEMBER THE ONE YOU MADE. JESUS.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.025",
+      "text": "YOUR FIRST CHALLENGE: REMEMBER WHO THE FUCK YOU ARE.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.026",
+      "text": "TOO SENSITIVE TO SIGN IN? THIS APP IS GONNA BE ROUGH.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.027",
+      "text": "IF THE LOGIN SCREEN HURT YOUR FEELINGS, TURN BACK NOW.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.028",
+      "text": "NEED A PARTICIPATION TROPHY BEFORE YOU TYPE YOUR PASSWORD?",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.029",
+      "text": "YOU HAVEN'T EVEN LOGGED IN AND YOU'RE ALREADY COMPLAINING.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.030",
+      "text": "TOO MUCH PRESSURE? IT'S A USERNAME AND PASSWORD.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.031",
+      "text": "DON'T WORRY, NOBODY'S JUDGING YOU YET. THAT COMES LATER.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.032",
+      "text": "IF YOU NEED ENCOURAGEMENT TO SIGN IN, YOU MAY BE IN THE WRONG APP.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.033",
+      "text": "FEELING ATTACKED BY THE LOGIN SCREEN? GOOD START.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.034",
+      "text": "IF A SIGN-IN BUTTON IS TOO AGGRESSIVE, GOLF MAY NOT BE FOR YOU.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.035",
+      "text": "TAKE ALL THE TIME YOU NEED, DELICATE FLOWER.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.036",
+      "text": "WOULD A HUG HELP YOU REMEMBER YOUR PASSWORD?",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.037",
+      "text": "YOU CAN DO HARD THINGS. LIKE TYPING YOUR USERNAME.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.038",
+      "text": "DON'T LET THE TEXT BOXES INTIMIDATE YOU.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.039",
+      "text": "IF THIS IS ALREADY TOO MUCH, THE SCORECARD IS GONNA DESTROY YOU.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.040",
+      "text": "TOO FRAGILE TO LOG IN? WAIT UNTIL SOMEBODY SEES YOUR SCORE.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.041",
+      "text": "THE BUTTONS AREN'T YELLING AT YOU. YET.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.042",
+      "text": "YOU'RE SAFE. IT'S JUST A LOGIN SCREEN. PROBABLY.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.043",
+      "text": "THIS SCREEN ISN'T MEAN. YOU'RE JUST TAKING IT PERSONALLY.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.044",
+      "text": "THE ACCOUNT FORM DOESN'T BITE. YOUR FRIENDS MIGHT.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.045",
+      "text": "NO ACCOUNT? MAKE ONE. WE'LL WAIT WHILE YOU PROCESS THAT.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth.signin_idle.046",
+      "text": "IF YOU NEED A MINUTE TO EMOTIONALLY PREPARE, TAKE TWO.",
+      "events": [
+        "auth.signin.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

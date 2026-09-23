@@ -500,6 +500,62 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
 
 
 
+def cmd_list_banter(args: argparse.Namespace) -> None:
+    catalog = ContentCatalog.load()
+    catalog.validate()
+
+    rows = list(catalog.banter)
+    if args.event:
+        event_key = catalog.registry.canonical_key(args.event)
+        rows = [
+            row
+            for row in rows
+            if event_key in {
+                catalog.registry.canonical_key(value)
+                for value in row.get("events") or []
+            }
+        ]
+    if args.contains:
+        needle = args.contains.lower()
+        rows = [
+            row
+            for row in rows
+            if needle in str(row.get("text") or "").lower()
+        ]
+
+    for row in rows:
+        state = "ON" if row.get("enabled", True) else "OFF"
+        print(f"{row['id']:<42} {state:<3} {row['text']}")
+    print(f"Messages: {len(rows)}")
+
+
+def cmd_remove_banter(args: argparse.Namespace) -> None:
+    path = CONTENT_DIR / "banter.json"
+    data = _read(path)
+    rows = list(data.get("banter") or [])
+    target = next(
+        (row for row in rows if row.get("id") == args.content_id),
+        None,
+    )
+    if target is None:
+        raise ContentError(f"banter id not found: {args.content_id}")
+
+    if not args.yes:
+        print(f"ID:   {target['id']}")
+        print(f"Text: {target['text']}")
+        answer = input("Type REMOVE to confirm: ").strip()
+        if answer != "REMOVE":
+            print("Cancelled.")
+            return
+
+    data["banter"] = [
+        row for row in rows if row.get("id") != args.content_id
+    ]
+    _write(path, data)
+    ContentCatalog.load().validate()
+    print(f"Removed {args.content_id}")
+
+
 def cmd_add_banter(args: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
     catalog.validate()
@@ -760,6 +816,26 @@ def build_parser() -> argparse.ArgumentParser:
     set_event.add_argument("event_key")
     set_event.add_argument("state", choices=["on", "off", "default"])
     set_event.set_defaults(func=cmd_set_event)
+
+    list_banter = subparsers.add_parser(
+        "list-banter",
+        help="list banter messages, optionally filtered by event or text",
+    )
+    list_banter.add_argument("--event")
+    list_banter.add_argument("--contains")
+    list_banter.set_defaults(func=cmd_list_banter)
+
+    remove_banter = subparsers.add_parser(
+        "remove-banter",
+        help="remove one banter message by content id",
+    )
+    remove_banter.add_argument("content_id")
+    remove_banter.add_argument(
+        "--yes",
+        action="store_true",
+        help="remove without interactive confirmation",
+    )
+    remove_banter.set_defaults(func=cmd_remove_banter)
 
     add_banter = subparsers.add_parser("add-banter", help="add a banter message")
     add_banter.add_argument("--text")

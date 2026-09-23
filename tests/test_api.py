@@ -1669,3 +1669,23 @@ def test_score_response_route_links_reply_to_specific_score_event():
         target,
     )
 
+
+
+def test_public_signin_idle_messages_do_not_require_auth():
+    client, _ = client_with_store()
+    response = client.get("/api/content/messages?event=auth.signin.idle")
+    assert response.status_code == 200
+
+    payload = response.get_json()
+    assert payload["event"] == "auth.signin.idle"
+    assert len(payload["messages"]) == 46
+    assert all(
+        row["id"].startswith("banter.auth.signin_idle.")
+        for row in payload["messages"]
+    )
+
+
+def test_public_content_endpoint_rejects_non_auth_message_banks():
+    client, _ = client_with_store()
+    response = client.get("/api/content/messages?event=round.start")
+    assert response.status_code == 400
