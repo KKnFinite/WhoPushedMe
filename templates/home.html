@@ -16,28 +16,18 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 </head>
 <body>
-  <section id="launch-splash" class="launch-splash" aria-label="Who Pushed Me launch screen">
-    <div class="splash-noise" aria-hidden="true"></div>
-    <div class="splash-content">
-      <div class="splash-kicker">IT HAS BEGUN!</div>
-      <div class="brand-lockup brand-lockup-large" aria-label="Who Pushed Me?! Scorecard">
-        <span class="brand-line brand-who">WHO</span>
-        <span class="brand-line brand-pushed">PUSHED</span>
-        <span class="brand-line brand-me">ME<span class="brand-punctuation">?!</span></span>
-        <span class="brand-scorecard">SCORECARD</span>
-      </div>
-      <div class="splash-mini-stage" aria-hidden="true">
-        <img id="launch-splash-mini" class="splash-mini" alt="" decoding="async">
-      </div>
-      <div class="splash-tagline">KEEP SCORE. TALK SHIT. BLAME EQUIPMENT.</div>
-    </div>
+  <section id="launch-splash" class="launch-splash" aria-label="Who Pushed Me?! Scorecard">
+    <img
+      class="splash-art"
+      src="{{ url_for('static', filename='assets/brand/WPM_Splash_Login.webp') }}"
+      alt=""
+      decoding="async"
+      fetchpriority="high"
+    >
   </section>
 
   <main id="auth-shell" class="auth-shell" hidden aria-label="Who Pushed Me account access">
     <section class="auth-card">
-      <img class="auth-wordmark" src="{{ url_for('static', filename='assets/brand/WPM_Wordmark.webp') }}" alt="Who Pushed Me?!">
-      <div class="auth-kicker">NO EMAIL. NO SOCIAL LOGIN. NO EXCUSES.</div>
-
       <div class="auth-tabs" role="tablist" aria-label="Account options">
         <button type="button" class="auth-tab is-active" data-auth-view="login">SIGN IN</button>
         <button type="button" class="auth-tab" data-auth-view="register">CREATE ACCOUNT</button>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wpm-shell-v38';
+const CACHE_NAME = 'wpm-shell-v39';
 
 const APP_SHELL = [
   '/',
@@ -10,7 +10,8 @@ const APP_SHELL = [
   '/static/icons/apple-touch-icon-180.png',
   '/static/icons/icon-192.png',
   '/static/icons/icon-512.png',
-  '/static/assets/icons/WPM_DesktopIcon_Official.webp'
+  '/static/assets/icons/WPM_DesktopIcon_Official.webp',
+  '/static/assets/brand/WPM_Splash_Login.webp'
 ];
 
 self.addEventListener('install', (event) => {

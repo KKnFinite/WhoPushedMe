@@ -327,6 +327,11 @@
   const showAuth = (view = 'login') => {
     document.body.classList.remove('app-ready');
     if (appShell) appShell.setAttribute('aria-hidden', 'true');
+    if (splash) {
+      splash.hidden = false;
+      splash.classList.remove('splash-leaving');
+      splash.classList.add('splash-auth-ready');
+    }
     if (authShell) authShell.hidden = false;
     switchAuthView(view);
   };
@@ -438,6 +443,16 @@
         : 'WELCOME BACK';
     }
     document.body.classList.add('app-ready');
+
+    if (splash && !splash.hidden) {
+      splash.classList.remove('splash-auth-ready');
+      splash.classList.add('splash-leaving');
+      window.setTimeout(() => {
+        splash.hidden = true;
+        splash.classList.remove('splash-leaving');
+      }, 320);
+    }
+
     window.setTimeout(() => maybeShowInstallOnboarding(account), 0);
   };
 
@@ -512,14 +527,9 @@
   };
 
   const revealShell = async () => {
-    if (splash) splash.classList.add('splash-leaving');
-    window.setTimeout(async () => {
-      if (splash) splash.hidden = true;
-      await bootSession();
-    }, 260);
+    await bootSession();
   };
 
-  void loadRandomSplashMini();
   window.setTimeout(revealShell, 3000);
 
   authViewButtons.forEach((button) => {
