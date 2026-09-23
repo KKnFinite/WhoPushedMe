@@ -1187,6 +1187,56 @@ body.app-ready .app-shell {
   font-family: "Arial Black", Arial, sans-serif;
 }
 
+.late-backfill-panel {
+  display: grid;
+  gap: 9px;
+  padding: 13px;
+  background: var(--cream-deep);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+
+.late-backfill-panel[hidden] {
+  display: none;
+}
+
+.late-backfill-panel h4,
+.late-backfill-panel p {
+  margin: 0;
+}
+
+.late-backfill-panel p {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.late-backfill-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.late-backfill-actions button {
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .68rem;
+}
+
+#late-backfill-go {
+  background: var(--orange);
+  color: var(--paper);
+}
+
+#late-backfill-dismiss {
+  background: var(--paper);
+  color: var(--ink);
+}
+
 .hole-strip {
   display: grid;
   grid-template-columns: 54px minmax(0, 1fr) 54px;
