@@ -253,6 +253,14 @@ class FakeStore:
         self.calls.append(("cache_course", snapshot.external_id))
         return UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d")
 
+    def set_par_tracking_mode(self, golfer_id, round_id, enabled):
+        self.calls.append(("par_tracking", golfer_id, round_id, enabled))
+        return {
+            "round_id": round_id,
+            "par_tracking_enabled": enabled,
+            "locked": False,
+        }
+
     def set_participant_tee(self, golfer_id, round_id, tee_name):
         self.calls.append(("set_tee", golfer_id, round_id, tee_name))
         return {
@@ -995,6 +1003,24 @@ def test_select_provider_course_caches_it_before_round_setup():
     assert payload["tees"][0]["tee_name"] == "White"
     assert ("fetch", "provider-1") in provider.calls
     assert ("cache_course", "provider-1") in store.calls
+
+
+def test_player_can_change_par_tracking_before_first_score():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/par-tracking",
+        headers={"Authorization": "Bearer session-token"},
+        json={"enabled": False},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["par_tracking_enabled"] is False
+    assert store.calls[-1] == (
+        "par_tracking",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        False,
+    )
 
 
 def test_player_can_set_tee_before_round_start():
