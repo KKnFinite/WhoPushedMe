@@ -96,7 +96,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v33" in response.data
+    assert b"wpm-shell-v34" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -105,7 +105,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v33" in builder
+    assert "wpm-shell-v34" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -385,3 +385,14 @@ def test_net_handicap_migration_is_present():
     assert "ADD COLUMN handicap_index" in migration
     assert "ADD COLUMN net_scoring_enabled" in migration
     assert "CREATE TABLE cached_course_tee_ratings" in migration
+
+
+def test_par_tracking_mode_locks_after_first_score_in_ui():
+    response = client().get("/static/app.js")
+    shell = client().get("/")
+    assert response.status_code == 200
+    assert b"/par-tracking" in response.data
+    assert b"LOCKED AFTER FIRST FACTUAL SCORE." in response.data
+    assert b"(round.scores || []).length > 0" in response.data
+    assert b"TRACK PAR" in shell.data
+    assert b"DON'T TRACK PAR" in shell.data
