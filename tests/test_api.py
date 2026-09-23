@@ -253,6 +253,15 @@ class FakeStore:
         self.calls.append(("cache_course", snapshot.external_id))
         return UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d")
 
+    def mark_round_receipts_seen(self, golfer_id, round_id):
+        self.calls.append(("receipts_seen", golfer_id, round_id))
+        return {
+            "round_id": round_id,
+            "participant_id": "304b4411-bc80-4652-94b3-350ef2501267",
+            "last_seen_event_id": "d3f46413-d58e-4ec7-9735-acde56d10b30",
+            "unseen_count": 0,
+        }
+
     def set_par_tracking_mode(self, golfer_id, round_id, enabled):
         self.calls.append(("par_tracking", golfer_id, round_id, enabled))
         return {
@@ -1003,6 +1012,23 @@ def test_select_provider_course_caches_it_before_round_setup():
     assert payload["tees"][0]["tee_name"] == "White"
     assert ("fetch", "provider-1") in provider.calls
     assert ("cache_course", "provider-1") in store.calls
+
+
+def test_participant_can_mark_round_receipts_seen():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/receipts-seen",
+        headers={"Authorization": "Bearer session-token"},
+        json={},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["unseen_count"] == 0
+    assert store.calls[-1] == (
+        "receipts_seen",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+    )
 
 
 def test_player_can_change_par_tracking_before_first_score():
