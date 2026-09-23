@@ -1,16 +1,40 @@
 :root {
-  --cream: #f1e7c8;
-  --cream-deep: #dfd0a7;
-  --green: #56745f;
-  --green-deep: #314a3a;
-  --yellow: #dfe94b;
-  --yellow-deep: #c8d33d;
-  --orange: #d96b3f;
-  --orange-deep: #b9502f;
-  --mustard: #b99b4c;
-  --charcoal: #20231f;
-  --ink: #171916;
-  --paper: #f8efd7;
+  /* Official WHO PUSHED ME?! brand palette */
+  --wpm-night: #050907;
+  --wpm-charcoal: #111611;
+  --wpm-smoke: #2a2f28;
+  --wpm-cream: #e9e1c8;
+
+  --wpm-green-deep: #173326;
+  --wpm-green: #214534;
+  --wpm-green-moss: #355b45;
+  --wpm-green-accent: #4e7a5d;
+
+  --wpm-orange-burnt: #d96d3b;
+  --wpm-orange-ember: #e9783e;
+  --wpm-orange-danger: #f25c1d;
+
+  /* Gold is an accent, not a dominant surface color. */
+  --wpm-gold: #d4a62a;
+
+  /* Future custom family: WPM Sans Light / Regular / Bold. */
+  --font-wpm-light: "WPM Sans", Arial, sans-serif;
+  --font-wpm-regular: "WPM Sans", Arial, sans-serif;
+  --font-wpm-bold: "WPM Sans", "Arial Black", Arial, sans-serif;
+
+  /* Legacy aliases while the rest of the UI migrates to WPM tokens. */
+  --cream: var(--wpm-cream);
+  --cream-deep: #d7cdaF;
+  --green: var(--wpm-green-moss);
+  --green-deep: var(--wpm-green-deep);
+  --yellow: var(--wpm-gold);
+  --yellow-deep: #b8891f;
+  --orange: var(--wpm-orange-burnt);
+  --orange-deep: #b8542f;
+  --mustard: var(--wpm-gold);
+  --charcoal: var(--wpm-charcoal);
+  --ink: var(--wpm-night);
+  --paper: #f7efd8;
   --radius: 24px;
   --border: 5px solid var(--ink);
   --shadow: 9px 10px 0 var(--ink);
@@ -22,12 +46,13 @@
 
 html {
   min-height: 100%;
-  background: var(--green-deep);
+  background: var(--wpm-night);
 }
 
 body {
   margin: 0;
   min-height: 100%;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at 20% 10%, rgba(255,255,255,.22), transparent 22rem),
     var(--cream);
@@ -49,7 +74,7 @@ button {
 }
 
 button:focus-visible {
-  outline: 5px solid var(--yellow);
+  outline: 4px solid var(--wpm-gold);
   outline-offset: 4px;
 }
 
@@ -3125,7 +3150,12 @@ body {
   padding: 0;
   overflow: hidden;
   background:
-    linear-gradient(180deg, #0d1712 0%, #08100d 68%, #050907 100%);
+    linear-gradient(
+      180deg,
+      var(--wpm-green-deep) 0%,
+      var(--wpm-charcoal) 68%,
+      var(--wpm-night) 100%
+    );
   transition: opacity .32s ease, transform .32s ease;
 }
 
@@ -3228,11 +3258,11 @@ body {
   background:
     linear-gradient(
       180deg,
-      rgba(15, 21, 17, .76) 0%,
-      rgba(9, 13, 11, .94) 100%
+      rgba(17, 22, 17, .82) 0%,
+      rgba(5, 9, 7, .96) 100%
     );
-  color: var(--paper);
-  border: 2px solid rgba(241, 231, 200, .28);
+  color: var(--wpm-cream);
+  border: 2px solid rgba(212, 166, 42, .28);
   border-radius: 22px;
   box-shadow: 0 18px 54px rgba(0, 0, 0, .52);
   backdrop-filter: blur(10px);
@@ -3251,16 +3281,16 @@ body {
 
 .auth-tab {
   min-height: 44px;
-  background: rgba(255, 255, 255, .08);
-  color: var(--paper);
-  border: 2px solid rgba(241, 231, 200, .24);
+  background: var(--wpm-green-deep);
+  color: var(--wpm-cream);
+  border: 2px solid var(--wpm-green-accent);
   box-shadow: none;
 }
 
 .auth-tab.is-active {
-  background: var(--orange);
-  color: #fff8e7;
-  border-color: var(--paper);
+  background: var(--wpm-orange-burnt);
+  color: var(--wpm-cream);
+  border-color: var(--wpm-gold);
   box-shadow: none;
 }
 
@@ -3279,14 +3309,14 @@ body {
 }
 
 .auth-form label > span {
-  color: #fff8e7;
+  color: var(--wpm-cream);
 }
 
 .auth-form input {
   min-height: 50px;
   padding: 10px 13px;
   border-width: 2px;
-  background: rgba(248, 239, 215, .96);
+  background: var(--wpm-cream);
 }
 
 .auth-warning {
@@ -3298,20 +3328,38 @@ body {
 .auth-submit {
   min-height: 54px;
   margin-top: 2px;
-  background: var(--orange);
-  color: #fff8e7;
-  border: 2px solid var(--paper);
+  background:
+    linear-gradient(
+      135deg,
+      var(--wpm-orange-burnt) 0%,
+      var(--wpm-orange-ember) 100%
+    );
+  color: var(--wpm-cream);
+  border: 2px solid var(--wpm-gold);
   box-shadow: none;
 }
 
 .recovery-key-card {
-  background: rgba(49, 74, 58, .96);
-  border: 2px solid rgba(241, 231, 200, .35);
+  background: var(--wpm-green);
+  border: 2px solid var(--wpm-gold);
   box-shadow: none;
 }
 
 @media (min-width: 700px) {
   .auth-card {
     margin-bottom: 22px;
+  }
+}
+
+
+/* iOS standalone safe-area: keep exposed chrome in WPM Night. */
+@supports (padding: max(0px)) {
+  html {
+    background-color: var(--wpm-night);
+  }
+
+  .launch-splash,
+  .auth-shell {
+    min-height: 100dvh;
   }
 }

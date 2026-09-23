@@ -99,7 +99,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v40" in response.data
+    assert b"wpm-shell-v41" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -108,7 +108,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v40" in builder
+    assert "wpm-shell-v41" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -480,3 +480,29 @@ def test_ui_direction_document_is_present():
     direction = (root / "docs" / "ui-direction.md").read_text(encoding="utf-8")
     assert "multiplayer golf game with a social feed" in direction
     assert "Mobile is the primary layout." in direction
+
+
+def test_official_wpm_palette_and_safe_area_branding():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"--wpm-night: #050907" in css.data
+    assert b"--wpm-green-deep: #173326" in css.data
+    assert b"--wpm-green: #214534" in css.data
+    assert b"--wpm-green-moss: #355b45" in css.data
+    assert b"--wpm-green-accent: #4e7a5d" in css.data
+    assert b"--wpm-orange-burnt: #d96d3b" in css.data
+    assert b"--wpm-orange-ember: #e9783e" in css.data
+    assert b"--wpm-orange-danger: #f25c1d" in css.data
+    assert b"--wpm-gold: #d4a62a" in css.data
+    assert b'--font-wpm-light: "WPM Sans"' in css.data
+    assert b'--font-wpm-regular: "WPM Sans"' in css.data
+    assert b'--font-wpm-bold: "WPM Sans"' in css.data
+
+    manifest = client().get("/static/manifest.webmanifest")
+    assert manifest.status_code == 200
+    payload = manifest.get_json()
+    assert payload["background_color"] == "#050907"
+    assert payload["theme_color"] == "#050907"
+
+    home = client().get("/")
+    assert b'<meta name="theme-color" content="#050907">' in home.data
