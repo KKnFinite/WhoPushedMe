@@ -96,7 +96,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v34" in response.data
+    assert b"wpm-shell-v35" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -105,7 +105,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v34" in builder
+    assert "wpm-shell-v35" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -396,3 +396,26 @@ def test_par_tracking_mode_locks_after_first_score_in_ui():
     assert b"(round.scores || []).length > 0" in response.data
     assert b"TRACK PAR" in shell.data
     assert b"DON'T TRACK PAR" in shell.data
+
+
+def test_receipts_show_personal_unread_catchup_badge():
+    shell = client().get("/")
+    script = client().get("/static/app.js")
+    assert shell.status_code == 200
+    assert script.status_code == 200
+    assert b"YOU MISSED SOME SHIT" in shell.data
+    assert b"receipts_state?.unseen_count" in script.data
+    assert b"/receipts-seen" in script.data
+    assert b"receiptMarkInFlight" in script.data
+
+
+def test_receipt_seen_state_migration_is_present():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    migration = (
+        root / "migrations" / "0013_receipt_seen_state.sql"
+    ).read_text(encoding="utf-8")
+    assert "CREATE TABLE round_receipt_seen_state" in migration
+    assert "last_seen_event_id" in migration
+    assert "PRIMARY KEY (participant_id)" in migration
