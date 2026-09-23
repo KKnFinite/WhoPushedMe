@@ -3409,6 +3409,109 @@ class RoundStore:
                 )
             return response
 
+    def set_par_tracking_mode(
+        self,
+        golfer_id: object,
+        round_id: object,
+        enabled: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        if not isinstance(enabled, bool):
+            raise DomainError("par tracking enabled must be true or false")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(
+                participant,
+                "change par tracking",
+            )
+
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError(
+                    "par tracking can only change before or during an active round"
+                )
+
+            old_enabled = bool(round_row["par_tracking_enabled"])
+            if old_enabled == enabled:
+                return {
+                    "round_id": round_uuid,
+                    "par_tracking_enabled": enabled,
+                    "locked": False,
+                    "event": None,
+                }
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                ) AS has_score
+                """,
+                (round_uuid,),
+            )
+            if bool(cursor.fetchone()["has_score"]):
+                raise DomainError(
+                    "par tracking mode locks after the first factual score"
+                )
+
+            cursor.execute(
+                """
+                UPDATE rounds
+                SET par_tracking_enabled = %s,
+                    updated_at = now()
+                WHERE id = %s
+                """,
+                (enabled, round_uuid),
+            )
+
+            if enabled and round_row["course_id"]:
+                cursor.execute(
+                    """
+                    INSERT INTO round_route_pars (
+                        round_id, route_position, par, source
+                    )
+                    SELECT rr.round_id, rr.route_position, ch.par, 'course'
+                    FROM round_route_positions rr
+                    JOIN cached_course_holes ch
+                      ON ch.course_id = %s
+                     AND ch.hole_number = rr.hole_number
+                    WHERE rr.round_id = %s
+                      AND rr.state = 'planned'
+                      AND ch.par IS NOT NULL
+                    ON CONFLICT (round_id, route_position)
+                    DO NOTHING
+                    """,
+                    (round_row["course_id"], round_uuid),
+                )
+
+            updated_round = dict(round_row)
+            updated_round["par_tracking_enabled"] = enabled
+            self._recalculate_course_handicaps(
+                cursor,
+                updated_round,
+            )
+
+            event = self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="par_tracking_change",
+                old_value=old_enabled,
+                new_value=enabled,
+                data={"locked_after_first_score": True},
+                presentation_context={"mode": round_row["mode"]},
+            )
+
+            return {
+                "round_id": round_uuid,
+                "par_tracking_enabled": enabled,
+                "locked": False,
+                "event": event,
+            }
+
     def set_par(
         self,
         golfer_id: object,
