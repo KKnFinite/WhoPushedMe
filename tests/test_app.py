@@ -99,7 +99,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v36" in response.data
+    assert b"wpm-shell-v37" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -108,7 +108,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v36" in builder
+    assert "wpm-shell-v37" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -440,3 +440,24 @@ def test_backfill_summary_stays_compact_instead_of_replaying_old_popups():
     assert b"item.data?.backfilled" in response.data
     assert b"JUST FILED" in response.data
     assert b"THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED." in response.data
+
+
+def test_ui_phase_uses_full_screen_mobile_round_surface():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    css = (root / "static" / "app.css").read_text(encoding="utf-8")
+    assert "UI PHASE 1: MOBILE-FIRST GAME SURFACE" in css
+    assert "@media (max-width: 680px)" in css
+    assert "height: 100dvh;" in css
+    assert "position: sticky;" in css
+    assert "grid-template-columns: minmax(0, 1fr) 104px;" in css
+
+
+def test_ui_direction_document_is_present():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    direction = (root / "docs" / "ui-direction.md").read_text(encoding="utf-8")
+    assert "multiplayer golf game with a social feed" in direction
+    assert "Mobile is the primary layout." in direction
