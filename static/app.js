@@ -431,7 +431,9 @@
 
   const ensureAuthHecklesLoaded = async () => {
     if (authHeckleRows.length) {
-      startAuthHeckles({ advance: !authHeckleText?.textContent });
+      startAuthHeckles({
+        advance: Boolean(authHeckle?.hidden || !authHeckleText?.textContent),
+      });
       return;
     }
     if (authHeckleLoadPromise) {
