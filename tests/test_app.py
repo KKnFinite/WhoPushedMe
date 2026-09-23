@@ -10,7 +10,7 @@ def client():
 def test_home_loads_pwa_shell():
     response = client().get("/")
     assert response.status_code == 200
-    assert b"IT HAS BEGUN!" in response.data
+    assert b"WPM_Splash_Login.webp" in response.data
     assert b"START A ROUND" in response.data
     assert b"TAKE 10 SECONDS. MAKE IT AN ACTUAL APP." in response.data
     assert b"FINE. INSTALL THE DAMN THING." in response.data
@@ -99,7 +99,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v38" in response.data
+    assert b"wpm-shell-v39" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -108,21 +108,24 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v38" in builder
+    assert "wpm-shell-v39" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
-def test_launch_splash_uses_random_mini_for_three_seconds():
+def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     response = client().get("/")
     assert response.status_code == 200
-    assert b'id="launch-splash-mini"' in response.data
+    assert b'class="splash-art"' in response.data
+    assert b"WPM_Splash_Login.webp" in response.data
+    assert b'id="launch-splash-mini"' not in response.data
+
+    asset = client().get("/static/assets/brand/WPM_Splash_Login.webp")
+    assert asset.status_code == 200
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
-    assert b"/static/assets/_meta/asset-manifest.json" in script.data
-    assert b"item.family === 'mini-mascot'" in script.data
-    assert b"Math.floor(Math.random() * minis.length)" in script.data
     assert b"window.setTimeout(revealShell, 3000)" in script.data
+    assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
 def test_live_scorecard_exposes_score_removal_control():
