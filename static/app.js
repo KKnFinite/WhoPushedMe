@@ -92,6 +92,10 @@
   const roundSettingsTeeLabel = document.getElementById('round-settings-tee-label');
   const roundSettingsTeeSelect = document.getElementById('round-settings-tee-select');
   const roundSettingsTeeSave = document.getElementById('round-settings-tee-save');
+  const roundParTrackingPanel = document.getElementById('round-par-tracking-panel');
+  const roundParTrackingCopy = document.getElementById('round-par-tracking-copy');
+  const roundParTrackingOn = document.getElementById('round-par-tracking-on');
+  const roundParTrackingOff = document.getElementById('round-par-tracking-off');
   const roundHandicapPanel = document.getElementById('round-handicap-panel');
   const roundHandicapList = document.getElementById('round-handicap-list');
   const offlinePlayerPanel = document.getElementById('offline-player-panel');
@@ -2405,6 +2409,28 @@
         roundSettingsTeeSave.disabled = false;
       }
 
+      const parTrackingLocked = (round.scores || []).length > 0;
+      if (roundParTrackingPanel) roundParTrackingPanel.hidden = false;
+      if (roundParTrackingCopy) {
+        roundParTrackingCopy.textContent = parTrackingLocked
+          ? 'LOCKED AFTER FIRST FACTUAL SCORE.'
+          : (
+              round.par_tracking_enabled
+                ? 'PAR TRACKING IS ON. YOU CAN TURN IT OFF UNTIL THE FIRST SCORE.'
+                : 'PAR TRACKING IS OFF. YOU CAN TURN IT ON UNTIL THE FIRST SCORE.'
+            );
+      }
+      if (roundParTrackingOn) {
+        roundParTrackingOn.disabled = (
+          parTrackingLocked || Boolean(round.par_tracking_enabled)
+        );
+      }
+      if (roundParTrackingOff) {
+        roundParTrackingOff.disabled = (
+          parTrackingLocked || !Boolean(round.par_tracking_enabled)
+        );
+      }
+
       const showRoundHandicaps = (
         round.mode === 'individual'
         && Boolean(round.net_scoring_enabled)
@@ -3404,6 +3430,37 @@
       setRoundFlowMessage(error.message);
       roundSettingsTeeSave.disabled = false;
     }
+  });
+
+  const setRoundParTrackingMode = async (enabled) => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    if (roundParTrackingOn) roundParTrackingOn.disabled = true;
+    if (roundParTrackingOff) roundParTrackingOff.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/par-tracking`,
+        {
+          method: 'PATCH',
+          body: { enabled: Boolean(enabled) },
+        }
+      );
+      pendingScoreAfterPar = null;
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      if (roundParTrackingOn) roundParTrackingOn.disabled = false;
+      if (roundParTrackingOff) roundParTrackingOff.disabled = false;
+    }
+  };
+
+  roundParTrackingOn?.addEventListener('click', async () => {
+    await setRoundParTrackingMode(true);
+  });
+
+  roundParTrackingOff?.addEventListener('click', async () => {
+    await setRoundParTrackingMode(false);
   });
 
   offlinePlayerAdd?.addEventListener('click', async () => {
