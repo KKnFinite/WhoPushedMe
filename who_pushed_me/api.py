@@ -356,6 +356,17 @@ def get_round(code: str):
     return jsonify(_store().get_round(g.golfer["id"], code))
 
 
+@api.patch("/rounds/<round_id>/receipts-seen")
+@authenticated
+def mark_round_receipts_seen(round_id: str):
+    return jsonify(
+        _store().mark_round_receipts_seen(
+            g.golfer["id"],
+            round_id,
+        )
+    )
+
+
 @api.get("/rounds/<round_id>/report.pdf")
 @authenticated
 def download_round_report(round_id: str):
