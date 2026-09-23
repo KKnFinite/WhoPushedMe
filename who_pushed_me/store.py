@@ -3773,27 +3773,12 @@ class RoundStore:
         return cursor.fetchall()
 
     @staticmethod
-    def _individual_standing_state_from_cursor(
-        cursor: Any,
-        round_id: UUID,
-        *,
-        hole_count: int,
+    def _standing_state_from_rows(
+        planned_positions: list[int],
+        players: list[dict[str, Any]],
+        score_rows: list[dict[str, Any]],
     ) -> dict[str, Any] | None:
-        cursor.execute(
-            """
-            SELECT rp.id AS participant_id, g.display_name
-            FROM round_participants rp
-            JOIN golfers g ON g.id = rp.golfer_id
-            WHERE rp.round_id = %s
-              AND rp.role = 'player'
-              AND rp.participation_state = 'active'
-              AND rp.tracked_from_position = 1
-            ORDER BY rp.joined_at, rp.id
-            """,
-            (round_id,),
-        )
-        players = cursor.fetchall()
-        if len(players) < 2:
+        if len(players) < 2 or not planned_positions:
             return None
 
         participant_ids = [row["participant_id"] for row in players]
@@ -3801,19 +3786,6 @@ class RoundStore:
             str(row["participant_id"]): row["display_name"]
             for row in players
         }
-
-        cursor.execute(
-            """
-            SELECT player_participant_id, route_position, strokes
-            FROM round_hole_scores
-            WHERE round_id = %s
-              AND score_scope = 'player'
-            ORDER BY route_position, player_participant_id
-            """,
-            (round_id,),
-        )
-        score_rows = cursor.fetchall()
-
         scores: dict[UUID, dict[int, int]] = {
             participant_id: {}
             for participant_id in participant_ids
@@ -3825,20 +3797,24 @@ class RoundStore:
                     row["strokes"]
                 )
 
-        through_hole = 0
-        for hole in range(1, int(hole_count) + 1):
-            if all(hole in scores[participant_id] for participant_id in participant_ids):
-                through_hole = hole
+        completed_positions: list[int] = []
+        for position in planned_positions:
+            if all(
+                position in scores[participant_id]
+                for participant_id in participant_ids
+            ):
+                completed_positions.append(position)
             else:
                 break
 
-        if through_hole == 0:
+        if not completed_positions:
             return None
 
+        through_hole = completed_positions[-1]
         totals = {
             str(participant_id): sum(
-                scores[participant_id][hole]
-                for hole in range(1, through_hole + 1)
+                scores[participant_id][position]
+                for position in completed_positions
             )
             for participant_id in participant_ids
         }
@@ -3861,6 +3837,76 @@ class RoundStore:
             },
             "names": names,
         }
+
+    @classmethod
+    def _individual_standing_state_from_cursor(
+        cls,
+        cursor: Any,
+        round_id: UUID,
+        *,
+        hole_count: int,
+    ) -> dict[str, Any] | None:
+        cursor.execute(
+            """
+            SELECT route_position
+            FROM round_route_positions
+            WHERE round_id = %s
+              AND state = 'planned'
+            ORDER BY route_position
+            """,
+            (round_id,),
+        )
+        planned_positions = [
+            int(row["route_position"])
+            for row in cursor.fetchall()
+        ]
+        if not planned_positions:
+            return None
+
+        cursor.execute(
+            """
+            SELECT rp.id AS participant_id, g.display_name
+            FROM round_participants rp
+            JOIN golfers g ON g.id = rp.golfer_id
+            WHERE rp.round_id = %s
+              AND rp.role = 'player'
+              AND rp.participation_state = 'active'
+              AND (
+                  SELECT count(*)
+                  FROM round_participant_route_positions prp
+                  JOIN round_route_positions rr
+                    ON rr.round_id = prp.round_id
+                   AND rr.route_position = prp.route_position
+                  WHERE prp.round_id = rp.round_id
+                    AND prp.participant_id = rp.id
+                    AND prp.required
+                    AND rr.state = 'planned'
+              ) = %s
+            ORDER BY rp.joined_at, rp.id
+            """,
+            (round_id, len(planned_positions)),
+        )
+        players = cursor.fetchall()
+        if len(players) < 2:
+            return None
+
+        cursor.execute(
+            """
+            SELECT player_participant_id, route_position, strokes
+            FROM round_hole_scores
+            WHERE round_id = %s
+              AND score_scope = 'player'
+            ORDER BY route_position, player_participant_id
+            """,
+            (round_id,),
+        )
+        score_rows = cursor.fetchall()
+
+        return cls._standing_state_from_rows(
+            planned_positions,
+            players,
+            score_rows,
+        )
 
     @staticmethod
     def _derived_event_exists(
