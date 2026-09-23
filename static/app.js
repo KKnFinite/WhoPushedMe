@@ -134,6 +134,7 @@
   const downloadReportButton = document.getElementById('download-report-button');
   const roundEndHome = document.getElementById('round-end-home');
   const receiptsPanel = document.getElementById('receipts-panel');
+  const receiptsUnseenBadge = document.getElementById('receipts-unseen-badge');
   const receiptsList = document.getElementById('receipts-list');
   const bagButton = document.getElementById('bag-of-bullshit-button');
   const towelButton = document.getElementById('towel-button');
@@ -183,6 +184,7 @@
   let pendingScoreAfterPar = null;
   let pendingClaimJoin = null;
   let claimUndoConfirmPending = false;
+  let receiptMarkInFlight = false;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
 
@@ -1803,11 +1805,44 @@
     );
   };
 
+  const updateReceiptsBadge = (round) => {
+    if (!receiptsUnseenBadge) return;
+    const unseen = Number(round.receipts_state?.unseen_count || 0);
+    receiptsUnseenBadge.hidden = unseen < 1;
+    receiptsUnseenBadge.textContent =
+      `YOU MISSED SOME SHIT • ${unseen}`;
+  };
+
+  const markReceiptsSeen = async (round) => {
+    const unseen = Number(round?.receipts_state?.unseen_count || 0);
+    if (!round?.id || unseen < 1 || receiptMarkInFlight) return;
+
+    receiptMarkInFlight = true;
+    try {
+      const state = await requestJson(
+        `/api/rounds/${round.id}/receipts-seen`,
+        { method: 'PATCH', body: {} }
+      );
+      if (
+        currentLobbyRound
+        && String(currentLobbyRound.id) === String(round.id)
+      ) {
+        currentLobbyRound.receipts_state = state;
+        updateReceiptsBadge(currentLobbyRound);
+      }
+    } catch (_error) {
+      // Catch-up marking is non-blocking. The next refresh/open can retry.
+    } finally {
+      receiptMarkInFlight = false;
+    }
+  };
+
   const renderReceipts = (round) => {
     if (!receiptsPanel || !receiptsList) return;
 
     const events = round.events || [];
     receiptsPanel.hidden = events.length === 0;
+    updateReceiptsBadge(round);
     receiptsList.replaceChildren();
 
     events.slice(0, 40).forEach((event) => {
@@ -1938,7 +1973,16 @@
 
       receiptsList.append(row);
     });
+
+    if (receiptsPanel.open) {
+      void markReceiptsSeen(round);
+    }
   };
+
+  receiptsPanel?.addEventListener('toggle', () => {
+    if (!receiptsPanel.open || !currentLobbyRound) return;
+    void markReceiptsSeen(currentLobbyRound);
+  });
 
   const totalParForRound = (round) => {
     const plannedPositions = (round.route || [])
