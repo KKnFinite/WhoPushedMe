@@ -384,6 +384,19 @@ def download_round_report(round_id: str):
     )
 
 
+@api.patch("/rounds/<round_id>/par-tracking")
+@authenticated
+def set_par_tracking_mode(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().set_par_tracking_mode(
+            g.golfer["id"],
+            round_id,
+            payload.get("enabled"),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/handicap")
 @authenticated
 def set_round_handicap(round_id: str):
