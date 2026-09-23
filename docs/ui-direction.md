@@ -36,6 +36,14 @@ Use the established green / cream / burnt orange / yellow / black identity.
 The mascot and content art are accents, not permanent clutter. They should hit when
 an event deserves attention.
 
+## Launch experience
+
+- Keep the branded launch splash.
+- Show one random approved mini mascot from the asset manifest on each launch.
+- Hold the launch experience for about three seconds, then continue to the authenticated
+  home flow (or account access when no valid session exists).
+- The splash is a deliberate brand moment, not a loading-state replacement.
+
 ## Phase order
 
 1. Mobile shell, home hierarchy, live round scoring surface.

@@ -307,13 +307,14 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v37';
+    content = """const CACHE_NAME = 'wpm-shell-v38';
 
 const APP_SHELL = [
   '/',
   '/static/app.css',
   '/static/app.js',
   '/static/manifest.webmanifest',
+  '/static/assets/_meta/asset-manifest.json',
   '/static/icons/icon-32.png',
   '/static/icons/apple-touch-icon-180.png',
   '/static/icons/icon-192.png',

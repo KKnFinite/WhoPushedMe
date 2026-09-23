@@ -3,6 +3,7 @@
   const PAR_SETUP_NOW_KEY = 'wpm_par_setup_now_round';
 
   const splash = document.getElementById('launch-splash');
+  const splashMini = document.getElementById('launch-splash-mini');
   const authShell = document.getElementById('auth-shell');
   const appShell = document.getElementById('app-shell');
   const authMessage = document.getElementById('auth-message');
@@ -480,6 +481,36 @@
     }
   };
 
+  const loadRandomSplashMini = async () => {
+    if (!splashMini) return;
+
+    try {
+      const response = await fetch('/static/assets/_meta/asset-manifest.json');
+      if (!response.ok) return;
+
+      const manifest = await response.json();
+      const minis = (manifest.assets || []).filter(
+        (item) => item.family === 'mini-mascot' && item.production
+      );
+      if (!minis.length) return;
+
+      const picked = minis[Math.floor(Math.random() * minis.length)];
+      const productionPath = String(picked.production).replace(/^\/+/, '');
+      const imagePath = productionPath.startsWith('static/')
+        ? `/${productionPath}`
+        : `/static/${productionPath}`;
+
+      splashMini.addEventListener(
+        'load',
+        () => splashMini.classList.add('is-loaded'),
+        { once: true }
+      );
+      splashMini.src = imagePath;
+    } catch (_error) {
+      // The branded splash still works if the manifest or selected mini is unavailable.
+    }
+  };
+
   const revealShell = async () => {
     if (splash) splash.classList.add('splash-leaving');
     window.setTimeout(async () => {
@@ -488,8 +519,8 @@
     }, 260);
   };
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.setTimeout(revealShell, prefersReducedMotion ? 350 : 1450);
+  void loadRandomSplashMini();
+  window.setTimeout(revealShell, 3000);
 
   authViewButtons.forEach((button) => {
     button.addEventListener('click', () => switchAuthView(button.dataset.authView));
