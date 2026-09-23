@@ -44,6 +44,9 @@ def test_home_loads_pwa_shell():
     assert b"ROUND SETTINGS" in response.data
     assert b"SAVE TEE CORRECTION" in response.data
     assert b"JOIN THE ROUND" in response.data
+    assert b"ALREADY BEEN PLAYING?" in response.data
+    assert b"ENTER THE DAMAGE SO FAR" in response.data
+    assert b"NOPE. START HERE." in response.data
     assert b"ARE YOU ALREADY IN THIS MESS?" in response.data
     assert b"ADD OFFLINE GOLFER" in response.data
     assert b"END ROUND EARLY" in response.data
@@ -96,7 +99,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v35" in response.data
+    assert b"wpm-shell-v36" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -105,7 +108,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v35" in builder
+    assert "wpm-shell-v36" in builder
 
 
 def test_live_scorecard_exposes_score_removal_control():
@@ -419,3 +422,21 @@ def test_receipt_seen_state_migration_is_present():
     assert "CREATE TABLE round_receipt_seen_state" in migration
     assert "last_seen_event_id" in migration
     assert "PRIMARY KEY (participant_id)" in migration
+
+
+def test_late_joiner_gets_explicit_backfill_path_without_requiring_old_scores():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"earlierBackfillable" in response.data
+    assert b"viewer?.tracked_from_position" in response.data
+    assert b"route.state !== 'skipped'" in response.data
+    assert b"BACKFILLING OLD DAMAGE. USE BACK TO LIVE WHEN YOU ARE DONE." in response.data
+    assert b"wpm_late_backfill_dismissed:" in response.data
+
+
+def test_backfill_summary_stays_compact_instead_of_replaying_old_popups():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"item.data?.backfilled" in response.data
+    assert b"JUST FILED" in response.data
+    assert b"THE HISTORICAL RECORD HAS BEEN CONVENIENTLY UPDATED." in response.data
