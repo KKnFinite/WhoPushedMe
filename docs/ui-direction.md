@@ -36,15 +36,6 @@ Use the established green / cream / burnt orange / yellow / black identity.
 The mascot and content art are accents, not permanent clutter. They should hit when
 an event deserves attention.
 
-## Home
-
-- Home is a compact game dashboard, not a wall of oversized cards.
-- START A ROUND is the dominant action; JOIN A ROUND is immediately available but secondary.
-- Rounds, Stats and Golfers stay visible as compact shortcuts without competing with play.
-- Settings lives in the top chrome instead of occupying a full content tile.
-- The permanent home mascot badge is removed; mascot art should earn its space through splash
-  and event moments rather than becoming wallpaper.
-
 ## Launch experience
 
 - Keep the branded launch splash.
