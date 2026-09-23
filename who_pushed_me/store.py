@@ -2451,6 +2451,126 @@ class RoundStore:
                 ),
             }
 
+    @staticmethod
+    def _receipt_seen_state_from_cursor(
+        cursor: Any,
+        round_id: UUID,
+        participant_id: UUID,
+    ) -> dict[str, Any]:
+        cursor.execute(
+            """
+            SELECT state.last_seen_event_id,
+                   seen.created_at AS last_seen_created_at
+            FROM round_receipt_seen_state state
+            LEFT JOIN round_events seen
+              ON seen.id = state.last_seen_event_id
+            WHERE state.round_id = %s
+              AND state.participant_id = %s
+            """,
+            (round_id, participant_id),
+        )
+        marker = cursor.fetchone()
+
+        if marker and marker["last_seen_event_id"] and marker["last_seen_created_at"]:
+            cursor.execute(
+                """
+                SELECT count(*) AS unseen_count
+                FROM round_events
+                WHERE round_id = %s
+                  AND actor_participant_id IS DISTINCT FROM %s
+                  AND (
+                      created_at > %s
+                      OR (
+                          created_at = %s
+                          AND id > %s
+                      )
+                  )
+                """,
+                (
+                    round_id,
+                    participant_id,
+                    marker["last_seen_created_at"],
+                    marker["last_seen_created_at"],
+                    marker["last_seen_event_id"],
+                ),
+            )
+        else:
+            cursor.execute(
+                """
+                SELECT count(*) AS unseen_count
+                FROM round_events
+                WHERE round_id = %s
+                  AND actor_participant_id IS DISTINCT FROM %s
+                """,
+                (round_id, participant_id),
+            )
+
+        unseen = int(cursor.fetchone()["unseen_count"] or 0)
+        return {
+            "last_seen_event_id": (
+                marker["last_seen_event_id"] if marker else None
+            ),
+            "unseen_count": unseen,
+        }
+
+    def mark_round_receipts_seen(
+        self,
+        golfer_id: object,
+        round_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            self._round(cursor, round_uuid)
+            participant = self._participant(
+                cursor,
+                round_uuid,
+                golfer_uuid,
+            )
+
+            cursor.execute(
+                """
+                SELECT id
+                FROM round_events
+                WHERE round_id = %s
+                ORDER BY created_at DESC, id DESC
+                LIMIT 1
+                """,
+                (round_uuid,),
+            )
+            latest = cursor.fetchone()
+
+            if latest:
+                cursor.execute(
+                    """
+                    INSERT INTO round_receipt_seen_state (
+                        round_id, participant_id,
+                        last_seen_event_id, updated_at
+                    )
+                    VALUES (%s, %s, %s, now())
+                    ON CONFLICT (participant_id)
+                    DO UPDATE SET
+                        round_id = EXCLUDED.round_id,
+                        last_seen_event_id = EXCLUDED.last_seen_event_id,
+                        updated_at = now()
+                    """,
+                    (
+                        round_uuid,
+                        participant["id"],
+                        latest["id"],
+                    ),
+                )
+
+            state = self._receipt_seen_state_from_cursor(
+                cursor,
+                round_uuid,
+                participant["id"],
+            )
+            state["round_id"] = round_uuid
+            state["participant_id"] = participant["id"]
+            return state
+
     def get_round(
         self,
         golfer_id: object,
@@ -2693,6 +2813,14 @@ class RoundStore:
                 (found["id"],),
             )
             round_row["score_challenges"] = cursor.fetchall()
+
+            round_row["receipts_state"] = (
+                self._receipt_seen_state_from_cursor(
+                    cursor,
+                    found["id"],
+                    participant["id"],
+                )
+            )
 
             round_row["end_early"] = self._end_early_state_from_cursor(
                 cursor,
