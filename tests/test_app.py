@@ -17,6 +17,7 @@ def test_home_loads_pwa_shell():
     assert b"I ENJOY MAKING THINGS HARDER." in response.data
     assert b"APP UNDER CONSTRUCTION, DUMBASS." in response.data
     assert b"SIGN IN" in response.data
+    assert b'id="auth-heckle"' in response.data
     assert b"CREATE ACCOUNT" in response.data
     assert b"RECOVER" in response.data
     assert b"Settings" in response.data
@@ -99,7 +100,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v41" in response.data
+    assert b"wpm-shell-v42" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -108,7 +109,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v41" in builder
+    assert "wpm-shell-v42" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -506,3 +507,21 @@ def test_official_wpm_palette_and_safe_area_branding():
 
     home = client().get("/")
     assert b'<meta name="theme-color" content="#050907">' in home.data
+
+
+def test_signin_idle_heckle_rotation_uses_content_bank():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"/api/content/messages?event=auth.signin.idle" in response.data
+    assert b"AUTH_HECKLE_ROTATE_MS = 5000" in response.data
+    assert b"AUTH_HECKLE_RESUME_MS = 9000" in response.data
+    assert b"pauseAuthHecklesForInteraction" in response.data
+    assert b"refillAuthHeckleBag" in response.data
+
+
+def test_asset_builder_keeps_approved_splash_in_shell_cache():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
+    assert "/static/assets/brand/WPM_Splash_Login.webp" in builder

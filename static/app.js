@@ -7,6 +7,8 @@
   const authShell = document.getElementById('auth-shell');
   const appShell = document.getElementById('app-shell');
   const authMessage = document.getElementById('auth-message');
+  const authHeckle = document.getElementById('auth-heckle');
+  const authHeckleText = document.getElementById('auth-heckle-text');
   const authTabs = document.querySelector('.auth-tabs');
   const authViewButtons = document.querySelectorAll('[data-auth-view]');
   const authPanels = document.querySelectorAll('[data-auth-panel]');
@@ -192,6 +194,17 @@
   let receiptMarkInFlight = false;
   let deferredInstallPrompt = null;
   let installOnboardingAccountKey = '';
+  let currentAuthView = 'login';
+  let authHeckleRows = [];
+  let authHeckleBag = [];
+  let authHeckleLastId = '';
+  let authHeckleInterval = null;
+  let authHeckleResumeTimer = null;
+  let authHeckleFadeTimer = null;
+  let authHeckleLoadPromise = null;
+
+  const AUTH_HECKLE_ROTATE_MS = 5000;
+  const AUTH_HECKLE_RESUME_MS = 9000;
 
   const INSTALL_ONBOARDING_ASSETS = [
     '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp',
@@ -310,9 +323,149 @@
     return payload;
   };
 
+  const shuffledCopy = (rows) => {
+    const shuffled = [...rows];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [shuffled[index], shuffled[swapIndex]] = [
+        shuffled[swapIndex],
+        shuffled[index],
+      ];
+    }
+    return shuffled;
+  };
+
+  const refillAuthHeckleBag = () => {
+    authHeckleBag = shuffledCopy(authHeckleRows);
+    if (
+      authHeckleBag.length > 1
+      && authHeckleBag[authHeckleBag.length - 1]?.id === authHeckleLastId
+    ) {
+      [
+        authHeckleBag[0],
+        authHeckleBag[authHeckleBag.length - 1],
+      ] = [
+        authHeckleBag[authHeckleBag.length - 1],
+        authHeckleBag[0],
+      ];
+    }
+  };
+
+  const nextAuthHeckle = () => {
+    if (!authHeckleRows.length) return null;
+    if (!authHeckleBag.length) refillAuthHeckleBag();
+    const row = authHeckleBag.pop() || null;
+    if (row) authHeckleLastId = row.id;
+    return row;
+  };
+
+  const renderAuthHeckle = (row) => {
+    if (!authHeckle || !authHeckleText || !row?.text) return;
+
+    const apply = () => {
+      authHeckleText.textContent = row.text;
+      authHeckle.hidden = false;
+      authHeckle.classList.remove('is-changing');
+    };
+
+    if (authHeckle.hidden || !authHeckleText.textContent) {
+      apply();
+      return;
+    }
+
+    authHeckle.classList.add('is-changing');
+    if (authHeckleFadeTimer) window.clearTimeout(authHeckleFadeTimer);
+    authHeckleFadeTimer = window.setTimeout(apply, 150);
+  };
+
+  const stopAuthHeckles = ({ hide = false } = {}) => {
+    if (authHeckleInterval) {
+      window.clearInterval(authHeckleInterval);
+      authHeckleInterval = null;
+    }
+    if (authHeckleResumeTimer) {
+      window.clearTimeout(authHeckleResumeTimer);
+      authHeckleResumeTimer = null;
+    }
+    if (hide && authHeckle) authHeckle.hidden = true;
+  };
+
+  const startAuthHeckles = ({ advance = true } = {}) => {
+    stopAuthHeckles();
+    if (
+      currentAuthView !== 'login'
+      || !authHeckleRows.length
+      || !authShell
+      || authShell.hidden
+    ) {
+      return;
+    }
+
+    if (advance) renderAuthHeckle(nextAuthHeckle());
+    authHeckleInterval = window.setInterval(() => {
+      if (currentAuthView === 'login') {
+        renderAuthHeckle(nextAuthHeckle());
+      }
+    }, AUTH_HECKLE_ROTATE_MS);
+  };
+
+  const scheduleAuthHeckleResume = () => {
+    if (currentAuthView !== 'login') return;
+    if (authHeckleResumeTimer) {
+      window.clearTimeout(authHeckleResumeTimer);
+    }
+    authHeckleResumeTimer = window.setTimeout(() => {
+      authHeckleResumeTimer = null;
+      startAuthHeckles({ advance: true });
+    }, AUTH_HECKLE_RESUME_MS);
+  };
+
+  const pauseAuthHecklesForInteraction = () => {
+    if (currentAuthView !== 'login') return;
+    if (authHeckleInterval) {
+      window.clearInterval(authHeckleInterval);
+      authHeckleInterval = null;
+    }
+    scheduleAuthHeckleResume();
+  };
+
+  const ensureAuthHecklesLoaded = async () => {
+    if (authHeckleRows.length) {
+      startAuthHeckles({ advance: !authHeckleText?.textContent });
+      return;
+    }
+    if (authHeckleLoadPromise) {
+      await authHeckleLoadPromise;
+      return;
+    }
+
+    authHeckleLoadPromise = requestJson(
+      '/api/content/messages?event=auth.signin.idle',
+      { authenticated: false },
+    )
+      .then((payload) => {
+        authHeckleRows = (payload.messages || []).filter(
+          (row) => row && row.id && row.text
+        );
+        authHeckleBag = [];
+        if (currentAuthView === 'login') {
+          startAuthHeckles({ advance: true });
+        }
+      })
+      .catch(() => {
+        if (authHeckle) authHeckle.hidden = true;
+      })
+      .finally(() => {
+        authHeckleLoadPromise = null;
+      });
+
+    await authHeckleLoadPromise;
+  };
+
   const switchAuthView = (view) => {
     setAuthMessage('');
     pendingAccount = null;
+    currentAuthView = view;
     if (recoveryCard) recoveryCard.hidden = true;
     if (authTabs) authTabs.hidden = false;
 
@@ -322,6 +475,12 @@
     authPanels.forEach((panel) => {
       panel.hidden = panel.dataset.authPanel !== view;
     });
+
+    if (view === 'login') {
+      void ensureAuthHecklesLoaded();
+    } else {
+      stopAuthHeckles({ hide: true });
+    }
   };
 
   const showAuth = (view = 'login') => {
@@ -434,6 +593,7 @@
 
   const showApp = (account) => {
     pendingAccount = null;
+    stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
     if (appShell) appShell.removeAttribute('aria-hidden');
     if (welcomeKicker) {
@@ -458,6 +618,7 @@
 
   const showRecoveryKey = (result) => {
     pendingAccount = result.account || null;
+    stopAuthHeckles({ hide: true });
     if (authTabs) authTabs.hidden = true;
     authPanels.forEach((panel) => {
       panel.hidden = true;
@@ -534,6 +695,11 @@
 
   authViewButtons.forEach((button) => {
     button.addEventListener('click', () => switchAuthView(button.dataset.authView));
+  });
+
+  loginForm?.querySelectorAll('input').forEach((input) => {
+    input.addEventListener('focus', pauseAuthHecklesForInteraction);
+    input.addEventListener('input', pauseAuthHecklesForInteraction);
   });
 
   loginForm?.addEventListener('submit', async (event) => {

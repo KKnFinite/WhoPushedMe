@@ -27,7 +27,11 @@
   </section>
 
   <main id="auth-shell" class="auth-shell" hidden aria-label="Who Pushed Me account access">
-    <section class="auth-card">
+    <div class="auth-stack">
+      <aside id="auth-heckle" class="auth-heckle" hidden aria-label="Who Pushed Me commentary">
+        <p id="auth-heckle-text"></p>
+      </aside>
+      <section class="auth-card">
       <div class="auth-tabs" role="tablist" aria-label="Account options">
         <button type="button" class="auth-tab is-active" data-auth-view="login">SIGN IN</button>
         <button type="button" class="auth-tab" data-auth-view="register">CREATE ACCOUNT</button>
@@ -88,7 +92,8 @@
           <button id="recovery-key-continue" type="button">I SAVED IT</button>
         </div>
       </section>
-    </section>
+      </section>
+    </div>
   </main>
 
   <main id="app-shell" class="app-shell" aria-hidden="true">
