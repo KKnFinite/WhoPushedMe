@@ -1670,20 +1670,6 @@
       "weight": 1
     },
     {
-      "id": "banter.auth_login_failed.023",
-      "text": "MAYBE YOUR PASSWORD CHANGED. MAYBE YOUR BRAIN DIDN’T.",
-      "events": [
-        "auth.login_failed"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "normal",
-      "themes": [],
-      "enabled": true,
-      "weight": 1
-    },
-    {
       "id": "banter.auth_login_failed.024",
       "text": "THE ACCOUNT SAID “WHO THE FUCK IS THIS?”",
       "events": [
