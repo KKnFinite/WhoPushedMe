@@ -623,3 +623,19 @@ def test_home_art_is_precached_for_installed_pwa():
     assert b"WPM_Home_Background_CreekBridge.webp" in worker.data
     assert b"WPM_Home_Background_IslandGreenGoldenHour.webp" in worker.data
     assert b"WPM_Home_Background_StormySunset.webp" in worker.data
+
+
+def test_content_admin_supports_home_background_pool():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    admin = (root / "tools" / "content_admin.py").read_text(encoding="utf-8")
+    builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
+
+    assert "list-home-backgrounds" in admin
+    assert "add-home-background" in admin
+    assert "remove-home-background" in admin
+    assert "home.backgrounds" in admin
+    assert 'source.suffix.lower() == ".webp"' in admin
+    assert "HOME_BACKGROUNDS_SRC" in builder
+    assert "(copied exact source)" in builder
