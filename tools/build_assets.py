@@ -14,6 +14,9 @@ OFFICIAL_ICON = ASSETS_SRC / "icons" / "WPM_DesktopIcon_Official.jpg"
 TRANSPARENT_MASCOT = ASSETS_SRC / "mascots" / "master" / "WPM_Mascot_FullBody_Transparent.png"
 ONBOARDING_MASCOTS_SRC = ASSETS_SRC / "mascots" / "onboarding"
 ONBOARDING_MASCOTS = ASSETS / "mascots" / "onboarding"
+HOME_BACKGROUNDS_SRC = ASSETS_SRC / "home" / "backgrounds"
+HOME_BACKGROUNDS = ASSETS / "home" / "backgrounds"
+HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 
 EVENT_MAP = {
     ("joining", "new-player"): "player_join_new",
@@ -130,6 +133,20 @@ def validate_sources():
             "Missing mini production WebPs:\n" +
             "\n".join(str(p.relative_to(ROOT)) for p in missing_webp)
         )
+
+
+def build_home_background_webps():
+    if not HOME_BACKGROUNDS_SRC.exists():
+        return
+
+    for source in sorted(HOME_BACKGROUNDS_SRC.iterdir()):
+        if not source.is_file():
+            continue
+        if source.suffix.lower() not in HOME_BACKGROUND_SOURCE_EXTENSIONS:
+            continue
+
+        production = HOME_BACKGROUNDS / f"{source.stem}.webp"
+        make_webp(source, production, lossless=False)
 
 
 def build_core_webps():
@@ -551,6 +568,39 @@ def build_manifest():
                 }
             )
 
+    home_background_count = 0
+
+    if HOME_BACKGROUNDS_SRC.exists():
+        for source in sorted(HOME_BACKGROUNDS_SRC.iterdir()):
+            if not source.is_file():
+                continue
+            if source.suffix.lower() not in HOME_BACKGROUND_SOURCE_EXTENSIONS:
+                continue
+
+            production = HOME_BACKGROUNDS / f"{source.stem}.webp"
+            if not production.exists():
+                raise SystemExit(
+                    f"Missing Home background production pair for {source.relative_to(ROOT)}"
+                )
+
+            home_background_count += 1
+            short_name = source.stem
+            prefix = "WPM_Home_Background_"
+            if short_name.startswith(prefix):
+                short_name = short_name[len(prefix):]
+
+            entries.append(
+                {
+                    "asset_id": f"home.background.{short_name}",
+                    "family": "home-background",
+                    "pool": "home.backgrounds",
+                    "enabled": True,
+                    "source": source.relative_to(ROOT).as_posix(),
+                    "production": production.relative_to(ROOT).as_posix(),
+                    **image_info(source),
+                }
+            )
+
     mini_root = ASSETS_SRC / "mascots" / "mini"
 
     mini_count = 0
@@ -592,6 +642,7 @@ def build_manifest():
         ),
         "mini_asset_count": mini_count,
         "onboarding_asset_count": onboarding_count,
+        "home_background_count": home_background_count,
         "assets": entries,
     }
 
@@ -620,7 +671,8 @@ OFFICIAL APP ICON SOURCE
 static/assets_src/icons/WPM_DesktopIcon_Official.jpg
 
 CORE RULES
-- PNG/JPG masters remain untouched in assets_src.
+- PNG/JPG mascot and brand masters remain untouched in assets_src.
+- Home background source art may be PNG, JPG, JPEG, or WebP; production copies are WebP.
 - Web UI should prefer production WebP assets.
 - PWA/device icons remain PNG.
 - WPM_DesktopIcon_Official.jpg is the official app icon source.
@@ -635,6 +687,7 @@ CORE RULES
 
     print("MANIFEST:", manifest_path.relative_to(ROOT))
     print("Mini assets in manifest:", mini_count)
+    print("Home backgrounds in manifest:", home_background_count)
 
 
 def cleanup_duplicates():
@@ -679,6 +732,7 @@ def cleanup_duplicates():
 def main():
     validate_sources()
     build_core_webps()
+    build_home_background_webps()
     build_onboarding_webps()
     build_pwa_icons()
     archive_old_loose_minis()
