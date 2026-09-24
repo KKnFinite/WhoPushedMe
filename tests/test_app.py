@@ -525,3 +525,13 @@ def test_asset_builder_keeps_approved_splash_in_shell_cache():
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
     assert "/static/assets/brand/WPM_Splash_Login.webp" in builder
+
+
+def test_auth_form_uses_locked_wpm_account_rules():
+    response = client().get("/")
+    assert response.status_code == 200
+    assert b'name="display_name" autocomplete="name" maxlength="20"' in response.data
+    assert b'name="username" autocomplete="username" minlength="3" maxlength="16"' in response.data
+    assert b'name="password" type="password" autocomplete="new-password" minlength="10"' in response.data
+    assert b'placeholder="XXXX-XXXX"' in response.data
+    assert b'name="new_password" type="password" autocomplete="new-password" minlength="10"' in response.data

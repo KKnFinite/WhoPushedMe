@@ -55,15 +55,15 @@
       <form id="register-form" class="auth-form" data-auth-panel="register" hidden>
         <label>
           <span>DISPLAY NAME</span>
-          <input name="display_name" autocomplete="name" maxlength="40" required>
+          <input name="display_name" autocomplete="name" maxlength="20" required>
         </label>
         <label>
           <span>USERNAME</span>
-          <input name="username" autocomplete="username" minlength="3" maxlength="24" required>
+          <input name="username" autocomplete="username" minlength="3" maxlength="16" required>
         </label>
         <label>
           <span>PASSWORD</span>
-          <input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+          <input name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
         </label>
         <p class="auth-warning">Your recovery key is the only emergency password reset. Lose it and there is no email button coming to save you.</p>
         <button type="submit" class="auth-submit">MAKE THE ACCOUNT</button>
@@ -72,11 +72,11 @@
       <form id="recover-form" class="auth-form" data-auth-panel="recover" hidden>
         <label>
           <span>RECOVERY KEY</span>
-          <input name="recovery_key" autocomplete="off" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" required>
+          <input name="recovery_key" autocomplete="off" placeholder="XXXX-XXXX" maxlength="19" required>
         </label>
         <label>
           <span>NEW PASSWORD</span>
-          <input name="new_password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+          <input name="new_password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
         </label>
         <p class="auth-warning">Successful recovery kills old sessions and gives you a brand-new recovery key.</p>
         <button type="submit" class="auth-submit">RESET MY SHIT</button>
@@ -484,7 +484,7 @@
             <h5>ADD OFFLINE GOLFER</h5>
             <label class="round-text-field">
               <span>NAME</span>
-              <input id="offline-player-name" type="text" maxlength="40" placeholder="MIKE">
+              <input id="offline-player-name" type="text" maxlength="20" placeholder="MIKE">
             </label>
             <label id="offline-player-tee-field" class="round-text-field" hidden>
               <span>TEE</span>

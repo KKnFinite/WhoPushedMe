@@ -6,7 +6,7 @@ from who_pushed_me.content.catalog import ContentError, VULGARITY_ORDER
 
 DEFAULT_MINI_MASCOTS_ENABLED = True
 DEFAULT_TRASH_TALK_ENABLED = True
-DEFAULT_MAX_VULGARITY = "normal"
+DEFAULT_MAX_VULGARITY = "brutal"
 
 _ALLOWED_PATCH_KEYS = {
     "mini_mascots_enabled",

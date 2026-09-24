@@ -18,6 +18,7 @@ from who_pushed_me.auth import (
     hash_password,
     hash_recovery_key,
     hash_session_token,
+    normalize_login_username,
     normalize_username,
     verify_password,
 )
@@ -636,7 +637,7 @@ class RoundStore:
         username: object,
         password: object,
     ) -> dict[str, Any]:
-        normalized_username = normalize_username(username)
+        normalized_username = normalize_login_username(username)
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """

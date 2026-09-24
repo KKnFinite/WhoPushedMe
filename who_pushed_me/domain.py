@@ -30,8 +30,8 @@ class NotFound(DomainError):
 
 def clean_display_name(value: object) -> str:
     name = str(value or "").strip()
-    if not 1 <= len(name) <= 40:
-        raise DomainError("display_name must be between 1 and 40 characters")
+    if not 1 <= len(name) <= 20:
+        raise DomainError("display_name must be between 1 and 20 characters")
     return name
 
 
