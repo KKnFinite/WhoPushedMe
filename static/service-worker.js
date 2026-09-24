@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wpm-shell-v44';
+const CACHE_NAME = 'wpm-shell-v45';
 
 const APP_SHELL = [
   '/',
@@ -11,7 +11,14 @@ const APP_SHELL = [
   '/static/icons/icon-192.png',
   '/static/icons/icon-512.png',
   '/static/assets/icons/WPM_DesktopIcon_Official.webp',
-  '/static/assets/brand/WPM_Splash_Login.webp'
+  '/static/assets/brand/WPM_Splash_Login.webp',
+  '/static/assets/brand/WPM_Wordmark.webp',
+  '/static/assets/home/WPM_Home_Mascot.png',
+  '/static/assets/home/backgrounds/WPM_Home_Background_SunriseBridge.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_BrightFairway.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_CreekBridge.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_StormySunset.webp'
 ];
 
 self.addEventListener('install', (event) => {
