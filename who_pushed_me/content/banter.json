@@ -408,6 +408,286 @@
       "weight": 1
     },
     {
+      "id": "banter.auth_create_account_failed.001",
+      "text": "NOPE. FIX YOUR SHIT AND TRY AGAIN.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.002",
+      "text": "YOU MANAGED TO FUCK UP THREE FIELDS.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.003",
+      "text": "THAT DIDN’T WORK. READ THE DAMN SCREEN.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.004",
+      "text": "USERNAME TAKEN? APPARENTLY SOMEONE BEAT YOU TO YOUR OWN BAD IDEA.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.005",
+      "text": "TRY AGAIN WITH SOMETHING THE FORM ACTUALLY ACCEPTS.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.006",
+      "text": "WE GAVE YOU THREE FIELDS AND YOU STILL FOUND TROUBLE.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.007",
+      "text": "ALMOST. EXCEPT FOR THE PART WHERE IT WORKED.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.008",
+      "text": "THE FORM HAS NOTES. MAYBE READ THEM THIS TIME.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.009",
+      "text": "SOMEBODY ALREADY STOLE YOUR GENIUS USERNAME.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.010",
+      "text": "YOUR PASSWORD NEEDS WORK. SO DOES YOUR SWING, PROBABLY.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.011",
+      "text": "MAKE THE PASSWORD LESS TERRIBLE AND TRY AGAIN.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.012",
+      "text": "YOUR PHONE HAS A PASSWORD MANAGER. LET IT MAKE THE DAMN PASSWORD.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.013",
+      "text": "YOU WERE SO CLOSE TO HAVING AN ACCOUNT.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.014",
+      "text": "PLEASE CORRECT YOUR MISTAKES. YES, ALL OF THEM.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.015",
+      "text": "GOOD NEWS: THIS IS FIXABLE. BAD NEWS: YOU HAVE TO FIX IT.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.016",
+      "text": "THAT PASSWORD ISN’T CUTTING IT. LET YOUR PHONE’S PASSWORD MANAGER HANDLE THIS.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.017",
+      "text": "WE BELIEVE YOU CAN GET THIS RIGHT ON ATTEMPT TWO. MAYBE THREE.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.018",
+      "text": "YOU’RE LOSING TO THE SIGN-UP FORM.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.019",
+      "text": "FIX THE RED STUFF. WE MADE IT OBVIOUS.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_failed.020",
+      "text": "TRY AGAIN. THIS TIME WITH VALID INFORMATION.",
+      "events": [
+        "auth.create_account_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
       "id": "banter.auth_create_account_idle.001",
       "text": "YOU MADE IT THIS FAR. DON’T GET TIRED NOW.",
       "events": [
@@ -790,6 +1070,286 @@
       "text": "QUIT WHINING AND PICK A FUCKING USERNAME.",
       "events": [
         "auth.create_account.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.001",
+      "text": "THAT’S A DISPLAY NAME, NOT YOUR FUCKING AUTOBIOGRAPHY.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.002",
+      "text": "KEEP IT SHORT, SHAKESPEARE.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.003",
+      "text": "WE HAVE TO FIT THIS SHIT ON A SCORECARD.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.004",
+      "text": "NOBODY NEEDS YOUR FULL GOVERNMENT NAME.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.005",
+      "text": "PICK A NAME, NOT A PARAGRAPH.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.006",
+      "text": "TWENTY CHARACTERS. YOU’LL SURVIVE.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.007",
+      "text": "THE SCORECARD ISN’T WIDE ENOUGH FOR YOUR EGO.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.008",
+      "text": "SHORTEN IT, CHAMP.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.009",
+      "text": "THAT NAME NEEDS A FUCKING EDITOR.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.010",
+      "text": "SAVE THE LIFE STORY FOR THE CLUBHOUSE.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.011",
+      "text": "WE ASKED WHO YOU ARE, NOT YOUR ENTIRE FAMILY HISTORY.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.012",
+      "text": "YOUR DISPLAY NAME SHOULD NOT NEED A SECOND LINE.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.013",
+      "text": "TRIM THE FAT.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.014",
+      "text": "MAKE IT SHORT ENOUGH FOR YOUR FRIENDS TO MOCK.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.015",
+      "text": "THAT’S WAY TOO MUCH NAME FOR THIS MUCH GOLF TALENT.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.016",
+      "text": "PICK SOMETHING WE CAN ACTUALLY FIT ON THE SCREEN.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.017",
+      "text": "YOUR NAME HAS MORE CHARACTERS THAN YOUR SCORE SHOULD.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.018",
+      "text": "THIS IS A SCORECARD, NOT A BIRTH CERTIFICATE.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.019",
+      "text": "LESS NAME. MORE GOLF.",
+      "events": [
+        "auth.display_name_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_display_name_invalid.020",
+      "text": "CUT IT DOWN, PRINCESS.",
+      "events": [
+        "auth.display_name_invalid"
       ],
       "audiences": [
         "everyone"
@@ -1530,6 +2090,342 @@
       "weight": 1
     },
     {
+      "id": "banter.auth_offline.001",
+      "text": "YOUR PHONE’S DOING ITS BEST. UNFORTUNATELY, ITS BEST SUCKS.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.002",
+      "text": "NICE PHONE. DOES IT ALSO MAKE CALLS SOMETIMES?",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.003",
+      "text": "YOUR SIGNAL IS AS RELIABLE AS YOUR SHORT GAME.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.004",
+      "text": "MAYBE HOLD THAT PIECE OF SHIT A LITTLE CLOSER TO THE SKY.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.005",
+      "text": "YOUR PHONE CAN’T FIND THE INTERNET. SOLID EQUIPMENT CHOICE.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.006",
+      "text": "NO SIGNAL. TRY BLOWING ON IT LIKE IT’S 1998.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.007",
+      "text": "YOUR PHONE’S CONNECTIVITY IS CURRENTLY FUCKING EMBARRASSING.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.008",
+      "text": "THIS THING CONNECTED TO ANYTHING BESIDES YOUR DISAPPOINTMENT?",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.009",
+      "text": "NO INTERNET. GREAT. NOW THE PHONE’S PLAYING LIKE YOU DO.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.010",
+      "text": "WE’RE READY. YOUR CRAP PHONE ISN’T.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.011",
+      "text": "NO SIGNAL. MAYBE UPGRADE FROM WHATEVER THE HELL THIS IS.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.012",
+      "text": "TRY MOVING TEN FEET. YOUR PHONE APPARENTLY NEEDS A NEW ZIP CODE.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.013",
+      "text": "YOUR PHONE JUST TURNED “SMART” INTO A SUGGESTION.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_offline.014",
+      "text": "GET YOUR CRAP PHONE BACK ONLINE SO WE CAN CONTINUE MOCKING YOU.",
+      "events": [
+        "auth.offline"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.001",
+      "text": "FORGOT YOUR PASSWORD? YOUR PHONE LITERALLY REMEMBERS THEM FOR YOU.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.002",
+      "text": "NEW PASSWORD. USE THE FUCKING PASSWORD MANAGER THIS TIME.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.003",
+      "text": "YOUR MEMORY FAILED. GOOD THING YOUR PHONE HAS A PASSWORD APP.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.004",
+      "text": "STOP TRYING TO REMEMBER PASSWORDS. YOUR PHONE HAS ONE JOB FOR THIS.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.005",
+      "text": "YOU OWN A SMARTPHONE. LET IT BE SMARTER THAN YOU.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.006",
+      "text": "PASSWORD RESET. NOW HIT “SAVE PASSWORD” LIKE A FUNCTIONING ADULT.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.007",
+      "text": "YOUR PHONE OFFERED TO SAVE IT LAST TIME, DIDN’T IT?",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.008",
+      "text": "NEW PASSWORD CREATED. HAND IT TO THE PASSWORD MANAGER BEFORE YOU FORGET IT TOO.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.009",
+      "text": "QUIT TRUSTING YOUR BRAIN. THE PASSWORD APP HAS A BETTER RECORD.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed_recovery.010",
+      "text": "WE GOT YOU BACK IN. NOW LET YOUR DAMN PHONE REMEMBER THE PASSWORD.",
+      "events": [
+        "auth.password_changed.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
       "id": "banter.auth_password_changed.001",
       "text": "PASSWORD CHANGED. TRY REMEMBERING THIS ONE.",
       "events": [
@@ -1940,6 +2836,202 @@
       "text": "NEW PASSWORD. SAME PHONE. USE THE FUCKING PASSWORD MANAGER.",
       "events": [
         "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.001",
+      "text": "THAT PASSWORD IS WEAK AS SHIT. TRY AGAIN.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.002",
+      "text": "YOUR PASSWORD NEEDS MORE EFFORT THAN THAT.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.003",
+      "text": "THAT’S NOT A PASSWORD. THAT’S A CRY FOR HELP.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.004",
+      "text": "YOUR PHONE CAN GENERATE A BETTER PASSWORD THAN YOU. LET IT.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.005",
+      "text": "STOP INVENTING PASSWORDS. USE THE DAMN PASSWORD MANAGER.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.006",
+      "text": "THAT PASSWORD COULDN’T PROTECT A BAG OF TEES.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.007",
+      "text": "LET YOUR PHONE GENERATE ONE BEFORE THIS GETS SAD.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.008",
+      "text": "THAT PASSWORD NEEDS SOME FUCKING BACKBONE.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.009",
+      "text": "YOUR PASSWORD MANAGER IS RIGHT THERE. USE IT.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.010",
+      "text": "MAKE IT LONGER. MAKE IT STRONGER. MAKE IT LESS TERRIBLE.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.011",
+      "text": "THAT PASSWORD IS ABOUT AS SECURE AS A SCREEN DOOR.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.012",
+      "text": "TRY AGAIN WITH SOMETHING AN EIGHT-YEAR-OLD WOULDN’T GUESS.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.013",
+      "text": "THE PASSWORD MANAGER WAS BUILT FOR EXACTLY THIS MOMENT.",
+      "events": [
+        "auth.password_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_invalid.014",
+      "text": "GENERATE ONE. SAVE IT. MOVE ON WITH YOUR LIFE.",
+      "events": [
+        "auth.password_invalid"
       ],
       "audiences": [
         "everyone"
@@ -2370,6 +3462,762 @@
       "weight": 1
     },
     {
+      "id": "banter.auth_recovery_failed.001",
+      "text": "NOPE. THAT AIN’T THE KEY.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.002",
+      "text": "WRONG RECOVERY KEY. SHOCKING DEVELOPMENT.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.003",
+      "text": "THAT KEY OPENS ABSOLUTELY NOTHING.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.004",
+      "text": "YOU FOUND A KEY. JUST NOT THE RIGHT ONE.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.005",
+      "text": "THE ACCOUNT HAS NEVER SEEN THAT KEY IN ITS LIFE.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.006",
+      "text": "WRONG KEY, CHAMP. GIVE IT ANOTHER SHOT.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.007",
+      "text": "THAT’S NOT YOUR RECOVERY KEY. WE CHECKED.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.008",
+      "text": "YOUR KEY AND YOUR ACCOUNT ARE CURRENTLY STRANGERS.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.009",
+      "text": "CLOSE. ACTUALLY, NO. NOT CLOSE.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.010",
+      "text": "THIS WOULD WORK BETTER WITH THE RIGHT KEY.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.011",
+      "text": "THE KEY IS WRONG. THE FORM IS NOT BEING DIFFICULT.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.012",
+      "text": "GO FIND THE ONE YOU WERE SUPPOSED TO SAVE.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.013",
+      "text": "THAT RANDOM STRING OF CHARACTERS IS NOT IMPRESSING ANYONE.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.014",
+      "text": "WRONG KEY. MAYBE STOP GUESSING.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.015",
+      "text": "THE ACCOUNT SAID “NEVER MET THIS KEY.”",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.016",
+      "text": "TRY AGAIN WITH 100% MORE CORRECT KEY.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.017",
+      "text": "YOU’RE LOSING TO ACCOUNT RECOVERY NOW.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.018",
+      "text": "RECOVERY KEY INVALID. THAT’S COMPUTER FOR “NOPE.”",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.019",
+      "text": "CHECK THE KEY. THEN CHECK IT AGAIN.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.020",
+      "text": "WRONG KEY. YOUR ACCOUNT REMAINS UNIMPRESSED.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_failed.021",
+      "text": "THE GOOD NEWS: YOU FOUND RECOVER. THE BAD NEWS: WRONG FUCKING KEY.",
+      "events": [
+        "auth.recovery_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.001",
+      "text": "THAT DOESN’T EVEN LOOK LIKE THE FUCKING KEY.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.002",
+      "text": "EIGHT CHARACTERS. ONE DASH. WE BELIEVE IN YOU.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.003",
+      "text": "THE DASH ISN’T JUST THERE FOR DECORATION.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.004",
+      "text": "YOU’RE NOT EVEN AT “WRONG KEY” YET. FIX THE FORMAT.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.005",
+      "text": "LOOK AT THE EXAMPLE. THEN LOOK AT WHATEVER THE HELL YOU TYPED.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.006",
+      "text": "THIS IS WHY WE SHOWED YOU THE FORMAT.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.007",
+      "text": "SOMEWHERE, YOUR ACTUAL RECOVERY KEY IS EMBARRASSED FOR YOU.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.008",
+      "text": "THE KEY HAS A SHAPE. THAT AIN’T IT.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.009",
+      "text": "TRY AGAIN WITH THE WHOLE DAMN KEY.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.010",
+      "text": "XXXX-XXXX. NOT ABSTRACT ART.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.011",
+      "text": "WE CAN’T CHECK THE KEY UNTIL YOU ACTUALLY ENTER A KEY.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.012",
+      "text": "TYPE WHAT YOU WROTE DOWN, NOT WHAT YOUR BRAIN REMEMBERS.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.013",
+      "text": "FIX THE FORMAT FIRST. THEN WE CAN FIND OUT IF YOU’RE ACTUALLY WRONG.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.014",
+      "text": "YOU HAD EIGHT CHARACTERS TO COPY. SOMEHOW WE’RE HERE.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_invalid_format.015",
+      "text": "THE EXAMPLE IS LITERALLY SITTING RIGHT THERE.",
+      "events": [
+        "auth.recovery_key_invalid_format"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.001",
+      "text": "WE’RE GIVING YOU A RECOVERY KEY BECAUSE “I FORGOT MY PASSWORD” IS APPARENTLY A WHOLE LIFESTYLE.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.002",
+      "text": "HERE’S YOUR RECOVERY KEY. FUTURE YOU IS ALREADY MAKING EXCUSES.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.003",
+      "text": "WE DON’T KNOW WHY WE’RE TRUSTING YOU WITH THIS, BUT HERE WE ARE.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.004",
+      "text": "WRITE THIS DOWN. WE’RE REMOVING “I DIDN’T HAVE A WAY BACK IN” FROM YOUR FUTURE EXCUSES.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.005",
+      "text": "THIS KEY EXISTS SO YOU CAN’T BLAME US WHEN YOU FORGET YOUR PASSWORD.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.006",
+      "text": "WE’RE GIVING YOU A BACKUP PLAN BECAUSE YOUR MEMORY DOESN’T INSPIRE CONFIDENCE.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.007",
+      "text": "HERE’S THE RECOVERY KEY. TRY NOT TO TURN THIS INTO A SECOND PROBLEM.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.008",
+      "text": "YOU GET ONE RECOVERY KEY AND ZERO EXCUSES.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.009",
+      "text": "WRITE IT DOWN. FUTURE YOU DOESN’T GET TO SAY WE DIDN’T WARN YOU.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.010",
+      "text": "WE’RE TAKING “BUT I FORGOT MY PASSWORD” OFF THE TABLE RIGHT NOW.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.011",
+      "text": "THIS IS YOUR RECOVERY KEY. SAVE IT SOMEWHERE SAFE AND REMOVE ONE FUTURE EXCUSE.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.012",
+      "text": "CONGRATS. YOU NOW HAVE A PLAN B FOR WHEN YOUR BRAIN SHITS THE BED.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.013",
+      "text": "WE MADE YOU A RECOVERY KEY BECAUSE APPARENTLY PASSWORDS ARE TOO MUCH RESPONSIBILITY.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.014",
+      "text": "HERE’S YOUR EMERGENCY KEY. NO CRYING TO US LATER.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.015",
+      "text": "WE’RE GIVING YOU THIS NOW SO FUTURE-YOU CAN’T PRETEND THIS WAS OUR FAULT.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.016",
+      "text": "WE’RE GIVING YOU A SECOND CHANCE BEFORE YOU EVEN NEED ONE. THAT’S HOW LITTLE FAITH WE HAVE.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.017",
+      "text": "HERE’S THE KEY. YOUR FUTURE EXCUSES HAVE JUST BEEN PREEMPTIVELY DENIED.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_issued.018",
+      "text": "SAVE THIS FUCKING KEY. WE’RE OFFICIALLY OUT OF EXCUSES AFTER THAT.",
+      "events": [
+        "auth.recovery_key_issued"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
       "id": "banter.auth_recovery_key_warning.001",
       "text": "SAVE THIS FUCKING KEY. SERIOUSLY.",
       "events": [
@@ -2682,6 +4530,930 @@
       "text": "SAVE IT NOW. YOU CAN BE IRRESPONSIBLE AGAIN IN A MINUTE.",
       "events": [
         "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.001",
+      "text": "LOOK WHO HAS TO REMEMBER THEIR PASSWORD AGAIN.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.002",
+      "text": "TIME TO FIND OUT IF YOU USED THE DAMN PASSWORD MANAGER.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.003",
+      "text": "SESSION’S DEAD. YOUR ACCOUNT IS FINE. CALM DOWN.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.004",
+      "text": "WELCOME BACK TO THE LOGIN SCREEN, CHAMP.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.005",
+      "text": "YOU’VE BEEN GONE SO LONG WE FORGOT YOU FIRST.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.006",
+      "text": "SIGN IN AGAIN. TRY NOT TO MAKE IT AN ORDEAL.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.007",
+      "text": "YOUR SESSION CLOCKED OUT BEFORE YOU DID.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.008",
+      "text": "THIS IS YOUR PASSWORD MANAGER’S MOMENT TO SHINE.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.009",
+      "text": "BACK TO SIGN IN. DON’T START WHINING.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.010",
+      "text": "YOUR ACCOUNT’S STILL THERE. YOUR SESSION ISN’T.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.011",
+      "text": "SIGN IN AGAIN. YES, AGAIN.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.012",
+      "text": "SESSION EXPIRED. TECHNOLOGY HAS ABANDONED YOU TEMPORARILY.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.013",
+      "text": "HOPE YOUR PHONE REMEMBERED THE PASSWORD, BECAUSE YOU PROBABLY DIDN’T.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.014",
+      "text": "YOU’RE NOT LOCKED OUT. STOP LOOKING SO WORRIED.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.015",
+      "text": "TIME FOR ANOTHER THRILLING ROUND OF “DO I REMEMBER MY PASSWORD?”",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.016",
+      "text": "YOUR LOGIN TOOK A NAP. WAKE IT BACK UP.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_session_expired.017",
+      "text": "SIGN BACK IN AND GET ON WITH THE SHITSHOW.",
+      "events": [
+        "auth.session_expired"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.001",
+      "text": "HOLY SHIT, THIS ONE ACTUALLY ISN’T YOUR FAULT.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.002",
+      "text": "OUR SHIT BROKE. ENJOY THIS RARE MOMENT OF INNOCENCE.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.003",
+      "text": "THE SERVER SHIT THE BED. YOU’RE OFF THE HOOK.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.004",
+      "text": "CONGRATULATIONS. FOR ONCE, YOU DID NOTHING WRONG.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.005",
+      "text": "SOMETHING BROKE AND, SHOCKINGLY, IT WASN’T YOU.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.006",
+      "text": "OUR BAD. DON’T GET USED TO HEARING THAT.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.007",
+      "text": "TECHNOLOGY FAILED YOU BEFORE YOU COULD FAIL YOURSELF.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.008",
+      "text": "THIS ERROR BELONGS TO US. YOUR TURN WILL COME.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.009",
+      "text": "OUR SHIT IS TEMPORARILY MORE BROKEN THAN YOUR GOLF GAME.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_system_error.010",
+      "text": "YOU DID IT RIGHT. WE KNOW, WE’RE SURPRISED TOO.",
+      "events": [
+        "auth.system_error"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.001",
+      "text": "THAT USERNAME IS A FUCKING MESS. TRY AGAIN.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.002",
+      "text": "WE GAVE YOU LETTERS AND NUMBERS. SOMEHOW THIS GOT COMPLICATED.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.003",
+      "text": "THAT’S NOT A USERNAME. THAT’S AN INCIDENT.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.004",
+      "text": "KEEP IT SIMPLE, CHAMP.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.005",
+      "text": "YOU’RE NAMING AN ACCOUNT, NOT LAUNCHING A ROCKET.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.006",
+      "text": "THE USERNAME BOX HAS RULES. WILD CONCEPT.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.007",
+      "text": "TRY SOMETHING THE APP CAN ACTUALLY READ.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.008",
+      "text": "YOU FOUND A WAY TO LOSE TO A TEXT BOX.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.009",
+      "text": "THAT NAME NEEDS LESS CHAOS.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.010",
+      "text": "LET’S TRY THAT AGAIN WITHOUT THE WEIRD SHIT.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.011",
+      "text": "THREE TO SIXTEEN CHARACTERS. YOU’VE GOT THIS. PROBABLY.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.012",
+      "text": "THE FORM ISN’T BEING PICKY. YOU’RE BEING CREATIVE IN THE WRONG WAY.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.013",
+      "text": "PICK A NORMAL-ISH USERNAME AND MOVE ON.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.014",
+      "text": "WE’RE NOT ACCEPTING WHATEVER THE HELL THAT WAS.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.015",
+      "text": "YOUR USERNAME JUST FAILED BASIC TRAINING.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.016",
+      "text": "TRY AGAIN WITH FEWER BAD IDEAS.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.017",
+      "text": "THAT USERNAME WENT STRAIGHT INTO THE ROUGH.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.018",
+      "text": "LETTERS. NUMBERS. A FEW PUNCTUATION MARKS. DON’T OVERTHINK IT.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.019",
+      "text": "YOU’RE MAKING ACCOUNT CREATION WAY HARDER THAN IT IS.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_invalid.020",
+      "text": "FIX THE USERNAME, SNOWFLAKE. YOU’LL SURVIVE.",
+      "events": [
+        "auth.username_invalid"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.001",
+      "text": "SOMEBODY ALREADY STOLE YOUR BRILLIANT IDEA.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.002",
+      "text": "TOO SLOW, CHAMP. SOMEBODY GOT THERE FIRST.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.003",
+      "text": "APPARENTLY THERE’S ALREADY ONE OF YOU. THAT’S PLENTY.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.004",
+      "text": "THAT USERNAME IS TAKEN. TRY BEING ORIGINAL FOR ONCE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.005",
+      "text": "SORRY, YOUR MASTERPIECE OF A USERNAME ALREADY EXISTS.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.006",
+      "text": "SOMEBODY BEAT YOU TO IT. HOW EMBARRASSING.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.007",
+      "text": "THAT NAME’S TAKEN. THE INTERNET REMAINS UNIMPRESSED.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.008",
+      "text": "PICK ANOTHER ONE. YES, THIS REQUIRES CREATIVITY.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.009",
+      "text": "TAKEN. DIG DEEP AND FIND ANOTHER THREE BRAIN CELLS.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.010",
+      "text": "THAT USERNAME ALREADY HAS AN OWNER. MOVE ALONG.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.011",
+      "text": "YOU’RE NOT THE FIRST GENIUS TO THINK OF THAT ONE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.012",
+      "text": "SOMEBODY ELSE ALREADY CLAIMED YOUR IDENTITY. RUDE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.013",
+      "text": "NOPE. THAT ONE BELONGS TO ANOTHER DISASTER.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.014",
+      "text": "USERNAME TAKEN. TIME FOR PLAN B, ASSUMING YOU HAVE ONE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.015",
+      "text": "THAT NAME’S OCCUPIED. GO INVENT ANOTHER ONE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.016",
+      "text": "CONGRATS, YOU PICKED SOMETHING SOMEONE ELSE ALREADY PICKED.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.017",
+      "text": "TAKEN. THIS MAY BE THE MOST COMPETITIVE THING YOU DO TODAY.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.018",
+      "text": "THAT USERNAME IS ALREADY IN PLAY. CALL AN AUDIBLE.",
+      "events": [
+        "auth.username_taken"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_username_taken.019",
+      "text": "PICK ANOTHER USERNAME, SNOWFLAKE. YOU’LL GET THROUGH THIS.",
+      "events": [
+        "auth.username_taken"
       ],
       "audiences": [
         "everyone"
