@@ -17,10 +17,15 @@
   const recoverForm = document.getElementById('recover-form');
   const recoveryCard = document.getElementById('recovery-key-card');
   const recoveryKeyValue = document.getElementById('recovery-key-value');
+  const recoveryKeyStatus = document.getElementById('recovery-key-status');
+  const recoveryKeyInstruction = document.getElementById('recovery-key-instruction');
+  const recoveryKeySnark = document.getElementById('recovery-key-snark');
   const recoveryKeyCopy = document.getElementById('copy-recovery-key');
   const recoveryKeyContinue = document.getElementById('recovery-key-continue');
   const logoutButton = document.getElementById('logout-button');
   const welcomeKicker = document.getElementById('home-welcome-kicker');
+  const homeHeckle = document.getElementById('home-heckle');
+  const homeHeckleText = document.getElementById('home-heckle-text');
   const settingsButton = document.getElementById('settings-button');
   const settingsModal = document.getElementById('settings-modal');
   const settingsClose = document.getElementById('settings-close');
@@ -30,6 +35,7 @@
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
   const installOnboardingInstructions = document.getElementById('install-onboarding-instructions');
+  const installOnboardingHeckle = document.getElementById('install-onboarding-heckle');
   const installOnboardingPrimary = document.getElementById('install-onboarding-primary');
   const installOnboardingSkip = document.getElementById('install-onboarding-skip');
   const startRoundButton = document.getElementById('start-round-button');
@@ -38,6 +44,8 @@
   const roundFlowClose = document.getElementById('round-flow-close');
   const roundFlowTitle = document.getElementById('round-flow-title');
   const roundFlowMessage = document.getElementById('round-flow-message');
+  const roundSetupHeckle = document.getElementById('round-setup-heckle');
+  const roundSetupHeckleText = document.getElementById('round-setup-heckle-text');
   const startRoundForm = document.getElementById('start-round-form');
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
@@ -202,9 +210,21 @@
   let authHeckleResumeTimer = null;
   let authHeckleFadeTimer = null;
   let authHeckleLoadPromise = null;
+  let authHeckleEventKey = '';
+  const authMessageCache = new Map();
+  const userMessageCache = new Map();
+  const userHeckleTimers = new Map();
+  const userHeckleLastIds = new Map();
 
   const AUTH_HECKLE_ROTATE_MS = 5000;
   const AUTH_HECKLE_RESUME_MS = 9000;
+  const USER_HECKLE_ROTATE_MS = 7000;
+
+  const AUTH_IDLE_EVENTS = {
+    login: 'auth.signin.idle',
+    register: 'auth.create_account.idle',
+    recover: 'auth.recover.idle',
+  };
 
   const INSTALL_ONBOARDING_ASSETS = [
     '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp',
@@ -273,7 +293,7 @@
     settingsForm.elements.wife.checked =
       Boolean(preferences?.themes?.wife);
 
-    const vulgarity = String(preferences?.max_vulgarity || 'normal');
+    const vulgarity = String(preferences?.max_vulgarity || 'brutal');
     const radio = settingsForm.querySelector(
       `input[name="max_vulgarity"][value="${vulgarity}"]`
     );
@@ -313,12 +333,16 @@
         body: body === undefined ? undefined : JSON.stringify(body),
       });
     } catch (_error) {
-      throw new Error('Could not reach the server.');
+      const error = new Error('Could not reach the server.');
+      error.kind = 'network';
+      throw error;
     }
 
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(payload.error || `Request failed (${response.status})`);
+      const error = new Error(payload.error || `Request failed (${response.status})`);
+      error.status = response.status;
+      throw error;
     }
     return payload;
   };
@@ -333,6 +357,32 @@
       ];
     }
     return shuffled;
+  };
+
+  const pickMessage = (rows, previousId = '') => {
+    if (!rows.length) return null;
+    const choices = rows.length > 1
+      ? rows.filter((row) => row.id !== previousId)
+      : rows;
+    return choices[Math.floor(Math.random() * choices.length)] || null;
+  };
+
+  const loadMessageBank = async (eventKey, { authenticated = false } = {}) => {
+    const cache = authenticated ? userMessageCache : authMessageCache;
+    if (cache.has(eventKey)) return cache.get(eventKey);
+
+    const endpoint = authenticated
+      ? '/api/content/messages/user'
+      : '/api/content/messages';
+    const payload = await requestJson(
+      `${endpoint}?event=${encodeURIComponent(eventKey)}`,
+      { authenticated },
+    );
+    const rows = (payload.messages || []).filter(
+      (row) => row && row.id && row.text
+    );
+    cache.set(eventKey, rows);
+    return rows;
   };
 
   const refillAuthHeckleBag = () => {
@@ -390,10 +440,28 @@
     if (hide && authHeckle) authHeckle.hidden = true;
   };
 
-  const startAuthHeckles = ({ advance = true } = {}) => {
+  const currentAuthIdleEvent = () => (
+    AUTH_IDLE_EVENTS[currentAuthView] || 'auth.signin.idle'
+  );
+
+  const startAuthHeckles = async ({
+    eventKey = currentAuthIdleEvent(),
+    advance = true,
+  } = {}) => {
     stopAuthHeckles();
+    authHeckleEventKey = eventKey;
+
+    try {
+      authHeckleRows = await loadMessageBank(eventKey, {
+        authenticated: false,
+      });
+    } catch (_error) {
+      if (authHeckle) authHeckle.hidden = true;
+      return;
+    }
+
     if (
-      currentAuthView !== 'login'
+      authHeckleEventKey !== eventKey
       || !authHeckleRows.length
       || !authShell
       || authShell.hidden
@@ -401,27 +469,45 @@
       return;
     }
 
+    authHeckleBag = [];
     if (advance) renderAuthHeckle(nextAuthHeckle());
     authHeckleInterval = window.setInterval(() => {
-      if (currentAuthView === 'login') {
+      if (
+        authHeckleEventKey === eventKey
+        && currentAuthIdleEvent() === eventKey
+      ) {
         renderAuthHeckle(nextAuthHeckle());
       }
     }, AUTH_HECKLE_ROTATE_MS);
   };
 
+  const showAuthHeckleOnce = async (eventKey) => {
+    stopAuthHeckles();
+    authHeckleEventKey = eventKey;
+    try {
+      const rows = await loadMessageBank(eventKey, { authenticated: false });
+      const row = pickMessage(rows, authHeckleLastId);
+      if (row) {
+        authHeckleLastId = row.id;
+        renderAuthHeckle(row);
+      }
+    } catch (_error) {
+      // Plain validation/error copy still tells the user what happened.
+    }
+  };
+
   const scheduleAuthHeckleResume = () => {
-    if (currentAuthView !== 'login') return;
+    const eventKey = currentAuthIdleEvent();
     if (authHeckleResumeTimer) {
       window.clearTimeout(authHeckleResumeTimer);
     }
     authHeckleResumeTimer = window.setTimeout(() => {
       authHeckleResumeTimer = null;
-      startAuthHeckles({ advance: true });
+      void startAuthHeckles({ eventKey, advance: true });
     }, AUTH_HECKLE_RESUME_MS);
   };
 
   const pauseAuthHecklesForInteraction = () => {
-    if (currentAuthView !== 'login') return;
     if (authHeckleInterval) {
       window.clearInterval(authHeckleInterval);
       authHeckleInterval = null;
@@ -429,39 +515,235 @@
     scheduleAuthHeckleResume();
   };
 
-  const ensureAuthHecklesLoaded = async () => {
-    if (authHeckleRows.length) {
-      startAuthHeckles({
-        advance: Boolean(authHeckle?.hidden || !authHeckleText?.textContent),
-      });
+  const authFailureDetails = (error, fallbackEvent) => {
+    const raw = String(error?.message || 'Something went wrong.');
+    const lower = raw.toLowerCase();
+
+    if (error?.kind === 'network') {
+      return navigator.onLine === false
+        ? {
+            message: 'NO INTERNET CONNECTION — CHECK YOUR SIGNAL AND TRY AGAIN.',
+            event: 'auth.offline',
+          }
+        : {
+            message: 'WE COULDN’T REACH THE SERVER — TRY AGAIN.',
+            event: 'auth.system_error',
+          };
+    }
+    if (Number(error?.status) >= 500 || lower.includes('database request failed')) {
+      return {
+        message: 'OUR SERVER HIT A PROBLEM — TRY AGAIN.',
+        event: 'auth.system_error',
+      };
+    }
+    if (lower.includes('username is already taken')) {
+      return {
+        message: 'USERNAME ALREADY TAKEN — PICK ANOTHER.',
+        event: 'auth.username_taken',
+      };
+    }
+    if (lower.includes('username must be 3-16')) {
+      return {
+        message: 'USERNAME MUST BE 3–16 CHARACTERS USING LETTERS, NUMBERS, ., _, OR -.',
+        event: 'auth.username_invalid',
+      };
+    }
+    if (lower.includes('display_name must be between 1 and 20')) {
+      return {
+        message: 'DISPLAY NAME MUST BE 1–20 CHARACTERS.',
+        event: 'auth.display_name_invalid',
+      };
+    }
+    if (lower.includes('password must be between 10 and 128')) {
+      return {
+        message: 'PASSWORD MUST BE AT LEAST 10 CHARACTERS.',
+        event: 'auth.password_invalid',
+      };
+    }
+    if (lower.includes('password cannot be all numbers')) {
+      return {
+        message: 'PASSWORD CAN’T BE ALL NUMBERS.',
+        event: 'auth.password_invalid',
+      };
+    }
+    if (lower.includes('password cannot be a single word')) {
+      return {
+        message: 'PASSWORD CAN’T BE A SINGLE WORD.',
+        event: 'auth.password_invalid',
+      };
+    }
+    if (lower.includes('password is too obvious')) {
+      return {
+        message: 'THAT PASSWORD IS TOO OBVIOUS.',
+        event: 'auth.password_invalid',
+      };
+    }
+    if (lower.includes('recovery key must use the format')) {
+      return {
+        message: 'RECOVERY KEY MUST LOOK LIKE XXXX-XXXX.',
+        event: 'auth.recovery_key_invalid_format',
+      };
+    }
+    if (lower.includes('recovery key not found')) {
+      return {
+        message: 'THAT RECOVERY KEY DOESN’T MATCH AN ACCOUNT.',
+        event: 'auth.recovery_failed',
+      };
+    }
+    if (lower.includes('invalid username or password')) {
+      return {
+        message: 'USERNAME OR PASSWORD IS INCORRECT.',
+        event: 'auth.login_failed',
+      };
+    }
+
+    return {
+      message: raw.toUpperCase(),
+      event: fallbackEvent,
+    };
+  };
+
+  const showAuthFailure = async (error, fallbackEvent) => {
+    const details = authFailureDetails(error, fallbackEvent);
+    setAuthMessage(details.message);
+    await showAuthHeckleOnce(details.event);
+  };
+
+  const validateNewPassword = (value) => {
+    const password = String(value || '');
+    const lowered = password.trim().toLowerCase();
+    const compact = lowered.replace(/[^a-z0-9]+/g, '');
+    const obvious = new Set([
+      'password123',
+      'password1234',
+      'letmein123',
+      'qwerty1234',
+      'welcome123',
+      'golfgolfgolf',
+    ]);
+    const sequences = [
+      '01234567890123456789',
+      '98765432109876543210',
+      'abcdefghijklmnopqrstuvwxyz',
+      'zyxwvutsrqponmlkjihgfedcba',
+      'qwertyuiopasdfghjklzxcvbnm',
+    ];
+
+    if (password.length < 10 || password.length > 128) {
+      return new Error('password must be between 10 and 128 characters');
+    }
+    if (/^\d+$/.test(password)) {
+      return new Error('password cannot be all numbers');
+    }
+    if (/^[A-Za-z]+$/.test(password)) {
+      return new Error('password cannot be a single word');
+    }
+    if (
+      lowered
+      && (
+        new Set(lowered).size === 1
+        || obvious.has(lowered)
+        || obvious.has(compact)
+        || sequences.some((source) => source.includes(lowered))
+      )
+    ) {
+      return new Error('password is too obvious');
+    }
+    return null;
+  };
+
+  const validateRegisterValues = (values) => {
+    const displayName = String(values.get('display_name') || '').trim();
+    const username = String(values.get('username') || '').trim().toLowerCase();
+    const password = String(values.get('password') || '');
+
+    if (displayName.length < 1 || displayName.length > 20) {
+      return new Error('display_name must be between 1 and 20 characters');
+    }
+    if (!/^[a-z0-9][a-z0-9_.-]{2,15}$/.test(username)) {
+      return new Error(
+        'username must be 3-16 characters using letters, numbers, ., _, or -'
+      );
+    }
+    return validateNewPassword(password);
+  };
+
+  const validateRecoveryValues = (values) => {
+    const key = String(values.get('recovery_key') || '').trim().toUpperCase();
+    const current = /^[A-HJ-KM-NP-Z2-9]{4}-[A-HJ-KM-NP-Z2-9]{4}$/;
+    const legacy = /^[A-HJ-KM-NP-Z2-9]{4}(?:-[A-HJ-KM-NP-Z2-9]{4}){3}$/;
+    if (!current.test(key) && !legacy.test(key)) {
+      return new Error('recovery key must use the format XXXX-XXXX');
+    }
+    return validateNewPassword(values.get('new_password'));
+  };
+
+  const stopUserHeckle = (name, { hide = false } = {}) => {
+    const timer = userHeckleTimers.get(name);
+    if (timer) window.clearInterval(timer);
+    userHeckleTimers.delete(name);
+
+    const target = {
+      home: homeHeckle,
+      roundSetup: roundSetupHeckle,
+      install: installOnboardingHeckle,
+    }[name];
+    if (hide && target) target.hidden = true;
+  };
+
+  const userHeckleTarget = (name) => ({
+    home: { container: homeHeckle, text: homeHeckleText },
+    roundSetup: { container: roundSetupHeckle, text: roundSetupHeckleText },
+    install: { container: installOnboardingHeckle, text: installOnboardingHeckle },
+  }[name] || {});
+
+  const renderUserHeckle = (name, row) => {
+    const { container, text } = userHeckleTarget(name);
+    if (!container || !text || !row?.text) return;
+    text.textContent = row.text;
+    container.hidden = false;
+    userHeckleLastIds.set(name, row.id);
+  };
+
+  const showUserHeckleOnce = async (name, eventKey) => {
+    stopUserHeckle(name);
+    try {
+      const rows = await loadMessageBank(eventKey, { authenticated: true });
+      renderUserHeckle(
+        name,
+        pickMessage(rows, userHeckleLastIds.get(name) || ''),
+      );
+    } catch (_error) {
+      stopUserHeckle(name, { hide: true });
+    }
+  };
+
+  const startUserHeckles = async (name, eventKey, active) => {
+    stopUserHeckle(name);
+    let rows;
+    try {
+      rows = await loadMessageBank(eventKey, { authenticated: true });
+    } catch (_error) {
+      stopUserHeckle(name, { hide: true });
       return;
     }
-    if (authHeckleLoadPromise) {
-      await authHeckleLoadPromise;
+    if (!rows.length || !active()) {
+      stopUserHeckle(name, { hide: true });
       return;
     }
 
-    authHeckleLoadPromise = requestJson(
-      '/api/content/messages?event=auth.signin.idle',
-      { authenticated: false },
-    )
-      .then((payload) => {
-        authHeckleRows = (payload.messages || []).filter(
-          (row) => row && row.id && row.text
-        );
-        authHeckleBag = [];
-        if (currentAuthView === 'login') {
-          startAuthHeckles({ advance: true });
-        }
-      })
-      .catch(() => {
-        if (authHeckle) authHeckle.hidden = true;
-      })
-      .finally(() => {
-        authHeckleLoadPromise = null;
-      });
-
-    await authHeckleLoadPromise;
+    const rotate = () => {
+      if (!active()) return;
+      renderUserHeckle(
+        name,
+        pickMessage(rows, userHeckleLastIds.get(name) || ''),
+      );
+    };
+    rotate();
+    userHeckleTimers.set(
+      name,
+      window.setInterval(rotate, USER_HECKLE_ROTATE_MS),
+    );
   };
 
   const switchAuthView = (view) => {
@@ -478,11 +760,10 @@
       panel.hidden = panel.dataset.authPanel !== view;
     });
 
-    if (view === 'login') {
-      void ensureAuthHecklesLoaded();
-    } else {
-      stopAuthHeckles({ hide: true });
-    }
+    void startAuthHeckles({
+      eventKey: currentAuthIdleEvent(),
+      advance: true,
+    });
   };
 
   const showAuth = (view = 'login') => {
@@ -510,6 +791,7 @@
   };
 
   const closeInstallOnboarding = ({ remember = true } = {}) => {
+    stopUserHeckle('install', { hide: true });
     if (remember && installOnboardingAccountKey) {
       window.localStorage.setItem(installOnboardingAccountKey, '1');
     }
@@ -522,6 +804,18 @@
     if (installOnboardingPrimary) {
       installOnboardingPrimary.textContent = 'FINE. INSTALL THE DAMN THING.';
       installOnboardingPrimary.dataset.instructionsShown = '';
+    }
+    if (sessionToken()) {
+      void startUserHeckles(
+        'home',
+        'home.idle',
+        () => (
+          Boolean(appShell?.getAttribute('aria-hidden') !== 'true')
+          && Boolean(roundFlowModal?.hidden)
+          && Boolean(settingsModal?.hidden)
+          && Boolean(installOnboardingModal?.hidden)
+        ),
+      );
     }
   };
 
@@ -590,10 +884,16 @@
 
     installOnboardingModal.hidden = false;
     document.body.classList.add('modal-open');
+    stopUserHeckle('home');
+    void startUserHeckles(
+      'install',
+      'onboarding.install.idle',
+      () => Boolean(installOnboardingModal && !installOnboardingModal.hidden),
+    );
     installOnboardingPrimary?.focus();
   };
 
-  const showApp = (account) => {
+  const showApp = (account, { entryEvent = 'auth.welcome' } = {}) => {
     pendingAccount = null;
     stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
@@ -615,10 +915,31 @@
       }, 320);
     }
 
+    void showUserHeckleOnce('home', entryEvent).finally(() => {
+      window.setTimeout(() => {
+        void startUserHeckles(
+          'home',
+          'home.idle',
+          () => (
+            Boolean(appShell?.getAttribute('aria-hidden') !== 'true')
+            && Boolean(roundFlowModal?.hidden)
+            && Boolean(settingsModal?.hidden)
+            && Boolean(installOnboardingModal?.hidden)
+          ),
+        );
+      }, 5500);
+    });
+
     window.setTimeout(() => maybeShowInstallOnboarding(account), 0);
   };
 
-  const showRecoveryKey = (result) => {
+  const showRecoveryKey = (
+    result,
+    {
+      statusEvent = 'auth.account_created',
+      snarkEvent = 'auth.recovery_key_issued',
+    } = {},
+  ) => {
     pendingAccount = result.account || null;
     stopAuthHeckles({ hide: true });
     if (authTabs) authTabs.hidden = true;
@@ -627,20 +948,53 @@
     });
     setAuthMessage('');
     if (recoveryKeyValue) recoveryKeyValue.textContent = result.recovery_key || '';
-    if (recoveryKeyCopy) recoveryKeyCopy.textContent = 'COPY KEY';
+    if (recoveryKeyCopy) recoveryKeyCopy.textContent = 'COPIED? GOOD. KEEP IT SAFE.';
+    if (recoveryKeyInstruction) {
+      recoveryKeyInstruction.textContent = result.recovery_key_rotated
+        ? 'Your old recovery key is now invalid. Write this new key down and keep it somewhere physically safe.'
+        : 'Write this recovery key down and keep it somewhere physically safe.';
+    }
+    if (recoveryKeyStatus) recoveryKeyStatus.textContent = '';
+    if (recoveryKeySnark) recoveryKeySnark.textContent = '';
+
+    void loadMessageBank(statusEvent, { authenticated: false })
+      .then((rows) => {
+        const row = pickMessage(rows);
+        if (recoveryKeyStatus && row) recoveryKeyStatus.textContent = row.text;
+      })
+      .catch(() => {});
+
+    void loadMessageBank(snarkEvent, { authenticated: false })
+      .then((rows) => {
+        const row = pickMessage(rows);
+        if (recoveryKeySnark && row) recoveryKeySnark.textContent = row.text;
+      })
+      .catch(() => {});
+
     if (recoveryCard) recoveryCard.hidden = false;
   };
 
-  const acceptAuthResult = (result, { showRecovery = false } = {}) => {
+  const acceptAuthResult = (
+    result,
+    {
+      showRecovery = false,
+      recoveryStatusEvent,
+      recoverySnarkEvent,
+      entryEvent = 'auth.welcome',
+    } = {},
+  ) => {
     const token = result?.session?.token;
     if (!token) throw new Error('Server did not return a session token.');
     saveSession(token);
 
     if (showRecovery) {
-      showRecoveryKey(result);
+      showRecoveryKey(result, {
+        statusEvent: recoveryStatusEvent,
+        snarkEvent: recoverySnarkEvent,
+      });
       return;
     }
-    showApp(result.account);
+    showApp(result.account, { entryEvent });
   };
 
   const bootSession = async () => {
@@ -656,6 +1010,8 @@
     } catch (_error) {
       clearSession();
       showAuth('login');
+      setAuthMessage('YOUR SESSION EXPIRED — SIGN IN AGAIN.');
+      void showAuthHeckleOnce('auth.session_expired');
     }
   };
 
@@ -699,9 +1055,14 @@
     button.addEventListener('click', () => switchAuthView(button.dataset.authView));
   });
 
-  loginForm?.querySelectorAll('input').forEach((input) => {
-    input.addEventListener('focus', pauseAuthHecklesForInteraction);
-    input.addEventListener('input', pauseAuthHecklesForInteraction);
+  [loginForm, registerForm, recoverForm].forEach((form) => {
+    form?.querySelectorAll('input').forEach((input) => {
+      input.addEventListener('focus', pauseAuthHecklesForInteraction);
+      input.addEventListener('input', () => {
+        setAuthMessage('');
+        pauseAuthHecklesForInteraction();
+      });
+    });
   });
 
   loginForm?.addEventListener('submit', async (event) => {
@@ -722,7 +1083,7 @@
       acceptAuthResult(result);
       loginForm.reset();
     } catch (error) {
-      setAuthMessage(error.message);
+      await showAuthFailure(error, 'auth.login_failed');
     } finally {
       setFormBusy(loginForm, false);
     }
@@ -732,6 +1093,11 @@
     event.preventDefault();
     setAuthMessage('');
     const values = new FormData(registerForm);
+    const validationError = validateRegisterValues(values);
+    if (validationError) {
+      await showAuthFailure(validationError, 'auth.create_account_failed');
+      return;
+    }
     setFormBusy(registerForm, true);
 
     try {
@@ -744,10 +1110,14 @@
           password: values.get('password'),
         },
       });
-      acceptAuthResult(result, { showRecovery: true });
+      acceptAuthResult(result, {
+        showRecovery: true,
+        recoveryStatusEvent: 'auth.account_created',
+        recoverySnarkEvent: 'auth.recovery_key_issued',
+      });
       registerForm.reset();
     } catch (error) {
-      setAuthMessage(error.message);
+      await showAuthFailure(error, 'auth.create_account_failed');
     } finally {
       setFormBusy(registerForm, false);
     }
@@ -757,6 +1127,11 @@
     event.preventDefault();
     setAuthMessage('');
     const values = new FormData(recoverForm);
+    const validationError = validateRecoveryValues(values);
+    if (validationError) {
+      await showAuthFailure(validationError, 'auth.recovery_failed');
+      return;
+    }
     setFormBusy(recoverForm, true);
 
     try {
@@ -768,10 +1143,14 @@
           new_password: values.get('new_password'),
         },
       });
-      acceptAuthResult(result, { showRecovery: true });
+      acceptAuthResult(result, {
+        showRecovery: true,
+        recoveryStatusEvent: 'auth.password_changed.recovery',
+        recoverySnarkEvent: 'auth.recovery_key_warning',
+      });
       recoverForm.reset();
     } catch (error) {
-      setAuthMessage(error.message);
+      await showAuthFailure(error, 'auth.recovery_failed');
     } finally {
       setFormBusy(recoverForm, false);
     }
@@ -792,7 +1171,7 @@
 
   recoveryKeyContinue?.addEventListener('click', () => {
     if (pendingAccount) {
-      showApp(pendingAccount);
+      showApp(pendingAccount, { entryEvent: 'auth.welcome' });
     } else {
       showAuth('login');
     }
@@ -808,7 +1187,12 @@
       }
     }
     clearSession();
+    stopUserHeckle('home', { hide: true });
+    stopUserHeckle('roundSetup', { hide: true });
+    stopUserHeckle('install', { hide: true });
     showAuth('login');
+    setAuthMessage('SIGNED OUT.');
+    void showAuthHeckleOnce('auth.logout');
   });
 
   const teeOptionLabel = (tee) => {
@@ -1164,6 +1548,7 @@
 
   const closeRoundFlow = () => {
     if (!roundFlowModal) return;
+    stopUserHeckle('roundSetup', { hide: true });
     roundFlowModal.hidden = true;
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
@@ -1187,6 +1572,18 @@
       window.clearInterval(lobbyRefreshTimer);
       lobbyRefreshTimer = null;
     }
+    if (sessionToken()) {
+      void startUserHeckles(
+        'home',
+        'home.idle',
+        () => (
+          Boolean(appShell?.getAttribute('aria-hidden') !== 'true')
+          && Boolean(roundFlowModal?.hidden)
+          && Boolean(settingsModal?.hidden)
+          && Boolean(installOnboardingModal?.hidden)
+        ),
+      );
+    }
   };
 
   const resetClaimPlayerPanel = () => {
@@ -1198,6 +1595,8 @@
 
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
+    stopUserHeckle('home');
+    stopUserHeckle('roundSetup', { hide: true });
     roundFlowModal.hidden = false;
     document.body.classList.add('modal-open');
     setRoundFlowMessage('');
@@ -1218,6 +1617,14 @@
       setCourseMode(
         startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
         || 'course'
+      );
+      void startUserHeckles(
+        'roundSetup',
+        'round_setup.idle',
+        () => (
+          Boolean(roundFlowModal && !roundFlowModal.hidden)
+          && Boolean(startRoundForm && !startRoundForm.hidden)
+        ),
       );
     }
     roundFlowClose?.focus();
@@ -4178,6 +4585,18 @@
     if (!settingsModal) return;
     settingsModal.hidden = true;
     document.body.classList.remove('modal-open');
+    if (sessionToken()) {
+      void startUserHeckles(
+        'home',
+        'home.idle',
+        () => (
+          Boolean(appShell?.getAttribute('aria-hidden') !== 'true')
+          && Boolean(roundFlowModal?.hidden)
+          && Boolean(settingsModal?.hidden)
+          && Boolean(installOnboardingModal?.hidden)
+        ),
+      );
+    }
   };
 
   settingsButton?.addEventListener('click', openSettings);
@@ -4198,7 +4617,7 @@
         settingsForm.elements.mini_mascots_enabled.checked,
       trash_talk_enabled:
         settingsForm.elements.trash_talk_enabled.checked,
-      max_vulgarity: checkedVulgarity?.value || 'normal',
+      max_vulgarity: checkedVulgarity?.value || 'brutal',
       themes: {
         drinking: settingsForm.elements.drinking.checked,
         wife: settingsForm.elements.wife.checked,
@@ -4236,6 +4655,7 @@
       });
       populateSettings(preferences);
       populateProfileHandicap(account);
+      userMessageCache.clear();
       setSettingsMessage('Saved. Your bad decisions are now personalized.');
     } catch (error) {
       setSettingsMessage(error.message);
