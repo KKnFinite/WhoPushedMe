@@ -146,7 +146,12 @@ def build_home_background_webps():
             continue
 
         production = HOME_BACKGROUNDS / f"{source.stem}.webp"
-        make_webp(source, production, lossless=False)
+        if source.suffix.lower() == ".webp":
+            ensure_parent(production)
+            shutil.copy2(source, production)
+            print("WEBP:", production.relative_to(ROOT), "(copied exact source)")
+        else:
+            make_webp(source, production, lossless=False)
 
 
 def build_core_webps():
@@ -324,7 +329,7 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v44';
+    content = """const CACHE_NAME = 'wpm-shell-v45';
 
 const APP_SHELL = [
   '/',
@@ -337,7 +342,14 @@ const APP_SHELL = [
   '/static/icons/icon-192.png',
   '/static/icons/icon-512.png',
   '/static/assets/icons/WPM_DesktopIcon_Official.webp',
-  '/static/assets/brand/WPM_Splash_Login.webp'
+  '/static/assets/brand/WPM_Splash_Login.webp',
+  '/static/assets/brand/WPM_Wordmark.webp',
+  '/static/assets/home/WPM_Home_Mascot.png',
+  '/static/assets/home/backgrounds/WPM_Home_Background_SunriseBridge.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_BrightFairway.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_CreekBridge.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp',
+  '/static/assets/home/backgrounds/WPM_Home_Background_StormySunset.webp'
 ];
 
 self.addEventListener('install', (event) => {
