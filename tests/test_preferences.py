@@ -8,14 +8,14 @@ from who_pushed_me.content.preferences import (
 )
 
 
-def test_content_preferences_default_to_enabled_themes_and_normal_vulgarity():
+def test_content_preferences_default_to_enabled_themes_and_brutal_vulgarity():
     catalog = ContentCatalog.load()
     prefs = public_preferences(None, catalog.theme_rows)
 
     assert prefs == {
         "mini_mascots_enabled": True,
         "trash_talk_enabled": True,
-        "max_vulgarity": "normal",
+        "max_vulgarity": "brutal",
         "themes": {
             "drinking": True,
             "wife": True,
