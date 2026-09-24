@@ -20,6 +20,9 @@ from who_pushed_me.content.catalog import CONTENT_DIR, ContentCatalog, ContentEr
 from who_pushed_me.store import RoundStore
 MINI_SRC = ASSETS_SRC / "mascots" / "mini"
 MINI_PROD = ASSETS / "mascots" / "mini"
+HOME_BACKGROUND_SRC = ASSETS_SRC / "home" / "backgrounds"
+HOME_BACKGROUND_PROD = ASSETS / "home" / "backgrounds"
+HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 
 
 def _read(path: Path) -> dict:
@@ -734,6 +737,101 @@ def cmd_remove_mini(args: argparse.Namespace) -> None:
     print("Asset manifest and content metadata validated.")
 
 
+
+def _home_background_sources() -> list[Path]:
+    if not HOME_BACKGROUND_SRC.exists():
+        return []
+    return sorted(
+        path
+        for path in HOME_BACKGROUND_SRC.iterdir()
+        if path.is_file()
+        and path.suffix.lower() in HOME_BACKGROUND_SOURCE_EXTENSIONS
+    )
+
+
+def cmd_list_home_backgrounds(_: argparse.Namespace) -> None:
+    rows = _home_background_sources()
+    for source in rows:
+        production = HOME_BACKGROUND_PROD / f"{source.stem}.webp"
+        state = "READY" if production.exists() else "MISSING WEBP"
+        print(f"{source.stem:<52} {state}")
+    print(f"Home backgrounds: {len(rows)}")
+
+
+def cmd_add_home_background(args: argparse.Namespace) -> None:
+    source = Path(args.image).expanduser().resolve()
+    if not source.exists():
+        raise ContentError(f"background image not found: {source}")
+    if source.suffix.lower() not in HOME_BACKGROUND_SOURCE_EXTENSIONS:
+        raise ContentError(
+            "Home background source must be PNG, JPG, JPEG, or WebP"
+        )
+
+    raw_name = args.short_name or source.stem
+    prefix = "WPM_Home_Background_"
+    if raw_name.startswith(prefix):
+        raw_name = raw_name[len(prefix):]
+    stem = prefix + _pascal_slug(raw_name)
+
+    existing_sources = [
+        path
+        for path in _home_background_sources()
+        if path.stem == stem
+    ]
+    destination_webp = HOME_BACKGROUND_PROD / f"{stem}.webp"
+    if existing_sources or destination_webp.exists():
+        raise ContentError(f"Home background already exists: {stem}")
+
+    destination_source = HOME_BACKGROUND_SRC / f"{stem}{source.suffix.lower()}"
+    destination_source.parent.mkdir(parents=True, exist_ok=True)
+    destination_webp.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination_source)
+    make_webp(destination_source, destination_webp, lossless=False)
+    build_manifest()
+
+    print(f"Added Home background: {stem}")
+    print(f"Source: {destination_source.relative_to(ROOT)}")
+    print(f"WebP:   {destination_webp.relative_to(ROOT)}")
+    print("Registered in pool: home.backgrounds")
+
+
+def cmd_remove_home_background(args: argparse.Namespace) -> None:
+    token = args.name.strip()
+    prefix = "WPM_Home_Background_"
+    if token.startswith("home.background."):
+        token = token[len("home.background."):]
+    if token.startswith(prefix):
+        stem = token
+    else:
+        stem = prefix + _pascal_slug(token)
+
+    matches = [
+        path
+        for path in _home_background_sources()
+        if path.stem == stem
+    ]
+    production = HOME_BACKGROUND_PROD / f"{stem}.webp"
+
+    if not matches and not production.exists():
+        raise ContentError(f"Home background not found: {stem}")
+
+    if not args.yes:
+        answer = input(
+            f"Remove {stem} from the Home background pool? Type REMOVE to confirm: "
+        ).strip()
+        if answer != "REMOVE":
+            print("Cancelled.")
+            return
+
+    for path in [*matches, production]:
+        if path.exists():
+            path.unlink()
+            print(f"Removed: {path.relative_to(ROOT)}")
+
+    build_manifest()
+    print(f"Removed Home background: {stem}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="WHO PUSHED ME?! content administration")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -849,6 +947,32 @@ def build_parser() -> argparse.ArgumentParser:
         default="everyone",
     )
     add_banter.set_defaults(func=cmd_add_banter)
+
+    list_home_backgrounds = subparsers.add_parser(
+        "list-home-backgrounds",
+        help="list images in the rotating Home background pool",
+    )
+    list_home_backgrounds.set_defaults(func=cmd_list_home_backgrounds)
+
+    add_home_background = subparsers.add_parser(
+        "add-home-background",
+        help="import an image into the rotating Home background pool",
+    )
+    add_home_background.add_argument("image")
+    add_home_background.add_argument("--short-name")
+    add_home_background.set_defaults(func=cmd_add_home_background)
+
+    remove_home_background = subparsers.add_parser(
+        "remove-home-background",
+        help="remove one image from the rotating Home background pool",
+    )
+    remove_home_background.add_argument("name")
+    remove_home_background.add_argument(
+        "--yes",
+        action="store_true",
+        help="remove without interactive confirmation",
+    )
+    remove_home_background.set_defaults(func=cmd_remove_home_background)
 
     add_mini = subparsers.add_parser("add-mini", help="import a transparent mini PNG")
     add_mini.add_argument("png")
