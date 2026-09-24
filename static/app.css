@@ -3469,3 +3469,27 @@ body {
     min-height: 100dvh;
   }
 }
+
+/* HOME BACKGROUND ROTATION SURFACE */
+.app-shell.has-home-background {
+  min-height: 100dvh;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(5, 9, 7, .14) 0%,
+      rgba(5, 9, 7, .18) 42%,
+      rgba(5, 9, 7, .82) 74%,
+      var(--wpm-night) 100%
+    ),
+    var(--home-background-image);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+@supports (padding: max(0px)) {
+  .app-shell.has-home-background {
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+}
