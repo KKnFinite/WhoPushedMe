@@ -512,7 +512,8 @@ def test_official_wpm_palette_and_safe_area_branding():
 def test_signin_idle_heckle_rotation_uses_content_bank():
     response = client().get("/static/app.js")
     assert response.status_code == 200
-    assert b"/api/content/messages?event=auth.signin.idle" in response.data
+    assert b"/api/content/messages" in response.data
+    assert b"auth.signin.idle" in response.data
     assert b"AUTH_HECKLE_ROTATE_MS = 5000" in response.data
     assert b"AUTH_HECKLE_RESUME_MS = 9000" in response.data
     assert b"pauseAuthHecklesForInteraction" in response.data

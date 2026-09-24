@@ -84,3 +84,12 @@ def test_session_tokens_are_random_and_stored_as_hashes():
     assert len(first) >= 32
     assert len(hash_session_token(first)) == 64
     assert hash_session_token(first) != hash_session_token(second)
+
+
+def test_bootstrap_admin_username_is_exact_and_case_insensitive(monkeypatch):
+    from who_pushed_me.store import _is_bootstrap_admin
+
+    monkeypatch.setenv("WPM_BOOTSTRAP_ADMIN_USERNAME", "Kessler")
+    assert _is_bootstrap_admin("kessler")
+    assert not _is_bootstrap_admin("kessler2")
+    assert not _is_bootstrap_admin("notkessler")
