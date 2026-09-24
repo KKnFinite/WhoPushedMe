@@ -100,7 +100,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v42" in response.data
+    assert b"wpm-shell-v43" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -109,7 +109,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v42" in builder
+    assert "wpm-shell-v43" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -535,3 +535,32 @@ def test_auth_form_uses_locked_wpm_account_rules():
     assert b'name="password" type="password" autocomplete="new-password" minlength="10"' in response.data
     assert b'placeholder="XXXX-XXXX"' in response.data
     assert b'name="new_password" type="password" autocomplete="new-password" minlength="10"' in response.data
+
+
+def test_auth_and_idle_message_pools_are_wired_into_ui():
+    js = client().get("/static/app.js")
+    assert js.status_code == 200
+    assert b"auth.create_account.idle" in js.data
+    assert b"auth.recover.idle" in js.data
+    assert b"auth.login_failed" in js.data
+    assert b"auth.username_taken" in js.data
+    assert b"auth.password_invalid" in js.data
+    assert b"auth.recovery_failed" in js.data
+    assert b"auth.system_error" in js.data
+    assert b"auth.offline" in js.data
+    assert b"home.idle" in js.data
+    assert b"round_setup.idle" in js.data
+    assert b"onboarding.install.idle" in js.data
+    assert b"/api/content/messages/user" in js.data
+
+
+def test_account_forms_use_custom_validation_and_show_rules():
+    response = client().get("/")
+    assert response.status_code == 200
+    assert b'data-auth-panel="register" hidden novalidate' in response.data
+    assert b"10 characters minimum" in response.data
+    assert b"3\xe2\x80\x9316 characters" in response.data
+    assert b"Current keys look like XXXX-XXXX" in response.data
+    assert b'id="recovery-key-snark"' in response.data
+    assert b'id="home-heckle"' in response.data
+    assert b'id="round-setup-heckle"' in response.data

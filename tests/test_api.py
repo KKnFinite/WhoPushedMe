@@ -1689,3 +1689,26 @@ def test_public_content_endpoint_rejects_non_auth_message_banks():
     client, _ = client_with_store()
     response = client.get("/api/content/messages?event=round.start")
     assert response.status_code == 400
+
+
+def test_signed_in_content_messages_respect_user_preferences():
+    client, _ = client_with_store()
+    response = client.get(
+        "/api/content/messages/user?event=home.idle",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["event"] == "home.idle"
+    assert len(payload["messages"]) == 56
+    assert all(row["vulgarity"] == "normal" for row in payload["messages"])
+
+
+def test_admin_status_requires_admin_flag():
+    client, _ = client_with_store()
+    response = client.get(
+        "/api/admin/status",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert response.status_code == 403
+    assert response.get_json()["error"] == "admin account required"

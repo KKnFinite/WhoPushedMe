@@ -78,6 +78,8 @@ def validate_password(value: object) -> str:
 
     if password.isdigit():
         raise DomainError("password cannot be all numbers")
+    if password.isalpha():
+        raise DomainError("password cannot be a single word")
     if lowered and len(set(lowered)) == 1:
         raise DomainError("password is too obvious")
     if lowered in _SEQUENCE_SOURCES or any(

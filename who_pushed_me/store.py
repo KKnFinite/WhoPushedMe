@@ -66,6 +66,11 @@ from who_pushed_me.domain import (
 )
 
 
+def _is_bootstrap_admin(username: str) -> bool:
+    configured = os.getenv("WPM_BOOTSTRAP_ADMIN_USERNAME", "").strip().lower()
+    return bool(configured) and username == configured
+
+
 class RoundStore:
     def __init__(self, database_url: str | None = None) -> None:
         self.database_url = (
@@ -559,19 +564,7 @@ class RoundStore:
                             normalized_username,
                             password_hash,
                             recovery_hash,
-                            (
-                                normalized_username
-                                == os.getenv(
-                                    "WPM_BOOTSTRAP_ADMIN_USERNAME",
-                                    "",
-                                ).strip().lower()
-                                and bool(
-                                    os.getenv(
-                                        "WPM_BOOTSTRAP_ADMIN_USERNAME",
-                                        "",
-                                    ).strip()
-                                )
-                            ),
+                            _is_bootstrap_admin(normalized_username),
                         ),
                     )
                     golfer = cursor.fetchone()

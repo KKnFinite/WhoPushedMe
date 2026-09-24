@@ -42,6 +42,7 @@ def test_legacy_username_length_can_still_log_in():
         "abcdefghij",
         "password123",
         "basketball",
+        "abcdefghijk",
     ],
 )
 def test_new_password_policy_rejects_obvious_passwords(value):
