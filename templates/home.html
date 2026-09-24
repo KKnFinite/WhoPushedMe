@@ -40,7 +40,7 @@
 
       <p id="auth-message" class="auth-message" hidden></p>
 
-      <form id="login-form" class="auth-form" data-auth-panel="login">
+      <form id="login-form" class="auth-form" data-auth-panel="login" novalidate>
         <label>
           <span>USERNAME</span>
           <input name="username" autocomplete="username" maxlength="24" required>
@@ -52,31 +52,36 @@
         <button type="submit" class="auth-submit">GET IN THERE</button>
       </form>
 
-      <form id="register-form" class="auth-form" data-auth-panel="register" hidden>
+      <form id="register-form" class="auth-form" data-auth-panel="register" hidden novalidate>
         <label>
           <span>DISPLAY NAME</span>
           <input name="display_name" autocomplete="name" maxlength="20" required>
+          <small>1–20 characters.</small>
         </label>
         <label>
           <span>USERNAME</span>
           <input name="username" autocomplete="username" minlength="3" maxlength="16" required>
+          <small>3–16 characters. Letters, numbers, ., _, or -.</small>
         </label>
         <label>
           <span>PASSWORD</span>
           <input name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
+          <small>10 characters minimum. Use your phone’s password manager.</small>
         </label>
         <p class="auth-warning">Your recovery key is the only emergency password reset. Lose it and there is no email button coming to save you.</p>
         <button type="submit" class="auth-submit">MAKE THE ACCOUNT</button>
       </form>
 
-      <form id="recover-form" class="auth-form" data-auth-panel="recover" hidden>
+      <form id="recover-form" class="auth-form" data-auth-panel="recover" hidden novalidate>
         <label>
           <span>RECOVERY KEY</span>
           <input name="recovery_key" autocomplete="off" placeholder="XXXX-XXXX" maxlength="19" required>
+          <small>Current keys look like XXXX-XXXX. Older issued keys still work.</small>
         </label>
         <label>
           <span>NEW PASSWORD</span>
           <input name="new_password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
+          <small>10 characters minimum. Let your phone save the damn password.</small>
         </label>
         <p class="auth-warning">Successful recovery kills old sessions and gives you a brand-new recovery key.</p>
         <button type="submit" class="auth-submit">RESET MY SHIT</button>
@@ -84,9 +89,11 @@
 
       <section id="recovery-key-card" class="recovery-key-card" hidden aria-live="polite">
         <div class="auth-kicker">SAVE THIS. SERIOUSLY.</div>
+        <p id="recovery-key-status" class="recovery-key-status"></p>
         <h2>Your recovery key</h2>
         <code id="recovery-key-value"></code>
-        <p>This key is shown for recovery purposes. Keep it somewhere safe outside this app.</p>
+        <p id="recovery-key-instruction">Write this recovery key down and keep it somewhere physically safe.</p>
+        <p id="recovery-key-snark" class="recovery-key-snark"></p>
         <div class="recovery-actions">
           <button id="copy-recovery-key" type="button">COPY KEY</button>
           <button id="recovery-key-continue" type="button">I SAVED IT</button>
@@ -114,6 +121,10 @@
       <div id="home-welcome-kicker" class="panel-kicker">WELCOME BACK</div>
       <h1 id="home-welcome-title">Ready to ruin a perfectly good afternoon?</h1>
     </section>
+
+    <aside id="home-heckle" class="screen-heckle" hidden aria-label="Who Pushed Me home commentary">
+      <p id="home-heckle-text"></p>
+    </aside>
 
     <section class="home-actions" aria-label="Who Pushed Me home actions">
       <button id="start-round-button" type="button" class="home-button home-button-primary">
@@ -161,6 +172,7 @@
         <div class="settings-kicker">TAKE 10 SECONDS. MAKE IT AN ACTUAL APP.</div>
         <h2 id="install-onboarding-title">STOP OPENING THIS LIKE A WEBSITE.</h2>
         <p>Put Who Pushed Me?! on your home screen so getting back to the scorecard takes one tap instead of whatever nonsense you're doing now.</p>
+        <p id="install-onboarding-heckle" class="modal-heckle" hidden></p>
         <p id="install-onboarding-instructions" class="install-onboarding-instructions" hidden></p>
       </div>
       <button id="install-onboarding-primary" class="settings-save" type="button">
@@ -183,6 +195,9 @@
       </div>
 
       <p id="round-flow-message" class="settings-message" hidden></p>
+      <aside id="round-setup-heckle" class="screen-heckle screen-heckle-compact" hidden>
+        <p id="round-setup-heckle-text"></p>
+      </aside>
 
       <form id="start-round-form" class="round-flow-form" data-round-panel="start">
         <fieldset class="choice-fieldset">

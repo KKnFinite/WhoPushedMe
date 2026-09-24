@@ -8,6 +8,7 @@ import psycopg
 from flask import Blueprint, current_app, g, jsonify, request, send_file
 
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
+from who_pushed_me.content.preferences import blocked_themes
 from who_pushed_me.courses import OpenGolfAPI
 from who_pushed_me.domain import DomainError, NotFound, PermissionDenied
 from who_pushed_me.reporting import build_round_report_pdf
@@ -74,6 +75,17 @@ def authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
     return wrapped
 
 
+def admin_required(view: Callable[..., Any]) -> Callable[..., Any]:
+    @wraps(view)
+    @session_authenticated
+    def wrapped(*args: Any, **kwargs: Any):
+        if not bool(g.golfer.get("is_admin")):
+            raise PermissionDenied("admin account required")
+        return view(*args, **kwargs)
+
+    return wrapped
+
+
 @api.errorhandler(PermissionDenied)
 def permission_denied(error: PermissionDenied):
     return jsonify(error=str(error)), 403
@@ -127,6 +139,53 @@ def public_content_messages():
             }
             for row in rows
         ],
+    )
+
+
+@api.get("/content/messages/user")
+@session_authenticated
+def user_content_messages():
+    event_key = request.args.get("event", "").strip()
+    if not event_key:
+        raise DomainError("event is required")
+
+    catalog = ContentCatalog.load()
+    try:
+        canonical = catalog.registry.canonical_key(event_key)
+    except ContentError as error:
+        raise DomainError(str(error)) from error
+
+    store = _store()
+    preferences = store.get_content_preferences(g.golfer["id"])
+    if not preferences.get("trash_talk_enabled", True):
+        return jsonify(event=canonical, messages=[])
+
+    rows = catalog.eligible_banter(
+        canonical,
+        max_vulgarity=preferences.get("max_vulgarity", "brutal"),
+        blocked_themes=blocked_themes(preferences),
+    )
+    return jsonify(
+        event=canonical,
+        messages=[
+            {
+                "id": row["id"],
+                "text": row["text"],
+                "vulgarity": row.get("vulgarity", "normal"),
+                "themes": row.get("themes") or [],
+                "weight": int(row.get("weight") or 1),
+            }
+            for row in rows
+        ],
+    )
+
+
+@api.get("/admin/status")
+@admin_required
+def admin_status():
+    return jsonify(
+        is_admin=True,
+        account=g.golfer,
     )
 
 

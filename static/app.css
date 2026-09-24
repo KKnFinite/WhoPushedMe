@@ -3357,6 +3357,63 @@ body {
   color: var(--wpm-cream);
 }
 
+.auth-form label > small {
+  color: rgba(233, 225, 200, .72);
+  font-size: .72rem;
+  line-height: 1.25;
+}
+
+.recovery-key-status,
+.recovery-key-snark,
+.modal-heckle {
+  color: var(--wpm-cream);
+  font-family: var(--font-wpm-bold);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.recovery-key-snark,
+.modal-heckle {
+  padding: 9px 11px;
+  background: rgba(5, 9, 7, .42);
+  border-left: 4px solid var(--wpm-orange-burnt);
+  border-radius: 8px;
+}
+
+.screen-heckle {
+  width: min(100%, 720px);
+  margin: 10px auto 16px;
+  padding: 11px 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(23, 51, 38, .96),
+    rgba(17, 22, 17, .96)
+  );
+  color: var(--wpm-cream);
+  border: 2px solid var(--wpm-gold);
+  border-radius: 14px;
+  box-shadow: inset 5px 0 0 var(--wpm-orange-burnt);
+  text-align: center;
+}
+
+.screen-heckle[hidden],
+.modal-heckle[hidden] {
+  display: none;
+}
+
+.screen-heckle p,
+.modal-heckle {
+  margin: 0;
+  font-family: var(--font-wpm-bold);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: .035em;
+}
+
+.screen-heckle-compact {
+  margin: 8px 0 14px;
+}
+
 .auth-form input {
   min-height: 50px;
   padding: 10px 13px;

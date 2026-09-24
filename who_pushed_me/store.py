@@ -548,9 +548,10 @@ class RoundStore:
                             username,
                             password_hash,
                             recovery_key_hash,
-                            recovery_key
+                            recovery_key,
+                            is_admin
                         )
-                        VALUES (%s, %s, %s, %s, NULL)
+                        VALUES (%s, %s, %s, %s, NULL, %s)
                         RETURNING id, username, display_name, is_admin, handicap_index, created_at
                         """,
                         (
@@ -558,6 +559,19 @@ class RoundStore:
                             normalized_username,
                             password_hash,
                             recovery_hash,
+                            (
+                                normalized_username
+                                == os.getenv(
+                                    "WPM_BOOTSTRAP_ADMIN_USERNAME",
+                                    "",
+                                ).strip().lower()
+                                and bool(
+                                    os.getenv(
+                                        "WPM_BOOTSTRAP_ADMIN_USERNAME",
+                                        "",
+                                    ).strip()
+                                )
+                            ),
                         ),
                     )
                     golfer = cursor.fetchone()
