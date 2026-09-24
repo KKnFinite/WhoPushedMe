@@ -2040,6 +2040,82 @@
         0,
         255
       ]
+    },
+    {
+      "asset_id": "home.background.SunriseBridge",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.BrightFairway",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.CreekBridge",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.IslandGreenGoldenHour",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.StormySunset",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_StormySunset.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_StormySunset.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
     }
-  ]
+  ],
+  "home_background_count": 5
 }
