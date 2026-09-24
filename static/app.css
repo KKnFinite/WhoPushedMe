@@ -3142,6 +3142,10 @@ body {
 
 
 /* SPLASH + LOGIN OVERLAY */
+.launch-splash[hidden] {
+  display: none !important;
+}
+
 .launch-splash {
   position: fixed;
   inset: 0;

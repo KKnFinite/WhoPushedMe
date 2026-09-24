@@ -100,7 +100,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v43" in response.data
+    assert b"wpm-shell-v44" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -109,7 +109,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v43" in builder
+    assert "wpm-shell-v44" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -565,3 +565,10 @@ def test_account_forms_use_custom_validation_and_show_rules():
     assert b'id="recovery-key-snark"' in response.data
     assert b'id="home-heckle"' in response.data
     assert b'id="round-setup-heckle"' in response.data
+
+
+def test_hidden_splash_cannot_override_main_app_on_ios():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b".launch-splash[hidden]" in css.data
+    assert b"display: none !important;" in css.data
