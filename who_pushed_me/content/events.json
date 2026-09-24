@@ -2639,6 +2639,227 @@
       "audiences": [
         "everyone"
       ]
+    },
+    {
+      "key": "auth.create_account.idle",
+      "parent": "auth.idle",
+      "label": "Create-account idle screen",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.recover.idle",
+      "parent": "auth.idle",
+      "label": "Recovery idle screen",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.create_account_failed",
+      "parent": "auth",
+      "label": "Create account failed",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.username_taken",
+      "parent": "auth.create_account_failed",
+      "label": "Username already taken",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.username_invalid",
+      "parent": "auth.create_account_failed",
+      "label": "Username invalid",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.password_invalid",
+      "parent": "auth",
+      "label": "Password invalid",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.display_name_invalid",
+      "parent": "auth.create_account_failed",
+      "label": "Display name invalid",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.recovery_failed",
+      "parent": "auth",
+      "label": "Recovery failed",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.recovery_key_invalid_format",
+      "parent": "auth.recovery_failed",
+      "label": "Recovery key format invalid",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.recovery_key_issued",
+      "parent": "auth.recovery_key_warning",
+      "label": "Recovery key issued",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.password_changed.recovery",
+      "parent": "auth.password_changed",
+      "label": "Password changed after recovery",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.session_expired",
+      "parent": "auth",
+      "label": "Session expired",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.system_error",
+      "parent": "auth",
+      "label": "Auth system error",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "auth.offline",
+      "parent": "auth",
+      "label": "Auth offline",
+      "phase": "auth",
+      "family": "auth",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "onboarding.install.idle",
+      "parent": "generic.golf",
+      "label": "Install onboarding idle",
+      "phase": "onboarding",
+      "family": "onboarding",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "home.idle",
+      "parent": "generic.golf",
+      "label": "Home idle",
+      "phase": "home",
+      "family": "home",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
+      "key": "round_setup.idle",
+      "parent": "generic.golf",
+      "label": "Round setup idle",
+      "phase": "round_setup",
+      "family": "round_setup",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
     }
   ]
 }
