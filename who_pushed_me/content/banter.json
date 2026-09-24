@@ -7049,6 +7049,1364 @@
       "enabled": true
     },
     {
+      "id": "banter.home_idle.brutal.001",
+      "text": "YOU FINALLY GOT OUT OF THE HOUSE AND NOW YOU NEED PERMISSION TO PRESS A FUCKING BUTTON?",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.002",
+      "text": "YOUR WIFE PROBABLY MADE THE DECISION TO LET YOU GOLF FASTER THAN YOU’RE MAKING THIS ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.003",
+      "text": "START OR JOIN. IF YOU NEED YOUR WIFE TO PICK FOR YOU, CALL HER.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.004",
+      "text": "YOU SPENT ALL WEEK BEGGING TO PLAY GOLF AND NOW YOU’RE JUST SITTING HERE LIKE A FUCKING HOUSEPLANT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.005",
+      "text": "YOUR WIFE FINALLY GOT RID OF YOU FOR SIX HOURS AND YOU’RE WASTING HER HARD-EARNED PEACE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.006",
+      "text": "IF YOUR WIFE KNEW YOU WERE THIS USELESS WITHOUT SUPERVISION, SHE’D HAVE PACKED YOUR LUNCH TOO.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.007",
+      "text": "YOU’RE ONE BUTTON PRESS FROM GOLF AND SOMEHOW STILL NEED MORE COURAGE THAN YOU DID TO ASK YOUR WIFE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.008",
+      "text": "YOU FOUND THE COURSE, FOUND YOUR FRIENDS, FOUND THE BEER, AND LOST YOUR FUCKING ABILITY TO PRESS START.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.009",
+      "text": "IF YOU NEED A BEER TO WORK UP THE COURAGE TO PICK START OR JOIN, THIS ROUND IS FUCKED ALREADY.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.010",
+      "text": "THE BEER CART WILL FIND YOU EVENTUALLY. YOU STILL HAVE TO START THE FUCKING ROUND.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.011",
+      "text": "YOU’RE BURNING DRINKING TIME BECAUSE TWO BUTTONS HAVE YOU MENTALLY PINNED TO THE MAT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.012",
+      "text": "IF YOU’RE ALREADY TOO DRUNK TO CHOOSE BETWEEN START AND JOIN, WE’RE IN FOR A BEAUTIFUL FUCKING DAY.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.013",
+      "text": "YOU’VE MADE HARDER DECISIONS ABOUT WHICH BEER TO OPEN NEXT. GET YOUR SHIT TOGETHER.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.014",
+      "text": "YOUR WIFE THINKS YOU’RE GOLFING, YOUR BUDDIES THINK YOU’RE DRINKING, AND YOU’RE SITTING HERE DOING FUCKING NOTHING.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.015",
+      "text": "YOU LIED TO YOUR WIFE ABOUT HOW LONG THIS WOULD TAKE AND YOU’RE ALREADY WASTING TIME BEFORE HOLE ONE. BEAUTIFUL.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.016",
+      "text": "YOUR WIFE GOT YOU OUT OF THE HOUSE AND YOUR BUDDIES BROUGHT BEER. EVERYONE HAS CONTRIBUTED EXCEPT YOU. PRESS A BUTTON.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.017",
+      "text": "YOU’RE THE ONLY GUY WHO CAN TURN “START OR JOIN” INTO A DECISION THAT REQUIRES A DRINK AND A CALL HOME.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.brutal.018",
+      "text": "YOUR WIFE IS ENJOYING THE SILENCE, YOUR BEER IS GETTING WARM, AND YOU’RE STILL LOSING TO TWO FUCKING BUTTONS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.001",
+      "text": "YOU GONNA PLAY GOLF OR JUST ADMIRE THE BUTTONS?",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.002",
+      "text": "START A ROUND OR JOIN ONE. THIS ISN’T A TOUGH DECISION.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.003",
+      "text": "PICK A BUTTON BEFORE YOUR TEE TIME BECOMES YESTERDAY.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.004",
+      "text": "YOU LOGGED IN JUST TO STAND AROUND?",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.005",
+      "text": "START. JOIN. DO SOMETHING.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.006",
+      "text": "THIS IS THE PART WHERE YOU ACTUALLY PLAY GOLF.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.007",
+      "text": "YOUR FRIENDS ARE PROBABLY WAITING ON YOU. AGAIN.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.008",
+      "text": "QUIT STARING AT THE HOME SCREEN LIKE IT OWES YOU MONEY.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.009",
+      "text": "YOU’VE MADE HARDER DECISIONS AT THE BEER COOLER.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.010",
+      "text": "WHICH ONE IS IT, CAPTAIN? START OR JOIN?",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.011",
+      "text": "THE ROUND CAN’T GO TO SHIT UNTIL YOU ACTUALLY START IT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.012",
+      "text": "YOU’RE BURNING PRIME EXCUSE-MAKING TIME.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.013",
+      "text": "PICK SOMETHING BEFORE WE ADD “INDECISIVE” TO YOUR HANDICAP.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.014",
+      "text": "THIS SCREEN HAS TWO IMPORTANT BUTTONS. TRY ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.015",
+      "text": "YOUR GOLF GAME ISN’T GOING TO EMBARRASS ITSELF.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.016",
+      "text": "WE GOT YOU LOGGED IN. THE REST REQUIRES MINIMAL PARTICIPATION.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.017",
+      "text": "LESS THINKING. MORE BAD GOLF.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.018",
+      "text": "GET MOVING, SNOWFLAKE. THE SHITSHOW NEEDS A HOST.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.019",
+      "text": "YOU MADE IT THROUGH LOGIN JUST TO FREEZE UP HERE?",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.020",
+      "text": "START ROUND. JOIN ROUND. THIS SHOULDN’T REQUIRE A HUDDLE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.021",
+      "text": "PICK A FUCKING BUTTON, WE’RE AGING OVER HERE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.022",
+      "text": "YOU’RE NOT READING A PUTT. JUST PICK ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.023",
+      "text": "STILL DECIDING? THIS EXPLAINS A LOT ABOUT YOUR PACE OF PLAY.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.024",
+      "text": "WE PUT THE BIG BUTTONS THERE SPECIFICALLY FOR PEOPLE LIKE YOU.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.025",
+      "text": "START OR JOIN. THERE IS NO SECRET THIRD OPTION.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.026",
+      "text": "THE APP CAN’T MAKE EVERY DECISION FOR YOU, PRINCESS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.027",
+      "text": "YOU’VE BEEN GIVEN TWO CHOICES AND SOMEHOW CREATED A CRISIS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.028",
+      "text": "QUIT HOVERING. COMMIT TO SOMETHING FOR ONCE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.029",
+      "text": "THIS IS TAKING LONGER THAN IT SHOULD. SHOCKING.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.030",
+      "text": "YOU CAN’T FUCK UP THE ROUND UNTIL YOU OPEN ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.031",
+      "text": "THE BUTTONS WORK. WE’RE WAITING ON THE OPERATOR.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.032",
+      "text": "MAYBE ASK YOUR FRIENDS WHICH BUTTON YOU’RE ALLOWED TO PRESS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.033",
+      "text": "START ONE OR JOIN ONE BEFORE WE ADD A “HELP ME DECIDE” BUTTON.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.034",
+      "text": "YOU’RE LOSING TO THE HOME SCREEN.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.035",
+      "text": "THE HARD PART IS GOLF. THIS IS TWO BUTTONS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.036",
+      "text": "COME ON, CHAMP. EVEN YOUR PHONE IS GETTING IMPATIENT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.037",
+      "text": "PICK ONE SO WE CAN MOVE ON TO MOCKING YOUR ACTUAL GOLF.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.038",
+      "text": "YOU’RE REALLY MAKING A MEAL OUT OF TWO BUTTONS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.039",
+      "text": "START OR JOIN. THIS IS NOT A PERSONALITY TEST.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.040",
+      "text": "IF YOU NEED THIS MUCH TIME HERE, WE’RE WORRIED ABOUT HOLE ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.041",
+      "text": "THE HOME SCREEN SHOULD NOT BE WINNING THIS BATTLE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.042",
+      "text": "PICK ONE BEFORE WE ASSUME YOU’RE JUST HERE FOR THE COLORS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.043",
+      "text": "YOU OPENED THE APP. FINISH THE THOUGHT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.044",
+      "text": "THIS ISN’T A STRATEGY SESSION. TAP SOMETHING.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.045",
+      "text": "WE CAN’T START THE DISASTER WITHOUT YOUR PARTICIPATION.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.046",
+      "text": "YOU’RE STALLING BEFORE THE ROUND EVEN EXISTS.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.047",
+      "text": "START OR JOIN. NO NEED TO CALL YOUR LAWYER.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.048",
+      "text": "IF YOU’RE WAITING FOR A SIGN, THIS IS IT. PICK ONE.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.049",
+      "text": "THE BUTTONS ARE READY. YOU APPEAR TO BE THE BOTTLENECK.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.050",
+      "text": "SOMEHOW THE EASY PART IS TAKING FOREVER.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.051",
+      "text": "YOU’RE MAKING “DO NOTHING” LOOK LIKE A FULL-TIME JOB.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.052",
+      "text": "TAP A BUTTON, HERO.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.053",
+      "text": "NO ONE HAS EVER NEEDED THIS MUCH WARMUP FOR A HOME SCREEN.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.054",
+      "text": "YOU’RE ONE TAP AWAY FROM ACTUALLY USING THE APP. AMAZING.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.055",
+      "text": "STOP PRETENDING THIS REQUIRES THOUGHT.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.home_idle.normal.056",
+      "text": "THE ROUND ISN’T GOING TO FUCK ITSELF UP.",
+      "events": [
+        "home.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.001",
+      "text": "YOU’RE REALLY GONNA OPEN THE WEBSITE EVERY TIME, AREN’T YOU?",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.002",
+      "text": "PUT THE DAMN APP ON YOUR HOME SCREEN.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.003",
+      "text": "YOU HAVE 47 USELESS APPS. MAKE ROOM FOR ONE THAT INSULTS YOU.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.004",
+      "text": "STOP OPENING THIS LIKE A FUCKING WEBSITE.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.005",
+      "text": "IT’S AN APP. TREAT IT LIKE ONE, CHAMP.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.006",
+      "text": "YOUR HOME SCREEN HAS ROOM. WE’VE SEEN THE CRAP YOU KEEP ON THERE.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.007",
+      "text": "ADD IT TO YOUR HOME SCREEN BEFORE YOU FORGET HOW YOU GOT HERE.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.008",
+      "text": "ONE TAP NOW SAVES YOU FROM SEARCHING FOR THIS SHIT LATER.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.009",
+      "text": "INSTALL THE APP. YOUR THUMB WILL THANK YOU. PROBABLY.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.010",
+      "text": "QUIT MAKING THIS HARDER THAN IT NEEDS TO BE.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.011",
+      "text": "YOU INSTALLED THREE WEATHER APPS. YOU CAN INSTALL THIS.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.012",
+      "text": "MAKE IT AN APP, YOU LAZY BASTARD.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.013",
+      "text": "YOUR PHONE DESERVES AT LEAST ONE APP WITH PERSONALITY.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.014",
+      "text": "STOP BOOKMARKING SHIT LIKE IT’S 2006.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.015",
+      "text": "ADD IT TO YOUR HOME SCREEN. WE’RE NOT ASKING FOR A KIDNEY.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.016",
+      "text": "YOU’RE ONE TAP AWAY FROM NEVER HAVING TO FIND THIS AGAIN.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.017",
+      "text": "INSTALL IT NOW OR ENJOY ASKING “WHAT WAS THAT SITE AGAIN?”",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.018",
+      "text": "THIS IS THE PART WHERE YOU PRETEND YOU KNOW HOW YOUR PHONE WORKS.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.019",
+      "text": "PUT WPM ON THE HOME SCREEN WITH THE REST OF YOUR BAD DECISIONS.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.onboarding_install_idle.normal.020",
+      "text": "INSTALL THE DAMN THING. WE’VE ALREADY DONE MOST OF THE WORK.",
+      "events": [
+        "onboarding.install.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
       "id": "banter.participant.claim_undone.normal",
       "text": "{subject} is back to being represented by committee.",
       "events": [
@@ -7177,6 +8535,593 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.001",
+      "text": "IF YOU NEED ANOTHER DRINK BEFORE YOU CAN PICK THE ROUND SETTINGS, MAYBE THE BEER ISN’T THE PROBLEM.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.002",
+      "text": "YOUR BEER IS GETTING WARM WAITING FOR YOU TO FIGURE OUT BUTTONS DESIGNED FOR DRUNK GOLFERS.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.003",
+      "text": "YOU’RE SUPPOSED TO GET SLOWER AFTER SIX BEERS, NOT BEFORE THE FIRST FUCKING HOLE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.004",
+      "text": "IF THE ALCOHOL HAS ALREADY MADE ROUND SETUP TOO COMPLICATED, THIS SCORECARD IS ABOUT TO BECOME EVIDENCE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.005",
+      "text": "YOU HAVEN’T EVEN STARTED PLAYING AND THE BEER ALREADY LOOKS LIKE THE MOST COMPETENT MEMBER OF THE GROUP.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.006",
+      "text": "YOUR FRIENDS BROUGHT YOU GOLFING, NOT TO WATCH YOU DRINK A BEER WHILE LOSING A FIGHT WITH THE SETUP SCREEN.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.007",
+      "text": "YOUR WIFE MANAGED TO GET YOU DRESSED AND OUT THE DOOR. APPARENTLY ROUND SETUP WAS WHERE HER SUPERVISION ENDED.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.008",
+      "text": "YOU TOLD YOUR WIFE YOU’D BE HOME ON TIME AND YOU’RE ALREADY BURNING THE LIE BEFORE THE FIRST TEE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.009",
+      "text": "YOUR WIFE PROBABLY ASSUMED THE OTHER GUYS COULD HANDLE YOU FROM HERE. THEY’RE STARTING TO REGRET IT.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.010",
+      "text": "IF YOUR WIFE SAW HOW LONG IT TAKES YOU TO SET UP A ROUND, SHE’D FINALLY UNDERSTAND WHY EVERY PROJECT AT HOME TAKES THREE WEEKENDS.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.011",
+      "text": "YOUR WIFE LET YOU OUT UNSUPERVISED AND YOU IMMEDIATELY GOT STUCK ON COURSE, FORMAT, AND HOLES.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.012",
+      "text": "YOUR WIFE THINKS YOU’RE OUT PLAYING GOLF. TECHNICALLY YOU’RE STILL JUST A GUY FUCKING AROUND WITH HIS PHONE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.013",
+      "text": "YOU’RE ALREADY MAKING YOUR WIFE’S “WHAT TIME WILL YOU BE HOME?” TEXT IMPOSSIBLE TO ANSWER AND THE ROUND HASN’T EVEN STARTED.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.014",
+      "text": "YOUR WIFE GOT RID OF YOU FOR THE DAY, YOUR BUDDIES BROUGHT THE BEER, AND SOMEHOW THEY STILL ENDED UP WITH THE WORST PART OF THE DEAL: WAITING ON YOU.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.015",
+      "text": "YOU TOLD YOUR WIFE “JUST GOLFING WITH THE GUYS,” BUT AT THIS RATE IT’S MOSTLY DRINKING WHILE EVERYONE WATCHES YOU FAIL AT ROUND SETUP.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.016",
+      "text": "YOUR WIFE EXPECTS YOU HOME LATE, YOUR FRIENDS EXPECT YOU DRUNK, AND NONE OF THEM EXPECTED YOU TO GET DEFEATED BY THE FUCKING SETUP SCREEN.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife",
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.017",
+      "text": "YOUR WIFE IS ENJOYING HER DAY WITHOUT YOU WHILE YOUR FRIENDS ARE DISCOVERING WHY SHE NEEDED ONE. FINISH THE FUCKING SETUP.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.018",
+      "text": "YOUR WIFE ALREADY KNOWS YOU CAN TURN A TEN-MINUTE TASK INTO AN AFTERNOON. YOUR FOURSOME IS LEARNING FAST.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.brutal.019",
+      "text": "THE BEER WAS SUPPOSED TO MAKE THE ROUND MORE FUN, NOT HELP EXPLAIN WHY YOU CAN’T CONFIGURE ONE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.001",
+      "text": "YOU PRESSED START ROUND. THAT WASN’T THE FINISH LINE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.002",
+      "text": "SET THE ROUND UP, CHAMP. WE CAN’T GUESS ALL YOUR SHIT.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.003",
+      "text": "YOU WANTED TO HOST. CONGRATS, HERE’S THE WORK.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.004",
+      "text": "PICK THE OPTIONS AND GET EVERYBODY MOVING.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.005",
+      "text": "THIS IS ROUND SETUP, NOT A FUCKING HOME RENOVATION.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.006",
+      "text": "YOU DON’T NEED A COMMITTEE MEETING FOR THIS.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.007",
+      "text": "THE GROUP IS WAITING ON THE GUY WITH THE PHONE. AGAIN.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.008",
+      "text": "COURSE. FORMAT. HOLES. LET’S FUCKING GO.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.009",
+      "text": "YOU VOLUNTEERED TO START THE ROUND. SHOW SOME LEADERSHIP.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.010",
+      "text": "EVERY SECOND YOU SPEND HERE BECOMES SOMEONE ELSE’S COMPLAINT.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.011",
+      "text": "QUIT TINKERING WITH THE SETTINGS LIKE YOU KNOW WHAT YOU’RE DOING.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.012",
+      "text": "SET IT UP BEFORE SOMEBODY ELSE TAKES THE PHONE AWAY FROM YOU.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.013",
+      "text": "YOU’RE THE HOST. ACT LIKE YOU’VE USED AN APP BEFORE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.014",
+      "text": "THE FIRST TEE IS WAITING. YOUR DECISION-MAKING IS NOT IMPRESSIVE.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.015",
+      "text": "STOP ADMIRING THE OPTIONS AND PICK SOME.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.016",
+      "text": "THE ROUND HASN’T EVEN STARTED AND YOU’RE ALREADY SLOWING THE GROUP DOWN.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.017",
+      "text": "THIS SHOULD TAKE LESS TIME THAN YOUR FIRST PRACTICE SWING.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.018",
+      "text": "YOU HAVE ONE JOB RIGHT NOW: BUILD THE DAMN ROUND.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.019",
+      "text": "YOUR BUDDIES ARE ABOUT THREE MINUTES FROM JUST PLAYING WITHOUT THE APP.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_setup_idle.normal.020",
+      "text": "FINISH THE SETUP BEFORE THE GROUP ELECTS A NEW HOST.",
+      "events": [
+        "round_setup.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
     },
     {
       "id": "banter.round.end_early.no.normal",
