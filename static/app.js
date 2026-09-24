@@ -24,10 +24,10 @@
   const recoveryKeyCopy = document.getElementById('copy-recovery-key');
   const recoveryKeyContinue = document.getElementById('recovery-key-continue');
   const logoutButton = document.getElementById('logout-button');
-  const welcomeKicker = document.getElementById('home-welcome-kicker');
+  const welcomeName = document.getElementById('home-welcome-name');
   const homeHeckle = document.getElementById('home-heckle');
   const homeHeckleText = document.getElementById('home-heckle-text');
-  const settingsButton = document.getElementById('settings-button');
+  const settingsOpenButtons = document.querySelectorAll('[data-settings-open]');
   const settingsModal = document.getElementById('settings-modal');
   const settingsClose = document.getElementById('settings-close');
   const settingsForm = document.getElementById('settings-form');
@@ -900,11 +900,9 @@
     if (authShell) authShell.hidden = true;
     if (appShell) appShell.removeAttribute('aria-hidden');
     void loadRandomHomeBackground();
-    if (welcomeKicker) {
+    if (welcomeName) {
       const name = String(account?.display_name || '').trim();
-      welcomeKicker.textContent = name
-        ? `WELCOME BACK, ${name.toUpperCase()}`
-        : 'WELCOME BACK';
+      welcomeName.textContent = name || 'Golfer';
     }
     document.body.classList.add('app-ready');
 
@@ -4660,7 +4658,9 @@
     }
   };
 
-  settingsButton?.addEventListener('click', openSettings);
+  settingsOpenButtons.forEach((button) => {
+    button.addEventListener('click', openSettings);
+  });
   settingsClose?.addEventListener('click', closeSettings);
   settingsModal?.addEventListener('click', (event) => {
     if (event.target === settingsModal) closeSettings();
