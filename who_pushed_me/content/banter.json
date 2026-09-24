@@ -2,1257 +2,3100 @@
   "schema_version": 1,
   "banter": [
     {
-      "id": "banter.generic.well_that_happened",
-      "text": "Well. That happened.",
+      "id": "banter.auth_account_created.001",
+      "text": "HOLY SHIT. YOU ACTUALLY DID IT.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.everybody_saw_that",
-      "text": "Everybody saw that.",
+      "id": "banter.auth_account_created.002",
+      "text": "ACCOUNT CREATED. AGAINST ALL ODDS.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.receipts",
-      "text": "That’s going in the receipts.",
+      "id": "banter.auth_account_created.003",
+      "text": "LOOK AT YOU, COMPLETING A FORM AND EVERYTHING.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.scorecard_remembers",
-      "text": "The scorecard will remember this.",
+      "id": "banter.auth_account_created.004",
+      "text": "CONGRATULATIONS. YOU’VE MASTERED THREE TEXT BOXES.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.normal_day",
-      "text": "Another perfectly normal day of golf.",
+      "id": "banter.auth_account_created.005",
+      "text": "WELCOME ABOARD, YOU BEAUTIFUL DISASTER.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.evidence_recorded",
-      "text": "Evidence successfully recorded.",
+      "id": "banter.auth_account_created.006",
+      "text": "ACCOUNT CREATED. EXPECTATIONS REMAIN LOW.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.no_context",
-      "text": "No context is making that look better.",
+      "id": "banter.auth_account_created.007",
+      "text": "YOU’RE OFFICIALLY OUR PROBLEM NOW.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.round_continues",
-      "text": "And somehow, the round continues.",
+      "id": "banter.auth_account_created.008",
+      "text": "WELCOME TO WHO PUSHED ME?! POOR DECISIONS AWAIT.",
       "events": [
-        "generic.golf"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.generic.brutal_happened",
-      "text": "Well. That fucking happened.",
+      "id": "banter.auth_account_created.009",
+      "text": "THAT WAS THE EASY PART.",
       "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_everybody_saw",
-      "text": "Everybody saw that shit.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_receipts",
-      "text": "Add that bullshit to the receipts.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_mistake",
-      "text": "Golf was a fucking mistake.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_scorecard",
-      "text": "The scorecard has seen some shit.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_masterpiece",
-      "text": "Another fucking masterpiece.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_no_pretending",
-      "text": "Nobody gets to pretend that shit didn’t happen.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.generic.brutal_evidence",
-      "text": "Put that shit in the evidence locker.",
-      "events": [
-        "generic.golf"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.round.end_early.yes.normal",
-      "text": "One vote for mercy has entered the record.",
-      "events": [
-        "round.end_early.vote_yes"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.round.end_early.no.normal",
-      "text": "Mercy denied. Somebody wants the suffering to continue.",
+      "id": "banter.auth_account_created.010",
+      "text": "YOU MADE AN ACCOUNT. YOUR DAY HAS PEAKED.",
       "events": [
-        "round.end_early.vote_no"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.round.ended_early.normal",
-      "text": "Round ended early. The evidence collected so far remains admissible.",
+      "id": "banter.auth_account_created.011",
+      "text": "WE KNEW YOU COULD DO IT. EVENTUALLY.",
       "events": [
-        "round.ended_early"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.handicap.set.normal",
-      "text": "{subject}'s round handicap is officially on the record.",
+      "id": "banter.auth_account_created.012",
+      "text": "WELCOME IN. TRY NOT TO EMBARRASS YOURSELF IMMEDIATELY.",
       "events": [
-        "handicap.set"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.handicap.corrected.normal",
-      "text": "{subject}'s handicap changed after the evidence started. Very convenient.",
+      "id": "banter.auth_account_created.013",
+      "text": "ACCOUNT CREATED. DIGNITY NOT INCLUDED.",
       "events": [
-        "handicap.corrected"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.handicap.cleared.normal",
-      "text": "{subject}'s net math has been removed from polite society.",
+      "id": "banter.auth_account_created.014",
+      "text": "YOU’RE IN. LOWER YOUR EXPECTATIONS.",
       "events": [
-        "handicap.cleared"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.proxy_added.normal",
-      "text": "{subject} is participating through a human proxy.",
+      "id": "banter.auth_account_created.015",
+      "text": "SUCCESS. SOMEBODY WRITE THIS DOWN.",
       "events": [
-        "participant.proxy_added"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.proxy_added.brutal",
-      "text": "{subject}'s phone has left the chat. The scorecard has not.",
+      "id": "banter.auth_account_created.016",
+      "text": "ACCOUNT CREATED. THE COURSE HAS BEEN WARNED.",
       "events": [
-        "participant.proxy_added"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.participant.claimed.normal",
-      "text": "{subject} has officially claimed the evidence.",
-      "events": [
-        "participant.claimed"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.claim_undone.normal",
-      "text": "{subject} is back to being represented by committee.",
+      "id": "banter.auth_account_created.017",
+      "text": "CONGRATS. YOU CAN NOW DOCUMENT YOUR COLLAPSE PROPERLY.",
       "events": [
-        "participant.claim_undone"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.spectator_to_player.normal",
-      "text": "Spectating was apparently too safe.",
+      "id": "banter.auth_account_created.018",
+      "text": "WELCOME. YOUR FRIENDS CAN MOCK YOU DIGITALLY NOW.",
       "events": [
-        "participant.spectator_to_player"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.spectator_to_player.brutal",
-      "text": "Look who finally grew a pair and joined the disaster.",
+      "id": "banter.auth_account_created.019",
+      "text": "YOU HAVE AN ACCOUNT. WE’RE ALL VERY PROUD. SORT OF.",
       "events": [
-        "participant.spectator_to_player"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.participant.towel.normal",
-      "text": "The towel has been thrown. Dignity left earlier.",
-      "events": [
-        "participant.towel"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.towel.brutal",
-      "text": "Fuck it. Somebody finally admitted defeat.",
+      "id": "banter.auth_account_created.020",
+      "text": "THE HARDEST PART OF YOUR ROUND MAY ALREADY BE OVER.",
       "events": [
-        "participant.towel"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.participant.return.normal",
-      "text": "Look who decided suffering builds character.",
-      "events": [
-        "participant.return"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.participant.return.brutal",
-      "text": "Back for more? Apparently quitting didn't fucking take.",
+      "id": "banter.auth_account_created.021",
+      "text": "WELCOME TO THE SHITSHOW.",
       "events": [
-        "participant.return"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.challenge.normal",
-      "text": "Score challenged. Apparently numbers need witnesses now.",
-      "events": [
-        "score.challenge"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.challenge.brutal",
-      "text": "Score challenged. Somebody smelled bullshit.",
+      "id": "banter.auth_account_created.022",
+      "text": "ACCOUNT CREATED. LET THE BAD GOLF BEGIN.",
       "events": [
-        "score.challenge"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.challenge.withdrawn.normal",
-      "text": "Challenge withdrawn. Courage had a short round.",
-      "events": [
-        "score.challenge.withdrawn"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.removed.normal",
-      "text": "Score removed. The receipt isn't.",
+      "id": "banter.auth_account_created.023",
+      "text": "NICE WORK. DON’T LET IT GO TO YOUR HEAD.",
       "events": [
-        "score.removed"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.removed.brutal",
-      "text": "Score deleted. The bullshit trail stays.",
+      "id": "banter.auth_account_created.024",
+      "text": "YOU DID IT WITHOUT CALLING TECH SUPPORT. IMPRESSIVE.",
       "events": [
-        "score.removed"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.ace.normal",
-      "text": "Hole in one. Disgusting. Nobody wanted to see competence today.",
-      "events": [
-        "score.report.individual.ace",
-        "score.report.scramble.ace"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.ace.brutal",
-      "text": "A fucking ace. Great. Now we have to hear about this forever.",
+      "id": "banter.auth_account_created.025",
+      "text": "WELCOME IN, SNOWFLAKE. IT GETS WORSE FROM HERE.",
       "events": [
-        "score.report.individual.ace",
-        "score.report.scramble.ace"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.albatross.normal",
-      "text": "An albatross. This round is officially suspicious.",
-      "events": [
-        "score.report.individual.albatross",
-        "score.report.scramble.albatross"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.albatross.brutal",
-      "text": "An albatross? Somebody check the fucking scorekeeper.",
+      "id": "banter.auth_account_created.026",
+      "text": "YOU SURVIVED ACCOUNT CREATION. BARELY.",
       "events": [
-        "score.report.individual.albatross",
-        "score.report.scramble.albatross"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.eagle.normal",
-      "text": "Eagle. Try not to become completely unbearable.",
-      "events": [
-        "score.report.individual.eagle",
-        "score.report.scramble.eagle"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.eagle.brutal",
-      "text": "Eagle. Well, look who suddenly knows how to fucking golf.",
+      "id": "banter.auth_account_created.027",
+      "text": "CONGRATULATIONS. YOU’VE UNLOCKED PUBLIC HUMILIATION.",
       "events": [
-        "score.report.individual.eagle",
-        "score.report.scramble.eagle"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.birdie.normal",
-      "text": "Birdie. Take a picture. This may never happen again.",
-      "events": [
-        "score.report.individual.birdie",
-        "score.report.scramble.birdie"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.birdie.brutal",
-      "text": "Birdie. Calm the fuck down, Tour Pro.",
+      "id": "banter.auth_account_created.028",
+      "text": "ACCOUNT CREATED. NOW SAVE YOUR DAMN RECOVERY KEY.",
       "events": [
-        "score.report.individual.birdie",
-        "score.report.scramble.birdie"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.par.normal",
-      "text": "Par. Congratulations on meeting the minimum expectation.",
-      "events": [
-        "score.report.individual.par",
-        "score.report.scramble.par"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.par.brutal",
-      "text": "Par. You did your fucking job. Want a medal?",
+      "id": "banter.auth_account_created.029",
+      "text": "WELCOME TO WPM. WE’VE ALREADY STARTED JUDGING YOU.",
       "events": [
-        "score.report.individual.par",
-        "score.report.scramble.par"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.bogey.normal",
-      "text": "Bogey. Nothing heroic, nothing surprising.",
-      "events": [
-        "score.report.individual.bogey",
-        "score.report.scramble.bogey"
+        "auth.account_created"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.bogey.brutal",
-      "text": "Bogey. Just enough shit to keep expectations low.",
+      "id": "banter.auth_create_account_idle.001",
+      "text": "YOU MADE IT THIS FAR. DON’T GET TIRED NOW.",
       "events": [
-        "score.report.individual.bogey",
-        "score.report.scramble.bogey"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.double.normal",
-      "text": "Double bogey. The wheels are making a noise.",
-      "events": [
-        "score.report.individual.double_bogey",
-        "score.report.scramble.double_bogey"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.double.brutal",
-      "text": "Double bogey. There goes another fucking tire.",
+      "id": "banter.auth_create_account_idle.002",
+      "text": "THREE FIELDS. TRY NOT TO PULL A HAMSTRING.",
       "events": [
-        "score.report.individual.double_bogey",
-        "score.report.scramble.double_bogey"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.triple.normal",
-      "text": "Triple bogey. Please remain near the wreckage.",
-      "events": [
-        "score.report.individual.triple_bogey",
-        "score.report.scramble.triple_bogey"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.triple.brutal",
-      "text": "Triple bogey. This hole beat your ass in public.",
+      "id": "banter.auth_create_account_idle.003",
+      "text": "MAKE THE ACCOUNT, YOU LAZY BASTARD.",
       "events": [
-        "score.report.individual.triple_bogey",
-        "score.report.scramble.triple_bogey"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.quad.normal",
-      "text": "That is no longer a score. It is documentation.",
-      "events": [
-        "score.report.individual.quad_plus",
-        "score.report.scramble.quad_plus"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.quad.brutal",
-      "text": "That score is a fucking incident report.",
+      "id": "banter.auth_create_account_idle.004",
+      "text": "STILL THINKING ABOUT IT? JESUS CHRIST.",
       "events": [
-        "score.report.individual.quad_plus",
-        "score.report.scramble.quad_plus"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.bullshit.normal",
-      "text": "THAT'S BULLSHIT.",
-      "events": [
-        "score.response.bullshit"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.bullshit.brutal",
-      "text": "That score is complete fucking bullshit.",
+      "id": "banter.auth_create_account_idle.005",
+      "text": "DISPLAY NAME. USERNAME. PASSWORD. DEEPLY TRAUMATIC STUFF.",
       "events": [
-        "score.response.bullshit"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.cheater.normal",
-      "text": "Somebody check that scorecard for creative accounting.",
-      "events": [
-        "score.response.cheater"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.cheater.brutal",
-      "text": "He's a damned cheater. Audit the fucking pencil.",
+      "id": "banter.auth_create_account_idle.006",
+      "text": "WE PROMISE CREATING AN ACCOUNT WON’T HURT. MUCH.",
       "events": [
-        "score.response.cheater"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.lucky.normal",
-      "text": "That had more luck than talent and everyone knows it.",
-      "events": [
-        "score.response.lucky"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.lucky.brutal",
-      "text": "Lucky bastard. Don't pretend that shit was planned.",
+      "id": "banter.auth_create_account_idle.007",
+      "text": "TOO MUCH COMMITMENT? IT’S A FUCKING SCORECARD.",
       "events": [
-        "score.response.lucky"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.nice.normal",
-      "text": "Fine. That was actually a good score. Gross.",
-      "events": [
-        "score.response.nice"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.nice.brutal",
-      "text": "Fine. That was fucking good. I hate it.",
+      "id": "banter.auth_create_account_idle.008",
+      "text": "YOU CLICKED CREATE ACCOUNT. FINISH THE JOB.",
       "events": [
-        "score.response.nice"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.blame.normal",
-      "text": "Somebody on this team owes everybody else an apology.",
-      "events": [
-        "score.response.blame"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.blame.brutal",
-      "text": "Somebody fucked this hole up. Names are being taken.",
+      "id": "banter.auth_create_account_idle.009",
+      "text": "NEED A BREAK ALREADY?",
       "events": [
-        "score.response.blame"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.random.01",
-      "text": "Bold score. Not good. Bold.",
-      "events": [
-        "score.response.random"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.random.02",
-      "text": "The scorecard asked me not to comment, so naturally I am.",
+      "id": "banter.auth_create_account_idle.010",
+      "text": "THIS IS TAKING LONGER THAN YOUR PRE-SHOT ROUTINE.",
       "events": [
-        "score.response.random"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.random.03",
-      "text": "That number has witnesses.",
+      "id": "banter.auth_create_account_idle.011",
+      "text": "YOUR FRIENDS HAVE AGED NOTICEABLY.",
       "events": [
-        "score.response.random"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.random.04",
-      "text": "That score needs an alibi.",
+      "id": "banter.auth_create_account_idle.012",
+      "text": "NO PRESSURE. EXCEPT THE PRESSURE WE’RE APPLYING RIGHT NOW.",
       "events": [
-        "score.response.random"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.score.response.random.brutal01",
-      "text": "That number is fucked and we all know it.",
+      "id": "banter.auth_create_account_idle.013",
+      "text": "IF THREE TEXT BOXES ARE TOO MUCH, WE HAVE BAD NEWS ABOUT 18 HOLES.",
       "events": [
-        "score.response.random"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.random.brutal02",
-      "text": "Put that shit under oath.",
-      "events": [
-        "score.response.random"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.random.brutal03",
-      "text": "The fucking audacity of that score.",
-      "events": [
-        "score.response.random"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.score.response.random.brutal04",
-      "text": "Absolutely not. Get the fuck out of here with that number.",
-      "events": [
-        "score.response.random"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.first_birdie.normal",
-      "text": "First birdie of the day. Somebody alert the clubhouse.",
-      "events": [
-        "score.derived.first_birdie"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.first_birdie.brutal",
-      "text": "First fucking birdie. Took long enough.",
+      "id": "banter.auth_create_account_idle.014",
+      "text": "DON’T OVERTHINK IT. YOU DON’T OVERTHINK YOUR SHOTS.",
       "events": [
-        "score.derived.first_birdie"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.first_eagle.normal",
-      "text": "First eagle. This is getting suspicious.",
-      "events": [
-        "score.derived.first_eagle"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.first_eagle.brutal",
-      "text": "First fucking eagle. Who swapped in a real golfer?",
+      "id": "banter.auth_create_account_idle.015",
+      "text": "THE ACCOUNT ISN’T GOING TO CREATE ITSELF, PRINCESS.",
       "events": [
-        "score.derived.first_eagle"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.back_to_back.normal",
-      "text": "Back-to-back birdies. Absolutely insufferable behavior.",
-      "events": [
-        "score.derived.back_to_back_birdies"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.back_to_back.brutal",
-      "text": "Back-to-back fucking birdies. Somebody humble this asshole.",
+      "id": "banter.auth_create_account_idle.016",
+      "text": "WE’RE STARTING TO THINK YOU’RE SCARED OF FORMS.",
       "events": [
-        "score.derived.back_to_back_birdies"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.birdie_streak.normal",
-      "text": "Three straight birdies. We are officially checking the scorecard.",
-      "events": [
-        "score.derived.birdie_streak_3_plus"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.birdie_streak.brutal",
-      "text": "Three straight fucking birdies. This shit is under investigation.",
+      "id": "banter.auth_create_account_idle.017",
+      "text": "TAKE ALL THE TIME YOU NEED, SNOWFLAKE. WE’LL JUST SIT HERE.",
       "events": [
-        "score.derived.birdie_streak_3_plus"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.bogey_streak.normal",
-      "text": "Three bogeys or worse in a row. Consistency achieved.",
-      "events": [
-        "score.derived.bogey_streak_3_plus"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.bogey_streak.brutal",
-      "text": "Three holes of consecutive bullshit. That's a fucking streak.",
+      "id": "banter.auth_create_account_idle.018",
+      "text": "NEED SOMEONE TO HOLD YOUR HAND THROUGH THIS?",
       "events": [
-        "score.derived.bogey_streak_3_plus"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.blowup.normal",
-      "text": "That hole did not go badly. It filed a claim.",
-      "events": [
-        "score.derived.blowup_hole"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.blowup.brutal",
-      "text": "That hole was a complete fucking detonation.",
+      "id": "banter.auth_create_account_idle.019",
+      "text": "THIS IS THE MOST EFFORT YOU’LL PUT IN ALL ROUND.",
       "events": [
-        "score.derived.blowup_hole"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.new_leader.normal",
-      "text": "{subject} took the lead. Try not to make eye contact.",
-      "events": [
-        "score.derived.new_leader"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.new_leader.brutal",
-      "text": "{subject} took the fucking lead. This is getting obnoxious.",
+      "id": "banter.auth_create_account_idle.020",
+      "text": "CHOOSE A NAME. ANY NAME. THIS ISN’T YOUR FIRSTBORN.",
       "events": [
-        "score.derived.new_leader"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.tied_lead.normal",
-      "text": "{subject} tied the lead. Nobody is allowed to feel comfortable.",
-      "events": [
-        "score.derived.tied_lead"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.tied_lead.brutal",
-      "text": "{subject} tied the fucking lead. Now everybody can panic.",
+      "id": "banter.auth_create_account_idle.021",
+      "text": "WE’RE NOT ASKING FOR A BLOOD SAMPLE.",
       "events": [
-        "score.derived.tied_lead"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.lost_lead.normal",
-      "text": "{subject} lost the lead. Nature is healing.",
-      "events": [
-        "score.derived.lost_lead"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.lost_lead.brutal",
-      "text": "{subject} lost the fucking lead. Beautiful collapse.",
+      "id": "banter.auth_create_account_idle.022",
+      "text": "THE BUTTON SAYS MAKE THE ACCOUNT. SUBTLE HINT.",
       "events": [
-        "score.derived.lost_lead"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.entered_last.normal",
-      "text": "{subject} has entered last place. Welcome to the basement.",
-      "events": [
-        "score.derived.entered_last"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.entered_last.brutal",
-      "text": "{subject} just fell into fucking last place.",
+      "id": "banter.auth_create_account_idle.023",
+      "text": "TOO LAZY TO FINISH? THAT TRACKS.",
       "events": [
-        "score.derived.entered_last"
-      ],
-      "audiences": [
-        "everyone"
-      ],
-      "vulgarity": "brutal",
-      "themes": [],
-      "enabled": true
-    },
-    {
-      "id": "banter.derived.escaped_last.normal",
-      "text": "{subject} escaped last place. Somebody else is now holding the bag.",
-      "events": [
-        "score.derived.escaped_last"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
       "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
     },
     {
-      "id": "banter.derived.escaped_last.brutal",
-      "text": "{subject} escaped fucking last. Congratulations on finding a worse golfer.",
+      "id": "banter.auth_create_account_idle.024",
+      "text": "IF THIS FORM FEELS OVERWHELMING, CLOSE THE APP GENTLY.",
       "events": [
-        "score.derived.escaped_last"
+        "auth.create_account.idle"
       ],
       "audiences": [
         "everyone"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
-      "enabled": true
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_idle.025",
+      "text": "YOU ARE THREE FIELDS AWAY FROM BEING MOCKED PROPERLY.",
+      "events": [
+        "auth.create_account.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_idle.026",
+      "text": "THE LONGER YOU WAIT, THE MORE WE JUDGE YOU.",
+      "events": [
+        "auth.create_account.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_idle.027",
+      "text": "CREATE THE ACCOUNT BEFORE YOUR BUDDIES REPLACE YOU.",
+      "events": [
+        "auth.create_account.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_create_account_idle.028",
+      "text": "QUIT WHINING AND PICK A FUCKING USERNAME.",
+      "events": [
+        "auth.create_account.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.001",
+      "text": "NOPE. TRY AGAIN, CHAMP.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.002",
+      "text": "WRONG. BEAUTIFUL START.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.003",
+      "text": "THAT AIN’T IT.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.004",
+      "text": "USERNAME OR PASSWORD. ONE OF YOU FUCKED UP.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.005",
+      "text": "MISSED THE LOGIN LIKE A THREE-FOOTER.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.006",
+      "text": "YOU HAD TWO THINGS TO REMEMBER.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.007",
+      "text": "TRY AGAIN. MAYBE AIM THIS TIME.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.008",
+      "text": "THAT LOGIN WENT OUT OF BOUNDS.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.009",
+      "text": "NOT EVEN CLOSE.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.010",
+      "text": "YOU SURE THAT’S YOUR ACCOUNT?",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.011",
+      "text": "THE PASSWORD DISAGREES WITH YOU.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.012",
+      "text": "SWING AND A MISS. WRONG SPORT, SAME RESULT.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.013",
+      "text": "LOGIN REJECTED. EGO DAMAGE MINIMAL.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.014",
+      "text": "WE CHECKED. YOU’RE STILL WRONG.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.015",
+      "text": "TYPE SLOWER. MAYBE THAT’LL HELP.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.016",
+      "text": "WRONG LOGIN. BLAME THE BEER IF YOU NEED TO.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.017",
+      "text": "TRY THAT AGAIN WITH FEWER MISTAKES.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.018",
+      "text": "THIS IS WHY THE RECOVER BUTTON EXISTS.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.019",
+      "text": "CAN’T REMEMBER IT? QUIT GUESSING AND HIT RECOVER.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.020",
+      "text": "YOUR PASSWORD JUST CALLED BULLSHIT.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.021",
+      "text": "ACCESS DENIED. VERY DRAMATIC.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.022",
+      "text": "YOU’VE SUCCESSFULLY FAILED TO SIGN IN.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.023",
+      "text": "MAYBE YOUR PASSWORD CHANGED. MAYBE YOUR BRAIN DIDN’T.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.024",
+      "text": "THE ACCOUNT SAID “WHO THE FUCK IS THIS?”",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.025",
+      "text": "ONE MORE BAD ATTEMPT AND WE’RE STARTING A LEADERBOARD.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.026",
+      "text": "THAT WASN’T YOUR PASSWORD. SHOCKING.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.027",
+      "text": "YOU CAN KEEP GUESSING OR USE RECOVER LIKE AN ADULT.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_login_failed.028",
+      "text": "WRONG AGAIN? THIS COULD BECOME A PERSONALITY TRAIT.",
+      "events": [
+        "auth.login_failed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.001",
+      "text": "LOGGED OUT. COWARD.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.002",
+      "text": "FINE. LEAVE.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.003",
+      "text": "YOU’RE OUT. HAPPY NOW?",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.004",
+      "text": "AND JUST LIKE THAT, YOU RAN AWAY.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.005",
+      "text": "SEE YA, PRINCESS.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.006",
+      "text": "YOU HAVE SUCCESSFULLY ESCAPED THE SCORECARD.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.007",
+      "text": "LOGGED OUT. THE COURSE CAN RELAX.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.008",
+      "text": "YOU LEFT BEFORE WE COULD MOCK YOU MORE.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.009",
+      "text": "LOGGED OUT. YOUR BAD GOLF REMAINS ON THE RECORD.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.010",
+      "text": "GO AHEAD. PRETEND THIS NEVER HAPPENED.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.011",
+      "text": "YOU CAN LOG OUT. YOU CAN’T ERASE THE SHAME.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.012",
+      "text": "ACCOUNT CLOSED FOR NOW. EGO DAMAGE PERSISTS.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.013",
+      "text": "RUNNING AWAY WON’T FIX YOUR SCORE.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.014",
+      "text": "LOGGED OUT. WE’LL BE HERE WHEN YOU MAKE ANOTHER BAD DECISION.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.015",
+      "text": "THE SHITSHOW WILL RESUME WHEN YOU RETURN.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.016",
+      "text": "GOODBYE. YOUR PUTTER STILL HATES YOU.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.017",
+      "text": "LEAVING SO SOON? WE WERE JUST GETTING MEAN.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.018",
+      "text": "YOU’RE OUT. YOUR FRIENDS ARE PROBABLY STILL TALKING SHIT.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.019",
+      "text": "LOGGED OUT. ZERO STROKES REMOVED.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.020",
+      "text": "NICE EXIT. TERRIBLE ROUND.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.021",
+      "text": "GO COOL OFF, SNOWFLAKE.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.022",
+      "text": "YOU’VE BEEN RELEASED BACK INTO SOCIETY.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.023",
+      "text": "TAKE FIVE. YOUR SCORECARD NEEDS THE BREAK TOO.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_logout.024",
+      "text": "BYE FOR NOW. DISAPPOINTMENT WILL BE WAITING.",
+      "events": [
+        "auth.logout"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.001",
+      "text": "PASSWORD CHANGED. TRY REMEMBERING THIS ONE.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.002",
+      "text": "CONGRATS. YOU HAVE A PASSWORD AGAIN.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.003",
+      "text": "RECOVERY COMPLETE. MEMORY STILL QUESTIONABLE.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.004",
+      "text": "YOU’RE BACK IN. SOMEHOW.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.005",
+      "text": "NEW PASSWORD. SAME PROBLEMS.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.006",
+      "text": "PASSWORD RESET. CRISIS SORT OF AVERTED.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.007",
+      "text": "LOOK AT THAT. TECHNOLOGY SAVED YOU FROM YOURSELF.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.008",
+      "text": "YOU SURVIVED ACCOUNT RECOVERY. BARELY.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.009",
+      "text": "PASSWORD CHANGED. USE THE DAMN PASSWORD APP THIS TIME.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.010",
+      "text": "YOUR ACCOUNT HAS BEEN RESCUED FROM YOUR MEMORY.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.011",
+      "text": "NEW PASSWORD INSTALLED. USER ERROR STILL POSSIBLE.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.012",
+      "text": "WE FIXED THE PASSWORD. THE REST IS ON YOU.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.013",
+      "text": "YOU’RE BACK. ACT LIKE YOU REMEMBER HOW THIS WORKS.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.014",
+      "text": "PASSWORD RESET. PLEASE DON’T MAKE THIS A HABIT.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.015",
+      "text": "CATASTROPHE AVOIDED. FOR NOW.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.016",
+      "text": "RECOVERY SUCCESSFUL. THAT WAS EMBARRASSING.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.017",
+      "text": "NEW PASSWORD, FRESH START, SAME BAD GOLF.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.018",
+      "text": "ACCOUNT RECOVERED. EXPECTATIONS UNCHANGED.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.019",
+      "text": "PASSWORD CHANGED. YOUR PHONE HAS A PASSWORD MANAGER. USE IT.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.020",
+      "text": "YOU’RE IN AGAIN. DON’T FUCK IT UP.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.021",
+      "text": "RECOVERY COMPLETE. GO LOSE SOMETHING ELSE.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.022",
+      "text": "WE GOT YOU BACK IN. NOW LET YOUR PHONE REMEMBER THE PASSWORD FOR YOU.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.023",
+      "text": "WELCOME BACK FROM PASSWORD HELL.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.024",
+      "text": "ACCOUNT SAVED. EGO SLIGHTLY DAMAGED.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.025",
+      "text": "ALL FIXED. UNTIL YOU IGNORE THE PASSWORD MANAGER AGAIN.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.026",
+      "text": "YOUR PHONE LITERALLY OFFERS TO SAVE PASSWORDS. SAY YES THIS TIME.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.027",
+      "text": "STOP TRUSTING YOUR MEMORY. TRUST THE LITTLE PASSWORD POPUP.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.028",
+      "text": "THE PASSWORD APP IS BUILT IN. YOU HAVE NO EXCUSE NOW.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.029",
+      "text": "LET YOUR PHONE SAVE IT BEFORE YOU TURN THIS INTO A SEQUEL.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_password_changed.030",
+      "text": "NEW PASSWORD. SAME PHONE. USE THE FUCKING PASSWORD MANAGER.",
+      "events": [
+        "auth.password_changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.001",
+      "text": "FORGOT YOUR LOGIN AND NOW YOU’RE JUST SITTING HERE?",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.002",
+      "text": "RECOVER IT, GENIUS.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.003",
+      "text": "THIS IS THE BUTTON FOR PEOPLE WHO FORGET THINGS. WELCOME HOME.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.004",
+      "text": "YOU LOST YOUR LOGIN BEFORE YOU LOST A GOLF BALL. IMPRESSIVE.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.005",
+      "text": "CAN’T REMEMBER YOUR PASSWORD? GREAT START.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.006",
+      "text": "YOUR MEMORY HAS A HIGHER HANDICAP THAN YOU DO.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.007",
+      "text": "WE CAN RECOVER THE ACCOUNT. YOUR DIGNITY IS GONE.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.008",
+      "text": "THE RECOVERY KEY. THE THING WE TOLD YOU NOT TO LOSE.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.009",
+      "text": "PLEASE TELL US YOU ACTUALLY SAVED THE DAMN KEY.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.010",
+      "text": "THIS IS WHERE WE FIND OUT IF YOU LISTENED.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.011",
+      "text": "YOU DID SAVE THE RECOVERY KEY, RIGHT? RIGHT?",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.012",
+      "text": "IF YOU LOST THE KEY TOO, THAT’S SOME ELITE-LEVEL STUPID.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.013",
+      "text": "WE GAVE YOU ONE JOB: SAVE THE KEY.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.014",
+      "text": "FORGOT THE PASSWORD. PLEASE DON’T SAY YOU FORGOT THE KEY TOO.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.015",
+      "text": "THE RECOVERY KEY IS NOT “SOMEWHERE ON MY PHONE.”",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.016",
+      "text": "GO AHEAD. PRETEND YOU KNOW WHERE YOU SAVED IT.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.017",
+      "text": "CHECK YOUR NOTES APP. WE BOTH KNOW THAT’S WHERE YOU PUT IT.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.018",
+      "text": "THIS WOULD BE EASIER IF YOU REMEMBERED THINGS.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.019",
+      "text": "THE ACCOUNT IS RECOVERABLE. YOUR REPUTATION ISN’T.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.020",
+      "text": "YOU’RE ONE RECOVERY KEY AWAY FROM REJOINING THE SHITSHOW.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.021",
+      "text": "THIS SCREEN EXISTS SPECIFICALLY BECAUSE OF PEOPLE LIKE YOU.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.022",
+      "text": "PASSWORD GONE. CONFIDENCE GONE. LET’S FIX ONE OF THOSE.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.023",
+      "text": "IF YOU’RE PANICKING, THAT PROBABLY MEANS YOU LOST THE KEY TOO.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.024",
+      "text": "TAKE YOUR TIME. MAYBE THE PASSWORD WILL COME BACK TO YOU.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.025",
+      "text": "MEMORY FAILED. TRY THE RECOVERY KEY.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.026",
+      "text": "YOU REMEMBER YOUR TEE TIME BUT NOT YOUR PASSWORD?",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.027",
+      "text": "WE CAN RESET THE PASSWORD. WE CAN’T RESET YOUR BRAIN.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.028",
+      "text": "THIS IS WHY WE MADE YOU SAVE THE FUCKING KEY.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.029",
+      "text": "LOST THE LOGIN? CLASSIC. LOST THE KEY TOO? LEGENDARY.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recover_idle.030",
+      "text": "ENTER THE KEY BEFORE YOU FORGET WHY YOU’RE HERE.",
+      "events": [
+        "auth.recover.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.001",
+      "text": "SAVE THIS FUCKING KEY. SERIOUSLY.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.002",
+      "text": "SCREENSHOT IT. WRITE IT DOWN. TATTOO IT ON YOUR ASS. JUST SAVE IT.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.003",
+      "text": "THIS IS YOUR “DON’T GET LOCKED OUT” KEY.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.004",
+      "text": "LOSE THIS AND FUTURE YOU GETS TO BE PISSED AT PRESENT YOU.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.005",
+      "text": "WE’RE SHOWING THIS ONCE. PAY ATTENTION.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.006",
+      "text": "SAVE THE KEY BEFORE YOUR BRAIN DECIDES IT’S OPTIONAL.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.007",
+      "text": "YOUR FUTURE PASSWORD-LOSING ASS WILL NEED THIS.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.008",
+      "text": "THIS KEY IS MORE IMPORTANT THAN WHATEVER YOU’RE ABOUT TO FORGET NEXT.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.009",
+      "text": "DON’T JUST STARE AT IT. SAVE THE DAMN THING.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.010",
+      "text": "YES, WE’RE SERIOUS. SAVE IT.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.011",
+      "text": "IF YOU LOSE THIS, WE ARE ABSOLUTELY GOING TO MOCK YOU LATER.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.012",
+      "text": "SAVE IT SOMEWHERE OTHER THAN “I’LL REMEMBER.”",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.013",
+      "text": "“I’LL REMEMBER IT” IS NOT A STORAGE METHOD.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.014",
+      "text": "THIS KEY IS YOUR GET-OUT-OF-STUPID-FREE CARD.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.015",
+      "text": "COPY IT. SAVE IT. THEN YOU CAN GO BACK TO MAKING BAD DECISIONS.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.016",
+      "text": "YOU’RE ONE TAP AWAY FROM DOING SOMETHING RESPONSIBLE.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.017",
+      "text": "DON’T MAKE RECOVERY-YOU HATE CURRENT-YOU.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.018",
+      "text": "LOSE THE KEY AND THE PASSWORD? THAT’S A YOU PROBLEM.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.019",
+      "text": "WE CAN’T SAVE IT FOR YOU, CHAMP.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.020",
+      "text": "SAVE THE KEY BEFORE YOU CLOSE THIS AND IMMEDIATELY FORGET.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.021",
+      "text": "IF YOU SKIP THIS, YOU’RE VOLUNTEERING FOR FUTURE PAIN.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.022",
+      "text": "YOUR MEMORY IS NOT A BACKUP PLAN.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_recovery_key_warning.023",
+      "text": "SAVE IT NOW. YOU CAN BE IRRESPONSIBLE AGAIN IN A MINUTE.",
+      "events": [
+        "auth.recovery_key_warning"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.001",
+      "text": "OH GOOD. YOU’RE BACK.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.002",
+      "text": "LOOK WHO CAME CRAWLING BACK.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.003",
+      "text": "WELCOME BACK, MENACE.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.004",
+      "text": "WE WERE HOPING YOU’D FORGOTTEN ABOUT US.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.005",
+      "text": "YOU AGAIN?",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.006",
+      "text": "WELL, SHIT. THEY LET YOU BACK IN.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.007",
+      "text": "WELCOME BACK. EXPECTATIONS REMAIN LOW.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.008",
+      "text": "THE COURSE WAS JUST STARTING TO HEAL.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.009",
+      "text": "LOOK WHO’S READY TO MAKE MORE BAD DECISIONS.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.010",
+      "text": "YOU LOGGED IN VOLUNTARILY. REMEMBER THAT.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.011",
+      "text": "WELCOME BACK TO POOR CLUB SELECTIONS AND WORSE EXCUSES.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.012",
+      "text": "THE SHITSHOW HAS RETURNED.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.013",
+      "text": "SOMEBODY WARN THE GOLF COURSE.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.014",
+      "text": "BACK AGAIN? APPARENTLY LAST TIME TAUGHT YOU NOTHING.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.015",
+      "text": "WELCOME BACK. YOUR FRIENDS HAVE PROBABLY ALREADY STARTED TALKING SHIT.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.016",
+      "text": "THE SCORECARD REMEMBERS YOU. UNFORTUNATELY.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.017",
+      "text": "READY TO DISAPPOINT YOURSELF AGAIN?",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.018",
+      "text": "YOU’RE BACK. THE BAR WAS LOW AND SOMEHOW GOT LOWER.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.019",
+      "text": "WELCOME BACK TO UNNECESSARY COMPETITION.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.020",
+      "text": "ANOTHER ROUND? YOU REALLY DON’T LEARN.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.021",
+      "text": "WE SAVED YOUR SPOT IN THE SHITSHOW.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.022",
+      "text": "WELCOME BACK. TRY AIMING TODAY.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.023",
+      "text": "THE LEGEND RETURNS. “LEGEND” IS DOING A LOT OF WORK THERE.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.024",
+      "text": "BACK FOR MORE? RESPECT THE COMMITMENT TO FAILURE.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.025",
+      "text": "YOUR ACCOUNT WORKS. LET’S SEE IF YOUR SWING DOES.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.026",
+      "text": "WELCOME BACK. THE PUTTER STILL DOESN’T TRUST YOU.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.027",
+      "text": "GOOD, YOU’RE HERE. SOMEBODY HAS TO FINISH LAST.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.028",
+      "text": "YOU MADE IT BACK. THE COURSE HAS BEEN NOTIFIED.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.auth_welcome.029",
+      "text": "ALL RIGHT, ASSHOLE. LET’S PLAY SOME GOLF.",
+      "events": [
+        "auth.welcome"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
     },
     {
       "id": "banter.auth.signin_idle.001",
@@ -1305,7 +3148,7 @@
       "audiences": [
         "everyone"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -1417,7 +3260,7 @@
       "audiences": [
         "everyone"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -1601,7 +3444,7 @@
       "audiences": [
         "everyone"
       ],
-      "vulgarity": "brutal",
+      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -1899,6 +3742,1259 @@
       "themes": [],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.derived.back_to_back.brutal",
+      "text": "Back-to-back fucking birdies. Somebody humble this asshole.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.back_to_back.normal",
+      "text": "Back-to-back birdies. Absolutely insufferable behavior.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.birdie_streak.brutal",
+      "text": "Three straight fucking birdies. This shit is under investigation.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.birdie_streak.normal",
+      "text": "Three straight birdies. We are officially checking the scorecard.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.blowup.brutal",
+      "text": "That hole was a complete fucking detonation.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.blowup.normal",
+      "text": "That hole did not go badly. It filed a claim.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.bogey_streak.brutal",
+      "text": "Three holes of consecutive bullshit. That's a fucking streak.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.bogey_streak.normal",
+      "text": "Three bogeys or worse in a row. Consistency achieved.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.entered_last.brutal",
+      "text": "{subject} just fell into fucking last place.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.entered_last.normal",
+      "text": "{subject} has entered last place. Welcome to the basement.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.escaped_last.brutal",
+      "text": "{subject} escaped fucking last. Congratulations on finding a worse golfer.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.escaped_last.normal",
+      "text": "{subject} escaped last place. Somebody else is now holding the bag.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_birdie.brutal",
+      "text": "First fucking birdie. Took long enough.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_birdie.normal",
+      "text": "First birdie of the day. Somebody alert the clubhouse.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_eagle.brutal",
+      "text": "First fucking eagle. Who swapped in a real golfer?",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.first_eagle.normal",
+      "text": "First eagle. This is getting suspicious.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.lost_lead.brutal",
+      "text": "{subject} lost the fucking lead. Beautiful collapse.",
+      "events": [
+        "score.derived.lost_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.lost_lead.normal",
+      "text": "{subject} lost the lead. Nature is healing.",
+      "events": [
+        "score.derived.lost_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.new_leader.brutal",
+      "text": "{subject} took the fucking lead. This is getting obnoxious.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.new_leader.normal",
+      "text": "{subject} took the lead. Try not to make eye contact.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.tied_lead.brutal",
+      "text": "{subject} tied the fucking lead. Now everybody can panic.",
+      "events": [
+        "score.derived.tied_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.derived.tied_lead.normal",
+      "text": "{subject} tied the lead. Nobody is allowed to feel comfortable.",
+      "events": [
+        "score.derived.tied_lead"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_everybody_saw",
+      "text": "Everybody saw that shit.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_evidence",
+      "text": "Put that shit in the evidence locker.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_happened",
+      "text": "Well. That fucking happened.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_masterpiece",
+      "text": "Another fucking masterpiece.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_mistake",
+      "text": "Golf was a fucking mistake.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_no_pretending",
+      "text": "Nobody gets to pretend that shit didn’t happen.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_receipts",
+      "text": "Add that bullshit to the receipts.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.brutal_scorecard",
+      "text": "The scorecard has seen some shit.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.everybody_saw_that",
+      "text": "Everybody saw that.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.evidence_recorded",
+      "text": "Evidence successfully recorded.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.no_context",
+      "text": "No context is making that look better.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.normal_day",
+      "text": "Another perfectly normal day of golf.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.receipts",
+      "text": "That’s going in the receipts.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.round_continues",
+      "text": "And somehow, the round continues.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.scorecard_remembers",
+      "text": "The scorecard will remember this.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.generic.well_that_happened",
+      "text": "Well. That happened.",
+      "events": [
+        "generic.golf"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.handicap.cleared.normal",
+      "text": "{subject}'s net math has been removed from polite society.",
+      "events": [
+        "handicap.cleared"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.handicap.corrected.normal",
+      "text": "{subject}'s handicap changed after the evidence started. Very convenient.",
+      "events": [
+        "handicap.corrected"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.handicap.set.normal",
+      "text": "{subject}'s round handicap is officially on the record.",
+      "events": [
+        "handicap.set"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.claim_undone.normal",
+      "text": "{subject} is back to being represented by committee.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.claimed.normal",
+      "text": "{subject} has officially claimed the evidence.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.proxy_added.brutal",
+      "text": "{subject}'s phone has left the chat. The scorecard has not.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.proxy_added.normal",
+      "text": "{subject} is participating through a human proxy.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.return.brutal",
+      "text": "Back for more? Apparently quitting didn't fucking take.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.return.normal",
+      "text": "Look who decided suffering builds character.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.spectator_to_player.brutal",
+      "text": "Look who finally grew a pair and joined the disaster.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.spectator_to_player.normal",
+      "text": "Spectating was apparently too safe.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.towel.brutal",
+      "text": "Fuck it. Somebody finally admitted defeat.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.participant.towel.normal",
+      "text": "The towel has been thrown. Dignity left earlier.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.round.end_early.no.normal",
+      "text": "Mercy denied. Somebody wants the suffering to continue.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.round.end_early.yes.normal",
+      "text": "One vote for mercy has entered the record.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.round.ended_early.normal",
+      "text": "Round ended early. The evidence collected so far remains admissible.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.ace.brutal",
+      "text": "A fucking ace. Great. Now we have to hear about this forever.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.ace.normal",
+      "text": "Hole in one. Disgusting. Nobody wanted to see competence today.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.albatross.brutal",
+      "text": "An albatross? Somebody check the fucking scorekeeper.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.albatross.normal",
+      "text": "An albatross. This round is officially suspicious.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.birdie.brutal",
+      "text": "Birdie. Calm the fuck down, Tour Pro.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.birdie.normal",
+      "text": "Birdie. Take a picture. This may never happen again.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.bogey.brutal",
+      "text": "Bogey. Just enough shit to keep expectations low.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.bogey.normal",
+      "text": "Bogey. Nothing heroic, nothing surprising.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.challenge.brutal",
+      "text": "Score challenged. Somebody smelled bullshit.",
+      "events": [
+        "score.challenge"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.challenge.normal",
+      "text": "Score challenged. Apparently numbers need witnesses now.",
+      "events": [
+        "score.challenge"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.challenge.withdrawn.normal",
+      "text": "Challenge withdrawn. Courage had a short round.",
+      "events": [
+        "score.challenge.withdrawn"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.double.brutal",
+      "text": "Double bogey. There goes another fucking tire.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.double.normal",
+      "text": "Double bogey. The wheels are making a noise.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.eagle.brutal",
+      "text": "Eagle. Well, look who suddenly knows how to fucking golf.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.eagle.normal",
+      "text": "Eagle. Try not to become completely unbearable.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.par.brutal",
+      "text": "Par. You did your fucking job. Want a medal?",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.par.normal",
+      "text": "Par. Congratulations on meeting the minimum expectation.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.quad.brutal",
+      "text": "That score is a fucking incident report.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.quad.normal",
+      "text": "That is no longer a score. It is documentation.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.removed.brutal",
+      "text": "Score deleted. The bullshit trail stays.",
+      "events": [
+        "score.removed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.removed.normal",
+      "text": "Score removed. The receipt isn't.",
+      "events": [
+        "score.removed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.blame.brutal",
+      "text": "Somebody fucked this hole up. Names are being taken.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.blame.normal",
+      "text": "Somebody on this team owes everybody else an apology.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.bullshit.brutal",
+      "text": "That score is complete fucking bullshit.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.bullshit.normal",
+      "text": "THAT'S BULLSHIT.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.cheater.brutal",
+      "text": "He's a damned cheater. Audit the fucking pencil.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.cheater.normal",
+      "text": "Somebody check that scorecard for creative accounting.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.lucky.brutal",
+      "text": "Lucky bastard. Don't pretend that shit was planned.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.lucky.normal",
+      "text": "That had more luck than talent and everyone knows it.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.nice.brutal",
+      "text": "Fine. That was fucking good. I hate it.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.nice.normal",
+      "text": "Fine. That was actually a good score. Gross.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.01",
+      "text": "Bold score. Not good. Bold.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.02",
+      "text": "The scorecard asked me not to comment, so naturally I am.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.03",
+      "text": "That number has witnesses.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.04",
+      "text": "That score needs an alibi.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal01",
+      "text": "That number is fucked and we all know it.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal02",
+      "text": "Put that shit under oath.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal03",
+      "text": "The fucking audacity of that score.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.response.random.brutal04",
+      "text": "Absolutely not. Get the fuck out of here with that number.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.triple.brutal",
+      "text": "Triple bogey. This hole beat your ass in public.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true
+    },
+    {
+      "id": "banter.score.triple.normal",
+      "text": "Triple bogey. Please remain near the wreckage.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true
     }
   ]
 }
