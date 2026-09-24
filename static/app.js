@@ -1,6 +1,7 @@
 (() => {
   const SESSION_KEY = 'wpm_session_token';
   const PAR_SETUP_NOW_KEY = 'wpm_par_setup_now_round';
+  const HOME_BACKGROUND_SESSION_KEY = 'wpm_home_background_asset';
 
   const splash = document.getElementById('launch-splash');
   const splashMini = document.getElementById('launch-splash-mini');
@@ -898,6 +899,7 @@
     stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
     if (appShell) appShell.removeAttribute('aria-hidden');
+    void loadRandomHomeBackground();
     if (welcomeKicker) {
       const name = String(account?.display_name || '').trim();
       welcomeKicker.textContent = name
@@ -1012,6 +1014,65 @@
       showAuth('login');
       setAuthMessage('YOUR SESSION EXPIRED — SIGN IN AGAIN.');
       void showAuthHeckleOnce('auth.session_expired');
+    }
+  };
+
+  const loadRandomHomeBackground = async () => {
+    if (!appShell) return;
+
+    try {
+      const response = await fetch('/static/assets/_meta/asset-manifest.json');
+      if (!response.ok) return;
+
+      const manifest = await response.json();
+      const backgrounds = (manifest.assets || []).filter(
+        (item) => (
+          item.family === 'home-background'
+          && item.pool === 'home.backgrounds'
+          && item.enabled !== false
+          && item.production
+        )
+      );
+      if (!backgrounds.length) return;
+
+      const rememberedId = window.sessionStorage.getItem(
+        HOME_BACKGROUND_SESSION_KEY
+      );
+      let picked = backgrounds.find(
+        (item) => item.asset_id === rememberedId
+      );
+      if (!picked) {
+        picked = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+      }
+
+      const productionPath = String(picked.production).replace(/^\/+/, '');
+      const imagePath = productionPath.startsWith('static/')
+        ? `/${productionPath}`
+        : `/static/${productionPath}`;
+
+      const preload = new Image();
+      preload.addEventListener(
+        'load',
+        () => {
+          appShell.style.setProperty(
+            '--home-background-image',
+            `url("${imagePath}")`
+          );
+          appShell.dataset.homeBackground = String(
+            picked.asset_id || picked.production
+          );
+          appShell.classList.add('has-home-background');
+        },
+        { once: true }
+      );
+      preload.src = imagePath;
+
+      window.sessionStorage.setItem(
+        HOME_BACKGROUND_SESSION_KEY,
+        String(picked.asset_id || '')
+      );
+    } catch (_error) {
+      // Home remains usable on its base WPM Night surface if art fails to load.
     }
   };
 
