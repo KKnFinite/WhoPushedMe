@@ -786,7 +786,10 @@ def cmd_add_home_background(args: argparse.Namespace) -> None:
     destination_source.parent.mkdir(parents=True, exist_ok=True)
     destination_webp.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, destination_source)
-    make_webp(destination_source, destination_webp, lossless=False)
+    if source.suffix.lower() == ".webp":
+        shutil.copy2(destination_source, destination_webp)
+    else:
+        make_webp(destination_source, destination_webp, lossless=False)
     build_manifest()
 
     print(f"Added Home background: {stem}")
