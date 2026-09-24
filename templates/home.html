@@ -104,65 +104,110 @@
   </main>
 
   <main id="app-shell" class="app-shell" aria-hidden="true">
-    <header class="home-header">
-      <div class="header-copy">
-        <div class="mini-kicker">MUNICIPAL COURSE LEGENDS ONLY</div>
-        <div class="brand-lockup brand-lockup-home" aria-label="Who Pushed Me?! Scorecard">
-          <span class="brand-line brand-who">WHO</span>
-          <span class="brand-line brand-pushed">PUSHED</span>
-          <span class="brand-line brand-me">ME<span class="brand-punctuation">?!</span></span>
-          <span class="brand-scorecard">SCORECARD</span>
+    <section class="home-hero" aria-label="Who Pushed Me home">
+      <div class="home-topbar">
+        <img
+          class="home-wordmark"
+          src="{{ url_for('static', filename='assets/brand/WPM_Wordmark.webp') }}"
+          alt="Who Pushed Me?! Scorecard"
+          decoding="async"
+        >
+
+        <div class="home-greeting">
+          <div class="home-greeting-copy">
+            <span>Hey there,</span>
+            <strong id="home-welcome-name">Kessler</strong>
+          </div>
+          <button
+            id="home-settings-quick"
+            class="home-quick-settings"
+            type="button"
+            data-settings-open
+            aria-label="Open settings"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.14 12.94a7.7 7.7 0 0 0 .05-.94 7.7 7.7 0 0 0-.05-.94l2.03-1.58-1.92-3.32-2.39.96a7.2 7.2 0 0 0-1.63-.95L14.87 3h-3.84l-.36 3.17a7.2 7.2 0 0 0-1.63.95l-2.39-.96-1.92 3.32 2.03 1.58a7.7 7.7 0 0 0-.05.94c0 .32.02.63.05.94l-2.03 1.58 1.92 3.32 2.39-.96c.5.39 1.05.71 1.63.95l.36 3.17h3.84l.36-3.17a7.2 7.2 0 0 0 1.63-.95l2.39.96 1.92-3.32-2.03-1.58ZM12.95 15.5A3.5 3.5 0 1 1 12.95 8a3.5 3.5 0 0 1 0 7.5Z"/>
+            </svg>
+          </button>
         </div>
       </div>
-      <img class="mascot-icon" src="{{ url_for('static', filename='assets/icons/WPM_DesktopIcon_Official.webp') }}" alt="Rude golf ball mascot wearing sunglasses and a cap">
-    </header>
 
-    <section class="welcome-panel">
-      <div id="home-welcome-kicker" class="panel-kicker">WELCOME BACK</div>
-      <h1 id="home-welcome-title">Ready to ruin a perfectly good afternoon?</h1>
+      <img
+        class="home-mascot"
+        src="{{ url_for('static', filename='assets/home/WPM_Home_Mascot.png') }}"
+        alt="Who Pushed Me mascot holding a beer and giving the middle finger"
+        decoding="async"
+      >
     </section>
 
-    <aside id="home-heckle" class="screen-heckle" hidden aria-label="Who Pushed Me home commentary">
-      <p id="home-heckle-text"></p>
-    </aside>
-
-    <section class="home-actions" aria-label="Who Pushed Me home actions">
-      <button id="start-round-button" type="button" class="home-button home-button-primary">
-        <span>START A ROUND</span>
-      </button>
-
-      <button id="join-round-button" type="button" class="home-button home-button-dark">
-        <span>JOIN A ROUND</span>
-      </button>
-
-      <div class="home-grid">
-        <button type="button" class="home-card card-green" data-under-construction>
-          <span class="card-kicker">PREVIOUS DISASTERS</span>
-          <strong>Rounds</strong>
+    <section class="home-menu" aria-label="Who Pushed Me home actions">
+      <div class="home-primary-actions">
+        <button id="start-round-button" type="button" class="home-action-card home-action-start">
+          <span class="home-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"/></svg>
+          </span>
+          <span class="home-action-copy">
+            <strong>START A ROUND</strong>
+            <small>LET’S MAKE A MESS.</small>
+          </span>
+          <span class="home-chevron" aria-hidden="true">›</span>
         </button>
 
-        <button type="button" class="home-card card-charcoal" data-under-construction>
-          <span class="card-kicker">ALLEGED TALENT</span>
-          <strong>Stats</strong>
-        </button>
-
-        <button type="button" class="home-card card-mustard" data-under-construction>
-          <span class="card-kicker">KNOWN OFFENDERS</span>
-          <strong>Golfers</strong>
-        </button>
-
-        <button id="settings-button" type="button" class="home-card card-orange">
-          <span class="card-kicker">BAD INFLUENCES</span>
-          <strong>Settings</strong>
+        <button id="join-round-button" type="button" class="home-action-card home-action-join">
+          <span class="home-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C23 14.17 18.33 13 16 13ZM8 13c-2.67 0-8 1.34-8 4v2h7v-2.5c0-.91.35-1.68.94-2.32A12.9 12.9 0 0 0 8 13Z"/>
+            </svg>
+          </span>
+          <span class="home-action-copy">
+            <strong>JOIN A ROUND</strong>
+            <small>ENABLE THE DAMAGE.</small>
+          </span>
+          <span class="home-chevron" aria-hidden="true">›</span>
         </button>
       </div>
-    </section>
 
-    <footer class="home-footer">
-      <span>PROTOTYPE {{ version }}</span>
-      <span>NO DIGNITY REQUIRED</span>
-      <button id="logout-button" class="logout-button" type="button">SIGN OUT</button>
-    </footer>
+      <div class="home-secondary-actions">
+        <button type="button" class="home-nav-card" data-under-construction>
+          <span class="home-nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.65 4.8H2.8l3.6-3.6L10 9.8H7.43A5 5 0 1 0 12 7V5Z"/></svg>
+          </span>
+          <span class="home-nav-copy"><strong>PREVIOUS<br>DISASTERS</strong><small>RERUN THE DAMAGE.</small></span>
+          <span class="home-nav-chevron" aria-hidden="true">›</span>
+        </button>
+
+        <button type="button" class="home-nav-card" data-under-construction>
+          <span class="home-nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 4h10v2h3v3c0 2.76-2.24 5-5 5h-.1A5 5 0 0 1 13 15.83V18h4v2H7v-2h4v-2.17A5 5 0 0 1 9.1 14H9c-2.76 0-5-2.24-5-5V6h3V4Zm0 4H6v1a3 3 0 0 0 3 3V8H7Zm10 4a3 3 0 0 0 3-3V8h-1v4h-2Z"/></svg>
+          </span>
+          <span class="home-nav-copy"><strong>ALLEGED<br>TALENT</strong><small>SEE THE LIES.</small></span>
+          <span class="home-nav-chevron" aria-hidden="true">›</span>
+        </button>
+
+        <button type="button" class="home-nav-card" data-under-construction>
+          <span class="home-nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C23 14.17 18.33 13 16 13ZM8 13c-2.67 0-8 1.34-8 4v2h7v-2.5c0-.91.35-1.68.94-2.32A12.9 12.9 0 0 0 8 13Z"/></svg>
+          </span>
+          <span class="home-nav-copy"><strong>KNOWN<br>OFFENDERS</strong><small>SAME SUSPECTS.</small></span>
+          <span class="home-nav-chevron" aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <button id="settings-button" type="button" class="home-settings-row" data-settings-open>
+        <span class="home-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M19.14 12.94a7.7 7.7 0 0 0 .05-.94 7.7 7.7 0 0 0-.05-.94l2.03-1.58-1.92-3.32-2.39.96a7.2 7.2 0 0 0-1.63-.95L14.87 3h-3.84l-.36 3.17a7.2 7.2 0 0 0-1.63.95l-2.39-.96-1.92 3.32 2.03 1.58a7.7 7.7 0 0 0-.05.94c0 .32.02.63.05.94l-2.03 1.58 1.92 3.32 2.39-.96c.5.39 1.05.71 1.63.95l.36 3.17h3.84l.36-3.17a7.2 7.2 0 0 0 1.63-.95l2.39.96 1.92-3.32-2.03-1.58ZM12.95 15.5A3.5 3.5 0 1 1 12.95 8a3.5 3.5 0 0 1 0 7.5Z"/>
+          </svg>
+        </span>
+        <span class="home-settings-copy"><strong>SETTINGS</strong><small>ADJUST YOUR BAD DECISIONS.</small></span>
+        <span class="home-nav-chevron" aria-hidden="true">›</span>
+      </button>
+
+      <aside id="home-heckle" class="home-banter" hidden aria-label="Who Pushed Me home commentary">
+        <span class="home-banter-mark" aria-hidden="true">📣</span>
+        <p id="home-heckle-text"></p>
+      </aside>
+    </section>
   </main>
 
   <div id="install-onboarding-modal" class="install-onboarding-modal" hidden role="dialog" aria-modal="true" aria-labelledby="install-onboarding-title">
@@ -795,6 +840,7 @@
 
         <button class="settings-save" type="submit">SAVE MY BAD DECISIONS</button>
       </form>
+      <button id="logout-button" class="settings-logout" type="button">SIGN OUT</button>
     </section>
   </div>
 
