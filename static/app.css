@@ -7852,3 +7852,53 @@ body.app-ready .home-banter p {
   background: rgba(33,69,52,.96) !important;
   color: var(--wpm-gold) !important;
 }
+
+
+/* WPM ROUND CONTROL DYNAMIC ROW COVERAGE */
+.round-flow-card-game .end-early-voter {
+  border: 1px solid rgba(78,122,93,.52) !important;
+  border-radius: 9px !important;
+  background: rgba(5,9,7,.72) !important;
+  color: #fff8df !important;
+}
+
+.round-flow-card-game .end-early-voter span,
+.round-flow-card-game .end-early-voter strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.round-flow-card-game .score-response-line {
+  border-left: 3px solid var(--wpm-orange-burnt) !important;
+  border-radius: 8px !important;
+  background: rgba(5,9,7,.72) !important;
+  color: rgba(255,248,223,.88) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.round-flow-card-game :is(
+  .score-response-blame button,
+  .score-response-custom button
+) {
+  min-height: 38px !important;
+  border: 1px solid rgba(78,122,93,.55) !important;
+  border-radius: 9px !important;
+  background: rgba(5,9,7,.8) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+}
+
+.round-flow-card-game :is(
+  .claim-player-row button,
+  .round-handicap-row button
+) {
+  min-height: 40px !important;
+  border: 1px solid rgba(212,166,42,.74) !important;
+  border-radius: 9px !important;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417) !important;
+  color: var(--wpm-night) !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400 !important;
+}
