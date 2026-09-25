@@ -6901,6 +6901,12 @@ body.app-ready .home-banter p {
   margin-top: 1px;
 }
 
+/* Course results and the selected-course presentation are mutually exclusive. */
+#selected-course[hidden],
+#start-tee-field[hidden] {
+  display: none !important;
+}
+
 @media (max-width: 680px) {
   /* Step 2 has transparent padding in the mini art, so lower the stage until
      the visible feet actually sit on the NEXT button instead of floating. */
@@ -6911,7 +6917,7 @@ body.app-ready .home-banter p {
     z-index: 141 !important;
     width: min(58vw, 236px) !important;
     height: 156px !important;
-    transform: translateX(-50%) !important;
+    transform: translate(-50%, var(--setup-mini-y, 0px)) !important;
     display: flex;
     align-items: flex-end;
     justify-content: center;
