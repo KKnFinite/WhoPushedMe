@@ -5919,3 +5919,182 @@ body.app-ready .home-banter p {
     font-size: .96rem;
   }
 }
+
+
+/* ROUND SETUP FLOW ORDER + MINI OVERLAY */
+.setup-step-actions button,
+.setup-step .round-create-button {
+  min-height: 56px !important;
+}
+
+.setup-step-actions .setup-next,
+.setup-step-actions .round-create-button {
+  font-size: 1.3rem !important;
+}
+
+.setup-step-actions .setup-back {
+  min-height: 56px !important;
+}
+
+.setup-step-actions-next .setup-next {
+  width: 78%;
+  max-width: 520px;
+  justify-self: center;
+}
+
+.setup-step-actions-with-mini {
+  position: relative;
+  padding-top: 118px;
+}
+
+.setup-step-actions-with-mini .setup-next {
+  position: relative;
+  z-index: 2;
+}
+
+.setup-step-actions-with-mini .setup-mini-stage {
+  position: absolute;
+  left: 50%;
+  bottom: 43px;
+  z-index: 3;
+  width: min(52%, 240px);
+  height: 150px;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.setup-step-actions-with-mini .setup-mini {
+  width: auto;
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.42));
+}
+
+.setup-step-message {
+  display: block;
+  box-sizing: border-box;
+  min-height: 22px;
+  margin: 0;
+  padding: 2px 4px;
+  color: var(--wpm-orange-ember);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.setup-step-message[hidden] {
+  display: block !important;
+  visibility: hidden;
+}
+
+.setup-step[data-setup-step="2"] .setup-card-course-search,
+.setup-step[data-setup-step="2"] .setup-card-free-play {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 42vh;
+  overflow: hidden;
+}
+
+.setup-step[data-setup-step="2"] .course-results {
+  max-height: 104px;
+  overflow: hidden;
+}
+
+.setup-step[data-setup-step="2"] .course-result {
+  min-height: 48px;
+}
+
+.setup-step[data-setup-step="3"] .setup-card-route {
+  max-height: none;
+}
+
+.round-start-form .choice-fieldset legend,
+.round-start-form .round-text-field > span {
+  font-size: .86rem;
+}
+
+.round-start-form .choice-fieldset label {
+  font-size: 1.08rem;
+}
+
+.round-start-form .choice-fieldset > small,
+.round-start-form .round-text-field small,
+.round-start-form .free-play-fields > small {
+  font-size: .81rem;
+}
+
+.round-start-form .round-text-field input,
+.round-start-form .round-text-field select,
+.round-start-form .course-search-row input {
+  font-size: 1.12rem;
+}
+
+.round-start-form .route-preview {
+  font-size: .82rem;
+}
+
+.round-start-form .setup-card-par label {
+  font-size: .88rem;
+}
+
+@media (max-width: 680px) {
+  .setup-step-actions-with-mini {
+    padding-top: 108px;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 41px;
+    width: min(50%, 210px);
+    height: 138px;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 138px;
+  }
+
+  .setup-step-actions-next .setup-next {
+    width: 82%;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button {
+    min-height: 54px !important;
+  }
+
+  .setup-step-actions .setup-next,
+  .setup-step-actions .round-create-button {
+    font-size: 1.22rem !important;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-card-course-search,
+  .setup-step[data-setup-step="2"] .setup-card-free-play {
+    max-height: 38vh;
+  }
+}
+
+@media (max-height: 760px) {
+  .setup-step-actions-with-mini {
+    padding-top: 86px;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 38px;
+    height: 112px;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 112px;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button,
+  .setup-step-actions .setup-back {
+    min-height: 50px !important;
+  }
+}
