@@ -6956,8 +6956,27 @@ body.app-ready .home-banter p {
     overflow: hidden !important;
   }
 
-  /* Three deterministic rows: no clipped third result, and no tee field
-     competing for this space while search results are visible. */
+  /* When search results are visible, don't let flexbox shrink the card and
+     crop the third row. The mini is hidden here, so the card can use that space. */
+  .setup-step[data-setup-step="2"] .setup-card-course-search.has-results {
+    flex: 0 0 auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .setup-step[data-setup-step="2"] .course-search-panel.has-results .course-results {
+    max-height: none !important;
+    overflow: visible !important;
+    grid-template-rows: repeat(3, 50px);
+  }
+
+  .setup-step[data-setup-step="2"] .course-search-panel.has-results .course-result {
+    box-sizing: border-box;
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 5px 10px;
+  }
+
   .setup-step[data-setup-step="2"] .course-results {
     max-height: 184px !important;
     overflow: hidden !important;
