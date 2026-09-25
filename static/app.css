@@ -6695,3 +6695,177 @@ body.app-ready .home-banter p {
     bottom: calc(max(12px, env(safe-area-inset-bottom)) + 56px) !important;
   }
 }
+
+
+/* FREE PLAY + STEP 2/3 ACTION FINAL OVERRIDE */
+#course-search-panel[hidden],
+#free-play-field[hidden],
+.setup-mini-stage[hidden] {
+  display: none !important;
+}
+
+.setup-step .setup-card-free-play {
+  display: grid;
+  gap: 10px;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 12px !important;
+  border: 1px solid rgba(78,122,93,.58) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99)) !important;
+  color: var(--wpm-cream) !important;
+}
+
+.free-play-hole-select {
+  display: grid;
+  gap: 7px;
+  padding: 0;
+  background: transparent;
+  color: var(--wpm-cream);
+}
+
+.free-play-hole-label {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .86rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.free-play-hole-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.free-play-hole-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid rgba(78,122,93,.48);
+  border-radius: 10px;
+  background: rgba(5,9,7,.72);
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.02rem;
+  line-height: .95;
+  cursor: pointer;
+}
+
+.free-play-hole-options label:has(input:checked) {
+  border-color: var(--wpm-gold);
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98));
+  box-shadow: inset 0 0 0 1px rgba(212,166,42,.34);
+}
+
+.free-play-hole-options input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--wpm-gold);
+}
+
+.free-play-helper {
+  display: block;
+  margin: 0;
+  color: rgba(233,225,200,.74);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+@media (max-width: 680px) {
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    z-index: 140 !important;
+    display: grid !important;
+    grid-template-columns: 24% minmax(0, 1fr) !important;
+    gap: 8px !important;
+    width: 80% !important;
+    max-width: 520px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: translateX(-50%) !important;
+    overflow: visible !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back {
+    font-size: .96rem !important;
+    padding: 7px 6px !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    font-size: 1.16rem !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 50px) !important;
+    z-index: 141 !important;
+    width: min(58vw, 236px) !important;
+    height: 156px !important;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transform: translateX(-50%) !important;
+    overflow: visible !important;
+    pointer-events: none !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 156px !important;
+    object-position: center bottom !important;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-card-free-play {
+    max-height: none !important;
+    overflow: visible !important;
+    padding-bottom: 14px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    width: 84% !important;
+    grid-template-columns: 25% minmax(0, 1fr) !important;
+    gap: 7px !important;
+  }
+
+  .free-play-hole-label {
+    font-size: .8rem;
+  }
+
+  .free-play-hole-options label {
+    min-height: 44px;
+    font-size: .96rem;
+  }
+
+  .free-play-helper {
+    font-size: .72rem;
+  }
+}
