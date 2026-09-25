@@ -1157,7 +1157,13 @@
       mini.addEventListener(
         'load',
         () => {
-          stage.hidden = false;
+          const freePlaySelected = (
+            Number(step) === 2
+            && startRoundForm?.querySelector(
+              'input[name="course_mode"]:checked'
+            )?.value === 'free'
+          );
+          stage.hidden = freePlaySelected;
           mini.classList.add('is-loaded');
         },
         { once: true }
@@ -1498,11 +1504,29 @@
     courseStepMessage.hidden = !message;
   };
 
+  const setupMiniParts = (step) => ({
+    stage: [...setupMiniStages].find(
+      (item) => Number(item.dataset.setupMiniStage) === Number(step)
+    ),
+    mini: [...setupMinis].find(
+      (item) => Number(item.dataset.setupMini) === Number(step)
+    ),
+  });
+
   const setCourseMode = (mode) => {
     const useCourse = mode === 'course';
     setCourseStepMessage('');
     if (courseSearchPanel) courseSearchPanel.hidden = !useCourse;
     if (freePlayField) freePlayField.hidden = useCourse;
+
+    const { stage: stepTwoMiniStage, mini: stepTwoMini } = setupMiniParts(2);
+    if (stepTwoMiniStage) {
+      stepTwoMiniStage.hidden = !useCourse;
+    }
+    if (useCourse && stepTwoMiniStage && stepTwoMini && !stepTwoMini.src) {
+      void loadRandomSetupMini(2);
+    }
+
     if (!useCourse) {
       clearSelectedCourse();
       if (courseResults) courseResults.replaceChildren();
@@ -1690,7 +1714,12 @@
       );
     }
     if (resolved === 3) renderRoutePreview();
-    void loadRandomSetupMini(resolved);
+    if (
+      resolved !== 2
+      || startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value === 'course'
+    ) {
+      void loadRandomSetupMini(resolved);
+    }
   };
 
   const setRoundFlowMessage = (message = '') => {
