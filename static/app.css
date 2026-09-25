@@ -4017,3 +4017,197 @@ body.app-ready .app-shell {
 .home-mascot {
   display: none !important;
 }
+
+
+/* HOME LEGIBILITY PASS */
+.home-action-copy strong,
+.home-nav-copy strong,
+.home-settings-copy strong {
+  font-family: "Bebas Neue", Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .018em;
+}
+
+.home-action-copy small,
+.home-nav-copy small,
+.home-settings-copy small {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: .015em;
+}
+
+.home-action-card {
+  grid-template-columns: 44px minmax(0, 1fr) 12px;
+  gap: 8px;
+  min-height: 104px;
+  padding: 13px 11px;
+}
+
+.home-action-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.home-action-copy {
+  gap: 4px;
+}
+
+.home-action-copy strong {
+  font-size: clamp(1.2rem, 5vw, 1.48rem);
+  line-height: .9;
+  white-space: nowrap;
+}
+
+.home-action-copy small {
+  font-size: clamp(.72rem, 2.85vw, .88rem);
+  line-height: 1;
+}
+
+.home-action-start .home-action-copy small {
+  color: rgba(5, 9, 7, .86);
+}
+
+.home-action-join .home-action-copy strong {
+  color: #fff8df;
+}
+
+.home-action-join .home-action-copy small {
+  color: #ffd24a;
+}
+
+.home-chevron {
+  justify-self: end;
+  font-size: 1.8rem;
+  opacity: .9;
+}
+
+.home-secondary-actions {
+  gap: 7px;
+}
+
+.home-nav-card {
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 6px;
+  min-height: 106px;
+  padding: 11px 20px 11px 8px;
+  overflow: hidden;
+}
+
+.home-nav-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.home-nav-copy {
+  gap: 5px;
+}
+
+.home-nav-copy strong {
+  font-size: clamp(.92rem, 3.8vw, 1.08rem);
+  line-height: .88;
+  color: #fff8df;
+}
+
+.home-nav-copy small {
+  font-size: clamp(.59rem, 2.35vw, .69rem);
+  line-height: 1;
+  color: rgba(255, 248, 223, .78);
+  white-space: normal;
+}
+
+.home-nav-chevron {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: .78;
+}
+
+.home-settings-row {
+  grid-template-columns: 44px minmax(0, 1fr) 18px;
+  gap: 12px;
+  padding: 12px 15px;
+}
+
+.home-settings-row .home-nav-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.home-settings-copy {
+  gap: 4px;
+}
+
+.home-settings-copy strong {
+  font-size: 1.42rem;
+  line-height: .9;
+  color: #fff8df;
+}
+
+.home-settings-copy small {
+  font-size: .84rem;
+  line-height: 1;
+  color: rgba(255, 248, 223, .78);
+}
+
+.home-banter p {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(.82rem, 3.2vw, .98rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.02;
+  letter-spacing: .01em;
+}
+
+@media (max-width: 390px) {
+  .home-action-card {
+    grid-template-columns: 40px minmax(0, 1fr) 10px;
+    gap: 7px;
+    min-height: 96px;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .home-action-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-action-copy strong {
+    font-size: clamp(1.08rem, 5vw, 1.3rem);
+  }
+
+  .home-action-copy small {
+    font-size: clamp(.68rem, 2.75vw, .8rem);
+  }
+
+  .home-secondary-actions {
+    gap: 6px;
+  }
+
+  .home-nav-card {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 5px;
+    min-height: 104px;
+    padding: 10px 17px 10px 6px;
+  }
+
+  .home-nav-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .home-nav-copy strong {
+    font-size: clamp(.86rem, 3.8vw, 1rem);
+  }
+
+  .home-nav-copy small {
+    font-size: clamp(.55rem, 2.25vw, .64rem);
+  }
+
+  .home-nav-chevron {
+    right: 5px;
+  }
+}
