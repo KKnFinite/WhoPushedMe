@@ -6869,3 +6869,81 @@ body.app-ready .home-banter p {
     font-size: .72rem;
   }
 }
+
+
+/* COURSE STEP HOLES + MINI FINAL PLACEMENT */
+.setup-card-round-holes {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+.setup-card-round-holes > legend,
+.setup-card-round-holes > .round-holes-hint {
+  grid-column: 1 / -1;
+}
+
+.setup-card-round-holes .round-holes-hint {
+  margin: 1px 0 0;
+  color: rgba(233,225,200,.72);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .76rem;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.setup-card-free-play {
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.setup-card-free-play .free-play-helper {
+  display: block;
+  margin-top: 1px;
+}
+
+@media (max-width: 680px) {
+  .setup-step[data-setup-step="2"] .setup-mini-stage,
+  .setup-step[data-setup-step="3"] .setup-mini-stage {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 46px) !important;
+    z-index: 141 !important;
+    width: min(58vw, 236px) !important;
+    height: 156px !important;
+    transform: translateX(-50%) !important;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible !important;
+    pointer-events: none !important;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-mini,
+  .setup-step[data-setup-step="3"] .setup-mini {
+    max-height: 156px !important;
+    object-position: center bottom !important;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-mini-stage[hidden] {
+    display: none !important;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-card-course-search {
+    max-height: 40vh !important;
+  }
+
+  .setup-step[data-setup-step="2"] .course-results {
+    max-height: 158px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-card-round-holes .round-holes-hint {
+    font-size: .71rem;
+  }
+
+  .setup-step[data-setup-step="2"] .setup-mini-stage,
+  .setup-step[data-setup-step="3"] .setup-mini-stage {
+    width: min(60vw, 220px) !important;
+  }
+}
