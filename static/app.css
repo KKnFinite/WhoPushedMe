@@ -6190,3 +6190,184 @@ body.app-ready .home-banter p {
     max-height: 108px !important;
   }
 }
+
+
+/* ROUND SETUP FIXED ACTIONS + MESSAGE CONTRACT */
+.round-flow-card-game > #round-setup-heckle {
+  box-sizing: border-box;
+  flex: 0 0 120px !important;
+  block-size: 120px !important;
+  min-block-size: 120px !important;
+  max-block-size: 120px !important;
+  height: 120px !important;
+  min-height: 120px !important;
+  max-height: 120px !important;
+  padding: 12px 16px !important;
+  overflow: hidden !important;
+  contain: layout size !important;
+}
+
+.round-flow-card-game > #round-setup-heckle[hidden] {
+  display: grid !important;
+  visibility: hidden !important;
+}
+
+.round-flow-card-game > #round-setup-heckle p {
+  margin: 0 !important;
+  display: -webkit-box !important;
+  width: 100%;
+  max-height: 92px !important;
+  overflow: hidden !important;
+  font-size: .98rem !important;
+  line-height: 1.08 !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 4 !important;
+}
+
+.setup-step.is-active {
+  position: relative !important;
+  padding-bottom: 84px !important;
+  overflow: visible !important;
+}
+
+.setup-step-actions {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  z-index: 10 !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.setup-step-actions button,
+.setup-step .round-create-button {
+  min-height: 52px !important;
+  height: 52px !important;
+}
+
+.setup-step-actions-next {
+  grid-template-columns: 1fr !important;
+}
+
+.setup-step-actions-next .setup-next {
+  width: 78% !important;
+  max-width: 520px;
+  justify-self: center !important;
+  position: relative !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+.setup-step-actions-with-mini {
+  min-height: 56px !important;
+  height: 56px !important;
+}
+
+.setup-step-actions-with-mini .setup-mini-stage {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 49px !important;
+  z-index: 12 !important;
+  width: min(56%, 240px) !important;
+  height: 154px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  transform: translateX(-50%) !important;
+  pointer-events: none !important;
+}
+
+.setup-step-actions-with-mini .setup-mini {
+  width: auto !important;
+  max-width: 100% !important;
+  max-height: 154px !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game > #round-setup-heckle {
+    flex-basis: 120px !important;
+    block-size: 120px !important;
+    min-block-size: 120px !important;
+    max-block-size: 120px !important;
+    height: 120px !important;
+    min-height: 120px !important;
+    max-height: 120px !important;
+  }
+
+  .setup-step.is-active {
+    padding-bottom: 82px !important;
+  }
+
+  .setup-step-actions {
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    height: 54px !important;
+    min-height: 54px !important;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button {
+    min-height: 50px !important;
+    height: 50px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 47px !important;
+    width: min(55%, 228px) !important;
+    height: 148px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 148px !important;
+  }
+}
+
+@media (max-height: 760px) {
+  .round-flow-card-game > #round-setup-heckle {
+    flex-basis: 116px !important;
+    block-size: 116px !important;
+    min-block-size: 116px !important;
+    max-block-size: 116px !important;
+    height: 116px !important;
+    min-height: 116px !important;
+    max-height: 116px !important;
+  }
+
+  .round-flow-card-game > #round-setup-heckle p {
+    max-height: 88px !important;
+    font-size: .92rem !important;
+    -webkit-line-clamp: 4 !important;
+  }
+
+  .setup-step.is-active {
+    padding-bottom: 76px !important;
+  }
+
+  .setup-step-actions {
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button {
+    min-height: 48px !important;
+    height: 48px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 45px !important;
+    width: min(54%, 214px) !important;
+    height: 136px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 136px !important;
+  }
+}
