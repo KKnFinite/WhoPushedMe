@@ -1190,7 +1190,7 @@
       const transparentBottom =
         setupMiniOpaqueBottomRatio(mini) * miniRect.height;
       const visibleBottom = miniRect.bottom - transparentBottom;
-      const shift = Math.round(buttonRect.top - visibleBottom + 8);
+      const shift = Math.round(buttonRect.top - visibleBottom);
       stage.style.setProperty('--setup-mini-y', `${shift}px`);
     });
   };
