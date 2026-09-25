@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v66" in response.data
+    assert b"wpm-shell-v67" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v66" in builder
+    assert "wpm-shell-v67" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -1001,3 +1001,24 @@ def test_setup_paired_actions_and_free_play_card_are_consistent():
     assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 58px) !important" in css.data
     assert b".setup-card-free-play .compact-choice-fieldset" in css.data
     assert b"rgba(18,29,22,.97)" in css.data
+
+
+def test_free_play_hides_course_panel_and_step_two_mini():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"SELECT HOLES" in page.data
+    assert b"PHYSICAL COURSE" not in page.data
+    assert b"Looping the same nine twice? Pick 9 here and 18 for the round." in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"stepTwoMiniStage.hidden = !useCourse" in script.data
+    assert b"freePlaySelected" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"FREE PLAY + STEP 2/3 ACTION FINAL OVERRIDE" in css.data
+    assert b"#course-search-panel[hidden]" in css.data
+    assert b"#free-play-field[hidden]" in css.data
+    assert b"grid-template-columns: 24% minmax(0, 1fr) !important" in css.data
+    assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 50px) !important" in css.data
