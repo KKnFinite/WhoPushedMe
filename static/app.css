@@ -6871,7 +6871,7 @@ body.app-ready .home-banter p {
 }
 
 
-/* COURSE STEP HOLES + MINI FINAL PLACEMENT */
+/* COURSE STEP FINAL LAYOUT */
 .setup-card-round-holes {
   grid-template-columns: 1fr 1fr !important;
 }
@@ -6902,7 +6902,23 @@ body.app-ready .home-banter p {
 }
 
 @media (max-width: 680px) {
-  .setup-step[data-setup-step="2"] .setup-mini-stage,
+  /* Step 2 has transparent padding in the mini art, so lower the stage until
+     the visible feet actually sit on the NEXT button instead of floating. */
+  .setup-step[data-setup-step="2"] .setup-mini-stage {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 20px) !important;
+    z-index: 141 !important;
+    width: min(58vw, 236px) !important;
+    height: 156px !important;
+    transform: translateX(-50%) !important;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible !important;
+    pointer-events: none !important;
+  }
+
   .setup-step[data-setup-step="3"] .setup-mini-stage {
     position: fixed !important;
     left: 50% !important;
@@ -6924,16 +6940,40 @@ body.app-ready .home-banter p {
     object-position: center bottom !important;
   }
 
-  .setup-step[data-setup-step="2"] .setup-mini-stage[hidden] {
+  .setup-step[data-setup-step="2"] .setup-mini-stage[hidden],
+  .setup-step[data-setup-step="2"] .setup-mini-stage.is-suppressed {
     display: none !important;
   }
 
   .setup-step[data-setup-step="2"] .setup-card-course-search {
     max-height: 40vh !important;
+    overflow: hidden !important;
   }
 
+  /* Three deterministic rows: no clipped third result, and no tee field
+     competing for this space while search results are visible. */
   .setup-step[data-setup-step="2"] .course-results {
-    max-height: 158px !important;
+    max-height: 184px !important;
+    overflow: hidden !important;
+  }
+
+  .setup-step[data-setup-step="2"] .course-result {
+    box-sizing: border-box;
+    height: 56px;
+    min-height: 56px;
+    padding: 6px 10px;
+  }
+
+  .setup-step[data-setup-step="2"] .course-result strong,
+  .setup-step[data-setup-step="2"] .course-result small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .setup-step[data-setup-step="2"] .course-search-panel.has-results #selected-course,
+  .setup-step[data-setup-step="2"] .course-search-panel.has-results #start-tee-field {
+    display: none !important;
   }
 }
 
