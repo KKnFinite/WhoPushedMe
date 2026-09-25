@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v64" in response.data
+    assert b"wpm-shell-v65" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v64" in builder
+    assert "wpm-shell-v65" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -963,3 +963,21 @@ def test_individual_scoring_uses_golf_terms_and_helpers():
     assert css.status_code == 200
     assert b"REAL GOLF SCORING COPY" in css.data
     assert b".setup-scoring-option .setup-option-copy" in css.data
+
+
+def test_setup_steps_two_and_three_match_step_one_actions_and_minis():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert page.data.count(b'data-setup-mini-stage="') == 3
+    assert page.data.count(b'data-setup-mini="') == 3
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"results.slice(0, 3)" in script.data
+    assert b"loadRandomSetupMini(resolved)" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"UNIFIED SETUP ACTIONS + THREE COURSE RESULTS" in css.data
+    assert b"width: 80% !important" in css.data
+    assert b"max-height: 158px !important" in css.data
