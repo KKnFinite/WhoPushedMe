@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v58" in response.data
+    assert b"wpm-shell-v59" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v58" in builder
+    assert "wpm-shell-v59" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -835,3 +835,28 @@ def test_start_round_banner_is_fixed_and_modes_show_real_names():
     assert b"block-size: 88px !important" in css.data
     assert b"min-height: 68px !important" in css.data
     assert b"padding-bottom: 28px" in css.data
+
+
+def test_round_setup_uses_standard_cards_minis_and_theme_tease():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="setup-mini-stage"' in page.data
+    assert b'id="setup-mini"' in page.data
+    assert b'id="color-theme-tease"' in page.data
+    assert b"WPM GREEN" in page.data
+    assert b"<small>INDIVIDUAL</small>" in page.data
+    assert b"<small>SCRAMBLE</small>" in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"const loadRandomSetupMini" in script.data
+    assert b"event_key === 'round_start'" in script.data
+    assert b"results.slice(0, 2)" in script.data
+    assert b"STFU, snowflake" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"ROUND SETUP CONSISTENCY + MINI PASS" in css.data
+    assert b".setup-step #prior-holes-mode" in css.data
+    assert b".setup-mini-stage" in css.data
+    assert b"max-height: 108px" in css.data
