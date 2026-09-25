@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v49" in response.data
+    assert b"wpm-shell-v50" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v49" in builder
+    assert "wpm-shell-v50" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -683,3 +683,19 @@ def test_home_buttons_use_legible_temporary_ui_fonts():
     assert b'font-family: "Bebas Neue"' in css.data
     assert b'font-family: "Barlow Condensed"' in css.data
     assert b"HOME LEGIBILITY PASS" in css.data
+
+
+def test_home_is_single_screen_without_secondary_button_clutter():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"RERUN THE DAMAGE." not in page.data
+    assert b"SEE THE LIES." not in page.data
+    assert b"SAME SUSPECTS." not in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"HOME NO-SCROLL COMPACT LAYOUT" in css.data
+    assert b"height: 100dvh" in css.data
+    assert b"overflow: hidden" in css.data
+    assert b"position: absolute" in css.data
+    assert b"bottom: 0" in css.data
