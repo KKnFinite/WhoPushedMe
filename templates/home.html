@@ -225,10 +225,10 @@
   </div>
 
   <div id="round-flow-modal" class="round-flow-modal" hidden role="dialog" aria-modal="true" aria-labelledby="round-flow-title">
-    <section class="round-flow-card">
-      <div class="settings-header">
+    <section class="round-flow-card round-flow-card-game">
+      <div class="settings-header round-flow-header">
         <div>
-          <div class="settings-kicker">WELCOME TO THE BAD IDEA</div>
+          <div class="settings-kicker">ROUND CONTROL</div>
           <h2 id="round-flow-title">ROUND SETUP</h2>
         </div>
         <button id="round-flow-close" class="settings-close" type="button" aria-label="Close round setup">×</button>
@@ -239,8 +239,8 @@
         <p id="round-setup-heckle-text"></p>
       </aside>
 
-      <form id="start-round-form" class="round-flow-form" data-round-panel="start">
-        <fieldset class="choice-fieldset">
+      <form id="start-round-form" class="round-flow-form round-start-form" data-round-panel="start">
+        <fieldset class="choice-fieldset setup-card setup-card-mode">
           <legend>MODE</legend>
           <label>
             <input type="radio" name="mode" value="individual" checked>
@@ -252,7 +252,7 @@
           </label>
         </fieldset>
 
-        <fieldset id="individual-scoring-fieldset" class="choice-fieldset">
+        <fieldset id="individual-scoring-fieldset" class="choice-fieldset setup-card setup-card-scoring">
           <legend>INDIVIDUAL SCORING</legend>
           <label>
             <input type="radio" name="individual_scoring" value="gross" checked>
@@ -265,7 +265,7 @@
           <small>Missing handicaps never block play. Net placement waits until the math exists.</small>
         </fieldset>
 
-        <fieldset class="choice-fieldset">
+        <fieldset class="choice-fieldset setup-card setup-card-holes">
           <legend>HOLES</legend>
           <label>
             <input type="radio" name="holes" value="9">
@@ -277,7 +277,7 @@
           </label>
         </fieldset>
 
-        <section class="round-route-setup">
+        <section class="round-route-setup setup-card setup-card-route">
           <label class="round-text-field">
             <span>STARTING HOLE</span>
             <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
@@ -307,7 +307,7 @@
           <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
         </section>
 
-        <fieldset class="choice-fieldset">
+        <fieldset class="choice-fieldset setup-card setup-card-par">
           <legend>PAR TRACKING</legend>
           <label>
             <input type="radio" name="par_setup" value="now">
@@ -323,7 +323,7 @@
           </label>
         </fieldset>
 
-        <fieldset class="choice-fieldset">
+        <fieldset class="choice-fieldset setup-card setup-card-course-mode">
           <legend>WHERE ARE WE RUINING GOLF?</legend>
           <label>
             <input type="radio" name="course_mode" value="course" checked>
@@ -335,7 +335,7 @@
           </label>
         </fieldset>
 
-        <section id="course-search-panel" class="course-search-panel">
+        <section id="course-search-panel" class="course-search-panel setup-card setup-card-course-search">
           <div class="course-search-row">
             <input id="course-search-input" type="search" placeholder="Course name" autocomplete="off">
             <button id="course-search-button" type="button">SEARCH</button>
@@ -352,7 +352,7 @@
           </label>
         </section>
 
-        <section id="free-play-field" class="free-play-fields" hidden>
+        <section id="free-play-field" class="free-play-fields setup-card setup-card-free-play" hidden>
           <label class="round-text-field">
             <span>FREE PLAY NAME</span>
             <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
@@ -371,10 +371,10 @@
           <small>Use 9 holes + an 18-hole round when you're looping the same nine twice.</small>
         </section>
 
-        <button class="settings-save" type="submit">CREATE THE DISASTER</button>
+        <button class="settings-save round-create-button" type="submit">CREATE THE DISASTER</button>
       </form>
 
-      <form id="join-round-form" class="round-flow-form" data-round-panel="join" hidden>
+      <form id="join-round-form" class="round-flow-form round-join-form" data-round-panel="join" hidden>
         <label class="round-text-field">
           <span>4-DIGIT ROUND CODE</span>
           <input name="code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1234" required>
