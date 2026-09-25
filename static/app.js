@@ -50,8 +50,8 @@
   const roundSetupHeckle = document.getElementById('round-setup-heckle');
   const roundSetupHeckleText = document.getElementById('round-setup-heckle-text');
   const startRoundForm = document.getElementById('start-round-form');
-  const setupMiniStage = document.getElementById('setup-mini-stage');
-  const setupMini = document.getElementById('setup-mini');
+  const setupMiniStages = document.querySelectorAll('[data-setup-mini-stage]');
+  const setupMinis = document.querySelectorAll('[data-setup-mini]');
   const setupSteps = document.querySelectorAll('[data-setup-step]');
   const setupStepDots = document.querySelectorAll('[data-setup-step-dot]');
   const setupNextButtons = document.querySelectorAll('[data-setup-next]');
@@ -1118,12 +1118,18 @@
     }
   };
 
-  const loadRandomSetupMini = async () => {
-    if (!setupMiniStage || !setupMini) return;
+  const loadRandomSetupMini = async (step = 1) => {
+    const stage = [...setupMiniStages].find(
+      (item) => Number(item.dataset.setupMiniStage) === Number(step)
+    );
+    const mini = [...setupMinis].find(
+      (item) => Number(item.dataset.setupMini) === Number(step)
+    );
+    if (!stage || !mini) return;
 
-    setupMiniStage.hidden = true;
-    setupMini.removeAttribute('src');
-    setupMini.classList.remove('is-loaded');
+    stage.hidden = true;
+    mini.removeAttribute('src');
+    mini.classList.remove('is-loaded');
 
     try {
       const [manifestResponse, preferences] = await Promise.all([
@@ -1148,17 +1154,17 @@
         ? `/${productionPath}`
         : `/static/${productionPath}`;
 
-      setupMini.addEventListener(
+      mini.addEventListener(
         'load',
         () => {
-          setupMiniStage.hidden = false;
-          setupMini.classList.add('is-loaded');
+          stage.hidden = false;
+          mini.classList.add('is-loaded');
         },
         { once: true }
       );
-      setupMini.src = imagePath;
+      mini.src = imagePath;
     } catch (_error) {
-      setupMiniStage.hidden = true;
+      stage.hidden = true;
     }
   };
 
@@ -1622,7 +1628,7 @@
       return;
     }
 
-    results.slice(0, 2).forEach((result) => {
+    results.slice(0, 3).forEach((result) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'course-result';
@@ -1684,6 +1690,7 @@
       );
     }
     if (resolved === 3) renderRoutePreview();
+    void loadRandomSetupMini(resolved);
   };
 
   const setRoundFlowMessage = (message = '') => {
@@ -1764,7 +1771,6 @@
     }
     if (panel === 'start') {
       if (roundSetupHeckle) roundSetupHeckle.hidden = false;
-      void loadRandomSetupMini();
       if (roundSetupHeckleText && !roundSetupHeckleText.textContent) {
         roundSetupHeckleText.textContent = ' ';
       }
