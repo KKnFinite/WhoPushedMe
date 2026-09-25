@@ -4814,7 +4814,7 @@ body.app-ready .home-banter p {
 }
 
 
-/* IPHONE STATUS BAR COVER */
+/* MOBILE STATUS BAR COVER */
 body.app-ready .app-shell::before {
   content: "";
   position: absolute;
@@ -4823,6 +4823,17 @@ body.app-ready .app-shell::before {
   right: 0;
   height: max(44px, env(safe-area-inset-top));
   z-index: 8;
-  background: var(--wpm-night);
+  background: #000;
   pointer-events: none;
+}
+
+body.app-ready .home-banter p {
+  font-size: clamp(1.04rem, 4.15vw, 1.22rem);
+  line-height: 1.04;
+}
+
+@media (max-width: 390px) {
+  body.app-ready .home-banter p {
+    font-size: clamp(.98rem, 4vw, 1.12rem);
+  }
 }
