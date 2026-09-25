@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v59" in response.data
+    assert b"wpm-shell-v60" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v59" in builder
+    assert "wpm-shell-v60" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -860,3 +860,36 @@ def test_round_setup_uses_standard_cards_minis_and_theme_tease():
     assert b".setup-step #prior-holes-mode" in css.data
     assert b".setup-mini-stage" in css.data
     assert b"max-height: 108px" in css.data
+
+
+def test_start_round_course_precedes_route_and_mini_overlays_next():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    step1 = html.index('data-setup-step="1"')
+    step2 = html.index('data-setup-step="2"')
+    step3 = html.index('data-setup-step="3"')
+    course = html.index('setup-card-course-mode', step2)
+    route = html.index('setup-card-route', step3)
+    par = html.index('setup-card-par', step3)
+
+    assert step1 < step2 < step3
+    assert step2 < course < step3
+    assert step3 < route < par
+    assert b"NEXT: COURSE" in page.data
+    assert b"NEXT: ROUTE" in page.data
+    assert b"setup-step-actions-with-mini" in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"setCourseStepMessage" in script.data
+    assert b"Pick a course first, or switch to Free Play." in script.data
+    assert b"target === 3" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"ROUND SETUP FLOW ORDER + MINI OVERLAY" in css.data
+    assert b"bottom: 43px" in css.data
+    assert b"min-height: 56px !important" in css.data
+    assert b"max-height: 104px" in css.data
