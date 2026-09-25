@@ -26,6 +26,41 @@ HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 HOME_HERO_SRC = ASSETS_SRC / "home" / "heroes"
 HOME_HERO_PROD = ASSETS / "home" / "heroes"
 
+# Message-surface copy contract.
+# Compact/fixed message boxes default to a strict cap so content cannot resize
+# screens. Expansive surfaces must opt into a larger limit explicitly.
+DEFAULT_BANTER_MAX_CHARS = 160
+BANTER_EVENT_MAX_CHARS = {
+    "round_setup.idle": 160,
+    "home.idle": 320,
+}
+
+
+def _banter_max_chars(events: list[str] | None) -> int:
+    limits = [
+        BANTER_EVENT_MAX_CHARS.get(event_key, DEFAULT_BANTER_MAX_CHARS)
+        for event_key in (events or [])
+    ]
+    return min(limits) if limits else DEFAULT_BANTER_MAX_CHARS
+
+
+def _validate_banter_copy_limits(rows: list[dict]) -> None:
+    violations = []
+    for row in rows:
+        text = str(row.get("text") or "")
+        events = list(row.get("events") or [])
+        limit = _banter_max_chars(events)
+        if len(text) > limit:
+            violations.append(
+                f"{row.get('id', '<unknown>')}: {len(text)} chars "
+                f"(limit {limit}) for {', '.join(events) or 'default surface'}"
+            )
+    if violations:
+        raise ContentError(
+            "Banter copy exceeds message-surface limits:\n"
+            + "\n".join(violations)
+        )
+
 
 def _read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -107,6 +142,7 @@ def _themes_from_args(catalog: ContentCatalog, values: list[str] | None) -> list
 def cmd_validate(args: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
     catalog.validate(strict_mascot_audit=args.strict_audit)
+    _validate_banter_copy_limits(list(catalog.banter))
     summary = catalog.mascot_audit_summary()
     print("Content library valid.")
     print(f"Events: {len(catalog.registry.events)}")
@@ -569,6 +605,13 @@ def cmd_add_banter(args: argparse.Namespace) -> None:
     text = args.text or input("Banter text: ").strip()
     if not text:
         raise ContentError("banter text cannot be empty")
+
+    max_chars = _banter_max_chars(events)
+    if len(text) > max_chars:
+        raise ContentError(
+            f"banter text is {len(text)} characters; maximum is {max_chars} "
+            f"for {', '.join(events)}"
+        )
 
     slug = _pascal_slug(args.short_name or " ".join(text.split()[:7]))
     content_id = f"banter.{slug}"
