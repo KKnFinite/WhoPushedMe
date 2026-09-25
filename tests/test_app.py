@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v62" in response.data
+    assert b"wpm-shell-v63" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v62" in builder
+    assert "wpm-shell-v63" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -938,3 +938,12 @@ def test_round_setup_message_contract_and_content_limits():
         _validate_banter_copy_limits([
             {"id": "too-long", "text": "x" * 161, "events": ["round_setup.idle"]},
         ])
+
+
+def test_setup_actions_are_locked_to_mobile_viewport():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"ROUND SETUP VIEWPORT-LOCKED ACTION BAR" in css.data
+    assert b"position: fixed !important" in css.data
+    assert b"bottom: max(12px, env(safe-area-inset-bottom)) !important" in css.data
+    assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 48px) !important" in css.data
