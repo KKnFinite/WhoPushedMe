@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v65" in response.data
+    assert b"wpm-shell-v66" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v65" in builder
+    assert "wpm-shell-v66" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -981,3 +981,12 @@ def test_setup_steps_two_and_three_match_step_one_actions_and_minis():
     assert b"UNIFIED SETUP ACTIONS + THREE COURSE RESULTS" in css.data
     assert b"width: 80% !important" in css.data
     assert b"max-height: 158px !important" in css.data
+
+
+def test_setup_back_and_primary_share_page_one_total_width():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"SETUP BACK + PRIMARY SAME TOTAL WIDTH" in css.data
+    assert b"width: 80% !important" in css.data
+    assert b"grid-template-columns: 28% minmax(0, 1fr) !important" in css.data
+    assert b"width: 84% !important" in css.data
