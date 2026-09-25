@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v53" in response.data
+    assert b"wpm-shell-v54" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v53" in builder
+    assert "wpm-shell-v54" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -741,3 +741,14 @@ def test_home_hero_keeps_left_logo_margin_on_iphone():
     css = client().get("/static/app.css")
     assert css.status_code == 200
     assert b"object-position: 36% top" in css.data
+
+
+def test_ios_status_bar_is_solid_black():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'apple-mobile-web-app-status-bar-style" content="black"' in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"IPHONE STATUS BAR COVER" in css.data
+    assert b"height: max(44px, env(safe-area-inset-top))" in css.data
