@@ -17,6 +17,8 @@ ONBOARDING_MASCOTS = ASSETS / "mascots" / "onboarding"
 HOME_BACKGROUNDS_SRC = ASSETS_SRC / "home" / "backgrounds"
 HOME_BACKGROUNDS = ASSETS / "home" / "backgrounds"
 HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
+HOME_HEROES_SRC = ASSETS_SRC / "home" / "heroes"
+HOME_HEROES = ASSETS / "home" / "heroes"
 
 EVENT_MAP = {
     ("joining", "new-player"): "player_join_new",
@@ -134,6 +136,26 @@ def validate_sources():
             "\n".join(str(p.relative_to(ROOT)) for p in missing_webp)
         )
 
+    hero_pngs = sorted(HOME_HEROES_SRC.glob("*.png")) if HOME_HEROES_SRC.exists() else []
+    hero_webps = sorted(HOME_HEROES.glob("*.webp")) if HOME_HEROES.exists() else []
+    print("Home hero PNG masters:", len(hero_pngs))
+    print("Home hero WebPs:", len(hero_webps))
+    if len(hero_pngs) != len(hero_webps):
+        raise SystemExit(
+            "Home hero PNG/WebP counts do not match. Stopping before cleanup."
+        )
+
+    missing_hero_webp = [
+        HOME_HEROES / f"{png.stem}.webp"
+        for png in hero_pngs
+        if not (HOME_HEROES / f"{png.stem}.webp").exists()
+    ]
+    if missing_hero_webp:
+        raise SystemExit(
+            "Missing Home hero production WebPs:\n" +
+            "\n".join(str(p.relative_to(ROOT)) for p in missing_hero_webp)
+        )
+
 
 def build_home_background_webps():
     if not HOME_BACKGROUNDS_SRC.exists():
@@ -152,6 +174,15 @@ def build_home_background_webps():
             print("WEBP:", production.relative_to(ROOT), "(copied exact source)")
         else:
             make_webp(source, production, lossless=False)
+
+
+def build_home_hero_webps():
+    if not HOME_HEROES_SRC.exists():
+        return
+
+    for source in sorted(HOME_HEROES_SRC.glob("*.png")):
+        production = HOME_HEROES / f"{source.stem}.webp"
+        make_webp(source, production, lossless=False)
 
 
 def build_core_webps():
@@ -613,6 +644,34 @@ def build_manifest():
                 }
             )
 
+    home_hero_count = 0
+
+    if HOME_HEROES_SRC.exists():
+        for source in sorted(HOME_HEROES_SRC.glob("*.png")):
+            production = HOME_HEROES / f"{source.stem}.webp"
+            if not production.exists():
+                raise SystemExit(
+                    f"Missing Home hero production pair for {source.relative_to(ROOT)}"
+                )
+
+            home_hero_count += 1
+            short_name = source.stem
+            prefix = "WPM_Home_Hero_"
+            if short_name.startswith(prefix):
+                short_name = short_name[len(prefix):]
+
+            entries.append(
+                {
+                    "asset_id": f"home.hero.{short_name}",
+                    "family": "home-hero",
+                    "pool": "home.heroes",
+                    "enabled": True,
+                    "source": source.relative_to(ROOT).as_posix(),
+                    "production": production.relative_to(ROOT).as_posix(),
+                    **image_info(source),
+                }
+            )
+
     mini_root = ASSETS_SRC / "mascots" / "mini"
 
     mini_count = 0
@@ -655,6 +714,7 @@ def build_manifest():
         "mini_asset_count": mini_count,
         "onboarding_asset_count": onboarding_count,
         "home_background_count": home_background_count,
+        "home_hero_count": home_hero_count,
         "assets": entries,
     }
 
@@ -685,6 +745,7 @@ static/assets_src/icons/WPM_DesktopIcon_Official.jpg
 CORE RULES
 - PNG/JPG mascot and brand masters remain untouched in assets_src.
 - Home background source art may be PNG, JPG, JPEG, or WebP; production copies are WebP.
+- Home hero masters live under assets_src/home/heroes as PNG; production copies are WebP.
 - Web UI should prefer production WebP assets.
 - PWA/device icons remain PNG.
 - WPM_DesktopIcon_Official.jpg is the official app icon source.
@@ -700,6 +761,7 @@ CORE RULES
     print("MANIFEST:", manifest_path.relative_to(ROOT))
     print("Mini assets in manifest:", mini_count)
     print("Home backgrounds in manifest:", home_background_count)
+    print("Home heroes in manifest:", home_hero_count)
 
 
 def cleanup_duplicates():
@@ -745,6 +807,7 @@ def main():
     validate_sources()
     build_core_webps()
     build_home_background_webps()
+    build_home_hero_webps()
     build_onboarding_webps()
     build_pwa_icons()
     archive_old_loose_minis()
