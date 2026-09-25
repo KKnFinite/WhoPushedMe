@@ -6437,3 +6437,51 @@ body.app-ready .home-banter p {
     width: min(60vw, 220px) !important;
   }
 }
+
+
+/* REAL GOLF SCORING COPY */
+.setup-scoring-option .setup-option-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.setup-scoring-option .setup-option-copy strong {
+  display: block;
+  width: 100%;
+  color: inherit;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .02em;
+}
+
+.setup-scoring-option .setup-option-copy small {
+  display: block;
+  width: 100%;
+  margin: 0;
+  color: rgba(233,225,200,.68);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .66rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: .01em;
+}
+
+.setup-scoring-option:has(input:checked) .setup-option-copy small {
+  color: rgba(255,248,223,.82);
+}
+
+@media (max-width: 390px) {
+  .setup-scoring-option .setup-option-copy strong {
+    font-size: .96rem;
+  }
+
+  .setup-scoring-option .setup-option-copy small {
+    font-size: .62rem;
+  }
+}
