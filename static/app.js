@@ -730,10 +730,18 @@
     try {
       rows = await loadMessageBank(eventKey, { authenticated: true });
     } catch (_error) {
+      if (name === 'roundSetup' && roundSetupHeckle) {
+        roundSetupHeckle.hidden = false;
+        return;
+      }
       stopUserHeckle(name, { hide: true });
       return;
     }
     if (!rows.length || !active()) {
+      if (name === 'roundSetup' && roundSetupHeckle && active()) {
+        roundSetupHeckle.hidden = false;
+        return;
+      }
       stopUserHeckle(name, { hide: true });
       return;
     }
@@ -1698,6 +1706,10 @@
       roundSetupHeckle.hidden = panel !== 'start';
     }
     if (panel === 'start') {
+      if (roundSetupHeckle) roundSetupHeckle.hidden = false;
+      if (roundSetupHeckleText && !roundSetupHeckleText.textContent) {
+        roundSetupHeckleText.textContent = ' ';
+      }
       setSetupStep(1);
       clearSelectedCourse();
       setCourseMode(
