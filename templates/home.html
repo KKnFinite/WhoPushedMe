@@ -292,69 +292,15 @@
             </label>
           </fieldset>
 
-          <div id="setup-mini-stage" class="setup-mini-stage" aria-hidden="true">
-            <img id="setup-mini" class="setup-mini" alt="">
-          </div>
-
-          <div class="setup-step-actions setup-step-actions-next">
-            <button type="button" class="setup-next" data-setup-next="2">NEXT: ROUTE</button>
+          <div class="setup-step-actions setup-step-actions-next setup-step-actions-with-mini">
+            <div id="setup-mini-stage" class="setup-mini-stage" aria-hidden="true">
+              <img id="setup-mini" class="setup-mini" alt="">
+            </div>
+            <button type="button" class="setup-next" data-setup-next="2">NEXT: COURSE</button>
           </div>
         </section>
 
         <section class="setup-step" data-setup-step="2" hidden>
-          <section class="round-route-setup setup-card setup-card-route">
-            <label class="round-text-field">
-              <span>STARTING HOLE</span>
-              <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
-              <small>Shotgun start? Start wherever the damage actually begins.</small>
-            </label>
-
-            <label class="round-text-field">
-              <span>APP STARTS COUNTING AT</span>
-              <select id="tracking-start-position" name="tracking_start_position">
-                <option value="1">HOLE 1 • 1 OF 18</option>
-              </select>
-              <small>Already partway through? Tell the app where it joins reality.</small>
-            </label>
-
-            <fieldset id="prior-holes-mode" class="choice-fieldset compact-choice-fieldset" hidden>
-              <legend>EARLIER HOLES</legend>
-              <label>
-                <input type="radio" name="prior_holes_mode" value="untracked" checked>
-                <span>LEAVE IT UNTRACKED</span>
-              </label>
-              <label>
-                <input type="radio" name="prior_holes_mode" value="backfill">
-                <span>ENTER THE DAMAGE SO FAR</span>
-              </label>
-            </fieldset>
-
-            <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
-          </section>
-
-          <fieldset class="choice-fieldset setup-card setup-card-par">
-            <legend>PAR TRACKING</legend>
-            <label>
-              <input type="radio" name="par_setup" value="now">
-              <span>ENTER PARS NOW</span>
-            </label>
-            <label>
-              <input type="radio" name="par_setup" value="as_go" checked>
-              <span>ENTER AS WE GO</span>
-            </label>
-            <label>
-              <input type="radio" name="par_setup" value="off">
-              <span>DON'T TRACK PAR</span>
-            </label>
-          </fieldset>
-
-          <div class="setup-step-actions">
-            <button type="button" class="setup-back" data-setup-back="1">BACK</button>
-            <button type="button" class="setup-next" data-setup-next="3">NEXT: COURSE</button>
-          </div>
-        </section>
-
-        <section class="setup-step" data-setup-step="3" hidden>
           <fieldset class="choice-fieldset setup-card setup-card-course-mode">
             <legend>WHERE ARE WE RUINING GOLF?</legend>
             <label>
@@ -402,6 +348,61 @@
             </fieldset>
             <small>Use 9 holes + an 18-hole round when you're looping the same nine twice.</small>
           </section>
+
+          <p id="course-step-message" class="setup-step-message" hidden></p>
+
+          <div class="setup-step-actions">
+            <button type="button" class="setup-back" data-setup-back="1">BACK</button>
+            <button type="button" class="setup-next" data-setup-next="3">NEXT: ROUTE</button>
+          </div>
+        </section>
+
+        <section class="setup-step" data-setup-step="3" hidden>
+          <section class="round-route-setup setup-card setup-card-route">
+            <label class="round-text-field">
+              <span>STARTING HOLE</span>
+              <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
+              <small>Shotgun start? Start wherever the damage actually begins.</small>
+            </label>
+
+            <label class="round-text-field">
+              <span>APP STARTS COUNTING AT</span>
+              <select id="tracking-start-position" name="tracking_start_position">
+                <option value="1">HOLE 1 • 1 OF 18</option>
+              </select>
+              <small>Already partway through? Tell the app where it joins reality.</small>
+            </label>
+
+            <fieldset id="prior-holes-mode" class="choice-fieldset compact-choice-fieldset" hidden>
+              <legend>EARLIER HOLES</legend>
+              <label>
+                <input type="radio" name="prior_holes_mode" value="untracked" checked>
+                <span>LEAVE IT UNTRACKED</span>
+              </label>
+              <label>
+                <input type="radio" name="prior_holes_mode" value="backfill">
+                <span>ENTER THE DAMAGE SO FAR</span>
+              </label>
+            </fieldset>
+
+            <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
+          </section>
+
+          <fieldset class="choice-fieldset setup-card setup-card-par">
+            <legend>PAR TRACKING</legend>
+            <label>
+              <input type="radio" name="par_setup" value="now">
+              <span>ENTER PARS NOW</span>
+            </label>
+            <label>
+              <input type="radio" name="par_setup" value="as_go" checked>
+              <span>ENTER AS WE GO</span>
+            </label>
+            <label>
+              <input type="radio" name="par_setup" value="off">
+              <span>DON'T TRACK PAR</span>
+            </label>
+          </fieldset>
 
           <div class="setup-step-actions">
             <button type="button" class="setup-back" data-setup-back="2">BACK</button>
