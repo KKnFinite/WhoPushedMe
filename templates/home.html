@@ -268,16 +268,21 @@
           </fieldset>
 
           <fieldset id="individual-scoring-fieldset" class="choice-fieldset setup-card setup-card-scoring">
-            <legend>INDIVIDUAL SCORING</legend>
-            <label>
+            <legend>STROKE PLAY SCORING</legend>
+            <label class="setup-scoring-option">
               <input type="radio" name="individual_scoring" value="gross" checked>
-              <span>GROSS ONLY</span>
+              <span class="setup-option-copy">
+                <strong>GROSS STROKE PLAY</strong>
+                <small>Every stroke counts. No handicap alibi.</small>
+              </span>
             </label>
-            <label>
+            <label class="setup-scoring-option">
               <input type="radio" name="individual_scoring" value="net">
-              <span>GROSS + NET</span>
+              <span class="setup-option-copy">
+                <strong>NET STROKE PLAY</strong>
+                <small>Gross still counts. Handicap math adds net standings.</small>
+              </span>
             </label>
-            <small>Missing handicaps never block play. Net placement waits until the math exists.</small>
           </fieldset>
 
           <fieldset class="choice-fieldset setup-card setup-card-holes">
