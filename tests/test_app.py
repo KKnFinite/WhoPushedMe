@@ -990,3 +990,14 @@ def test_setup_back_and_primary_share_page_one_total_width():
     assert b"width: 80% !important" in css.data
     assert b"grid-template-columns: 28% minmax(0, 1fr) !important" in css.data
     assert b"width: 84% !important" in css.data
+
+
+def test_setup_paired_actions_and_free_play_card_are_consistent():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"FINAL SETUP ACTION ROW + FREE PLAY CARD FIX" in css.data
+    assert b"grid-template-columns: 30% minmax(0, 1fr) !important" in css.data
+    assert b"width: 80% !important" in css.data
+    assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 58px) !important" in css.data
+    assert b".setup-card-free-play .compact-choice-fieldset" in css.data
+    assert b"rgba(18,29,22,.97)" in css.data
