@@ -6371,3 +6371,69 @@ body.app-ready .home-banter p {
     max-height: 136px !important;
   }
 }
+
+
+/* ROUND SETUP VIEWPORT-LOCKED ACTION BAR */
+@media (max-width: 680px) {
+  .setup-step.is-active {
+    padding-bottom: 78px !important;
+    overflow: visible !important;
+  }
+
+  .setup-step-actions {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    z-index: 140 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button {
+    min-height: 50px !important;
+    height: 50px !important;
+  }
+
+  .setup-step-actions-next .setup-next {
+    width: 80% !important;
+    max-width: none !important;
+    justify-self: center !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 48px) !important;
+    z-index: 141 !important;
+    width: min(58vw, 236px) !important;
+    height: 156px !important;
+    min-height: 0 !important;
+    transform: translateX(-50%) !important;
+    overflow: visible !important;
+    pointer-events: none !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 156px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-step-actions {
+    left: 12px !important;
+    right: 12px !important;
+  }
+
+  .setup-step-actions-next .setup-next {
+    width: 84% !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    width: min(60vw, 220px) !important;
+  }
+}
