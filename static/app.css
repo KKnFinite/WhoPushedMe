@@ -4758,3 +4758,57 @@ body.app-ready .home-banter p {
     min-height: 36px;
   }
 }
+
+
+/* HOME SAFE-AREA + TOP BANTER TUNE */
+body.app-ready .app-shell {
+  --home-art-top-offset: 18px;
+  background: #0b2230;
+}
+
+@supports (top: env(safe-area-inset-top)) {
+  body.app-ready .app-shell {
+    --home-art-top-offset: max(18px, calc(env(safe-area-inset-top) - 34px));
+  }
+}
+
+body.app-ready .home-hero {
+  background:
+    linear-gradient(180deg, #0b2230 0%, #08130f 72px, var(--wpm-night) 100%);
+}
+
+body.app-ready .home-hero-art {
+  top: var(--home-art-top-offset);
+  bottom: auto;
+  height: calc(100% - var(--home-art-top-offset));
+}
+
+body.app-ready .home-banter {
+  min-height: 52px;
+  padding: 9px 12px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  border-color: rgba(78,122,93,.72);
+  background:
+    linear-gradient(90deg, rgba(4,16,10,.98), rgba(5,9,7,.98));
+}
+
+body.app-ready .home-banter-mark {
+  font-size: 1.15rem;
+}
+
+body.app-ready .home-banter p {
+  font-size: clamp(.96rem, 3.8vw, 1.12rem);
+  line-height: 1.04;
+  letter-spacing: .01em;
+}
+
+@media (max-width: 390px) {
+  body.app-ready .home-banter {
+    min-height: 48px;
+    padding: 8px 10px;
+  }
+
+  body.app-ready .home-banter p {
+    font-size: clamp(.9rem, 3.65vw, 1.03rem);
+  }
+}
