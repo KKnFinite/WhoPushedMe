@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wpm-shell-v64';
+const CACHE_NAME = 'wpm-shell-v65';
 
 const APP_SHELL = [
   '/',
