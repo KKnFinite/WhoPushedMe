@@ -49,6 +49,10 @@
   const roundSetupHeckle = document.getElementById('round-setup-heckle');
   const roundSetupHeckleText = document.getElementById('round-setup-heckle-text');
   const startRoundForm = document.getElementById('start-round-form');
+  const setupSteps = document.querySelectorAll('[data-setup-step]');
+  const setupStepDots = document.querySelectorAll('[data-setup-step-dot]');
+  const setupNextButtons = document.querySelectorAll('[data-setup-next]');
+  const setupBackButtons = document.querySelectorAll('[data-setup-back]');
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
   const joinRoundSubmit = document.getElementById('join-round-submit');
@@ -1554,7 +1558,7 @@
       return;
     }
 
-    results.forEach((result) => {
+    results.slice(0, 3).forEach((result) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'course-result';
@@ -1594,6 +1598,27 @@
       setRoundFlowMessage(error.message);
     } finally {
       if (courseSearchButton) courseSearchButton.disabled = false;
+    }
+  };
+
+  const setSetupStep = (step) => {
+    const resolved = Math.max(1, Math.min(3, Number(step) || 1));
+    setupSteps.forEach((panel) => {
+      const active = Number(panel.dataset.setupStep) === resolved;
+      panel.hidden = !active;
+      panel.classList.toggle('is-active', active);
+    });
+    setupStepDots.forEach((dot) => {
+      const value = Number(dot.dataset.setupStepDot);
+      dot.classList.toggle('is-active', value === resolved);
+      dot.classList.toggle('is-complete', value < resolved);
+    });
+    if (resolved === 2) renderRoutePreview();
+    if (resolved === 3) {
+      setCourseMode(
+        startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
+        || 'course'
+      );
     }
   };
 
@@ -1669,7 +1694,11 @@
     if (roundFlowTitle) {
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
+    if (roundSetupHeckle) {
+      roundSetupHeckle.hidden = panel !== 'start';
+    }
     if (panel === 'start') {
+      setSetupStep(1);
       clearSelectedCourse();
       setCourseMode(
         startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
@@ -3595,6 +3624,13 @@
   startHoleInput?.addEventListener('input', renderRoutePreview);
   trackingStartPosition?.addEventListener('change', renderRoutePreview);
 
+  setupNextButtons.forEach((button) => {
+    button.addEventListener('click', () => setSetupStep(button.dataset.setupNext));
+  });
+  setupBackButtons.forEach((button) => {
+    button.addEventListener('click', () => setSetupStep(button.dataset.setupBack));
+  });
+
   courseSearchButton?.addEventListener('click', searchCourses);
   courseSearchInput?.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
@@ -3668,6 +3704,7 @@
       startRoundForm.reset();
       refreshStartModeControls();
       renderRoutePreview();
+      setSetupStep(1);
     } catch (error) {
       setRoundFlowMessage(error.message);
     } finally {
