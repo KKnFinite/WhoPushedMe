@@ -7025,3 +7025,702 @@ body.app-ready .home-banter p {
   display: none !important;
   visibility: hidden !important;
 }
+
+
+/* WPM ROUND CONTROL VISUAL SYSTEM
+   Authoritative styling for every post-home round-control surface. Keep new
+   lobby/live/results UI inside this system instead of reintroducing cream cards. */
+.round-flow-card-game {
+  background: var(--wpm-night) !important;
+  color: var(--wpm-cream) !important;
+}
+
+.round-flow-card-game :is(
+  .round-join-form,
+  .lobby-panel,
+  .live-round-panel,
+  .round-end-panel,
+  .receipts-panel
+) {
+  color: var(--wpm-cream);
+}
+
+.round-flow-card-game :is(
+  .claim-player-panel,
+  .claim-player-row,
+  .lobby-par-setup,
+  .lobby-tee-panel,
+  .lobby-handicap-panel,
+  .lobby-person,
+  .spectator-join-play-panel,
+  .late-backfill-panel,
+  .advance-warning-panel,
+  .round-settings-panel,
+  .round-par-tracking-panel,
+  .round-handicap-panel,
+  .round-handicap-row,
+  .offline-player-panel,
+  .claim-undo-panel,
+  .live-score-card,
+  .scramble-contribution-panel,
+  .latest-presentation,
+  .towel-panel,
+  .end-early-panel,
+  .finish-incomplete-panel,
+  .round-end-result-card,
+  .receipts-panel,
+  .receipt-row,
+  .score-response-panel,
+  .score-challenge-summary
+) {
+  border: 1px solid rgba(78,122,93,.58) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99)) !important;
+  color: var(--wpm-cream) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+.round-flow-card-game :is(
+  .live-round-kicker,
+  .latest-presentation-kicker,
+  .round-end-kicker,
+  .lobby-code-label,
+  .round-text-field > span,
+  .par-form label > span
+) {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: .11em !important;
+}
+
+.round-flow-card-game :is(
+  .lobby-par-setup h4,
+  .lobby-handicap-panel h4,
+  .spectator-join-play-panel h4,
+  .late-backfill-panel h4,
+  .round-settings-panel h4,
+  .round-par-tracking-panel h5,
+  .round-handicap-panel h5,
+  .round-end-panel h3,
+  .live-round-header h3
+) {
+  color: #fff8df !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: .025em !important;
+}
+
+.round-flow-card-game :is(
+  .lobby-par-setup p,
+  .lobby-handicap-panel p,
+  .spectator-join-play-panel p,
+  .late-backfill-panel p,
+  .round-par-tracking-panel p,
+  .round-handicap-panel p,
+  .advance-warning-panel p,
+  .finish-incomplete-panel p,
+  .latest-presentation-copy small,
+  .round-end-summary
+) {
+  color: rgba(233,225,200,.76) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
+}
+
+.round-flow-card-game :is(
+  input:not([type="radio"]):not([type="checkbox"]),
+  select,
+  textarea
+) {
+  width: 100%;
+  min-height: 48px;
+  padding: 9px 11px;
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 11px !important;
+  background: rgba(5,9,7,.88) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.round-flow-card-game :is(
+  input:not([type="radio"]):not([type="checkbox"]),
+  select,
+  textarea
+):focus {
+  border-color: var(--wpm-gold) !important;
+  box-shadow: 0 0 0 2px rgba(212,166,42,.16) !important;
+}
+
+.round-flow-card-game input::placeholder,
+.round-flow-card-game textarea::placeholder {
+  color: rgba(233,225,200,.5);
+}
+
+.round-flow-card-game select option {
+  background: var(--wpm-night);
+  color: #fff8df;
+}
+
+.round-join-form {
+  gap: 10px !important;
+}
+
+.round-join-form > .round-text-field,
+.round-join-form > .choice-fieldset {
+  margin: 0;
+  padding: 12px !important;
+  border: 1px solid rgba(78,122,93,.58) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99)) !important;
+  color: var(--wpm-cream) !important;
+}
+
+.round-join-form > .choice-fieldset {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.round-join-form > .choice-fieldset legend {
+  padding: 0 5px;
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.round-join-form > .choice-fieldset label {
+  min-height: 48px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(78,122,93,.45);
+  border-radius: 10px;
+  background: rgba(5,9,7,.7);
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.round-join-form > .choice-fieldset label:has(input:checked) {
+  border-color: var(--wpm-gold);
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98));
+  box-shadow: inset 0 0 0 1px rgba(212,166,42,.34);
+}
+
+.lobby-panel {
+  display: grid;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+.lobby-code-label {
+  margin-top: 2px;
+  text-align: center;
+}
+
+.lobby-code {
+  margin: -4px 0 0 !important;
+  color: #fff8df !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: clamp(4.3rem, 19vw, 6.8rem) !important;
+  font-weight: 400 !important;
+  line-height: .86 !important;
+  letter-spacing: .07em !important;
+  text-align: center;
+}
+
+.lobby-summary {
+  margin: 0 !important;
+  color: rgba(255,248,223,.9) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: 1rem;
+  font-weight: 700 !important;
+  line-height: 1.12 !important;
+  letter-spacing: .025em;
+  text-align: center;
+}
+
+.lobby-participants {
+  display: grid;
+  gap: 7px !important;
+  margin: 2px 0 0 !important;
+}
+
+.lobby-person {
+  min-height: 52px;
+  padding: 10px 12px !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.lobby-person > span {
+  color: #fff8df;
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.lobby-person small {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: .74rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .05em;
+}
+
+.lobby-par-setup,
+.lobby-tee-panel,
+.lobby-handicap-panel {
+  display: grid;
+  gap: 9px !important;
+  margin: 0 !important;
+  padding: 12px !important;
+}
+
+.lobby-par-row {
+  grid-template-columns: minmax(0, 1fr) 74px !important;
+  gap: 8px !important;
+}
+
+.lobby-par-row span {
+  color: rgba(255,248,223,.86) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: .78rem !important;
+}
+
+.round-handicap-row {
+  grid-template-columns: minmax(0, 1fr) 82px auto !important;
+  padding: 9px !important;
+}
+
+.round-handicap-copy strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: .9rem !important;
+}
+
+.round-handicap-copy small {
+  color: rgba(233,225,200,.68) !important;
+}
+
+.live-round-panel {
+  display: grid;
+  gap: 10px !important;
+}
+
+.live-round-header {
+  align-items: center !important;
+  padding-bottom: 2px;
+}
+
+.live-round-header h3 {
+  margin: 2px 0 0 !important;
+  font-size: clamp(1.9rem, 8vw, 2.8rem) !important;
+  line-height: .92 !important;
+}
+
+.live-round-code {
+  min-width: 82px !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 11px !important;
+  background: rgba(5,9,7,.84) !important;
+  color: #fff8df !important;
+}
+
+.live-round-code small {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.live-round-code strong {
+  color: #fff8df !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400;
+}
+
+.hole-strip {
+  grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+  gap: 7px !important;
+}
+
+.hole-strip > button {
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 12px !important;
+  background: rgba(5,9,7,.82) !important;
+  color: var(--wpm-gold) !important;
+  box-shadow: none !important;
+}
+
+.hole-strip-copy {
+  padding: 9px 12px !important;
+  border: 1px solid rgba(212,166,42,.62) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98)) !important;
+  color: #fff8df !important;
+}
+
+.hole-strip-copy small {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.hole-strip-copy strong {
+  color: #fff8df !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.hole-strip-copy span {
+  color: rgba(255,248,223,.82) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.par-form {
+  gap: 7px !important;
+}
+
+.live-score-area {
+  gap: 8px !important;
+}
+
+.live-score-card {
+  gap: 8px !important;
+  padding: 11px !important;
+}
+
+.live-score-card-header strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: 1rem !important;
+}
+
+.live-score-card-header small {
+  color: var(--wpm-gold) !important;
+}
+
+.live-score-readonly {
+  color: #fff8df !important;
+}
+
+.score-response-panel {
+  padding: 10px !important;
+}
+
+.score-response-heading,
+.score-response-line,
+.score-challenge-summary {
+  color: rgba(255,248,223,.88) !important;
+}
+
+.score-response-buttons button,
+.score-challenge-controls button {
+  border: 1px solid rgba(78,122,93,.55) !important;
+  border-radius: 9px !important;
+  background: rgba(5,9,7,.78) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+}
+
+.latest-presentation {
+  grid-template-columns: 76px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 11px !important;
+}
+
+.latest-mascot {
+  width: 74px !important;
+  max-height: 96px !important;
+}
+
+.latest-presentation-copy strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.scramble-contribution-row label {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.scramble-contribution-readonly {
+  border: 1px solid rgba(78,122,93,.55) !important;
+  background: rgba(5,9,7,.72) !important;
+  color: #fff8df !important;
+}
+
+.round-end-panel {
+  display: grid;
+  gap: 10px !important;
+  text-align: left !important;
+}
+
+.round-end-kicker,
+.round-end-panel h3,
+.round-end-summary {
+  text-align: center;
+}
+
+.round-end-panel h3 {
+  font-size: clamp(2.3rem, 10vw, 3.6rem) !important;
+}
+
+.round-end-results {
+  gap: 8px !important;
+}
+
+.round-end-result-card {
+  padding: 11px !important;
+}
+
+.round-end-result-card.is-first {
+  border-color: rgba(212,166,42,.78) !important;
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98)) !important;
+}
+
+.round-end-result-rank {
+  color: var(--wpm-gold) !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.round-end-result-main strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.round-end-result-main small {
+  color: rgba(233,225,200,.7) !important;
+}
+
+.round-end-result-presentation {
+  border-top: 1px solid rgba(212,166,42,.34) !important;
+}
+
+.round-end-result-presentation span {
+  color: rgba(255,248,223,.9) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.receipts-panel {
+  margin: 0 !important;
+  padding: 12px !important;
+}
+
+.receipts-panel summary {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.receipt-row {
+  padding: 9px 10px !important;
+}
+
+.receipt-row strong {
+  color: #fff8df !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.receipt-row small,
+.receipt-row span,
+.receipt-social-summary small {
+  color: rgba(233,225,200,.72) !important;
+}
+
+.round-flow-card-game :is(
+  #join-round-submit,
+  #lobby-start,
+  #lobby-par-save,
+  #lobby-tee-save,
+  #spectator-join-play-button,
+  #late-backfill-go,
+  #advance-live-hole,
+  #par-submit,
+  .live-score-submit,
+  #round-settings-tee-save,
+  #round-par-tracking-on,
+  #offline-player-add,
+  #finish-round-button,
+  #finish-incomplete-button,
+  .download-report-button
+) {
+  min-height: 52px !important;
+  padding: 9px 12px !important;
+  border: 1px solid rgba(212,166,42,.82) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417) !important;
+  color: var(--wpm-night) !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: 1.18rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .035em !important;
+}
+
+.round-flow-card-game #lobby-start {
+  width: 100% !important;
+  margin: 2px 0 0 !important;
+  font-size: 1.32rem !important;
+}
+
+.round-flow-card-game :is(
+  .lobby-home,
+  #round-settings-button,
+  #round-settings-close,
+  #back-to-live,
+  #late-backfill-dismiss,
+  #advance-warning-fix,
+  #towel-cancel,
+  #end-early-no,
+  #fix-scorecard-button,
+  #claim-player-none,
+  .score-challenge-withdraw
+) {
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 8px 11px !important;
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 11px !important;
+  background: rgba(5,9,7,.78) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .035em !important;
+}
+
+.round-flow-card-game :is(
+  .live-score-remove,
+  #advance-warning-go,
+  #claim-undo-button,
+  #round-par-tracking-off,
+  #towel-confirm,
+  #end-early-yes,
+  #end-early-button
+) {
+  min-height: 46px !important;
+  border: 1px solid rgba(217,109,59,.72) !important;
+  border-radius: 10px !important;
+  background: rgba(125,48,23,.66) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.round-flow-card-game :is(
+  #bag-of-bullshit-button,
+  #towel-button
+) {
+  min-height: 48px !important;
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 11px !important;
+  background: rgba(5,9,7,.78) !important;
+  color: #fff8df !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 400 !important;
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game > :is(
+    .round-join-form,
+    .lobby-panel,
+    .live-round-panel,
+    .round-end-panel,
+    .receipts-panel
+  ):not([hidden]) {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 2px 8px calc(28px + env(safe-area-inset-bottom));
+    scrollbar-width: none;
+  }
+
+  .round-flow-card-game > :is(
+    .round-join-form,
+    .lobby-panel,
+    .live-round-panel,
+    .round-end-panel,
+    .receipts-panel
+  )::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lobby-code {
+    font-size: clamp(4.5rem, 22vw, 6.4rem) !important;
+  }
+
+  .lobby-person {
+    min-height: 50px;
+  }
+
+  .round-handicap-row {
+    grid-template-columns: minmax(0, 1fr) 78px !important;
+  }
+
+  .round-handicap-row button {
+    grid-column: 1 / -1;
+  }
+
+  .latest-presentation {
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+  }
+
+  .latest-mascot {
+    width: 66px !important;
+  }
+}
+
+/* WPM AUXILIARY MODALS */
+.bag-card,
+.install-onboarding-card {
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 20px !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.99), rgba(5,9,7,.995)) !important;
+  color: var(--wpm-cream) !important;
+  box-shadow: 0 18px 48px rgba(0,0,0,.48) !important;
+}
+
+.bag-form-heading strong,
+.install-onboarding-copy h2 {
+  color: #fff8df !important;
+}
+
+.bag-form :is(textarea, select) {
+  border: 1px solid rgba(78,122,93,.62) !important;
+  background: rgba(5,9,7,.9) !important;
+  color: #fff8df !important;
+}
+
+.bag-actions button,
+.bag-form-heading button {
+  border: 1px solid rgba(78,122,93,.62) !important;
+  border-radius: 11px !important;
+  box-shadow: none !important;
+}
+
+.install-onboarding-copy p {
+  color: rgba(233,225,200,.78) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+}
+
+.install-onboarding-instructions {
+  border: 1px solid rgba(212,166,42,.62) !important;
+  background: rgba(212,166,42,.12) !important;
+  color: #fff8df !important;
+}
