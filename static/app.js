@@ -1,12 +1,13 @@
 (() => {
   const SESSION_KEY = 'wpm_session_token';
   const PAR_SETUP_NOW_KEY = 'wpm_par_setup_now_round';
-  const HOME_BACKGROUND_SESSION_KEY = 'wpm_home_background_asset';
+  const HOME_HERO_SESSION_KEY = 'wpm_home_hero_asset';
 
   const splash = document.getElementById('launch-splash');
   const splashMini = document.getElementById('launch-splash-mini');
   const authShell = document.getElementById('auth-shell');
   const appShell = document.getElementById('app-shell');
+  const homeHeroArt = document.getElementById('home-hero-art');
   const authMessage = document.getElementById('auth-message');
   const authHeckle = document.getElementById('auth-heckle');
   const authHeckleText = document.getElementById('auth-heckle-text');
@@ -899,7 +900,7 @@
     stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
     if (appShell) appShell.removeAttribute('aria-hidden');
-    void loadRandomHomeBackground();
+    void loadRandomHomeHero();
     if (welcomeName) {
       const name = String(account?.display_name || '').trim();
       welcomeName.textContent = name || 'Golfer';
@@ -1015,32 +1016,32 @@
     }
   };
 
-  const loadRandomHomeBackground = async () => {
-    if (!appShell) return;
+  const loadRandomHomeHero = async () => {
+    if (!homeHeroArt) return;
 
     try {
       const response = await fetch('/static/assets/_meta/asset-manifest.json');
       if (!response.ok) return;
 
       const manifest = await response.json();
-      const backgrounds = (manifest.assets || []).filter(
+      const heroes = (manifest.assets || []).filter(
         (item) => (
-          item.family === 'home-background'
-          && item.pool === 'home.backgrounds'
+          item.family === 'home-hero'
+          && item.pool === 'home.heroes'
           && item.enabled !== false
           && item.production
         )
       );
-      if (!backgrounds.length) return;
+      if (!heroes.length) return;
 
       const rememberedId = window.sessionStorage.getItem(
-        HOME_BACKGROUND_SESSION_KEY
+        HOME_HERO_SESSION_KEY
       );
-      let picked = backgrounds.find(
+      let picked = heroes.find(
         (item) => item.asset_id === rememberedId
       );
       if (!picked) {
-        picked = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        picked = heroes[Math.floor(Math.random() * heroes.length)];
       }
 
       const productionPath = String(picked.production).replace(/^\/+/, '');
@@ -1052,25 +1053,22 @@
       preload.addEventListener(
         'load',
         () => {
-          appShell.style.setProperty(
-            '--home-background-image',
-            `url("${imagePath}")`
-          );
-          appShell.dataset.homeBackground = String(
+          homeHeroArt.src = imagePath;
+          homeHeroArt.dataset.homeHero = String(
             picked.asset_id || picked.production
           );
-          appShell.classList.add('has-home-background');
+          homeHeroArt.classList.add('is-loaded');
         },
         { once: true }
       );
       preload.src = imagePath;
 
       window.sessionStorage.setItem(
-        HOME_BACKGROUND_SESSION_KEY,
+        HOME_HERO_SESSION_KEY,
         String(picked.asset_id || '')
       );
     } catch (_error) {
-      // Home remains usable on its base WPM Night surface if art fails to load.
+      // The default approved Home hero remains visible if the manifest is unavailable.
     }
   };
 
