@@ -6544,3 +6544,55 @@ body.app-ready .home-banter p {
     max-height: 152px !important;
   }
 }
+
+
+/* SETUP BACK + PRIMARY SAME TOTAL WIDTH */
+@media (max-width: 680px) {
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    display: grid !important;
+    grid-template-columns: 28% minmax(0, 1fr) !important;
+    gap: 8px !important;
+    left: 50% !important;
+    right: auto !important;
+    width: 80% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back,
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back {
+    padding: 7px 8px !important;
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+  }
+
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    font-size: 1.18rem !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    width: 84% !important;
+    grid-template-columns: 29% minmax(0, 1fr) !important;
+    gap: 7px !important;
+  }
+
+  .setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back {
+    font-size: .94rem !important;
+  }
+}
