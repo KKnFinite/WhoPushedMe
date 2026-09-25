@@ -57,6 +57,7 @@
   const setupNextButtons = document.querySelectorAll('[data-setup-next]');
   const setupBackButtons = document.querySelectorAll('[data-setup-back]');
   const courseStepMessage = document.getElementById('course-step-message');
+  const roundHolesHint = document.getElementById('round-holes-hint');
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
   const joinRoundSubmit = document.getElementById('join-round-submit');
@@ -1163,7 +1164,11 @@
               'input[name="course_mode"]:checked'
             )?.value === 'free'
           );
-          stage.hidden = freePlaySelected;
+          const searchResultsVisible = (
+            Number(step) === 2
+            && Boolean(courseResults?.children.length)
+          );
+          stage.hidden = freePlaySelected || searchResultsVisible;
           mini.classList.add('is-loaded');
         },
         { once: true }
@@ -1513,24 +1518,74 @@
     ),
   });
 
+  const setRoundHolesHint = (message) => {
+    if (roundHolesHint) roundHolesHint.textContent = message;
+  };
+
+  const updateRoundHolesHint = () => {
+    const courseMode = startRoundForm?.querySelector(
+      'input[name="course_mode"]:checked'
+    )?.value || 'course';
+
+    if (courseMode === 'free') {
+      setRoundHolesHint(
+        'Pick 9 or 18. No course data here, so try remembering where you are.'
+      );
+      return;
+    }
+
+    if (!selectedCourse) {
+      setRoundHolesHint(
+        'Pick 9 or 18. Select a course and we’ll tell you if it only has nine.'
+      );
+      return;
+    }
+
+    const teeHoleCounts = (selectedCourse.tees || [])
+      .map((tee) => Number(tee.holes_with_tee || 0))
+      .filter((count) => count > 0);
+    const physicalCount = teeHoleCounts.length ? Math.max(...teeHoleCounts) : 0;
+
+    if (physicalCount === 9) {
+      setRoundHolesHint(
+        'Course data says 9 holes. Choose 18 if you’re playing the nine twice.'
+      );
+    } else if (physicalCount >= 18) {
+      setRoundHolesHint(
+        'Course data says 18 holes. For once, the numbers are cooperating.'
+      );
+    } else {
+      setRoundHolesHint(
+        'Course hole count is unavailable. Pick the round you’re actually playing.'
+      );
+    }
+  };
+
+  const syncStepTwoMiniVisibility = () => {
+    const useCourse = (
+      startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
+      || 'course'
+    ) === 'course';
+    const hasSearchResults = Boolean(courseResults?.children.length);
+    const { stage, mini } = setupMiniParts(2);
+    if (!stage) return;
+    const shouldShow = useCourse && !hasSearchResults;
+    stage.hidden = !shouldShow;
+    if (shouldShow && mini && !mini.src) void loadRandomSetupMini(2);
+  };
+
   const setCourseMode = (mode) => {
     const useCourse = mode === 'course';
     setCourseStepMessage('');
     if (courseSearchPanel) courseSearchPanel.hidden = !useCourse;
     if (freePlayField) freePlayField.hidden = useCourse;
 
-    const { stage: stepTwoMiniStage, mini: stepTwoMini } = setupMiniParts(2);
-    if (stepTwoMiniStage) {
-      stepTwoMiniStage.hidden = !useCourse;
-    }
-    if (useCourse && stepTwoMiniStage && stepTwoMini && !stepTwoMini.src) {
-      void loadRandomSetupMini(2);
-    }
-
     if (!useCourse) {
       clearSelectedCourse();
       if (courseResults) courseResults.replaceChildren();
     }
+    updateRoundHolesHint();
+    syncStepTwoMiniVisibility();
     renderRoutePreview();
   };
 
@@ -1620,6 +1675,7 @@
       });
       selectedCourse = course;
       setCourseStepMessage('');
+      updateRoundHolesHint();
       renderRoutePreview();
 
       if (selectedCourseName) selectedCourseName.textContent = course.name || 'Selected course';
@@ -1634,6 +1690,7 @@
       fillTeeSelect(startTeeSelect, tees);
       if (startTeeField) startTeeField.hidden = tees.length === 0;
       if (courseResults) courseResults.replaceChildren();
+      syncStepTwoMiniVisibility();
       setRoundFlowMessage('');
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -1649,6 +1706,7 @@
       empty.className = 'selected-course';
       empty.textContent = 'No course found. Try another search or use Free Play.';
       courseResults.append(empty);
+      syncStepTwoMiniVisibility();
       return;
     }
 
@@ -1671,6 +1729,7 @@
       button.addEventListener('click', () => selectCourseResult(result));
       courseResults.append(button);
     });
+    syncStepTwoMiniVisibility();
   };
 
   const searchCourses = async () => {
@@ -3806,7 +3865,7 @@
       } else {
         body.free_play_name =
           String(values.get('free_play_name') || '').trim() || 'Free Play';
-        body.course_hole_count = Number(values.get('course_hole_count') || 18);
+        body.course_hole_count = holes;
       }
 
       const created = await requestJson('/api/rounds', {
