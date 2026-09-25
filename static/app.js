@@ -34,6 +34,7 @@
   const settingsForm = document.getElementById('settings-form');
   const settingsMessage = document.getElementById('settings-message');
   const settingsHandicapIndex = document.getElementById('settings-handicap-index');
+  const colorThemeTease = document.getElementById('color-theme-tease');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
   const installOnboardingInstructions = document.getElementById('install-onboarding-instructions');
@@ -49,6 +50,8 @@
   const roundSetupHeckle = document.getElementById('round-setup-heckle');
   const roundSetupHeckleText = document.getElementById('round-setup-heckle-text');
   const startRoundForm = document.getElementById('start-round-form');
+  const setupMiniStage = document.getElementById('setup-mini-stage');
+  const setupMini = document.getElementById('setup-mini');
   const setupSteps = document.querySelectorAll('[data-setup-step]');
   const setupStepDots = document.querySelectorAll('[data-setup-step-dot]');
   const setupNextButtons = document.querySelectorAll('[data-setup-next]');
@@ -1114,6 +1117,50 @@
     }
   };
 
+  const loadRandomSetupMini = async () => {
+    if (!setupMiniStage || !setupMini) return;
+
+    setupMiniStage.hidden = true;
+    setupMini.removeAttribute('src');
+    setupMini.classList.remove('is-loaded');
+
+    try {
+      const [manifestResponse, preferences] = await Promise.all([
+        fetch('/static/assets/_meta/asset-manifest.json'),
+        requestJson('/api/preferences'),
+      ]);
+      if (!manifestResponse.ok || !preferences?.mini_mascots_enabled) return;
+
+      const manifest = await manifestResponse.json();
+      const allMinis = (manifest.assets || []).filter(
+        (item) => item.family === 'mini-mascot' && item.production
+      );
+      const roundStartMinis = allMinis.filter(
+        (item) => item.event_key === 'round_start'
+      );
+      const pool = roundStartMinis.length ? roundStartMinis : allMinis;
+      if (!pool.length) return;
+
+      const picked = pool[Math.floor(Math.random() * pool.length)];
+      const productionPath = String(picked.production).replace(/^\/+/, '');
+      const imagePath = productionPath.startsWith('static/')
+        ? `/${productionPath}`
+        : `/static/${productionPath}`;
+
+      setupMini.addEventListener(
+        'load',
+        () => {
+          setupMiniStage.hidden = false;
+          setupMini.classList.add('is-loaded');
+        },
+        { once: true }
+      );
+      setupMini.src = imagePath;
+    } catch (_error) {
+      setupMiniStage.hidden = true;
+    }
+  };
+
   const revealShell = async () => {
     await bootSession();
   };
@@ -1566,7 +1613,7 @@
       return;
     }
 
-    results.slice(0, 3).forEach((result) => {
+    results.slice(0, 2).forEach((result) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'course-result';
@@ -1707,6 +1754,7 @@
     }
     if (panel === 'start') {
       if (roundSetupHeckle) roundSetupHeckle.hidden = false;
+      void loadRandomSetupMini();
       if (roundSetupHeckleText && !roundSetupHeckleText.textContent) {
         roundSetupHeckleText.textContent = ' ';
       }
@@ -4704,6 +4752,19 @@
       );
     }
   };
+
+  colorThemeTease?.addEventListener('click', () => {
+    const messages = [
+      'STFU, snowflake. You get the color I chose. Stop being needy.',
+      'COLOR THEME? ABSOLUTELY. IT\'S GREEN. YOU\'RE WELCOME.',
+      'THE THEME IS BAD GOLF GREEN. THIS IS NOT A HOME MAKEOVER SHOW.',
+      'YOU GET GREEN, CREAM, ORANGE, AND THE PRIVILEGE OF COMPLAINING ABOUT IT.',
+      'CUSTOM COLORS COST EXTRA. PAYMENT ACCEPTED IN BIRDIES. YOU HAVE NONE.',
+    ];
+    setSettingsMessage(
+      messages[Math.floor(Math.random() * messages.length)]
+    );
+  });
 
   settingsOpenButtons.forEach((button) => {
     button.addEventListener('click', openSettings);
