@@ -340,18 +340,22 @@
               <span>FREE PLAY NAME</span>
               <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
             </label>
-            <fieldset class="choice-fieldset compact-choice-fieldset">
-              <legend>PHYSICAL COURSE</legend>
-              <label>
-                <input type="radio" name="course_hole_count" value="9">
-                <span>9 HOLES</span>
-              </label>
-              <label>
-                <input type="radio" name="course_hole_count" value="18" checked>
-                <span>18 HOLES</span>
-              </label>
-            </fieldset>
-            <small>Use 9 holes + an 18-hole round when you're looping the same nine twice.</small>
+
+            <div class="free-play-hole-select">
+              <div class="free-play-hole-label">SELECT HOLES</div>
+              <div class="free-play-hole-options">
+                <label>
+                  <input type="radio" name="course_hole_count" value="9">
+                  <span>9 HOLES</span>
+                </label>
+                <label>
+                  <input type="radio" name="course_hole_count" value="18" checked>
+                  <span>18 HOLES</span>
+                </label>
+              </div>
+            </div>
+
+            <small class="free-play-helper">Looping the same nine twice? Pick 9 here and 18 for the round.</small>
           </section>
 
           <p id="course-step-message" class="setup-step-message" hidden></p>
