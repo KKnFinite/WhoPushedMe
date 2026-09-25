@@ -4211,3 +4211,291 @@ body.app-ready .app-shell {
     right: 5px;
   }
 }
+
+
+/* HOME NO-SCROLL COMPACT LAYOUT */
+body.app-ready {
+  overflow: hidden;
+}
+
+body.app-ready .app-shell {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.home-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.home-hero-art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.home-hero::before {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5,9,7,.38) 0%,
+      rgba(5,9,7,.08) 18%,
+      transparent 43%,
+      rgba(5,9,7,.18) 57%,
+      rgba(5,9,7,.84) 69%,
+      var(--wpm-night) 86%
+    );
+}
+
+.home-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding:
+    max(14px, env(safe-area-inset-top))
+    14px
+    0;
+}
+
+.home-greeting-copy span {
+  font-size: clamp(.9rem, 3.5vw, 1.04rem);
+}
+
+.home-greeting-copy strong {
+  font-size: clamp(1.05rem, 4.1vw, 1.28rem);
+}
+
+.home-quick-settings {
+  width: 42px;
+  height: 42px;
+}
+
+.home-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding:
+    22px
+    10px
+    max(8px, env(safe-area-inset-bottom));
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(5,9,7,.70) 15%,
+      rgba(5,9,7,.96) 29%,
+      var(--wpm-night) 47%,
+      var(--wpm-night) 100%
+    );
+}
+
+.home-primary-actions {
+  gap: 8px;
+}
+
+.home-action-card {
+  grid-template-columns: 38px minmax(0,1fr);
+  gap: 8px;
+  min-height: 82px;
+  padding: 10px 10px;
+  border-radius: 14px;
+}
+
+.home-action-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.home-action-copy {
+  gap: 3px;
+}
+
+.home-action-copy strong {
+  font-size: clamp(1.12rem, 4.8vw, 1.4rem);
+  line-height: .9;
+  letter-spacing: .012em;
+  white-space: nowrap;
+}
+
+.home-action-copy small {
+  font-size: clamp(.66rem, 2.65vw, .78rem);
+  line-height: 1;
+}
+
+.home-chevron {
+  display: none;
+}
+
+.home-secondary-actions {
+  gap: 7px;
+}
+
+.home-nav-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  min-height: 76px;
+  padding: 8px 5px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.home-nav-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+}
+
+.home-nav-copy {
+  display: block;
+  width: 100%;
+}
+
+.home-nav-copy strong {
+  display: block;
+  font-size: clamp(.8rem, 3.35vw, .96rem);
+  line-height: .88;
+  letter-spacing: .016em;
+}
+
+.home-nav-copy small,
+.home-nav-chevron {
+  display: none;
+}
+
+.home-settings-row {
+  grid-template-columns: 38px minmax(0,1fr) 14px;
+  gap: 10px;
+  min-height: 60px;
+  padding: 9px 12px;
+}
+
+.home-settings-row .home-nav-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.home-settings-copy {
+  gap: 2px;
+}
+
+.home-settings-copy strong {
+  font-size: 1.22rem;
+  line-height: .9;
+}
+
+.home-settings-copy small {
+  font-size: .74rem;
+  line-height: 1;
+}
+
+.home-settings-row .home-nav-chevron {
+  display: block;
+  position: static;
+  transform: none;
+  justify-self: end;
+  font-size: 1.28rem;
+}
+
+.home-banter {
+  min-height: 44px;
+  padding: 7px 10px;
+}
+
+.home-banter p {
+  font-size: clamp(.76rem, 3vw, .9rem);
+  line-height: 1;
+}
+
+@media (max-width: 390px) {
+  .home-menu {
+    gap: 7px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .home-action-card {
+    grid-template-columns: 34px minmax(0,1fr);
+    gap: 7px;
+    min-height: 78px;
+    padding: 9px 8px;
+  }
+
+  .home-action-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .home-action-copy strong {
+    font-size: clamp(1rem, 4.7vw, 1.22rem);
+  }
+
+  .home-action-copy small {
+    font-size: clamp(.62rem, 2.55vw, .72rem);
+  }
+
+  .home-nav-card {
+    min-height: 72px;
+  }
+
+  .home-nav-copy strong {
+    font-size: clamp(.75rem, 3.2vw, .9rem);
+  }
+
+  .home-settings-row {
+    min-height: 56px;
+  }
+
+  .home-banter {
+    min-height: 42px;
+  }
+}
+
+@media (max-height: 760px) {
+  .home-menu {
+    gap: 6px;
+    padding-top: 16px;
+    padding-bottom: max(5px, env(safe-area-inset-bottom));
+  }
+
+  .home-action-card {
+    min-height: 72px;
+  }
+
+  .home-nav-card {
+    min-height: 64px;
+    gap: 4px;
+  }
+
+  .home-nav-icon {
+    width: 27px;
+    height: 27px;
+    flex-basis: 27px;
+  }
+
+  .home-settings-row {
+    min-height: 52px;
+  }
+
+  .home-banter {
+    min-height: 38px;
+  }
+}
