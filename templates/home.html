@@ -240,138 +240,164 @@
       </aside>
 
       <form id="start-round-form" class="round-flow-form round-start-form" data-round-panel="start">
-        <fieldset class="choice-fieldset setup-card setup-card-mode">
-          <legend>MODE</legend>
-          <label>
-            <input type="radio" name="mode" value="individual" checked>
-            <span>EVERY ASSHOLE FOR THEMSELVES</span>
-          </label>
-          <label>
-            <input type="radio" name="mode" value="scramble">
-            <span>WE SUCK TOGETHER</span>
-          </label>
-        </fieldset>
+        <div class="setup-progress" aria-label="Round setup progress">
+          <span class="is-active" data-setup-step-dot="1">1</span>
+          <i></i>
+          <span data-setup-step-dot="2">2</span>
+          <i></i>
+          <span data-setup-step-dot="3">3</span>
+        </div>
 
-        <fieldset id="individual-scoring-fieldset" class="choice-fieldset setup-card setup-card-scoring">
-          <legend>INDIVIDUAL SCORING</legend>
-          <label>
-            <input type="radio" name="individual_scoring" value="gross" checked>
-            <span>GROSS ONLY</span>
-          </label>
-          <label>
-            <input type="radio" name="individual_scoring" value="net">
-            <span>GROSS + NET</span>
-          </label>
-          <small>Missing handicaps never block play. Net placement waits until the math exists.</small>
-        </fieldset>
-
-        <fieldset class="choice-fieldset setup-card setup-card-holes">
-          <legend>HOLES</legend>
-          <label>
-            <input type="radio" name="holes" value="9">
-            <span>9</span>
-          </label>
-          <label>
-            <input type="radio" name="holes" value="18" checked>
-            <span>18</span>
-          </label>
-        </fieldset>
-
-        <section class="round-route-setup setup-card setup-card-route">
-          <label class="round-text-field">
-            <span>STARTING HOLE</span>
-            <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
-            <small>Shotgun start? Start wherever the damage actually begins.</small>
-          </label>
-
-          <label class="round-text-field">
-            <span>APP STARTS COUNTING AT</span>
-            <select id="tracking-start-position" name="tracking_start_position">
-              <option value="1">HOLE 1 • 1 OF 18</option>
-            </select>
-            <small>Already partway through? Tell the app where it joins reality.</small>
-          </label>
-
-          <fieldset id="prior-holes-mode" class="choice-fieldset compact-choice-fieldset" hidden>
-            <legend>EARLIER HOLES</legend>
+        <section class="setup-step is-active" data-setup-step="1">
+          <fieldset class="choice-fieldset setup-card setup-card-mode">
+            <legend>MODE</legend>
             <label>
-              <input type="radio" name="prior_holes_mode" value="untracked" checked>
-              <span>LEAVE IT UNTRACKED</span>
+              <input type="radio" name="mode" value="individual" checked>
+              <span>EVERY ASSHOLE FOR THEMSELVES</span>
             </label>
             <label>
-              <input type="radio" name="prior_holes_mode" value="backfill">
-              <span>ENTER THE DAMAGE SO FAR</span>
+              <input type="radio" name="mode" value="scramble">
+              <span>WE SUCK TOGETHER</span>
             </label>
           </fieldset>
 
-          <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
-        </section>
-
-        <fieldset class="choice-fieldset setup-card setup-card-par">
-          <legend>PAR TRACKING</legend>
-          <label>
-            <input type="radio" name="par_setup" value="now">
-            <span>ENTER PARS NOW</span>
-          </label>
-          <label>
-            <input type="radio" name="par_setup" value="as_go" checked>
-            <span>ENTER AS WE GO</span>
-          </label>
-          <label>
-            <input type="radio" name="par_setup" value="off">
-            <span>DON'T TRACK PAR</span>
-          </label>
-        </fieldset>
-
-        <fieldset class="choice-fieldset setup-card setup-card-course-mode">
-          <legend>WHERE ARE WE RUINING GOLF?</legend>
-          <label>
-            <input type="radio" name="course_mode" value="course" checked>
-            <span>FIND A COURSE</span>
-          </label>
-          <label>
-            <input type="radio" name="course_mode" value="free">
-            <span>FREE PLAY</span>
-          </label>
-        </fieldset>
-
-        <section id="course-search-panel" class="course-search-panel setup-card setup-card-course-search">
-          <div class="course-search-row">
-            <input id="course-search-input" type="search" placeholder="Course name" autocomplete="off">
-            <button id="course-search-button" type="button">SEARCH</button>
-          </div>
-          <div id="course-results" class="course-results"></div>
-          <div id="selected-course" class="selected-course" hidden>
-            <strong id="selected-course-name"></strong>
-            <small id="selected-course-location"></small>
-          </div>
-
-          <label id="start-tee-field" class="round-text-field" hidden>
-            <span id="start-tee-label">YOUR TEE</span>
-            <select id="start-tee-select" name="tee_name"></select>
-          </label>
-        </section>
-
-        <section id="free-play-field" class="free-play-fields setup-card setup-card-free-play" hidden>
-          <label class="round-text-field">
-            <span>FREE PLAY NAME</span>
-            <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
-          </label>
-          <fieldset class="choice-fieldset compact-choice-fieldset">
-            <legend>PHYSICAL COURSE</legend>
+          <fieldset id="individual-scoring-fieldset" class="choice-fieldset setup-card setup-card-scoring">
+            <legend>INDIVIDUAL SCORING</legend>
             <label>
-              <input type="radio" name="course_hole_count" value="9">
-              <span>9 HOLES</span>
+              <input type="radio" name="individual_scoring" value="gross" checked>
+              <span>GROSS ONLY</span>
             </label>
             <label>
-              <input type="radio" name="course_hole_count" value="18" checked>
-              <span>18 HOLES</span>
+              <input type="radio" name="individual_scoring" value="net">
+              <span>GROSS + NET</span>
+            </label>
+            <small>Missing handicaps never block play. Net placement waits until the math exists.</small>
+          </fieldset>
+
+          <fieldset class="choice-fieldset setup-card setup-card-holes">
+            <legend>HOLES</legend>
+            <label>
+              <input type="radio" name="holes" value="9">
+              <span>9</span>
+            </label>
+            <label>
+              <input type="radio" name="holes" value="18" checked>
+              <span>18</span>
             </label>
           </fieldset>
-          <small>Use 9 holes + an 18-hole round when you're looping the same nine twice.</small>
+
+          <div class="setup-step-actions setup-step-actions-next">
+            <button type="button" class="setup-next" data-setup-next="2">NEXT: ROUTE</button>
+          </div>
         </section>
 
-        <button class="settings-save round-create-button" type="submit">CREATE THE DISASTER</button>
+        <section class="setup-step" data-setup-step="2" hidden>
+          <section class="round-route-setup setup-card setup-card-route">
+            <label class="round-text-field">
+              <span>STARTING HOLE</span>
+              <input id="start-hole-input" name="start_hole" type="number" min="1" max="18" value="1" inputmode="numeric">
+              <small>Shotgun start? Start wherever the damage actually begins.</small>
+            </label>
+
+            <label class="round-text-field">
+              <span>APP STARTS COUNTING AT</span>
+              <select id="tracking-start-position" name="tracking_start_position">
+                <option value="1">HOLE 1 • 1 OF 18</option>
+              </select>
+              <small>Already partway through? Tell the app where it joins reality.</small>
+            </label>
+
+            <fieldset id="prior-holes-mode" class="choice-fieldset compact-choice-fieldset" hidden>
+              <legend>EARLIER HOLES</legend>
+              <label>
+                <input type="radio" name="prior_holes_mode" value="untracked" checked>
+                <span>LEAVE IT UNTRACKED</span>
+              </label>
+              <label>
+                <input type="radio" name="prior_holes_mode" value="backfill">
+                <span>ENTER THE DAMAGE SO FAR</span>
+              </label>
+            </fieldset>
+
+            <div id="route-preview" class="route-preview">STARTING ON HOLE 1</div>
+          </section>
+
+          <fieldset class="choice-fieldset setup-card setup-card-par">
+            <legend>PAR TRACKING</legend>
+            <label>
+              <input type="radio" name="par_setup" value="now">
+              <span>ENTER PARS NOW</span>
+            </label>
+            <label>
+              <input type="radio" name="par_setup" value="as_go" checked>
+              <span>ENTER AS WE GO</span>
+            </label>
+            <label>
+              <input type="radio" name="par_setup" value="off">
+              <span>DON'T TRACK PAR</span>
+            </label>
+          </fieldset>
+
+          <div class="setup-step-actions">
+            <button type="button" class="setup-back" data-setup-back="1">BACK</button>
+            <button type="button" class="setup-next" data-setup-next="3">NEXT: COURSE</button>
+          </div>
+        </section>
+
+        <section class="setup-step" data-setup-step="3" hidden>
+          <fieldset class="choice-fieldset setup-card setup-card-course-mode">
+            <legend>WHERE ARE WE RUINING GOLF?</legend>
+            <label>
+              <input type="radio" name="course_mode" value="course" checked>
+              <span>FIND A COURSE</span>
+            </label>
+            <label>
+              <input type="radio" name="course_mode" value="free">
+              <span>FREE PLAY</span>
+            </label>
+          </fieldset>
+
+          <section id="course-search-panel" class="course-search-panel setup-card setup-card-course-search">
+            <div class="course-search-row">
+              <input id="course-search-input" type="search" placeholder="Course name" autocomplete="off">
+              <button id="course-search-button" type="button">SEARCH</button>
+            </div>
+            <div id="course-results" class="course-results"></div>
+            <div id="selected-course" class="selected-course" hidden>
+              <strong id="selected-course-name"></strong>
+              <small id="selected-course-location"></small>
+            </div>
+
+            <label id="start-tee-field" class="round-text-field" hidden>
+              <span id="start-tee-label">YOUR TEE</span>
+              <select id="start-tee-select" name="tee_name"></select>
+            </label>
+          </section>
+
+          <section id="free-play-field" class="free-play-fields setup-card setup-card-free-play" hidden>
+            <label class="round-text-field">
+              <span>FREE PLAY NAME</span>
+              <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
+            </label>
+            <fieldset class="choice-fieldset compact-choice-fieldset">
+              <legend>PHYSICAL COURSE</legend>
+              <label>
+                <input type="radio" name="course_hole_count" value="9">
+                <span>9 HOLES</span>
+              </label>
+              <label>
+                <input type="radio" name="course_hole_count" value="18" checked>
+                <span>18 HOLES</span>
+              </label>
+            </fieldset>
+            <small>Use 9 holes + an 18-hole round when you're looping the same nine twice.</small>
+          </section>
+
+          <div class="setup-step-actions">
+            <button type="button" class="setup-back" data-setup-back="2">BACK</button>
+            <button class="settings-save round-create-button" type="submit">CREATE THE DISASTER</button>
+          </div>
+        </section>
       </form>
 
       <form id="join-round-form" class="round-flow-form round-join-form" data-round-panel="join" hidden>
