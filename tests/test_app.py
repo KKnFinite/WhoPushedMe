@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v63" in response.data
+    assert b"wpm-shell-v64" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v63" in builder
+    assert "wpm-shell-v64" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -947,3 +947,19 @@ def test_setup_actions_are_locked_to_mobile_viewport():
     assert b"position: fixed !important" in css.data
     assert b"bottom: max(12px, env(safe-area-inset-bottom)) !important" in css.data
     assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 48px) !important" in css.data
+
+
+def test_individual_scoring_uses_golf_terms_and_helpers():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"STROKE PLAY SCORING" in page.data
+    assert b"GROSS STROKE PLAY" in page.data
+    assert b"NET STROKE PLAY" in page.data
+    assert b"Every stroke counts. No handicap alibi." in page.data
+    assert b"Gross still counts. Handicap math adds net standings." in page.data
+    assert b"Missing handicaps never block play." not in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"REAL GOLF SCORING COPY" in css.data
+    assert b".setup-scoring-option .setup-option-copy" in css.data
