@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v55" in response.data
+    assert b"wpm-shell-v56" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v55" in builder
+    assert "wpm-shell-v56" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -773,3 +773,21 @@ def test_home_banter_text_is_larger():
     assert css.status_code == 200
     assert b"MOBILE STATUS BAR COVER" in css.data
     assert b"font-size: clamp(1.04rem, 4.15vw, 1.22rem)" in css.data
+
+
+def test_start_round_uses_dark_game_setup_surface():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'round-flow-card round-flow-card-game' in page.data
+    assert b'round-flow-form round-start-form' in page.data
+    assert b'setup-card setup-card-mode' in page.data
+    assert b'setup-card setup-card-route' in page.data
+    assert b'setup-card setup-card-par' in page.data
+    assert b'round-create-button' in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"ROUND SETUP DARK GAME SURFACE" in css.data
+    assert b".round-start-form .choice-fieldset label:has(input:checked)" in css.data
+    assert b"position: sticky" in css.data
+    assert b"CREATE THE DISASTER" in page.data
