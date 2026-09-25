@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v50" in response.data
+    assert b"wpm-shell-v51" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v50" in builder
+    assert "wpm-shell-v51" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -699,3 +699,22 @@ def test_home_is_single_screen_without_secondary_button_clutter():
     assert b"overflow: hidden" in css.data
     assert b"position: absolute" in css.data
     assert b"bottom: 0" in css.data
+
+
+def test_home_menu_is_nested_inside_fixed_hero_overlay():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+    hero_start = html.index('<section class="home-hero"')
+    menu_start = html.index('<section class="home-menu"', hero_start)
+    hero_end = html.index('</section>', menu_start)
+    assert hero_start < menu_start < hero_end
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"HOME OVERLAY FINAL FIX" in css.data
+    assert b"position: fixed" in css.data
+    assert b"height: 100dvh" in css.data
+    assert b"body.app-ready .home-menu" in css.data
+    assert b"bottom: 0" in css.data
+    assert b"object-fit: cover" in css.data
