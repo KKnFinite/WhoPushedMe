@@ -23,6 +23,8 @@ MINI_PROD = ASSETS / "mascots" / "mini"
 HOME_BACKGROUND_SRC = ASSETS_SRC / "home" / "backgrounds"
 HOME_BACKGROUND_PROD = ASSETS / "home" / "backgrounds"
 HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
+HOME_HERO_SRC = ASSETS_SRC / "home" / "heroes"
+HOME_HERO_PROD = ASSETS / "home" / "heroes"
 
 
 def _read(path: Path) -> dict:
@@ -835,6 +837,99 @@ def cmd_remove_home_background(args: argparse.Namespace) -> None:
     print(f"Removed Home background: {stem}")
 
 
+
+def _home_hero_sources() -> list[Path]:
+    if not HOME_HERO_SRC.exists():
+        return []
+    return sorted(
+        path
+        for path in HOME_HERO_SRC.glob("*.png")
+        if path.is_file()
+    )
+
+
+def cmd_list_home_heroes(_: argparse.Namespace) -> None:
+    rows = _home_hero_sources()
+    for source in rows:
+        production = HOME_HERO_PROD / f"{source.stem}.webp"
+        state = "READY" if production.exists() else "MISSING WEBP"
+        print(f"{source.stem:<48} {state}")
+    print(f"Home heroes: {len(rows)}")
+
+
+def cmd_add_home_hero(args: argparse.Namespace) -> None:
+    source = Path(args.png).expanduser().resolve()
+    if not source.exists():
+        raise ContentError(f"Home hero PNG not found: {source}")
+    if source.suffix.lower() != ".png":
+        raise ContentError("Home hero source must be a PNG")
+
+    with Image.open(source) as image:
+        if image.width < 900 or image.height < 1200:
+            raise ContentError(
+                "Home hero PNG is unexpectedly small; expected portrait art at least 900x1200"
+            )
+
+    raw_name = args.short_name or source.stem
+    prefix = "WPM_Home_Hero_"
+    if raw_name.startswith(prefix):
+        raw_name = raw_name[len(prefix):]
+    stem = prefix + _pascal_slug(raw_name)
+
+    destination_png = HOME_HERO_SRC / f"{stem}.png"
+    destination_webp = HOME_HERO_PROD / f"{stem}.webp"
+    if destination_png.exists() or destination_webp.exists():
+        raise ContentError(f"Home hero already exists: {stem}")
+
+    destination_png.parent.mkdir(parents=True, exist_ok=True)
+    destination_webp.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination_png)
+    make_webp(destination_png, destination_webp, lossless=False)
+
+    build_manifest()
+    ContentCatalog.load().validate()
+
+    print(f"Added Home hero: home.hero.{stem[len(prefix):]}")
+    print(f"PNG:  {destination_png.relative_to(ROOT)}")
+    print(f"WebP: {destination_webp.relative_to(ROOT)}")
+    print("Registered in pool: home.heroes")
+    print("Asset manifest and content metadata validated.")
+
+
+def cmd_remove_home_hero(args: argparse.Namespace) -> None:
+    token = args.name.strip()
+    prefix = "WPM_Home_Hero_"
+    if token.startswith("home.hero."):
+        token = token[len("home.hero."):]
+    if token.startswith(prefix):
+        stem = token
+    else:
+        stem = prefix + _pascal_slug(token)
+
+    source = HOME_HERO_SRC / f"{stem}.png"
+    production = HOME_HERO_PROD / f"{stem}.webp"
+    if not source.exists() and not production.exists():
+        raise ContentError(f"Home hero not found: {stem}")
+
+    if not args.yes:
+        answer = input(
+            f"Remove {stem} from the Home hero pool? Type REMOVE to confirm: "
+        ).strip()
+        if answer != "REMOVE":
+            print("Cancelled.")
+            return
+
+    for path in (source, production):
+        if path.exists():
+            path.unlink()
+            print(f"Removed: {path.relative_to(ROOT)}")
+
+    build_manifest()
+    ContentCatalog.load().validate()
+    print(f"Removed Home hero: {stem}")
+    print("Asset manifest and content metadata validated.")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="WHO PUSHED ME?! content administration")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -976,6 +1071,32 @@ def build_parser() -> argparse.ArgumentParser:
         help="remove without interactive confirmation",
     )
     remove_home_background.set_defaults(func=cmd_remove_home_background)
+
+    list_home_heroes = subparsers.add_parser(
+        "list-home-heroes",
+        help="list images in the rotating Home hero pool",
+    )
+    list_home_heroes.set_defaults(func=cmd_list_home_heroes)
+
+    add_home_hero = subparsers.add_parser(
+        "add-home-hero",
+        help="import an approved combined Home hero PNG",
+    )
+    add_home_hero.add_argument("png")
+    add_home_hero.add_argument("--short-name")
+    add_home_hero.set_defaults(func=cmd_add_home_hero)
+
+    remove_home_hero = subparsers.add_parser(
+        "remove-home-hero",
+        help="remove one image from the rotating Home hero pool",
+    )
+    remove_home_hero.add_argument("name")
+    remove_home_hero.add_argument(
+        "--yes",
+        action="store_true",
+        help="remove without interactive confirmation",
+    )
+    remove_home_hero.set_defaults(func=cmd_remove_home_hero)
 
     add_mini = subparsers.add_parser("add-mini", help="import a transparent mini PNG")
     add_mini.add_argument("png")
