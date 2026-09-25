@@ -1119,6 +1119,82 @@
     }
   };
 
+  const setupMiniOpaqueBottomRatio = (mini) => {
+    const cached = Number(mini?.dataset?.opaqueBottomRatio);
+    if (Number.isFinite(cached) && cached >= 0) return cached;
+    if (!mini?.naturalWidth || !mini?.naturalHeight) return 0;
+
+    const maxDimension = 320;
+    const scale = Math.min(
+      1,
+      maxDimension / Math.max(mini.naturalWidth, mini.naturalHeight)
+    );
+    const width = Math.max(1, Math.round(mini.naturalWidth * scale));
+    const height = Math.max(1, Math.round(mini.naturalHeight * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) return 0;
+
+    try {
+      context.drawImage(mini, 0, 0, width, height);
+      const pixels = context.getImageData(0, 0, width, height).data;
+      let lastOpaqueRow = height - 1;
+
+      rowSearch:
+      for (let y = height - 1; y >= 0; y -= 1) {
+        const rowOffset = y * width * 4;
+        for (let x = 0; x < width; x += 1) {
+          if (pixels[rowOffset + (x * 4) + 3] > 12) {
+            lastOpaqueRow = y;
+            break rowSearch;
+          }
+        }
+      }
+
+      const ratio = Math.max(
+        0,
+        Math.min(1, (height - 1 - lastOpaqueRow) / height)
+      );
+      mini.dataset.opaqueBottomRatio = String(ratio);
+      return ratio;
+    } catch (_error) {
+      return 0;
+    }
+  };
+
+  const alignStepTwoMiniToNextButton = () => {
+    const stage = [...setupMiniStages].find(
+      (item) => Number(item.dataset.setupMiniStage) === 2
+    );
+    const mini = [...setupMinis].find(
+      (item) => Number(item.dataset.setupMini) === 2
+    );
+    const nextButton = stage?.closest('.setup-step-actions')?.querySelector('.setup-next');
+    if (
+      !stage
+      || !mini
+      || !nextButton
+      || stage.hidden
+      || !mini.complete
+      || !mini.naturalHeight
+    ) return;
+
+    stage.style.setProperty('--setup-mini-y', '0px');
+
+    window.requestAnimationFrame(() => {
+      if (stage.hidden) return;
+      const miniRect = mini.getBoundingClientRect();
+      const buttonRect = nextButton.getBoundingClientRect();
+      const transparentBottom =
+        setupMiniOpaqueBottomRatio(mini) * miniRect.height;
+      const visibleBottom = miniRect.bottom - transparentBottom;
+      const shift = Math.round(buttonRect.top - visibleBottom + 2);
+      stage.style.setProperty('--setup-mini-y', `${shift}px`);
+    });
+  };
+
   const loadRandomSetupMini = async (step = 1) => {
     const stage = [...setupMiniStages].find(
       (item) => Number(item.dataset.setupMiniStage) === Number(step)
@@ -1129,7 +1205,9 @@
     if (!stage || !mini) return;
 
     stage.hidden = true;
+    stage.style.removeProperty('--setup-mini-y');
     mini.removeAttribute('src');
+    delete mini.dataset.opaqueBottomRatio;
     mini.classList.remove('is-loaded');
 
     try {
@@ -1173,6 +1251,9 @@
           stage.classList.toggle('is-suppressed', shouldHide);
           stage.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
           mini.classList.add('is-loaded');
+          if (Number(step) === 2 && !shouldHide) {
+            alignStepTwoMiniToNextButton();
+          }
         },
         { once: true }
       );
@@ -1499,10 +1580,16 @@
 
   const clearSelectedCourse = () => {
     selectedCourse = null;
-    if (selectedCourseBox) selectedCourseBox.hidden = true;
+    if (selectedCourseBox) {
+      selectedCourseBox.hidden = true;
+      selectedCourseBox.style.display = 'none';
+    }
     if (selectedCourseName) selectedCourseName.textContent = '';
     if (selectedCourseLocation) selectedCourseLocation.textContent = '';
-    if (startTeeField) startTeeField.hidden = true;
+    if (startTeeField) {
+      startTeeField.hidden = true;
+      startTeeField.style.display = 'none';
+    }
     if (startTeeSelect) startTeeSelect.replaceChildren();
   };
 
@@ -1579,7 +1666,11 @@
     if (courseSearchPanel) {
       courseSearchPanel.classList.toggle('has-results', hasSearchResults);
     }
-    if (shouldShow && mini && !mini.src) void loadRandomSetupMini(2);
+    if (shouldShow && mini && !mini.src) {
+      void loadRandomSetupMini(2);
+    } else if (shouldShow && mini?.complete) {
+      alignStepTwoMiniToNextButton();
+    }
   };
 
   const setCourseMode = (mode) => {
@@ -1686,18 +1777,27 @@
       updateRoundHolesHint();
       renderRoutePreview();
 
+      if (courseResults) courseResults.replaceChildren();
+
       if (selectedCourseName) selectedCourseName.textContent = course.name || 'Selected course';
       if (selectedCourseLocation) {
         const pieces = [result.city, result.state, result.country].filter(Boolean);
         selectedCourseLocation.textContent = pieces.join(', ');
       }
-      if (selectedCourseBox) selectedCourseBox.hidden = false;
+      if (selectedCourseBox) {
+        selectedCourseBox.hidden = false;
+        selectedCourseBox.style.removeProperty('display');
+      }
 
       const tees = course.tees || [];
       refreshStartModeControls();
       fillTeeSelect(startTeeSelect, tees);
-      if (startTeeField) startTeeField.hidden = tees.length === 0;
-      if (courseResults) courseResults.replaceChildren();
+      if (startTeeField) {
+        const showTee = tees.length > 0;
+        startTeeField.hidden = !showTee;
+        if (showTee) startTeeField.style.removeProperty('display');
+        else startTeeField.style.display = 'none';
+      }
       syncStepTwoMiniVisibility();
       setRoundFlowMessage('');
     } catch (error) {
