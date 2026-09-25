@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v54" in response.data
+    assert b"wpm-shell-v55" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v54" in builder
+    assert "wpm-shell-v55" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -752,3 +752,24 @@ def test_ios_status_bar_is_solid_black():
     assert css.status_code == 200
     assert b"IPHONE STATUS BAR COVER" in css.data
     assert b"height: max(44px, env(safe-area-inset-top))" in css.data
+
+
+def test_android_pwa_uses_black_status_bar_theme():
+    import json
+
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'<meta name="theme-color" content="#000000">' in page.data
+
+    manifest_response = client().get("/static/manifest.webmanifest")
+    assert manifest_response.status_code == 200
+    manifest = json.loads(manifest_response.data)
+    assert manifest["theme_color"] == "#000000"
+    assert manifest["background_color"] == "#000000"
+
+
+def test_home_banter_text_is_larger():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"MOBILE STATUS BAR COVER" in css.data
+    assert b"font-size: clamp(1.04rem, 4.15vw, 1.22rem)" in css.data
