@@ -105,14 +105,16 @@
 
   <main id="app-shell" class="app-shell" aria-hidden="true">
     <section class="home-hero" aria-label="Who Pushed Me home">
-      <div class="home-topbar">
-        <img
-          class="home-wordmark"
-          src="{{ url_for('static', filename='assets/brand/WPM_Wordmark.webp') }}"
-          alt="Who Pushed Me?! Scorecard"
-          decoding="async"
-        >
+      <img
+        id="home-hero-art"
+        class="home-hero-art"
+        src="{{ url_for('static', filename='assets/home/heroes/WPM_Home_Hero_BrightDay.webp') }}"
+        alt="Who Pushed Me?! golf-course hero art"
+        decoding="async"
+        fetchpriority="high"
+      >
 
+      <div class="home-topbar">
         <div class="home-greeting">
           <div class="home-greeting-copy">
             <span>Hey there,</span>
@@ -132,12 +134,6 @@
         </div>
       </div>
 
-      <img
-        class="home-mascot"
-        src="{{ url_for('static', filename='assets/home/WPM_Home_Mascot.png') }}"
-        alt="Who Pushed Me mascot holding a beer and giving the middle finger"
-        decoding="async"
-      >
     </section>
 
     <section class="home-menu" aria-label="Who Pushed Me home actions">
