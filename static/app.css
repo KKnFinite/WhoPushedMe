@@ -3517,7 +3517,9 @@ body.app-ready .app-shell {
 
 .home-hero {
   position: relative;
-  min-height: clamp(410px, 52dvh, 560px);
+  width: 100%;
+  aspect-ratio: 941 / 1672;
+  min-height: 0;
   overflow: hidden;
   isolation: isolate;
 }
@@ -3959,10 +3961,6 @@ body.app-ready .app-shell {
 }
 
 @media (max-height: 780px) {
-  .home-hero {
-    min-height: 45dvh;
-  }
-
   .home-action-card {
     min-height: 88px;
   }
@@ -3993,7 +3991,7 @@ body.app-ready .app-shell {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center top;
   opacity: 1;
   user-select: none;
