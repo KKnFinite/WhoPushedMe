@@ -5548,3 +5548,171 @@ body.app-ready .home-banter p {
     min-height: 44px;
   }
 }
+
+
+/* START ROUND WIZARD STABILITY PASS */
+.round-flow-card-game > #round-setup-heckle {
+  position: relative;
+  box-sizing: border-box;
+  flex: 0 0 88px !important;
+  block-size: 88px !important;
+  min-block-size: 88px !important;
+  max-block-size: 88px !important;
+  height: 88px !important;
+  min-height: 88px !important;
+  max-height: 88px !important;
+  padding: 10px 14px !important;
+  overflow: hidden !important;
+  contain: layout size;
+}
+
+.round-flow-card-game > #round-setup-heckle p {
+  margin: 0 !important;
+  display: -webkit-box;
+  max-height: 66px;
+  overflow: hidden;
+  font-size: 1rem !important;
+  line-height: 1.05 !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3 !important;
+}
+
+.setup-progress {
+  display: grid !important;
+  grid-template-columns: 30px 1fr 30px 1fr 30px !important;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 30px;
+  padding: 0 4px;
+}
+
+.setup-progress span {
+  display: grid !important;
+  place-items: center;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  font-size: .8rem !important;
+}
+
+.setup-progress i {
+  display: block !important;
+  height: 1px !important;
+  background: rgba(78,122,93,.56) !important;
+}
+
+.setup-mode-option .setup-option-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.setup-mode-option .setup-option-copy strong {
+  display: block;
+  color: inherit;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .02em;
+}
+
+.setup-mode-option .setup-option-copy small {
+  display: block;
+  color: rgba(233,225,200,.62);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .13em;
+}
+
+.setup-mode-option:has(input:checked) .setup-option-copy small {
+  color: var(--wpm-gold);
+}
+
+.setup-step-actions {
+  margin-top: auto !important;
+  padding-top: 10px;
+  padding-bottom: 28px;
+}
+
+.setup-step-actions-next {
+  grid-template-columns: 1fr !important;
+}
+
+.setup-step-actions .setup-next,
+.setup-step-actions .round-create-button {
+  width: 100%;
+  min-height: 68px !important;
+  border-radius: 14px;
+  font-size: 1.5rem !important;
+  letter-spacing: .04em;
+  box-shadow: 0 8px 20px rgba(0,0,0,.34);
+}
+
+.setup-step-actions .setup-back {
+  min-height: 68px !important;
+  font-size: 1.12rem !important;
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .round-start-form {
+    flex: 1 1 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-rows: 30px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .setup-step.is-active {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .setup-step-actions {
+    flex: 0 0 auto !important;
+    padding-bottom: max(26px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-height: 760px) {
+  .round-flow-card-game > #round-setup-heckle {
+    flex-basis: 88px !important;
+    block-size: 88px !important;
+    min-block-size: 88px !important;
+    max-block-size: 88px !important;
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+  }
+
+  .round-flow-card-game > #round-setup-heckle p {
+    font-size: .96rem !important;
+    -webkit-line-clamp: 3 !important;
+  }
+
+  .setup-step-actions .setup-next,
+  .setup-step-actions .round-create-button,
+  .setup-step-actions .setup-back {
+    min-height: 62px !important;
+  }
+
+  .setup-step-actions {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
