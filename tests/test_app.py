@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v56" in response.data
+    assert b"wpm-shell-v57" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v56" in builder
+    assert "wpm-shell-v57" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -791,3 +791,27 @@ def test_start_round_uses_dark_game_setup_surface():
     assert b".round-start-form .choice-fieldset label:has(input:checked)" in css.data
     assert b"position: sticky" in css.data
     assert b"CREATE THE DISASTER" in page.data
+
+
+def test_start_round_is_fixed_three_step_wizard():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert page.data.count(b'data-setup-step="') == 3
+    assert b'data-setup-next="2"' in page.data
+    assert b'data-setup-next="3"' in page.data
+    assert b'data-setup-back="1"' in page.data
+    assert b'data-setup-back="2"' in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"const setSetupStep =" in script.data
+    assert b"setupNextButtons.forEach" in script.data
+    assert b"results.slice(0, 3)" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"START ROUND FIXED WIZARD" in css.data
+    assert b"overflow: hidden" in css.data
+    assert b"grid-template-rows: 28px minmax(0, 1fr)" in css.data
+    assert b"-webkit-line-clamp: 3" in css.data
+    assert b"height: 86px" in css.data
