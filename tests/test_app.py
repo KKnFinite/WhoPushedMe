@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v67" in response.data
+    assert b"wpm-shell-v68" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v67" in builder
+    assert "wpm-shell-v68" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -1022,3 +1022,25 @@ def test_free_play_hides_course_panel_and_step_two_mini():
     assert b"#free-play-field[hidden]" in css.data
     assert b"grid-template-columns: 24% minmax(0, 1fr) !important" in css.data
     assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 50px) !important" in css.data
+
+
+def test_course_step_owns_round_holes_and_hides_mini_during_results():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+    assert html.count('name="holes"') == 2
+    assert "ROUND HOLES" in html
+    assert "course_hole_count" not in html
+    assert "SELECT HOLES" not in html
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"syncStepTwoMiniVisibility" in script.data
+    assert b"searchResultsVisible" in script.data
+    assert b"Course data says 9 holes." in script.data
+    assert b"body.course_hole_count = holes" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"COURSE STEP HOLES + MINI FINAL PLACEMENT" in css.data
+    assert b'bottom: calc(max(12px, env(safe-area-inset-bottom)) + 46px) !important' in css.data
