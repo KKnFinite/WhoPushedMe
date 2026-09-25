@@ -56,6 +56,7 @@
   const setupStepDots = document.querySelectorAll('[data-setup-step-dot]');
   const setupNextButtons = document.querySelectorAll('[data-setup-next]');
   const setupBackButtons = document.querySelectorAll('[data-setup-back]');
+  const courseStepMessage = document.getElementById('course-step-message');
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
   const joinRoundSubmit = document.getElementById('join-round-submit');
@@ -1485,8 +1486,15 @@
     if (startTeeSelect) startTeeSelect.replaceChildren();
   };
 
+  const setCourseStepMessage = (message = '') => {
+    if (!courseStepMessage) return;
+    courseStepMessage.textContent = message;
+    courseStepMessage.hidden = !message;
+  };
+
   const setCourseMode = (mode) => {
     const useCourse = mode === 'course';
+    setCourseStepMessage('');
     if (courseSearchPanel) courseSearchPanel.hidden = !useCourse;
     if (freePlayField) freePlayField.hidden = useCourse;
     if (!useCourse) {
@@ -1581,6 +1589,7 @@
         body,
       });
       selectedCourse = course;
+      setCourseStepMessage('');
       renderRoutePreview();
 
       if (selectedCourseName) selectedCourseName.textContent = course.name || 'Selected course';
@@ -1668,13 +1677,13 @@
       dot.classList.toggle('is-active', value === resolved);
       dot.classList.toggle('is-complete', value < resolved);
     });
-    if (resolved === 2) renderRoutePreview();
-    if (resolved === 3) {
+    if (resolved === 2) {
       setCourseMode(
         startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
         || 'course'
       );
     }
+    if (resolved === 3) renderRoutePreview();
   };
 
   const setRoundFlowMessage = (message = '') => {
@@ -1741,6 +1750,7 @@
     resetClaimPlayerPanel();
 
     if (startRoundForm) startRoundForm.hidden = panel !== 'start';
+    setCourseStepMessage('');
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
@@ -3685,7 +3695,21 @@
   trackingStartPosition?.addEventListener('change', renderRoutePreview);
 
   setupNextButtons.forEach((button) => {
-    button.addEventListener('click', () => setSetupStep(button.dataset.setupNext));
+    button.addEventListener('click', () => {
+      const target = Number(button.dataset.setupNext);
+      if (target === 3) {
+        const courseMode = startRoundForm?.querySelector(
+          'input[name="course_mode"]:checked'
+        )?.value || 'course';
+        if (courseMode === 'course' && !selectedCourse?.id) {
+          setCourseStepMessage('Pick a course first, or switch to Free Play.');
+          courseSearchInput?.focus();
+          return;
+        }
+      }
+      setCourseStepMessage('');
+      setSetupStep(target);
+    });
   });
   setupBackButtons.forEach((button) => {
     button.addEventListener('click', () => setSetupStep(button.dataset.setupBack));
