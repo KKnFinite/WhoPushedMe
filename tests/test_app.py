@@ -12,8 +12,8 @@ def test_home_loads_pwa_shell():
     assert response.status_code == 200
     assert b"WPM_Splash_Login.webp" in response.data
     assert b"START A ROUND" in response.data
-    assert b"WPM_Wordmark.webp" in response.data
-    assert b"WPM_Home_Mascot.png" in response.data
+    assert b"WPM_Home_Hero_BrightDay.webp" in response.data
+    assert b'id="home-hero-art"' in response.data
     assert b"LET\xe2\x80\x99S MAKE A MESS." in response.data
     assert b"ENABLE THE DAMAGE." in response.data
     assert b"PREVIOUS" in response.data and b"DISASTERS" in response.data
@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v46" in response.data
+    assert b"wpm-shell-v47" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v46" in builder
+    assert "wpm-shell-v47" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -581,48 +581,55 @@ def test_hidden_splash_cannot_override_main_app_on_ios():
     assert b"display: none !important;" in css.data
 
 
-def test_home_background_pool_and_layers_are_wired():
+def test_home_hero_pool_and_layers_are_wired():
     import json
 
     page = client().get("/")
     assert page.status_code == 200
     assert b'class="home-hero"' in page.data
+    assert b'id="home-hero-art"' in page.data
     assert b'id="home-welcome-name"' in page.data
     assert b'data-settings-open' in page.data
     assert b'id="home-heckle"' in page.data
+    assert b"home-wordmark" not in page.data
+    assert b"home-mascot" not in page.data
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
-    assert b"home.backgrounds" in script.data
-    assert b"HOME_BACKGROUND_SESSION_KEY" in script.data
-    assert b"--home-background-image" in script.data
+    assert b"home.heroes" in script.data
+    assert b"HOME_HERO_SESSION_KEY" in script.data
+    assert b"homeHeroArt.src" in script.data
+    assert b"home.backgrounds" not in script.data
 
     manifest_response = client().get("/static/assets/_meta/asset-manifest.json")
     assert manifest_response.status_code == 200
     manifest = json.loads(manifest_response.data)
-    backgrounds = [
+    heroes = [
         item for item in manifest["assets"]
-        if item.get("pool") == "home.backgrounds" and item.get("enabled", True)
+        if item.get("pool") == "home.heroes" and item.get("enabled", True)
     ]
-    assert manifest["home_background_count"] == 5
-    assert len(backgrounds) == 5
-    assert all(item["production"].endswith(".webp") for item in backgrounds)
+    assert manifest["home_hero_count"] == 5
+    assert len(heroes) == 5
+    assert all(item["production"].endswith(".webp") for item in heroes)
 
-    mascot = client().get("/static/assets/home/WPM_Home_Mascot.png")
-    assert mascot.status_code == 200
-    assert mascot.data[:8] == b"\x89PNG\r\n\x1a\n"
+    default_hero = client().get(
+        "/static/assets/home/heroes/WPM_Home_Hero_BrightDay.webp"
+    )
+    assert default_hero.status_code == 200
+    assert default_hero.data[:4] == b"RIFF"
+    assert default_hero.data[8:12] == b"WEBP"
 
 
 def test_home_art_is_precached_for_installed_pwa():
     worker = client().get("/service-worker.js")
     assert worker.status_code == 200
-    assert b"WPM_Wordmark.webp" in worker.data
-    assert b"WPM_Home_Mascot.png" in worker.data
-    assert b"WPM_Home_Background_SunriseBridge.webp" in worker.data
-    assert b"WPM_Home_Background_BrightFairway.webp" in worker.data
-    assert b"WPM_Home_Background_CreekBridge.webp" in worker.data
-    assert b"WPM_Home_Background_IslandGreenGoldenHour.webp" in worker.data
-    assert b"WPM_Home_Background_StormySunset.webp" in worker.data
+    assert b"WPM_Home_Hero_BrightDay.webp" in worker.data
+    assert b"WPM_Home_Hero_CreekBridge.webp" in worker.data
+    assert b"WPM_Home_Hero_GoldenHour.webp" in worker.data
+    assert b"WPM_Home_Hero_StormySunset.webp" in worker.data
+    assert b"WPM_Home_Hero_SunriseCourse.webp" in worker.data
+    assert b"WPM_Home_Mascot.png" not in worker.data
+    assert b"WPM_Home_Background_SunriseBridge.webp" not in worker.data
 
 
 def test_content_admin_supports_home_background_pool():
