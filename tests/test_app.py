@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v57" in response.data
+    assert b"wpm-shell-v58" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v57" in builder
+    assert "wpm-shell-v58" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -815,3 +815,23 @@ def test_start_round_is_fixed_three_step_wizard():
     assert b"grid-template-rows: 28px minmax(0, 1fr)" in css.data
     assert b"-webkit-line-clamp: 3" in css.data
     assert b"height: 86px" in css.data
+
+
+def test_start_round_banner_is_fixed_and_modes_show_real_names():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"INDIVIDUAL" in page.data
+    assert b"SCRAMBLE" in page.data
+    assert b"EVERY ASSHOLE FOR THEMSELVES" in page.data
+    assert b"WE SUCK TOGETHER" in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"roundSetupHeckle.hidden = false" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"START ROUND WIZARD STABILITY PASS" in css.data
+    assert b"block-size: 88px !important" in css.data
+    assert b"min-height: 68px !important" in css.data
+    assert b"padding-bottom: 28px" in css.data
