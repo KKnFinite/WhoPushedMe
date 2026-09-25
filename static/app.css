@@ -5716,3 +5716,206 @@ body.app-ready .home-banter p {
     padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 }
+
+
+/* ROUND SETUP CONSISTENCY + MINI PASS */
+.round-start-form .choice-fieldset legend,
+.round-start-form .round-text-field > span {
+  font-size: .82rem;
+}
+
+.round-start-form .choice-fieldset label {
+  font-size: 1.04rem;
+}
+
+.round-start-form .choice-fieldset > small,
+.round-start-form .round-text-field small,
+.round-start-form .free-play-fields > small {
+  font-size: .78rem;
+}
+
+.round-start-form .round-text-field input,
+.round-start-form .round-text-field select,
+.round-start-form .course-search-row input {
+  font-size: 1.08rem;
+}
+
+.round-start-form .route-preview {
+  font-size: .78rem;
+}
+
+.round-start-form .setup-card-par label {
+  font-size: .84rem;
+}
+
+.setup-progress span {
+  font-size: .86rem !important;
+}
+
+.setup-mode-option .setup-option-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center;
+  gap: 4px !important;
+  width: 100%;
+}
+
+.setup-mode-option .setup-option-copy strong {
+  display: block !important;
+  width: 100%;
+  font-size: 1.08rem;
+  line-height: .92;
+}
+
+.setup-mode-option .setup-option-copy small {
+  display: block !important;
+  width: 100%;
+  margin: 0;
+  font-size: .7rem;
+  line-height: 1;
+  letter-spacing: .14em;
+}
+
+.setup-step .setup-card,
+.setup-step #prior-holes-mode {
+  border-color: rgba(78,122,93,.58) !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99)) !important;
+  color: var(--wpm-cream) !important;
+}
+
+.setup-step #prior-holes-mode {
+  margin: 0;
+  padding: 9px !important;
+  border: 1px solid rgba(78,122,93,.58) !important;
+  border-radius: 11px !important;
+}
+
+.setup-step #prior-holes-mode legend {
+  color: var(--wpm-gold) !important;
+  background: transparent !important;
+}
+
+.setup-step #prior-holes-mode label {
+  border: 1px solid rgba(78,122,93,.48) !important;
+  background: rgba(5,9,7,.72) !important;
+  color: #fff8df !important;
+}
+
+.setup-step #prior-holes-mode label:has(input:checked) {
+  border-color: var(--wpm-gold) !important;
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98)) !important;
+}
+
+.setup-mini-stage {
+  flex: 1 1 auto;
+  min-height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4px 0 2px;
+}
+
+.setup-mini-stage[hidden] {
+  display: none !important;
+}
+
+.setup-mini {
+  display: block;
+  width: auto;
+  max-width: 46%;
+  max-height: min(24vh, 220px);
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .18s ease, transform .18s ease;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.38));
+}
+
+.setup-mini.is-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.setup-step .course-results {
+  max-height: 108px;
+  overflow: hidden;
+}
+
+.setup-step .course-result {
+  min-height: 50px;
+}
+
+.setup-step .course-result strong {
+  font-size: .92rem;
+}
+
+.setup-step .course-result small {
+  font-size: .68rem;
+}
+
+.settings-theme-tease {
+  width: 100%;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.settings-theme-value {
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--green-deep);
+  color: var(--paper);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: .66rem;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 680px) {
+  .round-start-form .choice-fieldset legend,
+  .round-start-form .round-text-field > span {
+    font-size: .8rem;
+  }
+
+  .round-start-form .choice-fieldset label {
+    font-size: 1rem;
+  }
+
+  .round-start-form .choice-fieldset > small,
+  .round-start-form .round-text-field small,
+  .round-start-form .free-play-fields > small {
+    font-size: .74rem;
+  }
+
+  .setup-mode-option .setup-option-copy strong {
+    font-size: 1.02rem;
+  }
+
+  .setup-mode-option .setup-option-copy small {
+    font-size: .68rem;
+  }
+
+  .setup-mini {
+    max-height: min(22vh, 190px);
+  }
+}
+
+@media (max-height: 760px) {
+  .setup-mini-stage {
+    min-height: 72px;
+  }
+
+  .setup-mini {
+    max-height: 120px;
+  }
+
+  .round-start-form .choice-fieldset label {
+    font-size: .96rem;
+  }
+}
