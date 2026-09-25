@@ -298,8 +298,8 @@
           </fieldset>
 
           <div class="setup-step-actions setup-step-actions-next setup-step-actions-with-mini">
-            <div id="setup-mini-stage" class="setup-mini-stage" aria-hidden="true">
-              <img id="setup-mini" class="setup-mini" alt="">
+            <div id="setup-mini-stage" class="setup-mini-stage" data-setup-mini-stage="1" aria-hidden="true">
+              <img id="setup-mini" class="setup-mini" data-setup-mini="1" alt="">
             </div>
             <button type="button" class="setup-next" data-setup-next="2">NEXT: COURSE</button>
           </div>
@@ -356,7 +356,10 @@
 
           <p id="course-step-message" class="setup-step-message" hidden></p>
 
-          <div class="setup-step-actions">
+          <div class="setup-step-actions setup-step-actions-with-mini">
+            <div class="setup-mini-stage" data-setup-mini-stage="2" aria-hidden="true">
+              <img class="setup-mini" data-setup-mini="2" alt="">
+            </div>
             <button type="button" class="setup-back" data-setup-back="1">BACK</button>
             <button type="button" class="setup-next" data-setup-next="3">NEXT: ROUTE</button>
           </div>
@@ -409,7 +412,10 @@
             </label>
           </fieldset>
 
-          <div class="setup-step-actions">
+          <div class="setup-step-actions setup-step-actions-with-mini">
+            <div class="setup-mini-stage" data-setup-mini-stage="3" aria-hidden="true">
+              <img class="setup-mini" data-setup-mini="3" alt="">
+            </div>
             <button type="button" class="setup-back" data-setup-back="2">BACK</button>
             <button class="settings-save round-create-button" type="submit">CREATE THE DISASTER</button>
           </div>
