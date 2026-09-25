@@ -285,18 +285,6 @@
             </label>
           </fieldset>
 
-          <fieldset class="choice-fieldset setup-card setup-card-holes">
-            <legend>HOLES</legend>
-            <label>
-              <input type="radio" name="holes" value="9">
-              <span>9</span>
-            </label>
-            <label>
-              <input type="radio" name="holes" value="18" checked>
-              <span>18</span>
-            </label>
-          </fieldset>
-
           <div class="setup-step-actions setup-step-actions-next setup-step-actions-with-mini">
             <div id="setup-mini-stage" class="setup-mini-stage" data-setup-mini-stage="1" aria-hidden="true">
               <img id="setup-mini" class="setup-mini" data-setup-mini="1" alt="">
@@ -316,6 +304,19 @@
               <input type="radio" name="course_mode" value="free">
               <span>FREE PLAY</span>
             </label>
+          </fieldset>
+
+          <fieldset id="round-holes-fieldset" class="choice-fieldset setup-card setup-card-holes setup-card-round-holes">
+            <legend>ROUND HOLES</legend>
+            <label>
+              <input type="radio" name="holes" value="9">
+              <span>9 HOLES</span>
+            </label>
+            <label>
+              <input type="radio" name="holes" value="18" checked>
+              <span>18 HOLES</span>
+            </label>
+            <small id="round-holes-hint" class="round-holes-hint">Pick the round you're actually playing. Revolutionary stuff.</small>
           </fieldset>
 
           <section id="course-search-panel" class="course-search-panel setup-card setup-card-course-search">
@@ -340,22 +341,7 @@
               <span>FREE PLAY NAME</span>
               <input name="free_play_name" maxlength="80" placeholder="Saturday Shitshow">
             </label>
-
-            <div class="free-play-hole-select">
-              <div class="free-play-hole-label">SELECT HOLES</div>
-              <div class="free-play-hole-options">
-                <label>
-                  <input type="radio" name="course_hole_count" value="9">
-                  <span>9 HOLES</span>
-                </label>
-                <label>
-                  <input type="radio" name="course_hole_count" value="18" checked>
-                  <span>18 HOLES</span>
-                </label>
-              </div>
-            </div>
-
-            <small class="free-play-helper">Looping the same nine twice? Pick 9 here and 18 for the round.</small>
+            <small class="free-play-helper">No course data. You're the course database now.</small>
           </section>
 
           <p id="course-step-message" class="setup-step-message" hidden></p>
