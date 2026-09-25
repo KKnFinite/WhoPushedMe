@@ -6485,3 +6485,62 @@ body.app-ready .home-banter p {
     font-size: .62rem;
   }
 }
+
+
+/* UNIFIED SETUP ACTIONS + THREE COURSE RESULTS */
+@media (max-width: 680px) {
+  .setup-step-actions-with-mini {
+    display: block !important;
+  }
+
+  .setup-step-actions-with-mini > .setup-next,
+  .setup-step-actions-with-mini > .round-create-button {
+    display: block !important;
+    width: 80% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+  }
+
+  .setup-step-actions-with-mini > .setup-back {
+    position: absolute !important;
+    left: 0 !important;
+    bottom: 60px !important;
+    width: 82px !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    padding: 5px 8px !important;
+    border-radius: 10px !important;
+    font-size: .92rem !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    left: 50% !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 48px) !important;
+    width: min(58vw, 236px) !important;
+    height: 156px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 156px !important;
+  }
+
+  .setup-step[data-setup-step="2"] .course-results {
+    max-height: 158px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-step-actions-with-mini > .setup-next,
+  .setup-step-actions-with-mini > .round-create-button {
+    width: 84% !important;
+  }
+
+  .setup-step-actions-with-mini > .setup-back {
+    width: 74px !important;
+    font-size: .86rem !important;
+  }
+
+  .setup-step[data-setup-step="2"] .course-results {
+    max-height: 152px !important;
+  }
+}
