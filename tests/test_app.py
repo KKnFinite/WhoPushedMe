@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v48" in response.data
+    assert b"wpm-shell-v49" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v48" in builder
+    assert "wpm-shell-v49" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -670,3 +670,16 @@ def test_home_hero_preserves_full_portrait_art_without_crop():
     assert css.status_code == 200
     assert b"aspect-ratio: 941 / 1672" in css.data
     assert b"object-fit: contain" in css.data
+
+
+def test_home_buttons_use_legible_temporary_ui_fonts():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"Bebas+Neue" in page.data
+    assert b"Barlow+Condensed" in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b'font-family: "Bebas Neue"' in css.data
+    assert b'font-family: "Barlow Condensed"' in css.data
+    assert b"HOME LEGIBILITY PASS" in css.data
