@@ -360,7 +360,7 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v48';
+    content = """const CACHE_NAME = 'wpm-shell-v49';
 
 const APP_SHELL = [
   '/',
