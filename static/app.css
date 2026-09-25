@@ -5230,3 +5230,321 @@ body.app-ready .home-banter p {
     text-align: left;
   }
 }
+
+
+/* START ROUND FIXED WIZARD */
+.round-flow-card-game > #round-setup-heckle {
+  flex: 0 0 86px;
+  height: 86px;
+  min-height: 86px;
+  max-height: 86px;
+  margin: 0 0 8px;
+  padding: 10px 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(78,122,93,.58);
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(4,16,10,.98), rgba(7,18,12,.98));
+}
+
+.round-flow-card-game > #round-setup-heckle[hidden] {
+  display: none !important;
+}
+
+.round-flow-card-game > #round-setup-heckle p {
+  margin: 0;
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(1rem, 3.7vw, 1.18rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: .02em;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.round-start-form {
+  min-height: 0;
+}
+
+.setup-progress {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px 1fr 28px;
+  align-items: center;
+  gap: 7px;
+  min-height: 28px;
+}
+
+.setup-progress span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(78,122,93,.65);
+  border-radius: 50%;
+  background: rgba(5,9,7,.88);
+  color: rgba(233,225,200,.6);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.setup-progress span.is-active {
+  border-color: var(--wpm-gold);
+  background: var(--wpm-gold);
+  color: var(--wpm-night);
+  box-shadow: 0 0 0 2px rgba(212,166,42,.16);
+}
+
+.setup-progress span.is-complete {
+  border-color: var(--wpm-green-accent);
+  background: var(--wpm-green-deep);
+  color: #fff8df;
+}
+
+.setup-progress i {
+  display: block;
+  height: 1px;
+  background: rgba(78,122,93,.5);
+}
+
+.setup-step {
+  min-height: 0;
+}
+
+.setup-step[hidden] {
+  display: none !important;
+}
+
+.setup-step.is-active {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.setup-step-actions {
+  display: grid;
+  grid-template-columns: 96px minmax(0,1fr);
+  gap: 8px;
+  margin-top: auto;
+}
+
+.setup-step-actions-next {
+  grid-template-columns: 1fr;
+}
+
+.setup-step-actions button {
+  min-height: 48px;
+  padding: 9px 12px;
+  border-radius: 11px;
+  cursor: pointer;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.12rem;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+.setup-back {
+  border: 1px solid rgba(78,122,93,.62);
+  background: rgba(5,9,7,.86);
+  color: #fff8df;
+}
+
+.setup-next {
+  border: 1px solid rgba(212,166,42,.8);
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417);
+  color: var(--wpm-night);
+}
+
+.setup-step .round-create-button {
+  position: static;
+  min-height: 48px;
+  margin: 0;
+  padding: 9px 12px;
+  box-shadow: none;
+  font-size: 1.2rem;
+}
+
+.setup-step .setup-card {
+  flex: 0 0 auto;
+}
+
+.setup-step .setup-card-route {
+  display: grid;
+  gap: 7px;
+}
+
+.setup-step .setup-card-route .round-text-field {
+  gap: 4px;
+}
+
+.setup-step .setup-card-route .round-text-field input,
+.setup-step .setup-card-route .round-text-field select {
+  min-height: 42px;
+}
+
+.setup-step .setup-card-route .round-text-field small {
+  font-size: .68rem;
+  line-height: 1.08;
+}
+
+.setup-step .setup-card-route .route-preview {
+  padding: 7px 9px;
+  font-size: .7rem;
+}
+
+.setup-step .setup-card-route #prior-holes-mode {
+  padding: 8px;
+}
+
+.setup-step .setup-card-route #prior-holes-mode label {
+  min-height: 40px;
+  font-size: .82rem;
+}
+
+.setup-step .setup-card-course-search,
+.setup-step .setup-card-free-play {
+  min-height: 0;
+}
+
+.setup-step .course-results {
+  display: grid;
+  gap: 5px;
+  max-height: 154px;
+  overflow: hidden;
+}
+
+.setup-step .course-result {
+  min-height: 46px;
+  padding: 7px 9px;
+}
+
+.setup-step .course-result strong {
+  font-size: .84rem;
+}
+
+.setup-step .course-result small {
+  font-size: .62rem;
+}
+
+.setup-step .selected-course {
+  padding: 8px 10px;
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .round-flow-card-game > .round-flow-header {
+    flex: 0 0 auto;
+  }
+
+  .round-flow-card-game > .settings-message {
+    flex: 0 0 auto;
+  }
+
+  .round-flow-card-game > #round-setup-heckle {
+    flex-basis: 78px;
+    height: 78px;
+    min-height: 78px;
+    max-height: 78px;
+    margin-bottom: 7px;
+  }
+
+  .round-flow-card-game > #round-setup-heckle p {
+    font-size: clamp(.94rem, 3.55vw, 1.08rem);
+  }
+
+  .round-start-form {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-rows: 28px minmax(0, 1fr);
+    gap: 7px;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .setup-step.is-active {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .setup-step .setup-card {
+    padding: 8px 9px;
+  }
+
+  .setup-step .choice-fieldset label {
+    min-height: 40px;
+    padding: 6px 7px;
+  }
+
+  .setup-step .setup-card-mode,
+  .setup-step .setup-card-scoring,
+  .setup-step .setup-card-holes,
+  .setup-step .setup-card-course-mode {
+    gap: 5px;
+  }
+
+  .setup-step .setup-card-scoring > small {
+    font-size: .68rem;
+  }
+
+  .setup-step .setup-card-par {
+    gap: 5px;
+  }
+
+  .setup-step .setup-card-par label {
+    min-height: 40px;
+    font-size: .74rem;
+  }
+
+  .setup-step-actions {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-height: 760px) {
+  .round-flow-card-game > #round-setup-heckle {
+    flex-basis: 68px;
+    height: 68px;
+    min-height: 68px;
+    max-height: 68px;
+  }
+
+  .round-flow-card-game > #round-setup-heckle p {
+    font-size: .9rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .setup-step.is-active {
+    gap: 6px;
+  }
+
+  .setup-step .setup-card {
+    padding: 7px 8px;
+  }
+
+  .setup-step .choice-fieldset label {
+    min-height: 36px;
+    padding: 5px 6px;
+  }
+
+  .setup-step-actions button,
+  .setup-step .round-create-button {
+    min-height: 44px;
+  }
+}
