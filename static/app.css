@@ -6596,3 +6596,102 @@ body.app-ready .home-banter p {
     font-size: .94rem !important;
   }
 }
+
+
+/* FINAL SETUP ACTION ROW + FREE PLAY CARD FIX */
+.setup-step .setup-card-free-play .compact-choice-fieldset {
+  margin: 0;
+  padding: 9px !important;
+  border: 1px solid rgba(78,122,93,.58) !important;
+  border-radius: 11px !important;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99)) !important;
+  color: var(--wpm-cream) !important;
+}
+
+.setup-step .setup-card-free-play .compact-choice-fieldset legend {
+  color: var(--wpm-gold) !important;
+  background: transparent !important;
+}
+
+.setup-step .setup-card-free-play .compact-choice-fieldset label {
+  min-height: 42px;
+  border: 1px solid rgba(78,122,93,.48) !important;
+  border-radius: 10px;
+  background: rgba(5,9,7,.72) !important;
+  color: #fff8df !important;
+}
+
+.setup-step .setup-card-free-play .compact-choice-fieldset label:has(input:checked) {
+  border-color: var(--wpm-gold) !important;
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98)) !important;
+}
+
+@media (max-width: 680px) {
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    z-index: 140 !important;
+    display: grid !important;
+    grid-template-columns: 30% minmax(0, 1fr) !important;
+    gap: 8px !important;
+    width: 80% !important;
+    max-width: 520px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: translateX(-50%) !important;
+    overflow: visible !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    transform: none !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back {
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-next,
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .round-create-button {
+    border-radius: 12px !important;
+    font-size: 1.18rem !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 58px) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) {
+    width: 84% !important;
+    grid-template-columns: 31% minmax(0, 1fr) !important;
+    gap: 7px !important;
+  }
+
+  .setup-step-actions.setup-step-actions-with-mini:not(.setup-step-actions-next) > .setup-back {
+    font-size: .94rem !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 56px) !important;
+  }
+}
