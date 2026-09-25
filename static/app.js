@@ -1168,7 +1168,10 @@
             Number(step) === 2
             && Boolean(courseResults?.children.length)
           );
-          stage.hidden = freePlaySelected || searchResultsVisible;
+          const shouldHide = freePlaySelected || searchResultsVisible;
+          stage.hidden = shouldHide;
+          stage.classList.toggle('is-suppressed', shouldHide);
+          stage.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
           mini.classList.add('is-loaded');
         },
         { once: true }
@@ -1571,6 +1574,11 @@
     if (!stage) return;
     const shouldShow = useCourse && !hasSearchResults;
     stage.hidden = !shouldShow;
+    stage.classList.toggle('is-suppressed', !shouldShow);
+    stage.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    if (courseSearchPanel) {
+      courseSearchPanel.classList.toggle('has-results', hasSearchResults);
+    }
     if (shouldShow && mini && !mini.src) void loadRandomSetupMini(2);
   };
 
@@ -1700,6 +1708,12 @@
   const renderCourseResults = (results) => {
     if (!courseResults) return;
     courseResults.replaceChildren();
+
+    // A new search invalidates the prior course/tee presentation. Keeping it
+    // visible steals the space reserved for the three search results.
+    clearSelectedCourse();
+    updateRoundHolesHint();
+    renderRoutePreview();
 
     if (!results.length) {
       const empty = document.createElement('div');
