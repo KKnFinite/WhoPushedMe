@@ -4837,3 +4837,396 @@ body.app-ready .home-banter p {
     font-size: clamp(.98rem, 4vw, 1.12rem);
   }
 }
+
+
+/* ROUND SETUP DARK GAME SURFACE */
+.round-flow-modal {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(53, 91, 69, .28), transparent 34rem),
+    rgba(2, 7, 5, .94);
+  backdrop-filter: blur(10px);
+}
+
+.round-flow-card-game {
+  color: var(--wpm-cream);
+  background:
+    linear-gradient(180deg, rgba(17,22,17,.98) 0%, rgba(5,9,7,.995) 42%, #030604 100%);
+  border: 1px solid rgba(78,122,93,.62);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.round-flow-card-game > .round-flow-header {
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(78,122,93,.42);
+}
+
+.round-flow-header .settings-kicker {
+  margin-bottom: 3px;
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.round-flow-header h2 {
+  margin: 0;
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .025em;
+}
+
+.round-flow-card-game .settings-close {
+  border: 1px solid rgba(78,122,93,.7);
+  background: rgba(5,9,7,.76);
+  color: var(--wpm-cream);
+  box-shadow: none;
+}
+
+.round-flow-card-game .settings-close:active {
+  background: var(--wpm-green-deep);
+}
+
+.round-flow-card-game > .settings-message {
+  margin: 0 0 10px;
+  border: 1px solid rgba(217,109,59,.65);
+  background: rgba(125,48,23,.56);
+  color: #fff8df;
+  box-shadow: none;
+}
+
+.round-flow-card-game > .screen-heckle {
+  margin: 0 0 10px;
+  border: 1px solid rgba(78,122,93,.56);
+  background: rgba(4,16,10,.9);
+  color: var(--wpm-cream);
+}
+
+.round-start-form {
+  gap: 10px;
+}
+
+.round-start-form .setup-card {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(78,122,93,.55);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.96), rgba(7,15,10,.98));
+  color: var(--wpm-cream);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.round-start-form .choice-fieldset legend {
+  padding: 0 5px;
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.round-start-form .choice-fieldset {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.round-start-form .choice-fieldset > small {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  color: rgba(233,225,200,.72);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .76rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.round-start-form .choice-fieldset label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  min-height: 48px;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid rgba(78,122,93,.42);
+  border-radius: 10px;
+  background: rgba(5,9,7,.58);
+  color: rgba(255,248,223,.88);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: .94;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+
+.round-start-form .choice-fieldset label:has(input:checked) {
+  border-color: var(--wpm-gold);
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.96), rgba(19,48,35,.96));
+  color: #fff8df;
+  box-shadow:
+    inset 0 0 0 1px rgba(212,166,42,.38),
+    0 4px 12px rgba(0,0,0,.2);
+}
+
+.round-start-form .choice-fieldset input[type="radio"] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--wpm-gold);
+}
+
+.round-start-form .setup-card-par {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.round-start-form .setup-card-par label {
+  justify-content: center;
+  gap: 5px;
+  padding-inline: 7px;
+  text-align: center;
+  font-size: .88rem;
+}
+
+.round-start-form .setup-card-route {
+  gap: 9px;
+}
+
+.round-start-form .round-text-field {
+  gap: 5px;
+}
+
+.round-start-form .round-text-field > span {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.round-start-form .round-text-field input,
+.round-start-form .round-text-field select,
+.round-start-form .course-search-row input {
+  width: 100%;
+  min-height: 46px;
+  padding: 9px 11px;
+  border: 1px solid rgba(78,122,93,.58);
+  border-radius: 10px;
+  background: rgba(3,7,5,.9);
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: inset 0 1px 6px rgba(0,0,0,.34);
+}
+
+.round-start-form .round-text-field select {
+  appearance: auto;
+}
+
+.round-start-form .round-text-field small,
+.round-start-form .free-play-fields > small {
+  color: rgba(233,225,200,.68);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .74rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.round-start-form .route-preview {
+  padding: 9px 10px;
+  border: 1px solid rgba(212,166,42,.46);
+  border-radius: 9px;
+  background: rgba(5,9,7,.82);
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.round-start-form .course-search-row {
+  grid-template-columns: minmax(0, 1fr) 88px;
+  gap: 7px;
+}
+
+.round-start-form .course-search-row button {
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid rgba(212,166,42,.7);
+  border-radius: 10px;
+  background: var(--wpm-gold);
+  color: var(--wpm-night);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: .03em;
+}
+
+.round-start-form .course-result {
+  border: 1px solid rgba(78,122,93,.62);
+  border-radius: 10px;
+  background: rgba(10,29,20,.92);
+  color: #fff8df;
+  box-shadow: none;
+}
+
+.round-start-form .course-result small {
+  color: rgba(233,225,200,.7);
+}
+
+.round-start-form .selected-course {
+  border: 1px solid rgba(212,166,42,.72);
+  border-radius: 10px;
+  background: rgba(212,166,42,.14);
+  color: #fff8df;
+}
+
+.round-start-form .selected-course small {
+  color: rgba(233,225,200,.72);
+}
+
+.round-start-form .round-create-button {
+  position: sticky;
+  bottom: -1px;
+  z-index: 8;
+  min-height: 58px;
+  margin-top: 2px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255,248,223,.4);
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 58%, #b88417);
+  color: var(--wpm-night);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: .035em;
+  box-shadow:
+    0 -12px 24px rgba(5,9,7,.9),
+    0 5px 14px rgba(0,0,0,.36);
+}
+
+.round-join-form .round-text-field > span,
+.round-join-form .choice-fieldset legend {
+  color: var(--wpm-gold);
+}
+
+.round-join-form .choice-fieldset,
+.round-join-form .round-text-field input {
+  border-color: rgba(78,122,93,.55);
+  background: rgba(7,15,10,.96);
+  color: #fff8df;
+}
+
+@media (max-width: 680px) {
+  .round-flow-modal {
+    background: var(--wpm-night);
+  }
+
+  .round-flow-card-game {
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    padding:
+      calc(8px + env(safe-area-inset-top))
+      10px
+      calc(12px + env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(78,122,93,.55) transparent;
+  }
+
+  .round-flow-card-game > .round-flow-header {
+    position: sticky;
+    top: calc(-8px - env(safe-area-inset-top));
+    z-index: 40;
+    margin:
+      calc(-8px - env(safe-area-inset-top))
+      -10px
+      10px;
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      12px
+      9px;
+    border-bottom: 1px solid rgba(78,122,93,.55);
+    background: rgba(3,7,5,.96);
+    backdrop-filter: blur(12px);
+  }
+
+  .round-flow-header h2 {
+    font-size: 2rem;
+  }
+
+  .round-flow-card-game .settings-close {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    border-radius: 50%;
+    font-size: 1.45rem;
+  }
+
+  .round-start-form {
+    gap: 8px;
+  }
+
+  .round-start-form .setup-card {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .round-start-form .choice-fieldset {
+    gap: 6px;
+  }
+
+  .round-start-form .choice-fieldset label {
+    min-height: 44px;
+    padding: 8px 8px;
+    font-size: .94rem;
+  }
+
+  .round-start-form .setup-card-par label {
+    min-height: 48px;
+    padding: 7px 5px;
+    font-size: .78rem;
+  }
+
+  .round-start-form .course-search-row {
+    grid-template-columns: minmax(0, 1fr) 82px;
+  }
+
+  .round-start-form .round-create-button {
+    min-height: 54px;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .round-start-form .choice-fieldset label {
+    font-size: .88rem;
+  }
+
+  .round-start-form .setup-card-par {
+    grid-template-columns: 1fr;
+  }
+
+  .round-start-form .setup-card-par label {
+    justify-content: flex-start;
+    min-height: 42px;
+    text-align: left;
+  }
+}
