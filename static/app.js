@@ -1959,10 +1959,15 @@
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
     if (roundSetupHeckle) {
-      roundSetupHeckle.hidden = panel !== 'start';
+      const showSetupChrome = panel === 'start';
+      roundSetupHeckle.hidden = !showSetupChrome;
+      roundSetupHeckle.classList.toggle('is-panel-hidden', !showSetupChrome);
     }
     if (panel === 'start') {
-      if (roundSetupHeckle) roundSetupHeckle.hidden = false;
+      if (roundSetupHeckle) {
+        roundSetupHeckle.hidden = false;
+        roundSetupHeckle.classList.remove('is-panel-hidden');
+      }
       if (roundSetupHeckleText && !roundSetupHeckleText.textContent) {
         roundSetupHeckleText.textContent = ' ';
       }
@@ -3676,6 +3681,11 @@
   const renderLobby = (round) => {
     currentLobbyRound = round;
     viewedRoutePosition = null;
+    stopUserHeckle('roundSetup', { hide: true });
+    if (roundSetupHeckle) {
+      roundSetupHeckle.hidden = true;
+      roundSetupHeckle.classList.add('is-panel-hidden');
+    }
     if (startRoundForm) startRoundForm.hidden = true;
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
@@ -3986,7 +3996,6 @@
       startRoundForm.reset();
       refreshStartModeControls();
       renderRoutePreview();
-      setSetupStep(1);
     } catch (error) {
       setRoundFlowMessage(error.message);
     } finally {
