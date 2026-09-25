@@ -13,7 +13,9 @@ OFFICIAL APP ICON SOURCE
 static/assets_src/icons/WPM_DesktopIcon_Official.jpg
 
 CORE RULES
-- PNG/JPG masters remain untouched in assets_src.
+- PNG/JPG mascot and brand masters remain untouched in assets_src.
+- Home background source art may be PNG, JPG, JPEG, or WebP; production copies are WebP.
+- Home hero masters live under assets_src/home/heroes as PNG; production copies are WebP.
 - Web UI should prefer production WebP assets.
 - PWA/device icons remain PNG.
 - WPM_DesktopIcon_Official.jpg is the official app icon source.

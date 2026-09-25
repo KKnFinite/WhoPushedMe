@@ -3,6 +3,8 @@
   "official_icon_source": "static/assets_src/icons/WPM_DesktopIcon_Official.jpg",
   "mini_asset_count": 95,
   "onboarding_asset_count": 5,
+  "home_background_count": 5,
+  "home_hero_count": 5,
   "assets": [
     {
       "asset_id": "brand.wordmark",
@@ -235,6 +237,156 @@
         0,
         255
       ]
+    },
+    {
+      "asset_id": "home.background.BrightFairway",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.CreekBridge",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.IslandGreenGoldenHour",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.StormySunset",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_StormySunset.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_StormySunset.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.background.SunriseBridge",
+      "family": "home-background",
+      "pool": "home.backgrounds",
+      "enabled": true,
+      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
+      "production": "static/assets/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.hero.BrightDay",
+      "family": "home-hero",
+      "pool": "home.heroes",
+      "enabled": true,
+      "source": "static/assets_src/home/heroes/WPM_Home_Hero_BrightDay.png",
+      "production": "static/assets/home/heroes/WPM_Home_Hero_BrightDay.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.hero.CreekBridge",
+      "family": "home-hero",
+      "pool": "home.heroes",
+      "enabled": true,
+      "source": "static/assets_src/home/heroes/WPM_Home_Hero_CreekBridge.png",
+      "production": "static/assets/home/heroes/WPM_Home_Hero_CreekBridge.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.hero.GoldenHour",
+      "family": "home-hero",
+      "pool": "home.heroes",
+      "enabled": true,
+      "source": "static/assets_src/home/heroes/WPM_Home_Hero_GoldenHour.png",
+      "production": "static/assets/home/heroes/WPM_Home_Hero_GoldenHour.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.hero.StormySunset",
+      "family": "home-hero",
+      "pool": "home.heroes",
+      "enabled": true,
+      "source": "static/assets_src/home/heroes/WPM_Home_Hero_StormySunset.png",
+      "production": "static/assets/home/heroes/WPM_Home_Hero_StormySunset.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
+    },
+    {
+      "asset_id": "home.hero.SunriseCourse",
+      "family": "home-hero",
+      "pool": "home.heroes",
+      "enabled": true,
+      "source": "static/assets_src/home/heroes/WPM_Home_Hero_SunriseCourse.png",
+      "production": "static/assets/home/heroes/WPM_Home_Hero_SunriseCourse.webp",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "real_alpha": false,
+      "alpha_extrema": null
     },
     {
       "asset_id": "mini.joining.new-player.WPM_Join_NewPlayer_FirstRoundWithUsPoorBastard",
@@ -2040,82 +2192,6 @@
         0,
         255
       ]
-    },
-    {
-      "asset_id": "home.background.SunriseBridge",
-      "family": "home-background",
-      "pool": "home.backgrounds",
-      "enabled": true,
-      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
-      "production": "static/assets/home/backgrounds/WPM_Home_Background_SunriseBridge.webp",
-      "dimensions": [
-        941,
-        1672
-      ],
-      "mode": "RGB",
-      "real_alpha": false,
-      "alpha_extrema": null
-    },
-    {
-      "asset_id": "home.background.BrightFairway",
-      "family": "home-background",
-      "pool": "home.backgrounds",
-      "enabled": true,
-      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
-      "production": "static/assets/home/backgrounds/WPM_Home_Background_BrightFairway.webp",
-      "dimensions": [
-        941,
-        1672
-      ],
-      "mode": "RGB",
-      "real_alpha": false,
-      "alpha_extrema": null
-    },
-    {
-      "asset_id": "home.background.CreekBridge",
-      "family": "home-background",
-      "pool": "home.backgrounds",
-      "enabled": true,
-      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
-      "production": "static/assets/home/backgrounds/WPM_Home_Background_CreekBridge.webp",
-      "dimensions": [
-        941,
-        1672
-      ],
-      "mode": "RGB",
-      "real_alpha": false,
-      "alpha_extrema": null
-    },
-    {
-      "asset_id": "home.background.IslandGreenGoldenHour",
-      "family": "home-background",
-      "pool": "home.backgrounds",
-      "enabled": true,
-      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
-      "production": "static/assets/home/backgrounds/WPM_Home_Background_IslandGreenGoldenHour.webp",
-      "dimensions": [
-        941,
-        1672
-      ],
-      "mode": "RGB",
-      "real_alpha": false,
-      "alpha_extrema": null
-    },
-    {
-      "asset_id": "home.background.StormySunset",
-      "family": "home-background",
-      "pool": "home.backgrounds",
-      "enabled": true,
-      "source": "static/assets_src/home/backgrounds/WPM_Home_Background_StormySunset.webp",
-      "production": "static/assets/home/backgrounds/WPM_Home_Background_StormySunset.webp",
-      "dimensions": [
-        941,
-        1672
-      ],
-      "mode": "RGB",
-      "real_alpha": false,
-      "alpha_extrema": null
     }
-  ],
-  "home_background_count": 5
+  ]
 }
