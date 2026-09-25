@@ -1190,7 +1190,7 @@
       const transparentBottom =
         setupMiniOpaqueBottomRatio(mini) * miniRect.height;
       const visibleBottom = miniRect.bottom - transparentBottom;
-      const shift = Math.round(buttonRect.top - visibleBottom + 2);
+      const shift = Math.round(buttonRect.top - visibleBottom + 14);
       stage.style.setProperty('--setup-mini-y', `${shift}px`);
     });
   };
@@ -1236,17 +1236,11 @@
       mini.addEventListener(
         'load',
         () => {
-          const freePlaySelected = (
-            Number(step) === 2
-            && startRoundForm?.querySelector(
-              'input[name="course_mode"]:checked'
-            )?.value === 'free'
-          );
           const searchResultsVisible = (
             Number(step) === 2
             && Boolean(courseResults?.children.length)
           );
-          const shouldHide = freePlaySelected || searchResultsVisible;
+          const shouldHide = searchResultsVisible;
           stage.hidden = shouldHide;
           stage.classList.toggle('is-suppressed', shouldHide);
           stage.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
@@ -1652,14 +1646,10 @@
   };
 
   const syncStepTwoMiniVisibility = () => {
-    const useCourse = (
-      startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value
-      || 'course'
-    ) === 'course';
     const hasSearchResults = Boolean(courseResults?.children.length);
     const { stage, mini } = setupMiniParts(2);
     if (!stage) return;
-    const shouldShow = useCourse && !hasSearchResults;
+    const shouldShow = !hasSearchResults;
     stage.hidden = !shouldShow;
     stage.classList.toggle('is-suppressed', !shouldShow);
     stage.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
