@@ -6098,3 +6098,95 @@ body.app-ready .home-banter p {
     min-height: 50px !important;
   }
 }
+
+
+/* STEP 1 MINI PLANTED ON BUTTON */
+.setup-step-actions-with-mini {
+  position: relative !important;
+  min-height: 184px !important;
+  height: 184px !important;
+  padding: 0 !important;
+  margin-top: auto !important;
+  overflow: visible !important;
+}
+
+.setup-step-actions-with-mini .setup-next {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 34px !important;
+  z-index: 2 !important;
+  width: 78% !important;
+  min-height: 52px !important;
+  height: 52px !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+}
+
+.setup-step-actions-with-mini .setup-mini-stage {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 84px !important;
+  z-index: 3 !important;
+  width: min(46%, 200px) !important;
+  height: 128px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  transform: translateX(-50%) !important;
+  pointer-events: none !important;
+}
+
+.setup-step-actions-with-mini .setup-mini {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  max-height: 128px !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+}
+
+@media (max-width: 680px) {
+  .setup-step-actions-with-mini {
+    min-height: 178px !important;
+    height: 178px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-next {
+    bottom: 32px !important;
+    width: 80% !important;
+    min-height: 50px !important;
+    height: 50px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 80px !important;
+    width: min(44%, 188px) !important;
+    height: 122px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 122px !important;
+  }
+}
+
+@media (max-height: 760px) {
+  .setup-step-actions-with-mini {
+    min-height: 158px !important;
+    height: 158px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-next {
+    bottom: 26px !important;
+    min-height: 48px !important;
+    height: 48px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini-stage {
+    bottom: 72px !important;
+    height: 108px !important;
+  }
+
+  .setup-step-actions-with-mini .setup-mini {
+    max-height: 108px !important;
+  }
+}
