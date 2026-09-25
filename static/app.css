@@ -4538,7 +4538,7 @@ body.app-ready .home-hero-art {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: 36% top;
 }
 
 body.app-ready .home-menu {
