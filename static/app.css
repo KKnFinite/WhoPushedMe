@@ -4499,3 +4499,262 @@ body.app-ready .app-shell {
     min-height: 38px;
   }
 }
+
+
+/* HOME OVERLAY FINAL FIX */
+body.app-ready {
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.app-ready .app-shell {
+  position: fixed;
+  inset: 0;
+  width: min(100%, 480px);
+  max-width: 480px;
+  height: 100dvh;
+  min-height: 0;
+  max-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+body.app-ready .home-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.app-ready .home-hero-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+body.app-ready .home-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 30px 10px max(9px, env(safe-area-inset-bottom));
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 9, 7, 0) 0%,
+      rgba(5, 9, 7, .50) 12%,
+      rgba(5, 9, 7, .86) 26%,
+      rgba(5, 9, 7, .98) 42%,
+      var(--wpm-night) 100%
+    );
+}
+
+body.app-ready .home-primary-actions {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+body.app-ready .home-action-card {
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-height: 82px;
+  padding: 10px 10px;
+  border-radius: 14px;
+}
+
+body.app-ready .home-action-icon {
+  width: 40px;
+  height: 40px;
+}
+
+body.app-ready .home-action-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+body.app-ready .home-action-copy strong {
+  font-size: clamp(1.08rem, 4.7vw, 1.34rem);
+  line-height: .9;
+  letter-spacing: .012em;
+  white-space: nowrap;
+}
+
+body.app-ready .home-action-copy small {
+  font-size: clamp(.66rem, 2.6vw, .78rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+body.app-ready .home-chevron {
+  display: none !important;
+}
+
+body.app-ready .home-secondary-actions {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+body.app-ready .home-nav-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 72px;
+  padding: 8px 5px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+body.app-ready .home-nav-icon {
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+}
+
+body.app-ready .home-nav-copy {
+  display: block;
+  width: 100%;
+}
+
+body.app-ready .home-nav-copy strong {
+  display: block;
+  font-size: clamp(.78rem, 3.25vw, .93rem);
+  line-height: .88;
+  letter-spacing: .018em;
+}
+
+body.app-ready .home-nav-copy small,
+body.app-ready .home-nav-chevron {
+  display: none !important;
+}
+
+body.app-ready .home-settings-row {
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 58px;
+  padding: 9px 12px;
+}
+
+body.app-ready .home-settings-row .home-nav-icon {
+  width: 36px;
+  height: 36px;
+}
+
+body.app-ready .home-settings-copy {
+  gap: 3px;
+}
+
+body.app-ready .home-settings-copy strong {
+  font-size: 1.2rem;
+  line-height: .9;
+}
+
+body.app-ready .home-settings-copy small {
+  font-size: .74rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+body.app-ready .home-settings-row .home-nav-chevron {
+  display: none !important;
+}
+
+body.app-ready .home-banter {
+  min-height: 42px;
+  padding: 7px 10px;
+}
+
+body.app-ready .home-banter p {
+  font-size: clamp(.76rem, 2.9vw, .9rem);
+  line-height: 1;
+}
+
+@media (max-width: 390px) {
+  body.app-ready .home-menu {
+    gap: 6px;
+    padding: 24px 8px max(7px, env(safe-area-inset-bottom));
+  }
+
+  body.app-ready .home-action-card {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 7px;
+    min-height: 76px;
+    padding: 8px 8px;
+  }
+
+  body.app-ready .home-action-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  body.app-ready .home-action-copy strong {
+    font-size: clamp(.98rem, 4.6vw, 1.18rem);
+  }
+
+  body.app-ready .home-action-copy small {
+    font-size: clamp(.61rem, 2.5vw, .7rem);
+  }
+
+  body.app-ready .home-nav-card {
+    min-height: 66px;
+  }
+
+  body.app-ready .home-nav-icon {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+  }
+
+  body.app-ready .home-nav-copy strong {
+    font-size: clamp(.72rem, 3.05vw, .86rem);
+  }
+
+  body.app-ready .home-settings-row {
+    min-height: 52px;
+  }
+
+  body.app-ready .home-banter {
+    min-height: 38px;
+  }
+}
+
+@media (max-height: 760px) {
+  body.app-ready .home-menu {
+    gap: 5px;
+    padding-top: 18px;
+    padding-bottom: max(5px, env(safe-area-inset-bottom));
+  }
+
+  body.app-ready .home-action-card {
+    min-height: 68px;
+  }
+
+  body.app-ready .home-nav-card {
+    min-height: 58px;
+    gap: 4px;
+  }
+
+  body.app-ready .home-settings-row {
+    min-height: 48px;
+  }
+
+  body.app-ready .home-banter {
+    min-height: 36px;
+  }
+}
