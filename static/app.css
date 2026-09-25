@@ -3483,7 +3483,7 @@ body {
     ),
     var(--home-background-image);
   background-size: cover;
-  background-position: center top;
+  background-position: center -56px;
   background-repeat: no-repeat;
 }
 
@@ -3615,10 +3615,10 @@ body.app-ready .app-shell {
 .home-mascot {
   position: absolute;
   z-index: 3;
-  right: -1%;
-  bottom: -2px;
-  width: clamp(260px, 72vw, 358px);
-  max-height: 88%;
+  right: 5%;
+  bottom: 10px;
+  width: clamp(190px, 52vw, 250px);
+  max-height: 68%;
   object-fit: contain;
   object-position: right bottom;
   pointer-events: none;
@@ -3914,7 +3914,13 @@ body.app-ready .app-shell {
   }
 
   .home-mascot {
-    width: min(74vw, 322px);
+    right: 3%;
+    bottom: 8px;
+    width: min(52vw, 220px);
+  }
+
+  .app-shell.has-home-background {
+    background-position: center -64px;
   }
 
   .home-menu {
