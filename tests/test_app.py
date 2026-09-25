@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v51" in response.data
+    assert b"wpm-shell-v52" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v51" in builder
+    assert "wpm-shell-v52" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -718,3 +718,20 @@ def test_home_menu_is_nested_inside_fixed_hero_overlay():
     assert b"body.app-ready .home-menu" in css.data
     assert b"bottom: 0" in css.data
     assert b"object-fit: cover" in css.data
+
+
+def test_home_banter_sits_above_buttons_and_hero_respects_safe_area():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+    menu_start = html.index('<section class="home-menu"')
+    banter_start = html.index('id="home-heckle"', menu_start)
+    primary_start = html.index('class="home-primary-actions"', menu_start)
+    assert menu_start < banter_start < primary_start
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"HOME SAFE-AREA + TOP BANTER TUNE" in css.data
+    assert b"--home-art-top-offset" in css.data
+    assert b"env(safe-area-inset-top)" in css.data
+    assert b"font-size: clamp(.96rem, 3.8vw, 1.12rem)" in css.data
