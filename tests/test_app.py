@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v61" in response.data
+    assert b"wpm-shell-v62" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v61" in builder
+    assert "wpm-shell-v62" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -902,3 +902,39 @@ def test_setup_mini_is_planted_on_visible_next_button():
     assert b"bottom: 34px !important" in css.data
     assert b"bottom: 84px !important" in css.data
     assert b"height: 52px !important" in css.data
+
+
+def test_round_setup_message_contract_and_content_limits():
+    import pytest
+
+    from tools.content_admin import (
+        _banter_max_chars,
+        _validate_banter_copy_limits,
+    )
+    from who_pushed_me.content.catalog import ContentError
+
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="round-setup-heckle" class="screen-heckle screen-heckle-compact">' in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"ROUND SETUP FIXED ACTIONS + MESSAGE CONTRACT" in css.data
+    assert b"block-size: 120px !important" in css.data
+    assert b"-webkit-line-clamp: 4 !important" in css.data
+    assert b"bottom: max(14px, env(safe-area-inset-bottom)) !important" in css.data
+    assert b"max-height: 154px !important" in css.data
+
+    assert _banter_max_chars(["round_setup.idle"]) == 160
+    assert _banter_max_chars(["home.idle"]) == 320
+    assert _banter_max_chars(["some.future.fixed.surface"]) == 160
+    assert _banter_max_chars(["home.idle", "round_setup.idle"]) == 160
+
+    _validate_banter_copy_limits([
+        {"id": "ok", "text": "x" * 160, "events": ["round_setup.idle"]},
+        {"id": "home-ok", "text": "x" * 320, "events": ["home.idle"]},
+    ])
+    with pytest.raises(ContentError):
+        _validate_banter_copy_limits([
+            {"id": "too-long", "text": "x" * 161, "events": ["round_setup.idle"]},
+        ])
