@@ -7012,3 +7012,16 @@ body.app-ready .home-banter p {
     width: min(60vw, 220px) !important;
   }
 }
+
+/* PANEL VISIBILITY GUARD */
+#start-round-form[hidden],
+#join-round-form[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.round-flow-card-game > #round-setup-heckle.is-panel-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
