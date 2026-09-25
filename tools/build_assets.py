@@ -304,6 +304,9 @@ def update_web_manifest():
 
     data = json.loads(path.read_text(encoding="utf-8"))
 
+    data["background_color"] = "#000000"
+    data["theme_color"] = "#000000"
+
     data["icons"] = [
         {
             "src": "/static/icons/icon-192.png",
@@ -360,7 +363,7 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v54';
+    content = """const CACHE_NAME = 'wpm-shell-v55';
 
 const APP_SHELL = [
   '/',
