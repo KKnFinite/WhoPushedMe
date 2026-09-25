@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v60" in response.data
+    assert b"wpm-shell-v61" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -116,7 +116,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v60" in builder
+    assert "wpm-shell-v61" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -893,3 +893,12 @@ def test_start_round_course_precedes_route_and_mini_overlays_next():
     assert b"bottom: 43px" in css.data
     assert b"min-height: 56px !important" in css.data
     assert b"max-height: 104px" in css.data
+
+
+def test_setup_mini_is_planted_on_visible_next_button():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"STEP 1 MINI PLANTED ON BUTTON" in css.data
+    assert b"bottom: 34px !important" in css.data
+    assert b"bottom: 84px !important" in css.data
+    assert b"height: 52px !important" in css.data
