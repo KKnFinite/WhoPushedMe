@@ -639,3 +639,20 @@ def test_content_admin_supports_home_background_pool():
     assert 'source.suffix.lower() == ".webp"' in admin
     assert "HOME_BACKGROUNDS_SRC" in builder
     assert "(copied exact source)" in builder
+
+
+def test_content_admin_supports_home_hero_pool():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    admin = (root / "tools" / "content_admin.py").read_text(encoding="utf-8")
+    builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
+
+    assert "list-home-heroes" in admin
+    assert "add-home-hero" in admin
+    assert "remove-home-hero" in admin
+    assert "home.heroes" in admin
+    assert "HOME_HERO_SRC" in admin
+    assert "HOME_HEROES_SRC" in builder
+    assert "build_home_hero_webps" in builder
+    assert '"home_hero_count": home_hero_count' in builder
