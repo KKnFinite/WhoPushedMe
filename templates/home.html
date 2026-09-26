@@ -472,17 +472,39 @@
         <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
 
-      <section id="live-round-panel" class="live-round-panel" hidden>
-        <header class="live-round-header">
-          <div>
-            <div class="live-round-kicker">LIVE SCORECARD</div>
-            <h3 id="live-round-place">COURSE</h3>
+      <section id="live-round-panel" class="live-round-panel live-round-v2" hidden>
+        <div class="live-v2-topbar">
+          <img
+            class="live-v2-wordmark"
+            src="/static/assets/brand/WPM_Wordmark.webp"
+            alt="Who Pushed Me?!"
+          >
+          <div class="live-v2-round-label">
+            <span>ROUND CONTROL</span>
+            <strong>LIVE ROUND</strong>
+            <small>CODE <b id="live-round-code">----</b></small>
           </div>
-          <div class="live-round-code">
-            <small>CODE</small>
-            <strong id="live-round-code">----</strong>
+        </div>
+
+        <div class="live-v2-hole-header">
+          <button id="hole-prev" type="button" aria-label="View previous hole">‹</button>
+          <div class="live-v2-hole-copy">
+            <strong>HOLE <span id="hole-number">1</span></strong>
+            <div>
+              <span id="hole-par-label">PAR ?</span>
+              <i>•</i>
+              <span id="live-round-place">COURSE</span>
+            </div>
+            <small id="hole-state-label">LIVE HOLE</small>
           </div>
-        </header>
+          <button id="hole-next" type="button" aria-label="View next hole">›</button>
+        </div>
+
+        <div
+          id="live-hole-selector"
+          class="live-hole-selector"
+          aria-label="Select hole"
+        ></div>
 
         <section id="spectator-join-play-panel" class="spectator-join-play-panel" hidden>
           <div class="live-round-kicker">TIRED OF JUDGING FROM SAFETY?</div>
@@ -514,95 +536,26 @@
           </div>
         </section>
 
-        <div class="hole-strip">
-          <button id="hole-prev" type="button" aria-label="View previous hole">←</button>
-          <div class="hole-strip-copy">
-            <small id="hole-state-label">LIVE HOLE</small>
-            <strong id="hole-number">1</strong>
-            <span id="hole-par-label">PAR ?</span>
-          </div>
-          <button id="hole-next" type="button" aria-label="Advance or view next hole">→</button>
-        </div>
-
-        <button id="advance-live-hole" class="settings-save" type="button" hidden>
-          NEXT HOLE
-        </button>
-
-        <section id="advance-warning-panel" class="advance-warning-panel" hidden>
-          <strong>SCORECARD ISN'T DONE WITH THIS HOLE.</strong>
-          <p id="advance-warning-copy"></p>
-          <div>
-            <button id="advance-warning-fix" type="button">FIX THE SCORECARD</button>
-            <button id="advance-warning-go" type="button">GO ANYWAY</button>
-          </div>
+        <section class="live-banter-panel">
+          <header class="live-banter-header">
+            <strong>ROUND BANTER</strong>
+            <span>GOLF IS MORE FUN WITH RECEIPTS</span>
+          </header>
+          <div id="live-banter-feed" class="live-banter-feed"></div>
+          <form id="live-banter-form" class="live-banter-form">
+            <input
+              id="live-banter-input"
+              type="text"
+              maxlength="280"
+              autocomplete="off"
+              placeholder="Talk your shit..."
+              aria-label="Send round banter"
+            >
+            <button id="live-banter-send" type="submit" aria-label="Send banter">➤</button>
+          </form>
         </section>
 
-        <button id="round-settings-button" class="lobby-home" type="button" hidden>
-          ROUND SETTINGS
-        </button>
-
-        <section id="round-settings-panel" class="round-settings-panel" hidden>
-          <div class="live-round-kicker">FIX YOUR SETUP MISTAKES</div>
-          <h4>ROUND SETTINGS</h4>
-          <label id="round-settings-tee-field" class="round-text-field" hidden>
-            <span id="round-settings-tee-label">YOUR TEE</span>
-            <select id="round-settings-tee-select"></select>
-          </label>
-          <button id="round-settings-tee-save" type="button" hidden>
-            SAVE TEE CORRECTION
-          </button>
-
-          <section id="round-par-tracking-panel" class="round-par-tracking-panel">
-            <div class="live-round-kicker">PAR MODE</div>
-            <h5>PAR TRACKING</h5>
-            <p id="round-par-tracking-copy"></p>
-            <div class="round-par-tracking-actions">
-              <button id="round-par-tracking-on" type="button">TRACK PAR</button>
-              <button id="round-par-tracking-off" type="button">DON'T TRACK PAR</button>
-            </div>
-          </section>
-
-          <section id="round-handicap-panel" class="round-handicap-panel" hidden>
-            <div class="live-round-kicker">NET MATH</div>
-            <h5>ROUND HANDICAPS</h5>
-            <p>Once scoring starts, changing an existing handicap needs an explicit correction.</p>
-            <div id="round-handicap-list" class="round-handicap-list"></div>
-          </section>
-
-          <section id="offline-player-panel" class="offline-player-panel">
-            <div class="live-round-kicker">PHONE OPTIONAL. BOGEYS AREN'T.</div>
-            <h5>ADD OFFLINE GOLFER</h5>
-            <label class="round-text-field">
-              <span>NAME</span>
-              <input id="offline-player-name" type="text" maxlength="20" placeholder="MIKE">
-            </label>
-            <label id="offline-player-tee-field" class="round-text-field" hidden>
-              <span>TEE</span>
-              <select id="offline-player-tee-select"></select>
-            </label>
-            <button id="offline-player-add" type="button">
-              ADD THEM TO THE DAMAGE
-            </button>
-          </section>
-
-          <section id="claim-undo-panel" class="claim-undo-panel" hidden>
-            <div class="live-round-kicker">CLAIMED THE WRONG GOLFER?</div>
-            <p id="claim-undo-copy"></p>
-            <button id="claim-undo-button" type="button">
-              UNDO PLAYER CLAIM
-            </button>
-          </section>
-
-          <button id="round-settings-close" type="button">
-            CLOSE SETTINGS
-          </button>
-        </section>
-
-        <button id="back-to-live" class="lobby-home" type="button" hidden>
-          BACK TO LIVE
-        </button>
-
-        <form id="par-form" class="par-form">
+        <form id="par-form" class="par-form live-par-compact">
           <label>
             <span>PAR</span>
             <input id="par-input" name="par" type="number" min="2" max="7" inputmode="numeric">
@@ -618,62 +571,155 @@
           <div id="scramble-contribution-list" class="scramble-contribution-list"></div>
         </section>
 
-        <section id="latest-presentation" class="latest-presentation" hidden>
-          <div class="latest-presentation-kicker">LATEST RECEIPT</div>
-          <img id="latest-mascot" class="latest-mascot" alt="" hidden>
-          <div class="latest-presentation-copy">
-            <strong id="latest-banter"></strong>
-            <small id="latest-fallback"></small>
-          </div>
-        </section>
+        <section id="live-hole-stats" class="live-hole-stats" hidden></section>
 
-        <button id="bag-of-bullshit-button" class="bag-of-bullshit-button" type="button">
-          BAG OF BULLSHIT
+        <button id="advance-live-hole" class="settings-save live-next-hole" type="button" hidden>
+          NEXT HOLE →
         </button>
 
-        <button id="towel-button" class="towel-button" type="button" hidden>
-          THROW IN THE TOWEL
-        </button>
-
-        <section id="towel-panel" class="towel-panel" hidden>
-          <strong>YOU REALLY QUITTING?</strong>
-          <input id="towel-reason" type="text" maxlength="280" placeholder="OPTIONAL SURRENDER REASON">
+        <section id="advance-warning-panel" class="advance-warning-panel" hidden>
+          <strong>SCORECARD ISN'T DONE WITH THIS HOLE.</strong>
+          <p id="advance-warning-copy"></p>
           <div>
-            <button id="towel-confirm" type="button">YEP. I'M DONE.</button>
-            <button id="towel-cancel" type="button">NEVER MIND</button>
+            <button id="advance-warning-fix" type="button">FIX THE SCORECARD</button>
+            <button id="advance-warning-go" type="button">GO ANYWAY</button>
           </div>
         </section>
 
-        <button id="end-early-button" class="towel-button" type="button" hidden>
-          END ROUND EARLY
+        <button id="back-to-live" class="lobby-home live-back-to-live" type="button" hidden>
+          BACK TO LIVE
         </button>
 
-        <section id="end-early-panel" class="end-early-panel" hidden>
-          <strong>EVERYBODY CONNECTED HAS TO AGREE.</strong>
-          <p id="end-early-copy"></p>
-          <div id="end-early-voters" class="end-early-voters"></div>
-          <div class="end-early-actions">
-            <button id="end-early-yes" type="button">YES. END IT.</button>
-            <button id="end-early-no" type="button">NO. KEEP SUFFERING.</button>
+        <nav class="live-bottom-nav" aria-label="Live round navigation">
+          <button id="live-nav-play" class="is-active" type="button">
+            <span>⚑</span><strong>PLAY</strong>
+          </button>
+          <button id="live-nav-scorecard" type="button">
+            <span>▤</span><strong>SCORECARD</strong>
+          </button>
+          <button id="live-nav-stats" type="button">
+            <span>▥</span><strong>STATS</strong>
+          </button>
+          <button id="live-nav-more" type="button">
+            <span>•••</span><strong>MORE</strong>
+          </button>
+        </nav>
+
+        <section id="live-more-panel" class="live-more-panel" hidden>
+          <div class="live-more-heading">
+            <span>ROUND CONTROL</span>
+            <strong>MORE BULLSHIT</strong>
           </div>
-        </section>
 
-        <button id="finish-round-button" class="finish-round-button" type="button" hidden>
-          FINISH THE DISASTER
-        </button>
-
-        <section id="finish-incomplete-panel" class="finish-incomplete-panel" hidden>
-          <strong>THE SCORECARD HAS HOLES.</strong>
-          <p id="finish-incomplete-copy"></p>
-          <button id="fix-scorecard-button" class="lobby-home" type="button">
-            FIX THE SCORECARD
+          <button id="round-settings-button" class="lobby-home" type="button" hidden>
+            ROUND SETTINGS
           </button>
-          <button id="finish-incomplete-button" class="finish-round-button" type="button">
-            FINISH INCOMPLETE
-          </button>
-        </section>
 
-        <button id="live-round-home" class="lobby-home" type="button">BACK HOME</button>
+          <section id="round-settings-panel" class="round-settings-panel" hidden>
+            <div class="live-round-kicker">FIX YOUR SETUP MISTAKES</div>
+            <h4>ROUND SETTINGS</h4>
+            <label id="round-settings-tee-field" class="round-text-field" hidden>
+              <span id="round-settings-tee-label">YOUR TEE</span>
+              <select id="round-settings-tee-select"></select>
+            </label>
+            <button id="round-settings-tee-save" type="button" hidden>
+              SAVE TEE CORRECTION
+            </button>
+
+            <section id="round-par-tracking-panel" class="round-par-tracking-panel">
+              <div class="live-round-kicker">PAR MODE</div>
+              <h5>PAR TRACKING</h5>
+              <p id="round-par-tracking-copy"></p>
+              <div class="round-par-tracking-actions">
+                <button id="round-par-tracking-on" type="button">TRACK PAR</button>
+                <button id="round-par-tracking-off" type="button">DON'T TRACK PAR</button>
+              </div>
+            </section>
+
+            <section id="round-handicap-panel" class="round-handicap-panel" hidden>
+              <div class="live-round-kicker">NET MATH</div>
+              <h5>ROUND HANDICAPS</h5>
+              <p>Once scoring starts, changing an existing handicap needs an explicit correction.</p>
+              <div id="round-handicap-list" class="round-handicap-list"></div>
+            </section>
+
+            <section id="offline-player-panel" class="offline-player-panel">
+              <div class="live-round-kicker">PHONE OPTIONAL. BOGEYS AREN'T.</div>
+              <h5>ADD OFFLINE GOLFER</h5>
+              <label class="round-text-field">
+                <span>NAME</span>
+                <input id="offline-player-name" type="text" maxlength="20" placeholder="MIKE">
+              </label>
+              <label id="offline-player-tee-field" class="round-text-field" hidden>
+                <span>TEE</span>
+                <select id="offline-player-tee-select"></select>
+              </label>
+              <button id="offline-player-add" type="button">
+                ADD THEM TO THE DAMAGE
+              </button>
+            </section>
+
+            <section id="claim-undo-panel" class="claim-undo-panel" hidden>
+              <div class="live-round-kicker">CLAIMED THE WRONG GOLFER?</div>
+              <p id="claim-undo-copy"></p>
+              <button id="claim-undo-button" type="button">
+                UNDO PLAYER CLAIM
+              </button>
+            </section>
+
+            <button id="round-settings-close" type="button">
+              CLOSE SETTINGS
+            </button>
+          </section>
+
+          <button id="bag-of-bullshit-button" class="bag-of-bullshit-button" type="button">
+            BAG OF BULLSHIT
+          </button>
+
+          <button id="towel-button" class="towel-button" type="button" hidden>
+            THROW IN THE TOWEL
+          </button>
+
+          <section id="towel-panel" class="towel-panel" hidden>
+            <strong>YOU REALLY QUITTING?</strong>
+            <input id="towel-reason" type="text" maxlength="280" placeholder="OPTIONAL SURRENDER REASON">
+            <div>
+              <button id="towel-confirm" type="button">YEP. I'M DONE.</button>
+              <button id="towel-cancel" type="button">NEVER MIND</button>
+            </div>
+          </section>
+
+          <button id="end-early-button" class="towel-button" type="button" hidden>
+            END ROUND EARLY
+          </button>
+
+          <section id="end-early-panel" class="end-early-panel" hidden>
+            <strong>EVERYBODY CONNECTED HAS TO AGREE.</strong>
+            <p id="end-early-copy"></p>
+            <div id="end-early-voters" class="end-early-voters"></div>
+            <div class="end-early-actions">
+              <button id="end-early-yes" type="button">YES. END IT.</button>
+              <button id="end-early-no" type="button">NO. KEEP SUFFERING.</button>
+            </div>
+          </section>
+
+          <button id="finish-round-button" class="finish-round-button" type="button" hidden>
+            FINISH THE DISASTER
+          </button>
+
+          <section id="finish-incomplete-panel" class="finish-incomplete-panel" hidden>
+            <strong>THE SCORECARD HAS HOLES.</strong>
+            <p id="finish-incomplete-copy"></p>
+            <button id="fix-scorecard-button" class="lobby-home" type="button">
+              FIX THE SCORECARD
+            </button>
+            <button id="finish-incomplete-button" class="finish-round-button" type="button">
+              FINISH INCOMPLETE
+            </button>
+          </section>
+
+          <button id="live-round-home" class="lobby-home" type="button">BACK HOME</button>
+        </section>
       </section>
 
       <section id="round-end-panel" class="round-end-panel" hidden>
