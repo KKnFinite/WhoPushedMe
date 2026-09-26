@@ -406,7 +406,7 @@ class RoundStore:
         cursor.execute(
             """
             SELECT mini_mascots_enabled, trash_talk_enabled,
-                   max_vulgarity, theme_preferences
+                   theme_preferences
             FROM golfer_content_preferences
             WHERE golfer_id = %s
             """,
@@ -781,7 +781,7 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT mini_mascots_enabled, trash_talk_enabled,
-                       max_vulgarity, theme_preferences
+                       theme_preferences
                 FROM golfer_content_preferences
                 WHERE golfer_id = %s
                 """,
@@ -803,7 +803,7 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT mini_mascots_enabled, trash_talk_enabled,
-                       max_vulgarity, theme_preferences
+                       theme_preferences
                 FROM golfer_content_preferences
                 WHERE golfer_id = %s
                 FOR UPDATE
@@ -826,22 +826,21 @@ class RoundStore:
                     theme_preferences,
                     updated_at
                 )
-                VALUES (%s, %s, %s, %s, %s, now())
+                VALUES (%s, %s, %s, 'brutal', %s, now())
                 ON CONFLICT (golfer_id)
                 DO UPDATE SET
                     mini_mascots_enabled = EXCLUDED.mini_mascots_enabled,
                     trash_talk_enabled = EXCLUDED.trash_talk_enabled,
-                    max_vulgarity = EXCLUDED.max_vulgarity,
+                    max_vulgarity = 'brutal',
                     theme_preferences = EXCLUDED.theme_preferences,
                     updated_at = now()
                 RETURNING mini_mascots_enabled, trash_talk_enabled,
-                          max_vulgarity, theme_preferences
+                          theme_preferences
                 """,
                 (
                     golfer_uuid,
                     merged["mini_mascots_enabled"],
                     merged["trash_talk_enabled"],
-                    merged["max_vulgarity"],
                     Jsonb(merged["theme_preferences"]),
                 ),
             )
