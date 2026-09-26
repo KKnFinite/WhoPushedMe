@@ -8800,3 +8800,358 @@ textarea,
     font-size: 1.75rem !important;
   }
 }
+
+
+/* JOIN ROUND WPM SURFACE */
+.round-join-form {
+  gap: 12px;
+  padding: 2px 0 0;
+  color: var(--wpm-cream);
+}
+
+.round-join-form > .round-text-field:first-child {
+  position: relative;
+  display: grid;
+  gap: 7px;
+  padding: 15px 14px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(212,166,42,.6);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% -45%, rgba(212,166,42,.16), transparent 60%),
+    linear-gradient(145deg, rgba(18,29,22,.98), rgba(5,9,7,.995));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 8px 24px rgba(0,0,0,.2);
+}
+
+.round-join-form > .round-text-field:first-child::after {
+  content: "FOUR DIGITS. TRY TO KEEP UP.";
+  justify-self: center;
+  margin-top: 1px;
+  color: rgba(233,225,200,.54);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .67rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .13em;
+}
+
+.round-join-form > .round-text-field:first-child > span {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .13em;
+  text-align: center;
+}
+
+.round-join-form input[name="code"] {
+  width: 100%;
+  min-height: 82px;
+  padding: 7px 12px 6px 18px;
+  border: 1px solid rgba(78,122,93,.72);
+  border-bottom: 3px solid var(--wpm-orange-burnt);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(2,6,4,.98), rgba(5,12,8,.98));
+  color: #fff8df;
+  caret-color: var(--wpm-gold);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(3rem, 14vw, 4.35rem) !important;
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: .18em;
+  text-align: center;
+  box-shadow:
+    inset 0 2px 14px rgba(0,0,0,.52),
+    0 1px 0 rgba(255,255,255,.02);
+  outline: none;
+}
+
+.round-join-form input[name="code"]::placeholder {
+  color: rgba(233,225,200,.19);
+  opacity: 1;
+}
+
+.round-join-form input[name="code"]:focus {
+  border-color: var(--wpm-gold);
+  border-bottom-color: var(--wpm-orange-ember);
+  box-shadow:
+    inset 0 2px 14px rgba(0,0,0,.52),
+    0 0 0 2px rgba(212,166,42,.18),
+    0 0 24px rgba(212,166,42,.08);
+}
+
+.round-join-form .join-round-heckle {
+  position: relative;
+  min-height: 82px;
+  margin: 0;
+  padding: 26px 14px 13px;
+  overflow: hidden;
+  border: 1px solid rgba(217,109,59,.68);
+  border-left: 4px solid var(--wpm-orange-burnt);
+  border-radius: 14px;
+  background:
+    linear-gradient(105deg, rgba(82,29,13,.72), rgba(19,13,8,.94) 66%),
+    rgba(5,9,7,.98);
+  color: #fff8df;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 7px 20px rgba(0,0,0,.16);
+}
+
+.round-join-form .join-round-heckle::before {
+  content: "TECH SUPPORT: UNFORTUNATELY REQUIRED";
+  position: absolute;
+  top: 9px;
+  left: 14px;
+  color: var(--wpm-orange-ember);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .12em;
+}
+
+.round-join-form .join-round-heckle[hidden] {
+  display: none !important;
+}
+
+.round-join-form .join-round-heckle p {
+  margin: 0;
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(1.02rem, 4.1vw, 1.22rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: .015em;
+}
+
+.round-join-form > .choice-fieldset {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 11px;
+  border: 1px solid rgba(78,122,93,.58);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99));
+  color: var(--wpm-cream);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.round-join-form > .choice-fieldset legend {
+  padding: 0 7px;
+  color: var(--wpm-gold);
+  background: transparent;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.round-join-form > .choice-fieldset label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 48px;
+  margin: 0;
+  padding: 8px 9px;
+  border: 1px solid rgba(78,122,93,.42);
+  border-radius: 10px;
+  background: rgba(5,9,7,.68);
+  color: rgba(255,248,223,.8);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: .035em;
+  cursor: pointer;
+}
+
+.round-join-form > .choice-fieldset label:has(input:checked) {
+  border-color: rgba(212,166,42,.9);
+  background:
+    linear-gradient(145deg, rgba(212,166,42,.2), rgba(23,51,38,.62));
+  color: #fff8df;
+  box-shadow:
+    inset 0 0 0 1px rgba(212,166,42,.14),
+    0 4px 12px rgba(0,0,0,.18);
+}
+
+.round-join-form > .choice-fieldset input[type="radio"] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--wpm-gold);
+}
+
+.round-join-form .join-tee-field,
+.round-join-form .claim-player-panel {
+  margin: 0;
+  border: 1px solid rgba(78,122,93,.58);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99));
+  color: var(--wpm-cream);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.round-join-form .join-tee-field {
+  padding: 12px;
+}
+
+.round-join-form .join-tee-field > span,
+.round-join-form .claim-player-panel .live-round-kicker {
+  color: var(--wpm-gold) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.round-join-form .join-tee-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 9px 11px;
+  border: 1px solid rgba(78,122,93,.62);
+  border-radius: 10px;
+  background: rgba(3,7,5,.9);
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 600;
+  box-shadow: inset 0 1px 6px rgba(0,0,0,.34);
+}
+
+.round-join-form .join-tee-field small,
+.round-join-form .claim-player-panel p {
+  color: rgba(233,225,200,.68);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 600;
+}
+
+.round-join-form .claim-player-panel {
+  gap: 9px;
+  padding: 12px;
+}
+
+.round-join-form .claim-player-row {
+  border: 1px solid rgba(78,122,93,.48);
+  border-radius: 10px;
+  background: rgba(5,9,7,.72);
+  color: #fff8df;
+}
+
+.round-join-form .claim-player-row span {
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.round-join-form .claim-player-row button,
+.round-join-form #claim-player-none {
+  border: 1px solid rgba(217,109,59,.68);
+  border-radius: 9px;
+  background: rgba(125,48,23,.58);
+  color: #fff8df;
+  box-shadow: none;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.round-join-form #claim-player-none {
+  background: rgba(5,9,7,.82);
+  border-color: rgba(78,122,93,.58);
+}
+
+#join-round-submit {
+  width: 100%;
+  min-height: 60px;
+  margin-top: 1px;
+  padding: 11px 16px 9px;
+  border: 1px solid rgba(233,120,62,.9);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, var(--wpm-orange-ember), var(--wpm-orange-burnt));
+  color: #fff8df;
+  box-shadow:
+    0 5px 0 rgba(82,29,13,.95),
+    0 12px 24px rgba(0,0,0,.22);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.48rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: .035em;
+}
+
+#join-round-submit:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 2px 0 rgba(82,29,13,.95),
+    0 7px 16px rgba(0,0,0,.18);
+}
+
+#join-round-submit:disabled {
+  filter: saturate(.45);
+  opacity: .62;
+}
+
+@media (max-width: 680px) {
+  .round-join-form {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1px 1px max(6px, env(safe-area-inset-bottom));
+    scrollbar-width: none;
+  }
+
+  .round-join-form::-webkit-scrollbar {
+    display: none;
+  }
+
+  .round-join-form > .round-text-field:first-child {
+    padding: 12px 11px 11px;
+  }
+
+  .round-join-form input[name="code"] {
+    min-height: 76px;
+    font-size: clamp(3rem, 17vw, 4.15rem) !important;
+  }
+
+  .round-join-form .join-round-heckle {
+    min-height: 76px;
+    padding: 25px 12px 12px;
+  }
+
+  .round-join-form .join-round-heckle::before {
+    left: 12px;
+  }
+
+  #join-round-submit {
+    min-height: 58px;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .round-join-form > .choice-fieldset {
+    padding: 9px;
+    gap: 6px;
+  }
+
+  .round-join-form > .choice-fieldset label {
+    min-height: 46px;
+    padding-inline: 7px;
+    font-size: 1rem;
+  }
+
+  .round-join-form input[name="code"] {
+    letter-spacing: .14em;
+  }
+}
