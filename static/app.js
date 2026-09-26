@@ -2979,6 +2979,183 @@
     liveBanterFeed.scrollTop = liveBanterFeed.scrollHeight;
   };
 
+  const appendLobbyBanterRow = ({
+    text,
+    actorName = 'WPM',
+    playerAuthored = false,
+    createdAt = null,
+  }) => {
+    if (!lobbyBanterFeed || !text) return;
+
+    const row = document.createElement('div');
+    row.className = playerAuthored
+      ? 'live-banter-row is-player'
+      : 'live-banter-row is-app';
+
+    const avatar = document.createElement('div');
+    avatar.className = playerAuthored
+      ? 'live-banter-avatar is-player'
+      : 'live-banter-avatar is-app';
+
+    if (playerAuthored) {
+      avatar.textContent = String(actorName || 'G')
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+    } else {
+      const image = document.createElement('img');
+      image.src = APP_BANTER_AVATAR;
+      image.alt = 'Who Pushed Me mascot';
+      avatar.append(image);
+    }
+
+    const content = document.createElement('div');
+    content.className = 'live-banter-content';
+
+    const meta = document.createElement('div');
+    meta.className = 'live-banter-meta';
+    const author = document.createElement('strong');
+    author.textContent = playerAuthored ? actorName : 'WPM';
+    const time = document.createElement('span');
+    if (createdAt) {
+      const date = new Date(createdAt);
+      if (!Number.isNaN(date.getTime())) {
+        time.textContent = date.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+        });
+      }
+    }
+    meta.append(author, time);
+
+    const bubble = document.createElement('div');
+    bubble.className = 'live-banter-bubble';
+    bubble.textContent = text;
+
+    content.append(meta, bubble);
+    row.append(avatar, content);
+    lobbyBanterFeed.append(row);
+  };
+
+  const renderLobbyBanter = (round) => {
+    if (!lobbyBanterFeed) return;
+    lobbyBanterFeed.replaceChildren();
+
+    const eventRows = (round.events || [])
+      .filter((event) => {
+        const text = String(presentationText(event) || '').trim();
+        if (!text) return false;
+        return (
+          event.event_type === 'open_mic'
+          || String(event.content_event_key || '').startsWith('lobby.')
+          || String(event.event_type || '').startsWith('player_join')
+          || String(event.event_type || '').includes('join')
+        );
+      })
+      .slice(0, 10)
+      .reverse();
+
+    eventRows.forEach((event) => {
+      const actor = (round.participants || []).find(
+        (participant) =>
+          String(participant.id) === String(event.actor_participant_id || '')
+      );
+      const playerAuthored = (
+        event.event_type === 'open_mic'
+        && Boolean(actor)
+        && Boolean(String(event.data?.message || '').trim())
+      );
+      appendLobbyBanterRow({
+        text: presentationText(event),
+        actorName: actor?.display_name || 'Golfer',
+        playerAuthored,
+        createdAt: event.created_at,
+      });
+    });
+
+    lobbyIdleMessages.forEach((message) => {
+      appendLobbyBanterRow({
+        text: message.text,
+        actorName: 'WPM',
+        playerAuthored: false,
+        createdAt: message.created_at,
+      });
+    });
+
+    if (!lobbyBanterFeed.childElementCount) {
+      const empty = document.createElement('div');
+      empty.className = 'live-banter-empty';
+      empty.textContent = 'Waiting for somebody to embarrass themselves.';
+      lobbyBanterFeed.append(empty);
+    }
+
+    lobbyBanterFeed.scrollTop = lobbyBanterFeed.scrollHeight;
+  };
+
+  const stopLobbyBanterRotation = () => {
+    if (lobbyBanterTimer) {
+      window.clearInterval(lobbyBanterTimer);
+      lobbyBanterTimer = null;
+    }
+    lobbyBanterRoundId = '';
+    lobbyIdleRows = [];
+    lobbyIdleLastId = '';
+    lobbyIdleMessages = [];
+  };
+
+  const startLobbyBanterRotation = async (round) => {
+    const roundId = String(round?.id || '');
+    if (!roundId || round.status !== 'setup') return;
+    if (lobbyBanterRoundId === roundId) return;
+
+    stopLobbyBanterRotation();
+    lobbyBanterRoundId = roundId;
+
+    try {
+      lobbyIdleRows = await loadMessageBank('lobby.idle', {
+        authenticated: true,
+      });
+    } catch (_error) {
+      lobbyIdleRows = [];
+      return;
+    }
+
+    if (
+      lobbyBanterRoundId !== roundId
+      || !lobbyIdleRows.length
+    ) {
+      return;
+    }
+
+    const addIdleMessage = () => {
+      if (
+        !currentLobbyRound
+        || String(currentLobbyRound.id) !== roundId
+        || currentLobbyRound.status !== 'setup'
+        || !lobbyPanel
+        || lobbyPanel.hidden
+      ) {
+        return;
+      }
+
+      const picked = pickMessage(lobbyIdleRows, lobbyIdleLastId);
+      if (!picked) return;
+      lobbyIdleLastId = picked.id;
+      lobbyIdleMessages.push({
+        id: picked.id + ':' + String(Date.now()),
+        text: picked.text,
+        created_at: new Date().toISOString(),
+      });
+      lobbyIdleMessages = lobbyIdleMessages.slice(-6);
+      renderLobbyBanter(currentLobbyRound);
+    };
+
+    lobbyBanterTimer = window.setInterval(
+      addIdleMessage,
+      LOBBY_BANTER_ROTATE_MS,
+    );
+  };
+
   const renderLiveHoleStats = (round, position) => {
     if (!liveHoleStats) return;
 
