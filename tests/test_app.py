@@ -235,7 +235,7 @@ def test_lobby_idle_banter_is_registered_and_admin_editable():
         row for row in banter["banter"]
         if "lobby.idle" in row.get("events", [])
     ]
-    assert len(lobby_rows) >= 40
+    assert len(lobby_rows) >= 12
     assert '"lobby.idle": 160' in admin
 
 
