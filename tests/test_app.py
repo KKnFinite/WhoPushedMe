@@ -107,8 +107,20 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v68" in response.data
+    assert b"wpm-shell-v79" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
+
+
+def test_critical_frontend_assets_are_versioned_and_network_first():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"/static/app.css?v=0.3.0" in page.data
+    assert b"/static/app.js?v=0.3.0" in page.data
+
+    worker = client().get("/service-worker.js")
+    assert worker.status_code == 200
+    assert b"CRITICAL_FRONTEND_PATHS" in worker.data
+    assert b"fetch(event.request, { cache: 'no-store' })" in worker.data
 
 
 def test_asset_builder_keeps_shell_cache_version_in_sync():
@@ -116,7 +128,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v68" in builder
+    assert "wpm-shell-v79" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
