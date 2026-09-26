@@ -8280,6 +8280,10 @@ body.app-ready .home-banter p {
   font-size: 1.1rem !important;
 }
 
+.live-par-compact[hidden] {
+  display: none !important;
+}
+
 .live-par-compact {
   grid-template-columns: minmax(0, 88px) minmax(0, 1fr) !important;
   gap: 7px !important;
@@ -8400,6 +8404,11 @@ body.app-ready .home-banter p {
   font-size: 1.4rem !important;
   font-weight: 400 !important;
   line-height: 1 !important;
+}
+
+.live-score-stepper .live-score-input::placeholder {
+  color: rgba(233,225,200,.32) !important;
+  opacity: 1;
 }
 
 .live-score-stepper .live-score-input {
