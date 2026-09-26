@@ -212,6 +212,19 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
+def test_live_score_keyboard_survives_background_polling():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    assert "const liveScoreDraftInProgress = () =>" in source
+    assert "document.activeElement" in source
+    assert "active?.classList?.contains('live-score-input')" in source
+    assert "data-draft-dirty=\"true\"" in source
+    assert "if (liveScoreDraftInProgress()) return;" in source
+    assert "input.dataset.draftDirty = 'true'" in source
+
+
 def test_live_score_adjustments_require_explicit_submit():
     response = client().get("/static/app.js")
     assert response.status_code == 200

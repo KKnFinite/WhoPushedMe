@@ -2800,18 +2800,21 @@
       minus.addEventListener('click', () => {
         const base = Number(input.value || par || 1);
         input.value = String(Math.max(1, base - 1));
+        input.dataset.draftDirty = 'true';
         refreshSubmitState();
       });
 
       plus.addEventListener('click', () => {
         const base = Number(input.value || (par ? Number(par) - 1 : 0));
         input.value = String(Math.min(99, Math.max(1, base + 1)));
+        input.dataset.draftDirty = 'true';
         refreshSubmitState();
       });
 
       input.addEventListener('input', () => {
         const digits = String(input.value || '').replace(/\D/g, '').slice(0, 2);
         input.value = digits;
+        input.dataset.draftDirty = 'true';
         refreshSubmitState();
       });
 
@@ -2825,7 +2828,11 @@
       submit.addEventListener('click', async () => {
         const strokes = Number(input.value);
         const saved = await persistScore(strokes);
-        if (!saved) refreshSubmitState();
+        if (!saved) {
+          refreshSubmitState();
+          return;
+        }
+        delete input.dataset.draftDirty;
       });
 
       controls.append(minus, input, plus);
@@ -4490,10 +4497,23 @@
 
   const refreshLobby = refreshRound;
 
+  const liveScoreDraftInProgress = () => {
+    const active = document.activeElement;
+    if (active?.classList?.contains('live-score-input')) return true;
+    return Boolean(
+      liveScoreArea?.querySelector(
+        '.live-score-input[data-draft-dirty="true"]'
+      )
+    );
+  };
+
   const startLobbyPolling = (code) => {
     if (lobbyRefreshTimer) window.clearInterval(lobbyRefreshTimer);
     lobbyRefreshTimer = window.setInterval(async () => {
       if (!roundFlowModal || roundFlowModal.hidden || !currentLobbyRound) return;
+      // Never replace a live score input while the golfer is typing or has
+      // an unsaved draft. Re-rendering the row here dismisses the iOS numpad.
+      if (liveScoreDraftInProgress()) return;
       try {
         await refreshRound(code);
       } catch (_error) {
