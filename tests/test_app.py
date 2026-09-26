@@ -46,7 +46,7 @@ def test_home_loads_pwa_shell():
     assert b"FREE PLAY" in response.data
     assert b"YOUR TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
-    assert b"LIVE SCORECARD" in response.data
+    assert b"ROUND BANTER" in response.data
     assert b"NEXT HOLE" in response.data
     assert b"GO ANYWAY" in response.data
     assert b"ROUND SETTINGS" in response.data
@@ -60,8 +60,8 @@ def test_home_loads_pwa_shell():
     assert b"END ROUND EARLY" in response.data
     assert b"FINE. I'LL PLAY." in response.data
     assert b"BACK TO LIVE" in response.data
-    assert b"REPORT PAR" in response.data
-    assert b"LATEST RECEIPT" in response.data
+    assert b"SET PAR" in response.data
+    assert b"Talk your shit..." in response.data
     assert b"BAG OF BULLSHIT" in response.data
     assert b"THROW IN THE TOWEL" in response.data
     assert b"YEP. I'M DONE." in response.data
