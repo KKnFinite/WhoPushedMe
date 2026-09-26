@@ -32,6 +32,7 @@ HOME_HERO_PROD = ASSETS / "home" / "heroes"
 DEFAULT_BANTER_MAX_CHARS = 160
 BANTER_EVENT_MAX_CHARS = {
     "round_setup.idle": 160,
+    "lobby.idle": 160,
     "home.idle": 320,
 }
 
