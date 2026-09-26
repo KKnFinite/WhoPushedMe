@@ -62,6 +62,8 @@
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
   const joinRoundSubmit = document.getElementById('join-round-submit');
+  const joinTeeField = document.getElementById('join-tee-field');
+  const joinTeeSelect = document.getElementById('join-tee-select');
   const claimPlayerPanel = document.getElementById('claim-player-panel');
   const claimPlayerList = document.getElementById('claim-player-list');
   const claimPlayerNone = document.getElementById('claim-player-none');
@@ -69,6 +71,10 @@
   const lobbyCode = document.getElementById('lobby-code');
   const lobbySummary = document.getElementById('lobby-summary');
   const lobbyParticipants = document.getElementById('lobby-participants');
+  const lobbyBanterFeed = document.getElementById('lobby-banter-feed');
+  const lobbyBanterForm = document.getElementById('lobby-banter-form');
+  const lobbyBanterInput = document.getElementById('lobby-banter-input');
+  const lobbyBanterSend = document.getElementById('lobby-banter-send');
   const lobbyStart = document.getElementById('lobby-start');
   const lobbyHome = document.getElementById('lobby-home');
   const courseSearchPanel = document.getElementById('course-search-panel');
@@ -223,6 +229,12 @@
   let pendingScoreAfterPar = null;
   let parEditorOpen = false;
   let pendingClaimJoin = null;
+  let pendingJoinPreview = null;
+  let lobbyBanterTimer = null;
+  let lobbyBanterRoundId = '';
+  let lobbyIdleRows = [];
+  let lobbyIdleLastId = '';
+  let lobbyIdleMessages = [];
   let claimUndoConfirmPending = false;
   let receiptMarkInFlight = false;
   let deferredInstallPrompt = null;
@@ -244,6 +256,7 @@
   const AUTH_HECKLE_ROTATE_MS = 5000;
   const AUTH_HECKLE_RESUME_MS = 9000;
   const USER_HECKLE_ROTATE_MS = 7000;
+  const LOBBY_BANTER_ROTATE_MS = 8000;
 
   const AUTH_IDLE_EVENTS = {
     login: 'auth.signin.idle',
