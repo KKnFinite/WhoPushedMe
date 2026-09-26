@@ -2719,7 +2719,9 @@
       input.min = '1';
       input.max = '99';
       input.inputMode = 'numeric';
-      input.value = score ? String(score.strokes) : '';
+      input.value = score
+        ? String(score.strokes)
+        : (par ? String(par) : '');
       input.placeholder = '—';
       input.setAttribute(
         'aria-label',
@@ -2732,10 +2734,27 @@
       plus.textContent = '+';
       plus.setAttribute('aria-label', 'Raise ' + label + ' score');
 
+      const submit = document.createElement('button');
+      submit.type = 'button';
+      submit.className = 'live-score-submit';
+
+      const refreshSubmitState = () => {
+        const strokes = Number(input.value);
+        const valid = Number.isInteger(strokes) && strokes >= 1 && strokes <= 99;
+        const unchanged = Boolean(
+          score && valid && Number(score.strokes) === strokes
+        );
+        submit.disabled = !valid || unchanged;
+        submit.textContent = unchanged
+          ? 'SCORE SAVED'
+          : (score ? 'UPDATE SCORE' : 'SUBMIT SCORE');
+      };
+
       const setBusy = (busy) => {
         minus.disabled = busy;
         plus.disabled = busy;
         input.disabled = busy;
+        submit.disabled = busy;
       };
 
       const persistScore = async (strokes) => {
@@ -2778,27 +2797,40 @@
         }
       };
 
-      minus.addEventListener('click', async () => {
-        const base = Number(input.value || score?.strokes || par || 1);
-        const next = Math.max(1, base - 1);
-        input.value = String(next);
-        await persistScore(next);
+      minus.addEventListener('click', () => {
+        const base = Number(input.value || par || 1);
+        input.value = String(Math.max(1, base - 1));
+        refreshSubmitState();
       });
 
-      plus.addEventListener('click', async () => {
-        const base = Number(input.value || score?.strokes || par || 1);
-        const next = Math.min(99, base + 1);
-        input.value = String(next);
-        await persistScore(next);
+      plus.addEventListener('click', () => {
+        const base = Number(input.value || (par ? Number(par) - 1 : 0));
+        input.value = String(Math.min(99, Math.max(1, base + 1)));
+        refreshSubmitState();
       });
 
-      input.addEventListener('change', async () => {
+      input.addEventListener('input', () => {
+        const digits = String(input.value || '').replace(/\D/g, '').slice(0, 2);
+        input.value = digits;
+        refreshSubmitState();
+      });
+
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !submit.disabled) {
+          event.preventDefault();
+          submit.click();
+        }
+      });
+
+      submit.addEventListener('click', async () => {
         const strokes = Number(input.value);
-        await persistScore(strokes);
+        const saved = await persistScore(strokes);
+        if (!saved) refreshSubmitState();
       });
 
       controls.append(minus, input, plus);
-      card.append(controls);
+      card.append(controls, submit);
+      refreshSubmitState();
 
       if (score) {
         const remove = document.createElement('button');
@@ -3299,13 +3331,14 @@
   const renderLiveHoleStats = (round, position) => {
     if (!liveHoleStats) return;
 
-    const par = findPar(round, position);
-    let scores = [];
+    const route = routeEntry(round, position);
+    const hole = Number(route?.hole_number || position);
+    let currentScores = [];
     let expected = 1;
 
     if (round.mode === 'scramble') {
       const score = findScore(round, position);
-      if (score) scores = [Number(score.strokes)];
+      if (score) currentScores = [Number(score.strokes)];
     } else {
       const players = (round.participants || []).filter(
         (participant) =>
@@ -3314,17 +3347,61 @@
           && Number(participant.tracked_from_position || 1) <= Number(position)
       );
       expected = players.length;
-      scores = players
+      currentScores = players
         .map((participant) => findScore(round, position, participant.id))
         .filter(Boolean)
         .map((score) => Number(score.strokes));
     }
 
+    const viewer = viewerParticipant(round);
+    const cumulativeScores = (round.scores || []).filter((score) => {
+      if (Number(score.route_position) > Number(position)) return false;
+      if (round.mode === 'scramble') return score.score_scope === 'team';
+      return (
+        viewer?.role === 'player'
+        && score.score_scope === 'player'
+        && String(score.player_participant_id) === String(viewer.id)
+      );
+    });
+
+    const totalStrokes = cumulativeScores.length
+      ? cumulativeScores.reduce(
+          (sum, score) => sum + Number(score.strokes || 0),
+          0
+        )
+      : null;
+
+    let totalToPar = null;
+    if (
+      totalStrokes !== null
+      && round.par_tracking_enabled
+      && cumulativeScores.length
+    ) {
+      let allParsKnown = true;
+      let parTotal = 0;
+      cumulativeScores.forEach((score) => {
+        const scorePar = findPar(round, score.route_position);
+        if (!Number.isFinite(scorePar)) {
+          allParsKnown = false;
+          return;
+        }
+        parTotal += Number(scorePar);
+      });
+      if (allParsKnown) totalToPar = totalStrokes - parTotal;
+    }
+
+    const relativeLabel = totalToPar === null
+      ? '—'
+      : (totalToPar === 0
+        ? 'E'
+        : (totalToPar > 0 ? ('+' + totalToPar) : String(totalToPar)));
+
     liveHoleStats.replaceChildren();
 
     const heading = document.createElement('div');
     heading.className = 'live-hole-stat-heading';
-    heading.innerHTML = '<strong>HOLE STATS</strong><small>REAL SCORES ONLY</small>';
+    heading.innerHTML =
+      '<strong>ROUND STATS</strong><small>THROUGH HOLE ' + hole + '</small>';
     liveHoleStats.append(heading);
 
     const addStat = (label, value) => {
@@ -3338,25 +3415,15 @@
       liveHoleStats.append(stat);
     };
 
-    const average = scores.length
-      ? (scores.reduce((sum, value) => sum + value, 0) / scores.length)
-      : null;
-    const averageRelative = average !== null && par
-      ? average - Number(par)
-      : null;
-
-    addStat('SCORES IN', String(scores.length) + '/' + String(expected || 1));
-    addStat('AVG SCORE', average === null ? '—' : average.toFixed(1));
     addStat(
-      'AVG TO PAR',
-      averageRelative === null
-        ? '—'
-        : (averageRelative === 0
-          ? 'E'
-          : (averageRelative > 0
-            ? ('+' + averageRelative.toFixed(1))
-            : averageRelative.toFixed(1)))
+      'SCORES IN',
+      String(currentScores.length) + '/' + String(expected || 1)
     );
+    addStat(
+      round.mode === 'scramble' ? 'TEAM TOTAL' : 'YOUR TOTAL',
+      totalStrokes === null ? '—' : String(totalStrokes)
+    );
+    addStat('TO PAR', relativeLabel);
 
     liveHoleStats.hidden = false;
   };

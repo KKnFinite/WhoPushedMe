@@ -212,6 +212,40 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
+def test_live_score_adjustments_require_explicit_submit():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderScoreCard =")
+    end = source.index("const SCRAMBLE_SHOT_TYPES", start)
+    score_block = source[start:end]
+
+    assert "submit.className = 'live-score-submit'" in score_block
+    assert "'SUBMIT SCORE'" in score_block
+    assert "'UPDATE SCORE'" in score_block
+    assert "submit.addEventListener('click', async () =>" in score_block
+    assert "minus.addEventListener('click', () =>" in score_block
+    assert "plus.addEventListener('click', () =>" in score_block
+    assert "await persistScore(next)" not in score_block
+    assert "input.addEventListener('change', async" not in score_block
+
+
+def test_live_stats_show_running_total_and_to_par_not_averages():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLiveHoleStats =")
+    end = source.index("const setLiveNavActive", start)
+    stats_block = source[start:end]
+
+    assert "ROUND STATS" in stats_block
+    assert "YOUR TOTAL" in stats_block
+    assert "TEAM TOTAL" in stats_block
+    assert "TO PAR" in stats_block
+    assert "AVG SCORE" not in stats_block
+    assert "AVG TO PAR" not in stats_block
+
+
 def test_live_scorecard_exposes_score_removal_control():
     response = client().get("/static/app.js")
     assert response.status_code == 200

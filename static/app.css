@@ -9021,3 +9021,25 @@ textarea,
     padding-top: 10px;
   }
 }
+
+
+/* LIVE SCORE DRAFT + SUBMIT */
+.live-score-row .live-score-submit {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 44px !important;
+  margin-top: 1px;
+}
+
+.live-score-row .live-score-submit:disabled {
+  border-color: rgba(78,122,93,.42) !important;
+  background: rgba(5,9,7,.72) !important;
+  color: rgba(233,225,200,.42) !important;
+  opacity: 1 !important;
+  cursor: default;
+}
+
+.live-score-row .live-score-remove {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
