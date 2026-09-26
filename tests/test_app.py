@@ -148,6 +148,31 @@ def test_join_round_uses_approved_dedicated_mock_pool():
     assert "FOUR DIGITS STANDING BETWEEN YOU AND EMBARRASSING YOURSELF ON PURPOSE." not in texts
 
 
+def test_join_round_uses_four_large_digit_boxes():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="join-round-code"' in page.data
+    assert b'name="code"' in page.data
+    assert page.data.count(b"data-join-code-digit=") == 4
+    assert b'aria-label="Round code digit 1"' in page.data
+    assert b'aria-label="Round code digit 4"' in page.data
+    assert b'placeholder="1234"' not in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"fillJoinCodeDigits" in script.data
+    assert b"event.key === 'Backspace'" in script.data
+    assert b"clipboardData" in script.data
+    assert b"ENTER ALL FOUR DIGITS." in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"JOIN ROUND FOUR-DIGIT ENTRY" in css.data
+    assert b".join-code-digits" in css.data
+    assert b"grid-template-columns: repeat(4, minmax(0, 1fr))" in css.data
+    assert b".join-code-digit" in css.data
+
+
 def test_mobile_focus_does_not_zoom_the_layout():
     page = client().get("/")
     assert page.status_code == 200
