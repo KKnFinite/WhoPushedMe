@@ -158,13 +158,11 @@ def test_preferences_filter_stored_selection_without_rerolling():
                 "banter": {
                     "id": "banter.test",
                     "text": "Test",
-                    "vulgarity": "brutal",
                     "themes": [],
                     "audiences": ["everyone"],
                 },
                 "mascot": {
                     "asset_id": "mini.test",
-                    "vulgarity": "normal",
                     "themes": ["wife"],
                     "audiences": ["everyone"],
                 },
@@ -177,11 +175,10 @@ def test_preferences_filter_stored_selection_without_rerolling():
         {
             "mini_mascots_enabled": True,
             "trash_talk_enabled": True,
-            "max_vulgarity": "normal",
             "themes": {"wife": False, "drinking": True},
         },
     )
 
     assert filtered["fallback"] == {"text": "Scramble complete"}
-    assert filtered["banter"] is None
+    assert filtered["banter"]["text"] == "Test"
     assert filtered["mascot"] is None
