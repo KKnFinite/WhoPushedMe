@@ -1994,6 +1994,8 @@ class RoundStore:
                 """,
                 (round_row["id"], golfer_uuid),
             )
+            already_joined = bool(cursor.fetchone())
+
             available_tees = (
                 self._course_tees(
                     cursor,
@@ -2004,7 +2006,7 @@ class RoundStore:
                 else []
             )
 
-            if cursor.fetchone():
+            if already_joined:
                 return {
                     "round_id": round_row["id"],
                     "active_code": round_code,
