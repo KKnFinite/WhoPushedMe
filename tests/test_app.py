@@ -405,6 +405,26 @@ def test_install_onboarding_uses_approved_mascot_assets():
     assert b"WPM_Onboarding_Install_47OtherUselessApps.webp" in response.data
 
 
+def test_loaded_course_with_complete_pars_hides_par_tracking_setup():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="setup-par-tracking"' in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"syncSetupParTrackingVisibility" in script.data
+    assert b"selectedCourse?.has_complete_pars" in script.data
+    assert b"setupParTracking.hidden = loadedCourseHasPars" in script.data
+
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    assert 'course["has_complete_pars"]' in store_source
+    assert "count(par) AS par_count" in store_source
+
+
 def test_cached_course_exposes_and_honors_physical_hole_count():
     from pathlib import Path
 

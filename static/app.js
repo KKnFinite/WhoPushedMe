@@ -100,6 +100,7 @@
   const startHoleInput = document.getElementById('start-hole-input');
   const trackingStartPosition = document.getElementById('tracking-start-position');
   const routePreview = document.getElementById('route-preview');
+  const setupParTracking = document.getElementById('setup-par-tracking');
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
   const lobbyTeeLabel = document.getElementById('lobby-tee-label');
   const lobbyTeeSelect = document.getElementById('lobby-tee-select');
@@ -1801,6 +1802,27 @@
     }
   };
 
+  const syncSetupParTrackingVisibility = () => {
+    if (!setupParTracking) return;
+
+    const courseMode = startRoundForm?.querySelector(
+      'input[name="course_mode"]:checked'
+    )?.value || 'course';
+    const loadedCourseHasPars = Boolean(
+      courseMode === 'course'
+      && selectedCourse?.has_complete_pars
+    );
+
+    setupParTracking.hidden = loadedCourseHasPars;
+
+    if (loadedCourseHasPars && startRoundForm) {
+      const asGo = startRoundForm.querySelector(
+        'input[name="par_setup"][value="as_go"]'
+      );
+      if (asGo) asGo.checked = true;
+    }
+  };
+
   const updateRoundHolesHint = () => {
     const courseMode = startRoundForm?.querySelector(
       'input[name="course_mode"]:checked'
@@ -1865,6 +1887,7 @@
       if (courseResults) courseResults.replaceChildren();
     }
     syncCourseLayoutControl();
+    syncSetupParTrackingVisibility();
     updateRoundHolesHint();
     syncStepTwoMiniVisibility();
     renderRoutePreview();
@@ -1952,6 +1975,7 @@
       selectedCourse = course;
       setCourseStepMessage('');
       syncCourseLayoutControl();
+      syncSetupParTrackingVisibility();
       updateRoundHolesHint();
       renderRoutePreview();
 
@@ -1991,6 +2015,7 @@
     // visible steals the space reserved for the three search results.
     clearSelectedCourse();
     syncCourseLayoutControl();
+    syncSetupParTrackingVisibility();
     updateRoundHolesHint();
     renderRoutePreview();
 
@@ -2065,7 +2090,10 @@
         || 'course'
       );
     }
-    if (resolved === 3) renderRoutePreview();
+    if (resolved === 3) {
+      syncSetupParTrackingVisibility();
+      renderRoutePreview();
+    }
     if (
       resolved !== 2
       || startRoundForm?.querySelector('input[name="course_mode"]:checked')?.value === 'course'

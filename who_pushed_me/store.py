@@ -5265,7 +5265,9 @@ class RoundStore:
                 raise NotFound("cached course not found")
             cursor.execute(
                 """
-                SELECT max(hole_number) AS max_hole
+                SELECT max(hole_number) AS max_hole,
+                       count(*) AS hole_count,
+                       count(par) AS par_count
                 FROM cached_course_holes
                 WHERE course_id = %s
                 """,
@@ -5273,9 +5275,15 @@ class RoundStore:
             )
             hole_row = cursor.fetchone()
             max_hole = int(hole_row["max_hole"] or 0)
+            cached_holes = int(hole_row["hole_count"] or 0)
+            cached_pars = int(hole_row["par_count"] or 0)
             course["hole_count"] = (
                 9 if 1 <= max_hole <= 9
                 else (18 if max_hole >= 10 else None)
+            )
+            course["has_complete_pars"] = (
+                cached_holes > 0
+                and cached_pars == cached_holes
             )
             course["tees"] = self._course_tees(
                 cursor,
