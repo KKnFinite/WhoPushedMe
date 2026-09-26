@@ -363,7 +363,12 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v68';
+    content = """const CACHE_NAME = 'wpm-shell-v79';
+
+const CRITICAL_FRONTEND_PATHS = new Set([
+  '/static/app.css',
+  '/static/app.js',
+]);
 
 const APP_SHELL = [
   '/',
@@ -378,6 +383,7 @@ const APP_SHELL = [
   '/static/assets/icons/WPM_DesktopIcon_Official.webp',
   '/static/assets/brand/WPM_Splash_Login.webp',
   '/static/assets/brand/WPM_Wordmark.webp',
+  '/static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp',
   '/static/assets/home/heroes/WPM_Home_Hero_BrightDay.webp',
   '/static/assets/home/heroes/WPM_Home_Hero_CreekBridge.webp',
   '/static/assets/home/heroes/WPM_Home_Hero_GoldenHour.webp',
@@ -416,6 +422,29 @@ self.addEventListener('fetch', (event) => {
   // Never cache live/shared round API data.
   if (requestUrl.pathname.startsWith('/api/')) {
     event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Critical CSS/JS must never be served stale against newer HTML.
+  // This prevents a mixed-version shell during service-worker updates.
+  if (CRITICAL_FRONTEND_PATHS.has(requestUrl.pathname)) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, copy);
+            });
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(event.request).then(
+            (cached) => cached || caches.match(requestUrl.pathname)
+          )
+        )
+    );
     return;
   }
 
