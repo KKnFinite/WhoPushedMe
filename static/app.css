@@ -8733,3 +8733,86 @@ body.app-ready .home-banter p {
     padding: 5px;
   }
 }
+
+
+/* SOCIAL LOBBY V2 */
+.lobby-panel {
+  gap: 9px !important;
+}
+
+.lobby-code-label {
+  margin-top: 0 !important;
+}
+
+.lobby-code {
+  margin: -2px 0 0 !important;
+}
+
+.lobby-summary {
+  margin: 0 0 2px !important;
+}
+
+.lobby-participants {
+  gap: 6px !important;
+  margin: 0 !important;
+}
+
+.lobby-person {
+  min-height: 46px !important;
+  padding: 8px 10px !important;
+}
+
+.lobby-person > span {
+  font-size: .96rem !important;
+}
+
+.lobby-person small {
+  font-size: .66rem !important;
+}
+
+.lobby-banter-panel {
+  margin-top: 1px;
+}
+
+.lobby-banter-feed {
+  max-height: 206px;
+}
+
+.join-tee-field {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(78,122,93,.58);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99));
+}
+
+.join-tee-field > span {
+  color: var(--wpm-gold) !important;
+}
+
+.join-tee-field > small {
+  color: rgba(233,225,200,.62);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.join-tee-field[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 680px) {
+  .lobby-panel {
+    padding-top: 0 !important;
+  }
+
+  .lobby-code {
+    font-size: clamp(4rem, 19vw, 5.6rem) !important;
+  }
+
+  .lobby-banter-feed {
+    max-height: 182px;
+  }
+}
