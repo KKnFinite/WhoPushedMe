@@ -9043,3 +9043,24 @@ textarea,
   grid-column: 1 / -1;
   justify-self: end;
 }
+
+
+/* WPM ACTION BUTTON TYPE SIZE NORMALIZATION */
+.round-flow-card-game :is(
+  #advance-warning-go,
+  #claim-undo-button,
+  #round-par-tracking-off,
+  #towel-confirm,
+  #end-early-yes,
+  #end-early-button
+) {
+  font-size: 1.05rem !important;
+  line-height: 1 !important;
+  letter-spacing: .035em !important;
+}
+
+/* Keep the score-removal × compact; it is an icon action, not a label CTA. */
+.round-flow-card-game .live-score-remove {
+  font-size: 1rem !important;
+  letter-spacing: 0 !important;
+}

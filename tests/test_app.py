@@ -246,6 +246,16 @@ def test_live_stats_show_running_total_and_to_par_not_averages():
     assert "AVG TO PAR" not in stats_block
 
 
+def test_game_action_buttons_use_consistent_label_size():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"WPM ACTION BUTTON TYPE SIZE NORMALIZATION" in css.data
+    assert b"#advance-warning-go" in css.data
+    assert b"#towel-confirm" in css.data
+    assert b"#end-early-yes" in css.data
+    assert b"font-size: 1.05rem !important" in css.data
+
+
 def test_live_scorecard_exposes_score_removal_control():
     response = client().get("/static/app.js")
     assert response.status_code == 200
