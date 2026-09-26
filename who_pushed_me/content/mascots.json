@@ -7,7 +7,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "First Round With Us Poor Bastard",
@@ -20,7 +19,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Fresh Meat",
@@ -33,7 +31,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Hope You Brought Excuses",
@@ -46,7 +43,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "New Face Same Bullshit",
@@ -59,7 +55,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "New Guy Same Bad Decisions",
@@ -72,7 +67,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Somebody Brought A Rookie",
@@ -85,7 +79,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Welcome. Lower Your Expectations",
@@ -98,7 +91,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Well Look What Walked In",
@@ -111,7 +103,6 @@
       "events": [
         "lobby.join.new_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Who Invited This Guy",
@@ -124,7 +115,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Again Seriously",
@@ -137,7 +127,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Apparently Last Time Wasnt Enough",
@@ -150,7 +139,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "I Remember Your Bullshit",
@@ -163,7 +151,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Look Who Came Crawling Back",
@@ -176,7 +163,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Oh Great You Again",
@@ -189,7 +175,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Same Clown New Round",
@@ -202,7 +187,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Still Making Bad Decisions",
@@ -215,7 +199,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Still Think This Ends Differently",
@@ -228,7 +211,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "The Problem Came Back",
@@ -241,7 +223,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "We Didn't Miss You",
@@ -254,7 +235,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "We Really Doing This Again",
@@ -267,7 +247,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Who Let You Back In",
@@ -280,7 +259,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Brought The Same Swing Back",
@@ -293,7 +271,6 @@
       "events": [
         "lobby.join.returning_player"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Survived Last Time",
@@ -306,7 +283,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Brave Enough To Watch Not Play",
@@ -319,7 +295,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Declined To Play Still Has Opinions",
@@ -332,7 +307,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Didnt Want To Get Embarrassed Today",
@@ -345,7 +319,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Just Here To Judge",
@@ -358,7 +331,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Nice Of You To Participate Emotionally",
@@ -371,7 +343,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -386,7 +357,6 @@
       "events": [
         "lobby.join.spectator"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -401,7 +371,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Made Eighteen Holes Look Like A Hostage Situation",
@@ -414,7 +383,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Everybody Go Home Before This Gets Worse",
@@ -427,7 +395,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -442,7 +409,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "No More Shots For The Love Of God",
@@ -455,7 +421,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -470,7 +435,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You All Owe The Course An Apology",
@@ -483,7 +447,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Put Clubs Away Before Somebody Gets Hurt",
@@ -496,7 +459,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -511,7 +473,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Rounds Over Start Lying About It",
@@ -524,7 +485,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "That Round Was A Fucking Crime Scene",
@@ -537,7 +497,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "The Scorecard Is Done Judging You. I'm Not",
@@ -550,7 +509,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Shitshow Complete",
@@ -563,7 +521,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
       "themes": [
         "wife"
       ],
@@ -578,7 +535,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
       "themes": [
         "wife"
       ],
@@ -593,7 +549,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "That Was Fucking Embarrassing",
@@ -606,7 +561,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Well That Happened",
@@ -619,7 +573,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -634,7 +587,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -649,7 +601,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "wife"
       ],
@@ -664,7 +615,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You All Fucking Sucked Beautiful Work",
@@ -677,7 +627,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -692,7 +641,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Youre Done Thank Fuck",
@@ -705,7 +653,6 @@
       "events": [
         "round.end.scramble.complete"
       ],
-      "vulgarity": "brutal",
       "themes": [
         "wife"
       ],
@@ -720,7 +667,6 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Dead Fucking Last",
@@ -733,7 +679,6 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Everybody Got A Win Against You",
@@ -746,7 +691,6 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Leaderboard Ends With You",
@@ -759,7 +703,6 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "No One Sucked Worse",
@@ -772,7 +715,6 @@
       "events": [
         "round.end.individual.dead_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Made Everyone Else Look Better",
@@ -785,7 +727,6 @@
       "events": [
         "round.end.individual.head_to_head_loser"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "One Opponent One Failure",
@@ -798,7 +739,6 @@
       "events": [
         "round.end.individual.head_to_head_loser"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "One Person To Beat Couldnt Do It",
@@ -811,7 +751,6 @@
       "events": [
         "round.end.individual.head_to_head_loser"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Two Golfers Entered You Came Second",
@@ -824,7 +763,6 @@
       "events": [
         "round.end.individual.head_to_head_loser"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Two Man Race And You Still Lost",
@@ -837,7 +775,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Congrats Not Worst",
@@ -850,7 +787,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Middle Train Wreck",
@@ -863,7 +799,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Didn't Win. You Just Out-Sucked Somebody",
@@ -876,7 +811,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Still Loser Company Below",
@@ -889,7 +823,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Failed Not Hardest",
@@ -902,7 +835,6 @@
       "events": [
         "round.end.individual.not_last"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "You Lost Somebody Lost Worse",
@@ -915,7 +847,6 @@
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "First Place Still An Asshole",
@@ -928,7 +859,6 @@
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "King Of The Dumpster Fire",
@@ -941,7 +871,6 @@
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Least Bad Golfer Won",
@@ -954,7 +883,6 @@
       "events": [
         "round.end.individual.winner"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Somehow Won This Shitshow",
@@ -967,7 +895,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "18 Holes Zero Accountability",
@@ -980,7 +907,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Alright Assholes Lets Golf",
@@ -993,7 +919,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Bad Decisions Begin",
@@ -1006,7 +931,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Somebody's About To Blame Their Clubs",
@@ -1019,7 +943,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Hope You Brought Balls. You're Gonna Need Extra",
@@ -1032,7 +955,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "The Course Hasn't Done Anything To Deserve This",
@@ -1045,7 +967,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Everyones Confident Until First Tee",
@@ -1058,7 +979,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "First Tee Awaits Your Lies",
@@ -1071,7 +991,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Good Luck You Clearly Need It",
@@ -1084,7 +1003,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [
         "drinking"
       ],
@@ -1099,7 +1017,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Time To Ruin A Perfectly Good Morning",
@@ -1112,7 +1029,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "The Scorecard Is Now Accepting Excuses",
@@ -1125,7 +1041,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Swing Hard Regret Immediately",
@@ -1138,7 +1053,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Todays Forecast Bullshit",
@@ -1151,7 +1065,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Welcome To The Shitshow",
@@ -1164,7 +1077,6 @@
       "events": [
         "round.start"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Time To Find Out Who Lied About Their Handicap",
@@ -1177,7 +1089,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Changing The Story",
@@ -1190,7 +1101,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Fixing Score Or Alibi",
@@ -1203,7 +1113,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Look Who Found Honesty",
@@ -1216,7 +1125,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Number Moved Credibility Didnt",
@@ -1229,7 +1137,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Oh Now You Remember",
@@ -1242,7 +1149,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "That Score Aged Poorly",
@@ -1255,7 +1161,6 @@
       "events": [
         "score.push"
       ],
-      "vulgarity": "normal",
       "themes": [],
       "enabled": true,
       "copy": "Truth Needed Second Draft",
