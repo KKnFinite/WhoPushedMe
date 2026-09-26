@@ -4195,6 +4195,9 @@
       });
     }
 
+    renderLobbyBanter(round);
+    void startLobbyBanterRotation(round);
+
     const parsByPosition = new Map(
       (round.pars || []).map((row) => [
         Number(row.route_position),
@@ -4247,64 +4250,12 @@
       lobbyParSave.disabled = false;
     }
 
-    const tees = round.available_tees || [];
-    const viewer = (round.participants || []).find(
-      (participant) => String(participant.id) === String(round.viewer_participant_id)
-    );
-    const canChooseTee =
-      round.viewer_role === 'player'
-      && round.status === 'setup'
-      && tees.length > 0;
-
-    if (lobbyTeePanel) lobbyTeePanel.hidden = !canChooseTee;
-    if (lobbyTeeLabel) {
-      lobbyTeeLabel.textContent = round.mode === 'scramble'
-        ? 'TEAM SCORING TEE'
-        : 'YOUR TEE';
-    }
-    if (canChooseTee) {
-      fillTeeSelect(
-        lobbyTeeSelect,
-        tees,
-        round.mode === 'scramble'
-          ? (round.scramble_tee_name || '')
-          : (viewer?.tee_name || '')
-      );
-    }
-
-    const showLobbyHandicaps = (
-      round.mode === 'individual'
-      && Boolean(round.net_scoring_enabled)
-    );
-    if (lobbyHandicapPanel) {
-      lobbyHandicapPanel.hidden = !showLobbyHandicaps;
-    }
-    if (showLobbyHandicaps) {
-      renderRoundHandicapEditor(lobbyHandicapList, round);
-    } else if (lobbyHandicapList) {
-      lobbyHandicapList.replaceChildren();
-    }
-
     if (lobbyStart) {
       const canStart = round.viewer_role === 'player' && round.status === 'setup';
-      const missingTee = tees.length > 0 && (
-        round.mode === 'scramble'
-          ? !round.scramble_tee_name
-          : (round.participants || []).some(
-              (participant) =>
-                participant.role === 'player' && !participant.tee_name
-            )
-      );
-      lobbyStart.hidden = !canStart;
       const missingRequiredPars = parSetupNow && missingParPositions.length > 0;
-      lobbyStart.disabled = missingTee || missingRequiredPars;
-      if (canStart && missingTee) {
-        setRoundFlowMessage(
-          round.mode === 'scramble'
-            ? 'Pick one team scoring tee before the round starts.'
-            : 'Every player needs to pick a tee before the round starts.'
-        );
-      } else if (canStart && missingRequiredPars) {
+      lobbyStart.hidden = !canStart;
+      lobbyStart.disabled = missingRequiredPars;
+      if (canStart && missingRequiredPars) {
         setRoundFlowMessage('Finish entering pars before starting.');
       } else {
         setRoundFlowMessage('');
