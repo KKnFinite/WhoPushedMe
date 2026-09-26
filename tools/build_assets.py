@@ -363,19 +363,16 @@ def update_home():
 def update_service_worker():
     path = ROOT / "static" / "service-worker.js"
 
-    content = """const CACHE_NAME = 'wpm-shell-v88';
+    content = """const CACHE_NAME = 'wpm-shell-v87';
 
 const CRITICAL_FRONTEND_PATHS = new Set([
   '/static/app.css',
-  '/static/audio.js',
-  '/static/audio/audio-manifest.json',
   '/static/app.js',
 ]);
 
 const APP_SHELL = [
   '/',
   '/static/app.css',
-  '/static/audio.js',
   '/static/app.js',
   '/static/manifest.webmanifest',
   '/static/assets/_meta/asset-manifest.json',
@@ -448,15 +445,6 @@ self.addEventListener('fetch', (event) => {
           )
         )
     );
-    return;
-  }
-
-  // Let the browser handle media range requests and its normal audio cache.
-  if (
-    requestUrl.pathname.startsWith('/static/audio/music/')
-    || requestUrl.pathname.startsWith('/static/audio/sfx/')
-  ) {
-    event.respondWith(fetch(event.request));
     return;
   }
 
