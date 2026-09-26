@@ -2491,25 +2491,28 @@
     const addCard = (label, participantId = null, detail = '') => {
       const score = findScore(round, position, participantId);
       const card = document.createElement('section');
-      card.className = 'live-score-card';
+      card.className = 'live-score-card live-score-row';
 
-      const header = document.createElement('div');
-      header.className = 'live-score-card-header';
+      const identity = document.createElement('div');
+      identity.className = 'live-score-identity';
 
+      const avatar = document.createElement('span');
+      avatar.className = 'live-score-avatar';
+      avatar.textContent = String(label || 'G').trim().charAt(0).toUpperCase();
+
+      const identityCopy = document.createElement('div');
       const name = document.createElement('strong');
       name.textContent = label;
-
-      const status = document.createElement('small');
+      const meta = document.createElement('small');
       const relative = score && par
         ? scoreRelativeLabel(Number(score.strokes), Number(par))
         : '';
-      const pieces = [];
-      if (detail) pieces.push(detail);
-      if (relative) pieces.push(relative);
-      status.textContent = pieces.join(' • ');
-
-      header.append(name, status);
-      card.append(header);
+      meta.textContent = [detail, relative ? (relative + ' TO PAR') : '']
+        .filter(Boolean)
+        .join(' • ');
+      identityCopy.append(name, meta);
+      identity.append(avatar, identityCopy);
+      card.append(identity);
 
       const target = participantId
         ? (round.participants || []).find(
@@ -2527,25 +2530,21 @@
         readonly.className = 'live-score-readonly';
         readonly.textContent = route?.state === 'skipped'
           ? 'UNTRACKED'
-          : (
-              score
-                ? `${score.strokes} STROKES`
-                : 'NO SCORE YET'
-            );
+          : (score ? String(score.strokes) : '—');
         card.append(readonly);
-        appendScoreResponsePanel(
-          card,
-          round,
-          position,
-          participantId,
-          score
-        );
+        appendScoreResponsePanel(card, round, position, participantId, score);
         liveScoreArea.append(card);
         return;
       }
 
       const controls = document.createElement('div');
-      controls.className = 'live-score-controls';
+      controls.className = 'live-score-stepper';
+
+      const minus = document.createElement('button');
+      minus.type = 'button';
+      minus.className = 'live-score-step';
+      minus.textContent = '−';
+      minus.setAttribute('aria-label', 'Lower ' + label + ' score');
 
       const input = document.createElement('input');
       input.className = 'live-score-input';
@@ -2554,21 +2553,25 @@
       input.max = '99';
       input.inputMode = 'numeric';
       input.value = score ? String(score.strokes) : '';
-      input.placeholder = par ? String(par) : 'STROKES';
-      input.setAttribute('aria-label', `${label} strokes for hole ${hole}`);
+      input.placeholder = par ? String(par) : '—';
+      input.setAttribute('aria-label', label + ' strokes for hole ' + hole);
 
-      const submit = document.createElement('button');
-      submit.type = 'button';
-      submit.className = 'live-score-submit';
-      submit.textContent = score ? 'PUSH' : 'REPORT';
+      const plus = document.createElement('button');
+      plus.type = 'button';
+      plus.className = 'live-score-step';
+      plus.textContent = '+';
+      plus.setAttribute('aria-label', 'Raise ' + label + ' score');
 
-      submit.addEventListener('click', async () => {
-        if (!currentLobbyRound) return;
+      const setBusy = (busy) => {
+        minus.disabled = busy;
+        plus.disabled = busy;
+        input.disabled = busy;
+      };
 
-        const strokes = Number(input.value);
+      const persistScore = async (strokes) => {
         if (!Number.isInteger(strokes) || strokes < 1 || strokes > 99) {
           setRoundFlowMessage('Strokes must be between 1 and 99.');
-          return;
+          return false;
         }
 
         if (round.par_tracking_enabled && !par) {
@@ -2579,48 +2582,61 @@
             participantId,
             strokes,
           };
-          setRoundFlowMessage(
-            'WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY.'
-          );
+          setRoundFlowMessage('WE NEED PAR BEFORE WE CAN JUDGE YOU PROPERLY.');
           parInput?.focus();
-          return;
+          return false;
         }
 
         pendingScoreAfterPar = null;
-        submit.disabled = true;
+        setBusy(true);
         setRoundFlowMessage('');
         try {
           const body = { strokes };
           if (round.mode === 'individual') {
             body.player_participant_id = participantId;
           }
-
           await requestJson(
-            `/api/rounds/${round.id}/positions/${position}/score`,
-            {
-              method: 'PUT',
-              body,
-            }
+            '/api/rounds/' + round.id + '/positions/' + position + '/score',
+            { method: 'PUT', body }
           );
           await refreshRound(round.active_code);
+          return true;
         } catch (error) {
           setRoundFlowMessage(error.message);
-        } finally {
-          submit.disabled = false;
+          setBusy(false);
+          return false;
         }
+      };
+
+      minus.addEventListener('click', async () => {
+        const base = Number(input.value || score?.strokes || par || 1);
+        const next = Math.max(1, base - 1);
+        input.value = String(next);
+        await persistScore(next);
       });
 
-      controls.append(input, submit);
+      plus.addEventListener('click', async () => {
+        const base = Number(input.value || score?.strokes || par || 1);
+        const next = Math.min(99, base + 1);
+        input.value = String(next);
+        await persistScore(next);
+      });
+
+      input.addEventListener('change', async () => {
+        const strokes = Number(input.value);
+        await persistScore(strokes);
+      });
+
+      controls.append(minus, input, plus);
       card.append(controls);
 
       if (score) {
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.className = 'live-score-remove';
-        remove.textContent = 'REMOVE SCORE';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', 'Remove ' + label + ' score');
         remove.addEventListener('click', async () => {
-          if (!currentLobbyRound) return;
-
           remove.disabled = true;
           setRoundFlowMessage('');
           try {
@@ -2628,13 +2644,9 @@
             if (round.mode === 'individual') {
               body.player_participant_id = participantId;
             }
-
             await requestJson(
-              `/api/rounds/${round.id}/positions/${position}/score`,
-              {
-                method: 'DELETE',
-                body,
-              }
+              '/api/rounds/' + round.id + '/positions/' + position + '/score',
+              { method: 'DELETE', body }
             );
             await refreshRound(round.active_code);
           } catch (error) {
@@ -2645,14 +2657,7 @@
         card.append(remove);
       }
 
-      appendScoreResponsePanel(
-        card,
-        round,
-        position,
-        participantId,
-        score
-      );
-
+      appendScoreResponsePanel(card, round, position, participantId, score);
       liveScoreArea.append(card);
     };
 
@@ -2666,7 +2671,13 @@
       .forEach((participant) => {
         const details = [];
         if (participant.round_only) details.push('OFFLINE');
-        if (participant.tee_name) details.push(`${participant.tee_name} TEE`);
+        if (participant.tee_name) details.push(participant.tee_name + ' TEE');
+        if (
+          participant.round_handicap !== null
+          && participant.round_handicap !== undefined
+        ) {
+          details.push('HCP ' + participant.round_handicap);
+        }
         addCard(
           participant.display_name || 'Golfer',
           participant.id,
