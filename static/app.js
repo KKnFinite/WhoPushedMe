@@ -5137,6 +5137,53 @@
     );
   };
 
+  liveBanterForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentLobbyRound) return;
+    const message = String(liveBanterInput?.value || '').trim();
+    if (!message) return;
+
+    if (liveBanterSend) liveBanterSend.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await sendSocialEvent('open_mic', { message });
+      if (liveBanterInput) liveBanterInput.value = '';
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      if (liveBanterSend) liveBanterSend.disabled = false;
+    }
+  });
+
+  liveNavPlay?.addEventListener('click', () => {
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    setLiveNavActive(liveNavPlay);
+    liveRoundPanel?.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  liveNavScorecard?.addEventListener('click', () => {
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    setLiveNavActive(liveNavScorecard);
+    liveScoreArea?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  liveNavStats?.addEventListener('click', () => {
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    setLiveNavActive(liveNavStats);
+    liveHoleStats?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  liveNavMore?.addEventListener('click', () => {
+    if (!liveMorePanel) return;
+    const opening = liveMorePanel.hidden;
+    liveMorePanel.hidden = !opening;
+    setLiveNavActive(opening ? liveNavMore : liveNavPlay);
+    if (opening) {
+      liveMorePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
   bagButton?.addEventListener('click', openBag);
   bagClose?.addEventListener('click', closeBag);
   bagModal?.addEventListener('click', (event) => {
