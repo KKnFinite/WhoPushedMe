@@ -2224,8 +2224,12 @@
     const scoreEvent = findScoreEvent(round, position, participantId);
     if (!scoreEvent) return;
 
-    const responsePanel = document.createElement('div');
-    responsePanel.className = 'score-response-panel';
+    const responsePanel = document.createElement('details');
+    responsePanel.className = 'score-response-panel live-score-social-details';
+
+    const responseSummary = document.createElement('summary');
+    responseSummary.textContent = 'REACTIONS / CHALLENGES';
+    responsePanel.append(responseSummary);
 
     const responseHeading = document.createElement('div');
     responseHeading.className = 'score-response-heading';
