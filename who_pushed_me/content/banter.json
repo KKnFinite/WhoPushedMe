@@ -9698,6 +9698,234 @@
       "vulgarity": "normal",
       "themes": [],
       "enabled": true
+    },
+    {
+      "id": "banter.lobby_idle.001",
+      "text": "EVERYBODY'S HERE EXCEPT THE PERSON WHO SAID THEY WERE FIVE MINUTES AWAY.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.002",
+      "text": "THE ROUND HASN'T STARTED AND SOMEBODY IS ALREADY MAKING EXCUSES.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.003",
+      "text": "TAKE YOUR TIME. THE FIRST TEE DEFINITELY LOVES A GROUP THAT CAN'T GET ORGANIZED.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.004",
+      "text": "THIS IS THE MOST CONFIDENT YOU'LL ALL LOOK TODAY.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.005",
+      "text": "LOOK AT THIS LINEUP. PAR NEVER STOOD A CHANCE. MOSTLY BECAUSE YOU WON'T GET NEAR IT.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.006",
+      "text": "THE SCORECARD IS EMPTY. ENJOY THIS BRIEF MOMENT OF DIGNITY.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.007",
+      "text": "SOMEONE IN THIS LOBBY IS ABOUT TO SAY THEY 'HAVEN'T SWUNG A CLUB IN WEEKS.'",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.008",
+      "text": "NOT A SINGLE BAD SHOT YET. THIS IS AS GOOD AS THE ROUND GETS.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.009",
+      "text": "EVERYONE LOOKS LIKE A SCRATCH GOLFER BEFORE THE FIRST SWING.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.010",
+      "text": "WE'RE STILL IN THE LOBBY AND THE ALIBIS ARE ALREADY WARMING UP.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.011",
+      "text": "IF THIS GROUP TOOK ANY LONGER TO START, THE COURSE WOULD ADD ANOTHER SEASON.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.012",
+      "text": "HURRY THE FUCK UP. THE BOGEYS AREN'T GOING TO MAKE THEMSELVES.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.013",
+      "text": "FOUR GROWN ADULTS, ONE START BUTTON, AND SOMEHOW THIS IS STILL A PROCESS.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.014",
+      "text": "YOU HAVEN'T HIT A SHOT YET AND I ALREADY DON'T BELIEVE YOUR SCORE.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "brutal",
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.015",
+      "text": "ONE MORE BEER BEFORE WE START? GREAT PLAN. WHAT COULD POSSIBLY GO WRONG.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.lobby_idle.016",
+      "text": "PRE-ROUND BEER CONFIDENCE IS ABOUT TO MEET FIRST-TEE REALITY.",
+      "events": [
+        "lobby.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "vulgarity": "normal",
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
