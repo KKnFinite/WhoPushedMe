@@ -21,7 +21,12 @@ def create_app() -> Flask:
 
     @app.get("/")
     def home():
-        return render_template("home.html", version=APP_VERSION)
+        asset_version = os.getenv("RENDER_GIT_COMMIT") or APP_VERSION
+        return render_template(
+            "home.html",
+            version=APP_VERSION,
+            asset_version=asset_version,
+        )
 
     @app.get("/new-round")
     def new_round():
