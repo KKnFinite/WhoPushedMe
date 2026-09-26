@@ -117,7 +117,6 @@ class FakeStore:
         return {
             "mini_mascots_enabled": True,
             "trash_talk_enabled": True,
-            "max_vulgarity": "normal",
             "themes": {"drinking": True, "wife": True},
         }
 
@@ -126,7 +125,6 @@ class FakeStore:
         return {
             "mini_mascots_enabled": patch.get("mini_mascots_enabled", True),
             "trash_talk_enabled": True,
-            "max_vulgarity": patch.get("max_vulgarity", "normal"),
             "themes": {
                 "drinking": patch.get("themes", {}).get("drinking", True),
                 "wife": True,
@@ -650,21 +648,19 @@ def test_preferences_patch_passes_data_driven_theme_settings():
         headers={"X-Recovery-Key": "ABC-234"},
         json={
             "mini_mascots_enabled": False,
-            "max_vulgarity": "brutal",
             "themes": {"drinking": False},
         },
     )
 
     assert response.status_code == 200
     assert response.get_json()["mini_mascots_enabled"] is False
-    assert response.get_json()["max_vulgarity"] == "brutal"
+    assert "max_vulgarity" not in response.get_json()
     assert response.get_json()["themes"]["drinking"] is False
     assert store.calls[-1] == (
         "update_preferences",
         store.golfer_id,
         {
             "mini_mascots_enabled": False,
-            "max_vulgarity": "brutal",
             "themes": {"drinking": False},
         },
     )
@@ -1700,8 +1696,8 @@ def test_signed_in_content_messages_respect_user_preferences():
     assert response.status_code == 200
     payload = response.get_json()
     assert payload["event"] == "home.idle"
-    assert len(payload["messages"]) == 56
-    assert all(row["vulgarity"] == "normal" for row in payload["messages"])
+    assert len(payload["messages"]) == 74
+    assert all("vulgarity" not in row for row in payload["messages"])
 
 
 def test_admin_status_requires_admin_flag():
