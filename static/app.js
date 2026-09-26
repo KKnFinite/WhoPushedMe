@@ -44,6 +44,7 @@
   const startRoundButton = document.getElementById('start-round-button');
   const joinRoundButton = document.getElementById('join-round-button');
   const roundFlowModal = document.getElementById('round-flow-modal');
+  const roundFlowCardGame = roundFlowModal?.querySelector('.round-flow-card-game');
   const roundFlowClose = document.getElementById('round-flow-close');
   const roundFlowTitle = document.getElementById('round-flow-title');
   const roundFlowMessage = document.getElementById('round-flow-message');
@@ -141,6 +142,17 @@
   const parInput = document.getElementById('par-input');
   const parSubmit = document.getElementById('par-submit');
   const liveScoreArea = document.getElementById('live-score-area');
+  const liveHoleSelector = document.getElementById('live-hole-selector');
+  const liveBanterFeed = document.getElementById('live-banter-feed');
+  const liveBanterForm = document.getElementById('live-banter-form');
+  const liveBanterInput = document.getElementById('live-banter-input');
+  const liveBanterSend = document.getElementById('live-banter-send');
+  const liveHoleStats = document.getElementById('live-hole-stats');
+  const liveMorePanel = document.getElementById('live-more-panel');
+  const liveNavPlay = document.getElementById('live-nav-play');
+  const liveNavScorecard = document.getElementById('live-nav-scorecard');
+  const liveNavStats = document.getElementById('live-nav-stats');
+  const liveNavMore = document.getElementById('live-nav-more');
   const latestPresentation = document.getElementById('latest-presentation');
   const latestMascot = document.getElementById('latest-mascot');
   const latestBanter = document.getElementById('latest-banter');
