@@ -2811,6 +2811,214 @@
     );
   };
 
+  const APP_BANTER_AVATAR =
+    '/static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp';
+
+  const renderLiveHoleSelector = (round, viewedPosition, livePosition) => {
+    if (!liveHoleSelector) return;
+    liveHoleSelector.replaceChildren();
+
+    (round.route || []).forEach((route) => {
+      const position = Number(route.route_position);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = String(route.hole_number || position);
+      button.dataset.routePosition = String(position);
+      button.classList.toggle('is-viewed', position === Number(viewedPosition));
+      button.classList.toggle('is-live', position === Number(livePosition));
+      button.classList.toggle('is-skipped', route.state === 'skipped');
+      button.setAttribute(
+        'aria-label',
+        'View hole ' + String(route.hole_number || position)
+      );
+      button.addEventListener('click', () => {
+        if (!currentLobbyRound) return;
+        viewedRoutePosition = position;
+        renderLiveRound(currentLobbyRound);
+      });
+      liveHoleSelector.append(button);
+    });
+  };
+
+  const renderLiveBanter = (round) => {
+    if (!liveBanterFeed) return;
+    liveBanterFeed.replaceChildren();
+
+    const socialTypes = new Set([
+      'open_mic',
+      'callout',
+      'praise',
+      'shot_call',
+      'challenge',
+      'excuse',
+      'score_response',
+      'score_report',
+      'score_push',
+      'round_end_result',
+    ]);
+
+    const rows = (round.events || [])
+      .filter((event) => {
+        const text = String(presentationText(event) || '').trim();
+        if (!text) return false;
+        const presentation = event.presentation || {};
+        return (
+          socialTypes.has(String(event.event_type || ''))
+          || Boolean(presentation.banter?.text)
+          || Boolean(presentation.mascot?.copy)
+          || Boolean(presentation.fallback?.text)
+        );
+      })
+      .slice(0, 8)
+      .reverse();
+
+    if (!rows.length) {
+      const empty = document.createElement('div');
+      empty.className = 'live-banter-empty';
+      empty.textContent = 'Quiet so far. Suspicious.';
+      liveBanterFeed.append(empty);
+      return;
+    }
+
+    rows.forEach((event) => {
+      const actor = (round.participants || []).find(
+        (participant) =>
+          String(participant.id) === String(event.actor_participant_id || '')
+      );
+      const explicitMessage = String(event.data?.message || '').trim();
+      const playerAuthored = Boolean(
+        actor
+        && explicitMessage
+        && ['open_mic', 'callout', 'praise', 'shot_call', 'challenge', 'excuse', 'score_response']
+          .includes(String(event.event_type || ''))
+      );
+
+      const row = document.createElement('div');
+      row.className = playerAuthored
+        ? 'live-banter-row is-player'
+        : 'live-banter-row is-app';
+
+      const avatar = document.createElement('div');
+      avatar.className = playerAuthored
+        ? 'live-banter-avatar is-player'
+        : 'live-banter-avatar is-app';
+
+      if (playerAuthored) {
+        avatar.textContent = String(actor?.display_name || 'G')
+          .trim()
+          .charAt(0)
+          .toUpperCase();
+      } else {
+        const image = document.createElement('img');
+        image.src = APP_BANTER_AVATAR;
+        image.alt = 'Who Pushed Me mascot';
+        avatar.append(image);
+      }
+
+      const content = document.createElement('div');
+      content.className = 'live-banter-content';
+
+      const meta = document.createElement('div');
+      meta.className = 'live-banter-meta';
+      const author = document.createElement('strong');
+      author.textContent = playerAuthored
+        ? (actor?.display_name || 'Golfer')
+        : 'WPM';
+      const time = document.createElement('span');
+      if (event.created_at) {
+        const date = new Date(event.created_at);
+        if (!Number.isNaN(date.getTime())) {
+          time.textContent = date.toLocaleTimeString([], {
+            hour: 'numeric',
+            minute: '2-digit',
+          });
+        }
+      }
+      meta.append(author, time);
+
+      const bubble = document.createElement('div');
+      bubble.className = 'live-banter-bubble';
+      bubble.textContent = presentationText(event);
+
+      content.append(meta, bubble);
+      row.append(avatar, content);
+      liveBanterFeed.append(row);
+    });
+
+    liveBanterFeed.scrollTop = liveBanterFeed.scrollHeight;
+  };
+
+  const renderLiveHoleStats = (round, position) => {
+    if (!liveHoleStats) return;
+
+    const par = findPar(round, position);
+    let scores = [];
+    let expected = 1;
+
+    if (round.mode === 'scramble') {
+      const score = findScore(round, position);
+      if (score) scores = [Number(score.strokes)];
+    } else {
+      const players = (round.participants || []).filter(
+        (participant) =>
+          participant.role === 'player'
+          && participant.participation_state === 'active'
+          && Number(participant.tracked_from_position || 1) <= Number(position)
+      );
+      expected = players.length;
+      scores = players
+        .map((participant) => findScore(round, position, participant.id))
+        .filter(Boolean)
+        .map((score) => Number(score.strokes));
+    }
+
+    liveHoleStats.replaceChildren();
+
+    const heading = document.createElement('div');
+    heading.className = 'live-hole-stat-heading';
+    heading.innerHTML = '<strong>HOLE STATS</strong><small>REAL SCORES ONLY</small>';
+    liveHoleStats.append(heading);
+
+    const addStat = (label, value) => {
+      const stat = document.createElement('div');
+      stat.className = 'live-hole-stat';
+      const small = document.createElement('small');
+      small.textContent = label;
+      const strong = document.createElement('strong');
+      strong.textContent = value;
+      stat.append(small, strong);
+      liveHoleStats.append(stat);
+    };
+
+    const average = scores.length
+      ? (scores.reduce((sum, value) => sum + value, 0) / scores.length)
+      : null;
+    const averageRelative = average !== null && par
+      ? average - Number(par)
+      : null;
+
+    addStat('SCORES IN', String(scores.length) + '/' + String(expected || 1));
+    addStat('AVG SCORE', average === null ? '—' : average.toFixed(1));
+    addStat(
+      'AVG TO PAR',
+      averageRelative === null
+        ? '—'
+        : (averageRelative === 0
+          ? 'E'
+          : (averageRelative > 0
+            ? ('+' + averageRelative.toFixed(1))
+            : averageRelative.toFixed(1)))
+    );
+
+    liveHoleStats.hidden = false;
+  };
+
+  const setLiveNavActive = (activeButton) => {
+    [liveNavPlay, liveNavScorecard, liveNavStats, liveNavMore].forEach(
+      (button) => button?.classList.toggle('is-active', button === activeButton)
+    );
+  };
+
   const updateReceiptsBadge = (round) => {
     if (!receiptsUnseenBadge) return;
     const unseen = Number(round.receipts_state?.unseen_count || 0);
