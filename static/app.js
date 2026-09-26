@@ -326,6 +326,15 @@
       Boolean(preferences?.mini_mascots_enabled);
     settingsForm.elements.trash_talk_enabled.checked =
       Boolean(preferences?.trash_talk_enabled);
+    const audioSettings = window.WPMAudio?.getSettings?.() || {};
+    if (settingsForm.elements.music_enabled) {
+      settingsForm.elements.music_enabled.checked =
+        audioSettings.music_enabled !== false;
+    }
+    if (settingsForm.elements.sound_effects_enabled) {
+      settingsForm.elements.sound_effects_enabled.checked =
+        audioSettings.sfx_enabled !== false;
+    }
     settingsForm.elements.drinking.checked =
       Boolean(preferences?.themes?.drinking);
     settingsForm.elements.wife.checked =
@@ -813,6 +822,7 @@
   };
 
   const showAuth = (view = 'login') => {
+    window.WPMAudio?.setScene?.('auth');
     document.body.classList.remove('app-ready');
     if (appShell) appShell.setAttribute('aria-hidden', 'true');
     if (splash) {
@@ -940,6 +950,7 @@
   };
 
   const showApp = (account, { entryEvent = 'auth.welcome' } = {}) => {
+    window.WPMAudio?.setScene?.('home');
     pendingAccount = null;
     stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
@@ -1920,6 +1931,7 @@
 
   const closeRoundFlow = () => {
     if (!roundFlowModal) return;
+    window.WPMAudio?.setScene?.('home');
     stopUserHeckle('roundSetup', { hide: true });
     stopLobbyBanterRotation();
     roundFlowModal.hidden = true;
@@ -1975,6 +1987,7 @@
 
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
+    window.WPMAudio?.setScene?.('setup');
     roundFlowCardGame?.classList.remove('is-live-round');
     stopLobbyBanterRotation();
     stopUserHeckle('home');
@@ -3462,6 +3475,7 @@
   };
 
   const renderRoundEnd = (round) => {
+    window.WPMAudio?.setScene?.('end');
     stopLobbyBanterRotation();
     currentLobbyRound = round;
     viewedRoutePosition = null;
@@ -3685,6 +3699,7 @@
   };
 
   const renderLiveRound = (round) => {
+    window.WPMAudio?.setScene?.('live');
     stopLobbyBanterRotation();
     const previousRound = currentLobbyRound;
     const previousLivePosition = Number(
@@ -4147,6 +4162,7 @@
   };
 
   const renderLobby = (round) => {
+    window.WPMAudio?.setScene?.('lobby');
     currentLobbyRound = round;
     viewedRoutePosition = null;
     stopUserHeckle('roundSetup', { hide: true });
