@@ -8,14 +8,13 @@ from who_pushed_me.content.preferences import (
 )
 
 
-def test_content_preferences_default_to_enabled_themes_and_brutal_vulgarity():
+def test_content_preferences_default_to_enabled_themes():
     catalog = ContentCatalog.load()
     prefs = public_preferences(None, catalog.theme_rows)
 
     assert prefs == {
         "mini_mascots_enabled": True,
         "trash_talk_enabled": True,
-        "max_vulgarity": "brutal",
         "themes": {
             "drinking": True,
             "wife": True,
@@ -29,7 +28,6 @@ def test_content_preferences_patch_is_data_driven_and_partial():
         None,
         {
             "mini_mascots_enabled": False,
-            "max_vulgarity": "brutal",
             "themes": {"drinking": False},
         },
         catalog.theme_rows,
@@ -38,7 +36,7 @@ def test_content_preferences_patch_is_data_driven_and_partial():
 
     assert prefs["mini_mascots_enabled"] is False
     assert prefs["trash_talk_enabled"] is True
-    assert prefs["max_vulgarity"] == "brutal"
+    assert "max_vulgarity" not in prefs
     assert prefs["themes"] == {
         "drinking": False,
         "wife": True,
@@ -57,12 +55,12 @@ def test_content_preferences_reject_unknown_theme():
         )
 
 
-def test_content_preferences_reject_fake_vulgarity_off_option():
+def test_content_preferences_reject_retired_vulgarity_setting():
     catalog = ContentCatalog.load()
 
-    with pytest.raises(ContentError, match="normal or brutal"):
+    with pytest.raises(ContentError, match="unknown preference fields"):
         merge_preference_patch(
             None,
-            {"max_vulgarity": "off"},
+            {"max_vulgarity": "normal"},
             catalog.theme_rows,
         )
