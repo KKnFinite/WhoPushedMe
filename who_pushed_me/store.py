@@ -1973,7 +1973,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, active_code, status, mode
+                SELECT id, active_code, status, mode,
+                       course_id, hole_count
                 FROM rounds
                 WHERE active_code = %s
                   AND status IN ('setup', 'active')
@@ -1993,10 +1994,22 @@ class RoundStore:
                 """,
                 (round_row["id"], golfer_uuid),
             )
+            available_tees = (
+                self._course_tees(
+                    cursor,
+                    round_row["course_id"],
+                    hole_count=int(round_row["hole_count"]),
+                )
+                if round_row["course_id"]
+                else []
+            )
+
             if cursor.fetchone():
                 return {
                     "round_id": round_row["id"],
                     "active_code": round_code,
+                    "mode": round_row["mode"],
+                    "available_tees": available_tees,
                     "players": [],
                 }
 
@@ -2021,6 +2034,8 @@ class RoundStore:
             return {
                 "round_id": round_row["id"],
                 "active_code": round_code,
+                "mode": round_row["mode"],
+                "available_tees": available_tees,
                 "players": cursor.fetchall(),
             }
 
