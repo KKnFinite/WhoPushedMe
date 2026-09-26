@@ -1952,6 +1952,7 @@
 
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
+    roundFlowCardGame?.classList.remove('is-live-round');
     stopUserHeckle('home');
     stopUserHeckle('roundSetup', { hide: true });
     roundFlowModal.hidden = false;
@@ -1965,6 +1966,7 @@
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
+    roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = true;
     if (receiptsPanel) receiptsPanel.hidden = true;
     if (roundFlowTitle) {
@@ -3260,6 +3262,7 @@
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
+    roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = false;
     const endedEarly = round.end_reason === 'ended_early';
     if (roundFlowTitle) {
@@ -3517,6 +3520,7 @@
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (roundEndPanel) roundEndPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = false;
+    roundFlowCardGame?.classList.add('is-live-round');
     if (roundFlowTitle) roundFlowTitle.textContent = 'LIVE ROUND';
 
     const place = round.course?.name || round.free_play_name || 'Golf';
@@ -3811,8 +3815,11 @@
       parSubmit.disabled = !canEditViewedHole;
     }
 
+    renderLiveHoleSelector(round, viewedRoutePosition, livePosition);
+    renderLiveBanter(round);
     renderScoreCard(round, viewedRoutePosition);
     renderScrambleContributions(round, viewedRoutePosition);
+    renderLiveHoleStats(round, viewedRoutePosition);
     renderLatestPresentation(round);
     renderReceipts(round);
 
