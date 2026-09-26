@@ -10,7 +10,6 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTENT_DIR = Path(__file__).resolve().parent
 ASSET_MANIFEST = ROOT / "static" / "assets" / "_meta" / "asset-manifest.json"
 
-VULGARITY_ORDER = {"normal": 0, "brutal": 1}
 AUDIT_STATUSES = {"pending", "verified"}
 ALLOWED_AUDIENCES = {"everyone", "actor", "target", "subject", "others", "team"}
 ALLOWED_PLACEHOLDERS = {
@@ -279,10 +278,6 @@ class ContentCatalog:
             except ContentError as error:
                 errors.append(f"{content_id}: {error}")
 
-        vulgarity = str(row.get("vulgarity") or "normal")
-        if vulgarity not in VULGARITY_ORDER:
-            errors.append(f"{content_id} has invalid vulgarity {vulgarity}")
-
         for theme in row.get("themes") or []:
             if theme not in self.themes:
                 errors.append(f"{content_id} uses unknown theme {theme}")
@@ -312,7 +307,6 @@ class ContentCatalog:
         *,
         audience: str = "everyone",
         admin_overrides: Mapping[str, bool] | None = None,
-        max_vulgarity: str | None = None,
         blocked_themes: Iterable[str] = (),
     ) -> list[dict[str, Any]]:
         canonical = self.registry.canonical_key(event_key)
@@ -320,9 +314,6 @@ class ContentCatalog:
             return []
         if audience not in ALLOWED_AUDIENCES:
             raise ContentError(f"unknown audience: {audience}")
-        if max_vulgarity is not None and max_vulgarity not in VULGARITY_ORDER:
-            raise ContentError(f"unknown vulgarity level: {max_vulgarity}")
-
         lineage = self.registry.lineage(canonical)
         positions = {value: index for index, value in enumerate(lineage)}
         blocked = set(blocked_themes)
@@ -335,13 +326,6 @@ class ContentCatalog:
 
             audiences = set(row.get("audiences") or ["everyone"])
             if "everyone" not in audiences and audience not in audiences:
-                continue
-
-            vulgarity = str(row.get("vulgarity") or "normal")
-            if (
-                max_vulgarity is not None
-                and VULGARITY_ORDER[vulgarity] > VULGARITY_ORDER[max_vulgarity]
-            ):
                 continue
 
             if blocked.intersection(row.get("themes") or []):
