@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css', v=asset_version) }}">
 </head>
 <body>
   <section id="launch-splash" class="launch-splash" aria-label="Who Pushed Me?! Scorecard">
@@ -478,6 +478,9 @@
             class="live-v2-wordmark"
             src="/static/assets/brand/WPM_Wordmark.webp"
             alt="Who Pushed Me?!"
+            width="104"
+            height="66"
+            style="width:104px;height:66px;object-fit:contain"
           >
           <div class="live-v2-round-label">
             <span>ROUND CONTROL</span>
@@ -938,6 +941,6 @@
     </div>
   </div>
 
-  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='app.js', v=asset_version) }}" defer></script>
 </body>
 </html>
