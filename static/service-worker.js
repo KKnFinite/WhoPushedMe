@@ -1,4 +1,9 @@
-const CACHE_NAME = 'wpm-shell-v78';
+const CACHE_NAME = 'wpm-shell-v79';
+
+const CRITICAL_FRONTEND_PATHS = new Set([
+  '/static/app.css',
+  '/static/app.js',
+]);
 
 const APP_SHELL = [
   '/',
@@ -52,6 +57,29 @@ self.addEventListener('fetch', (event) => {
   // Never cache live/shared round API data.
   if (requestUrl.pathname.startsWith('/api/')) {
     event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Critical CSS/JS must never be served stale against newer HTML.
+  // This prevents a mixed-version shell during service-worker updates.
+  if (CRITICAL_FRONTEND_PATHS.has(requestUrl.pathname)) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, copy);
+            });
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(event.request).then(
+            (cached) => cached || caches.match(requestUrl.pathname)
+          )
+        )
+    );
     return;
   }
 
