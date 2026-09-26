@@ -2,16 +2,14 @@ from __future__ import annotations
 
 from typing import Any, Mapping, Sequence
 
-from who_pushed_me.content.catalog import ContentError, VULGARITY_ORDER
+from who_pushed_me.content.catalog import ContentError
 
 DEFAULT_MINI_MASCOTS_ENABLED = True
 DEFAULT_TRASH_TALK_ENABLED = True
-DEFAULT_MAX_VULGARITY = "brutal"
 
 _ALLOWED_PATCH_KEYS = {
     "mini_mascots_enabled",
     "trash_talk_enabled",
-    "max_vulgarity",
     "themes",
 }
 
@@ -44,9 +42,6 @@ def public_preferences(
         "trash_talk_enabled": bool(
             row.get("trash_talk_enabled", DEFAULT_TRASH_TALK_ENABLED)
         ),
-        "max_vulgarity": str(
-            row.get("max_vulgarity") or DEFAULT_MAX_VULGARITY
-        ),
         "themes": themes,
     }
 
@@ -70,9 +65,8 @@ def merge_preference_patch(
         "trash_talk_enabled": bool(
             current.get("trash_talk_enabled", DEFAULT_TRASH_TALK_ENABLED)
         ),
-        "max_vulgarity": str(
-            current.get("max_vulgarity") or DEFAULT_MAX_VULGARITY
-        ),
+        # Legacy DB compatibility only. Vulgarity is no longer a user/content mode.
+        "max_vulgarity": "brutal",
         "theme_preferences": dict(current.get("theme_preferences") or {}),
     }
 
@@ -82,12 +76,6 @@ def merge_preference_patch(
             if not isinstance(value, bool):
                 raise ContentError(f"{field} must be true or false")
             result[field] = value
-
-    if "max_vulgarity" in patch:
-        value = str(patch["max_vulgarity"] or "").lower()
-        if value not in VULGARITY_ORDER:
-            raise ContentError("max_vulgarity must be normal or brutal")
-        result["max_vulgarity"] = value
 
     if "themes" in patch:
         values = patch["themes"]
