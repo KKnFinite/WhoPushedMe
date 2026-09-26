@@ -558,12 +558,12 @@
           </form>
         </section>
 
-        <form id="par-form" class="par-form live-par-compact">
+        <form id="par-form" class="par-form live-par-compact" hidden>
           <label>
             <span>PAR</span>
             <input id="par-input" name="par" type="number" min="2" max="7" inputmode="numeric">
           </label>
-          <button id="par-submit" type="submit">REPORT PAR</button>
+          <button id="par-submit" type="submit">SET PAR</button>
         </form>
 
         <div id="live-score-area" class="live-score-area"></div>
@@ -613,6 +613,10 @@
             <span>ROUND CONTROL</span>
             <strong>MORE BULLSHIT</strong>
           </div>
+
+          <button id="live-edit-par" class="lobby-home" type="button" hidden>
+            EDIT PAR
+          </button>
 
           <button id="round-settings-button" class="lobby-home" type="button" hidden>
             ROUND SETTINGS
