@@ -340,11 +340,6 @@
     settingsForm.elements.wife.checked =
       Boolean(preferences?.themes?.wife);
 
-    const vulgarity = String(preferences?.max_vulgarity || 'brutal');
-    const radio = settingsForm.querySelector(
-      `input[name="max_vulgarity"][value="${vulgarity}"]`
-    );
-    if (radio) radio.checked = true;
   };
 
   const populateProfileHandicap = (account) => {
@@ -5613,9 +5608,6 @@
     event.preventDefault();
     setSettingsMessage('');
 
-    const checkedVulgarity = settingsForm.querySelector(
-      'input[name="max_vulgarity"]:checked'
-    );
     const musicEnabled = Boolean(
       settingsForm.elements.music_enabled?.checked
     );
@@ -5627,7 +5619,6 @@
         settingsForm.elements.mini_mascots_enabled.checked,
       trash_talk_enabled:
         settingsForm.elements.trash_talk_enabled.checked,
-      max_vulgarity: checkedVulgarity?.value || 'brutal',
       themes: {
         drinking: settingsForm.elements.drinking.checked,
         wife: settingsForm.elements.wife.checked,
