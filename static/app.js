@@ -2511,7 +2511,10 @@
       const relative = score && par
         ? scoreRelativeLabel(Number(score.strokes), Number(par))
         : '';
-      meta.textContent = [detail, relative ? (relative + ' TO PAR') : '']
+      meta.textContent = [
+        detail,
+        score ? (relative ? (relative + ' TO PAR') : 'SCORE SAVED') : 'NO SCORE',
+      ]
         .filter(Boolean)
         .join(' • ');
       identityCopy.append(name, meta);
@@ -2557,8 +2560,11 @@
       input.max = '99';
       input.inputMode = 'numeric';
       input.value = score ? String(score.strokes) : '';
-      input.placeholder = par ? String(par) : '—';
-      input.setAttribute('aria-label', label + ' strokes for hole ' + hole);
+      input.placeholder = '—';
+      input.setAttribute(
+        'aria-label',
+        'Enter ' + label + ' strokes for hole ' + hole
+      );
 
       const plus = document.createElement('button');
       plus.type = 'button';
