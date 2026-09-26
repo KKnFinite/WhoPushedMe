@@ -256,7 +256,7 @@
   const AUTH_HECKLE_ROTATE_MS = 5000;
   const AUTH_HECKLE_RESUME_MS = 9000;
   const USER_HECKLE_ROTATE_MS = 7000;
-  const LOBBY_BANTER_ROTATE_MS = 8000;
+  const LOBBY_BANTER_ROTATE_MS = 10000;
 
   const AUTH_IDLE_EVENTS = {
     login: 'auth.signin.idle',
