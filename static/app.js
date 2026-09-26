@@ -5610,6 +5610,12 @@
     const checkedVulgarity = settingsForm.querySelector(
       'input[name="max_vulgarity"]:checked'
     );
+    const musicEnabled = Boolean(
+      settingsForm.elements.music_enabled?.checked
+    );
+    const soundEffectsEnabled = Boolean(
+      settingsForm.elements.sound_effects_enabled?.checked
+    );
     const patch = {
       mini_mascots_enabled:
         settingsForm.elements.mini_mascots_enabled.checked,
@@ -5651,6 +5657,8 @@
         method: 'PATCH',
         body: { handicap_index: handicapIndex },
       });
+      window.WPMAudio?.setMusicEnabled?.(musicEnabled);
+      window.WPMAudio?.setSfxEnabled?.(soundEffectsEnabled);
       populateSettings(preferences);
       populateProfileHandicap(account);
       userMessageCache.clear();
