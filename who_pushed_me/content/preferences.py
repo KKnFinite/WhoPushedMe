@@ -65,8 +65,6 @@ def merge_preference_patch(
         "trash_talk_enabled": bool(
             current.get("trash_talk_enabled", DEFAULT_TRASH_TALK_ENABLED)
         ),
-        # Legacy DB compatibility only. Vulgarity is no longer a user/content mode.
-        "max_vulgarity": "brutal",
         "theme_preferences": dict(current.get("theme_preferences") or {}),
     }
 
