@@ -1919,6 +1919,7 @@
     resetClaimPlayerPanel();
     advanceWarningPosition = null;
     pendingScoreAfterPar = null;
+    parEditorOpen = false;
     if (advanceWarningPanel) advanceWarningPanel.hidden = true;
     if (roundSettingsPanel) roundSettingsPanel.hidden = true;
     claimUndoConfirmPending = false;
@@ -4986,6 +4987,7 @@
         pendingScoreAfterPar = null;
       }
 
+      parEditorOpen = false;
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -5206,6 +5208,18 @@
     if (opening) {
       liveMorePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  });
+
+  liveEditPar?.addEventListener('click', () => {
+    if (!currentLobbyRound || viewedRoutePosition === null) return;
+    parEditorOpen = true;
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    setLiveNavActive(liveNavPlay);
+    renderLiveRound(currentLobbyRound);
+    window.requestAnimationFrame(() => {
+      parInput?.focus();
+      parForm?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
 
   bagButton?.addEventListener('click', openBag);
