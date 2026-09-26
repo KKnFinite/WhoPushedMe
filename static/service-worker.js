@@ -1,13 +1,15 @@
-const CACHE_NAME = 'wpm-shell-v80';
+const CACHE_NAME = 'wpm-shell-v81';
 
 const CRITICAL_FRONTEND_PATHS = new Set([
   '/static/app.css',
+  '/static/audio.js',
   '/static/app.js',
 ]);
 
 const APP_SHELL = [
   '/',
   '/static/app.css',
+  '/static/audio.js',
   '/static/app.js',
   '/static/manifest.webmanifest',
   '/static/assets/_meta/asset-manifest.json',
