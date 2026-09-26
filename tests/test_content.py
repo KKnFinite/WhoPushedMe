@@ -119,10 +119,7 @@ def test_signin_idle_has_approved_heckle_bank():
     catalog = ContentCatalog.load()
     catalog.validate()
 
-    rows = catalog.eligible_banter(
-        "auth.signin.idle",
-        max_vulgarity="brutal",
-    )
+    rows = catalog.eligible_banter("auth.signin.idle")
     assert len(rows) == 46
     assert all(row["events"] == ["auth.signin.idle"] for row in rows)
     assert all(row.get("enabled", True) for row in rows)
@@ -159,6 +156,7 @@ def test_approved_screen_copy_pools_are_persisted():
         "onboarding.install.idle": 20,
         "home.idle": 74,
         "round_setup.idle": 39,
+        "lobby.idle": 85,
     }
 
     for event_key, count in expected.items():
@@ -169,33 +167,17 @@ def test_approved_screen_copy_pools_are_persisted():
         ]
         assert len(rows) == count, event_key
 
-    assert all(
-        row["vulgarity"] == "normal"
-        for row in catalog.banter
-        if "auth.signin.idle" in row.get("events", [])
-    )
-
-    home_brutal = [
-        row
-        for row in catalog.banter
-        if "home.idle" in row.get("events", [])
-        and row["vulgarity"] == "brutal"
-    ]
-    setup_brutal = [
-        row
-        for row in catalog.banter
-        if "round_setup.idle" in row.get("events", [])
-        and row["vulgarity"] == "brutal"
-    ]
-    assert len(home_brutal) == 18
-    assert len(setup_brutal) == 19
-    assert all(row.get("themes") for row in home_brutal)
-    assert all(row.get("themes") for row in setup_brutal)
+    assert all("vulgarity" not in row for row in catalog.banter)
+    assert all("vulgarity" not in row for row in catalog.mascots)
 
 
-def test_default_signed_in_vulgarity_is_brutal():
-    from who_pushed_me.content.preferences import public_preferences
-
+def test_lobby_idle_contains_approved_extended_pool():
     catalog = ContentCatalog.load()
-    preferences = public_preferences(None, catalog.theme_rows)
-    assert preferences["max_vulgarity"] == "brutal"
+    rows = [
+        row
+        for row in catalog.banter
+        if "lobby.idle" in row.get("events", [])
+    ]
+    assert len(rows) == 85
+    assert any("MORTAL KOMBAT" in row["text"] for row in rows)
+    assert any("FINAL BOSS" in row["text"] for row in rows)
