@@ -2469,14 +2469,12 @@ body.app-ready .app-shell {
   gap: 3px;
 }
 
-.settings-row strong,
-.vulgarity-fieldset legend {
+.settings-row strong {
   font-family: "Arial Black", Arial, sans-serif;
   letter-spacing: .04em;
 }
 
-.settings-row small,
-.vulgarity-fieldset small {
+.settings-row small {
   font-family: Arial, sans-serif;
   font-weight: 700;
   line-height: 1.3;
@@ -2487,39 +2485,6 @@ body.app-ready .app-shell {
   height: 28px;
   flex: 0 0 28px;
   accent-color: var(--green-deep);
-}
-
-.vulgarity-fieldset {
-  margin: 0;
-  padding: 14px;
-  background: var(--charcoal);
-  color: var(--paper);
-  border: 3px solid var(--ink);
-  border-radius: 14px;
-}
-
-.vulgarity-fieldset legend {
-  padding: 0 6px;
-}
-
-.vulgarity-fieldset label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-right: 16px;
-  font-family: "Arial Black", Arial, sans-serif;
-}
-
-.vulgarity-fieldset input {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--yellow);
-}
-
-.vulgarity-fieldset small {
-  display: block;
-  margin-top: 10px;
-  color: var(--cream-deep);
 }
 
 .settings-save {
@@ -7771,8 +7736,7 @@ body.app-ready .home-banter p {
   box-shadow: none !important;
 }
 
-.settings-row,
-.vulgarity-fieldset {
+.settings-row {
   border: 1px solid rgba(78,122,93,.58) !important;
   border-radius: 14px !important;
   background:
@@ -7781,15 +7745,13 @@ body.app-ready .home-banter p {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
 }
 
-.settings-row strong,
-.vulgarity-fieldset legend {
+.settings-row strong {
   color: #fff8df !important;
   font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
   font-weight: 700 !important;
 }
 
-.settings-row small,
-.vulgarity-fieldset small {
+.settings-row small {
   color: rgba(233,225,200,.7) !important;
   font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
   font-weight: 600 !important;
@@ -7803,19 +7765,6 @@ body.app-ready .home-banter p {
   background: rgba(5,9,7,.88) !important;
   color: #fff8df !important;
   box-shadow: none !important;
-}
-
-.vulgarity-fieldset label {
-  border: 1px solid rgba(78,122,93,.48) !important;
-  border-radius: 10px !important;
-  background: rgba(5,9,7,.7) !important;
-  color: #fff8df !important;
-}
-
-.vulgarity-fieldset label:has(input:checked) {
-  border-color: var(--wpm-gold) !important;
-  background:
-    linear-gradient(145deg, rgba(33,69,52,.98), rgba(19,48,35,.98)) !important;
 }
 
 .settings-save {
