@@ -8765,3 +8765,20 @@ body.app-ready .home-banter p {
     max-height: 182px;
   }
 }
+
+
+/* IOS FOCUS ZOOM GUARD
+   iOS Safari auto-zooms focused form controls below 16px. Keep every
+   editable/selectable control at or above that threshold so focus never
+   changes the app viewport or wrecks the fixed mobile layouts. */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 900px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.live-score-input),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
