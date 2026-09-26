@@ -66,6 +66,9 @@
   const joinRoundCode = document.getElementById('join-round-code');
   const joinCodeDigits = [...document.querySelectorAll('[data-join-code-digit]')];
   const joinRoundSubmit = document.getElementById('join-round-submit');
+  const joinCtaDock = document.getElementById('join-cta-dock');
+  const joinCtaMiniStage = document.getElementById('join-cta-mini-stage');
+  const joinCtaMini = document.getElementById('join-cta-mini');
   const joinTeeField = document.getElementById('join-tee-field');
   const joinTeeSelect = document.getElementById('join-tee-select');
   const claimPlayerPanel = document.getElementById('claim-player-panel');
@@ -1285,6 +1288,124 @@
     }
   };
 
+  const alignJoinMiniToButton = () => {
+    if (
+      !joinCtaMiniStage
+      || !joinCtaMini
+      || !joinRoundSubmit
+      || joinCtaMiniStage.hidden
+      || !joinCtaMini.complete
+      || !joinCtaMini.naturalHeight
+    ) return;
+
+    joinCtaMiniStage.style.setProperty('--join-mini-y', '0px');
+
+    window.requestAnimationFrame(() => {
+      if (joinCtaMiniStage.hidden) return;
+      const miniRect = joinCtaMini.getBoundingClientRect();
+      const buttonRect = joinRoundSubmit.getBoundingClientRect();
+      const transparentBottom =
+        setupMiniOpaqueBottomRatio(joinCtaMini) * miniRect.height;
+      const visibleBottom = miniRect.bottom - transparentBottom;
+      const shift = Math.round(buttonRect.top - visibleBottom);
+      joinCtaMiniStage.style.setProperty('--join-mini-y', `${shift}px`);
+    });
+  };
+
+  const updateJoinMiniVisibility = () => {
+    if (!joinCtaDock || !joinCtaMiniStage || !joinCtaMini) return;
+
+    const enoughRoom = window.innerHeight >= 760;
+    const extraJoinPanelOpen = Boolean(
+      (joinTeeField && !joinTeeField.hidden)
+      || (claimPlayerPanel && !claimPlayerPanel.hidden)
+    );
+    const ready = Boolean(
+      joinCtaMini.getAttribute('src')
+      && joinCtaMini.complete
+      && joinCtaMini.naturalHeight
+    );
+    const show = Boolean(
+      enoughRoom
+      && ready
+      && joinRoundForm
+      && !joinRoundForm.hidden
+      && !extraJoinPanelOpen
+    );
+
+    joinCtaMiniStage.hidden = !show;
+    joinCtaMiniStage.setAttribute('aria-hidden', show ? 'false' : 'true');
+    joinCtaDock.classList.toggle('has-mini', show);
+
+    if (show) alignJoinMiniToButton();
+  };
+
+  const loadRandomJoinMini = async (role = 'player') => {
+    if (!joinCtaDock || !joinCtaMiniStage || !joinCtaMini) return;
+
+    joinCtaMiniStage.hidden = true;
+    joinCtaMiniStage.setAttribute('aria-hidden', 'true');
+    joinCtaDock.classList.remove('has-mini');
+    joinCtaMini.classList.remove('is-loaded');
+    joinCtaMini.removeAttribute('src');
+    delete joinCtaMini.dataset.opaqueBottomRatio;
+
+    try {
+      const [manifestResponse, preferences] = await Promise.all([
+        fetch('/static/assets/_meta/asset-manifest.json'),
+        requestJson('/api/preferences'),
+      ]);
+      if (!manifestResponse.ok || !preferences?.mini_mascots_enabled) return;
+
+      const manifest = await manifestResponse.json();
+      const joiningMinis = (manifest.assets || []).filter(
+        (item) => (
+          item.family === 'mini-mascot'
+          && item.category === 'joining'
+          && item.production
+        )
+      );
+
+      const eventKeys = role === 'spectator'
+        ? new Set(['player_join_spectator'])
+        : new Set(['player_join_new', 'player_join_returning']);
+      const matching = joiningMinis.filter(
+        (item) => eventKeys.has(String(item.event_key || ''))
+      );
+      const pool = matching.length ? matching : joiningMinis;
+      if (!pool.length) return;
+
+      const picked = pool[Math.floor(Math.random() * pool.length)];
+      const productionPath = String(picked.production).replace(/^\/+/, '');
+      const imagePath = productionPath.startsWith('static/')
+        ? `/${productionPath}`
+        : `/static/${productionPath}`;
+
+      joinCtaMini.addEventListener(
+        'load',
+        () => {
+          joinCtaMini.classList.add('is-loaded');
+          updateJoinMiniVisibility();
+        },
+        { once: true }
+      );
+      joinCtaMini.src = imagePath;
+    } catch (_error) {
+      joinCtaMiniStage.hidden = true;
+      joinCtaDock.classList.remove('has-mini');
+    }
+  };
+
+  [joinTeeField, claimPlayerPanel].forEach((panel) => {
+    if (!panel) return;
+    const observer = new MutationObserver(updateJoinMiniVisibility);
+    observer.observe(panel, {
+      attributes: true,
+      attributeFilter: ['hidden'],
+    });
+  });
+  window.addEventListener('resize', updateJoinMiniVisibility);
+
   const revealShell = async () => {
     await bootSession();
   };
@@ -2032,6 +2153,9 @@
         input.value = '';
       });
       if (joinRoundCode) joinRoundCode.value = '';
+      void loadRandomJoinMini(
+        joinRoundForm?.querySelector('input[name="role"]:checked')?.value || 'player'
+      );
       void startUserHeckles(
         'roundJoin',
         'round_join.idle',
@@ -4572,7 +4696,10 @@
   };
 
   joinRoundForm?.querySelectorAll('input[name="role"]').forEach((radio) => {
-    radio.addEventListener('change', resetJoinPreviewState);
+    radio.addEventListener('change', () => {
+      resetJoinPreviewState();
+      void loadRandomJoinMini(radio.value);
+    });
   });
 
   joinCodeDigits.forEach((input, index) => {

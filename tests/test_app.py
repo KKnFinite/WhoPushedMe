@@ -148,6 +148,27 @@ def test_join_round_uses_approved_dedicated_mock_pool():
     assert "FOUR DIGITS STANDING BETWEEN YOU AND EMBARRASSING YOURSELF ON PURPOSE." not in texts
 
 
+def test_join_round_pins_cta_and_uses_join_mini_pool():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="join-cta-dock"' in page.data
+    assert b'id="join-cta-mini-stage"' in page.data
+    assert b'id="join-cta-mini"' in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"loadRandomJoinMini" in script.data
+    assert b"player_join_new" in script.data
+    assert b"player_join_returning" in script.data
+    assert b"player_join_spectator" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"JOIN ROUND BOTTOM CTA + MINI" in css.data
+    assert b"position: sticky" in css.data
+    assert b".join-cta-dock.has-mini" in css.data
+
+
 def test_mobile_focus_does_not_zoom_the_layout():
     page = client().get("/")
     assert page.status_code == 200
