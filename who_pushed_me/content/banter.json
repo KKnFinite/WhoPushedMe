@@ -10123,6 +10123,422 @@
       "themes": [],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.001",
+      "text": "TYPE THE 4 DIGITS. IT’S NOT THE FUCKING DA VINCI CODE.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.002",
+      "text": "IF YOU CAN’T ENTER FOUR NUMBERS, GOLF IS ABOUT TO BE A LONG DAY FOR YOU.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.003",
+      "text": "SOMEWHERE, THREE PEOPLE ARE WAITING ON YOU TO DEFEAT A TINY NUMBER BOX.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.004",
+      "text": "IT’S FOUR DIGITS, NOT A NASA LAUNCH SEQUENCE.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.005",
+      "text": "THE ROUND CODE HAS ONLY FOUR CHARACTERS AND YOU’RE STILL MAKING IT DRAMATIC.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.006",
+      "text": "THE GROUP IS READY. YOU’RE LOSING A FIGHT TO BASIC INPUT.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.007",
+      "text": "ENTER THE CODE BEFORE YOUR FRIENDS REPLACE YOU WITH A DRUNK STRANGER.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.008",
+      "text": "FOUR DIGITS. ONE JOB. A SHOCKING AMOUNT OF STRUGGLE.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.009",
+      "text": "THIS SCREEN ISN’T HARD. YOU’RE JUST MAKING IT LOOK HARD.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.010",
+      "text": "THE CODE IS SHORTER THAN YOUR EXCUSES.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.011",
+      "text": "SOMEONE IN YOUR GROUP REGRETS INVITING YOU ALREADY.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.012",
+      "text": "YOU ARE CURRENTLY BEING OUTPERFORMED BY A SELF-CHECKOUT KIOSK.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.013",
+      "text": "PUT THE NUMBERS IN THE BOX AND LET’S ALL PRETEND THIS DIDN’T TAKE FOREVER.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.014",
+      "text": "IF THIS TAKES LONGER THAN A TEE SHOT, YOU’RE DOING IT WRONG.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.015",
+      "text": "THE CODE ENTRY PART WASN’T SUPPOSED TO BE THE SKILL CHECK.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.016",
+      "text": "YOUR BUDDIES ARE ALREADY WONDERING HOW YOU TIE YOUR SHOES.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.017",
+      "text": "ENTER THE ROUND CODE, YOU BEAUTIFUL LIABILITY.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.018",
+      "text": "THE APP BELIEVES IN YOU MORE THAN YOUR FRIENDS DO RIGHT NOW.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.019",
+      "text": "THIS IS THE EASY PART. WHICH IS BAD NEWS FOR YOUR SCORE.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.020",
+      "text": "YOU’RE FOUR DIGITS AWAY FROM BECOMING EVERYONE’S PROBLEM.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.021",
+      "text": "THE BOX WANTS NUMBERS. NOT FEAR.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.022",
+      "text": "IF YOU MISS THE CODE TWICE, THE APP SHOULD LEGALLY BE ALLOWED TO MOCK YOU HARDER.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.023",
+      "text": "THE CODE HAS FOUR DIGITS. YOUR STRUGGLE HAS THIRTY-SEVEN STEPS.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.024",
+      "text": "YOU’RE NOT LOCKED OUT. YOU’RE JUST BAD AT THIS.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.025",
+      "text": "EVERY SECOND YOU SPEND HERE MAKES THE GROUP CHAT MEANER.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.026",
+      "text": "TYPE THE CODE BEFORE SOMEONE ELSE CLAIMS YOU DIED.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.027",
+      "text": "YOU’RE TREATING A FOUR-DIGIT FIELD LIKE A FINAL EXAM.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.028",
+      "text": "AT THIS POINT THE ROUND MIGHT START WITHOUT YOUR DUMB ASS.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.029",
+      "text": "IF YOU CAN’T HANDLE THE JOIN SCREEN, WAIT UNTIL MATH SHOWS UP.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.030",
+      "text": "THIS IS WHY INSTRUCTIONS ON SHAMPOO BOTTLES EXIST.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.031",
+      "text": "FOUR DIGITS. NO READING COMPREHENSION REQUIRED. IDEALLY.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round_join_idle.032",
+      "text": "CONGRATS, YOU’VE TURNED “ENTER CODE” INTO A PERSONAL CRISIS.",
+      "events": [
+        "round_join.idle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

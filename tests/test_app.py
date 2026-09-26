@@ -125,6 +125,29 @@ def test_critical_frontend_assets_are_versioned_and_network_first():
     assert b"fetch(event.request, { cache: 'no-store' })" in worker.data
 
 
+def test_join_round_uses_approved_dedicated_mock_pool():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="join-round-heckle"' in page.data
+    assert b'id="join-round-heckle-text"' in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"'roundJoin'" in script.data
+    assert b"'round_join.idle'" in script.data
+
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("round_join.idle")
+    assert len(rows) == 32
+    texts = {row["text"] for row in rows}
+    assert "TYPE THE 4 DIGITS. IT’S NOT THE FUCKING DA VINCI CODE." in texts
+    assert "PUT IN THE CODE, TECHNOLOGY HERCULES." not in texts
+    assert "IF YOU NEED HELP WITH FOUR DIGITS, STAY OUT OF THE SCORECARD." not in texts
+    assert "FOUR DIGITS STANDING BETWEEN YOU AND EMBARRASSING YOURSELF ON PURPOSE." not in texts
+
+
 def test_mobile_focus_does_not_zoom_the_layout():
     page = client().get("/")
     assert page.status_code == 200

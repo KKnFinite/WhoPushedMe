@@ -50,6 +50,8 @@
   const roundFlowMessage = document.getElementById('round-flow-message');
   const roundSetupHeckle = document.getElementById('round-setup-heckle');
   const roundSetupHeckleText = document.getElementById('round-setup-heckle-text');
+  const joinRoundHeckle = document.getElementById('join-round-heckle');
+  const joinRoundHeckleText = document.getElementById('join-round-heckle-text');
   const startRoundForm = document.getElementById('start-round-form');
   const setupMiniStages = document.querySelectorAll('[data-setup-mini-stage]');
   const setupMinis = document.querySelectorAll('[data-setup-mini]');
@@ -719,6 +721,7 @@
     const target = {
       home: homeHeckle,
       roundSetup: roundSetupHeckle,
+      roundJoin: joinRoundHeckle,
       install: installOnboardingHeckle,
     }[name];
     if (hide && target) target.hidden = true;
@@ -727,6 +730,7 @@
   const userHeckleTarget = (name) => ({
     home: { container: homeHeckle, text: homeHeckleText },
     roundSetup: { container: roundSetupHeckle, text: roundSetupHeckleText },
+    roundJoin: { container: joinRoundHeckle, text: joinRoundHeckleText },
     install: { container: installOnboardingHeckle, text: installOnboardingHeckle },
   }[name] || {});
 
@@ -1916,6 +1920,7 @@
   const closeRoundFlow = () => {
     if (!roundFlowModal) return;
     stopUserHeckle('roundSetup', { hide: true });
+    stopUserHeckle('roundJoin', { hide: true });
     stopLobbyBanterRotation();
     roundFlowModal.hidden = true;
     document.body.classList.remove('modal-open');
@@ -1974,6 +1979,7 @@
     stopLobbyBanterRotation();
     stopUserHeckle('home');
     stopUserHeckle('roundSetup', { hide: true });
+    stopUserHeckle('roundJoin', { hide: true });
     roundFlowModal.hidden = false;
     document.body.classList.add('modal-open');
     setRoundFlowMessage('');
@@ -2016,6 +2022,16 @@
         () => (
           Boolean(roundFlowModal && !roundFlowModal.hidden)
           && Boolean(startRoundForm && !startRoundForm.hidden)
+        ),
+      );
+    }
+    if (panel === 'join') {
+      void startUserHeckles(
+        'roundJoin',
+        'round_join.idle',
+        () => (
+          Boolean(roundFlowModal && !roundFlowModal.hidden)
+          && Boolean(joinRoundForm && !joinRoundForm.hidden)
         ),
       );
     }
