@@ -427,6 +427,12 @@
           </label>
         </fieldset>
 
+        <label id="join-tee-field" class="round-text-field join-tee-field" hidden>
+          <span>YOUR TEE</span>
+          <select id="join-tee-select" name="tee_name"></select>
+          <small>Pick it before you enter the lobby. Lobby is for people, not paperwork.</small>
+        </label>
+
         <section id="claim-player-panel" class="claim-player-panel" hidden>
           <div class="live-round-kicker">ARE YOU ALREADY IN THIS MESS?</div>
           <p>We found round-only golfers with no account attached.</p>
@@ -445,27 +451,31 @@
         <div id="lobby-summary" class="lobby-summary"></div>
         <div id="lobby-participants" class="lobby-participants"></div>
 
+        <section class="live-banter-panel lobby-banter-panel">
+          <header class="live-banter-header">
+            <strong>LOBBY BANTER</strong>
+            <span>WAITING ROOM, WORSE PEOPLE</span>
+          </header>
+          <div id="lobby-banter-feed" class="live-banter-feed lobby-banter-feed"></div>
+          <form id="lobby-banter-form" class="live-banter-form">
+            <input
+              id="lobby-banter-input"
+              type="text"
+              maxlength="280"
+              autocomplete="off"
+              placeholder="Talk your shit..."
+              aria-label="Send lobby banter"
+            >
+            <button id="lobby-banter-send" type="submit" aria-label="Send lobby banter">➤</button>
+          </form>
+        </section>
+
         <section id="lobby-par-setup" class="lobby-par-setup" hidden>
           <div class="live-round-kicker">ESTABLISH THE EVIDENCE</div>
           <h4>ENTER PARS NOW</h4>
           <p>Fill the route before starting so we can judge everybody properly.</p>
           <div id="lobby-par-grid" class="lobby-par-grid"></div>
           <button id="lobby-par-save" type="button">SAVE PARS</button>
-        </section>
-
-        <section id="lobby-tee-panel" class="lobby-tee-panel" hidden>
-          <label class="round-text-field">
-            <span id="lobby-tee-label">YOUR TEE</span>
-            <select id="lobby-tee-select"></select>
-          </label>
-          <button id="lobby-tee-save" type="button">SAVE TEE</button>
-        </section>
-
-        <section id="lobby-handicap-panel" class="lobby-handicap-panel" hidden>
-          <div class="live-round-kicker">NET WITHOUT THE COUNTRY-CLUB PAPERWORK</div>
-          <h4>ROUND HANDICAPS</h4>
-          <p>Gross always counts. Missing handicap math only holds back official net placement.</p>
-          <div id="lobby-handicap-list" class="round-handicap-list"></div>
         </section>
 
         <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
