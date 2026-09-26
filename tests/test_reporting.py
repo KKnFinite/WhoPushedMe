@@ -90,7 +90,7 @@ def test_completed_individual_round_builds_pdf_bytes():
 
     pdf = build_round_report_pdf(
         round_data,
-        preferences={"max_vulgarity": "brutal"},
+        preferences={},
     )
 
     assert pdf.startswith(b"%PDF-")
@@ -151,7 +151,7 @@ def test_completed_scramble_round_builds_pdf_bytes():
 
     pdf = build_round_report_pdf(
         round_data,
-        preferences={"max_vulgarity": "normal"},
+        preferences={},
     )
 
     assert pdf.startswith(b"%PDF-")
