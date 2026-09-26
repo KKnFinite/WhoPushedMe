@@ -6,7 +6,6 @@ from typing import Any, Mapping
 from who_pushed_me.content.catalog import (
     ALLOWED_PLACEHOLDERS,
     ContentCatalog,
-    VULGARITY_ORDER,
 )
 from who_pushed_me.content.preferences import blocked_themes
 
@@ -199,7 +198,6 @@ def _content_item(row: Mapping[str, Any] | None, *, text: str | None = None) -> 
     if row is None:
         return None
     item = {
-        "vulgarity": str(row.get("vulgarity") or "normal"),
         "themes": list(row.get("themes") or []),
         "audiences": list(row.get("audiences") or ["everyone"]),
     }
@@ -374,13 +372,9 @@ def build_shared_presentation(
 def _item_allowed(
     item: Mapping[str, Any] | None,
     *,
-    max_vulgarity: str,
     blocked: set[str],
 ) -> bool:
     if item is None:
-        return False
-    vulgarity = str(item.get("vulgarity") or "normal")
-    if VULGARITY_ORDER[vulgarity] > VULGARITY_ORDER[max_vulgarity]:
         return False
     return not blocked.intersection(item.get("themes") or [])
 
@@ -393,7 +387,6 @@ def filter_presentation_for_preferences(
 ) -> dict[str, Any]:
     variants = dict(presentation.get("variants") or {})
     variant = dict(variants.get(audience) or variants.get("everyone") or {})
-    max_vulgarity = str(preferences.get("max_vulgarity") or "normal")
     blocked = set(blocked_themes(preferences))
 
     banter = variant.get("banter")
@@ -403,7 +396,6 @@ def filter_presentation_for_preferences(
         banter = None
     elif not _item_allowed(
         banter,
-        max_vulgarity=max_vulgarity,
         blocked=blocked,
     ):
         banter = None
@@ -412,7 +404,6 @@ def filter_presentation_for_preferences(
         mascot = None
     elif not _item_allowed(
         mascot,
-        max_vulgarity=max_vulgarity,
         blocked=blocked,
     ):
         mascot = None
