@@ -8767,18 +8767,36 @@ body.app-ready .home-banter p {
 }
 
 
-/* IOS FOCUS ZOOM GUARD
-   iOS Safari auto-zooms focused form controls below 16px. Keep every
-   editable/selectable control at or above that threshold so focus never
-   changes the app viewport or wrecks the fixed mobile layouts. */
+/* IOS FOCUS ZOOM HARD LOCK
+   WebKit can ignore viewport max-scale/user-scalable restrictions. The
+   reliable prevention is keeping editable controls safely above the focus
+   zoom threshold. 17px gives us margin instead of sitting exactly on 16px.
+   touch-action: manipulation also removes double-tap zoom on controls. */
 html {
   -webkit-text-size-adjust: 100%;
 }
 
-@media (max-width: 900px) {
-  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(.live-score-input),
+button,
+input,
+select,
+textarea,
+[contenteditable="true"],
+[contenteditable="plaintext-only"] {
+  touch-action: manipulation;
+}
+
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.live-score-input),
   select,
-  textarea {
-    font-size: 16px !important;
+  textarea,
+  [contenteditable="true"],
+  [contenteditable="plaintext-only"] {
+    font-size: 17px !important;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Score entry is intentionally larger already; never shrink it to 17px. */
+  .live-score-input {
+    font-size: 1.75rem !important;
   }
 }
