@@ -107,7 +107,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v80" in response.data
+    assert b"wpm-shell-v81" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -115,12 +115,36 @@ def test_critical_frontend_assets_are_versioned_and_network_first():
     page = client().get("/")
     assert page.status_code == 200
     assert b"/static/app.css?v=0.3.0" in page.data
+    assert b"/static/audio.js?v=0.3.0" in page.data
     assert b"/static/app.js?v=0.3.0" in page.data
 
     worker = client().get("/service-worker.js")
     assert worker.status_code == 200
     assert b"CRITICAL_FRONTEND_PATHS" in worker.data
+    assert b"/static/audio.js" in worker.data
     assert b"fetch(event.request, { cache: 'no-store' })" in worker.data
+
+
+def test_wpm_audio_scene_map_and_settings_are_wired():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'name="music_enabled"' in page.data
+    assert b'name="sound_effects_enabled"' in page.data
+
+    audio = client().get("/static/audio.js")
+    assert audio.status_code == 200
+    assert b"sceneToMode" in audio.data
+    assert b"['splash', 'home', 'setup', 'end']" in audio.data
+    assert b"scene === 'lobby'" in audio.data
+    assert b"playSfx" in audio.data
+
+    app_script = client().get("/static/app.js")
+    assert app_script.status_code == 200
+    assert b"setScene?.('home')" in app_script.data
+    assert b"setScene?.('setup')" in app_script.data
+    assert b"setScene?.('lobby')" in app_script.data
+    assert b"setScene?.('live')" in app_script.data
+    assert b"setScene?.('end')" in app_script.data
 
 
 def test_asset_builder_keeps_shell_cache_version_in_sync():
@@ -128,7 +152,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v80" in builder
+    assert "wpm-shell-v81" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
