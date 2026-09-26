@@ -47,6 +47,7 @@ def test_home_loads_pwa_shell():
     assert b"YOUR TEE" in response.data
     assert b"START THE SHITSHOW" in response.data
     assert b"ROUND BANTER" in response.data
+    assert b"NOT A PLACE FOR SNOWFLAKES" in response.data
     assert b"NEXT HOLE" in response.data
     assert b"GO ANYWAY" in response.data
     assert b"ROUND SETTINGS" in response.data
@@ -200,7 +201,7 @@ def test_lobby_is_social_and_tee_choice_happens_before_entry():
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
-    assert b"LOBBY_BANTER_ROTATE_MS = 8000" in script.data
+    assert b"LOBBY_BANTER_ROTATE_MS = 10000" in script.data
     assert b"lobby.idle" in script.data
     assert b"prepareJoinTeeChoice" in script.data
     assert b"tee_name: teeName || null" in script.data
@@ -234,7 +235,7 @@ def test_lobby_idle_banter_is_registered_and_admin_editable():
         row for row in banter["banter"]
         if "lobby.idle" in row.get("events", [])
     ]
-    assert len(lobby_rows) >= 12
+    assert len(lobby_rows) >= 40
     assert '"lobby.idle": 160' in admin
 
 
