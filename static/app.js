@@ -5389,7 +5389,10 @@
         method: 'POST',
         body: {
           type,
-          hole: currentLobbyRound.current_hole,
+          hole: (
+            currentLobbyRound.current_route_position
+            || currentLobbyRound.current_hole
+          ),
           data,
         },
       }
