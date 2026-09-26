@@ -63,6 +63,8 @@
   const roundHolesHint = document.getElementById('round-holes-hint');
   const individualScoringFieldset = document.getElementById('individual-scoring-fieldset');
   const joinRoundForm = document.getElementById('join-round-form');
+  const joinRoundCode = document.getElementById('join-round-code');
+  const joinCodeDigits = [...document.querySelectorAll('[data-join-code-digit]')];
   const joinRoundSubmit = document.getElementById('join-round-submit');
   const joinTeeField = document.getElementById('join-tee-field');
   const joinTeeSelect = document.getElementById('join-tee-select');
@@ -2026,6 +2028,10 @@
       );
     }
     if (panel === 'join') {
+      joinCodeDigits.forEach((input) => {
+        input.value = '';
+      });
+      if (joinRoundCode) joinRoundCode.value = '';
       void startUserHeckles(
         'roundJoin',
         'round_join.idle',
@@ -2034,8 +2040,10 @@
           && Boolean(joinRoundForm && !joinRoundForm.hidden)
         ),
       );
+      window.requestAnimationFrame(() => joinCodeDigits[0]?.focus());
+    } else {
+      roundFlowClose?.focus();
     }
-    roundFlowClose?.focus();
   };
 
   const routeEntry = (round, position) => {
@@ -4524,44 +4532,109 @@
     return true;
   };
 
-  joinRoundForm?.querySelectorAll('input[name="role"]').forEach((radio) => {
-    radio.addEventListener('change', () => {
-      pendingJoinPreview = null;
-      pendingClaimJoin = null;
-      if (claimPlayerPanel) claimPlayerPanel.hidden = true;
-      if (claimPlayerList) claimPlayerList.replaceChildren();
-      if (joinTeeField) joinTeeField.hidden = true;
-      if (joinTeeSelect) joinTeeSelect.replaceChildren();
-      if (joinRoundSubmit) {
-        joinRoundSubmit.hidden = false;
-        joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
-      }
+  const resetJoinPreviewState = () => {
+    pendingJoinPreview = null;
+    pendingClaimJoin = null;
+    if (claimPlayerPanel) claimPlayerPanel.hidden = true;
+    if (claimPlayerList) claimPlayerList.replaceChildren();
+    if (joinTeeField) joinTeeField.hidden = true;
+    if (joinTeeSelect) joinTeeSelect.replaceChildren();
+    if (joinRoundSubmit) {
+      joinRoundSubmit.hidden = false;
+      joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+    }
+  };
+
+  const syncJoinCode = () => {
+    const code = joinCodeDigits
+      .map((input) => String(input.value || '').replace(/\D/g, '').slice(-1))
+      .join('');
+    if (joinRoundCode) joinRoundCode.value = code;
+    resetJoinPreviewState();
+    return code;
+  };
+
+  const fillJoinCodeDigits = (rawValue, startIndex = 0) => {
+    const digits = String(rawValue || '').replace(/\D/g, '');
+    if (!digits) return syncJoinCode();
+
+    let writeIndex = Math.max(0, Math.min(joinCodeDigits.length - 1, startIndex));
+    digits.split('').forEach((digit) => {
+      if (!joinCodeDigits[writeIndex]) return;
+      joinCodeDigits[writeIndex].value = digit;
+      writeIndex += 1;
     });
+
+    const code = syncJoinCode();
+    const nextEmpty = joinCodeDigits.find((input) => !input.value);
+    (nextEmpty || joinCodeDigits[joinCodeDigits.length - 1])?.focus();
+    return code;
+  };
+
+  joinRoundForm?.querySelectorAll('input[name="role"]').forEach((radio) => {
+    radio.addEventListener('change', resetJoinPreviewState);
   });
 
-  joinRoundForm?.querySelector('input[name="code"]')?.addEventListener(
-    'input',
-    () => {
-      pendingJoinPreview = null;
-      pendingClaimJoin = null;
-      if (claimPlayerPanel) claimPlayerPanel.hidden = true;
-      if (claimPlayerList) claimPlayerList.replaceChildren();
-      if (joinTeeField) joinTeeField.hidden = true;
-      if (joinTeeSelect) joinTeeSelect.replaceChildren();
-      if (joinRoundSubmit) {
-        joinRoundSubmit.hidden = false;
-        joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+  joinCodeDigits.forEach((input, index) => {
+    input.addEventListener('focus', () => input.select());
+
+    input.addEventListener('input', () => {
+      const digits = String(input.value || '').replace(/\D/g, '');
+      if (digits.length > 1) {
+        input.value = '';
+        fillJoinCodeDigits(digits, index);
+        return;
       }
-    },
-  );
+
+      input.value = digits.slice(-1);
+      syncJoinCode();
+      if (input.value && joinCodeDigits[index + 1]) {
+        joinCodeDigits[index + 1].focus();
+      }
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Backspace' && !input.value && joinCodeDigits[index - 1]) {
+        event.preventDefault();
+        joinCodeDigits[index - 1].value = '';
+        syncJoinCode();
+        joinCodeDigits[index - 1].focus();
+        return;
+      }
+
+      if (event.key === 'ArrowLeft' && joinCodeDigits[index - 1]) {
+        event.preventDefault();
+        joinCodeDigits[index - 1].focus();
+      }
+
+      if (event.key === 'ArrowRight' && joinCodeDigits[index + 1]) {
+        event.preventDefault();
+        joinCodeDigits[index + 1].focus();
+      }
+    });
+
+    input.addEventListener('paste', (event) => {
+      const digits = event.clipboardData?.getData('text')?.replace(/\D/g, '') || '';
+      if (!digits) return;
+      event.preventDefault();
+      fillJoinCodeDigits(digits, index);
+    });
+  });
 
   joinRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
     const values = new FormData(joinRoundForm);
-    setFormBusy(joinRoundForm, true);
     const code = String(values.get('code') || '').trim();
     const role = String(values.get('role') || 'player');
+
+    if (!/^\d{4}$/.test(code)) {
+      setRoundFlowMessage('ENTER ALL FOUR DIGITS.');
+      (joinCodeDigits.find((input) => !input.value) || joinCodeDigits[0])?.focus();
+      return;
+    }
+
+    setFormBusy(joinRoundForm, true);
 
     try {
       const teeChoiceReady = (
