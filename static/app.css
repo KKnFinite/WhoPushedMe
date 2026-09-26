@@ -9096,3 +9096,24 @@ textarea,
   letter-spacing: .045em;
   text-transform: uppercase;
 }
+
+
+/* COURSE LAYOUT FALLBACK */
+.setup-card-course-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+}
+
+.setup-card-course-layout > small {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  color: rgba(233,225,200,.68);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.setup-card-course-layout[hidden] {
+  display: none !important;
+}

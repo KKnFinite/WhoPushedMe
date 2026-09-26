@@ -959,6 +959,19 @@ class RoundStore:
         if round_mode == "scramble" and net_scoring_enabled:
             raise DomainError("scramble rounds are gross scoring only")
 
+        requested_course_hole_count: int | None = None
+        if course_hole_count is not None:
+            try:
+                requested_course_hole_count = int(course_hole_count)
+            except (TypeError, ValueError) as error:
+                raise DomainError(
+                    "course_hole_count must be 9 or 18"
+                ) from error
+            if requested_course_hole_count not in {9, 18}:
+                raise DomainError(
+                    "course_hole_count must be 9 or 18"
+                )
+
         cached_course_id = self._uuid(course_id, "course_id") if course_id else None
         free_play = str(free_play_name).strip() if free_play_name else None
         creator_tee = self._clean_tee_name(tee_name)
@@ -988,7 +1001,11 @@ class RoundStore:
                         max_hole = int(course_row["max_hole"] or 0)
                         if max_hole < 1:
                             raise NotFound("cached course has no hole data")
-                        physical_hole_count = 9 if max_hole <= 9 else 18
+                        detected_hole_count = 9 if max_hole <= 9 else 18
+                        physical_hole_count = (
+                            requested_course_hole_count
+                            or detected_hole_count
+                        )
 
                         if creator_tee:
                             self._validate_course_tee(
@@ -997,21 +1014,11 @@ class RoundStore:
                                 creator_tee,
                             )
                     else:
-                        if course_hole_count is None:
-                            physical_hole_count = (
-                                9 if requested_holes <= 9 else 18
-                            )
-                        else:
-                            try:
-                                physical_hole_count = int(course_hole_count)
-                            except (TypeError, ValueError) as error:
-                                raise DomainError(
-                                    "course_hole_count must be 9 or 18"
-                                ) from error
-                            if physical_hole_count not in {9, 18}:
-                                raise DomainError(
-                                    "course_hole_count must be 9 or 18"
-                                )
+                        physical_hole_count = (
+                            requested_course_hole_count
+                            if requested_course_hole_count is not None
+                            else (9 if requested_holes <= 9 else 18)
+                        )
 
                     if end_hole is None:
                         route = build_route(
@@ -5256,6 +5263,20 @@ class RoundStore:
             course = cursor.fetchone()
             if not course:
                 raise NotFound("cached course not found")
+            cursor.execute(
+                """
+                SELECT max(hole_number) AS max_hole
+                FROM cached_course_holes
+                WHERE course_id = %s
+                """,
+                (course_uuid,),
+            )
+            hole_row = cursor.fetchone()
+            max_hole = int(hole_row["max_hole"] or 0)
+            course["hole_count"] = (
+                9 if 1 <= max_hole <= 9
+                else (18 if max_hole >= 10 else None)
+            )
             course["tees"] = self._course_tees(
                 cursor,
                 course_uuid,

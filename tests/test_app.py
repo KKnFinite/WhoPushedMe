@@ -366,6 +366,18 @@ def test_install_onboarding_uses_approved_mascot_assets():
     assert b"WPM_Onboarding_Install_47OtherUselessApps.webp" in response.data
 
 
+def test_cached_course_exposes_and_honors_physical_hole_count():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    assert 'course["hole_count"]' in store_source
+    assert "requested_course_hole_count" in store_source
+    assert "or detected_hole_count" in store_source
+
+
 def test_round_setup_sends_route_and_par_tracking_choices():
     response = client().get("/static/app.js")
     assert response.status_code == 200
@@ -1206,44 +1218,33 @@ def test_setup_paired_actions_and_free_play_card_are_consistent():
     assert b"rgba(18,29,22,.97)" in css.data
 
 
-def test_free_play_hides_course_panel_and_step_two_mini():
+def test_free_play_exposes_separate_physical_course_layout():
     page = client().get("/")
     assert page.status_code == 200
-    assert b"SELECT HOLES" in page.data
-    assert b"PHYSICAL COURSE" not in page.data
-    assert b"Looping the same nine twice? Pick 9 here and 18 for the round." in page.data
+    assert b'id="course-layout-fieldset"' in page.data
+    assert page.data.count(b'name="course_hole_count"') == 2
+    assert b"9-HOLE COURSE" in page.data
+    assert b"18-HOLE COURSE" in page.data
+    assert b"physical course layout" in page.data
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
-    assert b"stepTwoMiniStage.hidden = !useCourse" in script.data
-    assert b"freePlaySelected" in script.data
-
-    css = client().get("/static/app.css")
-    assert css.status_code == 200
-    assert b"FREE PLAY + STEP 2/3 ACTION FINAL OVERRIDE" in css.data
-    assert b"#course-search-panel[hidden]" in css.data
-    assert b"#free-play-field[hidden]" in css.data
-    assert b"grid-template-columns: 24% minmax(0, 1fr) !important" in css.data
-    assert b"bottom: calc(max(12px, env(safe-area-inset-bottom)) + 50px) !important" in css.data
+    assert b"syncCourseLayoutControl" in script.data
+    assert b"selectedPhysicalHoleCount" in script.data
+    assert b"body.course_hole_count = selectedPhysicalHoleCount()" in script.data
 
 
-def test_course_step_owns_round_holes_and_hides_mini_during_results():
+def test_course_step_separates_round_length_from_physical_layout():
     page = client().get("/")
     assert page.status_code == 200
     html = page.data.decode("utf-8")
     assert html.count('name="holes"') == 2
+    assert html.count('name="course_hole_count"') == 2
     assert "ROUND HOLES" in html
-    assert "course_hole_count" not in html
-    assert "SELECT HOLES" not in html
+    assert "COURSE LAYOUT" in html
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
-    assert b"syncStepTwoMiniVisibility" in script.data
-    assert b"searchResultsVisible" in script.data
-    assert b"Course data says 9 holes." in script.data
-    assert b"body.course_hole_count = holes" in script.data
-
-    css = client().get("/static/app.css")
-    assert css.status_code == 200
-    assert b"COURSE STEP HOLES + MINI FINAL PLACEMENT" in css.data
-    assert b'bottom: calc(max(12px, env(safe-area-inset-bottom)) + 46px) !important' in css.data
+    assert b"inferredCourseHoleCount" in script.data
+    assert b"Course layout is unknown." in script.data
+    assert b"body.course_hole_count = selectedPhysicalHoleCount()" in script.data

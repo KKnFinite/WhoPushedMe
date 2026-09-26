@@ -344,6 +344,19 @@
             <small class="free-play-helper">No course data. You're the course database now.</small>
           </section>
 
+          <fieldset id="course-layout-fieldset" class="choice-fieldset setup-card setup-card-course-layout" hidden>
+            <legend>COURSE LAYOUT</legend>
+            <label>
+              <input type="radio" name="course_hole_count" value="9">
+              <span>9-HOLE COURSE</span>
+            </label>
+            <label>
+              <input type="radio" name="course_hole_count" value="18" checked>
+              <span>18-HOLE COURSE</span>
+            </label>
+            <small id="course-layout-hint">This is the physical course layout, not how many holes you're playing today.</small>
+          </fieldset>
+
           <p id="course-step-message" class="setup-step-message" hidden></p>
 
           <div class="setup-step-actions setup-step-actions-with-mini">

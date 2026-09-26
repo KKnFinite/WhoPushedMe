@@ -86,6 +86,8 @@
   const lobbyHome = document.getElementById('lobby-home');
   const courseSearchPanel = document.getElementById('course-search-panel');
   const freePlayField = document.getElementById('free-play-field');
+  const courseLayoutFieldset = document.getElementById('course-layout-fieldset');
+  const courseLayoutHint = document.getElementById('course-layout-hint');
   const courseSearchInput = document.getElementById('course-search-input');
   const courseSearchButton = document.getElementById('course-search-button');
   const courseResults = document.getElementById('course-results');
@@ -1754,6 +1756,54 @@
     if (roundHolesHint) roundHolesHint.textContent = message;
   };
 
+  const inferredCourseHoleCount = () => {
+    const explicit = Number(selectedCourse?.hole_count || 0);
+    if (explicit === 9 || explicit === 18) return explicit;
+
+    const teeHoleCounts = (selectedCourse?.tees || [])
+      .map((tee) => Number(tee.holes_with_tee || 0))
+      .filter((count) => count > 0);
+    const teeCount = teeHoleCounts.length ? Math.max(...teeHoleCounts) : 0;
+    if (teeCount === 9) return 9;
+    if (teeCount >= 18) return 18;
+    return 0;
+  };
+
+  const setCourseLayoutChoice = (count) => {
+    if (!startRoundForm || ![9, 18].includes(Number(count))) return;
+    const radio = startRoundForm.querySelector(
+      `input[name="course_hole_count"][value="${Number(count)}"]`
+    );
+    if (radio) radio.checked = true;
+  };
+
+  const syncCourseLayoutControl = () => {
+    if (!courseLayoutFieldset) return;
+
+    const courseMode = startRoundForm?.querySelector(
+      'input[name="course_mode"]:checked'
+    )?.value || 'course';
+    const inferred = courseMode === 'course'
+      ? inferredCourseHoleCount()
+      : 0;
+    const needsChoice = (
+      courseMode === 'free'
+      || (Boolean(selectedCourse) && !inferred)
+    );
+
+    courseLayoutFieldset.hidden = !needsChoice;
+
+    if (inferred) {
+      setCourseLayoutChoice(inferred);
+    }
+
+    if (courseLayoutHint) {
+      courseLayoutHint.textContent = courseMode === 'free'
+        ? 'Free Play needs the physical layout. A 9-hole course can still be played for 18 by looping it twice.'
+        : 'Course data could not confirm 9 vs 18. Pick the physical layout so the hole route wraps correctly.';
+    }
+  };
+
   const updateRoundHolesHint = () => {
     const courseMode = startRoundForm?.querySelector(
       'input[name="course_mode"]:checked'
@@ -1761,34 +1811,30 @@
 
     if (courseMode === 'free') {
       setRoundHolesHint(
-        'Pick 9 or 18. No course data here, so try remembering where you are.'
+        'Pick how many holes you’re playing. Course layout is a separate choice below.'
       );
       return;
     }
 
     if (!selectedCourse) {
       setRoundHolesHint(
-        'Pick 9 or 18. Select a course and we’ll tell you if it only has nine.'
+        'Pick how many holes you’re playing. Select a course and we’ll detect its physical layout when possible.'
       );
       return;
     }
 
-    const teeHoleCounts = (selectedCourse.tees || [])
-      .map((tee) => Number(tee.holes_with_tee || 0))
-      .filter((count) => count > 0);
-    const physicalCount = teeHoleCounts.length ? Math.max(...teeHoleCounts) : 0;
-
+    const physicalCount = inferredCourseHoleCount();
     if (physicalCount === 9) {
       setRoundHolesHint(
-        'Course data says 9 holes. Choose 18 if you’re playing the nine twice.'
+        'Course data says this is a 9-hole course. You can still play 18 by looping the nine twice.'
       );
-    } else if (physicalCount >= 18) {
+    } else if (physicalCount === 18) {
       setRoundHolesHint(
-        'Course data says 18 holes. For once, the numbers are cooperating.'
+        'Course data says this is an 18-hole course.'
       );
     } else {
       setRoundHolesHint(
-        'Course hole count is unavailable. Pick the round you’re actually playing.'
+        'Course layout is unknown. Pick the physical 9/18-hole layout below.'
       );
     }
   };
@@ -1821,6 +1867,7 @@
       clearSelectedCourse();
       if (courseResults) courseResults.replaceChildren();
     }
+    syncCourseLayoutControl();
     updateRoundHolesHint();
     syncStepTwoMiniVisibility();
     renderRoutePreview();
@@ -1834,18 +1881,17 @@
   const selectedPhysicalHoleCount = () => {
     const courseMode = startRoundForm?.querySelector(
       'input[name="course_mode"]:checked'
-    )?.value;
-    if (courseMode === 'free') {
-      const checked = startRoundForm?.querySelector(
-        'input[name="course_hole_count"]:checked'
-      );
-      return Number(checked?.value || 18);
+    )?.value || 'course';
+
+    if (courseMode === 'course') {
+      const inferred = inferredCourseHoleCount();
+      if (inferred) return inferred;
     }
 
-    const teeHoleCounts = (selectedCourse?.tees || [])
-      .map((tee) => Number(tee.holes_with_tee || 0))
-      .filter((count) => count > 0);
-    return teeHoleCounts.length ? Math.max(...teeHoleCounts) : 18;
+    const checked = startRoundForm?.querySelector(
+      'input[name="course_hole_count"]:checked'
+    );
+    return Number(checked?.value || 18);
   };
 
   const renderRoutePreview = () => {
@@ -1908,6 +1954,7 @@
       });
       selectedCourse = course;
       setCourseStepMessage('');
+      syncCourseLayoutControl();
       updateRoundHolesHint();
       renderRoutePreview();
 
@@ -1946,6 +1993,7 @@
     // A new search invalidates the prior course/tee presentation. Keeping it
     // visible steals the space reserved for the three search results.
     clearSelectedCourse();
+    syncCourseLayoutControl();
     updateRoundHolesHint();
     renderRoutePreview();
 
@@ -4570,6 +4618,9 @@
   });
   startHoleInput?.addEventListener('input', renderRoutePreview);
   trackingStartPosition?.addEventListener('change', renderRoutePreview);
+  startRoundForm?.querySelectorAll('input[name="course_hole_count"]').forEach(
+    (radio) => radio.addEventListener('change', renderRoutePreview)
+  );
 
   setupNextButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -4640,13 +4691,14 @@
         ),
       };
 
+      body.course_hole_count = selectedPhysicalHoleCount();
+
       if (courseMode === 'course') {
         body.course_id = selectedCourse.id;
         if (startTeeSelect?.value) body.tee_name = startTeeSelect.value;
       } else {
         body.free_play_name =
           String(values.get('free_play_name') || '').trim() || 'Free Play';
-        body.course_hole_count = holes;
       }
 
       const created = await requestJson('/api/rounds', {
