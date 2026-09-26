@@ -2844,6 +2844,7 @@
       );
       button.addEventListener('click', () => {
         if (!currentLobbyRound) return;
+        parEditorOpen = false;
         viewedRoutePosition = position;
         renderLiveRound(currentLobbyRound);
       });
@@ -4686,6 +4687,7 @@
   holePrev?.addEventListener('click', () => {
     if (!currentLobbyRound || viewedRoutePosition === null) return;
     if (Number(viewedRoutePosition) <= 1) return;
+    parEditorOpen = false;
     viewedRoutePosition = Number(viewedRoutePosition) - 1;
     renderLiveRound(currentLobbyRound);
   });
@@ -4706,6 +4708,7 @@
     const viewed = Number(viewedRoutePosition);
     if (viewed >= length) return;
 
+    parEditorOpen = false;
     viewedRoutePosition = viewed + 1;
     renderLiveRound(currentLobbyRound);
   });
