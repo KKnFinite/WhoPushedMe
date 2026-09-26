@@ -410,10 +410,17 @@
       </form>
 
       <form id="join-round-form" class="round-flow-form round-join-form" data-round-panel="join" hidden>
-        <label class="round-text-field">
-          <span>4-DIGIT ROUND CODE</span>
-          <input name="code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1234" required>
-        </label>
+        <section class="join-code-panel" aria-labelledby="join-code-label">
+          <div id="join-code-label" class="join-code-label">4-DIGIT ROUND CODE</div>
+          <input id="join-round-code" name="code" type="hidden" value="">
+          <div id="join-code-digits" class="join-code-digits" role="group" aria-label="4-digit round code">
+            <input class="join-code-digit" data-join-code-digit="0" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" aria-label="Round code digit 1">
+            <input class="join-code-digit" data-join-code-digit="1" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="Round code digit 2">
+            <input class="join-code-digit" data-join-code-digit="2" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="Round code digit 3">
+            <input class="join-code-digit" data-join-code-digit="3" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="Round code digit 4">
+          </div>
+          <div class="join-code-helper">FOUR DIGITS. TRY TO KEEP UP.</div>
+        </section>
 
         <aside id="join-round-heckle" class="screen-heckle screen-heckle-compact join-round-heckle" hidden aria-label="Who Pushed Me join round commentary">
           <p id="join-round-heckle-text"></p>
