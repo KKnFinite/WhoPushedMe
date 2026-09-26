@@ -83,7 +83,8 @@ def test_home_loads_pwa_shell():
     assert b"TRASH TALK" in response.data
     assert b"DRINKING JOKES" in response.data
     assert b"WIFE JOKES" in response.data
-    assert b"BRUTAL" in response.data
+    assert b"VULGARITY" not in response.data
+    assert b'max_vulgarity' not in response.data
     assert b"manifest.webmanifest" in response.data
 
 
