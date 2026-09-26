@@ -128,13 +128,17 @@ def test_critical_frontend_assets_are_versioned_and_network_first():
 def test_mobile_focus_does_not_zoom_the_layout():
     page = client().get("/")
     assert page.status_code == 200
-    assert b"maximum-scale=1" in page.data
-    assert b"user-scalable=no" in page.data
+    assert b"width=device-width" in page.data
+    assert b"initial-scale=1" in page.data
 
     css = client().get("/static/app.css")
     assert css.status_code == 200
-    assert b"IOS FOCUS ZOOM GUARD" in css.data
-    assert b"font-size: 16px !important" in css.data
+    assert b"IOS FOCUS ZOOM HARD LOCK" in css.data
+    assert b"touch-action: manipulation" in css.data
+    assert b"font-size: 17px !important" in css.data
+    assert b'[contenteditable="true"]' in css.data
+    assert b".live-score-input" in css.data
+    assert b"font-size: 1.75rem !important" in css.data
 
 
 def test_asset_builder_keeps_shell_cache_version_in_sync():
