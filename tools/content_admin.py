@@ -362,7 +362,7 @@ def cmd_repair_copy(args: argparse.Namespace) -> None:
 
     print(f"Suspicious copy values queued: {len(selected)}")
     print("This only repairs the visible-message copy.")
-    print("Hat copy, events, vulgarity, themes, notes, and audit status are preserved.")
+    print("Hat copy, events, themes, notes, and audit status are preserved.")
     print()
 
     for index, (row, asset, family) in enumerate(selected, start=1):
@@ -470,7 +470,6 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
             "Current events: "
             + (", ".join(current_event_labels) or "none")
         )
-        print(f"Current vulgarity: {row.get('vulgarity', 'normal')}")
         print(
             "Current themes: "
             + (", ".join(row.get("themes") or []) or "none")
@@ -505,11 +504,6 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
         if edit_events == "e":
             events = _choose_events(catalog.registry, current=events)
 
-        vulgarity = _prompt_choice(
-            "Vulgarity",
-            str(row.get("vulgarity") or "normal"),
-            ["normal", "brutal"],
-        )
         themes = _prompt_themes(catalog, list(row.get("themes") or []))
         notes = _prompt_keep("Notes (optional)", row.get("notes"))
 
@@ -526,7 +520,6 @@ def cmd_audit_minis(args: argparse.Namespace) -> None:
                 "copy": copy,
                 "hat_copy": hat_copy,
                 "events": events,
-                "vulgarity": vulgarity,
                 "themes": themes,
                 "notes": notes,
                 "audit_status": "verified",
@@ -628,7 +621,6 @@ def cmd_add_banter(args: argparse.Namespace) -> None:
             "text": text,
             "events": events,
             "audiences": [args.audience],
-            "vulgarity": args.vulgarity,
             "themes": themes,
             "enabled": True,
         }
@@ -714,7 +706,6 @@ def cmd_add_mini(args: argparse.Namespace) -> None:
             "copy": copy,
             "hat_copy": hat_copy,
             "events": events,
-            "vulgarity": args.vulgarity,
             "themes": themes,
             "enabled": True,
             "notes": args.notes or "",
@@ -1082,7 +1073,6 @@ def build_parser() -> argparse.ArgumentParser:
     add_banter.add_argument("--short-name")
     add_banter.add_argument("--event", action="append")
     add_banter.add_argument("--theme", action="append")
-    add_banter.add_argument("--vulgarity", choices=["normal", "brutal"], default="normal")
     add_banter.add_argument(
         "--audience",
         choices=["everyone", "actor", "target", "subject", "others", "team"],
@@ -1151,7 +1141,6 @@ def build_parser() -> argparse.ArgumentParser:
     add_mini.add_argument("--event", action="append")
     add_mini.add_argument("--theme", action="append")
     add_mini.add_argument("--family")
-    add_mini.add_argument("--vulgarity", choices=["normal", "brutal"], default="normal")
     add_mini.set_defaults(func=cmd_add_mini)
 
     remove_mini = subparsers.add_parser(
