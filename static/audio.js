@@ -3,8 +3,8 @@
   const DEFAULTS = {
     music_enabled: true,
     sfx_enabled: true,
-    music_volume: 0.18,
-    sfx_volume: 0.34,
+    music_volume: 0.52,
+    sfx_volume: 0.58,
   };
 
   const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
@@ -74,6 +74,7 @@
       }
     }
     unlocked = audio.state === 'running';
+    if (!unlocked) armUnlockListeners?.();
     return unlocked;
   };
 
@@ -231,7 +232,7 @@
       when: now,
       duration: step % 4 === 0 ? 0.18 : 0.10,
       type: 'sawtooth',
-      gain: 0.055,
+      gain: 0.12,
       filterFrequency: 1600,
       distortion: 42,
     });
@@ -240,16 +241,16 @@
       when: now,
       duration: 0.08,
       type: 'square',
-      gain: 0.018,
+      gain: 0.035,
       filterFrequency: 2200,
       distortion: 26,
     });
 
-    if ([0, 4, 8, 12].includes(step)) kick(now, musicMaster, 0.12);
+    if ([0, 4, 8, 12].includes(step)) kick(now, musicMaster, 0.19);
     if ([4, 12].includes(step)) {
       noiseHit({
         when: now,
-        gain: 0.055,
+        gain: 0.085,
         duration: 0.12,
         highpass: 900,
       });
@@ -257,7 +258,7 @@
     if (step % 2 === 0) {
       noiseHit({
         when: now,
-        gain: 0.018,
+        gain: 0.03,
         duration: 0.035,
         highpass: 4800,
       });
@@ -279,7 +280,7 @@
         when: now,
         duration: 0.13,
         type: 'triangle',
-        gain: 0.052,
+        gain: 0.085,
         filterFrequency: 620,
       });
     }
@@ -292,17 +293,17 @@
           when: now,
           duration: 0.33,
           type: index % 2 ? 'sine' : 'triangle',
-          gain: 0.014,
+          gain: 0.027,
           filterFrequency: 1500,
         });
       });
     }
 
-    if ([0, 8].includes(step)) kick(now, musicMaster, 0.06);
+    if ([0, 8].includes(step)) kick(now, musicMaster, 0.11);
     if ([4, 12].includes(step)) {
       noiseHit({
         when: now,
-        gain: 0.028,
+        gain: 0.05,
         duration: 0.08,
         highpass: 1200,
       });
@@ -310,7 +311,7 @@
     if (step % 2 === 1) {
       noiseHit({
         when: now,
-        gain: 0.014,
+        gain: 0.025,
         duration: 0.025,
         highpass: 5200,
       });
@@ -490,16 +491,33 @@
 
   const getSettings = () => ({ ...settings });
 
-  const onFirstGesture = () => {
-    void unlock();
-    window.removeEventListener('pointerdown', onFirstGesture, true);
-    window.removeEventListener('touchstart', onFirstGesture, true);
-    window.removeEventListener('keydown', onFirstGesture, true);
+  let unlockListenersArmed = false;
+
+  const disarmUnlockListeners = () => {
+    if (!unlockListenersArmed) return;
+    unlockListenersArmed = false;
+    window.removeEventListener('pointerup', onAudioGesture, true);
+    window.removeEventListener('touchend', onAudioGesture, true);
+    window.removeEventListener('click', onAudioGesture, true);
+    window.removeEventListener('keydown', onAudioGesture, true);
   };
 
-  window.addEventListener('pointerdown', onFirstGesture, true);
-  window.addEventListener('touchstart', onFirstGesture, true);
-  window.addEventListener('keydown', onFirstGesture, true);
+  const armUnlockListeners = () => {
+    if (unlockListenersArmed) return;
+    unlockListenersArmed = true;
+    window.addEventListener('pointerup', onAudioGesture, true);
+    window.addEventListener('touchend', onAudioGesture, true);
+    window.addEventListener('click', onAudioGesture, true);
+    window.addEventListener('keydown', onAudioGesture, true);
+  };
+
+  function onAudioGesture() {
+    void unlock().then((ready) => {
+      if (ready) disarmUnlockListeners();
+    });
+  }
+
+  armUnlockListeners();
 
   document.addEventListener('visibilitychange', () => {
     if (!context) return;
@@ -508,7 +526,18 @@
       return;
     }
     if (unlocked) {
-      void context.resume().then(applyScene).catch(() => {});
+      void context.resume()
+        .then(() => {
+          unlocked = context.state === 'running';
+          if (unlocked) applyScene();
+          else armUnlockListeners();
+        })
+        .catch(() => {
+          unlocked = false;
+          armUnlockListeners();
+        });
+    } else {
+      armUnlockListeners();
     }
   });
 
