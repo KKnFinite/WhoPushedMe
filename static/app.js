@@ -2646,7 +2646,7 @@
         remove.type = 'button';
         remove.className = 'live-score-remove';
         remove.textContent = '×';
-        remove.setAttribute('aria-label', 'Remove ' + label + ' score');
+        remove.setAttribute('aria-label', 'REMOVE SCORE FOR ' + label);
         remove.addEventListener('click', async () => {
           remove.disabled = true;
           setRoundFlowMessage('');
