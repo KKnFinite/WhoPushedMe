@@ -603,10 +603,6 @@
 
         <section id="live-hole-stats" class="live-hole-stats" hidden></section>
 
-        <button id="advance-live-hole" class="settings-save live-next-hole" type="button" hidden>
-          NEXT HOLE →
-        </button>
-
         <section id="advance-warning-panel" class="advance-warning-panel" hidden>
           <strong>SCORECARD ISN'T DONE WITH THIS HOLE.</strong>
           <p id="advance-warning-copy"></p>
@@ -620,20 +616,12 @@
           BACK TO LIVE
         </button>
 
-        <nav class="live-bottom-nav" aria-label="Live round navigation">
-          <button id="live-nav-play" class="is-active" type="button">
-            <span>⚑</span><strong>PLAY</strong>
+        <div class="live-footer-actions" aria-label="Live round actions">
+          <button id="live-nav-more" class="live-footer-more" type="button">MORE</button>
+          <button id="advance-live-hole" class="settings-save live-next-hole" type="button" hidden>
+            NEXT HOLE →
           </button>
-          <button id="live-nav-scorecard" type="button">
-            <span>▤</span><strong>SCORECARD</strong>
-          </button>
-          <button id="live-nav-stats" type="button">
-            <span>▥</span><strong>STATS</strong>
-          </button>
-          <button id="live-nav-more" type="button">
-            <span>•••</span><strong>MORE</strong>
-          </button>
-        </nav>
+        </div>
 
         <section id="live-more-panel" class="live-more-panel" hidden>
           <div class="live-more-heading">

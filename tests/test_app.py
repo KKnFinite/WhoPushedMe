@@ -212,6 +212,45 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
+def test_live_footer_uses_more_and_next_hole_only():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'class="live-footer-actions"' in page.data
+    assert b'id="live-nav-more"' in page.data
+    assert b'id="advance-live-hole"' in page.data
+    assert b'id="live-nav-play"' not in page.data
+    assert b'id="live-nav-scorecard"' not in page.data
+    assert b'id="live-nav-stats"' not in page.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"LIVE PLAY COMPACT ACTION LAYOUT" in css.data
+    assert b".live-footer-actions" in css.data
+
+
+def test_live_stats_shell_is_populated_before_round_math():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLiveHoleStats =")
+    end = source.index("const updateReceiptsBadge", start)
+    stats_block = source[start:end]
+
+    assert stats_block.index("liveHoleStats.append(") < stats_block.index("try {")
+    assert "ROUND STATS" in stats_block
+    assert "SCORES IN" in stats_block
+    assert "YOUR TOTAL" in stats_block
+    assert "TO PAR" in stats_block
+
+
+def test_live_score_submit_is_compact_inside_score_row():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b".live-score-row .live-score-submit" in css.data
+    assert b"width: 88px !important" in css.data
+    assert b"grid-column: auto !important" in css.data
+
+
 def test_live_score_keyboard_survives_background_polling():
     response = client().get("/static/app.js")
     assert response.status_code == 200
@@ -234,8 +273,8 @@ def test_live_score_adjustments_require_explicit_submit():
     score_block = source[start:end]
 
     assert "submit.className = 'live-score-submit'" in score_block
-    assert "'SUBMIT SCORE'" in score_block
-    assert "'UPDATE SCORE'" in score_block
+    assert "'SUBMIT'" in score_block
+    assert "'UPDATE'" in score_block
     assert "submit.addEventListener('click', async () =>" in score_block
     assert "minus.addEventListener('click', () =>" in score_block
     assert "plus.addEventListener('click', () =>" in score_block
@@ -248,7 +287,7 @@ def test_live_stats_show_running_total_and_to_par_not_averages():
     assert response.status_code == 200
     source = response.data.decode("utf-8")
     start = source.index("const renderLiveHoleStats =")
-    end = source.index("const setLiveNavActive", start)
+    end = source.index("const updateReceiptsBadge", start)
     stats_block = source[start:end]
 
     assert "ROUND STATS" in stats_block

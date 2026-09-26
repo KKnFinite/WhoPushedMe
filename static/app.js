@@ -164,9 +164,6 @@
   const liveBanterSend = document.getElementById('live-banter-send');
   const liveHoleStats = document.getElementById('live-hole-stats');
   const liveMorePanel = document.getElementById('live-more-panel');
-  const liveNavPlay = document.getElementById('live-nav-play');
-  const liveNavScorecard = document.getElementById('live-nav-scorecard');
-  const liveNavStats = document.getElementById('live-nav-stats');
   const liveNavMore = document.getElementById('live-nav-more');
   const latestPresentation = document.getElementById('latest-presentation');
   const latestMascot = document.getElementById('latest-mascot');
@@ -2794,8 +2791,8 @@
         );
         submit.disabled = !valid || unchanged;
         submit.textContent = unchanged
-          ? 'SCORE SAVED'
-          : (score ? 'UPDATE SCORE' : 'SUBMIT SCORE');
+          ? 'SAVED'
+          : (score ? 'UPDATE' : 'SUBMIT');
       };
 
       const setBusy = (busy) => {
@@ -3388,105 +3385,114 @@
 
     const route = routeEntry(round, position);
     const hole = Number(route?.hole_number || position);
-    let currentScores = [];
-    let expected = 1;
-
-    if (round.mode === 'scramble') {
-      const score = findScore(round, position);
-      if (score) currentScores = [Number(score.strokes)];
-    } else {
-      const players = (round.participants || []).filter(
-        (participant) =>
-          participant.role === 'player'
-          && participant.participation_state === 'active'
-          && Number(participant.tracked_from_position || 1) <= Number(position)
-      );
-      expected = players.length;
-      currentScores = players
-        .map((participant) => findScore(round, position, participant.id))
-        .filter(Boolean)
-        .map((score) => Number(score.strokes));
-    }
-
-    const viewer = viewerParticipant(round);
-    const cumulativeScores = (round.scores || []).filter((score) => {
-      if (Number(score.route_position) > Number(position)) return false;
-      if (round.mode === 'scramble') return score.score_scope === 'team';
-      return (
-        viewer?.role === 'player'
-        && score.score_scope === 'player'
-        && String(score.player_participant_id) === String(viewer.id)
-      );
-    });
-
-    const totalStrokes = cumulativeScores.length
-      ? cumulativeScores.reduce(
-          (sum, score) => sum + Number(score.strokes || 0),
-          0
-        )
-      : null;
-
-    let totalToPar = null;
-    if (
-      totalStrokes !== null
-      && round.par_tracking_enabled
-      && cumulativeScores.length
-    ) {
-      let allParsKnown = true;
-      let parTotal = 0;
-      cumulativeScores.forEach((score) => {
-        const scorePar = findPar(round, score.route_position);
-        if (!Number.isFinite(scorePar)) {
-          allParsKnown = false;
-          return;
-        }
-        parTotal += Number(scorePar);
-      });
-      if (allParsKnown) totalToPar = totalStrokes - parTotal;
-    }
-
-    const relativeLabel = totalToPar === null
-      ? '—'
-      : (totalToPar === 0
-        ? 'E'
-        : (totalToPar > 0 ? ('+' + totalToPar) : String(totalToPar)));
 
     liveHoleStats.replaceChildren();
 
     const heading = document.createElement('div');
     heading.className = 'live-hole-stat-heading';
-    heading.innerHTML =
-      '<strong>ROUND STATS</strong><small>THROUGH HOLE ' + hole + '</small>';
-    liveHoleStats.append(heading);
+    const headingTitle = document.createElement('strong');
+    headingTitle.textContent = 'ROUND STATS';
+    const headingMeta = document.createElement('small');
+    headingMeta.textContent = 'THROUGH HOLE ' + String(hole);
+    heading.append(headingTitle, headingMeta);
 
-    const addStat = (label, value) => {
+    const createStat = (label, initialValue = '—') => {
       const stat = document.createElement('div');
       stat.className = 'live-hole-stat';
       const small = document.createElement('small');
       small.textContent = label;
       const strong = document.createElement('strong');
-      strong.textContent = value;
+      strong.textContent = initialValue;
       stat.append(small, strong);
-      liveHoleStats.append(stat);
+      return { stat, value: strong };
     };
 
-    addStat(
-      'SCORES IN',
-      String(currentScores.length) + '/' + String(expected || 1)
+    const scoresInStat = createStat('SCORES IN', '0/1');
+    const totalStat = createStat(
+      round.mode === 'scramble' ? 'TEAM TOTAL' : 'YOUR TOTAL'
     );
-    addStat(
-      round.mode === 'scramble' ? 'TEAM TOTAL' : 'YOUR TOTAL',
-      totalStrokes === null ? '—' : String(totalStrokes)
-    );
-    addStat('TO PAR', relativeLabel);
+    const toParStat = createStat('TO PAR');
 
+    liveHoleStats.append(
+      heading,
+      scoresInStat.stat,
+      totalStat.stat,
+      toParStat.stat
+    );
     liveHoleStats.hidden = false;
-  };
 
-  const setLiveNavActive = (activeButton) => {
-    [liveNavPlay, liveNavScorecard, liveNavStats, liveNavMore].forEach(
-      (button) => button?.classList.toggle('is-active', button === activeButton)
-    );
+    try {
+      let currentScores = [];
+      let expected = 1;
+
+      if (round.mode === 'scramble') {
+        const score = findScore(round, position);
+        if (score) currentScores = [Number(score.strokes)];
+      } else {
+        const players = (round.participants || []).filter(
+          (participant) =>
+            participant.role === 'player'
+            && participant.participation_state === 'active'
+            && Number(participant.tracked_from_position || 1) <= Number(position)
+        );
+        expected = Math.max(players.length, 1);
+        currentScores = players
+          .map((participant) => findScore(round, position, participant.id))
+          .filter(Boolean)
+          .map((score) => Number(score.strokes));
+      }
+
+      scoresInStat.value.textContent =
+        String(currentScores.length) + '/' + String(expected);
+
+      const viewer = viewerParticipant(round);
+      const cumulativeScores = (round.scores || []).filter((score) => {
+        if (Number(score.route_position) > Number(position)) return false;
+        if (round.mode === 'scramble') return score.score_scope === 'team';
+        return (
+          viewer?.role === 'player'
+          && score.score_scope === 'player'
+          && String(score.player_participant_id) === String(viewer.id)
+        );
+      });
+
+      const totalStrokes = cumulativeScores.length
+        ? cumulativeScores.reduce(
+            (sum, score) => sum + Number(score.strokes || 0),
+            0
+          )
+        : null;
+
+      totalStat.value.textContent =
+        totalStrokes === null ? '—' : String(totalStrokes);
+
+      let totalToPar = null;
+      if (
+        totalStrokes !== null
+        && round.par_tracking_enabled
+        && cumulativeScores.length
+      ) {
+        let allParsKnown = true;
+        let parTotal = 0;
+        cumulativeScores.forEach((score) => {
+          const scorePar = findPar(round, score.route_position);
+          if (!Number.isFinite(scorePar)) {
+            allParsKnown = false;
+            return;
+          }
+          parTotal += Number(scorePar);
+        });
+        if (allParsKnown) totalToPar = totalStrokes - parTotal;
+      }
+
+      toParStat.value.textContent = totalToPar === null
+        ? '—'
+        : (totalToPar === 0
+          ? 'E'
+          : (totalToPar > 0 ? ('+' + totalToPar) : String(totalToPar)));
+    } catch (_error) {
+      // Keep the stat labels visible even if a malformed live payload arrives.
+    }
   };
 
   const updateReceiptsBadge = (round) => {
@@ -4306,6 +4312,10 @@
     renderScoreCard(round, viewedRoutePosition);
     renderScrambleContributions(round, viewedRoutePosition);
     renderLiveHoleStats(round, viewedRoutePosition);
+    if (liveNavMore) {
+      liveNavMore.textContent =
+        liveMorePanel && !liveMorePanel.hidden ? 'CLOSE MORE' : 'MORE';
+    }
     renderLatestPresentation(round);
     renderReceipts(round);
 
@@ -5805,29 +5815,11 @@
     }
   });
 
-  liveNavPlay?.addEventListener('click', () => {
-    if (liveMorePanel) liveMorePanel.hidden = true;
-    setLiveNavActive(liveNavPlay);
-    liveRoundPanel?.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  liveNavScorecard?.addEventListener('click', () => {
-    if (liveMorePanel) liveMorePanel.hidden = true;
-    setLiveNavActive(liveNavScorecard);
-    liveScoreArea?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  liveNavStats?.addEventListener('click', () => {
-    if (liveMorePanel) liveMorePanel.hidden = true;
-    setLiveNavActive(liveNavStats);
-    liveHoleStats?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
-
   liveNavMore?.addEventListener('click', () => {
     if (!liveMorePanel) return;
     const opening = liveMorePanel.hidden;
     liveMorePanel.hidden = !opening;
-    setLiveNavActive(opening ? liveNavMore : liveNavPlay);
+    liveNavMore.textContent = opening ? 'CLOSE MORE' : 'MORE';
     if (opening) {
       liveMorePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -5837,7 +5829,6 @@
     if (!currentLobbyRound || viewedRoutePosition === null) return;
     parEditorOpen = true;
     if (liveMorePanel) liveMorePanel.hidden = true;
-    setLiveNavActive(liveNavPlay);
     renderLiveRound(currentLobbyRound);
     window.requestAnimationFrame(() => {
       parInput?.focus();
