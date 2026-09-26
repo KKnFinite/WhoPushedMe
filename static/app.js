@@ -1921,6 +1921,7 @@
   const closeRoundFlow = () => {
     if (!roundFlowModal) return;
     stopUserHeckle('roundSetup', { hide: true });
+    stopLobbyBanterRotation();
     roundFlowModal.hidden = true;
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
@@ -1975,6 +1976,7 @@
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
     roundFlowCardGame?.classList.remove('is-live-round');
+    stopLobbyBanterRotation();
     stopUserHeckle('home');
     stopUserHeckle('roundSetup', { hide: true });
     roundFlowModal.hidden = false;
@@ -3460,6 +3462,7 @@
   };
 
   const renderRoundEnd = (round) => {
+    stopLobbyBanterRotation();
     currentLobbyRound = round;
     viewedRoutePosition = null;
     finishIncompletePending = false;
@@ -3682,6 +3685,7 @@
   };
 
   const renderLiveRound = (round) => {
+    stopLobbyBanterRotation();
     const previousRound = currentLobbyRound;
     const previousLivePosition = Number(
       previousRound?.current_route_position
