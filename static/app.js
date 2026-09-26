@@ -3802,19 +3802,35 @@
       && !viewingFuture
       && round.status === 'active'
     );
+    const needsPar = (
+      Boolean(round.par_tracking_enabled)
+      && viewedRoute?.state !== 'skipped'
+      && !par
+    );
+    const showParEditor = (
+      canEditViewedHole
+      && Boolean(round.par_tracking_enabled)
+      && (needsPar || parEditorOpen)
+    );
+
     if (parForm) {
-      parForm.hidden = (
-        !Boolean(round.par_tracking_enabled)
-        || viewedRoute?.state === 'skipped'
-      );
+      parForm.hidden = !showParEditor;
     }
     if (parInput) {
       parInput.value = par ? String(par) : '';
       parInput.disabled = !canEditViewedHole;
     }
     if (parSubmit) {
-      parSubmit.textContent = par ? 'PUSH PAR' : 'REPORT PAR';
+      parSubmit.textContent = par ? 'SAVE PAR' : 'SET PAR';
       parSubmit.disabled = !canEditViewedHole;
+    }
+    if (liveEditPar) {
+      liveEditPar.hidden = (
+        !canEditViewedHole
+        || !Boolean(round.par_tracking_enabled)
+        || viewedRoute?.state === 'skipped'
+      );
+      liveEditPar.textContent = par ? ('EDIT PAR • ' + par) : 'SET PAR';
     }
 
     renderLiveHoleSelector(round, viewedRoutePosition, livePosition);
