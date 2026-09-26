@@ -291,12 +291,24 @@ def test_live_stats_show_running_total_and_to_par_not_averages():
     stats_block = source[start:end]
 
     assert "ROUND STATS" in stats_block
+    assert "CURRENT ROUND" in stats_block
     assert "YOUR TOTAL" in stats_block
     assert "TEAM TOTAL" in stats_block
     assert "TO PAR" in stats_block
     assert "AVG SCORE" not in stats_block
     assert "AVG TO PAR" not in stats_block
+    assert "round.current_route_position" in stats_block
+    assert "viewedRoutePosition" not in stats_block
+    assert "const renderLiveHoleStats = (round) =>" in stats_block
 
+
+def test_browsing_holes_does_not_change_round_stats_source():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    assert "renderLiveHoleStats(round);" in source
+    assert "renderLiveHoleStats(round, viewedRoutePosition)" not in source
 
 def test_game_action_buttons_use_consistent_label_size():
     css = client().get("/static/app.css")

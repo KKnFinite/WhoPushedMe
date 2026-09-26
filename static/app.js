@@ -3408,11 +3408,14 @@
     );
   };
 
-  const renderLiveHoleStats = (round, position) => {
+  const renderLiveHoleStats = (round) => {
     if (!liveHoleStats) return;
 
-    const route = routeEntry(round, position);
-    const hole = Number(route?.hole_number || position);
+    const livePosition = Number(
+      round.current_route_position
+      || round.current_hole
+      || 1
+    );
 
     liveHoleStats.replaceChildren();
 
@@ -3421,7 +3424,7 @@
     const headingTitle = document.createElement('strong');
     headingTitle.textContent = 'ROUND STATS';
     const headingMeta = document.createElement('small');
-    headingMeta.textContent = 'THROUGH HOLE ' + String(hole);
+    headingMeta.textContent = 'CURRENT ROUND';
     heading.append(headingTitle, headingMeta);
 
     const createStat = (label, initialValue = '—') => {
@@ -3454,18 +3457,18 @@
       let expected = 1;
 
       if (round.mode === 'scramble') {
-        const score = findScore(round, position);
+        const score = findScore(round, livePosition);
         if (score) currentScores = [Number(score.strokes)];
       } else {
         const players = (round.participants || []).filter(
           (participant) =>
             participant.role === 'player'
             && participant.participation_state === 'active'
-            && Number(participant.tracked_from_position || 1) <= Number(position)
+            && Number(participant.tracked_from_position || 1) <= livePosition
         );
         expected = Math.max(players.length, 1);
         currentScores = players
-          .map((participant) => findScore(round, position, participant.id))
+          .map((participant) => findScore(round, livePosition, participant.id))
           .filter(Boolean)
           .map((score) => Number(score.strokes));
       }
@@ -3475,7 +3478,7 @@
 
       const viewer = viewerParticipant(round);
       const cumulativeScores = (round.scores || []).filter((score) => {
-        if (Number(score.route_position) > Number(position)) return false;
+        if (Number(score.route_position) > livePosition) return false;
         if (round.mode === 'scramble') return score.score_scope === 'team';
         return (
           viewer?.role === 'player'
@@ -4339,7 +4342,7 @@
     renderLiveBanter(round);
     renderScoreCard(round, viewedRoutePosition);
     renderScrambleContributions(round, viewedRoutePosition);
-    renderLiveHoleStats(round, viewedRoutePosition);
+    renderLiveHoleStats(round);
     if (liveNavMore) {
       liveNavMore.textContent =
         liveMorePanel && !liveMorePanel.hidden ? 'CLOSE MORE' : 'MORE';
