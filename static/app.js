@@ -1961,9 +1961,15 @@
 
   const resetClaimPlayerPanel = () => {
     pendingClaimJoin = null;
+    pendingJoinPreview = null;
     if (claimPlayerPanel) claimPlayerPanel.hidden = true;
     if (claimPlayerList) claimPlayerList.replaceChildren();
-    if (joinRoundSubmit) joinRoundSubmit.hidden = false;
+    if (joinTeeField) joinTeeField.hidden = true;
+    if (joinTeeSelect) joinTeeSelect.replaceChildren();
+    if (joinRoundSubmit) {
+      joinRoundSubmit.hidden = false;
+      joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+    }
   };
 
   const showRoundPanel = (panel) => {
@@ -4291,12 +4297,36 @@
     resetClaimPlayerPanel();
   };
 
-  const joinAsNewParticipant = async (code, role) => {
+  const joinAsNewParticipant = async (code, role, teeName = '') => {
     await requestJson('/api/rounds/join', {
       method: 'POST',
-      body: { code, role },
+      body: {
+        code,
+        role,
+        tee_name: teeName || null,
+      },
     });
     await enterJoinedRound(code);
+  };
+
+  const prepareJoinTeeChoice = (payload, code, role = 'player') => {
+    const tees = payload?.available_tees || [];
+    const needsTee = (
+      role === 'player'
+      && payload?.mode === 'individual'
+      && tees.length > 0
+    );
+    if (!needsTee || !joinTeeField || !joinTeeSelect) return false;
+
+    pendingJoinPreview = { code, role, payload };
+    fillTeeSelect(joinTeeSelect, tees);
+    joinTeeField.hidden = false;
+    if (joinRoundSubmit) {
+      joinRoundSubmit.hidden = false;
+      joinRoundSubmit.textContent = 'JOIN THE LOBBY';
+    }
+    joinTeeSelect.focus();
+    return true;
   };
 
   const showClaimablePlayers = (payload, code) => {
@@ -4307,6 +4337,7 @@
       code,
       roundId: payload.round_id,
       role: 'player',
+      preview: payload,
     };
     claimPlayerList.replaceChildren();
 
@@ -4359,11 +4390,27 @@
     const role = String(values.get('role') || 'player');
 
     try {
+      const teeChoiceReady = (
+        role === 'player'
+        && pendingJoinPreview?.code === code
+        && joinTeeField
+        && !joinTeeField.hidden
+      );
+      if (teeChoiceReady) {
+        const teeName = String(joinTeeSelect?.value || '').trim();
+        if (!teeName) {
+          throw new Error('Pick your tee before entering the lobby.');
+        }
+        await joinAsNewParticipant(code, role, teeName);
+        return;
+      }
+
       if (role === 'player') {
         const claimable = await requestJson(
           `/api/rounds/code/${encodeURIComponent(code)}/claimable-players`
         );
         if (showClaimablePlayers(claimable, code)) return;
+        if (prepareJoinTeeChoice(claimable, code, role)) return;
       }
 
       await joinAsNewParticipant(code, role);
@@ -4376,9 +4423,16 @@
 
   claimPlayerNone?.addEventListener('click', async () => {
     if (!pendingClaimJoin) return;
-    const { code, role } = pendingClaimJoin;
-    setFormBusy(joinRoundForm, true);
+    const { code, role, preview } = pendingClaimJoin;
     setRoundFlowMessage('');
+    if (claimPlayerPanel) claimPlayerPanel.hidden = true;
+    if (claimPlayerList) claimPlayerList.replaceChildren();
+
+    if (prepareJoinTeeChoice(preview, code, role)) {
+      return;
+    }
+
+    setFormBusy(joinRoundForm, true);
     try {
       await joinAsNewParticipant(code, role);
     } catch (error) {
