@@ -165,6 +165,55 @@ def test_live_scorecard_uses_unique_reaction_and_challenge_controls():
     assert b"/reaction" in response.data
     assert b"talk_shit" in response.data
 
+def test_lobby_is_social_and_tee_choice_happens_before_entry():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="join-tee-field"' in page.data
+    assert b'id="lobby-banter-feed"' in page.data
+    assert b'id="lobby-banter-form"' in page.data
+    assert b'id="lobby-tee-panel"' not in page.data
+    assert b'id="lobby-handicap-panel"' not in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"LOBBY_BANTER_ROTATE_MS = 8000" in script.data
+    assert b"lobby.idle" in script.data
+    assert b"prepareJoinTeeChoice" in script.data
+    assert b"tee_name: teeName || null" in script.data
+    assert b"lobbyBanterForm?.addEventListener" in script.data
+
+
+def test_lobby_idle_banter_is_registered_and_admin_editable():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    events = json.loads(
+        (root / "who_pushed_me" / "content" / "events.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    banter = json.loads(
+        (root / "who_pushed_me" / "content" / "banter.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    admin = (root / "tools" / "content_admin.py").read_text(encoding="utf-8")
+
+    lobby_idle = next(
+        row for row in events["events"] if row["key"] == "lobby.idle"
+    )
+    assert lobby_idle["triggerable"] is True
+    assert lobby_idle["admin_toggleable"] is True
+
+    lobby_rows = [
+        row for row in banter["banter"]
+        if "lobby.idle" in row.get("events", [])
+    ]
+    assert len(lobby_rows) >= 12
+    assert '"lobby.idle": 160' in admin
+
+
 
 def test_receipts_keep_score_social_history_visible():
     response = client().get("/static/app.js")
