@@ -5051,7 +5051,13 @@ class RoundStore:
             validate_social_event(participant["role"], kind)
 
             if round_row["status"] != "active":
-                raise DomainError("Bag of Bullshit is only available during an active round")
+                if not (
+                    round_row["status"] == "setup"
+                    and kind == "open_mic"
+                ):
+                    raise DomainError(
+                        "Bag of Bullshit is only available during an active round"
+                    )
 
             route_position = (
                 int(hole)
