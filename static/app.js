@@ -4513,6 +4513,37 @@
     return true;
   };
 
+  joinRoundForm?.querySelectorAll('input[name="role"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      pendingJoinPreview = null;
+      pendingClaimJoin = null;
+      if (claimPlayerPanel) claimPlayerPanel.hidden = true;
+      if (claimPlayerList) claimPlayerList.replaceChildren();
+      if (joinTeeField) joinTeeField.hidden = true;
+      if (joinTeeSelect) joinTeeSelect.replaceChildren();
+      if (joinRoundSubmit) {
+        joinRoundSubmit.hidden = false;
+        joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+      }
+    });
+  });
+
+  joinRoundForm?.querySelector('input[name="code"]')?.addEventListener(
+    'input',
+    () => {
+      pendingJoinPreview = null;
+      pendingClaimJoin = null;
+      if (claimPlayerPanel) claimPlayerPanel.hidden = true;
+      if (claimPlayerList) claimPlayerList.replaceChildren();
+      if (joinTeeField) joinTeeField.hidden = true;
+      if (joinTeeSelect) joinTeeSelect.replaceChildren();
+      if (joinRoundSubmit) {
+        joinRoundSubmit.hidden = false;
+        joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+      }
+    },
+  );
+
   joinRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
