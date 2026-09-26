@@ -474,11 +474,19 @@ def test_settings_values_are_snapshotted_before_busy_state():
 
 
 
-def test_round_setup_sends_tracking_start_and_prior_hole_mode():
+def test_round_setup_late_start_keeps_earlier_holes_available_in_live_play():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'id="prior-holes-mode"' not in page.data
+    assert b'name="prior_holes_mode"' not in page.data
+    assert b"EARLIER HOLES" not in page.data
+    assert b"Earlier holes stay available in live play" in page.data
+
     response = client().get("/static/app.js")
     assert response.status_code == 200
     assert b"tracking_start_position: trackingStart" in response.data
-    assert b"prior_holes_mode: priorMode" in response.data
+    assert b"prior_holes_mode: 'backfill'" in response.data
+    assert b"values.get('prior_holes_mode')" not in response.data
     assert b"APP JOINS AT" in response.data
 
 

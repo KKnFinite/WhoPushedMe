@@ -97,7 +97,6 @@
   const startTeeSelect = document.getElementById('start-tee-select');
   const startHoleInput = document.getElementById('start-hole-input');
   const trackingStartPosition = document.getElementById('tracking-start-position');
-  const priorHolesMode = document.getElementById('prior-holes-mode');
   const routePreview = document.getElementById('route-preview');
   const lobbyTeePanel = document.getElementById('lobby-tee-panel');
   const lobbyTeeLabel = document.getElementById('lobby-tee-label');
@@ -1886,10 +1885,6 @@
         trackingStartPosition.append(option);
       });
     }
-    if (priorHolesMode) {
-      priorHolesMode.hidden = selectedTracking <= 1;
-    }
-
     const short = route.length <= 9
       ? route.join(', ')
       : `${route.slice(0, 6).join(', ')} … ${route.slice(-3).join(', ')}`;
@@ -4515,9 +4510,6 @@
       const trackingStart = Number(
         values.get('tracking_start_position') || 1
       );
-      const priorMode = String(
-        values.get('prior_holes_mode') || 'untracked'
-      );
       const mode = String(values.get('mode') || 'individual');
       const individualScoring = String(
         values.get('individual_scoring') || 'gross'
@@ -4528,7 +4520,8 @@
         start_hole: startHole,
         par_tracking_enabled: parSetup !== 'off',
         tracking_start_position: trackingStart,
-        prior_holes_mode: priorMode,
+        // Late-start holes remain planned so live play can optionally backfill them.
+        prior_holes_mode: 'backfill',
         net_scoring_enabled: (
           mode === 'individual'
           && individualScoring === 'net'
