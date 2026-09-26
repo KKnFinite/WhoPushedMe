@@ -2644,6 +2644,7 @@
             '/api/rounds/' + round.id + '/positions/' + position + '/score',
             { method: 'PUT', body }
           );
+          void window.WPMAudio?.playSfx?.('score');
           await refreshRound(round.active_code);
           return true;
         } catch (error) {
@@ -4454,6 +4455,7 @@
         tee_name: teeName || null,
       },
     });
+    void window.WPMAudio?.playSfx?.('join');
     await enterJoinedRound(code);
   };
 
@@ -4688,6 +4690,7 @@
         method: 'PATCH',
         body: { status: 'active' },
       });
+      void window.WPMAudio?.playSfx?.('roundStart');
       await refreshLobby(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -4983,6 +4986,7 @@
       );
       advanceWarningPosition = null;
       if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+      void window.WPMAudio?.playSfx?.('nextHole');
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -5425,6 +5429,7 @@
     setRoundFlowMessage('');
     try {
       await sendSocialEvent('open_mic', { message });
+      void window.WPMAudio?.playSfx?.('banter');
       if (liveBanterInput) liveBanterInput.value = '';
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
@@ -5444,6 +5449,7 @@
     setRoundFlowMessage('');
     try {
       await sendSocialEvent('open_mic', { message });
+      void window.WPMAudio?.playSfx?.('banter');
       if (lobbyBanterInput) lobbyBanterInput.value = '';
       await refreshLobby(currentLobbyRound.active_code);
     } catch (error) {
