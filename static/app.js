@@ -141,6 +141,7 @@
   const parForm = document.getElementById('par-form');
   const parInput = document.getElementById('par-input');
   const parSubmit = document.getElementById('par-submit');
+  const liveEditPar = document.getElementById('live-edit-par');
   const liveScoreArea = document.getElementById('live-score-area');
   const liveHoleSelector = document.getElementById('live-hole-selector');
   const liveBanterFeed = document.getElementById('live-banter-feed');
@@ -220,6 +221,7 @@
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
+  let parEditorOpen = false;
   let pendingClaimJoin = null;
   let claimUndoConfirmPending = false;
   let receiptMarkInFlight = false;
