@@ -896,6 +896,23 @@
 
         <label class="settings-row">
           <span>
+            <strong>MUSIC</strong>
+            <small>Metal for setup. Sleazy lounge garbage in the lobby.</small>
+          </span>
+          <input name="music_enabled" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
+            <strong>SOUND EFFECTS</strong>
+            <small>Score stings, hole changes, and other unnecessary drama.</small>
+          </span>
+          <input name="sound_effects_enabled" type="checkbox">
+        </label>
+
+
+        <label class="settings-row">
+          <span>
             <strong>DRINKING JOKES</strong>
             <small>Beer, whiskey, tequila and bad decisions.</small>
           </span>
@@ -955,6 +972,7 @@
     </div>
   </div>
 
+  <script src="{{ url_for('static', filename='audio.js', v=asset_version) }}" defer></script>
   <script src="{{ url_for('static', filename='app.js', v=asset_version) }}" defer></script>
 </body>
 </html>
