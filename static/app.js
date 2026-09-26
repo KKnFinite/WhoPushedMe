@@ -326,6 +326,15 @@
       Boolean(preferences?.mini_mascots_enabled);
     settingsForm.elements.trash_talk_enabled.checked =
       Boolean(preferences?.trash_talk_enabled);
+    const audioSettings = window.WPMAudio?.getSettings?.() || {};
+    if (settingsForm.elements.music_enabled) {
+      settingsForm.elements.music_enabled.checked =
+        audioSettings.music_enabled !== false;
+    }
+    if (settingsForm.elements.sound_effects_enabled) {
+      settingsForm.elements.sound_effects_enabled.checked =
+        audioSettings.sfx_enabled !== false;
+    }
     settingsForm.elements.drinking.checked =
       Boolean(preferences?.themes?.drinking);
     settingsForm.elements.wife.checked =
@@ -808,6 +817,7 @@
   };
 
   const showAuth = (view = 'login') => {
+    window.WPMAudio?.setScene?.('auth');
     document.body.classList.remove('app-ready');
     if (appShell) appShell.setAttribute('aria-hidden', 'true');
     if (splash) {
@@ -935,6 +945,7 @@
   };
 
   const showApp = (account, { entryEvent = 'auth.welcome' } = {}) => {
+    window.WPMAudio?.setScene?.('home');
     pendingAccount = null;
     stopAuthHeckles({ hide: true });
     if (authShell) authShell.hidden = true;
@@ -1915,6 +1926,7 @@
 
   const closeRoundFlow = () => {
     if (!roundFlowModal) return;
+    window.WPMAudio?.setScene?.('home');
     stopUserHeckle('roundSetup', { hide: true });
     stopLobbyBanterRotation();
     roundFlowModal.hidden = true;
@@ -1970,6 +1982,7 @@
 
   const showRoundPanel = (panel) => {
     if (!roundFlowModal) return;
+    window.WPMAudio?.setScene?.('setup');
     roundFlowCardGame?.classList.remove('is-live-round');
     stopLobbyBanterRotation();
     stopUserHeckle('home');
@@ -2626,6 +2639,7 @@
             '/api/rounds/' + round.id + '/positions/' + position + '/score',
             { method: 'PUT', body }
           );
+          void window.WPMAudio?.playSfx?.('score');
           await refreshRound(round.active_code);
           return true;
         } catch (error) {
@@ -3457,6 +3471,7 @@
   };
 
   const renderRoundEnd = (round) => {
+    window.WPMAudio?.setScene?.('end');
     stopLobbyBanterRotation();
     currentLobbyRound = round;
     viewedRoutePosition = null;
@@ -3680,6 +3695,7 @@
   };
 
   const renderLiveRound = (round) => {
+    window.WPMAudio?.setScene?.('live');
     stopLobbyBanterRotation();
     const previousRound = currentLobbyRound;
     const previousLivePosition = Number(
@@ -4142,6 +4158,7 @@
   };
 
   const renderLobby = (round) => {
+    window.WPMAudio?.setScene?.('lobby');
     currentLobbyRound = round;
     viewedRoutePosition = null;
     stopUserHeckle('roundSetup', { hide: true });
@@ -4433,6 +4450,7 @@
         tee_name: teeName || null,
       },
     });
+    void window.WPMAudio?.playSfx?.('join');
     await enterJoinedRound(code);
   };
 
@@ -4667,6 +4685,7 @@
         method: 'PATCH',
         body: { status: 'active' },
       });
+      void window.WPMAudio?.playSfx?.('roundStart');
       await refreshLobby(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -4962,6 +4981,7 @@
       );
       advanceWarningPosition = null;
       if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+      void window.WPMAudio?.playSfx?.('nextHole');
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
@@ -5404,6 +5424,7 @@
     setRoundFlowMessage('');
     try {
       await sendSocialEvent('open_mic', { message });
+      void window.WPMAudio?.playSfx?.('banter');
       if (liveBanterInput) liveBanterInput.value = '';
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
@@ -5423,6 +5444,7 @@
     setRoundFlowMessage('');
     try {
       await sendSocialEvent('open_mic', { message });
+      void window.WPMAudio?.playSfx?.('banter');
       if (lobbyBanterInput) lobbyBanterInput.value = '';
       await refreshLobby(currentLobbyRound.active_code);
     } catch (error) {
@@ -5626,6 +5648,12 @@
         method: 'PATCH',
         body: { handicap_index: handicapIndex },
       });
+      window.WPMAudio?.setMusicEnabled?.(
+        Boolean(settingsForm.elements.music_enabled?.checked)
+      );
+      window.WPMAudio?.setSfxEnabled?.(
+        Boolean(settingsForm.elements.sound_effects_enabled?.checked)
+      );
       populateSettings(preferences);
       populateProfileHandicap(account);
       userMessageCache.clear();

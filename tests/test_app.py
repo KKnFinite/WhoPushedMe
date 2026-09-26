@@ -109,7 +109,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v87" in response.data
+    assert b"wpm-shell-v88" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -117,12 +117,59 @@ def test_critical_frontend_assets_are_versioned_and_network_first():
     page = client().get("/")
     assert page.status_code == 200
     assert b"/static/app.css?v=0.3.0" in page.data
+    assert b"/static/audio.js?v=0.3.0" in page.data
     assert b"/static/app.js?v=0.3.0" in page.data
 
     worker = client().get("/service-worker.js")
     assert worker.status_code == 200
     assert b"CRITICAL_FRONTEND_PATHS" in worker.data
+    assert b"/static/audio.js" in worker.data
+    assert b"/static/audio/audio-manifest.json" in worker.data
     assert b"fetch(event.request, { cache: 'no-store' })" in worker.data
+    assert b"/static/audio/music/" in worker.data
+
+
+
+def test_real_file_audio_pools_settings_and_scene_hooks_are_wired():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'name="music_enabled"' in page.data
+    assert b'name="sound_effects_enabled"' in page.data
+
+    audio = client().get("/static/audio.js")
+    assert audio.status_code == 200
+    assert b"MANIFEST_URL = '/static/audio/audio-manifest.json'" in audio.data
+    assert b"sceneToPool" in audio.data
+    assert b"scene === 'lobby'" in audio.data
+    assert b"scene === 'end'" in audio.data
+    assert b"playSfx" in audio.data
+    assert b"new Audio()" in audio.data
+    assert b"AudioContext" not in audio.data
+    assert b"createOscillator" not in audio.data
+    assert b"metalStep" not in audio.data
+    assert b"loungeStep" not in audio.data
+
+    manifest = client().get("/static/audio/audio-manifest.json")
+    assert manifest.status_code == 200
+    payload = manifest.get_json()
+    assert payload["music"] == {"metal": [], "lobby": [], "end": []}
+    assert payload["sfx"] == {}
+
+    app_script = client().get("/static/app.js")
+    assert app_script.status_code == 200
+    assert b"setScene?.('home')" in app_script.data
+    assert b"setScene?.('setup')" in app_script.data
+    assert b"setScene?.('lobby')" in app_script.data
+    assert b"setScene?.('live')" in app_script.data
+    assert b"setScene?.('end')" in app_script.data
+
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    admin = (root / "tools" / "content_admin.py").read_text(encoding="utf-8")
+    assert '"add-audio"' in admin
+    assert '"list-audio"' in admin
+    assert '"remove-audio"' in admin
 
 
 def test_mobile_focus_does_not_zoom_the_layout():
@@ -142,8 +189,10 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v87" in builder
+    assert "wpm-shell-v88" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
+    assert "/static/audio.js" in builder
+    assert "/static/audio/audio-manifest.json" in builder
 
 
 def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():

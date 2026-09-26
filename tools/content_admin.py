@@ -25,6 +25,11 @@ HOME_BACKGROUND_PROD = ASSETS / "home" / "backgrounds"
 HOME_BACKGROUND_SOURCE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 HOME_HERO_SRC = ASSETS_SRC / "home" / "heroes"
 HOME_HERO_PROD = ASSETS / "home" / "heroes"
+AUDIO_ROOT = ROOT / "static" / "audio"
+AUDIO_MUSIC_ROOT = AUDIO_ROOT / "music"
+AUDIO_MANIFEST = AUDIO_ROOT / "audio-manifest.json"
+AUDIO_POOLS = ("metal", "lobby", "end")
+AUDIO_EXTENSIONS = {".mp3", ".m4a", ".aac", ".wav"}
 
 # Message-surface copy contract.
 # Compact/fixed message boxes default to a strict cap so content cannot resize
@@ -69,6 +74,78 @@ def _read(path: Path) -> dict:
 
 def _write(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+
+
+
+def _audio_manifest_template() -> dict:
+    return {
+        "version": 1,
+        "music": {pool: [] for pool in AUDIO_POOLS},
+        "sfx": {},
+    }
+
+
+def _audio_id_slug(value: str) -> str:
+    words = re.findall(r"[A-Za-z0-9]+", value)
+    if not words:
+        raise ContentError("audio short name must contain letters or numbers")
+    return "-".join(word.lower() for word in words)
+
+
+def _validate_audio_manifest(data: dict | None = None) -> dict:
+    if data is None:
+        if not AUDIO_MANIFEST.exists():
+            raise ContentError(f"audio manifest not found: {AUDIO_MANIFEST}")
+        data = _read(AUDIO_MANIFEST)
+
+    if not isinstance(data, dict):
+        raise ContentError("audio manifest must be a JSON object")
+
+    music = data.get("music")
+    if not isinstance(music, dict):
+        raise ContentError("audio manifest music must be an object")
+
+    seen_ids: set[str] = set()
+    for pool in AUDIO_POOLS:
+        rows = music.get(pool)
+        if not isinstance(rows, list):
+            raise ContentError(f"audio pool must be a list: {pool}")
+        for row in rows:
+            if not isinstance(row, dict):
+                raise ContentError(f"audio entry must be an object: {pool}")
+            audio_id = str(row.get("id") or "").strip()
+            file_url = str(row.get("file") or "").strip()
+            if not audio_id:
+                raise ContentError(f"audio entry missing id: {pool}")
+            if audio_id in seen_ids:
+                raise ContentError(f"duplicate audio id: {audio_id}")
+            seen_ids.add(audio_id)
+
+            expected_prefix = f"/static/audio/music/{pool}/"
+            if not file_url.startswith(expected_prefix):
+                raise ContentError(
+                    f"{audio_id} file must live under {expected_prefix}"
+                )
+            source = ROOT / file_url.lstrip("/")
+            if not source.exists():
+                raise ContentError(f"audio file missing for {audio_id}: {source}")
+
+    sfx = data.get("sfx")
+    if not isinstance(sfx, dict):
+        raise ContentError("audio manifest sfx must be an object")
+    return data
+
+
+def _load_audio_manifest() -> dict:
+    if not AUDIO_MANIFEST.exists():
+        return _audio_manifest_template()
+    return _validate_audio_manifest(_read(AUDIO_MANIFEST))
+
+
+def _write_audio_manifest(data: dict) -> None:
+    AUDIO_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+    _write(AUDIO_MANIFEST, data)
 
 
 def _pascal_slug(value: str) -> str:
@@ -144,12 +221,17 @@ def cmd_validate(args: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
     catalog.validate(strict_mascot_audit=args.strict_audit)
     _validate_banter_copy_limits(list(catalog.banter))
+    audio_manifest = _validate_audio_manifest()
     summary = catalog.mascot_audit_summary()
     print("Content library valid.")
     print(f"Events: {len(catalog.registry.events)}")
     print(f"Triggerable events: {sum(bool(e.get('triggerable')) for e in catalog.registry.events.values())}")
     print(f"Themes: {len(catalog.themes)}")
     print(f"Banter messages: {len(catalog.banter)}")
+    print(
+        "Music tracks: "
+        + str(sum(len(audio_manifest["music"][pool]) for pool in AUDIO_POOLS))
+    )
     print(f"Mini mascot metadata rows: {len(catalog.mascots)}")
     print(f"Mini audit verified: {summary.get('verified', 0)}")
     print(f"Mini audit pending: {summary.get('pending', 0)}")
@@ -944,6 +1026,114 @@ def cmd_remove_home_hero(args: argparse.Namespace) -> None:
     print("Asset manifest and content metadata validated.")
 
 
+
+
+def cmd_list_audio(args: argparse.Namespace) -> None:
+    manifest = _load_audio_manifest()
+    rows = []
+    pools = [args.pool] if args.pool else list(AUDIO_POOLS)
+    for pool in pools:
+        for row in manifest["music"][pool]:
+            rows.append((pool, row))
+
+    for pool, row in rows:
+        print(
+            f"{row['id']:<48} {pool:<6} "
+            f"{Path(str(row['file'])).name}"
+        )
+    print(f"Audio tracks: {len(rows)}")
+
+
+def cmd_add_audio(args: argparse.Namespace) -> None:
+    source = Path(args.file).expanduser().resolve()
+    if not source.exists():
+        raise ContentError(f"audio file not found: {source}")
+    extension = source.suffix.lower()
+    if extension not in AUDIO_EXTENSIONS:
+        allowed = ", ".join(sorted(AUDIO_EXTENSIONS))
+        raise ContentError(
+            f"audio file must be one of: {allowed}. MP3 is recommended."
+        )
+
+    pool = args.pool
+    raw_name = args.short_name or source.stem
+    stem = f"WPM_Audio_{_pascal_slug(pool)}_{_pascal_slug(raw_name)}"
+    audio_id = f"audio.{pool}.{_audio_id_slug(raw_name)}"
+    destination = AUDIO_MUSIC_ROOT / pool / f"{stem}{extension}"
+
+    manifest = _load_audio_manifest()
+    all_rows = [
+        row
+        for pool_name in AUDIO_POOLS
+        for row in manifest["music"][pool_name]
+    ]
+    if any(row.get("id") == audio_id for row in all_rows):
+        raise ContentError(f"audio id already exists: {audio_id}")
+    if destination.exists():
+        raise ContentError(f"audio file already exists: {destination.name}")
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+
+    manifest["music"][pool].append(
+        {
+            "id": audio_id,
+            "file": "/" + destination.relative_to(ROOT).as_posix(),
+            "label": args.label or source.stem,
+        }
+    )
+    manifest["music"][pool] = sorted(
+        manifest["music"][pool],
+        key=lambda row: row["id"],
+    )
+    _write_audio_manifest(manifest)
+    _validate_audio_manifest()
+
+    print(f"Added audio: {audio_id}")
+    print(f"Pool: {pool}")
+    print(f"File: {destination.relative_to(ROOT)}")
+
+
+def cmd_remove_audio(args: argparse.Namespace) -> None:
+    manifest = _load_audio_manifest()
+    found_pool = None
+    target = None
+    for pool in AUDIO_POOLS:
+        for row in manifest["music"][pool]:
+            if row.get("id") == args.audio_id:
+                found_pool = pool
+                target = row
+                break
+        if target is not None:
+            break
+
+    if target is None or found_pool is None:
+        raise ContentError(f"audio id not found: {args.audio_id}")
+
+    if not args.yes:
+        answer = input(
+            f"Remove {args.audio_id} from the {found_pool} pool? "
+            "Type REMOVE to confirm: "
+        ).strip()
+        if answer != "REMOVE":
+            print("Cancelled.")
+            return
+
+    file_url = str(target["file"])
+    source = ROOT / file_url.lstrip("/")
+    manifest["music"][found_pool] = [
+        row
+        for row in manifest["music"][found_pool]
+        if row.get("id") != args.audio_id
+    ]
+    _write_audio_manifest(manifest)
+    if source.exists():
+        source.unlink()
+    _validate_audio_manifest()
+
+    print(f"Removed audio: {args.audio_id}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="WHO PUSHED ME?! content administration")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1084,6 +1274,35 @@ def build_parser() -> argparse.ArgumentParser:
         help="remove without interactive confirmation",
     )
     remove_home_background.set_defaults(func=cmd_remove_home_background)
+
+    list_audio = subparsers.add_parser(
+        "list-audio",
+        help="list real background-music files by scene pool",
+    )
+    list_audio.add_argument("--pool", choices=AUDIO_POOLS)
+    list_audio.set_defaults(func=cmd_list_audio)
+
+    add_audio = subparsers.add_parser(
+        "add-audio",
+        help="import a real audio file into a scene music pool",
+    )
+    add_audio.add_argument("file")
+    add_audio.add_argument("--pool", required=True, choices=AUDIO_POOLS)
+    add_audio.add_argument("--short-name")
+    add_audio.add_argument("--label")
+    add_audio.set_defaults(func=cmd_add_audio)
+
+    remove_audio = subparsers.add_parser(
+        "remove-audio",
+        help="remove one real audio file from its scene pool",
+    )
+    remove_audio.add_argument("audio_id")
+    remove_audio.add_argument(
+        "--yes",
+        action="store_true",
+        help="remove without interactive confirmation",
+    )
+    remove_audio.set_defaults(func=cmd_remove_audio)
 
     list_home_heroes = subparsers.add_parser(
         "list-home-heroes",

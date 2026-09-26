@@ -896,6 +896,22 @@
 
         <label class="settings-row">
           <span>
+            <strong>MUSIC</strong>
+            <small>Real tracks for setup, the lobby, and the end of the round.</small>
+          </span>
+          <input name="music_enabled" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
+            <strong>SOUND EFFECTS</strong>
+            <small>Short score, banter, join, and hole-change stingers.</small>
+          </span>
+          <input name="sound_effects_enabled" type="checkbox">
+        </label>
+
+        <label class="settings-row">
+          <span>
             <strong>DRINKING JOKES</strong>
             <small>Beer, whiskey, tequila and bad decisions.</small>
           </span>
@@ -942,6 +958,7 @@
     </div>
   </div>
 
+  <script src="{{ url_for('static', filename='audio.js', v=asset_version) }}" defer></script>
   <script src="{{ url_for('static', filename='app.js', v=asset_version) }}" defer></script>
 </body>
 </html>
