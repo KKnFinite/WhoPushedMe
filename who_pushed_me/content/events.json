@@ -366,6 +366,19 @@
       ]
     },
     {
+      "key": "lobby.idle",
+      "parent": "lobby",
+      "label": "Lobby idle banter",
+      "phase": "lobby",
+      "family": "lobby",
+      "triggerable": true,
+      "default_enabled": true,
+      "admin_toggleable": true,
+      "audiences": [
+        "everyone"
+      ]
+    },
+    {
       "key": "lobby.created",
       "parent": "lobby",
       "label": "Lobby created",
