@@ -123,17 +123,13 @@ def public_content_messages():
     if event.get("phase") != "auth":
         raise DomainError("only auth messages are public before sign-in")
 
-    rows = catalog.eligible_banter(
-        canonical,
-        max_vulgarity="brutal",
-    )
+    rows = catalog.eligible_banter(canonical)
     return jsonify(
         event=canonical,
         messages=[
             {
                 "id": row["id"],
                 "text": row["text"],
-                "vulgarity": row.get("vulgarity", "normal"),
                 "themes": row.get("themes") or [],
                 "weight": int(row.get("weight") or 1),
             }
@@ -162,7 +158,6 @@ def user_content_messages():
 
     rows = catalog.eligible_banter(
         canonical,
-        max_vulgarity=preferences.get("max_vulgarity", "brutal"),
         blocked_themes=blocked_themes(preferences),
     )
     return jsonify(
@@ -171,7 +166,6 @@ def user_content_messages():
             {
                 "id": row["id"],
                 "text": row["text"],
-                "vulgarity": row.get("vulgarity", "normal"),
                 "themes": row.get("themes") or [],
                 "weight": int(row.get("weight") or 1),
             }
