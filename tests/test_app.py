@@ -109,7 +109,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v85" in response.data
+    assert b"wpm-shell-v86" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -139,6 +139,10 @@ def test_wpm_audio_scene_map_and_settings_are_wired():
     assert b"['splash', 'home', 'setup', 'end']" in audio.data
     assert b"scene === 'lobby'" in audio.data
     assert b"playSfx" in audio.data
+    assert b"music_volume: 0.52" in audio.data
+    assert b"sfx_volume: 0.58" in audio.data
+    assert b"armUnlockListeners" in audio.data
+    assert b"window.addEventListener('click', onAudioGesture, true)" in audio.data
 
     app_script = client().get("/static/app.js")
     assert app_script.status_code == 200
@@ -154,7 +158,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v85" in builder
+    assert "wpm-shell-v86" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
