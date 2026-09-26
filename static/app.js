@@ -5384,6 +5384,25 @@
     }
   });
 
+  lobbyBanterForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentLobbyRound || currentLobbyRound.status !== 'setup') return;
+    const message = String(lobbyBanterInput?.value || '').trim();
+    if (!message) return;
+
+    if (lobbyBanterSend) lobbyBanterSend.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await sendSocialEvent('open_mic', { message });
+      if (lobbyBanterInput) lobbyBanterInput.value = '';
+      await refreshLobby(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      if (lobbyBanterSend) lobbyBanterSend.disabled = false;
+    }
+  });
+
   liveNavPlay?.addEventListener('click', () => {
     if (liveMorePanel) liveMorePanel.hidden = true;
     setLiveNavActive(liveNavPlay);
