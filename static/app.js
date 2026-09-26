@@ -4397,16 +4397,41 @@
         const name = document.createElement('span');
         name.textContent = participant.display_name || 'Unknown golfer';
 
-        const role = document.createElement('small');
-        const tee = (
-          round.mode === 'individual' && participant.tee_name
-            ? ` • ${participant.tee_name} TEE`
-            : ''
-        );
-        const offline = participant.round_only ? ' • OFFLINE' : '';
-        role.textContent = `${participant.role || 'player'}${offline}${tee}`;
+        const meta = document.createElement('div');
+        meta.className = 'lobby-person-meta';
 
-        row.append(name, role);
+        const addDetail = (text) => {
+          const detail = document.createElement('small');
+          detail.className = 'lobby-person-detail';
+          detail.textContent = text;
+          meta.append(detail);
+        };
+
+        addDetail(String(participant.role || 'player').toUpperCase());
+
+        if (participant.round_only) {
+          addDetail('OFFLINE');
+        }
+
+        if (round.mode === 'individual') {
+          addDetail(
+            participant.tee_name
+              ? `${participant.tee_name} TEE`
+              : 'NO TEE'
+          );
+
+          const handicap = (
+            participant.round_handicap
+            ?? participant.handicap_index
+          );
+          addDetail(
+            handicap === null || handicap === undefined
+              ? 'NO HANDICAP'
+              : `HCP ${handicap}`
+          );
+        }
+
+        row.append(name, meta);
         lobbyParticipants.append(row);
       });
     }

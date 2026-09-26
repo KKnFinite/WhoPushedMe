@@ -9064,3 +9064,35 @@ textarea,
   font-size: 1rem !important;
   letter-spacing: 0 !important;
 }
+
+
+/* LOBBY PLAYER DATA STACK */
+.lobby-person {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  align-items: start !important;
+  justify-content: stretch !important;
+  gap: 5px !important;
+}
+
+.lobby-person > span {
+  display: block;
+  line-height: 1 !important;
+}
+
+.lobby-person-meta {
+  display: grid;
+  gap: 2px;
+}
+
+.lobby-person .lobby-person-detail {
+  display: block;
+  margin: 0;
+  color: rgba(233,225,200,.72) !important;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+  font-size: .72rem !important;
+  font-weight: 700 !important;
+  line-height: 1.05 !important;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}

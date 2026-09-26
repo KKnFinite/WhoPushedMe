@@ -284,6 +284,21 @@ def test_live_scorecard_uses_unique_reaction_and_challenge_controls():
     assert b"/reaction" in response.data
     assert b"talk_shit" in response.data
 
+def test_lobby_player_metadata_uses_one_line_per_detail():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"lobby-person-meta" in script.data
+    assert b"lobby-person-detail" in script.data
+    assert b"NO HANDICAP" in script.data
+    assert b"NO TEE" in script.data
+    assert b"addDetail(String(participant.role || 'player').toUpperCase())" in script.data
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"LOBBY PLAYER DATA STACK" in css.data
+    assert b".lobby-person-meta" in css.data
+
+
 def test_lobby_is_social_and_tee_choice_happens_before_entry():
     page = client().get("/")
     assert page.status_code == 200
