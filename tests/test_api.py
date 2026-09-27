@@ -116,22 +116,12 @@ class FakeStore:
             "handicap_index": handicap_index,
         }
 
-    def set_profile_spouse_type(self, golfer_id, spouse_type):
-        self.calls.append(("profile_spouse", golfer_id, spouse_type))
-        return {
-            "id": golfer_id,
-            "username": "kim",
-            "display_name": "Kim",
-            "spouse_type": spouse_type,
-            "is_admin": False,
-            "handicap_index": 12.3,
-        }
-
     def get_content_preferences(self, golfer_id):
         self.calls.append(("get_preferences", golfer_id))
         return {
             "mini_mascots_enabled": True,
             "trash_talk_enabled": True,
+            "spouse_type": "husband",
             "themes": {"drinking": True, "wife": True},
         }
 
@@ -140,6 +130,7 @@ class FakeStore:
         return {
             "mini_mascots_enabled": patch.get("mini_mascots_enabled", True),
             "trash_talk_enabled": True,
+            "spouse_type": patch.get("spouse_type", "husband"),
             "themes": {
                 "drinking": patch.get("themes", {}).get("drinking", True),
                 "wife": True,
@@ -715,19 +706,6 @@ def test_register_account_returns_one_time_recovery_key_and_session():
         "Kim",
         "husband",
     )
-
-
-def test_profile_spouse_route_updates_relationship_targeting():
-    client, store = client_with_store()
-    response = client.patch(
-        "/api/profile/spouse",
-        headers={"Authorization": "Bearer session-token"},
-        json={"spouse_type": "wife"},
-    )
-
-    assert response.status_code == 200
-    assert response.get_json()["spouse_type"] == "wife"
-    assert store.calls[-1] == ("profile_spouse", store.golfer_id, "wife")
 
 
 def test_login_account_returns_session_without_recovery_key():

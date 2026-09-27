@@ -179,7 +179,7 @@ def user_content_messages():
     if not preferences.get("trash_talk_enabled", True):
         return jsonify(event=canonical, messages=[])
 
-    spouse_type = str(g.golfer.get("spouse_type") or "").strip().lower()
+    spouse_type = str(preferences.get("spouse_type") or "").strip().lower()
     blocked = blocked_themes(preferences)
     if spouse_type not in {"wife", "husband"} and "wife" not in blocked:
         blocked.append("wife")
@@ -264,17 +264,6 @@ def set_profile_handicap():
         _store().set_profile_handicap_index(
             g.golfer["id"],
             _body().get("handicap_index"),
-        )
-    )
-
-
-@api.patch("/profile/spouse")
-@authenticated
-def set_profile_spouse():
-    return jsonify(
-        _store().set_profile_spouse_type(
-            g.golfer["id"],
-            _body().get("spouse_type"),
         )
     )
 

@@ -10,6 +10,7 @@ DEFAULT_TRASH_TALK_ENABLED = True
 _ALLOWED_PATCH_KEYS = {
     "mini_mascots_enabled",
     "trash_talk_enabled",
+    "spouse_type",
     "themes",
 }
 
@@ -34,6 +35,9 @@ def public_preferences(
         key: bool(overrides.get(key, definition.get("default_enabled", True)))
         for key, definition in theme_definitions.items()
     }
+    spouse_type = overrides.get("_spouse_type")
+    if spouse_type not in {"wife", "husband", "not_married"}:
+        spouse_type = None
 
     return {
         "mini_mascots_enabled": bool(
@@ -42,6 +46,7 @@ def public_preferences(
         "trash_talk_enabled": bool(
             row.get("trash_talk_enabled", DEFAULT_TRASH_TALK_ENABLED)
         ),
+        "spouse_type": spouse_type,
         "themes": themes,
     }
 
@@ -74,6 +79,14 @@ def merge_preference_patch(
             if not isinstance(value, bool):
                 raise ContentError(f"{field} must be true or false")
             result[field] = value
+
+    if "spouse_type" in patch:
+        spouse_type = str(patch["spouse_type"] or "").strip().lower()
+        if spouse_type not in {"wife", "husband", "not_married"}:
+            raise ContentError(
+                "spouse_type must be wife, husband, or not_married"
+            )
+        result["theme_preferences"]["_spouse_type"] = spouse_type
 
     if "themes" in patch:
         values = patch["themes"]

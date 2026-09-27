@@ -558,11 +558,10 @@ class RoundStore:
                             password_hash,
                             recovery_key_hash,
                             recovery_key,
-                            spouse_type,
                             is_admin
                         )
-                        VALUES (%s, %s, %s, %s, NULL, %s, %s)
-                        RETURNING id, username, display_name, spouse_type,
+                        VALUES (%s, %s, %s, %s, NULL, %s)
+                        RETURNING id, username, display_name,
                                   is_admin, handicap_index, created_at
                         """,
                         (
@@ -570,11 +569,29 @@ class RoundStore:
                             normalized_username,
                             password_hash,
                             recovery_hash,
-                            relationship,
                             _is_bootstrap_admin(normalized_username),
                         ),
                     )
                     golfer = cursor.fetchone()
+                    cursor.execute(
+                        """
+                        INSERT INTO golfer_content_preferences (
+                            golfer_id, theme_preferences, updated_at
+                        )
+                        VALUES (%s, %s, now())
+                        ON CONFLICT (golfer_id)
+                        DO UPDATE SET
+                            theme_preferences =
+                                golfer_content_preferences.theme_preferences
+                                || EXCLUDED.theme_preferences,
+                            updated_at = now()
+                        """,
+                        (
+                            golfer["id"],
+                            Jsonb({"_spouse_type": relationship}),
+                        ),
+                    )
+                    golfer["spouse_type"] = relationship
                     session = self._issue_session(cursor, golfer["id"])
                     return {
                         "account": self._public_account(golfer),
@@ -603,10 +620,15 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, username, display_name, spouse_type,
-                       is_admin, handicap_index, created_at
-                FROM golfers
-                WHERE recovery_key_hash = %s
+                SELECT g.id, g.username, g.display_name,
+                       g.is_admin, g.handicap_index, g.created_at,
+                       (
+                           SELECT p.theme_preferences->>'_spouse_type'
+                           FROM golfer_content_preferences p
+                           WHERE p.golfer_id = g.id
+                       ) AS spouse_type
+                FROM golfers g
+                WHERE g.recovery_key_hash = %s
                 FOR UPDATE
                 """,
                 (recovery_hash,),
@@ -656,10 +678,15 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, username, display_name, password_hash,
-                       spouse_type, is_admin, handicap_index, created_at
-                FROM golfers
-                WHERE lower(username) = %s
+                SELECT g.id, g.username, g.display_name, g.password_hash,
+                       g.is_admin, g.handicap_index, g.created_at,
+                       (
+                           SELECT p.theme_preferences->>'_spouse_type'
+                           FROM golfer_content_preferences p
+                           WHERE p.golfer_id = g.id
+                       ) AS spouse_type
+                FROM golfers g
+                WHERE lower(g.username) = %s
                 """,
                 (normalized_username,),
             )
@@ -699,8 +726,13 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT g.id, g.username, g.display_name, g.spouse_type,
+                SELECT g.id, g.username, g.display_name,
                        g.is_admin, g.handicap_index, g.created_at,
+                       (
+                           SELECT p.theme_preferences->>'_spouse_type'
+                           FROM golfer_content_preferences p
+                           WHERE p.golfer_id = g.id
+                       ) AS spouse_type,
                        s.id AS session_id, s.expires_at
                 FROM auth_sessions s
                 JOIN golfers g ON g.id = s.golfer_id
@@ -741,34 +773,10 @@ class RoundStore:
                 UPDATE golfers
                 SET handicap_index = %s
                 WHERE id = %s
-                RETURNING id, username, display_name, spouse_type, is_admin,
+                RETURNING id, username, display_name, is_admin,
                           handicap_index, created_at
                 """,
                 (index, golfer_uuid),
-            )
-            golfer = cursor.fetchone()
-            if not golfer:
-                raise NotFound("golfer not found")
-            return self._public_account(golfer)
-
-    def set_profile_spouse_type(
-        self,
-        golfer_id: object,
-        spouse_type: object,
-    ) -> dict[str, Any]:
-        golfer_uuid = self._uuid(golfer_id, "golfer_id")
-        relationship = normalize_spouse_type(spouse_type)
-
-        with self._connection() as connection, connection.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE golfers
-                SET spouse_type = %s
-                WHERE id = %s
-                RETURNING id, username, display_name, spouse_type, is_admin,
-                          handicap_index, created_at
-                """,
-                (relationship, golfer_uuid),
             )
             golfer = cursor.fetchone()
             if not golfer:

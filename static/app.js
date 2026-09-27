@@ -339,9 +339,9 @@
 
   };
 
-  const populateProfileRelationship = (account) => {
+  const populateProfileRelationship = (preferences) => {
     if (!settingsSpouseType) return;
-    settingsSpouseType.value = String(account?.spouse_type || '');
+    settingsSpouseType.value = String(preferences?.spouse_type || '');
   };
 
   const populateProfileHandicap = (account) => {
@@ -5733,7 +5733,7 @@
         requestJson('/api/auth/me'),
       ]);
       populateSettings(preferences);
-      populateProfileRelationship(account);
+      populateProfileRelationship(preferences);
       populateProfileHandicap(account);
       settingsClose?.focus();
     } catch (error) {
@@ -5784,16 +5784,6 @@
     event.preventDefault();
     setSettingsMessage('');
 
-    const patch = {
-      mini_mascots_enabled:
-        settingsForm.elements.mini_mascots_enabled.checked,
-      trash_talk_enabled:
-        settingsForm.elements.trash_talk_enabled.checked,
-      themes: {
-        drinking: settingsForm.elements.drinking.checked,
-        wife: settingsForm.elements.wife.checked,
-      },
-    };
     const spouseType = String(settingsSpouseType?.value || '').trim();
     if (!['wife', 'husband', 'not_married'].includes(spouseType)) {
       setSettingsMessage('Just fucking answer the question, snowflake — wife, husband, or not married.');
@@ -5801,6 +5791,17 @@
       return;
     }
 
+    const patch = {
+      mini_mascots_enabled:
+        settingsForm.elements.mini_mascots_enabled.checked,
+      trash_talk_enabled:
+        settingsForm.elements.trash_talk_enabled.checked,
+      spouse_type: spouseType,
+      themes: {
+        drinking: settingsForm.elements.drinking.checked,
+        wife: settingsForm.elements.wife.checked,
+      },
+    };
     const rawHandicapIndex = String(
       settingsHandicapIndex?.value || ''
     ).trim();
@@ -5827,16 +5828,12 @@
         method: 'PATCH',
         body: patch,
       });
-      await requestJson('/api/profile/handicap', {
+      const account = await requestJson('/api/profile/handicap', {
         method: 'PATCH',
         body: { handicap_index: handicapIndex },
       });
-      const account = await requestJson('/api/profile/spouse', {
-        method: 'PATCH',
-        body: { spouse_type: spouseType },
-      });
       populateSettings(preferences);
-      populateProfileRelationship(account);
+      populateProfileRelationship(preferences);
       populateProfileHandicap(account);
       userMessageCache.clear();
       setSettingsMessage('Saved. Your bad decisions are now personalized.');

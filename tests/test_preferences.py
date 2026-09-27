@@ -15,6 +15,7 @@ def test_content_preferences_default_to_enabled_themes():
     assert prefs == {
         "mini_mascots_enabled": True,
         "trash_talk_enabled": True,
+        "spouse_type": None,
         "themes": {
             "drinking": True,
             "wife": True,
@@ -62,5 +63,25 @@ def test_content_preferences_reject_retired_vulgarity_setting():
         merge_preference_patch(
             None,
             {"max_vulgarity": "normal"},
+            catalog.theme_rows,
+        )
+
+
+def test_content_preferences_store_relationship_target_without_schema_change():
+    catalog = ContentCatalog.load()
+    stored = merge_preference_patch(
+        None,
+        {"spouse_type": "husband"},
+        catalog.theme_rows,
+    )
+    prefs = public_preferences(stored, catalog.theme_rows)
+
+    assert stored["theme_preferences"]["_spouse_type"] == "husband"
+    assert prefs["spouse_type"] == "husband"
+
+    with pytest.raises(ContentError, match="spouse_type must be"):
+        merge_preference_patch(
+            None,
+            {"spouse_type": "whatever"},
             catalog.theme_rows,
         )
