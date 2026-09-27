@@ -11613,6 +11613,170 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.01",
+      "text": "Triple bogey. At this point the hole deserves an apology.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.02",
+      "text": "Triple bogey. You didn’t play the hole. You survived an incident.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.03",
+      "text": "Triple bogey. That score needs a warning label.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.04",
+      "text": "Triple bogey. The collapse is no longer theoretical.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.05",
+      "text": "Triple bogey. Somewhere along the way, golf stopped being the activity.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.general.06",
+      "text": "Triple bogey. That wasn’t a bad hole. That was a fucking hostage situation.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.drinking.01",
+      "text": "Triple bogey. Time to drink until that number looks reasonable.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.drinking.02",
+      "text": "Triple bogey. The beer cart should start following you with hazard lights on.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.drinking.03",
+      "text": "Triple bogey. Forget swing thoughts. You need a drink and possibly an exorcism.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.spouse.01",
+      "text": "Triple bogey. Your {spouse} is going to ask how golf went. Lie.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.approved.spouse.02",
+      "text": "Triple bogey. Your {spouse} has probably seen cleaner disasters at home.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
