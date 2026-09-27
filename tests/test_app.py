@@ -281,6 +281,26 @@ def test_round_history_never_exposes_internal_event_keys():
     assert "ROUND UPDATE" in history_block
 
 
+def test_round_history_filters_internal_banter_and_shows_factual_score_actions():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const ROUND_HISTORY_EVENT_TYPES =")
+    end = source.index("const totalParForRound", start)
+    history_block = source[start:end]
+
+    assert "'score_report'" in history_block
+    assert "'score_push'" in history_block
+    assert "'score_removed'" in history_block
+    assert "'par_report'" in history_block
+    assert "'par_push'" in history_block
+    assert "'score_derived'" not in history_block
+    assert "current_hole_auto_advance" not in history_block
+    assert "ROUND_HISTORY_EVENT_TYPES.has" in history_block
+    assert "roundHistoryTitle(round, event)" in history_block
+    assert "STROKES" in history_block
+
+
 def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200

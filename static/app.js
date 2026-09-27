@@ -3775,10 +3775,109 @@
     }
   };
 
+  const ROUND_HISTORY_EVENT_TYPES = new Set([
+    'score_report',
+    'score_push',
+    'score_removed',
+    'par_report',
+    'par_push',
+    'tee_change',
+    'round_handicap_change',
+    'par_tracking_change',
+    'scramble_contribution_change',
+    'participant_join',
+    'participant_proxy_added',
+    'participant_reconnect',
+    'participant_claimed',
+    'participant_claim_undone',
+    'spectator_joined_play',
+    'round_end_early_vote',
+    'round_end_early_completed',
+    'round_status_change',
+    'round_end_result',
+  ]);
+
+  const roundHistoryTitle = (round, event) => {
+    const eventType = String(event?.event_type || '');
+
+    if (eventType === 'score_report' || eventType === 'score_push') {
+      const data = event?.data || {};
+      const participant = (round.participants || []).find(
+        (candidate) =>
+          String(candidate.id)
+          === String(data.player_participant_id || '')
+      );
+      const subject = data.scope === 'team'
+        ? 'TEAM'
+        : String(participant?.display_name || 'GOLFER').toUpperCase();
+      const newScore = Number(event.new_value);
+      if (eventType === 'score_push') {
+        const oldScore = Number(event.old_value);
+        return `${subject} — SCORE CHANGED ${oldScore} → ${newScore} STROKES`;
+      }
+      return `${subject} — ${newScore} STROKES`;
+    }
+
+    if (eventType === 'par_report') {
+      return `PAR SET TO ${String(event.new_value ?? '?')}`;
+    }
+    if (eventType === 'par_push') {
+      return `PAR CHANGED ${String(event.old_value ?? '?')} → ${String(event.new_value ?? '?')}`;
+    }
+
+    if (eventType === 'tee_change') {
+      const actor = (round.participants || []).find(
+        (participant) =>
+          String(participant.id) === String(event.actor_participant_id)
+      );
+      const actorName = String(
+        event.data?.actor_display_name
+        || actor?.display_name
+        || 'SOMEONE'
+      ).toUpperCase();
+      const oldTee = String(event.old_value || 'UNSET').toUpperCase();
+      const newTee = String(event.new_value || 'UNSET').toUpperCase();
+      const scope = event.data?.scope === 'team' ? 'TEAM TEE' : 'TEE';
+      return `${actorName} CHANGED ${scope} ${oldTee} → ${newTee}`;
+    }
+
+    if (eventType === 'score_removed') {
+      const actor = (round.participants || []).find(
+        (participant) =>
+          String(participant.id) === String(event.actor_participant_id)
+      );
+      const target = (round.participants || []).find(
+        (participant) =>
+          String(participant.id)
+          === String(event.data?.player_participant_id || '')
+      );
+      const subject = event.data?.scope === 'team'
+        ? 'TEAM SCORE'
+        : String(
+            event.data?.subject
+            || target?.display_name
+            || 'GOLFER'
+          ).toUpperCase();
+      const oldScore = Number(event.old_value);
+      const actorName = String(
+        event.data?.actor_display_name
+        || actor?.display_name
+        || 'SOMEONE'
+      ).toUpperCase();
+      return event.data?.scope === 'team'
+        ? `${actorName} REMOVED ${subject} ${oldScore}`
+        : `${actorName} REMOVED ${subject}'S ${oldScore}`;
+    }
+
+    return presentationText(event) || 'ROUND UPDATE';
+  };
+
   const renderReceipts = (round) => {
     if (!receiptsPanel || !receiptsList) return;
 
-    const events = round.events || [];
+    const events = (round.events || []).filter((event) =>
+      ROUND_HISTORY_EVENT_TYPES.has(String(event?.event_type || ''))
+    );
     receiptsPanel.hidden = events.length === 0;
     updateReceiptsBadge(round);
     receiptsList.replaceChildren();
@@ -3788,41 +3887,7 @@
       row.className = 'receipt-row';
 
       const title = document.createElement('strong');
-      if (event.event_type === 'tee_change') {
-        const actor = (round.participants || []).find(
-          (participant) =>
-            String(participant.id) === String(event.actor_participant_id)
-        );
-        const actorName = String(
-          event.data?.actor_display_name
-          || actor?.display_name
-          || 'SOMEONE'
-        ).toUpperCase();
-        const oldTee = String(event.old_value || 'UNSET').toUpperCase();
-        const newTee = String(event.new_value || 'UNSET').toUpperCase();
-        const scope = event.data?.scope === 'team' ? 'TEAM TEE' : 'TEE';
-        title.textContent =
-          `${actorName} CHANGED ${scope} ${oldTee} → ${newTee}`;
-      } else if (event.event_type === 'score_removed') {
-        const actor = (round.participants || []).find(
-          (participant) =>
-            String(participant.id) === String(event.actor_participant_id)
-        );
-        const subject = event.data?.scope === 'team'
-          ? 'TEAM SCORE'
-          : String(event.data?.subject || 'GOLFER').toUpperCase();
-        const oldScore = Number(event.old_value);
-        const actorName = String(
-          event.data?.actor_display_name
-          || actor?.display_name
-          || 'SOMEONE'
-        ).toUpperCase();
-        title.textContent = event.data?.scope === 'team'
-          ? `${actorName} REMOVED ${subject} ${oldScore}`
-          : `${actorName} REMOVED ${subject}'S ${oldScore}`;
-      } else {
-        title.textContent = presentationText(event) || 'ROUND UPDATE';
-      }
+      title.textContent = roundHistoryTitle(round, event);
 
       const meta = document.createElement('small');
       const pieces = [];
