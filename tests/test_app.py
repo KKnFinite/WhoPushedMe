@@ -212,6 +212,38 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
+def test_incomplete_finish_confirmation_is_not_buried_in_more():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    panel = html.index('id="finish-incomplete-panel"')
+    footer = html.index('class="live-footer-actions"')
+    more = html.index('id="live-more-panel"')
+
+    assert panel < footer
+    assert footer < more
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"finishIncompletePanel.scrollIntoView" in script.data
+
+
+def test_receipts_word_is_removed_from_player_facing_copy():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "ROUND HISTORY" in html
+    assert "GOLF IS MORE FUN WITH EVIDENCE" in html
+    assert "GOLF IS MORE FUN WITH RECEIPTS" not in html
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"THOSE RECEIPTS STAY ATTRIBUTED" not in script.data
+    assert b"THAT ROUND HISTORY STAYS ATTRIBUTED" in script.data
+
+
 def test_final_hole_exposes_finish_round_in_live_footer():
     page = client().get("/")
     assert page.status_code == 200

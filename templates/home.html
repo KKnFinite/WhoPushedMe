@@ -569,7 +569,7 @@
         <section class="live-banter-panel">
           <header class="live-banter-header">
             <strong>ROUND BANTER</strong>
-            <span>GOLF IS MORE FUN WITH RECEIPTS</span>
+            <span>GOLF IS MORE FUN WITH EVIDENCE</span>
           </header>
           <div id="live-banter-feed" class="live-banter-feed"></div>
           <form id="live-banter-form" class="live-banter-form">
@@ -615,6 +615,17 @@
         <button id="back-to-live" class="lobby-home live-back-to-live" type="button" hidden>
           BACK TO LIVE
         </button>
+
+        <section id="finish-incomplete-panel" class="finish-incomplete-panel" hidden>
+          <strong>THE SCORECARD HAS HOLES.</strong>
+          <p id="finish-incomplete-copy"></p>
+          <button id="fix-scorecard-button" class="lobby-home" type="button">
+            FIX THE SCORECARD
+          </button>
+          <button id="finish-incomplete-button" class="finish-round-button" type="button">
+            FINISH INCOMPLETE
+          </button>
+        </section>
 
         <div class="live-footer-actions" aria-label="Live round actions">
           <button id="live-nav-more" class="live-footer-more" type="button">MORE</button>
@@ -726,17 +737,6 @@
               <button id="end-early-yes" type="button">YES. END IT.</button>
               <button id="end-early-no" type="button">NO. KEEP SUFFERING.</button>
             </div>
-          </section>
-
-          <section id="finish-incomplete-panel" class="finish-incomplete-panel" hidden>
-            <strong>THE SCORECARD HAS HOLES.</strong>
-            <p id="finish-incomplete-copy"></p>
-            <button id="fix-scorecard-button" class="lobby-home" type="button">
-              FIX THE SCORECARD
-            </button>
-            <button id="finish-incomplete-button" class="finish-round-button" type="button">
-              FINISH INCOMPLETE
-            </button>
           </section>
 
           <button id="live-round-home" class="lobby-home" type="button">BACK HOME</button>

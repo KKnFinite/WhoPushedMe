@@ -4294,7 +4294,7 @@
         const actions = Number(claimUndo.actions_after_claim || 0);
         if (claimUndoCopy) {
           claimUndoCopy.textContent = actions > 0
-            ? `${actions} ACTION${actions === 1 ? '' : 'S'} HAPPENED AFTER YOU CLAIMED THIS PLAYER. THOSE RECEIPTS STAY ATTRIBUTED TO YOUR ACCOUNT.`
+            ? `${actions} ACTION${actions === 1 ? '' : 'S'} HAPPENED AFTER YOU CLAIMED THIS PLAYER. THAT ROUND HISTORY STAYS ATTRIBUTED TO YOUR ACCOUNT.`
             : 'UNDOING THE CLAIM PUTS THIS PLAYER BACK INTO ROUND-ONLY MODE.';
         }
         if (claimUndoButton) {
@@ -4431,6 +4431,14 @@
         && finishIncompletePending
         && !resultsComplete
       );
+      if (!finishIncompletePanel.hidden) {
+        window.requestAnimationFrame(() => {
+          finishIncompletePanel.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+          });
+        });
+      }
     }
     if (finishIncompleteCopy) {
       const missing = Number(round.results?.missing_scores || 0);
