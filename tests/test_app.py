@@ -1483,3 +1483,19 @@ def test_score_banter_never_invents_bare_score_statement():
     assert "presentation.banter?.text || ''" in block
     assert "if (eventType === 'score_report' && !rawPresentationComment)" in block
     assert "return '';" in block
+
+
+def test_lobby_round_meta_is_stacked_instead_of_bullet_sentence():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLobby =")
+    end = source.index("if (lobbyParticipants)", start)
+    block = source[start:end]
+
+    assert "lobbySummary.replaceChildren()" in block
+    assert "addSummaryLine('FORMAT'" in block
+    assert "addSummaryLine('ROUND'" in block
+    assert "addSummaryLine('COURSE'" in block
+    assert "lobbySummary.textContent" not in block
+    assert " • " not in block

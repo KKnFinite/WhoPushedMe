@@ -9323,3 +9323,55 @@ textarea,
   font-family: Arial, sans-serif;
   font-weight: 900;
 }
+
+
+/* LOBBY SUMMARY STACK — KEEP ROUND META ON SEPARATE LINES */
+.lobby-summary {
+  display: grid !important;
+  gap: 4px !important;
+  width: min(100%, 560px);
+  margin: 0 auto 4px !important;
+  text-align: left !important;
+}
+
+.lobby-summary-line {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.lobby-summary-line > span {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.lobby-summary-line > strong {
+  min-width: 0;
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .lobby-summary-line {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .lobby-summary-line > span {
+    font-size: .62rem;
+  }
+
+  .lobby-summary-line > strong {
+    font-size: .94rem;
+  }
+}

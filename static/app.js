@@ -4680,11 +4680,33 @@
       round.mode === 'scramble' ? 'WE SUCK TOGETHER' : 'EVERY ASSHOLE FOR THEMSELVES';
     const place = round.course?.name || round.free_play_name || 'Course round';
     if (lobbySummary) {
-      const teamTee = round.mode === 'scramble' && round.scramble_tee_name
-        ? ` • TEAM TEE: ${round.scramble_tee_name}`
-        : '';
-      lobbySummary.textContent =
-        `${modeLabel} • ${round.hole_count} HOLES • ${place}${teamTee}`;
+      lobbySummary.replaceChildren();
+
+      const addSummaryLine = (label, value, className) => {
+        const line = document.createElement('div');
+        line.className = 'lobby-summary-line ' + className;
+
+        const key = document.createElement('span');
+        key.textContent = label;
+
+        const copy = document.createElement('strong');
+        copy.textContent = value;
+
+        line.append(key, copy);
+        lobbySummary.append(line);
+      };
+
+      addSummaryLine('FORMAT', modeLabel, 'is-format');
+      addSummaryLine('ROUND', String(round.hole_count) + ' HOLES', 'is-holes');
+      addSummaryLine('COURSE', place, 'is-course');
+
+      if (round.mode === 'scramble' && round.scramble_tee_name) {
+        addSummaryLine(
+          'TEAM TEE',
+          String(round.scramble_tee_name),
+          'is-team-tee'
+        );
+      }
     }
 
     if (lobbyParticipants) {
