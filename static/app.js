@@ -3051,6 +3051,9 @@
     const rows = (round.events || [])
       .filter((event) => {
         const eventType = String(event.event_type || '');
+        // Derived scoring/standing events are internal milestones, not separate
+        // ROUND BANTER posts. One submitted score gets one score-feed row.
+        if (eventType === 'score_derived') return false;
         if (!socialTypes.has(eventType)) return false;
         if (eventType === 'score_report' || eventType === 'score_push') {
           const scoreKey = [

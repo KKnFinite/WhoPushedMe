@@ -1222,3 +1222,21 @@ def test_live_score_submit_stays_compact_in_score_card():
     assert b"LIVE SCORE EXPLICIT SUBMIT" in css.data
     assert b"width: 64px !important" in css.data
     assert b"grid-template-columns: minmax(0, 1fr) auto auto auto !important" in css.data
+
+
+def test_round_banter_never_renders_score_derived_events():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLiveBanter =")
+    end = source.index("const appendLobbyBanterRow =", start)
+    banter_block = source[start:end]
+
+    assert "if (eventType === 'score_derived') return false;" in banter_block
+    assert "if (!socialTypes.has(eventType)) return false;" in banter_block
+    assert "Boolean(presentation.banter?.text)" not in banter_block
+    assert "Boolean(presentation.mascot?.copy)" not in banter_block
+    assert "Boolean(presentation.fallback?.text)" not in banter_block
+    assert "'score_report'" in banter_block
+    assert "'score_push'" in banter_block
+    assert "seenScoreKeys" in banter_block
