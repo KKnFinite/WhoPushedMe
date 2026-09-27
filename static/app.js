@@ -3604,18 +3604,12 @@
           ? `${actorName} REMOVED ${subject} ${oldScore}`
           : `${actorName} REMOVED ${subject}'S ${oldScore}`;
       } else {
-        title.textContent = (
-          presentationText(event)
-          || event.content_event_key
-          || event.event_type
-          || 'Round event'
-        );
+        title.textContent = presentationText(event) || 'ROUND UPDATE';
       }
 
       const meta = document.createElement('small');
       const pieces = [];
       if (event.hole_number) pieces.push(`HOLE ${event.hole_number}`);
-      if (event.content_event_key) pieces.push(event.content_event_key);
       if (event.created_at) {
         const date = new Date(event.created_at);
         if (!Number.isNaN(date.getTime())) {
@@ -3770,6 +3764,7 @@
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = false;
+    if (receiptsPanel) receiptsPanel.open = false;
     const endedEarly = round.end_reason === 'ended_early';
     if (roundFlowTitle) {
       roundFlowTitle.textContent = endedEarly
@@ -4152,6 +4147,18 @@
       advanceLiveHole.disabled = false;
     }
 
+    if (finishRoundButton) {
+      const canFinishFromFooter = (
+        viewerIsActivePlayer(round)
+        && round.status === 'active'
+        && viewingLive
+        && livePosition === length
+      );
+      finishRoundButton.hidden = !canFinishFromFooter || finishIncompletePending;
+      finishRoundButton.disabled = false;
+      finishRoundButton.textContent = 'FINISH ROUND';
+    }
+
     const missingCurrentScores = missingScoresAtPosition(round, livePosition);
     if (
       advanceWarningPosition !== null
@@ -4417,10 +4424,6 @@
     const resultsComplete = Boolean(round.results?.complete);
     if (!canFinish || resultsComplete) {
       finishIncompletePending = false;
-    }
-    if (finishRoundButton) {
-      finishRoundButton.hidden = !canFinish || finishIncompletePending;
-      finishRoundButton.disabled = false;
     }
     if (finishIncompletePanel) {
       finishIncompletePanel.hidden = !(
@@ -5315,7 +5318,6 @@
   fixScorecardButton?.addEventListener('click', () => {
     finishIncompletePending = false;
     if (finishIncompletePanel) finishIncompletePanel.hidden = true;
-    if (finishRoundButton) finishRoundButton.hidden = false;
     setRoundFlowMessage('Use the hole arrows to fix the missing scores, then come back here.');
   });
 

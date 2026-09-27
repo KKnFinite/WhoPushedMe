@@ -9220,3 +9220,38 @@ textarea,
     gap: 6px;
   }
 }
+
+
+/* ROUND END ACTION + HISTORY CLEANUP */
+.live-footer-actions {
+  grid-template-columns: minmax(96px, .36fr) minmax(0, 1fr) !important;
+}
+
+.live-footer-actions .live-finish-round {
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 9px 12px !important;
+  border: 1px solid rgba(212,166,42,.82) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417) !important;
+  color: var(--wpm-night) !important;
+  box-shadow: none !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .035em !important;
+}
+
+.live-footer-actions .live-finish-round[hidden] {
+  display: none !important;
+}
+
+/* Only one primary footer action exists at a time: NEXT or FINISH. */
+.live-footer-actions:has(#advance-live-hole[hidden]):has(#finish-round-button[hidden]) {
+  grid-template-columns: 1fr !important;
+}
+
+.receipts-panel summary > span {
+  letter-spacing: .08em;
+}

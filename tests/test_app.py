@@ -212,7 +212,44 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
-def test_live_footer_uses_more_and_next_hole_only():
+def test_final_hole_exposes_finish_round_in_live_footer():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+    footer_start = html.index('class="live-footer-actions"')
+    footer_end = html.index("</div>", footer_start)
+    footer = html[footer_start:footer_end]
+
+    assert 'id="advance-live-hole"' in footer
+    assert 'id="finish-round-button"' in footer
+    assert "FINISH ROUND" in footer
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"canFinishFromFooter" in script.data
+    assert b"livePosition === length" in script.data
+
+
+def test_round_history_never_exposes_internal_event_keys():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b"ROUND HISTORY" in page.data
+    assert b">RECEIPTS<" not in page.data
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+    start = source.index("const renderReceipts =")
+    end = source.index("const totalParForRound", start)
+    history_block = source[start:end]
+
+    assert "pieces.push(event.content_event_key)" not in history_block
+    assert "|| event.content_event_key" not in history_block
+    assert "|| event.event_type" not in history_block
+    assert "ROUND UPDATE" in history_block
+
+
+def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200
     assert b'class="live-footer-actions"' in page.data
