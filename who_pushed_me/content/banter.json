@@ -12005,6 +12005,282 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.01",
+      "text": "Eagle. What the fuck? Did somebody competent borrow your body for a hole?",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.02",
+      "text": "Eagle. That was filthy. I’m annoyed I have to respect it.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.03",
+      "text": "Eagle. Holy shit. You actually did something the group chat can’t immediately mock.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.04",
+      "text": "Eagle. That score is way too good for the golfer we’ve been watching all day.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.05",
+      "text": "Eagle. Congratulations. Your ego just got enough fuel to ruin the next three holes.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.general.06",
+      "text": "Eagle. Absolutely disgusting. Do it again or shut the fuck up about it.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.drinking.01",
+      "text": "Eagle. Apparently the booze has reached the performance-enhancing dosage.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.drinking.02",
+      "text": "Eagle. Keep drinking. Science clearly has no explanation for this shit.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.drinking.03",
+      "text": "Eagle. That was either talent or alcohol-induced confidence. Don’t investigate it.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.01",
+      "text": "Eagle. Your {spouse} is going to hear about this until the fucking holidays.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.02",
+      "text": "Eagle. Text your {spouse}. They deserve proof that you occasionally do something impressive.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.03",
+      "text": "Eagle. Your {spouse} is about to pretend this is interesting because marriage is a commitment.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.04",
+      "text": "Eagle. You drilled that hole harder than you’ve drilled your {spouse} in years.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.05",
+      "text": "Eagle. Two under. Your {spouse} would probably be thrilled if you performed that far above expectations at home.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.06",
+      "text": "Eagle. You finally found a hole you could finish properly. Your {spouse} has questions.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.07",
+      "text": "Eagle. That was deep, clean, and finished fast. Your {spouse} is wondering where the fuck that technique has been.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.08",
+      "text": "Eagle. You attacked that hole with more confidence than you’ve shown in the bedroom since the honeymoon.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.eagle.approved.spouse.09",
+      "text": "Eagle. Your {spouse} just saw what happens when you actually commit to a good stroke.",
+      "events": [
+        "score.report.individual.eagle",
+        "score.report.scramble.eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
