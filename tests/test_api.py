@@ -1734,6 +1734,8 @@ def test_signed_in_content_messages_respect_user_preferences():
     ]
     assert spouse_rows
     assert any("HUSBAND" in row["text"] for row in spouse_rows)
+    assert any("CALL HIM" in row["text"] for row in spouse_rows)
+    assert all("CALL HIS" not in row["text"] for row in spouse_rows)
     assert all("WIFE" not in row["text"] for row in spouse_rows)
 
 

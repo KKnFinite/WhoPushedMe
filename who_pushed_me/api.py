@@ -37,6 +37,9 @@ def _relationship_message_text(text: object, spouse_type: object) -> str:
     if str(spouse_type or "").strip().lower() != "husband":
         return value
 
+    value = value.replace("CALL HER", "CALL HIM")
+    value = value.replace("Call her", "Call him")
+    value = value.replace("call her", "call him")
     replacements = {"wife": "husband", "she": "he", "her": "his"}
 
     def replace(match: re.Match[str]) -> str:

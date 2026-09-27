@@ -109,7 +109,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v88" in response.data
+    assert b"wpm-shell-v89" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -194,7 +194,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v88" in builder
+    assert "wpm-shell-v89" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -1193,4 +1193,5 @@ def test_live_banter_uses_score_perspective_and_ignores_operational_presentation
     assert script.status_code == 200
     assert b"scoreFeedText" in script.data
     assert b"scored " in script.data
-    assert b"return socialTypes.has(String(event.event_type || ''));" in script.data
+    assert b"seenScoreKeys" in script.data
+    assert b"score_push" in script.data

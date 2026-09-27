@@ -2927,29 +2927,43 @@
   };
 
   const scoreFeedText = (round, event) => {
-    const base = presentationText(event);
+    const eventType = String(event?.event_type || '');
     if (
       round?.mode !== 'individual'
-      || String(event?.event_type || '') !== 'score_report'
+      || !['score_report', 'score_push'].includes(eventType)
     ) {
-      return base;
+      return presentationText(event);
     }
 
     const subjectId = String(event?.data?.player_participant_id || '');
     const subject = (round.participants || []).find(
       (participant) => String(participant.id) === subjectId
     );
-    if (!subject) return base;
+    if (!subject) return presentationText(event);
 
     const viewerIsSubject = subjectId === String(round.viewer_participant_id || '');
-    const scoreName = scoreNameFromEvent(event);
-    const rawComment = stripScoreLead(base);
+    const presentation = event?.presentation || {};
+    const rawPresentationComment = String(
+      presentation.banter?.text || presentation.mascot?.copy || ''
+    ).trim();
+    const rawComment = eventType === 'score_report'
+      ? stripScoreLead(rawPresentationComment)
+      : rawPresentationComment;
     const comment = viewerIsSubject
       ? rawComment
       : thirdPersonScoreComment(rawComment);
-    const prefix = viewerIsSubject
-      ? 'You scored ' + scoreName + '.'
-      : (subject.display_name || 'Golfer') + ' scored ' + scoreName + '.';
+    let prefix;
+    if (eventType === 'score_report') {
+      const scoreName = scoreNameFromEvent(event);
+      prefix = viewerIsSubject
+        ? 'You scored ' + scoreName + '.'
+        : (subject.display_name || 'Golfer') + ' scored ' + scoreName + '.';
+    } else if (viewerIsSubject) {
+      prefix = 'Your score changed to ' + String(event.new_value ?? '') + '.';
+    } else {
+      prefix = (subject.display_name || 'Golfer') + ': score changed to '
+        + String(event.new_value ?? '') + '.';
+    }
     return comment ? prefix + ' ' + comment : prefix;
   };
 
@@ -3000,11 +3014,20 @@
       'round_end_result',
     ]);
 
+    const seenScoreKeys = new Set();
     const rows = (round.events || [])
       .filter((event) => {
-        const text = String(presentationText(event) || '').trim();
-        if (!text) return false;
-        return socialTypes.has(String(event.event_type || ''));
+        const eventType = String(event.event_type || '');
+        if (!socialTypes.has(eventType)) return false;
+        if (eventType === 'score_report' || eventType === 'score_push') {
+          const scoreKey = [
+            event.route_position || event.hole_number || '',
+            event.data?.player_participant_id || 'team',
+          ].join(':');
+          if (seenScoreKeys.has(scoreKey)) return false;
+          seenScoreKeys.add(scoreKey);
+        }
+        return Boolean(String(scoreFeedText(round, event) || '').trim());
       })
       .slice(0, 8)
       .reverse();
