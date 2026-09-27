@@ -1388,3 +1388,37 @@ def test_course_step_separates_round_length_from_physical_layout():
     assert b"inferredCourseHoleCount" in script.data
     assert b"Course layout is unknown." in script.data
     assert b"body.course_hole_count = selectedPhysicalHoleCount()" in script.data
+
+
+def test_live_reaction_panel_keeps_open_state_across_poll_renders():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    assert b"openScoreResponsePanels" in response.data
+    assert b"responsePanel.open = openScoreResponsePanels.has" in response.data
+
+
+def test_round_banter_uses_one_score_row_per_player_hole():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLiveBanter =")
+    end = source.index("const appendLobbyBanterRow =", start)
+    banter_block = source[start:end]
+
+    assert "seenScoreKeys" in banter_block
+    assert "if (eventType === 'score_derived') return false;" in banter_block
+    assert "if (!socialTypes.has(eventType)) return false;" in banter_block
+    assert "Boolean(presentation.banter?.text)" not in banter_block
+    assert "Boolean(presentation.mascot?.copy)" not in banter_block
+    assert "Boolean(presentation.fallback?.text)" not in banter_block
+    assert "scoreFeedText(round, event)" in banter_block
+
+
+def test_live_score_banter_names_subject_and_uses_viewer_perspective():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    assert "const scoreFeedText = (round, event) =>" in source
+    assert "'You scored ' + scoreName + '.'" in source
+    assert "' scored ' + scoreName + '.'" in source
+    assert "const thirdPersonScoreComment = (text) =>" in source

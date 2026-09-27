@@ -226,6 +226,7 @@
 
   let pendingAccount = null;
   let currentLobbyRound = null;
+  const openScoreResponsePanels = new Set();
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
@@ -2463,6 +2464,15 @@
 
     const responsePanel = document.createElement('details');
     responsePanel.className = 'score-response-panel live-score-social-details';
+    const responseStateKey = String(round.id) + ':' + String(scoreEvent.id);
+    responsePanel.open = openScoreResponsePanels.has(responseStateKey);
+    responsePanel.addEventListener('toggle', () => {
+      if (responsePanel.open) {
+        openScoreResponsePanels.add(responseStateKey);
+      } else {
+        openScoreResponsePanels.delete(responseStateKey);
+      }
+    });
 
     const responseSummary = document.createElement('summary');
     responseSummary.textContent = 'REACTIONS / CHALLENGES';
@@ -3093,6 +3103,86 @@
     );
   };
 
+  const scoreNameFromEvent = (event) => {
+    const key = String(
+      event?.content_event_key
+      || event?.presentation?.event_key
+      || ''
+    );
+    const suffix = key.split('.').pop();
+    return ({
+      ace: 'a hole in one',
+      albatross: 'an albatross',
+      eagle: 'an eagle',
+      birdie: 'a birdie',
+      par: 'par',
+      bogey: 'a bogey',
+      double_bogey: 'a double bogey',
+      triple_bogey: 'a triple bogey',
+      quad_plus: 'a quadruple bogey or worse',
+    })[suffix] || 'a score';
+  };
+
+  const stripScoreLead = (text) => String(text || '').replace(
+    /^(?:(?:a fucking |an? )?(?:hole in one|ace|albatross|birdie|bogey|double bogey|eagle|par|triple bogey))[.!?]\s*/i,
+    ''
+  ).trim();
+
+  const thirdPersonScoreComment = (text) => {
+    return String(text || '')
+      .replace(/\bYou're\b/g, "They're")
+      .replace(/\byou're\b/g, "they're")
+      .replace(/\bYou are\b/g, 'They are')
+      .replace(/\byou are\b/g, 'they are')
+      .replace(/\bYour\b/g, 'Their')
+      .replace(/\byour\b/g, 'their')
+      .replace(/\bYou\b/g, 'They')
+      .replace(/\byou\b/g, 'they');
+  };
+
+  const scoreFeedText = (round, event) => {
+    const eventType = String(event?.event_type || '');
+    if (
+      round?.mode !== 'individual'
+      || !['score_report', 'score_push'].includes(eventType)
+    ) {
+      return presentationText(event);
+    }
+
+    const subjectId = String(event?.data?.player_participant_id || '');
+    const subject = (round.participants || []).find(
+      (participant) => String(participant.id) === subjectId
+    );
+    if (!subject) return presentationText(event);
+
+    const viewerIsSubject = subjectId === String(round.viewer_participant_id || '');
+    const presentation = event?.presentation || {};
+    const rawPresentationComment = String(
+      presentation.banter?.text || presentation.mascot?.copy || ''
+    ).trim();
+    const rawComment = eventType === 'score_report'
+      ? stripScoreLead(rawPresentationComment)
+      : rawPresentationComment;
+    const comment = viewerIsSubject
+      ? rawComment
+      : thirdPersonScoreComment(rawComment);
+
+    let prefix;
+    if (eventType === 'score_report') {
+      const scoreName = scoreNameFromEvent(event);
+      prefix = viewerIsSubject
+        ? 'You scored ' + scoreName + '.'
+        : (subject.display_name || 'Golfer') + ' scored ' + scoreName + '.';
+    } else if (viewerIsSubject) {
+      prefix = 'Your score changed to ' + String(event.new_value ?? '') + '.';
+    } else {
+      prefix = (subject.display_name || 'Golfer') + ': score changed to '
+        + String(event.new_value ?? '') + '.';
+    }
+
+    return comment ? prefix + ' ' + comment : prefix;
+  };
+
   const APP_BANTER_AVATAR =
     '/static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp';
 
@@ -3140,17 +3230,23 @@
       'round_end_result',
     ]);
 
+    const seenScoreKeys = new Set();
     const rows = (round.events || [])
       .filter((event) => {
-        const text = String(presentationText(event) || '').trim();
-        if (!text) return false;
-        const presentation = event.presentation || {};
-        return (
-          socialTypes.has(String(event.event_type || ''))
-          || Boolean(presentation.banter?.text)
-          || Boolean(presentation.mascot?.copy)
-          || Boolean(presentation.fallback?.text)
-        );
+        const eventType = String(event.event_type || '');
+        if (eventType === 'score_derived') return false;
+        if (!socialTypes.has(eventType)) return false;
+
+        if (eventType === 'score_report' || eventType === 'score_push') {
+          const scoreKey = [
+            event.route_position || event.hole_number || '',
+            event.data?.player_participant_id || 'team',
+          ].join(':');
+          if (seenScoreKeys.has(scoreKey)) return false;
+          seenScoreKeys.add(scoreKey);
+        }
+
+        return Boolean(String(scoreFeedText(round, event) || '').trim());
       })
       .slice(0, 8)
       .reverse();
@@ -3221,7 +3317,7 @@
 
       const bubble = document.createElement('div');
       bubble.className = 'live-banter-bubble';
-      bubble.textContent = presentationText(event);
+      bubble.textContent = scoreFeedText(round, event);
 
       content.append(meta, bubble);
       row.append(avatar, content);

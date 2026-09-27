@@ -4337,6 +4337,7 @@ class RoundStore:
                     ),
                     "new_score": stroke_value,
                     "mode": round_row["mode"],
+                    "subject": subject_name,
                     "score_name": content_event.rsplit(".", 1)[-1],
                 },
             )
