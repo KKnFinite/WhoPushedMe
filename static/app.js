@@ -2897,16 +2897,16 @@
     );
     const suffix = key.split('.').pop();
     return ({
-      ace: 'hole in one',
-      albatross: 'albatross',
-      eagle: 'eagle',
-      birdie: 'birdie',
+      ace: 'a hole in one',
+      albatross: 'an albatross',
+      eagle: 'an eagle',
+      birdie: 'a birdie',
       par: 'par',
-      bogey: 'bogey',
-      double_bogey: 'double bogey',
-      triple_bogey: 'triple bogey',
-      quad_plus: 'quadruple bogey or worse',
-    })[suffix] || 'score';
+      bogey: 'a bogey',
+      double_bogey: 'a double bogey',
+      triple_bogey: 'a triple bogey',
+      quad_plus: 'a quadruple bogey or worse',
+    })[suffix] || 'a score';
   };
 
   const stripScoreLead = (text) => String(text || '').replace(
@@ -2946,8 +2946,8 @@
       ? rawComment
       : thirdPersonScoreComment(rawComment, subject.display_name || 'Golfer');
     const prefix = viewerIsSubject
-      ? 'You scored a ' + scoreName + '.'
-      : (subject.display_name || 'Golfer') + ' scored a ' + scoreName + '.';
+      ? 'You scored ' + scoreName + '.'
+      : (subject.display_name || 'Golfer') + ' scored ' + scoreName + '.';
     return comment ? prefix + ' ' + comment : prefix;
   };
 

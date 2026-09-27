@@ -1192,5 +1192,5 @@ def test_live_banter_uses_score_perspective_and_ignores_operational_presentation
     script = client().get("/static/app.js")
     assert script.status_code == 200
     assert b"scoreFeedText" in script.data
-    assert b"scored a " in script.data
+    assert b"scored " in script.data
     assert b"return socialTypes.has(String(event.event_type || ''));" in script.data
