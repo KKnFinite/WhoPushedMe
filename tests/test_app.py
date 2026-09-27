@@ -1470,3 +1470,16 @@ def test_score_response_and_challenge_events_are_round_banter_items():
     assert "'score_challenge'" in block
     assert "eventType === 'score_response'" in source
     assert "eventType === 'score_challenge'" in source
+
+
+def test_score_banter_never_invents_bare_score_statement():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const scoreFeedText =")
+    end = source.index("const APP_BANTER_AVATAR", start)
+    block = source[start:end]
+
+    assert "presentation.banter?.text || ''" in block
+    assert "if (eventType === 'score_report' && !rawPresentationComment)" in block
+    assert "return '';" in block

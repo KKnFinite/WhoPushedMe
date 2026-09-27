@@ -3244,8 +3244,11 @@
     const viewerIsSubject = subjectId === String(round.viewer_participant_id || '');
     const presentation = event?.presentation || {};
     const rawPresentationComment = String(
-      presentation.banter?.text || presentation.mascot?.copy || ''
+      presentation.banter?.text || ''
     ).trim();
+    if (eventType === 'score_report' && !rawPresentationComment) {
+      return '';
+    }
     const rawComment = eventType === 'score_report'
       ? stripScoreLead(rawPresentationComment)
       : rawPresentationComment;

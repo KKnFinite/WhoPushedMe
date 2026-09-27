@@ -28,7 +28,11 @@ from who_pushed_me.content.derived import (
     score_transition_events,
     standing_transition_events,
 )
-from who_pushed_me.content.preferences import merge_preference_patch, public_preferences
+from who_pushed_me.content.preferences import (
+    blocked_themes,
+    merge_preference_patch,
+    public_preferences,
+)
 from who_pushed_me.content.presentation import (
     build_shared_presentation,
     filter_presentation_for_preferences,
@@ -2788,6 +2792,10 @@ class RoundStore:
                 golfer_uuid,
                 catalog,
             )
+            runtime_controls = self._runtime_controls_from_cursor(
+                cursor,
+                catalog,
+            )
             for event in events:
                 raw_presentation = event.get("presentation") or {}
                 variants = dict(raw_presentation.get("variants") or {})
@@ -2824,11 +2832,62 @@ class RoundStore:
                 elif participant["role"] == "player" and "team" in variants:
                     audience = "team"
 
-                event["presentation"] = filter_presentation_for_preferences(
+                filtered_presentation = filter_presentation_for_preferences(
                     raw_presentation,
                     preferences,
                     audience=audience,
                 )
+
+                # Score-report events must never degrade into a bare
+                # "You scored a bogey" style line. A shared event may have
+                # randomly selected a drinking/spouse joke that this viewer
+                # has disabled. Pick a deterministic allowed replacement from
+                # the same approved score bank instead of dropping the copy.
+                if (
+                    event.get("event_type") == "score_report"
+                    and preferences.get("trash_talk_enabled", True)
+                    and not filtered_presentation.get("banter")
+                    and event.get("content_event_key")
+                ):
+                    blocked = set(blocked_themes(preferences))
+                    spouse_type = str(
+                        preferences.get("spouse_type") or ""
+                    ).strip().lower()
+                    if spouse_type not in {"wife", "husband"}:
+                        blocked.add("wife")
+
+                    fallback_rows = catalog.eligible_banter(
+                        str(event["content_event_key"]),
+                        audience=audience,
+                        admin_overrides=runtime_controls.get(
+                            "event_overrides"
+                        ),
+                        blocked_themes=blocked,
+                    )
+                    if fallback_rows:
+                        fallback = fallback_rows[
+                            UUID(str(event["id"])).int
+                            % len(fallback_rows)
+                        ]
+                        fallback_text = str(fallback.get("text") or "")
+                        if (
+                            "wife" in set(fallback.get("themes") or [])
+                            and spouse_type in {"wife", "husband"}
+                        ):
+                            fallback_text = fallback_text.replace(
+                                "{spouse}",
+                                spouse_type,
+                            )
+                        filtered_presentation["banter"] = {
+                            "id": fallback.get("id"),
+                            "text": fallback_text,
+                            "themes": list(fallback.get("themes") or []),
+                            "audiences": list(
+                                fallback.get("audiences") or ["everyone"]
+                            ),
+                        }
+
+                event["presentation"] = filtered_presentation
 
             round_row["events"] = events
 
