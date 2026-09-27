@@ -12281,6 +12281,102 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.01",
+      "text": "Birdie. You handled that hole better than you handled your {spouse} last night.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.02",
+      "text": "Birdie. One under. Your {spouse} would kill for that kind of performance improvement at home.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.03",
+      "text": "Birdie. Nice stroke. Your {spouse} is wondering why that smooth shit disappears in the bedroom.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.04",
+      "text": "Birdie. You found the hole, finished strong, and didn’t embarrass yourself. Your {spouse} must be fucking jealous.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.05",
+      "text": "Birdie. That was controlled, confident, and finished exactly where you wanted. Your {spouse} has never seen this version of you.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.raunchy_spouse.06",
+      "text": "Birdie. Apparently you only know how to work a hole properly when there’s a scorecard involved.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
