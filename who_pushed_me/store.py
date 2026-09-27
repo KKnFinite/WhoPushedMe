@@ -4945,11 +4945,17 @@ class RoundStore:
         round_uuid = self._uuid(round_id, "round_id")
         parent_event_uuid = self._uuid(score_event_id, "score_event_id")
         kind = str(response_kind or "").strip().lower()
-        allowed = {"blame", "custom"}
+        allowed = {
+            "blame",
+            "custom",
+            "bullshit",
+            "cheater",
+            "lucky",
+            "nice",
+            "random",
+        }
         if kind not in allowed:
-            raise DomainError(
-                "quick reactions must use the event reaction endpoint"
-            )
+            raise DomainError("unsupported score response")
 
         response_message = str(message or "").strip()
         if len(response_message) > 280:

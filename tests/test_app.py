@@ -1390,11 +1390,18 @@ def test_course_step_separates_round_length_from_physical_layout():
     assert b"body.course_hole_count = selectedPhysicalHoleCount()" in script.data
 
 
-def test_live_reaction_panel_keeps_open_state_across_poll_renders():
+def test_live_reaction_panel_is_always_visible():
     response = client().get("/static/app.js")
     assert response.status_code == 200
-    assert b"openScoreResponsePanels" in response.data
-    assert b"responsePanel.open = openScoreResponsePanels.has" in response.data
+    source = response.data.decode("utf-8")
+    start = source.index("const appendScoreResponsePanel =")
+    end = source.index("const renderScoreCard =", start)
+    block = source[start:end]
+
+    assert "document.createElement('section')" in block
+    assert "live-score-social-panel" in block
+    assert "document.createElement('details')" not in block
+    assert "REACTIONS / CHALLENGES" in block
 
 
 def test_round_banter_uses_one_score_row_per_player_hole():
@@ -1430,6 +1437,36 @@ def test_live_polling_does_not_rebuild_open_reactions_challenges_panel():
     source = response.data.decode("utf-8")
 
     assert "const liveScoreSocialInteractionInProgress = () =>" in source
-    assert "'.live-score-social-details[open]'" in source
+    assert "active?.closest?.('.live-score-social-panel')" in source
+    assert "data-social-draft-dirty" in source
     assert "liveScoreDraftInProgress()" in source
     assert "|| liveScoreSocialInteractionInProgress()" in source
+
+
+def test_score_response_sender_combines_selected_reaction_and_comment():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const appendScoreResponsePanel =")
+    end = source.index("const renderScoreCard =", start)
+    block = source[start:end]
+
+    assert "const sendResponse = async" in block
+    assert "/responses" in block
+    assert "selectedResponseKind" in block
+    assert "selectedResponseKind === 'talk_shit'" in block
+    assert "await sendResponse(responseKind, { message })" in block
+
+
+def test_score_response_and_challenge_events_are_round_banter_items():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderLiveBanter =")
+    end = source.index("const appendLobbyBanterRow =", start)
+    block = source[start:end]
+
+    assert "'score_response'" in block
+    assert "'score_challenge'" in block
+    assert "eventType === 'score_response'" in source
+    assert "eventType === 'score_challenge'" in source

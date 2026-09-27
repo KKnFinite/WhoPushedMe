@@ -10539,6 +10539,554 @@
       "themes": [],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.01",
+      "text": "Par. Congratulations on doing exactly what the hole asked.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.02",
+      "text": "Par. Look at you, aggressively average.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.03",
+      "text": "Par. Nobody panic. You accidentally played competent golf.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.04",
+      "text": "Par. Perfectly acceptable. Which somehow feels disappointing.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.05",
+      "text": "Par. Holy shit. Nothing went terribly wrong.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.06",
+      "text": "Par. The scorecard remains unimpressed.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.07",
+      "text": "Par. Not good enough to brag about. Not bad enough to explain.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.08",
+      "text": "Par. A completely normal golf score. How fucking boring.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.09",
+      "text": "Par. Competence detected. Probably temporary.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.10",
+      "text": "Par. That was suspiciously responsible.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.11",
+      "text": "Par. You're officially neither the hero nor the disaster.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.12",
+      "text": "Par. Great job doing the bare minimum correctly.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.13",
+      "text": "Par. The golfing equivalent of showing up to work on time.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.14",
+      "text": "Par. Fine. That one didn't suck.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.15",
+      "text": "Par. Somehow you managed not to fuck it up.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.16",
+      "text": "Par. Calm down. You didn't win the Masters.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.17",
+      "text": "Par. Exactly average. Your parents must be thrilled.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.18",
+      "text": "Par. Nothing exploded. We'll count it.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.19",
+      "text": "Par. Acceptable golf has entered the chat.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.20",
+      "text": "Par. No heroics. No collapse. Just boring competence.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.21",
+      "text": "Par. Apparently keeping the ball in play works.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.approved.22",
+      "text": "Par. Another hole successfully prevented from becoming a crime scene.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.01",
+      "text": "Par. Amazing what happens when you temporarily stop thinking about the beer cart.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.02",
+      "text": "Par. The beer is clearly starting to improve your decision-making. Somehow.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.03",
+      "text": "Par. Drink in one hand, respectable score in the other. Fucking athlete.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.04",
+      "text": "Par. Keep drinking. We may have accidentally found your handicap adjustment.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.05",
+      "text": "Par. The booze-to-golf ratio is currently working. Do not disturb the experiment.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.06",
+      "text": "Par. Another beer and you might become dangerously competent.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.07",
+      "text": "Par. Your liver is doing more damage than your scorecard right now.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.drinking.08",
+      "text": "Par. Playing sober was apparently the problem all along.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.01",
+      "text": "Par. Your wife is going to be pissed you wasted an entire Saturday just to be average.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.02",
+      "text": "Par. Your wife has seen you finish faster, but at least this time nobody was disappointed.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.03",
+      "text": "Par. Tell your wife you made par. She could probably use some good news after marrying you.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.04",
+      "text": "Par. Your wife let you out of the house for this shit and you came back with a par. Adorable.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.05",
+      "text": "Par. Even your wife would admit that wasn't completely fucking embarrassing.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.06",
+      "text": "Par. Your wife said good job. Just kidding. She stopped expecting things from you years ago.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.spouse.07",
+      "text": "Par. Somehow the least disappointing thing you've done today. Your wife has notes.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

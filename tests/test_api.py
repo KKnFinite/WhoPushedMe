@@ -1708,3 +1708,31 @@ def test_admin_status_requires_admin_flag():
     )
     assert response.status_code == 403
     assert response.get_json()["error"] == "admin account required"
+
+
+def test_score_response_route_accepts_quick_reaction_kind_with_comment():
+    client, store = client_with_store()
+    score_event_id = "b9aa9b19-78f7-4c6d-8e2d-0a0a0b0b0c0d"
+
+    response = client.post(
+        (
+            "/api/rounds/08966fcb-463a-4c27-8da2-5d2f01d8502d/"
+            f"score-events/{score_event_id}/responses"
+        ),
+        headers={"Authorization": "Bearer session-token"},
+        json={
+            "response_kind": "cheater",
+            "message": "Count that shit again.",
+        },
+    )
+
+    assert response.status_code == 201
+    assert store.calls[-1] == (
+        "score_response",
+        store.golfer_id,
+        "08966fcb-463a-4c27-8da2-5d2f01d8502d",
+        score_event_id,
+        "cheater",
+        "Count that shit again.",
+        None,
+    )

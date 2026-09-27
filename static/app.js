@@ -226,7 +226,6 @@
 
   let pendingAccount = null;
   let currentLobbyRound = null;
-  const openScoreResponsePanels = new Set();
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
@@ -2462,34 +2461,65 @@
     const scoreEvent = findScoreEvent(round, position, participantId);
     if (!scoreEvent) return;
 
-    const responsePanel = document.createElement('details');
-    responsePanel.className = 'score-response-panel live-score-social-details';
-    const responseStateKey = String(round.id) + ':' + String(scoreEvent.id);
-    responsePanel.open = openScoreResponsePanels.has(responseStateKey);
-    responsePanel.addEventListener('toggle', () => {
-      if (responsePanel.open) {
-        openScoreResponsePanels.add(responseStateKey);
-      } else {
-        openScoreResponsePanels.delete(responseStateKey);
-      }
-    });
-
-    const responseSummary = document.createElement('summary');
-    responseSummary.textContent = 'REACTIONS / CHALLENGES';
-    responsePanel.append(responseSummary);
+    const responsePanel = document.createElement('section');
+    responsePanel.className = 'score-response-panel live-score-social-panel';
+    responsePanel.dataset.scoreEventId = String(scoreEvent.id);
 
     const responseHeading = document.createElement('div');
     responseHeading.className = 'score-response-heading';
-    responseHeading.textContent = 'RESPOND TO THIS SCORE';
+    responseHeading.textContent = 'REACTIONS / CHALLENGES';
 
-    const responseButtons = document.createElement('div');
-    responseButtons.className = 'score-response-buttons';
+    const responseSubheading = document.createElement('small');
+    responseSubheading.className = 'score-response-subheading';
+    responseSubheading.textContent = 'React, challenge it, or talk your shit.';
 
     const reactions = eventReactions(round, scoreEvent.id);
     const viewerId = String(round.viewer_participant_id || '');
     const viewerReaction = reactions.find(
       (reaction) => String(reaction.actor_participant_id) === viewerId
     );
+    let selectedResponseKind = String(viewerReaction?.reaction_kind || '');
+
+    const sendResponse = async (
+      responseKind,
+      { message = '', targetParticipantId = null } = {}
+    ) => {
+      const body = {
+        response_kind: responseKind,
+      };
+      if (message) body.message = message;
+      if (targetParticipantId) {
+        body.target_participant_id = targetParticipantId;
+      }
+
+      setRoundFlowMessage('');
+      try {
+        await requestJson(
+          `/api/rounds/${round.id}/score-events/${scoreEvent.id}/responses`,
+          {
+            method: 'POST',
+            body,
+          }
+        );
+        await refreshRound(round.active_code);
+        return true;
+      } catch (error) {
+        setRoundFlowMessage(error.message);
+        return false;
+      }
+    };
+
+    const responseButtons = document.createElement('div');
+    responseButtons.className = 'score-response-buttons';
+    const reactionButtons = new Map();
+
+    const syncReactionButtons = () => {
+      reactionButtons.forEach((button, kind) => {
+        const active = selectedResponseKind === kind;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    };
 
     [
       ['bullshit', 'BULLSHIT'],
@@ -2504,37 +2534,39 @@
         (reaction) => reaction.reaction_kind === kind
       ).length;
       button.textContent = count ? `${labelText} · ${count}` : labelText;
-      if (viewerReaction?.reaction_kind === kind) {
-        button.classList.add('is-active');
-        button.setAttribute('aria-pressed', 'true');
-      } else {
-        button.setAttribute('aria-pressed', 'false');
-      }
+      reactionButtons.set(kind, button);
 
       button.addEventListener('click', async () => {
+        const wasActive = selectedResponseKind === kind;
         button.disabled = true;
         setRoundFlowMessage('');
         try {
-          const active = viewerReaction?.reaction_kind === kind;
           await requestJson(
             `/api/rounds/${round.id}/events/${scoreEvent.id}/reaction`,
-            active
+            wasActive
               ? { method: 'DELETE' }
               : {
                   method: 'PUT',
                   body: { reaction: kind },
                 }
           );
-          await refreshRound(round.active_code);
+          selectedResponseKind = wasActive ? '' : kind;
+          syncReactionButtons();
         } catch (error) {
           setRoundFlowMessage(error.message);
+        } finally {
           button.disabled = false;
         }
       });
       responseButtons.append(button);
     });
+    syncReactionButtons();
 
-    responsePanel.append(responseHeading, responseButtons);
+    responsePanel.append(
+      responseHeading,
+      responseSubheading,
+      responseButtons
+    );
 
     if (round.mode === 'scramble') {
       const blameWrap = document.createElement('div');
@@ -2605,6 +2637,12 @@
       comment.placeholder = 'Why is this bullshit?';
       comment.value = existingChallenge?.comment || '';
 
+      [proposed, comment].forEach((input) => {
+        input.addEventListener('input', () => {
+          input.dataset.socialDraftDirty = 'true';
+        });
+      });
+
       const challengeButton = document.createElement('button');
       challengeButton.type = 'button';
       challengeButton.textContent = existingChallenge
@@ -2614,7 +2652,9 @@
         const proposedValue = proposed.value.trim();
         const commentValue = comment.value.trim();
         if (!proposedValue && !commentValue) {
-          setRoundFlowMessage('Give a corrected score or say why you are challenging it.');
+          setRoundFlowMessage(
+            'Give a corrected score or say why you are challenging it.'
+          );
           return;
         }
         challengeButton.disabled = true;
@@ -2677,17 +2717,32 @@
     const customInput = document.createElement('input');
     customInput.type = 'text';
     customInput.maxLength = 280;
-    customInput.placeholder = 'Say something about this score...';
+    customInput.placeholder = 'Add a comment or just send the reaction...';
+    customInput.addEventListener('input', () => {
+      customInput.dataset.socialDraftDirty = 'true';
+    });
 
     const customButton = document.createElement('button');
     customButton.type = 'button';
     customButton.textContent = 'SEND';
     customButton.addEventListener('click', async () => {
       const message = customInput.value.trim();
-      if (!message) return;
+      if (!message && !selectedResponseKind) return;
+
       customButton.disabled = true;
-      await sendResponse('custom', { message });
-      customButton.disabled = false;
+      const responseKind = selectedResponseKind === 'talk_shit'
+        ? 'random'
+        : (selectedResponseKind || 'custom');
+      const sent = await sendResponse(responseKind, { message });
+      if (!sent) {
+        customButton.disabled = false;
+      }
+    });
+
+    customInput.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      customButton.click();
     });
 
     customWrap.append(customInput, customButton);
@@ -3142,6 +3197,26 @@
 
   const scoreFeedText = (round, event) => {
     const eventType = String(event?.event_type || '');
+
+    if (eventType === 'score_response') {
+      const responseKind = String(event?.data?.response_kind || '').trim();
+      const message = String(event?.data?.message || '').trim();
+      if (message && responseKind && responseKind !== 'custom') {
+        return responseKind.replaceAll('_', ' ').toUpperCase() + ': ' + message;
+      }
+      return message || presentationText(event);
+    }
+
+    if (eventType === 'score_challenge') {
+      const message = String(event?.data?.message || '').trim();
+      const proposed = event?.data?.proposed_score;
+      const parts = ['SCORE CHALLENGE'];
+      if (proposed !== null && proposed !== undefined && proposed !== '') {
+        parts.push('SAYS ' + String(proposed));
+      }
+      if (message) parts.push(message);
+      return parts.join(' — ');
+    }
     if (
       round?.mode !== 'individual'
       || !['score_report', 'score_push'].includes(eventType)
@@ -3225,6 +3300,7 @@
       'challenge',
       'excuse',
       'score_response',
+      'score_challenge',
       'score_report',
       'score_push',
       'round_end_result',
@@ -3265,11 +3341,24 @@
           String(participant.id) === String(event.actor_participant_id || '')
       );
       const explicitMessage = String(event.data?.message || '').trim();
+      const eventType = String(event.event_type || '');
       const playerAuthored = Boolean(
         actor
-        && explicitMessage
-        && ['open_mic', 'callout', 'praise', 'shot_call', 'challenge', 'excuse', 'score_response']
-          .includes(String(event.event_type || ''))
+        && (
+          explicitMessage
+          || eventType === 'score_response'
+          || eventType === 'score_challenge'
+        )
+        && [
+          'open_mic',
+          'callout',
+          'praise',
+          'shot_call',
+          'challenge',
+          'excuse',
+          'score_response',
+          'score_challenge',
+        ].includes(eventType)
       );
 
       const row = document.createElement('div');
@@ -4729,8 +4818,12 @@
   };
 
   const liveScoreSocialInteractionInProgress = () => {
+    const active = document.activeElement;
+    if (active?.closest?.('.live-score-social-panel')) return true;
     return Boolean(
-      liveScoreArea?.querySelector('.live-score-social-details[open]')
+      liveScoreArea?.querySelector(
+        '.live-score-social-panel [data-social-draft-dirty="true"]'
+      )
     );
   };
 
