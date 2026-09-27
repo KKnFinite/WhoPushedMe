@@ -34,6 +34,7 @@
   const settingsForm = document.getElementById('settings-form');
   const settingsMessage = document.getElementById('settings-message');
   const settingsHandicapIndex = document.getElementById('settings-handicap-index');
+  const settingsSpouseType = document.getElementById('settings-spouse-type');
   const colorThemeTease = document.getElementById('color-theme-tease');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
@@ -337,6 +338,11 @@
     settingsForm.elements.wife.checked =
       Boolean(preferences?.themes?.wife);
 
+  };
+
+  const populateProfileRelationship = (preferences) => {
+    if (!settingsSpouseType) return;
+    settingsSpouseType.value = String(preferences?.spouse_type || '');
   };
 
   const populateProfileHandicap = (account) => {
@@ -695,6 +701,7 @@
     const displayName = String(values.get('display_name') || '').trim();
     const username = String(values.get('username') || '').trim().toLowerCase();
     const password = String(values.get('password') || '');
+    const spouseType = String(values.get('spouse_type') || '').trim();
 
     if (displayName.length < 1 || displayName.length > 20) {
       return new Error('display_name must be between 1 and 20 characters');
@@ -703,6 +710,9 @@
       return new Error(
         'username must be 3-16 characters using letters, numbers, ., _, or -'
       );
+    }
+    if (!['wife', 'husband', 'not_married'].includes(spouseType)) {
+      return new Error('spouse_type must be wife, husband, or not_married');
     }
     return validateNewPassword(password);
   };
@@ -1438,6 +1448,7 @@
         body: {
           username: values.get('username'),
           password: values.get('password'),
+          spouse_type: values.get('spouse_type'),
         },
       });
       acceptAuthResult(result);
@@ -6141,6 +6152,7 @@
         requestJson('/api/auth/me'),
       ]);
       populateSettings(preferences);
+      populateProfileRelationship(preferences);
       populateProfileHandicap(account);
       settingsClose?.focus();
     } catch (error) {
@@ -6191,11 +6203,21 @@
     event.preventDefault();
     setSettingsMessage('');
 
+    const spouseType = String(settingsSpouseType?.value || '').trim();
+    if (!['wife', 'husband', 'not_married'].includes(spouseType)) {
+      setSettingsMessage(
+        'Just fucking answer the question, snowflake — wife, husband, or not married.'
+      );
+      settingsSpouseType?.focus();
+      return;
+    }
+
     const patch = {
       mini_mascots_enabled:
         settingsForm.elements.mini_mascots_enabled.checked,
       trash_talk_enabled:
         settingsForm.elements.trash_talk_enabled.checked,
+      spouse_type: spouseType,
       themes: {
         drinking: settingsForm.elements.drinking.checked,
         wife: settingsForm.elements.wife.checked,
@@ -6232,6 +6254,7 @@
         body: { handicap_index: handicapIndex },
       });
       populateSettings(preferences);
+      populateProfileRelationship(preferences);
       populateProfileHandicap(account);
       userMessageCache.clear();
       setSettingsMessage('Saved. Your bad decisions are now personalized.');
