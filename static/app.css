@@ -9375,3 +9375,102 @@ textarea,
     font-size: .94rem;
   }
 }
+
+/* ROUND HISTORY MOBILE SHEET — CONTAINED, SCROLLABLE, ALWAYS CLOSABLE */
+.round-history-toolbar {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game > .receipts-panel:not([open]):not([hidden]) {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .round-flow-card-game > .receipts-panel:not([open]) > summary {
+    min-height: 48px !important;
+    padding: 10px 12px !important;
+    border: 1px solid rgba(78,122,93,.62) !important;
+    border-radius: 12px !important;
+    background: rgba(5,9,7,.78) !important;
+  }
+
+  .round-flow-card-game > .receipts-panel[open]:not([hidden]) {
+    position: fixed !important;
+    z-index: 180 !important;
+    left: max(10px, env(safe-area-inset-left)) !important;
+    right: max(10px, env(safe-area-inset-right)) !important;
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    height: min(68dvh, 620px) !important;
+    max-height: calc(
+      100dvh - 96px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    ) !important;
+    min-height: 260px !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    flex: none !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    border: 1px solid rgba(78,122,93,.9) !important;
+    border-radius: 18px !important;
+    background:
+      linear-gradient(160deg, rgba(17,31,23,.995), rgba(4,10,7,.998)) !important;
+    box-shadow:
+      0 -10px 40px rgba(0,0,0,.58),
+      0 0 0 1px rgba(212,166,42,.12) !important;
+  }
+
+  .round-flow-card-game > .receipts-panel[open] > summary {
+    display: none !important;
+  }
+
+  .receipts-panel[open] > .round-history-toolbar {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 58px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(78,122,93,.58);
+    background: rgba(8,18,12,.98);
+  }
+
+  .round-history-toolbar > strong {
+    color: var(--wpm-gold) !important;
+    font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif !important;
+    font-size: 1.05rem;
+    letter-spacing: .08em;
+  }
+
+  #round-history-close {
+    min-width: 92px;
+    min-height: 40px;
+    padding: 7px 10px;
+    border: 1px solid rgba(212,166,42,.72);
+    border-radius: 10px;
+    background: rgba(212,166,42,.12);
+    color: #fff8df;
+    font-family: "Bebas Neue", Impact, sans-serif;
+    font-size: 1rem;
+    letter-spacing: .04em;
+  }
+
+  .receipts-panel[open] > .receipts-list {
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 10px 10px calc(12px + env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .receipts-panel[open] > .receipts-list::-webkit-scrollbar {
+    display: none;
+  }
+}
+

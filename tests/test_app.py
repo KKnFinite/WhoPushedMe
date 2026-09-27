@@ -301,6 +301,32 @@ def test_round_history_filters_internal_banter_and_shows_factual_score_actions()
     assert "STROKES" in history_block
 
 
+
+def test_round_history_mobile_sheet_has_reachable_close_and_internal_scroll():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+    assert 'id="round-history-close"' in html
+    assert "CLOSE ×" in html
+
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+    assert "ROUND HISTORY MOBILE SHEET" in source
+    assert ".receipts-panel[open]:not([hidden])" in source
+    assert "position: fixed !important;" in source
+    assert "grid-template-rows: auto minmax(0, 1fr)" in source
+    assert ".receipts-panel[open] > .receipts-list" in source
+    assert "overflow-y: auto !important;" in source
+
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    js_source = script.data.decode("utf-8")
+    assert "roundHistoryClose?.addEventListener('click'" in js_source
+    assert "receiptsPanel.open = false" in js_source
+    assert "if (opening && receiptsPanel?.open)" in js_source
+    assert "if (liveMorePanel) liveMorePanel.hidden = true;" in js_source
+
 def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200

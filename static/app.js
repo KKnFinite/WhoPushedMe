@@ -188,6 +188,7 @@
   const receiptsPanel = document.getElementById('receipts-panel');
   const receiptsUnseenBadge = document.getElementById('receipts-unseen-badge');
   const receiptsList = document.getElementById('receipts-list');
+  const roundHistoryClose = document.getElementById('round-history-close');
   const bagButton = document.getElementById('bag-of-bullshit-button');
   const towelButton = document.getElementById('towel-button');
   const towelPanel = document.getElementById('towel-panel');
@@ -3977,8 +3978,18 @@
   };
 
   receiptsPanel?.addEventListener('toggle', () => {
-    if (!receiptsPanel.open || !currentLobbyRound) return;
-    void markReceiptsSeen(currentLobbyRound);
+    if (!receiptsPanel.open) return;
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    if (liveNavMore) liveNavMore.textContent = 'MORE';
+    if (currentLobbyRound) {
+      void markReceiptsSeen(currentLobbyRound);
+    }
+  });
+
+  roundHistoryClose?.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (receiptsPanel) receiptsPanel.open = false;
   });
 
   const totalParForRound = (round) => {
@@ -6178,6 +6189,9 @@
   liveNavMore?.addEventListener('click', () => {
     if (!liveMorePanel) return;
     const opening = liveMorePanel.hidden;
+    if (opening && receiptsPanel?.open) {
+      receiptsPanel.open = false;
+    }
     liveMorePanel.hidden = !opening;
     liveNavMore.textContent = opening ? 'CLOSE MORE' : 'MORE';
     if (opening) {
