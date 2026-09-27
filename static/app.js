@@ -2914,14 +2914,16 @@
     ''
   ).trim();
 
-  const thirdPersonScoreComment = (text, name) => {
-    const subject = String(name || 'Golfer');
-    const possessive = /s$/i.test(subject) ? subject + "'" : subject + "'s";
+  const thirdPersonScoreComment = (text) => {
     return String(text || '')
-      .replace(/\byou're\b/gi, subject + ' is')
-      .replace(/\byou are\b/gi, subject + ' is')
-      .replace(/\byour\b/gi, possessive)
-      .replace(/\byou\b/gi, subject);
+      .replace(/\bYou're\b/g, "They're")
+      .replace(/\byou're\b/g, "they're")
+      .replace(/\bYou are\b/g, 'They are')
+      .replace(/\byou are\b/g, 'they are')
+      .replace(/\bYour\b/g, 'Their')
+      .replace(/\byour\b/g, 'their')
+      .replace(/\bYou\b/g, 'They')
+      .replace(/\byou\b/g, 'they');
   };
 
   const scoreFeedText = (round, event) => {
@@ -2944,7 +2946,7 @@
     const rawComment = stripScoreLead(base);
     const comment = viewerIsSubject
       ? rawComment
-      : thirdPersonScoreComment(rawComment, subject.display_name || 'Golfer');
+      : thirdPersonScoreComment(rawComment);
     const prefix = viewerIsSubject
       ? 'You scored ' + scoreName + '.'
       : (subject.display_name || 'Golfer') + ' scored ' + scoreName + '.';
