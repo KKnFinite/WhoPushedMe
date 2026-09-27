@@ -330,6 +330,23 @@ def test_round_history_is_a_dedicated_page_not_inline_or_overlay():
     assert "roundHistoryPage.hidden = false" in js_source
     assert "roundHistoryBack?.addEventListener('click', closeRoundHistoryPage)" in js_source
     assert "receiptsPanel?.addEventListener('toggle'" not in js_source
+
+def test_round_polling_preserves_open_history_page():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const refreshRound = async (code) =>")
+    end = source.index("const refreshLobby = refreshRound", start)
+    block = source[start:end]
+
+    assert "roundHistoryPage && !roundHistoryPage.hidden" in block
+    assert "currentLobbyRound = round;" in block
+    assert "renderReceipts(round);" in block
+    assert "return round;" in block
+    history_guard = block.index("roundHistoryPage && !roundHistoryPage.hidden")
+    normal_render = block.index("renderRoundState(round)")
+    assert history_guard < normal_render
+
 def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200

@@ -4951,6 +4951,14 @@
 
   const refreshRound = async (code) => {
     const round = await requestJson(`/api/rounds/code/${encodeURIComponent(code)}`);
+
+    if (roundHistoryPage && !roundHistoryPage.hidden) {
+      currentLobbyRound = round;
+      renderReceipts(round);
+      if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND HISTORY';
+      return round;
+    }
+
     renderRoundState(round);
     return round;
   };
