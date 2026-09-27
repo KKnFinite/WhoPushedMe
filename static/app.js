@@ -3189,10 +3189,28 @@
     })[suffix] || 'a score';
   };
 
-  const stripScoreLead = (text) => String(text || '').replace(
-    /^(?:(?:a fucking |an? )?(?:hole in one|ace|albatross|birdie|bogey|double bogey|eagle|par|triple bogey))[.!?]\s*/i,
-    ''
-  ).trim();
+  const stripScoreLead = (text, event) => {
+    const value = String(text || '');
+    const key = String(
+      event?.content_event_key
+      || event?.presentation?.event_key
+      || ''
+    );
+    const suffix = key.split('.').pop();
+    const patterns = {
+      ace: /^(?:(?:a fucking )?ace|hole in one)[.!?]\s*/i,
+      albatross: /^(?:an? )?albatross[.!?]\s*/i,
+      eagle: /^eagle[.!?]\s*/i,
+      birdie: /^birdie[.!?]\s*/i,
+      par: /^par[.!?]\s*/i,
+      bogey: /^bogey[.!?]\s*/i,
+      double_bogey: /^double bogey[.!?]\s*/i,
+      triple_bogey: /^triple bogey[.!?]\s*/i,
+      quad_plus: /^(?:a )?quadruple bogey or worse[.!?]\s*/i,
+    };
+    const pattern = patterns[suffix];
+    return (pattern ? value.replace(pattern, '') : value).trim();
+  };
 
   const thirdPersonScoreComment = (text) => {
     return String(text || '')
@@ -3250,7 +3268,7 @@
       return '';
     }
     const rawComment = eventType === 'score_report'
-      ? stripScoreLead(rawPresentationComment)
+      ? stripScoreLead(rawPresentationComment, event)
       : rawPresentationComment;
     const comment = viewerIsSubject
       ? rawComment

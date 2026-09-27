@@ -1499,3 +1499,31 @@ def test_lobby_round_meta_is_stacked_instead_of_bullet_sentence():
     assert "addSummaryLine('COURSE'" in block
     assert "lobbySummary.textContent" not in block
     assert " • " not in block
+
+
+def test_score_lead_stripping_covers_every_score_bucket_without_rewriting_body():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const stripScoreLead =")
+    end = source.index("const thirdPersonScoreComment =", start)
+    block = source[start:end]
+
+    assert "stripScoreLead = (text, event)" in block
+    assert "ace:" in block
+    assert "albatross:" in block
+    assert "eagle:" in block
+    assert "birdie:" in block
+    assert "par:" in block
+    assert "bogey:" in block
+    assert "double_bogey:" in block
+    assert "triple_bogey:" in block
+    assert "quad_plus:" in block
+    assert "quadruple bogey or worse" in block
+
+
+def test_quad_plus_approved_copy_does_not_duplicate_score_heading():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    assert "? stripScoreLead(rawPresentationComment, event)" in source
