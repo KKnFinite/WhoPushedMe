@@ -185,10 +185,15 @@
   const roundEndResults = document.getElementById('round-end-results');
   const downloadReportButton = document.getElementById('download-report-button');
   const roundEndHome = document.getElementById('round-end-home');
-  const receiptsPanel = document.getElementById('receipts-panel');
-  const receiptsUnseenBadge = document.getElementById('receipts-unseen-badge');
+  const roundHistoryOpenButtons = [
+    ...document.querySelectorAll('[data-round-history-open]')
+  ];
+  const receiptsUnseenBadges = [
+    ...document.querySelectorAll('[data-receipts-unseen-badge]')
+  ];
+  const roundHistoryPage = document.getElementById('round-history-page');
+  const roundHistoryBack = document.getElementById('round-history-back');
   const receiptsList = document.getElementById('receipts-list');
-  const roundHistoryClose = document.getElementById('round-history-close');
   const bagButton = document.getElementById('bag-of-bullshit-button');
   const towelButton = document.getElementById('towel-button');
   const towelPanel = document.getElementById('towel-panel');
@@ -2196,7 +2201,7 @@
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = true;
-    if (receiptsPanel) receiptsPanel.hidden = true;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
     if (roundFlowTitle) {
       roundFlowTitle.textContent = panel === 'start' ? 'START A ROUND' : 'JOIN A ROUND';
     }
@@ -3745,11 +3750,11 @@
   };
 
   const updateReceiptsBadge = (round) => {
-    if (!receiptsUnseenBadge) return;
     const unseen = Number(round.receipts_state?.unseen_count || 0);
-    receiptsUnseenBadge.hidden = unseen < 1;
-    receiptsUnseenBadge.textContent =
-      `YOU MISSED SOME SHIT • ${unseen}`;
+    receiptsUnseenBadges.forEach((badge) => {
+      badge.hidden = unseen < 1;
+      badge.textContent = `YOU MISSED SOME SHIT • ${unseen}`;
+    });
   };
 
   const markReceiptsSeen = async (round) => {
@@ -3874,12 +3879,14 @@
   };
 
   const renderReceipts = (round) => {
-    if (!receiptsPanel || !receiptsList) return;
+    if (!receiptsList) return;
 
     const events = (round.events || []).filter((event) =>
       ROUND_HISTORY_EVENT_TYPES.has(String(event?.event_type || ''))
     );
-    receiptsPanel.hidden = events.length === 0;
+    roundHistoryOpenButtons.forEach((button) => {
+      button.hidden = events.length === 0;
+    });
     updateReceiptsBadge(round);
     receiptsList.replaceChildren();
 
@@ -3971,26 +3978,38 @@
 
       receiptsList.append(row);
     });
+  };
 
-    if (receiptsPanel.open) {
-      void markReceiptsSeen(round);
+  const openRoundHistoryPage = () => {
+    if (!currentLobbyRound || !roundHistoryPage) return;
+
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    if (liveNavMore) liveNavMore.textContent = 'MORE';
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
+    roundHistoryPage.hidden = false;
+    if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND HISTORY';
+
+    renderReceipts(currentLobbyRound);
+    receiptsList?.scrollTo({ top: 0 });
+    void markReceiptsSeen(currentLobbyRound);
+  };
+
+  const closeRoundHistoryPage = () => {
+    if (!currentLobbyRound) return;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
+
+    if (currentLobbyRound.status === 'completed') {
+      renderRoundEnd(currentLobbyRound);
+    } else {
+      renderLiveRound(currentLobbyRound);
     }
   };
 
-  receiptsPanel?.addEventListener('toggle', () => {
-    if (!receiptsPanel.open) return;
-    if (liveMorePanel) liveMorePanel.hidden = true;
-    if (liveNavMore) liveNavMore.textContent = 'MORE';
-    if (currentLobbyRound) {
-      void markReceiptsSeen(currentLobbyRound);
-    }
+  roundHistoryOpenButtons.forEach((button) => {
+    button.addEventListener('click', openRoundHistoryPage);
   });
-
-  roundHistoryClose?.addEventListener('click', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (receiptsPanel) receiptsPanel.open = false;
-  });
+  roundHistoryBack?.addEventListener('click', closeRoundHistoryPage);
 
   const totalParForRound = (round) => {
     const plannedPositions = (round.route || [])
@@ -4057,7 +4076,7 @@
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = false;
-    if (receiptsPanel) receiptsPanel.open = false;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
     const endedEarly = round.end_reason === 'ended_early';
     if (roundFlowTitle) {
       roundFlowTitle.textContent = endedEarly
@@ -4314,6 +4333,7 @@
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = true;
     if (roundEndPanel) roundEndPanel.hidden = true;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = false;
     roundFlowCardGame?.classList.add('is-live-round');
     if (roundFlowTitle) roundFlowTitle.textContent = 'LIVE ROUND';
@@ -4763,7 +4783,7 @@
     if (joinRoundForm) joinRoundForm.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     if (roundEndPanel) roundEndPanel.hidden = true;
-    if (receiptsPanel) receiptsPanel.hidden = true;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
     if (scrambleContributionPanel) scrambleContributionPanel.hidden = true;
     if (finishRoundButton) finishRoundButton.hidden = true;
     if (lobbyPanel) lobbyPanel.hidden = false;
@@ -6189,9 +6209,6 @@
   liveNavMore?.addEventListener('click', () => {
     if (!liveMorePanel) return;
     const opening = liveMorePanel.hidden;
-    if (opening && receiptsPanel?.open) {
-      receiptsPanel.open = false;
-    }
     liveMorePanel.hidden = !opening;
     liveNavMore.textContent = opening ? 'CLOSE MORE' : 'MORE';
     if (opening) {

@@ -647,6 +647,18 @@
           </button>
         </div>
 
+        <button
+          class="round-history-open-button"
+          type="button"
+          data-round-history-open
+          hidden
+        >
+          <span>ROUND HISTORY</span>
+          <strong class="receipts-unseen-badge" data-receipts-unseen-badge hidden>
+            YOU MISSED SOME SHIT • 0
+          </strong>
+        </button>
+
         <section id="live-more-panel" class="live-more-panel" hidden>
           <div class="live-more-heading">
             <span>ROUND CONTROL</span>
@@ -761,24 +773,30 @@
         <button id="download-report-button" class="download-report-button" type="button">
           DOWNLOAD FINAL DAMAGE REPORT (PDF)
         </button>
+        <button
+          class="round-history-open-button"
+          type="button"
+          data-round-history-open
+          hidden
+        >
+          <span>ROUND HISTORY</span>
+          <strong class="receipts-unseen-badge" data-receipts-unseen-badge hidden>
+            YOU MISSED SOME SHIT • 0
+          </strong>
+        </button>
         <button id="round-end-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
 
-      <details id="receipts-panel" class="receipts-panel" hidden>
-        <summary>
-          <span>ROUND HISTORY</span>
-          <strong id="receipts-unseen-badge" class="receipts-unseen-badge" hidden>
-            YOU MISSED SOME SHIT • 0
-          </strong>
-        </summary>
-        <div class="round-history-toolbar">
-          <strong>ROUND HISTORY</strong>
-          <button id="round-history-close" type="button" aria-label="Close round history">
-            CLOSE ×
-          </button>
-        </div>
+      <section id="round-history-page" class="round-history-page" hidden>
+        <header class="round-history-page-header">
+          <button id="round-history-back" type="button">← BACK TO ROUND</button>
+          <div>
+            <span>ROUND RECORD</span>
+            <h3>ROUND HISTORY</h3>
+          </div>
+        </header>
         <div id="receipts-list" class="receipts-list"></div>
-      </details>
+      </section>
     </section>
   </div>
 

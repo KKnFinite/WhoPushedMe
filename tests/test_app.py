@@ -302,31 +302,34 @@ def test_round_history_filters_internal_banter_and_shows_factual_score_actions()
 
 
 
-def test_round_history_mobile_sheet_has_reachable_close_and_internal_scroll():
+def test_round_history_is_a_dedicated_page_not_inline_or_overlay():
     page = client().get("/")
     assert page.status_code == 200
     html = page.data.decode("utf-8")
-    assert 'id="round-history-close"' in html
-    assert "CLOSE ×" in html
+    assert 'id="round-history-page"' in html
+    assert 'id="round-history-back"' in html
+    assert 'data-round-history-open' in html
+    assert 'id="receipts-panel"' not in html
+    assert "<details" not in html[html.index('id="round-end-panel"'):html.index('id="bag-modal"')]
 
     css = client().get("/static/app.css")
     assert css.status_code == 200
     source = css.data.decode("utf-8")
-    assert "ROUND HISTORY MOBILE SHEET" in source
-    assert ".receipts-panel[open]:not([hidden])" in source
-    assert "position: fixed !important;" in source
-    assert "grid-template-rows: auto minmax(0, 1fr)" in source
-    assert ".receipts-panel[open] > .receipts-list" in source
-    assert "overflow-y: auto !important;" in source
+    assert "ROUND HISTORY — DEDICATED ROUND PAGE" in source
+    assert ".round-history-page > .receipts-list" in source
+    assert "overflow-y: auto;" in source
+    assert "ROUND HISTORY MOBILE SHEET" not in source
+    assert ".receipts-panel[open]" not in source
 
     script = client().get("/static/app.js")
     assert script.status_code == 200
     js_source = script.data.decode("utf-8")
-    assert "roundHistoryClose?.addEventListener('click'" in js_source
-    assert "receiptsPanel.open = false" in js_source
-    assert "if (opening && receiptsPanel?.open)" in js_source
-    assert "if (liveMorePanel) liveMorePanel.hidden = true;" in js_source
-
+    assert "const openRoundHistoryPage = () =>" in js_source
+    assert "const closeRoundHistoryPage = () =>" in js_source
+    assert "liveRoundPanel.hidden = true" in js_source
+    assert "roundHistoryPage.hidden = false" in js_source
+    assert "roundHistoryBack?.addEventListener('click', closeRoundHistoryPage)" in js_source
+    assert "receiptsPanel?.addEventListener('toggle'" not in js_source
 def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200
