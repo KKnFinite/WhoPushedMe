@@ -2627,7 +2627,9 @@
       input.min = '1';
       input.max = '99';
       input.inputMode = 'numeric';
-      input.value = score ? String(score.strokes) : '';
+      input.value = score
+        ? String(score.strokes)
+        : (par ? String(par) : '');
       input.placeholder = '—';
       input.setAttribute(
         'aria-label',
@@ -2640,10 +2642,28 @@
       plus.textContent = '+';
       plus.setAttribute('aria-label', 'Raise ' + label + ' score');
 
+      const submit = document.createElement('button');
+      submit.type = 'button';
+      submit.className = 'live-score-submit';
+      submit.setAttribute('aria-label', 'Submit ' + label + ' score');
+
+      const refreshSubmitState = () => {
+        const strokes = Number(input.value);
+        const valid = Number.isInteger(strokes) && strokes >= 1 && strokes <= 99;
+        const unchanged = Boolean(
+          score && valid && Number(score.strokes) === strokes
+        );
+        submit.disabled = !valid || unchanged;
+        submit.textContent = unchanged
+          ? 'SAVED'
+          : (score ? 'UPDATE' : 'SUBMIT SCORE');
+      };
+
       const setBusy = (busy) => {
         minus.disabled = busy;
         plus.disabled = busy;
         input.disabled = busy;
+        submit.disabled = busy;
       };
 
       const persistScore = async (strokes) => {
@@ -2686,27 +2706,40 @@
         }
       };
 
-      minus.addEventListener('click', async () => {
-        const base = Number(input.value || score?.strokes || par || 1);
-        const next = Math.max(1, base - 1);
-        input.value = String(next);
-        await persistScore(next);
+      minus.addEventListener('click', () => {
+        const base = Number(input.value || par || 1);
+        input.value = String(Math.max(1, base - 1));
+        refreshSubmitState();
       });
 
-      plus.addEventListener('click', async () => {
-        const base = Number(input.value || score?.strokes || par || 1);
-        const next = Math.min(99, base + 1);
-        input.value = String(next);
-        await persistScore(next);
+      plus.addEventListener('click', () => {
+        const base = Number(input.value || (par ? Number(par) - 1 : 0));
+        input.value = String(Math.min(99, Math.max(1, base + 1)));
+        refreshSubmitState();
       });
 
-      input.addEventListener('change', async () => {
+      input.addEventListener('input', () => {
+        const digits = String(input.value || '').replace(/\D/g, '').slice(0, 2);
+        input.value = digits;
+        refreshSubmitState();
+      });
+
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !submit.disabled) {
+          event.preventDefault();
+          submit.click();
+        }
+      });
+
+      submit.addEventListener('click', async () => {
         const strokes = Number(input.value);
-        await persistScore(strokes);
+        const saved = await persistScore(strokes);
+        if (!saved) refreshSubmitState();
       });
 
       controls.append(minus, input, plus);
-      card.append(controls);
+      card.append(controls, submit);
+      refreshSubmitState();
 
       if (score) {
         const remove = document.createElement('button');

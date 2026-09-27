@@ -1195,3 +1195,30 @@ def test_live_banter_uses_score_perspective_and_ignores_operational_presentation
     assert b"scored " in script.data
     assert b"seenScoreKeys" in script.data
     assert b"score_push" in script.data
+
+
+def test_live_score_adjustments_require_explicit_submit():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderScoreCard =")
+    end = source.index("const SCRAMBLE_SHOT_TYPES", start)
+    score_block = source[start:end]
+
+    assert "submit.className = 'live-score-submit'" in score_block
+    assert "'SUBMIT SCORE'" in score_block
+    assert "'UPDATE'" in score_block
+    assert "submit.addEventListener('click', async () =>" in score_block
+    assert "minus.addEventListener('click', () =>" in score_block
+    assert "plus.addEventListener('click', () =>" in score_block
+    assert "await persistScore(next)" not in score_block
+    assert "input.addEventListener('change', async" not in score_block
+    assert score_block.count("await persistScore(") == 1
+
+
+def test_live_score_submit_stays_compact_in_score_card():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"LIVE SCORE EXPLICIT SUBMIT" in css.data
+    assert b"width: 64px !important" in css.data
+    assert b"grid-template-columns: minmax(0, 1fr) auto auto auto !important" in css.data

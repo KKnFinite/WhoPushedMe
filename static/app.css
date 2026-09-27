@@ -9307,3 +9307,47 @@ textarea,
     font-size: 3.35rem !important;
   }
 }
+
+
+/* LIVE SCORE EXPLICIT SUBMIT — DO NOT PERSIST +/- DRAFTS */
+.round-flow-card-game .live-score-row {
+  grid-template-columns: minmax(0, 1fr) auto auto auto !important;
+  gap: 5px !important;
+}
+
+.round-flow-card-game .live-score-row .live-score-submit {
+  width: 64px !important;
+  min-width: 64px !important;
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 4px 5px !important;
+  border: 1px solid rgba(212,166,42,.82) !important;
+  border-radius: 9px !important;
+  background: linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417) !important;
+  color: var(--wpm-night) !important;
+  font-family: "Bebas Neue", Impact, sans-serif !important;
+  font-size: .68rem !important;
+  font-weight: 400 !important;
+  line-height: .95 !important;
+  letter-spacing: .025em !important;
+  white-space: normal;
+}
+
+.round-flow-card-game .live-score-row .live-score-submit:disabled {
+  border-color: rgba(78,122,93,.42) !important;
+  background: rgba(5,9,7,.72) !important;
+  color: rgba(233,225,200,.46) !important;
+  cursor: default;
+}
+
+@media (max-width: 390px) {
+  .round-flow-card-game .live-score-row {
+    gap: 4px !important;
+  }
+
+  .round-flow-card-game .live-score-row .live-score-submit {
+    width: 58px !important;
+    min-width: 58px !important;
+    font-size: .62rem !important;
+  }
+}
