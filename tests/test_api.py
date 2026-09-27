@@ -48,13 +48,16 @@ class FakeStore:
         self.calls.append(("recover", recovery_key))
         return {"id": self.golfer_id, "display_name": "Kim"}
 
-    def register_account(self, *, username, password, display_name):
-        self.calls.append(("register", username, password, display_name))
+    def register_account(self, *, username, password, display_name, spouse_type):
+        self.calls.append(
+            ("register", username, password, display_name, spouse_type)
+        )
         return {
             "account": {
                 "id": self.golfer_id,
                 "username": str(username).lower(),
                 "display_name": display_name,
+                "spouse_type": spouse_type,
                 "is_admin": False,
             },
             "session": {"token": "session-token"},
@@ -93,6 +96,7 @@ class FakeStore:
             "id": self.golfer_id,
             "username": "kim",
             "display_name": "Kim",
+            "spouse_type": "husband",
             "is_admin": False,
         }
 
@@ -110,6 +114,17 @@ class FakeStore:
             "display_name": "Kim",
             "is_admin": False,
             "handicap_index": handicap_index,
+        }
+
+    def set_profile_spouse_type(self, golfer_id, spouse_type):
+        self.calls.append(("profile_spouse", golfer_id, spouse_type))
+        return {
+            "id": golfer_id,
+            "username": "kim",
+            "display_name": "Kim",
+            "spouse_type": spouse_type,
+            "is_admin": False,
+            "handicap_index": 12.3,
         }
 
     def get_content_preferences(self, golfer_id):
@@ -684,6 +699,7 @@ def test_register_account_returns_one_time_recovery_key_and_session():
             "username": "Kim",
             "password": "correct horse battery staple",
             "display_name": "Kim",
+            "spouse_type": "husband",
         },
     )
 
@@ -697,7 +713,21 @@ def test_register_account_returns_one_time_recovery_key_and_session():
         "Kim",
         "correct horse battery staple",
         "Kim",
+        "husband",
     )
+
+
+def test_profile_spouse_route_updates_relationship_targeting():
+    client, store = client_with_store()
+    response = client.patch(
+        "/api/profile/spouse",
+        headers={"Authorization": "Bearer session-token"},
+        json={"spouse_type": "wife"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["spouse_type"] == "wife"
+    assert store.calls[-1] == ("profile_spouse", store.golfer_id, "wife")
 
 
 def test_login_account_returns_session_without_recovery_key():
@@ -1698,6 +1728,13 @@ def test_signed_in_content_messages_respect_user_preferences():
     assert payload["event"] == "home.idle"
     assert len(payload["messages"]) == 74
     assert all("vulgarity" not in row for row in payload["messages"])
+    spouse_rows = [
+        row for row in payload["messages"]
+        if "wife" in set(row.get("themes") or [])
+    ]
+    assert spouse_rows
+    assert any("HUSBAND" in row["text"] for row in spouse_rows)
+    assert all("WIFE" not in row["text"] for row in spouse_rows)
 
 
 def test_admin_status_requires_admin_flag():

@@ -57,6 +57,7 @@ from who_pushed_me.domain import (
     generate_recovery_key,
     generate_round_code,
     normalize_recovery_key,
+    normalize_spouse_type,
     normalize_shot_type,
     require_active_round,
     require_player,
@@ -500,6 +501,7 @@ class RoundStore:
             "id": row["id"],
             "username": row.get("username"),
             "display_name": row["display_name"],
+            "spouse_type": row.get("spouse_type"),
             "is_admin": bool(row.get("is_admin", False)),
             "handicap_index": (
                 float(row["handicap_index"])
@@ -536,9 +538,11 @@ class RoundStore:
         username: object,
         password: object,
         display_name: object,
+        spouse_type: object,
     ) -> dict[str, Any]:
         normalized_username = normalize_username(username)
         name = clean_display_name(display_name)
+        relationship = normalize_spouse_type(spouse_type)
         password_hash = hash_password(password)
 
         for _ in range(8):
@@ -554,16 +558,19 @@ class RoundStore:
                             password_hash,
                             recovery_key_hash,
                             recovery_key,
+                            spouse_type,
                             is_admin
                         )
-                        VALUES (%s, %s, %s, %s, NULL, %s)
-                        RETURNING id, username, display_name, is_admin, handicap_index, created_at
+                        VALUES (%s, %s, %s, %s, NULL, %s, %s)
+                        RETURNING id, username, display_name, spouse_type,
+                                  is_admin, handicap_index, created_at
                         """,
                         (
                             name,
                             normalized_username,
                             password_hash,
                             recovery_hash,
+                            relationship,
                             _is_bootstrap_admin(normalized_username),
                         ),
                     )
@@ -596,7 +603,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, username, display_name, is_admin, handicap_index, created_at
+                SELECT id, username, display_name, spouse_type,
+                       is_admin, handicap_index, created_at
                 FROM golfers
                 WHERE recovery_key_hash = %s
                 FOR UPDATE
@@ -649,7 +657,7 @@ class RoundStore:
             cursor.execute(
                 """
                 SELECT id, username, display_name, password_hash,
-                       is_admin, handicap_index, created_at
+                       spouse_type, is_admin, handicap_index, created_at
                 FROM golfers
                 WHERE lower(username) = %s
                 """,
@@ -691,8 +699,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT g.id, g.username, g.display_name, g.is_admin,
-                       g.handicap_index, g.created_at,
+                SELECT g.id, g.username, g.display_name, g.spouse_type,
+                       g.is_admin, g.handicap_index, g.created_at,
                        s.id AS session_id, s.expires_at
                 FROM auth_sessions s
                 JOIN golfers g ON g.id = s.golfer_id
@@ -733,10 +741,34 @@ class RoundStore:
                 UPDATE golfers
                 SET handicap_index = %s
                 WHERE id = %s
-                RETURNING id, username, display_name, is_admin,
+                RETURNING id, username, display_name, spouse_type, is_admin,
                           handicap_index, created_at
                 """,
                 (index, golfer_uuid),
+            )
+            golfer = cursor.fetchone()
+            if not golfer:
+                raise NotFound("golfer not found")
+            return self._public_account(golfer)
+
+    def set_profile_spouse_type(
+        self,
+        golfer_id: object,
+        spouse_type: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        relationship = normalize_spouse_type(spouse_type)
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE golfers
+                SET spouse_type = %s
+                WHERE id = %s
+                RETURNING id, username, display_name, spouse_type, is_admin,
+                          handicap_index, created_at
+                """,
+                (relationship, golfer_uuid),
             )
             golfer = cursor.fetchone()
             if not golfer:
@@ -4330,6 +4362,7 @@ class RoundStore:
                     ),
                     "new_score": stroke_value,
                     "mode": round_row["mode"],
+                    "subject": subject_name,
                     "score_name": content_event.rsplit(".", 1)[-1],
                 },
             )

@@ -109,7 +109,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v87" in response.data
+    assert b"wpm-shell-v88" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -194,7 +194,7 @@ def test_asset_builder_keeps_shell_cache_version_in_sync():
 
     root = Path(__file__).resolve().parents[1]
     builder = (root / "tools" / "build_assets.py").read_text(encoding="utf-8")
-    assert "wpm-shell-v87" in builder
+    assert "wpm-shell-v88" in builder
     assert "/static/assets/_meta/asset-manifest.json" in builder
 
 
@@ -1171,3 +1171,26 @@ def test_course_step_owns_round_holes_and_hides_mini_during_results():
     assert css.status_code == 200
     assert b"COURSE STEP HOLES + MINI FINAL PLACEMENT" in css.data
     assert b'bottom: calc(max(12px, env(safe-area-inset-bottom)) + 46px) !important' in css.data
+
+
+def test_relationship_targeting_is_available_in_signup_and_settings():
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'name="spouse_type"' in page.data
+    assert b'id="settings-spouse-type"' in page.data
+    assert b"JUST FUCKING ANSWER THE QUESTION" in page.data.upper()
+
+
+def test_live_reaction_panel_keeps_open_state_across_poll_renders():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"openScoreResponsePanels" in script.data
+    assert b"responsePanel.open = openScoreResponsePanels.has" in script.data
+
+
+def test_live_banter_uses_score_perspective_and_ignores_operational_presentations():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    assert b"scoreFeedText" in script.data
+    assert b"scored a " in script.data
+    assert b"return socialTypes.has(String(event.event_type || ''));" in script.data

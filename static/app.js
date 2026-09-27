@@ -34,6 +34,7 @@
   const settingsForm = document.getElementById('settings-form');
   const settingsMessage = document.getElementById('settings-message');
   const settingsHandicapIndex = document.getElementById('settings-handicap-index');
+  const settingsSpouseType = document.getElementById('settings-spouse-type');
   const colorThemeTease = document.getElementById('color-theme-tease');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
@@ -224,6 +225,7 @@
 
   let pendingAccount = null;
   let currentLobbyRound = null;
+  const openScoreResponsePanels = new Set();
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
@@ -335,6 +337,11 @@
     settingsForm.elements.wife.checked =
       Boolean(preferences?.themes?.wife);
 
+  };
+
+  const populateProfileRelationship = (account) => {
+    if (!settingsSpouseType) return;
+    settingsSpouseType.value = String(account?.spouse_type || '');
   };
 
   const populateProfileHandicap = (account) => {
@@ -591,6 +598,12 @@
         event: 'auth.display_name_invalid',
       };
     }
+    if (lower.includes('spouse_type must be')) {
+      return {
+        message: 'JUST FUCKING ANSWER THE QUESTION, SNOWFLAKE — WIFE, HUSBAND, OR NOT MARRIED.',
+        event: 'auth.create_account_failed',
+      };
+    }
     if (lower.includes('password must be between 10 and 128')) {
       return {
         message: 'PASSWORD MUST BE AT LEAST 10 CHARACTERS.',
@@ -693,6 +706,7 @@
     const displayName = String(values.get('display_name') || '').trim();
     const username = String(values.get('username') || '').trim().toLowerCase();
     const password = String(values.get('password') || '');
+    const spouseType = String(values.get('spouse_type') || '').trim();
 
     if (displayName.length < 1 || displayName.length > 20) {
       return new Error('display_name must be between 1 and 20 characters');
@@ -701,6 +715,9 @@
       return new Error(
         'username must be 3-16 characters using letters, numbers, ., _, or -'
       );
+    }
+    if (!['wife', 'husband', 'not_married'].includes(spouseType)) {
+      return new Error('spouse_type must be wife, husband, or not_married');
     }
     return validateNewPassword(password);
   };
@@ -1348,6 +1365,7 @@
           display_name: values.get('display_name'),
           username: values.get('username'),
           password: values.get('password'),
+          spouse_type: values.get('spouse_type'),
         },
       });
       acceptAuthResult(result, {
@@ -2271,6 +2289,15 @@
 
     const responsePanel = document.createElement('details');
     responsePanel.className = 'score-response-panel live-score-social-details';
+    const responseStateKey = String(round.id) + ':' + String(scoreEvent.id);
+    responsePanel.open = openScoreResponsePanels.has(responseStateKey);
+    responsePanel.addEventListener('toggle', () => {
+      if (responsePanel.open) {
+        openScoreResponsePanels.add(responseStateKey);
+      } else {
+        openScoreResponsePanels.delete(responseStateKey);
+      }
+    });
 
     const responseSummary = document.createElement('summary');
     responseSummary.textContent = 'REACTIONS / CHALLENGES';
@@ -2862,6 +2889,68 @@
     );
   };
 
+  const scoreNameFromEvent = (event) => {
+    const key = String(
+      event?.content_event_key
+      || event?.presentation?.event_key
+      || ''
+    );
+    const suffix = key.split('.').pop();
+    return ({
+      ace: 'hole in one',
+      albatross: 'albatross',
+      eagle: 'eagle',
+      birdie: 'birdie',
+      par: 'par',
+      bogey: 'bogey',
+      double_bogey: 'double bogey',
+      triple_bogey: 'triple bogey',
+      quad_plus: 'quadruple bogey or worse',
+    })[suffix] || 'score';
+  };
+
+  const stripScoreLead = (text) => String(text || '').replace(
+    /^(?:(?:a fucking |an? )?(?:hole in one|ace|albatross|birdie|bogey|double bogey|eagle|par|triple bogey))[.!?]\s*/i,
+    ''
+  ).trim();
+
+  const thirdPersonScoreComment = (text, name) => {
+    const subject = String(name || 'Golfer');
+    const possessive = /s$/i.test(subject) ? subject + "'" : subject + "'s";
+    return String(text || '')
+      .replace(/\byou're\b/gi, subject + ' is')
+      .replace(/\byou are\b/gi, subject + ' is')
+      .replace(/\byour\b/gi, possessive)
+      .replace(/\byou\b/gi, subject);
+  };
+
+  const scoreFeedText = (round, event) => {
+    const base = presentationText(event);
+    if (
+      round?.mode !== 'individual'
+      || String(event?.event_type || '') !== 'score_report'
+    ) {
+      return base;
+    }
+
+    const subjectId = String(event?.data?.player_participant_id || '');
+    const subject = (round.participants || []).find(
+      (participant) => String(participant.id) === subjectId
+    );
+    if (!subject) return base;
+
+    const viewerIsSubject = subjectId === String(round.viewer_participant_id || '');
+    const scoreName = scoreNameFromEvent(event);
+    const rawComment = stripScoreLead(base);
+    const comment = viewerIsSubject
+      ? rawComment
+      : thirdPersonScoreComment(rawComment, subject.display_name || 'Golfer');
+    const prefix = viewerIsSubject
+      ? 'You scored a ' + scoreName + '.'
+      : (subject.display_name || 'Golfer') + ' scored a ' + scoreName + '.';
+    return comment ? prefix + ' ' + comment : prefix;
+  };
+
   const APP_BANTER_AVATAR =
     '/static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp';
 
@@ -2913,13 +3002,7 @@
       .filter((event) => {
         const text = String(presentationText(event) || '').trim();
         if (!text) return false;
-        const presentation = event.presentation || {};
-        return (
-          socialTypes.has(String(event.event_type || ''))
-          || Boolean(presentation.banter?.text)
-          || Boolean(presentation.mascot?.copy)
-          || Boolean(presentation.fallback?.text)
-        );
+        return socialTypes.has(String(event.event_type || ''));
       })
       .slice(0, 8)
       .reverse();
@@ -2990,7 +3073,7 @@
 
       const bubble = document.createElement('div');
       bubble.className = 'live-banter-bubble';
-      bubble.textContent = presentationText(event);
+      bubble.textContent = scoreFeedText(round, event);
 
       content.append(meta, bubble);
       row.append(avatar, content);
@@ -5625,6 +5708,7 @@
         requestJson('/api/auth/me'),
       ]);
       populateSettings(preferences);
+      populateProfileRelationship(account);
       populateProfileHandicap(account);
       settingsClose?.focus();
     } catch (error) {
@@ -5685,6 +5769,13 @@
         wife: settingsForm.elements.wife.checked,
       },
     };
+    const spouseType = String(settingsSpouseType?.value || '').trim();
+    if (!['wife', 'husband', 'not_married'].includes(spouseType)) {
+      setSettingsMessage('Just fucking answer the question, snowflake — wife, husband, or not married.');
+      settingsSpouseType?.focus();
+      return;
+    }
+
     const rawHandicapIndex = String(
       settingsHandicapIndex?.value || ''
     ).trim();
@@ -5711,11 +5802,16 @@
         method: 'PATCH',
         body: patch,
       });
-      const account = await requestJson('/api/profile/handicap', {
+      await requestJson('/api/profile/handicap', {
         method: 'PATCH',
         body: { handicap_index: handicapIndex },
       });
+      const account = await requestJson('/api/profile/spouse', {
+        method: 'PATCH',
+        body: { spouse_type: spouseType },
+      });
       populateSettings(preferences);
+      populateProfileRelationship(account);
       populateProfileHandicap(account);
       userMessageCache.clear();
       setSettingsMessage('Saved. Your bad decisions are now personalized.');

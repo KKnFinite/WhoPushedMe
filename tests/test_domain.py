@@ -8,6 +8,7 @@ from who_pushed_me.domain import (
     audit_event_type,
     generate_recovery_key,
     normalize_shot_type,
+    normalize_spouse_type,
     require_active_round,
     require_player,
     validate_shared_hole_change,
@@ -57,3 +58,11 @@ def test_shared_current_hole_never_moves_backward():
     with pytest.raises(DomainError, match="cannot move backward"):
         validate_shared_hole_change(4, 3)
 
+
+
+def test_spouse_type_requires_supported_relationship_target():
+    assert normalize_spouse_type("WIFE") == "wife"
+    assert normalize_spouse_type("husband") == "husband"
+    assert normalize_spouse_type("not_married") == "not_married"
+    with pytest.raises(DomainError):
+        normalize_spouse_type("prefer_not_to_say")

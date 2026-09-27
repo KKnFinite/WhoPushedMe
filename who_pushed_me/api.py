@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import wraps
+import re
 from io import BytesIO
 from typing import Any, Callable
 
@@ -29,6 +30,25 @@ def _course_provider():
     if configured is not None:
         return configured
     return OpenGolfAPI(api_key=current_app.config.get("OPENGOLF_API_KEY") or None)
+
+
+def _relationship_message_text(text: object, spouse_type: object) -> str:
+    value = str(text or "")
+    if str(spouse_type or "").strip().lower() != "husband":
+        return value
+
+    replacements = {"wife": "husband", "she": "he", "her": "his"}
+
+    def replace(match: re.Match[str]) -> str:
+        source = match.group(0)
+        replacement = replacements[source.lower()]
+        if source.isupper():
+            return replacement.upper()
+        if source[:1].isupper():
+            return replacement.capitalize()
+        return replacement
+
+    return re.sub(r"\b(?:wife|she|her)\b", replace, value, flags=re.IGNORECASE)
 
 
 def _body() -> dict[str, Any]:
@@ -156,16 +176,23 @@ def user_content_messages():
     if not preferences.get("trash_talk_enabled", True):
         return jsonify(event=canonical, messages=[])
 
+    spouse_type = str(g.golfer.get("spouse_type") or "").strip().lower()
+    blocked = blocked_themes(preferences)
+    if spouse_type not in {"wife", "husband"} and "wife" not in blocked:
+        blocked.append("wife")
+
     rows = catalog.eligible_banter(
         canonical,
-        blocked_themes=blocked_themes(preferences),
+        blocked_themes=blocked,
     )
     return jsonify(
         event=canonical,
         messages=[
             {
                 "id": row["id"],
-                "text": row["text"],
+                "text": _relationship_message_text(row["text"], spouse_type)
+                if "wife" in set(row.get("themes") or [])
+                else row["text"],
                 "themes": row.get("themes") or [],
                 "weight": int(row.get("weight") or 1),
             }
@@ -190,6 +217,7 @@ def register_account():
         username=payload.get("username"),
         password=payload.get("password"),
         display_name=payload.get("display_name"),
+        spouse_type=payload.get("spouse_type"),
     )
     return jsonify(result), 201
 
@@ -233,6 +261,17 @@ def set_profile_handicap():
         _store().set_profile_handicap_index(
             g.golfer["id"],
             _body().get("handicap_index"),
+        )
+    )
+
+
+@api.patch("/profile/spouse")
+@authenticated
+def set_profile_spouse():
+    return jsonify(
+        _store().set_profile_spouse_type(
+            g.golfer["id"],
+            _body().get("spouse_type"),
         )
     )
 

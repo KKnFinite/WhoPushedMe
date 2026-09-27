@@ -307,7 +307,8 @@ body.modal-open {
   letter-spacing: .1em;
 }
 
-.auth-form input {
+.auth-form input,
+.auth-form select {
   width: 100%;
   min-height: 54px;
   padding: 12px 14px;
@@ -321,7 +322,8 @@ body.modal-open {
   outline: none;
 }
 
-.auth-form input:focus {
+.auth-form input:focus,
+.auth-form select:focus {
   border-color: var(--green-deep);
   box-shadow: 0 0 0 3px var(--yellow);
 }
@@ -933,6 +935,18 @@ body.app-ready .app-shell {
   cursor: pointer;
   font-family: "Arial Black", Arial, sans-serif;
   font-size: .65rem;
+}
+
+.settings-relationship-row select {
+  width: 156px;
+  min-height: 42px;
+  padding: 7px 8px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
 }
 
 .settings-handicap-row input {

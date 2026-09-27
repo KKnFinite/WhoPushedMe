@@ -67,6 +67,16 @@
           <small>3–16 characters. Letters, numbers, ., _, or -.</small>
         </label>
         <label>
+          <span>WHO ARE YOU MARRIED TO?</span>
+          <select name="spouse_type" required>
+            <option value="">PICK ONE</option>
+            <option value="wife">A WIFE</option>
+            <option value="husband">A HUSBAND</option>
+            <option value="not_married">NOT MARRIED</option>
+          </select>
+          <small>Just fucking answer the question, snowflake. It only decides who the spouse jokes are aimed at.</small>
+        </label>
+        <label>
           <span>PASSWORD</span>
           <input name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
           <small>10 characters minimum. Use your phone’s password manager.</small>
@@ -915,8 +925,8 @@
 
         <label class="settings-row">
           <span>
-            <strong>WIFE JOKES</strong>
-            <small>Exactly what it sounds like.</small>
+            <strong>SPOUSE JOKES</strong>
+            <small>Wife jokes, husband jokes, or none if you're not married.</small>
           </span>
           <input name="wife" type="checkbox">
         </label>
@@ -928,6 +938,19 @@
           </span>
           <span class="settings-theme-value">WPM GREEN</span>
         </button>
+
+        <label class="settings-row settings-relationship-row">
+          <span>
+            <strong>WHO ARE YOU MARRIED TO?</strong>
+            <small>Just fucking answer the question, snowflake. It only changes the spouse jokes.</small>
+          </span>
+          <select id="settings-spouse-type" name="spouse_type" required>
+            <option value="">PICK ONE</option>
+            <option value="wife">A WIFE</option>
+            <option value="husband">A HUSBAND</option>
+            <option value="not_married">NOT MARRIED</option>
+          </select>
+        </label>
 
         <label class="settings-row settings-handicap-row">
           <span>
