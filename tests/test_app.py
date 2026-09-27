@@ -1422,3 +1422,14 @@ def test_live_score_banter_names_subject_and_uses_viewer_perspective():
     assert "'You scored ' + scoreName + '.'" in source
     assert "' scored ' + scoreName + '.'" in source
     assert "const thirdPersonScoreComment = (text) =>" in source
+
+
+def test_live_polling_does_not_rebuild_open_reactions_challenges_panel():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    assert "const liveScoreSocialInteractionInProgress = () =>" in source
+    assert "'.live-score-social-details[open]'" in source
+    assert "liveScoreDraftInProgress()" in source
+    assert "|| liveScoreSocialInteractionInProgress()" in source

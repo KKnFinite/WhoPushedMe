@@ -4728,13 +4728,24 @@
     );
   };
 
+  const liveScoreSocialInteractionInProgress = () => {
+    return Boolean(
+      liveScoreArea?.querySelector('.live-score-social-details[open]')
+    );
+  };
+
   const startLobbyPolling = (code) => {
     if (lobbyRefreshTimer) window.clearInterval(lobbyRefreshTimer);
     lobbyRefreshTimer = window.setInterval(async () => {
       if (!roundFlowModal || roundFlowModal.hidden || !currentLobbyRound) return;
-      // Never replace a live score input while the golfer is typing or has
-      // an unsaved draft. Re-rendering the row here dismisses the iOS numpad.
-      if (liveScoreDraftInProgress()) return;
+      // Do not destroy live score controls while somebody is entering a
+      // score or using Reactions / Challenges. The periodic render rebuilds
+      // the score-card DOM, which otherwise closes <details>, drops focus,
+      // and wipes whatever is being typed on iOS.
+      if (
+        liveScoreDraftInProgress()
+        || liveScoreSocialInteractionInProgress()
+      ) return;
       try {
         await refreshRound(code);
       } catch (_error) {
