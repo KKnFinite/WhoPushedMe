@@ -11447,6 +11447,172 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.general.01",
+      "text": "Double bogey. Now we’re getting back to the golfer everybody recognizes.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.general.02",
+      "text": "Double bogey. Two extra shots because apparently one mistake felt lonely.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.general.03",
+      "text": "Double bogey. You didn’t just fuck up the hole. You gave it a sequel.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.general.04",
+      "text": "Double bogey. That score has “I can fix this” energy right before everything gets worse.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.general.05",
+      "text": "Double bogey. The wheels aren’t falling off yet, but somebody should tighten the fucking lug nuts.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.drinking.01",
+      "text": "Double bogey. Have another beer. Your swing clearly needs adult supervision.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.drinking.02",
+      "text": "Double bogey. At this point the beer is less of a reward and more of a medical intervention.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.drinking.03",
+      "text": "Double bogey. Drink up. You’re going to want the memory of this hole a little blurry.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.spouse.01",
+      "text": "Double bogey. Your {spouse} probably recognizes this exact pattern: bad decision, worse follow-up.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.spouse.02",
+      "text": "Double bogey. Tell your {spouse} you needed two extra chances and still fucked it up.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.approved.spouse.03",
+      "text": "Double bogey. Your {spouse} has watched you turn simple tasks into this exact kind of shitshow before.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
