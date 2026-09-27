@@ -11777,6 +11777,234 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.01",
+      "text": "Quadruple bogey or worse. That score should come with a fucking incident number.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.02",
+      "text": "Quadruple bogey or worse. At this point you’re just collecting strokes like Pokémon.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.03",
+      "text": "Quadruple bogey or worse. The hole didn’t beat you. It fucking processed you.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.04",
+      "text": "Quadruple bogey or worse. Somebody call the clubhouse and report a missing golfer.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.05",
+      "text": "Quadruple bogey or worse. This stopped being golf several shots ago.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.general.06",
+      "text": "Quadruple bogey or worse. That number belongs on a police report.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.drinking.01",
+      "text": "Quadruple bogey or worse. Skip the swing tip. Find the nearest drink.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.drinking.02",
+      "text": "Quadruple bogey or worse. The beer cart just became emergency services.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.01",
+      "text": "Quadruple bogey or worse. Your {spouse} has probably seen you make fewer mistakes assembling furniture.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.02",
+      "text": "Quadruple bogey or worse. Tell your {spouse} you need more time. Don’t explain why.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.03",
+      "text": "Quadruple bogey or worse. Your {spouse} has already made one terrible life decision. Watching you make this many on one hole is just showing off.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.04",
+      "text": "Quadruple bogey or worse. Your {spouse} married you for better or worse. This is definitely the fucking “worse” part.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.05",
+      "text": "Quadruple bogey or worse. Your {spouse} is probably wondering how someone this bad at finishing things ever managed to get married.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.06",
+      "text": "Quadruple bogey or worse. Your {spouse} has spent years lowering expectations, and somehow you still found a way underneath them.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.approved.spouse.07",
+      "text": "Quadruple bogey or worse. Your {spouse} knew you were a bad investment. The scorecard just produced the quarterly report.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
