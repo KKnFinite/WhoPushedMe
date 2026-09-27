@@ -12377,6 +12377,102 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.01",
+      "text": "Par. You gave that hole exactly what it needed. Your {spouse} is wondering when they get that kind of attention.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.02",
+      "text": "Par. You found the hole, used the right number of strokes, and finished clean. Your {spouse} is fucking stunned.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.03",
+      "text": "Par. Apparently you can satisfy a hole when it comes with a flagstick. Your {spouse} would like an explanation.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.04",
+      "text": "Par. Patient, controlled, and finished on target. Your {spouse} wants to know where the fuck that technique has been.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.05",
+      "text": "Par. No extra strokes, no panic, clean finish. Your {spouse} would like this performance reviewed at home.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.raunchy_spouse.06",
+      "text": "Par. You worked that hole exactly as long as necessary and got out clean. Your {spouse} is calling bullshit.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
