@@ -129,7 +129,12 @@ def public_content_messages():
         messages=[
             {
                 "id": row["id"],
-                "text": row["text"],
+                "text": (
+                    str(row["text"]).replace("{spouse}", str(spouse_type))
+                    if "wife" in set(row.get("themes") or [])
+                    and spouse_type in {"wife", "husband"}
+                    else row["text"]
+                ),
                 "themes": row.get("themes") or [],
                 "weight": int(row.get("weight") or 1),
             }
@@ -156,9 +161,14 @@ def user_content_messages():
     if not preferences.get("trash_talk_enabled", True):
         return jsonify(event=canonical, messages=[])
 
+    blocked = blocked_themes(preferences)
+    spouse_type = preferences.get("spouse_type")
+    if spouse_type not in {"wife", "husband"} and "wife" not in blocked:
+        blocked.append("wife")
+
     rows = catalog.eligible_banter(
         canonical,
-        blocked_themes=blocked_themes(preferences),
+        blocked_themes=blocked,
     )
     return jsonify(
         event=canonical,
@@ -190,6 +200,7 @@ def register_account():
         username=payload.get("username"),
         password=payload.get("password"),
         display_name=payload.get("display_name"),
+        spouse_type=payload.get("spouse_type"),
     )
     return jsonify(result), 201
 

@@ -6546,7 +6546,7 @@
     },
     {
       "id": "banter.home_idle.brutal.002",
-      "text": "YOUR WIFE PROBABLY MADE THE DECISION TO LET YOU GOLF FASTER THAN YOU’RE MAKING THIS ONE.",
+      "text": "YOUR {spouse} PROBABLY MADE THE DECISION TO LET YOU GOLF FASTER THAN YOU’RE MAKING THIS ONE.",
       "events": [
         "home.idle"
       ],
@@ -6561,7 +6561,7 @@
     },
     {
       "id": "banter.home_idle.brutal.003",
-      "text": "START OR JOIN. IF YOU NEED YOUR WIFE TO PICK FOR YOU, CALL HER.",
+      "text": "START OR JOIN. IF YOU NEED YOUR {spouse} TO PICK FOR YOU, CALL THEM.",
       "events": [
         "home.idle"
       ],
@@ -6591,7 +6591,7 @@
     },
     {
       "id": "banter.home_idle.brutal.005",
-      "text": "YOUR WIFE FINALLY GOT RID OF YOU FOR SIX HOURS AND YOU’RE WASTING HER HARD-EARNED PEACE.",
+      "text": "YOUR {spouse} FINALLY GOT RID OF YOU FOR SIX HOURS AND YOU’RE WASTING THEIR HARD-EARNED PEACE.",
       "events": [
         "home.idle"
       ],
@@ -6606,7 +6606,7 @@
     },
     {
       "id": "banter.home_idle.brutal.006",
-      "text": "IF YOUR WIFE KNEW YOU WERE THIS USELESS WITHOUT SUPERVISION, SHE’D HAVE PACKED YOUR LUNCH TOO.",
+      "text": "IF YOUR {spouse} KNEW YOU WERE THIS USELESS WITHOUT SUPERVISION, THEY’D HAVE PACKED YOUR LUNCH TOO.",
       "events": [
         "home.idle"
       ],
@@ -6621,7 +6621,7 @@
     },
     {
       "id": "banter.home_idle.brutal.007",
-      "text": "YOU’RE ONE BUTTON PRESS FROM GOLF AND SOMEHOW STILL NEED MORE COURAGE THAN YOU DID TO ASK YOUR WIFE.",
+      "text": "YOU’RE ONE BUTTON PRESS FROM GOLF AND SOMEHOW STILL NEED MORE COURAGE THAN YOU DID TO ASK YOUR {spouse}.",
       "events": [
         "home.idle"
       ],
@@ -6726,7 +6726,7 @@
     },
     {
       "id": "banter.home_idle.brutal.014",
-      "text": "YOUR WIFE THINKS YOU’RE GOLFING, YOUR BUDDIES THINK YOU’RE DRINKING, AND YOU’RE SITTING HERE DOING FUCKING NOTHING.",
+      "text": "YOUR {spouse} THINKS YOU’RE GOLFING, YOUR BUDDIES THINK YOU’RE DRINKING, AND YOU’RE SITTING HERE DOING FUCKING NOTHING.",
       "events": [
         "home.idle"
       ],
@@ -6742,7 +6742,7 @@
     },
     {
       "id": "banter.home_idle.brutal.015",
-      "text": "YOU LIED TO YOUR WIFE ABOUT HOW LONG THIS WOULD TAKE AND YOU’RE ALREADY WASTING TIME BEFORE HOLE ONE. BEAUTIFUL.",
+      "text": "YOU LIED TO YOUR {spouse} ABOUT HOW LONG THIS WOULD TAKE AND YOU’RE ALREADY WASTING TIME BEFORE HOLE ONE. BEAUTIFUL.",
       "events": [
         "home.idle"
       ],
@@ -6757,7 +6757,7 @@
     },
     {
       "id": "banter.home_idle.brutal.016",
-      "text": "YOUR WIFE GOT YOU OUT OF THE HOUSE AND YOUR BUDDIES BROUGHT BEER. EVERYONE HAS CONTRIBUTED EXCEPT YOU. PRESS A BUTTON.",
+      "text": "YOUR {spouse} GOT YOU OUT OF THE HOUSE AND YOUR BUDDIES BROUGHT BEER. EVERYONE HAS CONTRIBUTED EXCEPT YOU. PRESS A BUTTON.",
       "events": [
         "home.idle"
       ],
@@ -6789,7 +6789,7 @@
     },
     {
       "id": "banter.home_idle.brutal.018",
-      "text": "YOUR WIFE IS ENJOYING THE SILENCE, YOUR BEER IS GETTING WARM, AND YOU’RE STILL LOSING TO TWO FUCKING BUTTONS.",
+      "text": "YOUR {spouse} IS ENJOYING THE SILENCE, YOUR BEER IS GETTING WARM, AND YOU’RE STILL LOSING TO TWO FUCKING BUTTONS.",
       "events": [
         "home.idle"
       ],
@@ -8005,7 +8005,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.007",
-      "text": "YOUR WIFE MANAGED TO GET YOU DRESSED AND OUT THE DOOR. APPARENTLY ROUND SETUP WAS WHERE HER SUPERVISION ENDED.",
+      "text": "YOUR {spouse} MANAGED TO GET YOU DRESSED AND OUT THE DOOR. APPARENTLY ROUND SETUP WAS WHERE THEIR SUPERVISION ENDED.",
       "events": [
         "round_setup.idle"
       ],
@@ -8020,7 +8020,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.008",
-      "text": "YOU TOLD YOUR WIFE YOU’D BE HOME ON TIME AND YOU’RE ALREADY BURNING THE LIE BEFORE THE FIRST TEE.",
+      "text": "YOU TOLD YOUR {spouse} YOU’D BE HOME ON TIME AND YOU’RE ALREADY BURNING THE LIE BEFORE THE FIRST TEE.",
       "events": [
         "round_setup.idle"
       ],
@@ -8035,7 +8035,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.009",
-      "text": "YOUR WIFE PROBABLY ASSUMED THE OTHER GUYS COULD HANDLE YOU FROM HERE. THEY’RE STARTING TO REGRET IT.",
+      "text": "YOUR {spouse} PROBABLY ASSUMED THE OTHER GUYS COULD HANDLE YOU FROM HERE. THEY’RE STARTING TO REGRET IT.",
       "events": [
         "round_setup.idle"
       ],
@@ -8050,7 +8050,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.010",
-      "text": "IF YOUR WIFE SAW HOW LONG IT TAKES YOU TO SET UP A ROUND, SHE’D FINALLY UNDERSTAND WHY EVERY PROJECT AT HOME TAKES THREE WEEKENDS.",
+      "text": "IF YOUR {spouse} SAW HOW LONG IT TAKES YOU TO SET UP A ROUND, THEY’D FINALLY UNDERSTAND WHY EVERY PROJECT AT HOME TAKES THREE WEEKENDS.",
       "events": [
         "round_setup.idle"
       ],
@@ -8065,7 +8065,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.011",
-      "text": "YOUR WIFE LET YOU OUT UNSUPERVISED AND YOU IMMEDIATELY GOT STUCK ON COURSE, FORMAT, AND HOLES.",
+      "text": "YOUR {spouse} LET YOU OUT UNSUPERVISED AND YOU IMMEDIATELY GOT STUCK ON COURSE, FORMAT, AND HOLES.",
       "events": [
         "round_setup.idle"
       ],
@@ -8080,7 +8080,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.012",
-      "text": "YOUR WIFE THINKS YOU’RE OUT PLAYING GOLF. TECHNICALLY YOU’RE STILL JUST A GUY FUCKING AROUND WITH HIS PHONE.",
+      "text": "YOUR {spouse} THINKS YOU’RE OUT PLAYING GOLF. TECHNICALLY YOU’RE STILL JUST A GUY FUCKING AROUND WITH HIS PHONE.",
       "events": [
         "round_setup.idle"
       ],
@@ -8095,7 +8095,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.013",
-      "text": "YOU’RE ALREADY MAKING YOUR WIFE’S “WHAT TIME WILL YOU BE HOME?” TEXT IMPOSSIBLE TO ANSWER AND THE ROUND HASN’T EVEN STARTED.",
+      "text": "YOU’RE ALREADY MAKING YOUR {spouse}’S “WHAT TIME WILL YOU BE HOME?” TEXT IMPOSSIBLE TO ANSWER AND THE ROUND HASN’T EVEN STARTED.",
       "events": [
         "round_setup.idle"
       ],
@@ -8110,7 +8110,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.014",
-      "text": "YOUR WIFE GOT RID OF YOU FOR THE DAY, YOUR BUDDIES BROUGHT THE BEER, AND SOMEHOW THEY STILL ENDED UP WITH THE WORST PART OF THE DEAL: WAITING ON YOU.",
+      "text": "YOUR {spouse} GOT RID OF YOU FOR THE DAY, YOUR BUDDIES BROUGHT THE BEER, AND SOMEHOW THEY STILL ENDED UP WITH THE WORST PART OF THE DEAL: WAITING ON YOU.",
       "events": [
         "round_setup.idle"
       ],
@@ -8126,7 +8126,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.015",
-      "text": "YOU TOLD YOUR WIFE “JUST GOLFING WITH THE GUYS,” BUT AT THIS RATE IT’S MOSTLY DRINKING WHILE EVERYONE WATCHES YOU FAIL AT ROUND SETUP.",
+      "text": "YOU TOLD YOUR {spouse} “JUST GOLFING WITH THE GUYS,” BUT AT THIS RATE IT’S MOSTLY DRINKING WHILE EVERYONE WATCHES YOU FAIL AT ROUND SETUP.",
       "events": [
         "round_setup.idle"
       ],
@@ -8142,7 +8142,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.016",
-      "text": "YOUR WIFE EXPECTS YOU HOME LATE, YOUR FRIENDS EXPECT YOU DRUNK, AND NONE OF THEM EXPECTED YOU TO GET DEFEATED BY THE FUCKING SETUP SCREEN.",
+      "text": "YOUR {spouse} EXPECTS YOU HOME LATE, YOUR FRIENDS EXPECT YOU DRUNK, AND NONE OF THEM EXPECTED YOU TO GET DEFEATED BY THE FUCKING SETUP SCREEN.",
       "events": [
         "round_setup.idle"
       ],
@@ -8158,7 +8158,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.017",
-      "text": "YOUR WIFE IS ENJOYING HER DAY WITHOUT YOU WHILE YOUR FRIENDS ARE DISCOVERING WHY SHE NEEDED ONE. FINISH THE FUCKING SETUP.",
+      "text": "YOUR {spouse} IS ENJOYING THEIR DAY WITHOUT YOU WHILE YOUR FRIENDS ARE DISCOVERING WHY THEY NEEDED ONE. FINISH THE FUCKING SETUP.",
       "events": [
         "round_setup.idle"
       ],
@@ -8173,7 +8173,7 @@
     },
     {
       "id": "banter.round_setup_idle.brutal.018",
-      "text": "YOUR WIFE ALREADY KNOWS YOU CAN TURN A TEN-MINUTE TASK INTO AN AFTERNOON. YOUR FOURSOME IS LEARNING FAST.",
+      "text": "YOUR {spouse} ALREADY KNOWS YOU CAN TURN A TEN-MINUTE TASK INTO AN AFTERNOON. YOUR FOURSOME IS LEARNING FAST.",
       "events": [
         "round_setup.idle"
       ],
@@ -10978,7 +10978,7 @@
     },
     {
       "id": "banter.score.par.spouse.01",
-      "text": "Par. Your wife is going to be pissed you wasted an entire Saturday just to be average.",
+      "text": "Par. Your {spouse} is going to be pissed you wasted an entire Saturday just to be average.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -10994,7 +10994,7 @@
     },
     {
       "id": "banter.score.par.spouse.02",
-      "text": "Par. Your wife has seen you finish faster, but at least this time nobody was disappointed.",
+      "text": "Par. Your {spouse} has seen you finish faster, but at least this time nobody was disappointed.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -11010,7 +11010,7 @@
     },
     {
       "id": "banter.score.par.spouse.03",
-      "text": "Par. Tell your wife you made par. She could probably use some good news after marrying you.",
+      "text": "Par. Tell your {spouse} you made par. They could probably use some good news after marrying you.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -11026,7 +11026,7 @@
     },
     {
       "id": "banter.score.par.spouse.04",
-      "text": "Par. Your wife let you out of the house for this shit and you came back with a par. Adorable.",
+      "text": "Par. Your {spouse} let you out of the house for this shit and you came back with a par. Adorable.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -11042,7 +11042,7 @@
     },
     {
       "id": "banter.score.par.spouse.05",
-      "text": "Par. Even your wife would admit that wasn't completely fucking embarrassing.",
+      "text": "Par. Even your {spouse} would admit that wasn't completely fucking embarrassing.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -11058,7 +11058,7 @@
     },
     {
       "id": "banter.score.par.spouse.06",
-      "text": "Par. Your wife said good job. Just kidding. She stopped expecting things from you years ago.",
+      "text": "Par. Your {spouse} said good job. Just kidding. They stopped expecting things from you years ago.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
@@ -11074,10 +11074,190 @@
     },
     {
       "id": "banter.score.par.spouse.07",
-      "text": "Par. Somehow the least disappointing thing you've done today. Your wife has notes.",
+      "text": "Par. Somehow the least disappointing thing you've done today. Your {spouse} has notes.",
       "events": [
         "score.report.individual.par",
         "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.01",
+      "text": "Birdie. Calm the fuck down. You’re still one swing away from being yourself again.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.02",
+      "text": "Birdie. Great. Now your confidence is going to become everyone else’s problem.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.03",
+      "text": "Birdie. Enjoy it. Competence usually leaves you pretty fucking quickly.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.04",
+      "text": "Birdie. One good hole doesn’t erase the mountain of evidence against you.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.05",
+      "text": "Birdie. Holy shit. You actually did something worth bragging about.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.general.06",
+      "text": "Birdie. Nice work, Tour Pro. Try not to immediately fuck it up.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.drinking.01",
+      "text": "Birdie. Keep drinking. Apparently sobriety was holding you back.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.drinking.02",
+      "text": "Birdie. The booze has officially entered its performance-enhancing phase.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.drinking.03",
+      "text": "Birdie. Another beer and you might become dangerously fucking competent.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.spouse.01",
+      "text": "Birdie. Tell your {spouse} you finally did something impressive today.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.spouse.02",
+      "text": "Birdie. Your {spouse} is about to hear about this like you just won the fucking Masters.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.approved.spouse.03",
+      "text": "Birdie. Text your {spouse} now before the next hole reminds everyone who you really are.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
       ],
       "audiences": [
         "everyone"

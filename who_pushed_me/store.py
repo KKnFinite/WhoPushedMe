@@ -57,6 +57,7 @@ from who_pushed_me.domain import (
     generate_recovery_key,
     generate_round_code,
     normalize_recovery_key,
+    normalize_spouse_type,
     normalize_shot_type,
     require_active_round,
     require_player,
@@ -536,9 +537,11 @@ class RoundStore:
         username: object,
         password: object,
         display_name: object,
+        spouse_type: object,
     ) -> dict[str, Any]:
         normalized_username = normalize_username(username)
         name = clean_display_name(display_name)
+        relationship = normalize_spouse_type(spouse_type)
         password_hash = hash_password(password)
 
         for _ in range(8):
@@ -568,6 +571,21 @@ class RoundStore:
                         ),
                     )
                     golfer = cursor.fetchone()
+                    cursor.execute(
+                        """
+                        INSERT INTO golfer_content_preferences (
+                            golfer_id, theme_preferences, updated_at
+                        )
+                        VALUES (%s, %s, now())
+                        ON CONFLICT (golfer_id)
+                        DO UPDATE SET
+                            theme_preferences =
+                                golfer_content_preferences.theme_preferences
+                                || EXCLUDED.theme_preferences,
+                            updated_at = now()
+                        """,
+                        (golfer["id"], Jsonb({"_spouse_type": relationship})),
+                    )
                     session = self._issue_session(cursor, golfer["id"])
                     return {
                         "account": self._public_account(golfer),

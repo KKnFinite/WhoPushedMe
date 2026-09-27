@@ -24,6 +24,7 @@ ALLOWED_PLACEHOLDERS = {
     "new_score",
     "mode",
     "course",
+    "spouse",
 }
 
 

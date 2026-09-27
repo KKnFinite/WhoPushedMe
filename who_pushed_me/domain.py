@@ -8,6 +8,7 @@ RECOVERY_ALPHABET: Final = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"
 RECOVERY_KEY_RE: Final = re.compile(r"^[A-HJ-KM-NP-Z2-9]{3}-[A-HJ-KM-NP-Z2-9]{3}$")
 ROUND_MODES: Final = frozenset({"individual", "scramble"})
 ROUND_STATUSES: Final = frozenset({"setup", "active", "completed", "abandoned"})
+SPOUSE_TYPES: Final = frozenset({"wife", "husband", "not_married"})
 PARTICIPANT_ROLES: Final = frozenset({"player", "spectator"})
 SOCIAL_EVENT_TYPES: Final = frozenset(
     {"callout", "praise", "excuse", "open_mic", "reaction", "shot_call", "challenge"}
@@ -33,6 +34,13 @@ def clean_display_name(value: object) -> str:
     if not 1 <= len(name) <= 20:
         raise DomainError("display_name must be between 1 and 20 characters")
     return name
+
+
+def normalize_spouse_type(value: object) -> str:
+    spouse_type = str(value or "").strip().lower()
+    if spouse_type not in SPOUSE_TYPES:
+        raise DomainError("spouse_type must be wife, husband, or not_married")
+    return spouse_type
 
 
 def generate_recovery_key() -> str:

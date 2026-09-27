@@ -190,8 +190,17 @@ def social_content_event(kind: str, payload: Mapping[str, object]) -> str:
 
 def _render_context(context: Mapping[str, object] | None) -> dict[str, object]:
     result = {key: "" for key in ALLOWED_PLACEHOLDERS}
+    result["spouse"] = "{spouse}"
     result.update(dict(context or {}))
     return result
+
+
+def _relationship_text(text: object, spouse_type: object) -> str:
+    value = str(text or "")
+    relationship = str(spouse_type or "").strip().lower()
+    if relationship not in {"wife", "husband"}:
+        return value
+    return value.replace("{spouse}", relationship)
 
 
 def _content_item(row: Mapping[str, Any] | None, *, text: str | None = None) -> dict[str, Any] | None:
@@ -388,6 +397,9 @@ def filter_presentation_for_preferences(
     variants = dict(presentation.get("variants") or {})
     variant = dict(variants.get(audience) or variants.get("everyone") or {})
     blocked = set(blocked_themes(preferences))
+    spouse_type = str(preferences.get("spouse_type") or "").strip().lower()
+    if spouse_type not in {"wife", "husband"}:
+        blocked.add("wife")
 
     banter = variant.get("banter")
     mascot = variant.get("mascot")
@@ -399,6 +411,12 @@ def filter_presentation_for_preferences(
         blocked=blocked,
     ):
         banter = None
+    elif banter is not None and "wife" in set(banter.get("themes") or []):
+        banter = dict(banter)
+        banter["text"] = _relationship_text(
+            banter.get("text"),
+            spouse_type,
+        )
 
     if not bool(preferences.get("mini_mascots_enabled", True)):
         mascot = None
