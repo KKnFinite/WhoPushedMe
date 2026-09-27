@@ -1678,7 +1678,7 @@
             save.textContent = 'CONFIRM CORRECTION';
             save.disabled = false;
             setRoundFlowMessage(
-              'Scores already exist. Confirm the handicap correction so the receipt stays honest.'
+              'Scores already exist. Confirm the handicap correction so the round history stays honest.'
             );
             return;
           }
