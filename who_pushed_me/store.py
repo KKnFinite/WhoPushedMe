@@ -4367,11 +4367,15 @@ class RoundStore:
                         },
                     )
 
-            auto_advance = self._maybe_advance_active_route(
-                cursor,
-                round_row=round_row,
-                actor_participant_id=actor["id"],
-                scored_route_position=route_position,
+            auto_advance = (
+                self._maybe_advance_active_route(
+                    cursor,
+                    round_row=round_row,
+                    actor_participant_id=actor["id"],
+                    scored_route_position=route_position,
+                )
+                if round_row["mode"] != "scramble"
+                else None
             )
 
             content_event = score_content_event(

@@ -647,6 +647,36 @@ def test_scramble_team_tee_migration_is_present():
     assert "r.mode = 'scramble'" in migration
 
 
+def test_scramble_score_waits_for_contributions_before_advancing():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def set_score(")
+    end = store_source.index("    def remove_score(", start)
+    block = store_source[start:end]
+
+    assert 'if round_row["mode"] != "scramble"' in block
+    assert "else None" in block
+
+
+def test_scramble_contributions_prompt_after_score_and_can_be_skipped():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert b'id="scramble-contribution-skip"' in page.data
+    assert b"SKIP CONTRIBUTIONS" in page.data
+
+    source = script.data.decode("utf-8")
+    assert "skippedScrambleContributionPromptKey" in source
+    assert "scrambleContributionPanel?.scrollIntoView" in source
+    assert "scrambleContributionSkip?.addEventListener('click'" in source
+    assert "await advanceSharedLiveHole();" in source
+
+
 def test_manual_next_hole_warns_but_can_go_anyway():
     response = client().get("/static/app.js")
     assert response.status_code == 200

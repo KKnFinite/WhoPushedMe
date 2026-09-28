@@ -173,6 +173,7 @@
   const latestFallback = document.getElementById('latest-fallback');
   const scrambleContributionPanel = document.getElementById('scramble-contribution-panel');
   const scrambleContributionList = document.getElementById('scramble-contribution-list');
+  const scrambleContributionSkip = document.getElementById('scramble-contribution-skip');
   const finishRoundButton = document.getElementById('finish-round-button');
   const finishIncompletePanel = document.getElementById('finish-incomplete-panel');
   const finishIncompleteCopy = document.getElementById('finish-incomplete-copy');
@@ -241,6 +242,7 @@
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
   let parEditorOpen = false;
+  let skippedScrambleContributionPromptKey = '';
   let pendingClaimJoin = null;
   let pendingJoinPreview = null;
   let lobbyBanterTimer = null;
@@ -2944,7 +2946,25 @@
             '/api/rounds/' + round.id + '/positions/' + position + '/score',
             { method: 'PUT', body }
           );
-          await refreshRound(round.active_code);
+
+          if (round.mode === 'scramble') {
+            skippedScrambleContributionPromptKey = '';
+          }
+
+          const refreshedRound = await refreshRound(round.active_code);
+
+          if (
+            round.mode === 'scramble'
+            && Number(refreshedRound.current_route_position)
+              === Number(position)
+          ) {
+            window.requestAnimationFrame(() => {
+              scrambleContributionPanel?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            });
+          }
           return true;
         } catch (error) {
           setRoundFlowMessage(error.message);
@@ -3066,17 +3086,23 @@
 
     const route = routeEntry(round, position);
     const hole = Number(route?.hole_number || position);
+    const promptKey = `${round.id}:${Number(position)}`;
 
     if (round.mode !== 'scramble') {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
+      if (scrambleContributionSkip) scrambleContributionSkip.hidden = true;
       return;
     }
 
     const teamScore = findScore(round, position);
-    if (!teamScore) {
+    if (
+      !teamScore
+      || skippedScrambleContributionPromptKey === promptKey
+    ) {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
+      if (scrambleContributionSkip) scrambleContributionSkip.hidden = true;
       return;
     }
 
@@ -3090,6 +3116,10 @@
       round.status === 'active'
       && viewerIsActivePlayer(round)
     );
+    if (scrambleContributionSkip) {
+      scrambleContributionSkip.hidden = !canEdit;
+      scrambleContributionSkip.textContent = 'SKIP CONTRIBUTIONS';
+    }
 
     SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
       const contribution = (round.contributions || []).find(
@@ -5696,12 +5726,14 @@
     if (!currentLobbyRound || viewedRoutePosition === null) return;
     if (Number(viewedRoutePosition) <= 1) return;
     parEditorOpen = false;
+    skippedScrambleContributionPromptKey = '';
     viewedRoutePosition = Number(viewedRoutePosition) - 1;
     renderLiveRound(currentLobbyRound);
   });
 
   backToLive?.addEventListener('click', () => {
     if (!currentLobbyRound) return;
+    skippedScrambleContributionPromptKey = '';
     viewedRoutePosition = Number(
       currentLobbyRound.current_route_position
       || currentLobbyRound.current_hole
@@ -5712,6 +5744,7 @@
 
   holeNext?.addEventListener('click', () => {
     if (!currentLobbyRound || viewedRoutePosition === null) return;
+    skippedScrambleContributionPromptKey = '';
     const length = routeLength(currentLobbyRound);
     const viewed = Number(viewedRoutePosition);
     if (viewed >= length) return;
@@ -5752,6 +5785,33 @@
       if (advanceWarningGo) advanceWarningGo.disabled = false;
     }
   };
+
+  scrambleContributionSkip?.addEventListener('click', async () => {
+    if (
+      !currentLobbyRound
+      || viewedRoutePosition === null
+      || currentLobbyRound.mode !== 'scramble'
+    ) return;
+
+    const position = Number(viewedRoutePosition);
+    skippedScrambleContributionPromptKey =
+      `${currentLobbyRound.id}:${position}`;
+    if (scrambleContributionPanel) {
+      scrambleContributionPanel.hidden = true;
+    }
+
+    const livePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    const length = routeLength(currentLobbyRound);
+
+    if (position === livePosition && livePosition < length) {
+      await advanceSharedLiveHole();
+      skippedScrambleContributionPromptKey = '';
+    }
+  });
 
   advanceLiveHole?.addEventListener('click', async () => {
     if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
