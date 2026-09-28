@@ -572,6 +572,21 @@ def test_loaded_course_with_complete_pars_hides_par_tracking_setup():
     assert "count(par) AS par_count" in store_source
 
 
+def test_cached_external_course_selection_returns_full_course_metadata():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def get_cached_course_by_external_id(")
+    end = store_source.index("    @staticmethod\n    def _course_tees", start)
+    block = store_source[start:end]
+
+    assert 'return self.get_cached_course(course["id"])' in block
+    assert 'course["tees"] = self._course_tees' not in block
+
+
 def test_cached_course_exposes_and_honors_physical_hole_count():
     from pathlib import Path
 

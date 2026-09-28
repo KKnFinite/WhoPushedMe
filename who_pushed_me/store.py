@@ -5263,21 +5263,22 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT id, provider, external_course_id, name, cached_at
+                SELECT id
                 FROM cached_courses
                 WHERE provider = 'opengolfapi' AND external_course_id = %s
                 """,
                 (external_id,),
             )
             course = cursor.fetchone()
-            if not course:
-                return None
-            course["tees"] = self._course_tees(
-                cursor,
-                course["id"],
-                hole_count=18,
-            )
-            return course
+
+        if not course:
+            return None
+
+        # Keep /courses/select consistent regardless of whether the caller
+        # supplied our cached course_id or the provider external ID. The full
+        # course payload includes hole_count and has_complete_pars, which the
+        # round setup uses to suppress unnecessary par questions.
+        return self.get_cached_course(course["id"])
 
     @staticmethod
     def _course_tees(
