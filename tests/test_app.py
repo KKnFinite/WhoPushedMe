@@ -684,6 +684,21 @@ def test_scramble_contribution_skip_is_styled_as_secondary_action():
     assert b"#scramble-contribution-skip" in css.data
     assert b"background: rgba(5,9,7,.78)" in css.data
 
+
+def test_mobile_post_hole_ui_is_compact():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+    start = source.index("/* COMPACT POST-HOLE MOBILE UI */")
+    block = source[start:]
+
+    assert "grid-template-columns: repeat(5, minmax(0, 1fr))" in block
+    assert "score-response-subheading" in block
+    assert "display: none !important;" in block
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in block
+    assert "min-height: 36px !important;" in block
+    assert "#scramble-contribution-skip" in block
+
 def test_manual_next_hole_warns_but_can_go_anyway():
     response = client().get("/static/app.js")
     assert response.status_code == 200
