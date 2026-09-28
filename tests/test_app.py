@@ -677,6 +677,13 @@ def test_scramble_contributions_prompt_after_score_and_can_be_skipped():
     assert "await advanceSharedLiveHole();" in source
 
 
+
+def test_scramble_contribution_skip_is_styled_as_secondary_action():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    assert b"#scramble-contribution-skip" in css.data
+    assert b"background: rgba(5,9,7,.78)" in css.data
+
 def test_manual_next_hole_warns_but_can_go_anyway():
     response = client().get("/static/app.js")
     assert response.status_code == 200
