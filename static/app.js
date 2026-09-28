@@ -2828,10 +2828,11 @@
         : '';
       meta.textContent = [
         detail,
-        score ? (relative ? (relative + ' TO PAR') : 'SCORE SAVED') : 'NO SCORE',
+        score ? (relative ? (relative + ' TO PAR') : 'SCORE SAVED') : '',
       ]
         .filter(Boolean)
         .join(' • ');
+      meta.hidden = !meta.textContent;
       identityCopy.append(name, meta);
       identity.append(avatar, identityCopy);
       card.append(identity);

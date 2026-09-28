@@ -363,6 +363,18 @@ def test_live_footer_uses_real_round_actions_only():
     assert b".live-footer-actions" in css.data
 
 
+def test_live_score_card_does_not_show_no_score_status():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const renderScoreCard =")
+    end = source.index("const SCRAMBLE_SHOT_TYPES", start)
+    block = source[start:end]
+
+    assert "'NO SCORE'" not in block
+    assert "meta.hidden = !meta.textContent;" in block
+
+
 def test_live_stats_shell_is_populated_before_round_math():
     response = client().get("/static/app.js")
     assert response.status_code == 200
