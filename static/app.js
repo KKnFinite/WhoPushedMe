@@ -113,6 +113,12 @@
   const lobbyHandicapList = document.getElementById('lobby-handicap-list');
   const liveRoundPanel = document.getElementById('live-round-panel');
   const liveRoundPlace = document.getElementById('live-round-place');
+  const scoreAnnouncement = document.getElementById('score-announcement');
+  const scoreAnnouncementText = document.getElementById('score-announcement-text');
+  const holeTransition = document.getElementById('hole-transition');
+  const holeTransitionMascot = document.getElementById('hole-transition-mascot');
+  const holeTransitionLabel = document.getElementById('hole-transition-label');
+  const holeTransitionResult = document.getElementById('hole-transition-result');
   const spectatorJoinPlayPanel = document.getElementById('spectator-join-play-panel');
   const spectatorJoinTeeField = document.getElementById('spectator-join-tee-field');
   const spectatorJoinTeeSelect = document.getElementById('spectator-join-tee-select');
@@ -243,6 +249,12 @@
   let pendingScoreAfterPar = null;
   let parEditorOpen = false;
   let skippedScrambleContributionPromptKey = '';
+  let scoreAnnouncementRoundId = '';
+  let seenScoreAnnouncementEventIds = new Set();
+  let scoreAnnouncementQueue = [];
+  let scoreAnnouncementTimer = null;
+  let holeTransitionTimer = null;
+  let transitionAssetsPromise = null;
   let pendingClaimJoin = null;
   let pendingJoinPreview = null;
   let lobbyBanterTimer = null;
@@ -2132,6 +2144,7 @@
     stopUserHeckle('roundSetup', { hide: true });
     stopUserHeckle('roundJoin', { hide: true });
     stopLobbyBanterRotation();
+    resetLiveMomentState();
     roundFlowModal.hidden = true;
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
@@ -2194,6 +2207,7 @@
     document.body.classList.add('modal-open');
     setRoundFlowMessage('');
     currentLobbyRound = null;
+    resetLiveMomentState();
     resetClaimPlayerPanel();
 
     if (startRoundForm) startRoundForm.hidden = panel !== 'start';
@@ -2364,6 +2378,324 @@
     if (!value) return '';
     if (value.startsWith('/')) return value;
     return `/${value}`;
+  };
+
+  const resetLiveMomentState = () => {
+    scoreAnnouncementRoundId = '';
+    seenScoreAnnouncementEventIds = new Set();
+    scoreAnnouncementQueue = [];
+
+    if (scoreAnnouncementTimer) {
+      window.clearTimeout(scoreAnnouncementTimer);
+      scoreAnnouncementTimer = null;
+    }
+    if (scoreAnnouncement) {
+      scoreAnnouncement.hidden = true;
+      scoreAnnouncement.classList.remove('is-showing');
+    }
+
+    if (holeTransitionTimer) {
+      window.clearTimeout(holeTransitionTimer);
+      holeTransitionTimer = null;
+    }
+    if (holeTransition) {
+      holeTransition.hidden = true;
+      holeTransition.setAttribute('aria-hidden', 'true');
+    }
+  };
+
+  const scoreAnnouncementCopy = (round, event) => {
+    const scoreName = scoreNameFromEvent(event).toUpperCase();
+
+    if (event?.data?.scope === 'team' || round.mode === 'scramble') {
+      return `TEAM SCORED ${scoreName}!`;
+    }
+
+    const subjectId = String(event?.data?.player_participant_id || '');
+    if (subjectId === String(round.viewer_participant_id || '')) {
+      return `YOU SCORED ${scoreName}!`;
+    }
+
+    const subject = (round.participants || []).find(
+      (participant) => String(participant.id) === subjectId
+    );
+    return `${String(subject?.display_name || 'SOMEONE').toUpperCase()} SCORED ${scoreName}!`;
+  };
+
+  const showNextScoreAnnouncement = () => {
+    if (
+      !scoreAnnouncement
+      || !scoreAnnouncementText
+      || scoreAnnouncementTimer
+      || !scoreAnnouncementQueue.length
+    ) return;
+
+    scoreAnnouncementText.textContent = scoreAnnouncementQueue.shift();
+    scoreAnnouncement.hidden = false;
+    scoreAnnouncement.classList.remove('is-showing');
+    void scoreAnnouncement.offsetWidth;
+    scoreAnnouncement.classList.add('is-showing');
+
+    scoreAnnouncementTimer = window.setTimeout(() => {
+      scoreAnnouncement.hidden = true;
+      scoreAnnouncement.classList.remove('is-showing');
+      scoreAnnouncementTimer = null;
+      if (scoreAnnouncementQueue.length) {
+        window.setTimeout(showNextScoreAnnouncement, 120);
+      }
+    }, 1650);
+  };
+
+  const queueNewScoreAnnouncements = (round) => {
+    const roundId = String(round?.id || '');
+    const scoreEvents = (round.events || []).filter(
+      (event) =>
+        event.event_type === 'score_report'
+        && !event.data?.backfilled
+    );
+
+    // First load/reconnect establishes a baseline. Old scores do not replay.
+    if (scoreAnnouncementRoundId !== roundId) {
+      scoreAnnouncementRoundId = roundId;
+      seenScoreAnnouncementEventIds = new Set(
+        scoreEvents.map((event) => String(event.id))
+      );
+      scoreAnnouncementQueue = [];
+      return;
+    }
+
+    const unseen = scoreEvents
+      .filter(
+        (event) => !seenScoreAnnouncementEventIds.has(String(event.id))
+      )
+      .slice()
+      .reverse();
+
+    unseen.forEach((event) => {
+      seenScoreAnnouncementEventIds.add(String(event.id));
+      scoreAnnouncementQueue.push(
+        scoreAnnouncementCopy(round, event)
+      );
+    });
+
+    showNextScoreAnnouncement();
+  };
+
+  const transitionScoreBucket = (round, position) => {
+    const participantId = round.mode === 'individual'
+      ? round.viewer_participant_id
+      : null;
+    const score = findScore(round, position, participantId);
+    const par = findPar(round, position);
+    if (!score || !Number.isFinite(par)) return '';
+
+    const strokes = Number(score.strokes);
+    if (!Number.isFinite(strokes)) return '';
+    if (strokes === 1) return 'ace';
+
+    const delta = strokes - Number(par);
+    if (delta <= -3) return 'albatross';
+    if (delta === -2) return 'eagle';
+    if (delta === -1) return 'birdie';
+    if (delta === 0) return 'par';
+    if (delta === 1) return 'bogey';
+    if (delta === 2) return 'double_bogey';
+    if (delta === 3) return 'triple_bogey';
+    return 'quad_plus';
+  };
+
+  const transitionBucketLabel = (bucket) => ({
+    ace: 'HOLE IN ONE',
+    albatross: 'ALBATROSS',
+    eagle: 'EAGLE',
+    birdie: 'BIRDIE',
+    par: 'PAR',
+    bogey: 'BOGEY',
+    double_bogey: 'DOUBLE BOGEY',
+    triple_bogey: 'TRIPLE BOGEY',
+    quad_plus: 'QUAD+',
+  })[bucket] || '';
+
+  const normalizeTransitionToken = (value) => (
+    String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+  );
+
+  const transitionBucketAliases = (bucket) => ({
+    ace: ['ace', 'hole_in_one'],
+    albatross: ['albatross'],
+    eagle: ['eagle'],
+    birdie: ['birdie'],
+    par: ['par'],
+    bogey: ['bogey'],
+    double_bogey: ['double_bogey'],
+    triple_bogey: ['triple_bogey'],
+    quad_plus: ['quad_plus', 'quadruple_bogey', 'quadruple_bogey_or_worse'],
+  })[bucket] || [];
+
+  const loadTransitionAssets = () => {
+    if (transitionAssetsPromise) return transitionAssetsPromise;
+
+    transitionAssetsPromise = fetch('/static/assets/_meta/asset-manifest.json')
+      .then((response) => {
+        if (!response.ok) throw new Error('asset manifest unavailable');
+        return response.json();
+      })
+      .then((manifest) =>
+        (manifest.assets || [])
+          .filter(
+            (item) =>
+              item.production
+              && item.enabled !== false
+              && (
+                item.family === 'mini-mascot'
+                || item.asset_id === 'mascot.full_body.transparent'
+              )
+          )
+          .sort((left, right) =>
+            String(left.asset_id).localeCompare(String(right.asset_id))
+          )
+      )
+      .catch(() => []);
+
+    return transitionAssetsPromise;
+  };
+
+  const stableTransitionHash = (value) => {
+    let hash = 2166136261;
+    for (const character of String(value || '')) {
+      hash ^= character.charCodeAt(0);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  };
+
+  const scoreSpecificTransitionAssets = (assets, bucket) => {
+    if (!bucket) return [];
+    const aliases = transitionBucketAliases(bucket);
+
+    return assets.filter((item) => {
+      const category = normalizeTransitionToken(item.category);
+      if (category !== 'score') return false;
+
+      const fields = [
+        item.transition_bucket,
+        item.situation,
+        item.event_key,
+      ].map(normalizeTransitionToken);
+
+      return aliases.some((alias) =>
+        fields.some(
+          (field) => field === alias || field.endsWith('_' + alias)
+        )
+      );
+    });
+  };
+
+  const generalTransitionAssets = (assets) => assets.filter((item) => {
+    const eventKey = normalizeTransitionToken(item.event_key);
+    const category = normalizeTransitionToken(item.category);
+    const situation = normalizeTransitionToken(item.situation);
+    const pool = normalizeTransitionToken(item.pool);
+    const transitionBucket = normalizeTransitionToken(item.transition_bucket);
+
+    return (
+      transitionBucket === 'general'
+      || pool === 'round_transitions'
+      || eventKey === 'round_start'
+      || (category === 'round' && situation === 'start')
+      || item.asset_id === 'mascot.full_body.transparent'
+    );
+  });
+
+  const transitionMascotForPosition = (round, targetPosition, assets) => {
+    const used = new Set();
+    const general = generalTransitionAssets(assets);
+    let target = null;
+
+    // Recompute from hole one so every device derives the same sequence and
+    // no transition mascot repeats inside the round.
+    for (let position = 1; position <= Number(targetPosition); position += 1) {
+      const bucket = transitionScoreBucket(round, position);
+      const specific = scoreSpecificTransitionAssets(assets, bucket)
+        .filter((item) => !used.has(String(item.asset_id)));
+      const fallback = general.filter(
+        (item) => !used.has(String(item.asset_id))
+      );
+      const pool = specific.length ? specific : fallback;
+
+      if (!pool.length) {
+        if (position === Number(targetPosition)) target = null;
+        continue;
+      }
+
+      const index = stableTransitionHash(
+        `${round.id}:${position}:${bucket || 'general'}`
+      ) % pool.length;
+      const picked = pool[index];
+      used.add(String(picked.asset_id));
+
+      if (position === Number(targetPosition)) {
+        target = picked;
+      }
+    }
+
+    return target;
+  };
+
+  const playHoleTransition = async (round, fromPosition, toPosition) => {
+    if (
+      !holeTransition
+      || !holeTransitionMascot
+      || !holeTransitionLabel
+      || Number(toPosition) <= Number(fromPosition)
+    ) return;
+
+    const fromRoute = routeEntry(round, fromPosition);
+    const toRoute = routeEntry(round, toPosition);
+    const fromHole = Number(fromRoute?.hole_number || fromPosition);
+    const toHole = Number(toRoute?.hole_number || toPosition);
+    const bucket = transitionScoreBucket(round, fromPosition);
+
+    if (holeTransitionTimer) {
+      window.clearTimeout(holeTransitionTimer);
+      holeTransitionTimer = null;
+    }
+
+    holeTransitionLabel.textContent = `HOLE ${fromHole} → HOLE ${toHole}`;
+    if (holeTransitionResult) {
+      holeTransitionResult.textContent = transitionBucketLabel(bucket);
+      holeTransitionResult.hidden = !holeTransitionResult.textContent;
+    }
+
+    holeTransitionMascot.hidden = true;
+    holeTransitionMascot.removeAttribute('src');
+    holeTransition.hidden = false;
+    holeTransition.setAttribute('aria-hidden', 'false');
+
+    const assets = await loadTransitionAssets();
+    const mascot = transitionMascotForPosition(
+      round,
+      fromPosition,
+      assets
+    );
+
+    if (mascot?.production && !holeTransition.hidden) {
+      holeTransitionMascot.src = assetUrl(mascot.production);
+      holeTransitionMascot.alt = 'Who Pushed Me transition mascot';
+      holeTransitionMascot.hidden = false;
+    }
+
+    holeTransitionTimer = window.setTimeout(() => {
+      holeTransition.hidden = true;
+      holeTransition.setAttribute('aria-hidden', 'true');
+      holeTransitionMascot.hidden = true;
+      holeTransitionMascot.removeAttribute('src');
+      holeTransitionTimer = null;
+    }, 1400);
   };
 
   const renderLatestPresentation = (round) => {
@@ -4332,6 +4664,12 @@
       || round.current_hole
       || 1
     );
+    const shouldPlayHoleTransition = Boolean(
+      previousRound
+      && String(previousRound.id) === String(round.id)
+      && Number(livePosition) === Number(previousLivePosition) + 1
+      && round.status === 'active'
+    );
     const length = routeLength(round);
     const wasFollowingLive = (
       viewedRoutePosition === null
@@ -4700,6 +5038,16 @@
     }
     renderLatestPresentation(round);
     renderReceipts(round);
+    queueNewScoreAnnouncements(round);
+    void loadTransitionAssets();
+
+    if (shouldPlayHoleTransition) {
+      void playHoleTransition(
+        round,
+        previousLivePosition,
+        livePosition
+      );
+    }
 
     const viewerWithdrew = (
       round.viewer_role === 'player'

@@ -4367,16 +4367,10 @@ class RoundStore:
                         },
                     )
 
-            auto_advance = (
-                self._maybe_advance_active_route(
-                    cursor,
-                    round_row=round_row,
-                    actor_participant_id=actor["id"],
-                    scored_route_position=route_position,
-                )
-                if round_row["mode"] != "scramble"
-                else None
-            )
+            # Score entry never advances the live round. The explicit
+            # NEXT HOLE action owns advancement so post-hole controls and
+            # between-hole transitions have a stable moment to run.
+            auto_advance = None
 
             content_event = score_content_event(
                 mode=round_row["mode"],

@@ -526,6 +526,31 @@
           </div>
         </div>
 
+        <section
+          id="score-announcement"
+          class="score-announcement"
+          hidden
+          role="status"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <span>SCORE POSTED</span>
+          <strong id="score-announcement-text"></strong>
+        </section>
+
+        <section
+          id="hole-transition"
+          class="hole-transition"
+          hidden
+          aria-hidden="true"
+        >
+          <div class="hole-transition-stage">
+            <small id="hole-transition-result"></small>
+            <img id="hole-transition-mascot" alt="" hidden>
+            <strong id="hole-transition-label"></strong>
+          </div>
+        </section>
+
         <div class="live-v2-hole-header">
           <button id="hole-prev" type="button" aria-label="View previous hole">‹</button>
           <div class="live-v2-hole-copy">

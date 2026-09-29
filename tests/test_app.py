@@ -347,6 +347,72 @@ def test_round_polling_preserves_open_history_page():
     normal_render = block.index("renderRoundState(round)")
     assert history_guard < normal_render
 
+def test_score_entry_waits_for_explicit_next_hole():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def set_score(")
+    end = store_source.index("    def remove_score(", start)
+    block = store_source[start:end]
+
+    assert "auto_advance = None" in block
+    assert "_maybe_advance_active_route(" not in block
+
+
+def test_live_round_has_loud_score_announcement():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    assert b'id="score-announcement"' in page.data
+    assert b'id="score-announcement-text"' in page.data
+    assert b"YOU SCORED" in script.data
+    assert b"TEAM SCORED" in script.data
+    assert b"score_report" in script.data
+    assert b"seenScoreAnnouncementEventIds" in script.data
+    assert b".score-announcement" in css.data
+
+
+def test_between_hole_transition_uses_unique_deterministic_mascots():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    assert b'id="hole-transition"' in page.data
+    assert b'id="hole-transition-mascot"' in page.data
+    assert b"transitionMascotForPosition" in script.data
+    assert b"stableTransitionHash" in script.data
+    assert b"scoreSpecificTransitionAssets" in script.data
+    assert b"generalTransitionAssets" in script.data
+    assert b"used.add(String(picked.asset_id))" in script.data
+    assert b"eventKey === 'round_start'" in script.data
+    assert b"mascot.full_body.transparent" in script.data
+    assert b".hole-transition" in css.data
+
+
+def test_transition_only_plays_for_new_live_hole():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+    start = source.index("const renderLiveRound =")
+    end = source.index("const renderLobby =", start)
+    block = source[start:end]
+
+    assert "shouldPlayHoleTransition" in block
+    assert "Number(livePosition) === Number(previousLivePosition) + 1" in block
+    assert "previousRound" in block
+    assert "playHoleTransition" in block
+
+
 def test_live_footer_uses_real_round_actions_only():
     page = client().get("/")
     assert page.status_code == 200

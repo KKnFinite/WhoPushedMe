@@ -9646,3 +9646,113 @@ textarea,
   }
 }
 
+/* LIVE SCORE ANNOUNCEMENT + BETWEEN-HOLE TRANSITION */
+.score-announcement {
+  position: fixed;
+  z-index: 205;
+  top: calc(10px + env(safe-area-inset-top));
+  left: 50%;
+  width: min(calc(100vw - 24px), 620px);
+  transform: translateX(-50%);
+  display: grid;
+  gap: 1px;
+  padding: 10px 14px 12px;
+  border: 2px solid #f0bd28;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #e3b52f, #bd8512);
+  color: #050907;
+  box-shadow: 0 10px 34px rgba(0,0,0,.5);
+  text-align: center;
+  pointer-events: none;
+}
+
+.score-announcement[hidden] {
+  display: none !important;
+}
+
+.score-announcement > span {
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.score-announcement > strong {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(1.8rem, 8vw, 2.65rem);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: .025em;
+}
+
+.score-announcement.is-showing {
+  animation: wpm-score-pop 1.65s ease both;
+}
+
+@keyframes wpm-score-pop {
+  0% { opacity: 0; transform: translateX(-50%) scale(.88); }
+  10% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+  18%, 78% { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(.98); }
+}
+
+.hole-transition {
+  position: fixed;
+  z-index: 220;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding:
+    calc(24px + env(safe-area-inset-top))
+    20px
+    calc(28px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 38%, rgba(41,84,55,.32), transparent 38%),
+    #020604;
+  overflow: hidden;
+}
+
+.hole-transition[hidden] {
+  display: none !important;
+}
+
+.hole-transition-stage {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.hole-transition-stage > small {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(.9rem, 4vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.hole-transition-stage > img {
+  display: block;
+  width: auto;
+  max-width: min(82vw, 430px);
+  max-height: 66dvh;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 28px rgba(0,0,0,.5));
+}
+
+.hole-transition-stage > img[hidden] {
+  display: none !important;
+}
+
+.hole-transition-stage > strong {
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: .035em;
+}
+
