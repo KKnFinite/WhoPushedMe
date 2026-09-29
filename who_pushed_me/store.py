@@ -1505,6 +1505,13 @@ class RoundStore:
                 (round_row["id"], golfer_uuid),
             )
             participant = cursor.fetchone()
+            if participant["role"] != participant_role:
+                raise DomainError(
+                    "this account is already joined to the round as "
+                    + participant["role"]
+                    + "; reconnect using that role"
+                )
+
             reconnect_event = (
                 "lobby.reconnect.spectator"
                 if participant["role"] == "spectator"

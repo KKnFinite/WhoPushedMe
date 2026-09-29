@@ -742,6 +742,45 @@ def test_round_setup_sends_route_and_par_tracking_choices():
     assert b"Saving pars..." in response.data
 
 
+def test_reconnect_role_mismatch_is_rejected():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def join_round(")
+    end = store_source.index("    def promote_spectator_to_player(", start)
+    block = store_source[start:end]
+
+    assert 'participant["role"] != participant_role' in block
+    assert "reconnect using that role" in block
+
+
+def test_join_ui_rejects_server_role_mismatch():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+    start = source.index("const joinAsNewParticipant")
+    end = source.index("const prepareJoinTeeChoice", start)
+    block = source[start:end]
+
+    assert "participant?.role" in block
+    assert "Round role mismatch" in block
+
+
+def test_spectator_score_controls_require_player_role():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+    start = source.index("const renderScoreCard =")
+    end = source.index("const SCRAMBLE_SHOT_TYPES", start)
+    block = source[start:end]
+
+    assert "round.viewer_role === 'player'" in block
+    assert "viewerIsActivePlayer(round)" in block
+
+
 def test_live_spectator_can_promote_into_play():
     response = client().get("/static/app.js")
     assert response.status_code == 200

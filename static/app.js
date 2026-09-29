@@ -3148,7 +3148,8 @@
     const hole = Number(route?.hole_number || position);
     const par = findPar(round, position);
     const canScore = (
-      viewerIsActivePlayer(round)
+      round.viewer_role === 'player'
+      && viewerIsActivePlayer(round)
       && route?.state !== 'skipped'
       && Number(position) <= Number(round.current_route_position)
     );
@@ -5531,7 +5532,7 @@
   };
 
   const joinAsNewParticipant = async (code, role, teeName = '') => {
-    await requestJson('/api/rounds/join', {
+    const participant = await requestJson('/api/rounds/join', {
       method: 'POST',
       body: {
         code,
@@ -5539,6 +5540,13 @@
         tee_name: teeName || null,
       },
     });
+
+    if (String(participant?.role || '') !== String(role)) {
+      throw new Error(
+        'Round role mismatch. Rejoin using your existing role.'
+      );
+    }
+
     await enterJoinedRound(code);
   };
 
