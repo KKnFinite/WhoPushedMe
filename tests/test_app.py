@@ -1062,6 +1062,57 @@ def test_auth_and_idle_message_pools_are_wired_into_ui():
     assert b"/api/content/messages/user" in js.data
 
 
+def test_relationship_question_is_on_registration_not_login():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    login_start = html.index('id="login-form"')
+    login_end = html.index("</form>", login_start)
+    login_block = html[login_start:login_end]
+    register_start = html.index('id="register-form"')
+    register_end = html.index("</form>", register_start)
+    register_block = html[register_start:register_end]
+
+    assert 'name="spouse_type"' not in login_block
+    assert 'name="spouse_type"' in register_block
+    assert "WHO ARE YOU MARRIED TO?" in register_block
+    assert "A WIFE" in register_block
+    assert "A HUSBAND" in register_block
+    assert "NOT MARRIED" in register_block
+
+
+def test_registration_sends_spouse_type_and_login_does_not():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    login_start = source.index("loginForm?.addEventListener('submit'")
+    login_end = source.index("registerForm?.addEventListener('submit'", login_start)
+    login_block = source[login_start:login_end]
+    register_start = login_end
+    register_end = source.index("recoverForm?.addEventListener('submit'", register_start)
+    register_block = source[register_start:register_end]
+
+    assert "spouse_type: values.get('spouse_type')" not in login_block
+    assert "spouse_type: values.get('spouse_type')" in register_block
+
+
+def test_personalized_messages_resolve_spouse_placeholder():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    api_source = (root / "who_pushed_me" / "api.py").read_text(
+        encoding="utf-8"
+    )
+    start = api_source.index("def user_content_messages():")
+    end = api_source.index('@api.get("/admin/status")', start)
+    block = api_source[start:end]
+
+    assert '.replace("{spouse}", str(spouse_type))' in block
+    assert 'spouse_type in {"wife", "husband"}' in block
+
+
 def test_account_forms_use_custom_validation_and_show_rules():
     response = client().get("/")
     assert response.status_code == 200

@@ -175,7 +175,12 @@ def user_content_messages():
         messages=[
             {
                 "id": row["id"],
-                "text": row["text"],
+                "text": (
+                    str(row["text"]).replace("{spouse}", str(spouse_type))
+                    if "wife" in set(row.get("themes") or [])
+                    and spouse_type in {"wife", "husband"}
+                    else row["text"]
+                ),
                 "themes": row.get("themes") or [],
                 "weight": int(row.get("weight") or 1),
             }

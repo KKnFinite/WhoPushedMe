@@ -1456,7 +1456,6 @@
         body: {
           username: values.get('username'),
           password: values.get('password'),
-          spouse_type: values.get('spouse_type'),
         },
       });
       acceptAuthResult(result);
@@ -1487,6 +1486,7 @@
           display_name: values.get('display_name'),
           username: values.get('username'),
           password: values.get('password'),
+          spouse_type: values.get('spouse_type'),
         },
       });
       acceptAuthResult(result, {
