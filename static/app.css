@@ -9806,3 +9806,33 @@ textarea,
   letter-spacing: .04em;
 }
 
+/* SCORE REMOVE BADGE — NO EXTRA GRID ROW */
+.live-score-card.live-score-row {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.live-score-row .live-score-remove {
+  position: absolute !important;
+  z-index: 6;
+  top: -7px !important;
+  right: -7px !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center;
+  border: 1px solid rgba(217,109,59,.9) !important;
+  border-radius: 50% !important;
+  background: rgba(125,48,23,.96) !important;
+  color: #fff8df !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.36) !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+}
+

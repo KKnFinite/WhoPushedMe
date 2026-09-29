@@ -575,6 +575,20 @@ def test_game_action_buttons_use_consistent_label_size():
     assert b"font-size: 1.05rem !important" in css.data
 
 
+def test_score_remove_button_does_not_consume_grid_row():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+    start = source.index("/* SCORE REMOVE BADGE — NO EXTRA GRID ROW */")
+    block = source[start:]
+
+    assert "position: absolute !important;" in block
+    assert "grid-row: auto !important;" in block
+    assert "width: 32px !important;" in block
+    assert "height: 32px !important;" in block
+    assert "border-radius: 50% !important;" in block
+
+
 def test_live_scorecard_exposes_score_removal_control():
     response = client().get("/static/app.js")
     assert response.status_code == 200
