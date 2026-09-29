@@ -119,6 +119,7 @@
   const holeTransitionMascot = document.getElementById('hole-transition-mascot');
   const holeTransitionLabel = document.getElementById('hole-transition-label');
   const holeTransitionResult = document.getElementById('hole-transition-result');
+  const holeTransitionContinue = document.getElementById('hole-transition-continue');
   const spectatorJoinPlayPanel = document.getElementById('spectator-join-play-panel');
   const spectatorJoinTeeField = document.getElementById('spectator-join-tee-field');
   const spectatorJoinTeeSelect = document.getElementById('spectator-join-tee-select');
@@ -2380,6 +2381,21 @@
     return `/${value}`;
   };
 
+  const dismissHoleTransition = () => {
+    if (holeTransitionTimer) {
+      window.clearTimeout(holeTransitionTimer);
+      holeTransitionTimer = null;
+    }
+    if (holeTransition) {
+      holeTransition.hidden = true;
+      holeTransition.setAttribute('aria-hidden', 'true');
+    }
+    if (holeTransitionMascot) {
+      holeTransitionMascot.hidden = true;
+      holeTransitionMascot.removeAttribute('src');
+    }
+  };
+
   const resetLiveMomentState = () => {
     scoreAnnouncementRoundId = '';
     seenScoreAnnouncementEventIds = new Set();
@@ -2394,14 +2410,7 @@
       scoreAnnouncement.classList.remove('is-showing');
     }
 
-    if (holeTransitionTimer) {
-      window.clearTimeout(holeTransitionTimer);
-      holeTransitionTimer = null;
-    }
-    if (holeTransition) {
-      holeTransition.hidden = true;
-      holeTransition.setAttribute('aria-hidden', 'true');
-    }
+    dismissHoleTransition();
   };
 
   const scoreAnnouncementCopy = (round, event) => {
@@ -2439,6 +2448,7 @@
     scoreAnnouncementTimer = window.setTimeout(() => {
       scoreAnnouncement.hidden = true;
       scoreAnnouncement.classList.remove('is-showing');
+      scoreAnnouncementText.textContent = '';
       scoreAnnouncementTimer = null;
       if (scoreAnnouncementQueue.length) {
         window.setTimeout(showNextScoreAnnouncement, 120);
@@ -2689,14 +2699,16 @@
       holeTransitionMascot.hidden = false;
     }
 
-    holeTransitionTimer = window.setTimeout(() => {
-      holeTransition.hidden = true;
-      holeTransition.setAttribute('aria-hidden', 'true');
-      holeTransitionMascot.hidden = true;
-      holeTransitionMascot.removeAttribute('src');
-      holeTransitionTimer = null;
-    }, 1400);
+    holeTransitionTimer = window.setTimeout(
+      dismissHoleTransition,
+      10000
+    );
   };
+
+  holeTransitionContinue?.addEventListener(
+    'click',
+    dismissHoleTransition
+  );
 
   const renderLatestPresentation = (round) => {
     if (!latestPresentation) return;

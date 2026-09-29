@@ -362,6 +362,48 @@ def test_score_entry_waits_for_explicit_next_hole():
     assert "_maybe_advance_active_route(" not in block
 
 
+def test_join_code_digits_escape_ios_17px_override():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    assert ":not(.live-score-input):not(.join-code-digit)" in source
+    final = source[source.index(
+        "/* AUTHORITATIVE JOIN DIGITS + DETACHED LIVE MOMENTS */"
+    ):]
+    assert "font-size: clamp(4.6rem, 20vw, 5.9rem) !important;" in final
+    assert "line-height: .88 !important;" in final
+
+
+def test_score_announcement_is_outside_live_round_layout():
+    page = client().get("/")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    live_start = html.index('id="live-round-panel"')
+    live_end = html.index('id="round-end-panel"', live_start)
+    live_block = html[live_start:live_end]
+    assert 'id="score-announcement"' not in live_block
+    assert html.index('id="score-announcement"') > html.index(
+        'id="round-history-page"'
+    )
+
+
+def test_hole_transition_has_continue_and_ten_second_timeout():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    assert b'id="hole-transition-continue"' in page.data
+    assert b"CONTINUE" in page.data
+
+    source = script.data.decode("utf-8")
+    assert "dismissHoleTransition" in source
+    assert "10000" in source
+    assert "holeTransitionContinue?.addEventListener" in source
+
+
 def test_live_round_has_loud_score_announcement():
     page = client().get("/")
     script = client().get("/static/app.js")

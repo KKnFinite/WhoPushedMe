@@ -8807,7 +8807,7 @@ textarea,
 }
 
 @media (max-width: 900px), (hover: none) and (pointer: coarse) {
-  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.live-score-input),
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.live-score-input):not(.join-code-digit),
   select,
   textarea,
   [contenteditable="true"],
@@ -9754,5 +9754,55 @@ textarea,
   font-weight: 400;
   line-height: .95;
   letter-spacing: .035em;
+}
+
+/* AUTHORITATIVE JOIN DIGITS + DETACHED LIVE MOMENTS */
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .join-code-digit {
+    padding: 0 !important;
+    font-size: clamp(4.6rem, 20vw, 5.9rem) !important;
+    line-height: .88 !important;
+    text-align: center !important;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+#score-announcement {
+  position: fixed !important;
+  margin: 0 !important;
+  inset: auto auto auto 50%;
+  top: calc(12px + env(safe-area-inset-top)) !important;
+  transform: translateX(-50%);
+  contain: layout paint;
+}
+
+.hole-transition-stage {
+  position: relative;
+  padding-bottom: 76px;
+}
+
+.hole-transition-stage > img {
+  max-height: 60dvh;
+}
+
+#hole-transition-continue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(4px, env(safe-area-inset-bottom));
+  width: min(100%, 520px);
+  min-height: 58px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  border: 1px solid rgba(212,166,42,.9);
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417);
+  color: var(--wpm-night);
+  box-shadow: 0 8px 22px rgba(0,0,0,.42);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: .04em;
 }
 
