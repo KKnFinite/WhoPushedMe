@@ -9836,3 +9836,309 @@ textarea,
   line-height: 1 !important;
 }
 
+
+
+/* LIVE ROUND FIXED VIEWPORT + DIRECT SOCIAL FLOW */
+.round-flow-card-game.is-live-round {
+  display: flex;
+  flex-direction: column;
+  height: min(94dvh, 900px);
+  max-height: min(94dvh, 900px);
+  overflow: hidden !important;
+}
+
+.round-flow-card-game.is-live-round > .live-round-v2:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden !important;
+}
+
+.live-round-v2 {
+  display: flex !important;
+  flex-direction: column;
+  gap: 6px !important;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.live-v2-topbar,
+.live-v2-hole-header,
+.live-hole-selector,
+.live-score-area,
+.live-hole-stats,
+.live-footer-actions {
+  flex: 0 0 auto;
+}
+
+#live-banter-panel {
+  flex: 1 1 0;
+  min-height: 92px;
+  overflow: hidden;
+}
+
+#live-banter-panel .live-banter-header {
+  align-items: center;
+}
+
+.live-banter-title {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.live-banter-title span {
+  text-align: left;
+}
+
+.live-banter-expand {
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid rgba(212,166,42,.7);
+  border-radius: 8px;
+  background: rgba(212,166,42,.1);
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+#live-banter-panel .live-banter-feed {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: none !important;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.live-social-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.live-social-actions button {
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid rgba(78,122,93,.68);
+  border-radius: 8px;
+  background: rgba(7,15,10,.92);
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: .92rem;
+  letter-spacing: .035em;
+}
+
+.live-social-actions #scramble-contribution-open:not([hidden]) {
+  grid-column: 1 / -1;
+  border-color: rgba(212,166,42,.72);
+  color: var(--wpm-gold);
+}
+
+.live-score-respond {
+  justify-self: start;
+  margin-top: 3px;
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 1px solid rgba(212,166,42,.62);
+  border-radius: 7px;
+  background: rgba(212,166,42,.08);
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+#live-banter-panel.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 132;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding:
+    max(10px, env(safe-area-inset-top))
+    10px
+    max(10px, env(safe-area-inset-bottom));
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(17,22,17,.995), #030604);
+}
+
+#live-banter-panel.is-fullscreen .live-social-actions {
+  display: none;
+}
+
+#live-banter-panel.is-fullscreen .live-banter-feed {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.social-composer-modal,
+.score-response-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(5px);
+}
+
+.social-composer-modal[hidden],
+.score-response-modal[hidden] {
+  display: none;
+}
+
+.social-composer-card,
+.score-response-sheet {
+  width: min(100%, 560px);
+  max-height: 78dvh;
+  overflow-y: auto;
+  padding:
+    14px
+    14px
+    max(14px, env(safe-area-inset-bottom));
+  border: 1px solid rgba(78,122,93,.72);
+  border-radius: 18px 18px 0 0;
+  background:
+    linear-gradient(180deg, rgba(17,22,17,.995), #030604);
+  color: var(--wpm-cream);
+  box-shadow: 0 -18px 50px rgba(0,0,0,.5);
+}
+
+.social-composer-card .settings-header {
+  margin-bottom: 10px;
+}
+
+.social-composer-card .round-text-field > span {
+  color: var(--wpm-gold);
+}
+
+.social-composer-card :is(select, textarea) {
+  background: rgba(7,15,10,.96);
+  color: #fff8df;
+  border: 1px solid rgba(78,122,93,.65);
+}
+
+.social-composer-actions {
+  display: grid;
+  grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
+  gap: 8px;
+}
+
+.social-composer-actions button {
+  min-height: 44px;
+}
+
+#bag-form-cancel {
+  border: 1px solid rgba(78,122,93,.62);
+  border-radius: 10px;
+  background: rgba(7,15,10,.9);
+  color: var(--wpm-cream);
+}
+
+.score-response-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(78,122,93,.45);
+}
+
+.score-response-sheet-header span,
+.score-response-sheet-header small {
+  display: block;
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.score-response-sheet-header h2 {
+  margin: 1px 0;
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+}
+
+#score-response-close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(78,122,93,.68);
+  border-radius: 50%;
+  background: rgba(7,15,10,.9);
+  color: #fff8df;
+  font-size: 1.35rem;
+}
+
+#score-response-sheet-body .score-response-panel {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.live-more-panel:not([hidden]),
+.scramble-contribution-panel:not([hidden]),
+.advance-warning-panel:not([hidden]),
+.finish-incomplete-panel:not([hidden]),
+.late-backfill-panel:not([hidden]),
+.spectator-join-play-panel:not([hidden]),
+.par-form.live-par-compact:not([hidden]) {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  z-index: 128;
+  width: auto;
+  max-height: 72dvh;
+  overflow-y: auto;
+  margin: 0;
+  box-shadow: 0 -12px 40px rgba(0,0,0,.48);
+}
+
+@media (max-width: 680px) {
+  .round-flow-card-game.is-live-round {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden !important;
+  }
+
+  .round-flow-card-game.is-live-round > .live-round-v2:not([hidden]) {
+    overflow: hidden !important;
+    scrollbar-width: none;
+  }
+
+  .live-v2-topbar {
+    min-height: 48px;
+  }
+
+  .live-v2-wordmark {
+    height: 46px;
+  }
+
+  #live-banter-panel .live-banter-feed {
+    max-height: none !important;
+  }
+
+  .live-score-card {
+    padding: 7px !important;
+    gap: 5px !important;
+  }
+
+  .live-score-row {
+    min-height: 46px;
+  }
+
+  .live-footer-actions {
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
+  }
+}

@@ -171,6 +171,11 @@
   const liveBanterForm = document.getElementById('live-banter-form');
   const liveBanterInput = document.getElementById('live-banter-input');
   const liveBanterSend = document.getElementById('live-banter-send');
+  const liveBanterPanel = document.getElementById('live-banter-panel');
+  const liveBanterExpand = document.getElementById('live-banter-expand');
+  const liveCalloutButton = document.getElementById('live-callout-button');
+  const liveExcuseButton = document.getElementById('live-excuse-button');
+  const scrambleContributionOpen = document.getElementById('scramble-contribution-open');
   const liveHoleStats = document.getElementById('live-hole-stats');
   const liveMorePanel = document.getElementById('live-more-panel');
   const liveNavMore = document.getElementById('live-nav-more');
@@ -234,6 +239,10 @@
   const bagTextLabel = document.getElementById('bag-text-label');
   const bagTextInput = document.getElementById('bag-text-input');
   const bagSubmit = document.getElementById('bag-submit');
+  const scoreResponseModal = document.getElementById('score-response-modal');
+  const scoreResponseClose = document.getElementById('score-response-close');
+  const scoreResponseContext = document.getElementById('score-response-context');
+  const scoreResponseSheetBody = document.getElementById('score-response-sheet-body');
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
@@ -245,6 +254,7 @@
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
   let currentBagAction = null;
+  let scrambleContributionComposerOpen = false;
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
@@ -2817,11 +2827,15 @@
     round,
     position,
     participantId,
-    score
+    score,
+    scoreEventOverride = null
   ) => {
-    if (!score) return;
+    if (!score && !scoreEventOverride) return;
 
-    const scoreEvent = findScoreEvent(round, position, participantId);
+    const scoreEvent = (
+      scoreEventOverride
+      || findScoreEvent(round, position, participantId)
+    );
     if (!scoreEvent) return;
 
     const responsePanel = document.createElement('section');
@@ -3140,6 +3154,49 @@
     card.append(responsePanel);
   };
 
+  const closeScoreResponseSheet = () => {
+    if (!scoreResponseModal) return;
+    scoreResponseModal.hidden = true;
+    if (scoreResponseSheetBody) scoreResponseSheetBody.replaceChildren();
+    if (scoreResponseContext) scoreResponseContext.textContent = '';
+    document.body.classList.remove('score-response-open');
+  };
+
+  const openScoreResponseSheet = (round, scoreEvent) => {
+    if (!scoreResponseModal || !scoreResponseSheetBody || !scoreEvent) return;
+
+    const participantId = scoreEvent.data?.player_participant_id || null;
+    const participant = participantId
+      ? (round.participants || []).find(
+          (row) => String(row.id) === String(participantId)
+        )
+      : null;
+    const label = round.mode === 'scramble'
+      ? 'TEAM SCORE'
+      : (participant?.display_name || 'SCORE');
+    const hole = scoreEvent.hole_number || scoreEvent.route_position || '';
+    if (scoreResponseContext) {
+      scoreResponseContext.textContent = [label, hole ? ('HOLE ' + hole) : '']
+        .filter(Boolean)
+        .join(' • ');
+    }
+
+    scoreResponseSheetBody.replaceChildren();
+    appendScoreResponsePanel(
+      scoreResponseSheetBody,
+      round,
+      Number(scoreEvent.route_position || 0),
+      participantId,
+      { strokes: Number(scoreEvent.new_value || 0) || 1 },
+      scoreEvent
+    );
+    scoreResponseModal.hidden = false;
+    document.body.classList.add('score-response-open');
+    window.requestAnimationFrame(() => {
+      scoreResponseSheetBody.querySelector('button, input, select')?.focus();
+    });
+  };
+
   const renderScoreCard = (round, position) => {
     if (!liveScoreArea) return;
     liveScoreArea.replaceChildren();
@@ -3194,15 +3251,19 @@
         || target?.participation_state === 'active'
         || Number(position) < Number(round.current_route_position)
       );
+      const targetCanBeEditedByViewer = (
+        round.mode === 'scramble'
+        || String(participantId || '') === String(round.viewer_participant_id || '')
+        || Boolean(target?.round_only)
+      );
 
-      if (!canScore || !targetCanReceiveScore) {
+      if (!canScore || !targetCanReceiveScore || !targetCanBeEditedByViewer) {
         const readonly = document.createElement('div');
         readonly.className = 'live-score-readonly';
         readonly.textContent = route?.state === 'skipped'
           ? 'UNTRACKED'
           : (score ? String(score.strokes) : '—');
         card.append(readonly);
-        appendScoreResponsePanel(card, round, position, participantId, score);
         liveScoreArea.append(card);
         return;
       }
@@ -3296,20 +3357,7 @@
             skippedScrambleContributionPromptKey = '';
           }
 
-          const refreshedRound = await refreshRound(round.active_code);
-
-          if (
-            round.mode === 'scramble'
-            && Number(refreshedRound.current_route_position)
-              === Number(position)
-          ) {
-            window.requestAnimationFrame(() => {
-              scrambleContributionPanel?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-              });
-            });
-          }
+          await refreshRound(round.active_code);
           return true;
         } catch (error) {
           setRoundFlowMessage(error.message);
@@ -3387,7 +3435,6 @@
         card.append(remove);
       }
 
-      appendScoreResponsePanel(card, round, position, participantId, score);
       liveScoreArea.append(card);
     };
 
@@ -3397,7 +3444,14 @@
     }
 
     (round.participants || [])
-      .filter((participant) => participant.role === 'player')
+      .filter(
+        (participant) =>
+          participant.role === 'player'
+          && (
+            String(participant.id) === String(round.viewer_participant_id || '')
+            || Boolean(participant.round_only)
+          )
+      )
       .forEach((participant) => {
         const details = [];
         if (participant.round_only) details.push('OFFLINE');
@@ -3440,11 +3494,7 @@
       return;
     }
 
-    const teamScore = findScore(round, position);
-    if (
-      !teamScore
-      || skippedScrambleContributionPromptKey === promptKey
-    ) {
+    if (!scrambleContributionComposerOpen) {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
       if (scrambleContributionSkip) scrambleContributionSkip.hidden = true;
@@ -3463,7 +3513,7 @@
     );
     if (scrambleContributionSkip) {
       scrambleContributionSkip.hidden = !canEdit;
-      scrambleContributionSkip.textContent = 'SKIP CONTRIBUTIONS';
+      scrambleContributionSkip.textContent = 'DONE';
     }
 
     SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
@@ -3704,6 +3754,15 @@
 
   const renderLiveBanter = (round) => {
     if (!liveBanterFeed) return;
+    const reviewingHistory = Boolean(
+      liveBanterPanel?.classList.contains('is-fullscreen')
+      && (
+        liveBanterFeed.scrollHeight
+        - liveBanterFeed.scrollTop
+        - liveBanterFeed.clientHeight
+      ) > 32
+    );
+    const priorScrollTop = liveBanterFeed.scrollTop;
     liveBanterFeed.replaceChildren();
 
     const socialTypes = new Set([
@@ -3718,6 +3777,7 @@
       'score_report',
       'score_push',
       'score_derived',
+      'scramble_contribution_change',
       'round_end_result',
     ]);
 
@@ -3738,7 +3798,6 @@
 
         return Boolean(String(scoreFeedText(round, event) || '').trim());
       })
-      .slice(0, 8)
       .reverse();
 
     if (!rows.length) {
@@ -3823,11 +3882,41 @@
       bubble.textContent = scoreFeedText(round, event);
 
       content.append(meta, bubble);
+
+      if (eventType === 'score_report' || eventType === 'score_push') {
+        const scoreTargetId = String(
+          event.data?.player_participant_id || ''
+        );
+        const viewerId = String(round.viewer_participant_id || '');
+        const canRespond = (
+          round.viewer_role === 'player'
+          && (
+            round.mode === 'scramble'
+            || !scoreTargetId
+            || scoreTargetId !== viewerId
+          )
+        );
+        if (canRespond) {
+          const respond = document.createElement('button');
+          respond.type = 'button';
+          respond.className = 'live-score-respond';
+          respond.textContent = 'RESPOND';
+          respond.addEventListener('click', () => {
+            openScoreResponseSheet(round, event);
+          });
+          content.append(respond);
+        }
+      }
+
       row.append(avatar, content);
       liveBanterFeed.append(row);
     });
 
-    liveBanterFeed.scrollTop = liveBanterFeed.scrollHeight;
+    if (reviewingHistory) {
+      liveBanterFeed.scrollTop = priorScrollTop;
+    } else {
+      liveBanterFeed.scrollTop = liveBanterFeed.scrollHeight;
+    }
   };
 
   const appendLobbyBanterRow = ({
@@ -4690,6 +4779,10 @@
       || Number(viewedRoutePosition) === previousLivePosition
     );
 
+    if (shouldPlayHoleTransition) {
+      scrambleContributionComposerOpen = false;
+    }
+
     currentLobbyRound = round;
 
     if (
@@ -4737,6 +4830,18 @@
     const viewingLive = Number(viewedRoutePosition) === livePosition;
     const viewingPast = Number(viewedRoutePosition) < livePosition;
     const viewingFuture = Number(viewedRoutePosition) > livePosition;
+    const canUseLiveSocial = (
+      viewerIsActivePlayer(round)
+      && round.status === 'active'
+      && viewingLive
+    );
+    if (liveCalloutButton) liveCalloutButton.hidden = !canUseLiveSocial;
+    if (liveExcuseButton) liveExcuseButton.hidden = !canUseLiveSocial;
+    if (scrambleContributionOpen) {
+      scrambleContributionOpen.hidden = !(
+        canUseLiveSocial && round.mode === 'scramble'
+      );
+    }
 
     const spectatorCanJoinPlay = (
       round.status === 'active'
@@ -4832,11 +4937,13 @@
       backToLive.hidden = viewingLive;
     }
     if (advanceLiveHole) {
+      const stillMissing = missingScoresAtPosition(round, livePosition);
       const canAdvanceLive = (
         viewerIsActivePlayer(round)
         && round.status === 'active'
         && viewingLive
         && livePosition < length
+        && stillMissing.length > 0
       );
       advanceLiveHole.hidden = !canAdvanceLive;
       advanceLiveHole.disabled = false;
@@ -5371,7 +5478,7 @@
     const active = document.activeElement;
     if (active?.closest?.('.live-score-social-panel')) return true;
     return Boolean(
-      liveScoreArea?.querySelector(
+      scoreResponseSheetBody?.querySelector(
         '.live-score-social-panel [data-social-draft-dirty="true"]'
       )
     );
@@ -6154,30 +6261,10 @@
     }
   };
 
-  scrambleContributionSkip?.addEventListener('click', async () => {
-    if (
-      !currentLobbyRound
-      || viewedRoutePosition === null
-      || currentLobbyRound.mode !== 'scramble'
-    ) return;
-
-    const position = Number(viewedRoutePosition);
-    skippedScrambleContributionPromptKey =
-      `${currentLobbyRound.id}:${position}`;
+  scrambleContributionSkip?.addEventListener('click', () => {
+    scrambleContributionComposerOpen = false;
     if (scrambleContributionPanel) {
       scrambleContributionPanel.hidden = true;
-    }
-
-    const livePosition = Number(
-      currentLobbyRound.current_route_position
-      || currentLobbyRound.current_hole
-      || 1
-    );
-    const length = routeLength(currentLobbyRound);
-
-    if (position === livePosition && livePosition < length) {
-      await advanceSharedLiveHole();
-      skippedScrambleContributionPromptKey = '';
     }
   });
 
@@ -6448,7 +6535,8 @@
     (currentLobbyRound.participants || [])
       .filter(
         (participant) =>
-          String(participant.id) !== String(currentLobbyRound.viewer_participant_id)
+          participant.role === 'player'
+          && String(participant.id) !== String(currentLobbyRound.viewer_participant_id)
       )
       .forEach((participant) => {
         const option = document.createElement('option');
@@ -6477,22 +6565,22 @@
     setBagMessage('');
   };
 
-  const openBag = () => {
-    if (!bagModal || !currentLobbyRound || currentLobbyRound.status !== 'active') {
+  const openBag = (action) => {
+    if (
+      !bagModal
+      || !currentLobbyRound
+      || currentLobbyRound.status !== 'active'
+      || !viewerIsActivePlayer(currentLobbyRound)
+      || !['callout', 'excuse'].includes(action)
+    ) {
       return;
     }
 
     resetBagComposer();
     populateBagTargets();
-
-    const spectator = currentLobbyRound.viewer_role === 'spectator';
-    bagActionButtons.forEach((button) => {
-      const action = button.dataset.bagAction;
-      button.hidden = spectator && action !== 'open_mic';
-    });
-
     bagModal.hidden = false;
     document.body.classList.add('modal-open');
+    configureBagAction(action);
     bagClose?.focus();
   };
 
@@ -6503,63 +6591,30 @@
   };
 
   const configureBagAction = (action) => {
-    if (!bagForm || !bagActions) return;
+    if (!bagForm) return;
     currentBagAction = action;
-    bagActions.hidden = true;
+    if (bagActions) bagActions.hidden = true;
     bagForm.hidden = false;
     setBagMessage('');
 
     const config = {
       callout: {
-        title: 'CALL SOMEONE OUT',
-        submit: 'CALL THEM OUT',
+        title: 'CALL OUT',
+        submit: 'SEND IT',
         target: true,
         situation: true,
-        textLabel: 'ADD DETAILS',
+        textLabel: 'ADD YOUR OWN SHIT',
         placeholder: 'Optional. Make it personal.',
         requiredText: false,
       },
-      praise: {
-        title: 'NICE FUCKING SHOT',
-        submit: 'GIVE CREDIT',
-        target: true,
-        shot: true,
-        textLabel: 'ADD DETAILS',
-        placeholder: 'Optional. Try not to sound sincere.',
-        requiredText: false,
-      },
-      shot_call: {
-        title: 'CALL YOUR SHOT',
-        submit: 'PUT IT ON THE RECORD',
-        target: false,
-        textLabel: 'WHAT ARE YOU CALLING?',
-        placeholder: 'Example: I am carrying the bunker.',
-        requiredText: true,
-      },
-      challenge: {
-        title: "YOU WON'T",
-        submit: 'ISSUE THE CHALLENGE',
-        target: true,
-        textLabel: "WHAT WON'T THEY DO?",
-        placeholder: "Example: You won't go for the green.",
-        requiredText: true,
-      },
       excuse: {
-        title: 'EXCUSE DEPARTMENT',
-        submit: 'FILE THE EXCUSE',
+        title: 'MAKE EXCUSE',
+        submit: 'FILE THIS BULLSHIT',
         target: false,
         excuse: true,
         textLabel: 'YOUR OFFICIAL STATEMENT',
         placeholder: 'Optional additional bullshit.',
         requiredText: false,
-      },
-      open_mic: {
-        title: 'OPEN MIC',
-        submit: 'SAY IT',
-        target: false,
-        textLabel: 'MESSAGE',
-        placeholder: 'Up to 280 characters.',
-        requiredText: true,
       },
     }[action];
 
@@ -6643,6 +6698,38 @@
     }
   });
 
+  liveBanterExpand?.addEventListener('click', () => {
+    if (!liveBanterPanel) return;
+    const opening = !liveBanterPanel.classList.contains('is-fullscreen');
+    liveBanterPanel.classList.toggle('is-fullscreen', opening);
+    liveBanterExpand.textContent = opening ? 'CLOSE' : 'FULL SCREEN';
+    liveBanterExpand.setAttribute('aria-pressed', opening ? 'true' : 'false');
+    liveBanterExpand.setAttribute(
+      'aria-label',
+      opening
+        ? 'Close full-screen round banter'
+        : 'Open full-screen round banter'
+    );
+  });
+
+  scoreResponseClose?.addEventListener('click', closeScoreResponseSheet);
+  scoreResponseModal?.addEventListener('click', (event) => {
+    if (event.target === scoreResponseModal) closeScoreResponseSheet();
+  });
+
+  scrambleContributionOpen?.addEventListener('click', () => {
+    if (
+      !currentLobbyRound
+      || currentLobbyRound.mode !== 'scramble'
+      || viewedRoutePosition === null
+    ) return;
+    scrambleContributionComposerOpen = true;
+    renderScrambleContributions(
+      currentLobbyRound,
+      Number(viewedRoutePosition)
+    );
+  });
+
   liveNavMore?.addEventListener('click', () => {
     if (!liveMorePanel) return;
     const opening = liveMorePanel.hidden;
@@ -6664,18 +6751,13 @@
     });
   });
 
-  bagButton?.addEventListener('click', openBag);
+  liveCalloutButton?.addEventListener('click', () => openBag('callout'));
+  liveExcuseButton?.addEventListener('click', () => openBag('excuse'));
   bagClose?.addEventListener('click', closeBag);
   bagModal?.addEventListener('click', (event) => {
     if (event.target === bagModal) closeBag();
   });
-  bagFormCancel?.addEventListener('click', resetBagComposer);
-
-  bagActionButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      configureBagAction(button.dataset.bagAction);
-    });
-  });
+  bagFormCancel?.addEventListener('click', closeBag);
 
   bagForm?.addEventListener('submit', async (event) => {
     event.preventDefault();

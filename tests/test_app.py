@@ -63,15 +63,15 @@ def test_home_loads_pwa_shell():
     assert b"BACK TO LIVE" in response.data
     assert b"SET PAR" in response.data
     assert b"Talk your shit..." in response.data
-    assert b"BAG OF BULLSHIT" in response.data
+    assert b"BAG OF BULLSHIT" not in response.data
     assert b"THROW IN THE TOWEL" in response.data
     assert b"YEP. I'M DONE." in response.data
-    assert b"CALL SOMEONE OUT" in response.data
-    assert b"NICE FUCKING SHOT" in response.data
-    assert b"CALL YOUR SHOT" in response.data
-    assert b"YOU WON'T" in response.data
-    assert b"EXCUSE DEPARTMENT" in response.data
-    assert b"OPEN MIC" in response.data
+    assert b"CALL OUT" in response.data
+    assert b"NICE FUCKING SHOT" not in response.data
+    assert b"CALL YOUR SHOT" not in response.data
+    assert b"YOU WON'T" not in response.data
+    assert b"MAKE EXCUSE" in response.data
+    assert b"OPEN MIC" not in response.data
     assert b"SCRAMBLE CONTRIBUTIONS" in response.data
     assert b"FINISH THE DISASTER" in response.data
     assert b"FIX THE SCORECARD" in response.data
@@ -347,7 +347,7 @@ def test_round_polling_preserves_open_history_page():
     normal_render = block.index("renderRoundState(round)")
     assert history_guard < normal_render
 
-def test_score_entry_waits_for_explicit_next_hole():
+def test_score_entry_auto_advances_after_required_scores_are_complete():
     from pathlib import Path
 
     root = Path(__file__).resolve().parents[1]
@@ -358,8 +358,9 @@ def test_score_entry_waits_for_explicit_next_hole():
     end = store_source.index("    def remove_score(", start)
     block = store_source[start:end]
 
-    assert "auto_advance = None" in block
-    assert "_maybe_advance_active_route(" not in block
+    assert "auto_advance = self._maybe_advance_active_route(" in block
+    assert "scored_route_position=route_position" in block
+    assert "auto_advance = None" not in block
 
 
 def test_join_code_digits_escape_ios_17px_override():
@@ -1796,6 +1797,7 @@ def test_live_polling_does_not_rebuild_open_reactions_challenges_panel():
 
     assert "const liveScoreSocialInteractionInProgress = () =>" in source
     assert "active?.closest?.('.live-score-social-panel')" in source
+    assert "scoreResponseSheetBody?.querySelector" in source
     assert "data-social-draft-dirty" in source
     assert "liveScoreDraftInProgress()" in source
     assert "|| liveScoreSocialInteractionInProgress()" in source
@@ -2030,3 +2032,73 @@ def test_20260930_approved_escaped_last_banter_is_loaded():
     assert "banter.score.escaped_last.expansion.20260930.spouse.09" in ids
     assert "banter.score.escaped_last.expansion.20260930.both.10" not in ids
 
+
+
+def test_live_round_uses_fixed_chat_surface_and_direct_social_actions():
+    page = client().get("/")
+    css = client().get("/static/app.css")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert css.status_code == 200
+    assert script.status_code == 200
+
+    assert b'id="live-banter-expand"' in page.data
+    assert b'id="live-callout-button"' in page.data
+    assert b'id="live-excuse-button"' in page.data
+    assert b'id="score-response-modal"' in page.data
+    assert b'id="bag-of-bullshit-button"' not in page.data
+    assert b"BAG OF BULLSHIT" not in page.data
+
+    css_source = css.data.decode("utf-8")
+    assert "LIVE ROUND FIXED VIEWPORT + DIRECT SOCIAL FLOW" in css_source
+    assert ".round-flow-card-game.is-live-round" in css_source
+    assert "overflow: hidden !important;" in css_source
+    assert "#live-banter-panel .live-banter-feed" in css_source
+    assert "overflow-y: auto;" in css_source
+
+    source = script.data.decode("utf-8")
+    assert "openBag('callout')" in source
+    assert "openBag('excuse')" in source
+    assert "liveBanterPanel.classList.toggle('is-fullscreen'" in source
+
+
+def test_score_entry_is_own_score_or_round_only_proxy():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    assert store_source.count("players enter their own scores") == 2
+
+    source = client().get("/static/app.js").data.decode("utf-8")
+    assert "targetCanBeEditedByViewer" in source
+    assert "Boolean(target?.round_only)" in source
+
+
+def test_score_responses_open_from_feed_in_separate_sheet():
+    source = client().get("/static/app.js").data.decode("utf-8")
+    render_start = source.index("const renderLiveBanter =")
+    render_end = source.index("const appendLobbyBanterRow =", render_start)
+    feed_block = source[render_start:render_end]
+    score_start = source.index("const renderScoreCard =")
+    score_end = source.index("const SCRAMBLE_SHOT_TYPES", score_start)
+    score_block = source[score_start:score_end]
+
+    assert "openScoreResponseSheet(round, event)" in feed_block
+    assert "respond.textContent = 'RESPOND'" in feed_block
+    assert "appendScoreResponsePanel(" not in score_block
+    assert "const openScoreResponseSheet = (round, scoreEvent) =>" in source
+
+
+def test_scramble_contributions_are_available_before_team_score_and_feed_visible():
+    source = client().get("/static/app.js").data.decode("utf-8")
+    start = source.index("const renderScrambleContributions =")
+    end = source.index("const presentationText =", start)
+    block = source[start:end]
+
+    assert "scrambleContributionComposerOpen" in block
+    assert "if (!scrambleContributionComposerOpen)" in block
+    assert "if (\n      !teamScore" not in block
+    assert "'scramble_contribution_change'" in source
+    assert "scrambleContributionOpen?.addEventListener" in source

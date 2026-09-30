@@ -4108,7 +4108,13 @@ class RoundStore:
                 cursor.execute(
                     """
                     SELECT rp.role, rp.participation_state,
-                           rp.tracked_from_position, g.display_name
+                           rp.tracked_from_position, g.display_name,
+                           (
+                               g.username IS NULL
+                               AND g.password_hash IS NULL
+                               AND g.recovery_key_hash IS NULL
+                               AND g.recovery_key IS NULL
+                           ) AS round_only
                     FROM round_participants rp
                     JOIN golfers g ON g.id = rp.golfer_id
                     WHERE rp.id = %s AND rp.round_id = %s
@@ -4119,6 +4125,13 @@ class RoundStore:
                 if not target or target["role"] != "player":
                     raise DomainError(
                         "score target must be a player in this round"
+                    )
+                if (
+                    target_id != actor["id"]
+                    and not bool(target["round_only"])
+                ):
+                    raise PermissionDenied(
+                        "players enter their own scores"
                     )
                 scope = "player"
                 subject_name = target["display_name"]
@@ -4374,10 +4387,12 @@ class RoundStore:
                         },
                     )
 
-            # Score entry never advances the live round. The explicit
-            # NEXT HOLE action owns advancement so post-hole controls and
-            # between-hole transitions have a stable moment to run.
-            auto_advance = None
+            auto_advance = self._maybe_advance_active_route(
+                cursor,
+                round_row=round_row,
+                actor_participant_id=actor["id"],
+                scored_route_position=route_position,
+            )
 
             content_event = score_content_event(
                 mode=round_row["mode"],
@@ -4479,7 +4494,13 @@ class RoundStore:
                 )
                 cursor.execute(
                     """
-                    SELECT rp.role, g.display_name
+                    SELECT rp.role, g.display_name,
+                           (
+                               g.username IS NULL
+                               AND g.password_hash IS NULL
+                               AND g.recovery_key_hash IS NULL
+                               AND g.recovery_key IS NULL
+                           ) AS round_only
                     FROM round_participants rp
                     JOIN golfers g ON g.id = rp.golfer_id
                     WHERE rp.id = %s AND rp.round_id = %s
@@ -4490,6 +4511,13 @@ class RoundStore:
                 if not target or target["role"] != "player":
                     raise DomainError(
                         "score target must be a player in this round"
+                    )
+                if (
+                    target_id != actor["id"]
+                    and not bool(target["round_only"])
+                ):
+                    raise PermissionDenied(
+                        "players enter their own scores"
                     )
                 scope = "player"
                 subject_name = target["display_name"]
@@ -4617,12 +4645,14 @@ class RoundStore:
                     "cannot edit contributions on a skipped route position"
                 )
 
+            target_name = ""
             if target_id:
                 cursor.execute(
                     """
-                    SELECT role
-                    FROM round_participants
-                    WHERE id = %s AND round_id = %s
+                    SELECT rp.role, g.display_name
+                    FROM round_participants rp
+                    JOIN golfers g ON g.id = rp.golfer_id
+                    WHERE rp.id = %s AND rp.round_id = %s
                     """,
                     (target_id, round_uuid),
                 )
@@ -4631,6 +4661,7 @@ class RoundStore:
                     raise DomainError(
                         "contribution target must be a player in this round"
                     )
+                target_name = target["display_name"]
 
             cursor.execute(
                 """
@@ -4731,11 +4762,16 @@ class RoundStore:
                         if target_id
                         else None
                     ),
+                    "player_display_name": (
+                        target_name if target_id else None
+                    ),
                 },
                 content_event_key=content_event,
                 presentation_context={
                     "hole": hole_number,
                     "mode": round_row["mode"],
+                    "subject": target_name or "Nobody",
+                    "target": target_name or "Nobody",
                 },
             )
             return {
@@ -5147,6 +5183,17 @@ class RoundStore:
             participant = self._participant(cursor, round_uuid, golfer_uuid)
             validate_social_event(participant["role"], kind)
 
+            cursor.execute(
+                "SELECT display_name FROM golfers WHERE id = %s",
+                (golfer_uuid,),
+            )
+            actor_identity = cursor.fetchone()
+            actor_name = (
+                actor_identity["display_name"]
+                if actor_identity
+                else "Golfer"
+            )
+
             if round_row["status"] != "active":
                 if not (
                     round_row["status"] == "setup"
@@ -5172,6 +5219,7 @@ class RoundStore:
                 )
             hole_number = int(route_row["hole_number"])
 
+            target_name = ""
             target_value = payload.get("target_participant_id")
             if target_value is not None:
                 target_id = self._uuid(
@@ -5180,16 +5228,19 @@ class RoundStore:
                 )
                 cursor.execute(
                     """
-                    SELECT 1
-                    FROM round_participants
-                    WHERE id = %s AND round_id = %s
+                    SELECT g.display_name
+                    FROM round_participants rp
+                    JOIN golfers g ON g.id = rp.golfer_id
+                    WHERE rp.id = %s AND rp.round_id = %s
                     """,
                     (target_id, round_uuid),
                 )
-                if not cursor.fetchone():
+                target_identity = cursor.fetchone()
+                if not target_identity:
                     raise DomainError(
                         "target must be a participant in this round"
                     )
+                target_name = target_identity["display_name"]
                 payload["target_participant_id"] = str(target_id)
 
             if kind == "open_mic":
@@ -5228,6 +5279,10 @@ class RoundStore:
                 presentation_context={
                     "hole": hole_number if hole_number is not None else "",
                     "mode": round_row["mode"],
+                    "subject": (
+                        target_name if kind == "callout" else actor_name
+                    ),
+                    "target": target_name,
                 },
             )
 
