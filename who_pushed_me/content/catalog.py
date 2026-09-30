@@ -36,6 +36,22 @@ def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _read_banter_catalog() -> dict[str, Any]:
+    base = _read_json(CONTENT_DIR / "banter.json")
+    rows = list(base.get("banter") or [])
+    for path in sorted(CONTENT_DIR.glob("banter.*.json")):
+        part = _read_json(path)
+        if int(part.get("schema_version", 1)) != 1:
+            raise ContentError(
+                f"unsupported banter part schema_version: {path.name}"
+            )
+        rows.extend(part.get("banter") or [])
+    return {
+        "schema_version": int(base.get("schema_version", 0)),
+        "banter": rows,
+    }
+
+
 class EventRegistry:
     def __init__(self, data: Mapping[str, Any]) -> None:
         self.schema_version = int(data.get("schema_version", 0))
@@ -156,7 +172,7 @@ class ContentCatalog:
         return cls(
             EventRegistry.load(),
             _read_json(CONTENT_DIR / "themes.json"),
-            _read_json(CONTENT_DIR / "banter.json"),
+            _read_banter_catalog(),
             _read_json(CONTENT_DIR / "mascots.json"),
             _read_json(ASSET_MANIFEST),
         )
