@@ -15894,6 +15894,131 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.general.01",
+      "text": "{subject} escaped last place. Don't celebrate too hard—you just found someone shittier.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.general.02",
+      "text": "{subject} climbed out of last. Somewhere below, a new disaster has been crowned.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.general.03",
+      "text": "Last place no longer belongs to {subject}. That's less a comeback and more an evacuation.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.general.04",
+      "text": "{subject} escaped the basement. The bar was underground and they still barely cleared it.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.general.05",
+      "text": "{subject} is out of last. Hang the fucking banner: NOT THE WORST.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.drinking.06",
+      "text": "{subject} escaped last. Raise a beer to the poor bastard who somehow made you look competent.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.drinking.07",
+      "text": "Out of last, {subject}. Apparently enough beer can make “not last” feel like a fucking trophy.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.spouse.08",
+      "text": "{subject} escaped last. Their {spouse} can downgrade tonight's disappointment from catastrophic to routine.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.escaped_last.expansion.20260930.spouse.09",
+      "text": "{subject} is no longer last. Somewhere, {spouse} just felt the faintest flicker of respect and immediately got over it.",
+      "events": [
+        "score.derived.escaped_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
