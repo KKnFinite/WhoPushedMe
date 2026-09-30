@@ -1770,7 +1770,8 @@ def test_round_banter_uses_one_score_row_per_player_hole():
     banter_block = source[start:end]
 
     assert "seenScoreKeys" in banter_block
-    assert "if (eventType === 'score_derived') return false;" in banter_block
+    assert "'score_derived'" in banter_block
+    assert "if (eventType === 'score_derived') return false;" not in banter_block
     assert "if (!socialTypes.has(eventType)) return false;" in banter_block
     assert "Boolean(presentation.banter?.text)" not in banter_block
     assert "Boolean(presentation.mascot?.copy)" not in banter_block
