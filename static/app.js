@@ -3717,6 +3717,7 @@
       'score_challenge',
       'score_report',
       'score_push',
+      'score_derived',
       'round_end_result',
     ]);
 
@@ -3724,7 +3725,6 @@
     const rows = (round.events || [])
       .filter((event) => {
         const eventType = String(event.event_type || '');
-        if (eventType === 'score_derived') return false;
         if (!socialTypes.has(eventType)) return false;
 
         if (eventType === 'score_report' || eventType === 'score_push') {
