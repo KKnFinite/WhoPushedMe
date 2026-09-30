@@ -2007,3 +2007,15 @@ def test_20260930_approved_lost_lead_banter_is_loaded():
     assert "banter.score.lost_lead.expansion.20260930.both.09" not in ids
     assert "banter.score.lost_lead.expansion.20260930.both.20" not in ids
 
+def test_20260930_approved_entered_last_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("score.derived.entered_last")
+    assert len(rows) == 13
+    ids = {row["id"] for row in rows}
+    assert "banter.score.entered_last.expansion.20260930.general.01" in ids
+    assert "banter.score.entered_last.expansion.20260930.both.13" in ids
+    assert "banter.score.entered_last.expansion.20260930.spouse.10" not in ids
+    assert "banter.score.entered_last.expansion.20260930.spouse.11" not in ids
+
