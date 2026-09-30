@@ -12473,6 +12473,1935 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.01",
+      "text": "Par. You successfully completed a golf hole without creating paperwork.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.02",
+      "text": "Par. Competence briefly passed through your body and kept moving.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.03",
+      "text": "Par. Look at you, doing exactly what the number on the sign suggested.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.04",
+      "text": "Par. Nobody is impressed, but for once nobody is embarrassed either.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.05",
+      "text": "Par. You met the bare fucking requirement. Try not to throw yourself a parade.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.06",
+      "text": "Par. You found the narrow strip between talent and disaster.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.07",
+      "text": "Par. Perfectly average. Frame the scorecard, you fucking legend.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.general.08",
+      "text": "Par. You made it through an entire hole without turning the scorecard into a fucking crime scene.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.drinking.09",
+      "text": "Par. The beer-to-swing ratio remains suspiciously effective.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.drinking.10",
+      "text": "Par. Apparently the sweet spot is exactly this many beers deep.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.drinking.11",
+      "text": "Par. Apparently you’ve reached the exact blood-alcohol level where your golf stops looking completely fucking hopeless.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.spouse.12",
+      "text": "Par. Your {spouse} will be thrilled to hear you spent five hours away from home accomplishing exactly what was expected.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.spouse.13",
+      "text": "Par. Your {spouse} gets more excited when you finish something around the house, but sure, celebrate this.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.spouse.14",
+      "text": "Par. Nice controlled finish. Your {spouse} would probably like to know you’re capable of those.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.par.expansion.20260929.both.15",
+      "text": "Par. Tell your {spouse} the drinking is helping your golf. This should be a productive conversation.",
+      "events": [
+        "score.report.individual.par",
+        "score.report.scramble.par"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.01",
+      "text": "Bogey. One extra stroke. Because apparently doing the minimum correctly was asking too fucking much.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.02",
+      "text": "Bogey. You were almost competent. Then you remembered who you are.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.03",
+      "text": "Bogey. The hole offered you par and you politely fucked it up.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.04",
+      "text": "Bogey. Close enough to taste par. Far enough away to still suck.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.05",
+      "text": "Bogey. One stupid decision away from respectable. There’s your autobiography.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.06",
+      "text": "Bogey. You dragged a perfectly salvageable hole behind the shed and shot it.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.07",
+      "text": "Bogey. The good news is it was only one over. The bad news is we watched all of it.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.08",
+      "text": "Bogey. Almost good golf. Which is apparently your specialty.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.09",
+      "text": "Bogey. You had par in your hands and dropped it like everything else important.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.12",
+      "text": "Bogey. {par} was the assignment. {strokes} was your answer. Reading comprehension remains a concern.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.13",
+      "text": "Bogey. Nothing catastrophic. Just another small contribution to a deeply mediocre round.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.14",
+      "text": "Bogey. You didn’t implode. You just leaked competence slowly.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.16",
+      "text": "Bogey. You played just well enough to make the failure irritating.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.17",
+      "text": "Bogey. That hole was begging to be saved. You declined.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.18",
+      "text": "Bogey. One more stroke than necessary. Story of your fucking life.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.22",
+      "text": "Bogey. You made mediocrity look exhausting.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.23",
+      "text": "Bogey. Congratulations on losing a fistfight to basic course management.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.general.25",
+      "text": "Bogey. Another hole survives your attempt to play it properly.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.27",
+      "text": "Bogey. Maybe the next beer contains the missing stroke. Science demands another sample.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.28",
+      "text": "Bogey. You’re one over and several drinks into pretending this is fun.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.29",
+      "text": "Bogey. That wasn’t the beer’s fault. The beer would like that entered into the record.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.30",
+      "text": "Bogey. You’re drinking like a scratch golfer and scoring like someone who found clubs in a dumpster.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.31",
+      "text": "Bogey. One over par. Several over the recommended number of beverages.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.32",
+      "text": "Bogey. The alcohol is lowering expectations faster than it’s lowering your score.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.33",
+      "text": "Bogey. At this rate the only thing getting under par today is your decision-making.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.drinking.34",
+      "text": "Bogey. Pour another one. Your golf clearly isn’t fixing itself sober.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.35",
+      "text": "Bogey. Your {spouse} has seen you come up one stroke short before.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.36",
+      "text": "Bogey. Almost finished properly. Your {spouse} just rolled their fucking eyes.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.37",
+      "text": "Bogey. You were one stroke away from satisfaction. Your {spouse} knows that disappointment.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.38",
+      "text": "Bogey. You got close, rushed the finish, and disappointed everyone. Familiar territory for your {spouse}.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.39",
+      "text": "Bogey. One unnecessary stroke at the end. Your {spouse} says at least you’re consistent.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.40",
+      "text": "Bogey. You spent the whole hole working toward a decent finish and still blew it. Your {spouse} has heard this story before.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.41",
+      "text": "Bogey. You almost gave everyone a satisfying finish, then needed one more stroke. Your {spouse} is fucking stunned.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.spouse.42",
+      "text": "Bogey. Par was right there. So was competence. Your {spouse} stopped waiting for either years ago.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey.expansion.20260929.both.45",
+      "text": "Bogey. One over par, several beers down, and your {spouse} is probably enjoying the silence at home.",
+      "events": [
+        "score.report.individual.bogey",
+        "score.report.scramble.bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.01",
+      "text": "Double bogey. One mistake would’ve been understandable. You ordered the fucking combo meal.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.02",
+      "text": "Double bogey. Two extra strokes because apparently failure needed a sequel.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.03",
+      "text": "Double bogey. You didn’t lose control all at once. You carefully fucked it up in stages.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.04",
+      "text": "Double bogey. {par} was the goal. {strokes} is what happens when confidence outruns ability.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.05",
+      "text": "Double bogey. Somewhere around the first bad shot you had options. You chose violence against your own scorecard.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.06",
+      "text": "Double bogey. That hole went from salvageable to fucking condemned.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.08",
+      "text": "Double bogey. You took a perfectly normal golf hole and turned it into a hostage situation.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.10",
+      "text": "Double bogey. You could’ve stopped the bleeding. Instead you apparently wanted to see how much blood was in there.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.11",
+      "text": "Double bogey. Two extra strokes and somehow every one of them looked necessary after what came before.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.13",
+      "text": "Double bogey. The first fuckup was golf. The second one was a lifestyle choice.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.14",
+      "text": "Double bogey. Your scorecard just sighed.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.15",
+      "text": "Double bogey. You didn’t play the hole. You survived an incident.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.16",
+      "text": "Double bogey. That hole had more bad decisions than a bachelor party with a company credit card.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.general.18",
+      "text": "Double bogey. Two over par and somehow still cheaper than whatever lesson you clearly need.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.drinking.19",
+      "text": "Double bogey. Time for another beer. At least one part of this round should improve.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.drinking.20",
+      "text": "Double bogey. Your golf is deteriorating at roughly the same rate as the cooler inventory.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.drinking.21",
+      "text": "Double bogey. Two over. Pour two fingers and call it course management.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.drinking.22",
+      "text": "Double bogey. The beer didn’t cause that. Don’t drag innocent beverages into your bullshit.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.drinking.23",
+      "text": "Double bogey. You’re getting worse, but thankfully also less capable of caring.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.24",
+      "text": "Double bogey. Two extra strokes before you finally finished. Your {spouse} just whispered, “Sounds about right.”",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.25",
+      "text": "Double bogey. You kept fucking around long after the hole was ready for you to finish. Your {spouse} knows the routine.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.27",
+      "text": "Double bogey. You started confidently, lost the plot, and finished badly. Your {spouse} calls that Tuesday.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.28",
+      "text": "Double bogey. Another disappointing finish after way too much unnecessary movement. Your {spouse} sends condolences.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.29",
+      "text": "Double bogey. The hole expected less from you and was still somehow disappointed. Your {spouse} understands.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.spouse.30",
+      "text": "Double bogey. You spent all that time working the hole just to leave everyone unsatisfied. Your {spouse} has entered the chat.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.double.expansion.20260929.both.32",
+      "text": "Double bogey. Your golf needs fewer strokes, your drink needs more, and your {spouse} probably needs a weekend away from both of you.",
+      "events": [
+        "score.report.individual.double_bogey",
+        "score.report.scramble.double_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.01",
+      "text": "Triple bogey. At some point this stopped being golf and became an emergency response exercise.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.02",
+      "text": "Triple bogey. Three extra strokes. You didn’t make a mistake—you built a fucking franchise.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.03",
+      "text": "Triple bogey. {par} was the assignment. {strokes} is what happens when nobody takes your clubs away.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.04",
+      "text": "Triple bogey. The first bad shot was unfortunate. Everything after that was you doubling down on stupid.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.05",
+      "text": "Triple bogey. You didn’t blow up the hole. You demolished it, salted the earth, and billed us for cleanup.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.06",
+      "text": "Triple bogey. Three over par. Somewhere a beginner just watched that and gained confidence.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.07",
+      "text": "Triple bogey. You found three completely different ways to make the same hole hate you.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.08",
+      "text": "Triple bogey. That score needs a warning label and a hazmat team.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.general.09",
+      "text": "Triple bogey. By the end, even the hole wanted you to just pick the fucking ball up.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.drinking.10",
+      "text": "Triple bogey. Three over. The only reasonable next shot is poured into a glass.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.drinking.11",
+      "text": "Triple bogey. Your score is climbing faster than your bar tab, and that’s saying something.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.drinking.12",
+      "text": "Triple bogey. At this point the beer isn’t hurting your game. It’s providing emotional support.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.spouse.13",
+      "text": "Triple bogey. You needed three extra strokes to finally finish. Your {spouse} just laughed way too hard.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.spouse.14",
+      "text": "Triple bogey. Long, messy, disappointing finish. Your {spouse} says at least golf is consistent.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.triple.expansion.20260929.spouse.15",
+      "text": "Triple bogey. You kept poking around the hole long after everybody else wanted this over. Your {spouse} knows the feeling.",
+      "events": [
+        "score.report.individual.triple_bogey",
+        "score.report.scramble.triple_bogey"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.general.01",
+      "text": "Quad-plus. {par} was the target. {strokes} is a fucking cry for help.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.general.02",
+      "text": "Quad-plus. We stopped counting mistakes and started documenting the incident.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.general.03",
+      "text": "Quad-plus. The hole didn’t beat you. It stripped you for parts and left the chassis by the cart path.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.general.04",
+      "text": "Quad-plus. At this point your scorecard should just say “something terrible happened here.”",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.drinking.05",
+      "text": "Quad-plus. Forget swing thoughts. Find the beverage cart and start the recovery process.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.spouse.06",
+      "text": "Quad-plus. That took way too many strokes and still ended badly. Your {spouse} is trying very hard not to make this about your sex life.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.quad.expansion.20260929.spouse.07",
+      "text": "Quad-plus. You spent forever trying to find the hole and still made a complete fucking mess of it. Your {spouse} has no comment for legal reasons.",
+      "events": [
+        "score.report.individual.quad_plus",
+        "score.report.scramble.quad_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.01",
+      "text": "Birdie. Holy shit, an actual good golf shot survived long enough to become a score.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.02",
+      "text": "Birdie. One under. Try not to ruin the moment by explaining how you meant to do it.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.03",
+      "text": "Birdie. Apparently competence wasn’t completely out of the question.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.04",
+      "text": "Birdie. You finally made the scorecard look like it belongs to someone who plays golf.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.05",
+      "text": "Birdie. One under par. Somebody check the cup for evidence of tampering.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.08",
+      "text": "Birdie. You beat the hole by one. The hole is requesting a recount.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.09",
+      "text": "Birdie. Don’t look now, but your round briefly stopped being embarrassing.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.10",
+      "text": "Birdie. One under. Screenshot it before the rest of the round corrects the statistical anomaly.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.general.11",
+      "text": "Birdie. For one beautiful hole, nobody needed to lie about your ability.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.drinking.12",
+      "text": "Birdie. Whatever you’re drinking, maintain the dosage.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.drinking.13",
+      "text": "Birdie. One under. The beverage cart has officially been promoted to swing coach.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.drinking.14",
+      "text": "Birdie. Apparently your golf gets better right before your judgment gets worse.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.drinking.15",
+      "text": "Birdie. Drink another one immediately. We finally have a scientifically promising data point.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.spouse.16",
+      "text": "Birdie. One under. Your {spouse} is about to hear this story like you just won the fucking Masters.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.spouse.17",
+      "text": "Birdie. You finally performed under pressure. Your {spouse} would like to know where the hell that’s been.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.spouse.18",
+      "text": "Birdie. Nice finish. Your {spouse} is impressed you can find the hole that efficiently when witnesses are present.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie.expansion.20260929.spouse.19",
+      "text": "Birdie. One under par and suddenly you’ve got the confidence of someone your {spouse} absolutely does not recognize.",
+      "events": [
+        "score.report.individual.birdie",
+        "score.report.scramble.birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.general.01",
+      "text": "Ace. What the actual fuck. You just removed every opportunity you normally have to screw up the hole.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.general.02",
+      "text": "Hole-in-one. One swing, zero recovery shots, and absolutely no explanation for how your dumb ass pulled that off.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.general.03",
+      "text": "Ace. Everybody witnessed it, so unfortunately we have to give you credit.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.general.04",
+      "text": "Hole-in-one. You’ve peaked. Everything you do in golf from this exact moment forward is just the decline.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.drinking.05",
+      "text": "Ace. Drinks are on you. That’s golf law, and for once your terrible financial decisions are mandatory.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.drinking.06",
+      "text": "Hole-in-one. Start drinking now, because sober you is never going to tell this story with the level of bullshit it deserves.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.spouse.07",
+      "text": "Ace. One stroke and straight into the hole. Your {spouse} is wondering why golf gets the fucking miracle.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.ace.expansion.20260929.spouse.08",
+      "text": "Hole-in-one. Fast, accurate, and finished in one stroke. Your {spouse} would like to file a formal complaint about selective performance.",
+      "events": [
+        "score.report.individual.ace",
+        "score.report.scramble.ace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.general.01",
+      "text": "Albatross. Three under on one hole. That’s not golf, that’s a fucking clerical error.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.general.02",
+      "text": "Albatross. Somebody check the scorecard, the cup, and probably reality itself.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.general.03",
+      "text": "Albatross. You just did something rare enough that nobody here is qualified to explain it.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.drinking.04",
+      "text": "Albatross. Three under. Whatever you’re drinking is now considered performance-enhancing equipment.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.spouse.05",
+      "text": "Albatross. Three under on one hole. Your {spouse} is about to hear this story until one of you dies.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.albatross.expansion.20260929.spouse.06",
+      "text": "Albatross. You finally pulled off something unbelievably rare. Your {spouse} would like to know why none of that magic happens at home.",
+      "events": [
+        "score.report.individual.albatross",
+        "score.report.scramble.albatross"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

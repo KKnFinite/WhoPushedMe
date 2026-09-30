@@ -1884,3 +1884,37 @@ def test_quad_plus_approved_copy_does_not_duplicate_score_heading():
     assert response.status_code == 200
     source = response.data.decode("utf-8")
     assert "? stripScoreLead(rawPresentationComment, event)" in source
+
+def test_20260929_approved_score_banter_expansion_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    expected = {
+        "score.report.individual.par": 60,
+        "score.report.individual.bogey": 49,
+        "score.report.individual.double_bogey": 39,
+        "score.report.individual.triple_bogey": 28,
+        "score.report.individual.quad_plus": 24,
+        "score.report.individual.birdie": 37,
+        "score.report.individual.ace": 10,
+        "score.report.individual.albatross": 8,
+    }
+    for event_key, expected_count in expected.items():
+        assert len(catalog.eligible_banter(event_key)) == expected_count
+
+    all_rows = catalog.banter
+    loaded_ids = {
+        row["id"]
+        for row in all_rows
+        if ".expansion.20260929." in row["id"]
+    }
+    assert len(loaded_ids) == 129
+
+    first_birdie_rows = [
+        row for row in all_rows
+        if "score.derived.first_birdie" in row.get("events", [])
+        and ".expansion.20260929." in row["id"]
+    ]
+    assert first_birdie_rows == []
+
+
