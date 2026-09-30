@@ -2117,3 +2117,33 @@ def test_20260930_approved_score_raised_banter_is_loaded():
         assert "banter.score.push.raised.expansion.20260930.general.01" in ids
         assert "banter.score.push.raised.expansion.20260930.drinking.10" in ids
 
+def test_20260930_approved_score_lowered_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    for event_key in (
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered",
+    ):
+        rows = catalog.eligible_banter(event_key)
+        assert len(rows) == 10
+        ids = {row["id"] for row in rows}
+        assert "banter.score.push.lowered.expansion.20260930.general.01" in ids
+        assert "banter.score.push.lowered.expansion.20260930.general.06" in ids
+        assert "banter.score.push.lowered.expansion.20260930.drinking.09" in ids
+        assert "banter.score.push.lowered.expansion.20260930.spouse.10" in ids
+
+    text_by_id = {
+        row["id"]: row["text"]
+        for row in catalog.eligible_banter("score.push.individual.lowered")
+    }
+    assert text_by_id[
+        "banter.score.push.lowered.expansion.20260930.general.06"
+    ] == "Score lowered. {subject} has successfully appealed the sentence."
+    assert text_by_id[
+        "banter.score.push.lowered.expansion.20260930.drinking.09"
+    ] == (
+        "{subject} dropped the score from {old_score} to {new_score}. "
+        "Apparently the beer was overcounting this time."
+    )
+
