@@ -2147,3 +2147,25 @@ def test_20260930_approved_score_lowered_banter_is_loaded():
         "Apparently the beer was overcounting this time."
     )
 
+def test_20260930_approved_old_hole_score_push_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    expected = {
+        "score.push.individual.old_hole_raised": 9,
+        "score.push.scramble.old_hole_raised": 9,
+        "score.push.individual.old_hole_lowered": 10,
+        "score.push.scramble.old_hole_lowered": 10,
+    }
+    for event_key, count in expected.items():
+        assert len(catalog.eligible_banter(event_key)) == count
+
+    raised_ids = {
+        row["id"]
+        for row in catalog.eligible_banter(
+            "score.push.individual.old_hole_raised"
+        )
+    }
+    assert "banter.score.push.old_hole_raised.20260930.drinking.09" in raised_ids
+    assert "banter.score.push.old_hole_raised.20260930.spouse.10" not in raised_ids
+
