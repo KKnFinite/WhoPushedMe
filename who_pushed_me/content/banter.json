@@ -14664,6 +14664,91 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.general.01",
+      "text": "Three birdies in a row. Okay, this has gone from funny to deeply fucking suspicious.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.general.02",
+      "text": "Birdie streak. Three straight holes under par. Either you found your swing or somebody replaced you at the turn.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.general.03",
+      "text": "Three birdies running. Enjoy the greatest fifteen minutes your golf game may ever fucking experience.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.drinking.04",
+      "text": "Three straight birdies. Whatever you’re drinking is now locked under laboratory conditions. Do not alter the formula.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.spouse.05",
+      "text": "Three birdies in a row. Your {spouse} is about to spend the next week listening to you explain how you were “in the fucking zone.”",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.birdie_streak_3_plus.expansion.20260930.both.06",
+      "text": "Three straight birdies. Keep drinking, keep swinging, and absolutely do not let your {spouse} know this is the most focused you’ve been all month.",
+      "events": [
+        "score.derived.birdie_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
