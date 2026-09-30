@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.01",
+      "text": "{subject} went back to hole {hole} and dropped {old_score} to {new_score}. A rare victory for the scorecard.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.02",
+      "text": "Historical correction: {subject} found a missing stroke on hole {hole}. The past just got slightly less embarrassing.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.03",
+      "text": "{subject} reopened hole {hole} and somehow made the damage smaller. Weird day.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.04",
+      "text": "Hole {hole} has been revised from {old_score} to {new_score}. The audit finally did something useful.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.05",
+      "text": "{subject} dug through the old scorecard and found a stroke to give back. {old_score} → {new_score}.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.06",
+      "text": "Correction from the archives: {subject} is now at {new_score} on hole {hole}. Somebody check if miracles are legal.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.07",
+      "text": "{subject} just improved a mistake from the past. Annoying, but technically impressive.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.general.08",
+      "text": "Old hole, less damage. {subject} lowered {old_score} to {new_score} on hole {hole}.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.drinking.09",
+      "text": "{subject} went back and removed a stroke on hole {hole}. Apparently the beer finally remembered the truth.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_lowered.20260930.drinking.10",
+      "text": "{subject} corrected the old score down. Maybe the beer wasn’t lying after all.",
+      "events": [
+        "score.push.individual.old_hole_lowered",
+        "score.push.scramble.old_hole_lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
