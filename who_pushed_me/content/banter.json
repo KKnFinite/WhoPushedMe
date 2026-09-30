@@ -14931,6 +14931,242 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.01",
+      "text": "Blowup hole. That wasn’t golf. That was a controlled demolition with worse planning.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.02",
+      "text": "Blowup hole. You didn’t lose a few strokes. You opened the fucking floodgates.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.03",
+      "text": "Blowup hole. Congratulations, you just turned one bad decision into an entire fucking documentary.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.04",
+      "text": "Blowup hole. Somewhere between the first mistake and the last one, common sense packed its shit and left.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.06",
+      "text": "Blowup hole. We’re going to need a bigger scorecard and a smaller ego.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.07",
+      "text": "Blowup hole. That started as golf and ended as evidence.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.08",
+      "text": "Blowup hole. You found the exact moment to stop digging and immediately ordered a fucking excavator.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.09",
+      "text": "Blowup hole. Your round just took a shit so violent the leaderboard felt it.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.10",
+      "text": "Blowup hole. There are car crashes with cleaner recoveries than whatever the fuck that was.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.general.11",
+      "text": "Blowup hole. You didn’t make one mistake. You assembled a fucking collection.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.drinking.12",
+      "text": "Blowup hole. Find a drink. Not because it’ll help—because remembering that shit clearly would be cruel.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.drinking.13",
+      "text": "Blowup hole. The beer cart just got promoted from refreshment service to grief counselor.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.drinking.14",
+      "text": "Blowup hole. That score deserves something stronger than whatever the hell you’ve been drinking.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.spouse.15",
+      "text": "Blowup hole. Your {spouse} has watched you turn small problems into giant fucking disasters before, so at least someone feels at home.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.spouse.16",
+      "text": "Blowup hole. You completely lost control, kept going, and made everything worse. Your {spouse} just called that “on brand.”",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.spouse.17",
+      "text": "Blowup hole. That was long, messy, expensive, and humiliating. Your {spouse} says congratulations on bringing date night energy to the golf course.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.blowup_hole.expansion.20260930.both.18",
+      "text": "Blowup hole. Start drinking now. By the time you explain this shit to your {spouse}, maybe even you’ll believe the lie.",
+      "events": [
+        "score.derived.blowup_hole"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

@@ -1959,4 +1959,15 @@ def test_20260930_approved_bogey_streak_banter_is_loaded():
     assert "banter.score.bogey_streak_3_plus.expansion.20260930.both.13" in ids
     assert "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.08" in ids
 
+def test_20260930_approved_blowup_hole_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("score.derived.blowup_hole")
+    assert len(rows) == 19
+    ids = {row["id"] for row in rows}
+    assert "banter.score.blowup_hole.expansion.20260930.general.01" in ids
+    assert "banter.score.blowup_hole.expansion.20260930.both.18" in ids
+    assert "banter.score.blowup_hole.expansion.20260930.general.05" not in ids
+
 
