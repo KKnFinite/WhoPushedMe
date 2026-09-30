@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.01",
+      "text": "{subject} went back to hole {hole} and changed {old_score} to {new_score}. The past just got shittier.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.02",
+      "text": "Historical correction: {subject} found another stroke on hole {hole}. Apparently the disaster had a sequel.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.03",
+      "text": "{subject} reopened hole {hole} and added a stroke. Even the old mistakes are still fucking growing.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.04",
+      "text": "Hole {hole} has been revised from {old_score} to {new_score}. {subject} somehow made yesterday’s garbage worse.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.05",
+      "text": "{subject} went digging through the old scorecard and found another fucking stroke. {old_score} → {new_score}.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.06",
+      "text": "Correction from the archives: {subject} now has {new_score} on hole {hole}. The evidence aged terribly.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.07",
+      "text": "{subject} just made hole {hole} worse after the fact. That takes commitment to sucking.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.general.08",
+      "text": "Old hole, new damage. {subject} raised {old_score} to {new_score} on hole {hole}.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.old_hole_raised.20260930.drinking.09",
+      "text": "{subject} went back and added a stroke on hole {hole}. Apparently the beer finally returned the missing memory.",
+      "events": [
+        "score.push.individual.old_hole_raised",
+        "score.push.scramble.old_hole_raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
