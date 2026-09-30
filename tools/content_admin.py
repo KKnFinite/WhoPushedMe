@@ -71,6 +71,13 @@ def _write(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
+def _banter_paths() -> list[Path]:
+    return [
+        CONTENT_DIR / "banter.json",
+        *sorted(CONTENT_DIR.glob("banter.*.json")),
+    ]
+
+
 def _pascal_slug(value: str) -> str:
     words = re.findall(r"[A-Za-z0-9]+", value)
     if not words:
@@ -544,14 +551,30 @@ def cmd_list_banter(args: argparse.Namespace) -> None:
 
 
 def cmd_remove_banter(args: argparse.Namespace) -> None:
-    path = CONTENT_DIR / "banter.json"
-    data = _read(path)
-    rows = list(data.get("banter") or [])
-    target = next(
-        (row for row in rows if row.get("id") == args.content_id),
-        None,
-    )
-    if target is None:
+    path = None
+    data = None
+    rows = []
+    target = None
+
+    for candidate in _banter_paths():
+        candidate_data = _read(candidate)
+        candidate_rows = list(candidate_data.get("banter") or [])
+        candidate_target = next(
+            (
+                row
+                for row in candidate_rows
+                if row.get("id") == args.content_id
+            ),
+            None,
+        )
+        if candidate_target is not None:
+            path = candidate
+            data = candidate_data
+            rows = candidate_rows
+            target = candidate_target
+            break
+
+    if target is None or path is None or data is None:
         raise ContentError(f"banter id not found: {args.content_id}")
 
     if not args.yes:
@@ -568,7 +591,6 @@ def cmd_remove_banter(args: argparse.Namespace) -> None:
     _write(path, data)
     ContentCatalog.load().validate()
     print(f"Removed {args.content_id}")
-
 
 def cmd_add_banter(args: argparse.Namespace) -> None:
     catalog = ContentCatalog.load()
@@ -591,7 +613,7 @@ def cmd_add_banter(args: argparse.Namespace) -> None:
     path = CONTENT_DIR / "banter.json"
     data = _read(path)
     rows = list(data.get("banter") or [])
-    if any(row.get("id") == content_id for row in rows):
+    if any(row.get("id") == content_id for row in catalog.banter):
         raise ContentError(f"banter id already exists: {content_id}")
 
     rows.append(
