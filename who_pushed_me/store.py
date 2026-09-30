@@ -5200,7 +5200,7 @@ class RoundStore:
                     and kind == "open_mic"
                 ):
                     raise DomainError(
-                        "Bag of Bullshit is only available during an active round"
+                        "Live social actions are only available during an active round"
                     )
 
             route_position = (

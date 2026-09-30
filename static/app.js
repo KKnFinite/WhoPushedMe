@@ -6588,6 +6588,7 @@
     if (!bagModal) return;
     bagModal.hidden = true;
     resetBagComposer();
+    document.body.classList.remove('modal-open');
   };
 
   const configureBagAction = (action) => {
