@@ -14402,6 +14402,101 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.general.01",
+      "text": "First birdie. Took you long enough to prove you weren’t just trespassing with golf clubs.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.general.02",
+      "text": "First birdie. Holy shit, the scorecard finally has evidence you know what game you’re playing.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.general.03",
+      "text": "First birdie. There it is. We were starting to think “under par” was just something better golfers told you about.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.general.04",
+      "text": "First birdie. One good hole and suddenly you’re walking around like the previous disasters have been fucking expunged.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.general.05",
+      "text": "First birdie. Congratulations. You’ve officially delayed the complete collapse of your self-esteem.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.drinking.06",
+      "text": "First birdie. Whatever drink you’re on right now, mark the fucking can. Apparently that’s the dosage.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_birdie.expansion.20260929.spouse.08",
+      "text": "First birdie. You finally performed when it mattered. Your {spouse} would like to discuss why golf apparently gets priority access to that feature.",
+      "events": [
+        "score.derived.first_birdie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

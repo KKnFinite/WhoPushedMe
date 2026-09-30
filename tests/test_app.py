@@ -1908,13 +1908,14 @@ def test_20260929_approved_score_banter_expansion_is_loaded():
         for row in all_rows
         if ".expansion.20260929." in row["id"]
     }
-    assert len(loaded_ids) == 129
+    assert len(loaded_ids) == 136
 
     first_birdie_rows = [
         row for row in all_rows
         if "score.derived.first_birdie" in row.get("events", [])
         and ".expansion.20260929." in row["id"]
     ]
-    assert first_birdie_rows == []
+    assert len(first_birdie_rows) == 7
+    assert len(catalog.eligible_banter("score.derived.first_birdie")) == 9
 
 
