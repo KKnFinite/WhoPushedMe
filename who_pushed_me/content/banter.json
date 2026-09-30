@@ -14749,6 +14749,173 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.01",
+      "text": "Three bogeys in a row. At this point “one bad hole” has officially become a fucking personality trait.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.02",
+      "text": "Bogey streak. Three straight holes of almost being good enough. Inspirational stuff.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.03",
+      "text": "Three bogeys running. You’re not falling apart dramatically. You’re fucking decomposing one stroke at a time.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.04",
+      "text": "Three straight bogeys. Consistency achieved. Unfortunately, it’s the shitty kind.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.05",
+      "text": "Bogey. Bogey. Bogey. Your scorecard sounds like it’s trying to summon a mediocre demon.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.06",
+      "text": "Three bogeys in a row. Every hole gives you another chance to turn it around, and every hole learns its fucking lesson.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.general.07",
+      "text": "Three straight bogeys. You’ve perfected the art of staying close enough to par for it to hurt.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.09",
+      "text": "Three straight bogeys. Maybe stop counting strokes and start counting drinks. At least that leaderboard has potential.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.10",
+      "text": "Bogey streak. Your score keeps going up and the cooler keeps going down. Finally, two stats you can understand.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.spouse.11",
+      "text": "Three bogeys in a row. Your {spouse} knows that look—you’re about to insist you’re “really close” to figuring this shit out.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.spouse.12",
+      "text": "Three straight bogeys. Repeatedly getting close and still failing to finish properly. Your {spouse} recognizes the pattern.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.both.13",
+      "text": "Three bogeys running. Keep drinking until you can explain to your {spouse} with a straight face that you actually played pretty fucking well.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
