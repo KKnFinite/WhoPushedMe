@@ -15742,6 +15742,158 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.01",
+      "text": "{subject} is now in last place. Finally, a leaderboard position that matches the golf.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.02",
+      "text": "{subject} dropped into last. Somebody had to become the cautionary tale.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.03",
+      "text": "Dead last: {subject}. The rest of the field would like to thank you for lowering the curve.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.04",
+      "text": "{subject} just entered last place. Even the scorecard looks embarrassed.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.05",
+      "text": "Last place belongs to {subject} now. Don't worry—there's nowhere left to fall.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.06",
+      "text": "{subject} found the bottom of the leaderboard and immediately started decorating.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.general.07",
+      "text": "Congratulations, {subject}. You have officially become the golfer everyone checks to feel better about themselves.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.drinking.08",
+      "text": "{subject} is in last. At this point the beer isn't a distraction; it's emotional support.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.drinking.09",
+      "text": "Dead last, {subject}. Might as well grab another beer—the golf has already left the building.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.spouse.12",
+      "text": "{subject} is dead last. Their {spouse} has officially seen more convincing performances with the lights off.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.entered_last.expansion.20260930.both.13",
+      "text": "{subject} hit last place. Grab another beer and start working on the version of this story {spouse} might actually believe.",
+      "events": [
+        "score.derived.entered_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
