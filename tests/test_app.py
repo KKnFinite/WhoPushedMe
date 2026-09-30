@@ -2102,3 +2102,18 @@ def test_scramble_contributions_are_available_before_team_score_and_feed_visible
     assert "if (\n      !teamScore" not in block
     assert "'scramble_contribution_change'" in source
     assert "scrambleContributionOpen?.addEventListener" in source
+
+def test_20260930_approved_score_raised_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    for event_key in (
+        "score.push.individual.raised",
+        "score.push.scramble.raised",
+    ):
+        rows = catalog.eligible_banter(event_key)
+        assert len(rows) == 10
+        ids = {row["id"] for row in rows}
+        assert "banter.score.push.raised.expansion.20260930.general.01" in ids
+        assert "banter.score.push.raised.expansion.20260930.drinking.10" in ids
+

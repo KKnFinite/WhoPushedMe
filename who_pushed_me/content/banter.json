@@ -16019,6 +16019,150 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.01",
+      "text": "{subject} corrected {old_score} to {new_score}. Honesty finally showed up late.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.02",
+      "text": "Score correction: {old_score} was apparently bullshit. {subject} is now officially at {new_score}.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.03",
+      "text": "{subject} found another stroke hiding in the wreckage. {old_score} → {new_score}.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.04",
+      "text": "Correction on hole {hole}: {subject} just made the score worse. At least the math is honest now.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.05",
+      "text": "{subject} raised the score from {old_score} to {new_score}. Turns out counting every stroke is a bitch.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.06",
+      "text": "Score goes up. {subject} remembered one of the shots they were hoping nobody else did.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.07",
+      "text": "{subject} just added a stroke. The leaderboard appreciates the delayed confession.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.general.08",
+      "text": "Correction: {subject} is now at {new_score}. Amazing what happens when witnesses start talking.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.drinking.09",
+      "text": "{subject} changed {old_score} to {new_score}. Apparently the beer was doing the original accounting.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.push.raised.expansion.20260930.drinking.10",
+      "text": "Another stroke found. {subject} should probably count shots before counting beers.",
+      "events": [
+        "score.push.individual.raised",
+        "score.push.scramble.raised"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
