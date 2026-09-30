@@ -14916,6 +14916,21 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.08",
+      "text": "Three bogeys in a row. At this point the beer isn’t ruining your golf. It’s just making the autopsy easier to sit through.",
+      "events": [
+        "score.derived.bogey_streak_3_plus"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

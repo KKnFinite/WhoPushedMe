@@ -1953,10 +1953,10 @@ def test_20260930_approved_bogey_streak_banter_is_loaded():
 
     catalog = ContentCatalog.load()
     rows = catalog.eligible_banter("score.derived.bogey_streak_3_plus")
-    assert len(rows) == 14
+    assert len(rows) == 15
     ids = {row["id"] for row in rows}
     assert "banter.score.bogey_streak_3_plus.expansion.20260930.general.01" in ids
     assert "banter.score.bogey_streak_3_plus.expansion.20260930.both.13" in ids
-    assert "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.08" not in ids
+    assert "banter.score.bogey_streak_3_plus.expansion.20260930.drinking.08" in ids
 
 
