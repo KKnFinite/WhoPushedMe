@@ -1970,4 +1970,15 @@ def test_20260930_approved_blowup_hole_banter_is_loaded():
     assert "banter.score.blowup_hole.expansion.20260930.both.18" in ids
     assert "banter.score.blowup_hole.expansion.20260930.general.05" not in ids
 
+def test_20260930_approved_new_leader_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("score.derived.new_leader")
+    assert len(rows) == 11
+    ids = {row["id"] for row in rows}
+    assert "banter.score.new_leader.expansion.20260930.general.01" in ids
+    assert "banter.score.new_leader.expansion.20260930.spouse.10" in ids
+    assert "banter.score.new_leader.expansion.20260930.spouse.09" not in ids
+
 

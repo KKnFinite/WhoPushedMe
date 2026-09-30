@@ -15167,6 +15167,129 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.01",
+      "text": "New leader. {subject} is on top. Everybody else can start blaming equipment.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.02",
+      "text": "{subject} takes the lead. Enjoy the altitude while it lasts, asshole.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.03",
+      "text": "New leader: {subject}. Apparently this round has completely abandoned quality control.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.04",
+      "text": "{subject} just took first place. The leaderboard would like to apologize for the confusion.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.05",
+      "text": "New leader. {subject} climbed over the rest of this shitshow and somehow came out on top.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.general.06",
+      "text": "{subject} is leading. Screenshot it now before talent remembers where it normally lives.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.drinking.07",
+      "text": "{subject} takes the lead. Whatever they’re drinking just got promoted from bad decision to strategy.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.drinking.08",
+      "text": "New leader: {subject}. Somebody protect the cooler. We may have finally found the dosage.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.new_leader.expansion.20260930.spouse.10",
+      "text": "New leader. {subject} is in first place, which means their {spouse} now has to pretend to be impressed when they tell the story six times.",
+      "events": [
+        "score.derived.new_leader"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
