@@ -14497,6 +14497,62 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.first_eagle.expansion.20260930.general.01",
+      "text": "First eagle. Well fuck. Apparently buried under all that terrible golf is one useful skill.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_eagle.expansion.20260930.general.02",
+      "text": "First eagle. Two under on one hole. Somebody start checking your pockets for stolen talent.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_eagle.expansion.20260930.drinking.03",
+      "text": "First eagle. Two under. Whatever you’re drinking just earned another round.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.first_eagle.expansion.20260930.spouse.04",
+      "text": "First eagle. Your {spouse} is about to hear a twenty-minute story about six seconds of competence.",
+      "events": [
+        "score.derived.first_eagle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }

@@ -1918,4 +1918,14 @@ def test_20260929_approved_score_banter_expansion_is_loaded():
     assert len(first_birdie_rows) == 7
     assert len(catalog.eligible_banter("score.derived.first_birdie")) == 9
 
+def test_20260930_approved_first_eagle_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("score.derived.first_eagle")
+    assert len(rows) == 6
+    ids = {row["id"] for row in rows}
+    assert "banter.score.first_eagle.expansion.20260930.general.01" in ids
+    assert "banter.score.first_eagle.expansion.20260930.spouse.04" in ids
+
 
