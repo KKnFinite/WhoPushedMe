@@ -1928,4 +1928,14 @@ def test_20260930_approved_first_eagle_banter_is_loaded():
     assert "banter.score.first_eagle.expansion.20260930.general.01" in ids
     assert "banter.score.first_eagle.expansion.20260930.spouse.04" in ids
 
+def test_20260930_approved_back_to_back_birdie_banter_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    rows = catalog.eligible_banter("score.derived.back_to_back_birdies")
+    assert len(rows) == 10
+    ids = {row["id"] for row in rows}
+    assert "banter.score.back_to_back_birdies.expansion.20260930.general.01" in ids
+    assert "banter.score.back_to_back_birdies.expansion.20260930.both.08" in ids
+
 

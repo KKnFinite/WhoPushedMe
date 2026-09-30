@@ -14553,6 +14553,117 @@
       ],
       "enabled": true,
       "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.general.01",
+      "text": "Back-to-back birdies. Okay, what the fuck. One was an accident. Two means we may have to start taking you seriously.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.general.02",
+      "text": "Two birdies in a row. Apparently competence has decided to squat in your body for a few holes.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.general.03",
+      "text": "Back-to-back birdies. Enjoy this hot streak before your natural ability comes back and ruins everything.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.general.04",
+      "text": "Two straight birdies. Somebody check whether you accidentally grabbed a better golfer’s clubs.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.general.05",
+      "text": "Back-to-back birdies. The scorecard is starting to look suspiciously unlike you.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.drinking.06",
+      "text": "Two birdies in a row. Do not change drinks, brands, seats, underwear, or fucking anything.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.spouse.07",
+      "text": "Back-to-back birdies. Your {spouse} is about to hear the phrase “I was fucking dialed in” for the next six months.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.back_to_back_birdies.expansion.20260930.both.08",
+      "text": "Two straight birdies. Keep drinking until this stops working, then tell your {spouse} it was basically medical research.",
+      "events": [
+        "score.derived.back_to_back_birdies"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking",
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
     }
   ]
 }
