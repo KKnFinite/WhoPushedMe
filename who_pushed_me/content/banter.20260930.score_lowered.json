@@ -4,8 +4,13 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.01",
       "text": "{subject} corrected {old_score} to {new_score}. One stroke has officially been acquitted.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -13,8 +18,13 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.02",
       "text": "Score correction: {subject} drops from {old_score} to {new_score}. Apparently the first count was full of shit.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -22,8 +32,13 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.03",
       "text": "{subject} lowered the score from {old_score} to {new_score}. Either the math improved or the defense attorney arrived.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -31,8 +46,13 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.04",
       "text": "Correction on hole {hole}: {subject} found a stroke that apparently never fucking happened.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -40,17 +60,27 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.05",
       "text": "{subject} gets one back. Score is now {new_score}. The audit somehow helped for once.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
     },
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.06",
-      "text": "Score lowered. {subject} has successfully appealed the \u0073entence.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "text": "Score lowered. {subject} has successfully appealed the sentence.",
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -58,8 +88,13 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.07",
       "text": "Correction: {subject} is now at {new_score}. One stroke released for lack of evidence.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
@@ -67,27 +102,46 @@
     {
       "id": "banter.score.push.lowered.expansion.20260930.general.08",
       "text": "{subject} changed {old_score} to {new_score}. Somewhere, a pencil eraser just became the MVP.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
       "themes": [],
       "enabled": true,
       "weight": 1
     },
     {
       "id": "banter.score.push.lowered.expansion.20260930.drinking.09",
-      "text": "{subject} dropped the score from {old_score} to {new_score}. Apparently the \u0062eer was overcounting this time.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
-      "themes": ["drinking"],
+      "text": "{subject} dropped the score from {old_score} to {new_score}. Apparently the beer was overcounting this time.",
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
       "enabled": true,
       "weight": 1
     },
     {
       "id": "banter.score.push.lowered.expansion.20260930.spouse.10",
-      "text": "{subject} corrected the score to {new_score}. Good news—{spouse} now has one less stroke of embarrassment to hear about later.",
-      "events": ["score.push.individual.lowered", "score.push.scramble.lowered"],
-      "audiences": ["everyone"],
-      "themes": ["wife"],
+      "text": "{subject} corrected the score to {new_score}. Good news—their {spouse} now has one less stroke of embarrassment to hear about later.",
+      "events": [
+        "score.push.individual.lowered",
+        "score.push.scramble.lowered"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
       "enabled": true,
       "weight": 1
     }
