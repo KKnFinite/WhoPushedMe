@@ -17,6 +17,11 @@ def create_app() -> Flask:
         or os.getenv("DATABASE_URL_UNPOOLED", "")
     )
     app.config["OPENGOLF_API_KEY"] = os.getenv("OPENGOLF_API_KEY", "")
+    app.config["INVITE_SIGNING_SECRET"] = (
+        os.getenv("WPM_INVITE_SECRET")
+        or os.getenv("SECRET_KEY")
+        or "who-pushed-me-dev-invite-secret"
+    )
     app.register_blueprint(api)
 
     @app.get("/")
@@ -27,6 +32,10 @@ def create_app() -> Flask:
             version=APP_VERSION,
             asset_version=asset_version,
         )
+
+    @app.get("/invite/<token>")
+    def invite_entry(token: str):
+        return home()
 
     @app.get("/new-round")
     def new_round():
