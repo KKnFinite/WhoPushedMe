@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.claim_undone.20261001.01",
+      "text": "{subject} gave the golfer back. Responsibility was apparently too much to ask.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.02",
+      "text": "Claim undone: {subject}. Somebody else gets to babysit this shit again.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.03",
+      "text": "{subject} released their golfer. Personal accountability has left the building.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.04",
+      "text": "Proxy restored for {subject}. Back to letting somebody else handle the mess.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.05",
+      "text": "{subject} unclaimed the slot. That brief experiment with responsibility is officially over.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.06",
+      "text": "Claim removed: {subject}. The scorecard is once again somebody else’s fucking problem.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.07",
+      "text": "{subject} handed control back. Bold strategy: create the chaos, outsource the paperwork.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.08",
+      "text": "Golfer released. {subject} is back to being manually managed like a difficult appliance.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claim_undone.20261001.09",
+      "text": "{subject} gave the golfer back. Apparently the beer needed both hands again.",
+      "events": [
+        "participant.claim_undone"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
