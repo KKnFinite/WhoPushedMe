@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.01",
+      "text": "{subject} tied for the win. Congratulations on being equally less terrible than everyone else.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.02",
+      "text": "Co-winner: {subject}. Apparently nobody could finish the job alone.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.03",
+      "text": "{subject} shares the win. Even victory needed a fucking partner today.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.04",
+      "text": "Tie at the top. {subject} gets half the bragging rights and all the arrogance.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.05",
+      "text": "{subject} is a co-winner. Nothing says dominance like needing a split decision.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.06",
+      "text": "Shared win for {subject}. The leaderboard basically shrugged and gave up.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.07",
+      "text": "{subject} tied for first. Good enough to win, not good enough to shut everyone else up.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.08",
+      "text": "Co-winner: {subject}. Enjoy arguing for the next six months about who “really” won.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.10",
+      "text": "{subject} tied for first. Their {spouse} is probably amazed they finally finished something without coming up short.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.co_winner.20261001.12",
+      "text": "{subject} tied at the top. Their {spouse} is probably wondering why sharing the finish only works this well on the golf course.",
+      "events": [
+        "round.end.individual.co_winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
