@@ -2234,3 +2234,19 @@ def test_join_round_role_and_mini_are_centered():
     assert "left: 50%;" in mini_block
     assert "transform: translate(-50%, var(--join-mini-y));" in mini_block
 
+def test_make_excuse_is_self_only_without_target_picker():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    js_source = script.data.decode("utf-8")
+    css_source = css.data.decode("utf-8")
+
+    assert "excuse: {" in js_source
+    assert "target: false," in js_source
+    assert "if (action === 'callout') {" in js_source
+    assert "currentBagAction === 'callout'" in js_source
+    assert "#bag-form .round-text-field[hidden]" in css_source
+    assert "display: none !important;" in css_source
+
