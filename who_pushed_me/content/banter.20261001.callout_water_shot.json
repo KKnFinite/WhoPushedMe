@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.01",
+      "text": "{target} found the water. Nice shot, Jacques Cousteau.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.02",
+      "text": "{target} just donated another ball to the ecosystem.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.03",
+      "text": "Water ball by {target}. Somewhere a fish just ducked.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.04",
+      "text": "{target} aimed at the course and somehow hit the fucking lake.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.05",
+      "text": "Splashdown. {target} has officially changed sports.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.06",
+      "text": "{target} put one in the drink. At least something out here has good depth.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.07",
+      "text": "Water shot by {target}. That ball had a family.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.08",
+      "text": "{target} just turned a golf ball into marine debris.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.09",
+      "text": "{target} put one in the drink. Appropriate, considering where most of their decisions are coming from.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.10",
+      "text": "{target} found the water. Their {spouse} has probably seen them miss the target by that much before.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.11",
+      "text": "{target} found the water. Their {spouse} has seen them miss the hole by a mile before.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.12",
+      "text": "{target} dunked another ball. Their {spouse} is probably wondering why they’re so much better at getting things wet on the golf course.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.13",
+      "text": "{target} put it straight in the water. Their {spouse} would kill for that kind of accuracy when they’re aiming for the right hole.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.14",
+      "text": "{target} found the pond again. Their {spouse} already knows they have a talent for getting wet without finishing properly.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.water_shot.20261001.15",
+      "text": "{target} sent one swimming. Their {spouse} is probably shocked they managed to find something wet this fast.",
+      "events": [
+        "mid_hole.callout.water_shot"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
