@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.not_last.20261001.01",
+      "text": "{subject} avoided last place. That is technically an achievement, which is fucking depressing.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.02",
+      "text": "{subject} didn’t finish last. Somebody else somehow managed to suck worse.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.03",
+      "text": "Not last: {subject}. Raise the banner.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.04",
+      "text": "{subject} survived the round without becoming the group’s official cautionary tale. Barely.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.05",
+      "text": "{subject} escaped the basement. Don’t confuse that with playing well.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.07",
+      "text": "{subject} finished above last. Somewhere, mediocrity is standing and applauding.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.08",
+      "text": "{subject} wasn’t the worst golfer today. That sentence is doing a lot of fucking work.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.09",
+      "text": "{subject} avoided last place. Have a beer and celebrate accomplishing the absolute minimum.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.not_last.20261001.10",
+      "text": "{subject} didn’t finish last. Their {spouse} finally has proof there is at least one thing they’re not the worst at.",
+      "events": [
+        "round.end.individual.not_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
