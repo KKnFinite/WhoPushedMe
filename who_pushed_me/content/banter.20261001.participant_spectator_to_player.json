@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.spectator_to_player.20261001.01",
+      "text": "{subject} stopped spectating and joined the round. Watching the disaster apparently wasn’t enough.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.02",
+      "text": "{subject} is playing now. Congratulations on upgrading from witness to suspect.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.03",
+      "text": "Spectator promoted: {subject}. They’ve officially chosen participation over good judgment.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.04",
+      "text": "{subject} joined the action. Apparently heckling from the sidelines wasn’t satisfying enough.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.05",
+      "text": "{subject} is now a player. The round just gained another source of bad decisions.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.06",
+      "text": "Player added: {subject}. Somebody willingly stepped into this fucking mess.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.07",
+      "text": "{subject} left spectator mode and picked up a scorecard. Bold move for someone who could’ve stayed innocent.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.08",
+      "text": "{subject} is officially in the game now. There goes the last smart decision they had.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.09",
+      "text": "{subject} joined the round. Apparently spectating wasn’t getting the beer involved enough.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.spectator_to_player.20261001.10",
+      "text": "{subject} is playing now. Nothing pairs with questionable golf like worse decision-making.",
+      "events": [
+        "participant.spectator_to_player"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
