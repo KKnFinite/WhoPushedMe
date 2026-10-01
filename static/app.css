@@ -10150,3 +10150,9 @@ textarea,
     padding-bottom: max(4px, env(safe-area-inset-bottom));
   }
 }
+
+/* PAR TRACKING HIDDEN WHEN COURSE SUPPLIES PAR */
+#setup-par-tracking[hidden] {
+  display: none !important;
+}
+
