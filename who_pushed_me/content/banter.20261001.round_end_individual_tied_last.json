@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.01",
+      "text": "{subject} tied for last. Even rock bottom needed a roommate.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.02",
+      "text": "Tied last: {subject}. Somehow failure became a group project.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.03",
+      "text": "{subject} finished tied at the bottom. Misery really does love company.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.04",
+      "text": "{subject} shares last place. At least the humiliation isn’t lonely.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.05",
+      "text": "Tied for last: {subject}. Two people found the basement and decided to split the rent.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.06",
+      "text": "{subject} finished at the bottom with company. Nothing says teamwork like synchronized failure.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.07",
+      "text": "{subject} tied for last. The leaderboard ran out of lower places to hide them.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.08",
+      "text": "Bottom tie for {subject}. Somehow somebody else managed to suck exactly as much.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.09",
+      "text": "{subject} tied for last. Have a beer with the other disaster and call it bonding.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_last.20261001.10",
+      "text": "{subject} tied for last. Their {spouse} is probably just relieved somebody else finally shares responsibility for this level of disappointment.",
+      "events": [
+        "round.end.individual.tied_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
