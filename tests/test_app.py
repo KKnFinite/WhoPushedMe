@@ -2219,3 +2219,18 @@ def test_spouse_placeholder_matches_message_casing():
         "husband",
     ) == "Tell your husband the truth."
 
+def test_join_round_role_and_mini_are_centered():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    role_block = source[source.index(".round-join-form > .choice-fieldset {"):]
+    role_block = role_block[:role_block.index("}") + 1]
+    assert "align-self: center;" in role_block
+    assert "margin-inline: auto !important;" in role_block
+
+    mini_block = source[source.index(".join-cta-mini-stage {"):]
+    mini_block = mini_block[:mini_block.index("}") + 1]
+    assert "left: 50%;" in mini_block
+    assert "transform: translate(-50%, var(--join-mini-y));" in mini_block
+
