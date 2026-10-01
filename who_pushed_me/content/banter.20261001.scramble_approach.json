@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.approach.20261001.01",
+      "text": "We’re using {subject}’s approach. Finally, something worth keeping.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.02",
+      "text": "{subject}’s approach gets the nod. The rest of you can pick up your garbage.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.03",
+      "text": "Using {subject}’s approach. Somehow the ball ended up somewhere useful.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.04",
+      "text": "{subject}’s approach wins. The other shots have been politely erased from history.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.05",
+      "text": "We’re taking {subject}’s approach. That was dangerously close to competent golf.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.06",
+      "text": "{subject} put the team in position. Everybody else just supplied comparison footage.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.07",
+      "text": "Approach selected: {subject}. The team has officially found its least embarrassing option.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.08",
+      "text": "{subject}’s approach is the keeper. Somebody actually moved this mess toward the hole.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.09",
+      "text": "We’re using {subject}’s approach. Apparently the beer didn’t kill the touch completely.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.10",
+      "text": "{subject}’s approach gets used. One decent shot and suddenly everybody wants another beer.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.11",
+      "text": "Using {subject}’s approach. Whatever the beer did to that swing, keep doing it.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.12",
+      "text": "{subject}’s approach wins. The cooler is taking partial credit.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.13",
+      "text": "{subject}’s approach survives. The rest can stop explaining what they were trying to do.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.15",
+      "text": "{subject}’s approach gets picked. That’s the closest thing this team has produced to a plan.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.16",
+      "text": "{subject}’s approach is the one. Everybody else can go collect whatever the hell they hit.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.17",
+      "text": "Using {subject}’s approach. The rest of the shots have officially been classified as background noise.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.18",
+      "text": "{subject} gave the team the usable ball. That’s more than the rest of you managed.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.19",
+      "text": "Approach goes to {subject}’s ball. One shot survived the group project.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.20",
+      "text": "{subject}’s approach gets kept. The other attempts were apparently just warm-ups.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.21",
+      "text": "We’re playing {subject}’s approach. Somebody finally gave this hole a chance.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.22",
+      "text": "{subject}’s approach wins the argument. The rest can stop lobbying for their disasters.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.24",
+      "text": "{subject}’s approach is the keeper. Somebody reward that with a completely unnecessary beer.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.approach.20261001.25",
+      "text": "We’re taking {subject}’s approach. Apparently the cooler still has one decent swing left in it.",
+      "events": [
+        "scramble.contribution.approach"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
