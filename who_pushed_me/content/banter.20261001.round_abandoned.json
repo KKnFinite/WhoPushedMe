@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.abandoned.20261001.01",
+      "text": "Round abandoned. The course won without even needing all eighteen holes.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.02",
+      "text": "That’s it. Everybody quit before the scorecard could finish documenting the crime scene.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.03",
+      "text": "Round abandoned. Somewhere, the remaining holes are celebrating.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.04",
+      "text": "You bailed. Honestly, the golf had already left emotionally.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.05",
+      "text": "Round over early. Apparently there was a limit to how much fucking damage everyone could tolerate.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.06",
+      "text": "Abandoned. The comeback officially died before anyone had to prove it was imaginary.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.07",
+      "text": "Round cancelled mid-disaster. Dignity retrieval may now begin.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.08",
+      "text": "You called it. The scorecard has agreed not to ask any more questions.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.09",
+      "text": "Round abandoned. Turns out there actually is a point where the beer stops making this shit fun.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.abandoned.20261001.10",
+      "text": "That’s enough golf. Time to focus exclusively on drinking like adults who just escaped something.",
+      "events": [
+        "round.abandoned"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
