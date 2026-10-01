@@ -15604,7 +15604,7 @@
     },
     {
       "id": "banter.score.lost_lead.expansion.20260930.both.10",
-      "text": "{subject} lost the lead. The beer is winning, the leaderboard is laughing, and {spouse} still has to hear the fucking story later.",
+      "text": "{subject} lost the lead. The beer is winning, the leaderboard is laughing, and their {spouse} still has to hear the fucking story later.",
       "events": [
         "score.derived.lost_lead"
       ],
@@ -15730,7 +15730,7 @@
     },
     {
       "id": "banter.score.lost_lead.expansion.20260930.spouse.19",
-      "text": "{subject} blew the lead. Somewhere, {spouse} just felt strangely validated without knowing why.",
+      "text": "{subject} blew the lead. Somewhere, their {spouse} just felt strangely validated without knowing why.",
       "events": [
         "score.derived.lost_lead"
       ],
@@ -15881,7 +15881,7 @@
     },
     {
       "id": "banter.score.entered_last.expansion.20260930.both.13",
-      "text": "{subject} hit last place. Grab another beer and start working on the version of this story {spouse} might actually believe.",
+      "text": "{subject} hit last place. Grab another beer and start working on the version of this story their {spouse} might actually believe.",
       "events": [
         "score.derived.entered_last"
       ],
@@ -16007,7 +16007,7 @@
     },
     {
       "id": "banter.score.escaped_last.expansion.20260930.spouse.09",
-      "text": "{subject} is no longer last. Somewhere, {spouse} just felt the faintest flicker of respect and immediately got over it.",
+      "text": "{subject} is no longer last. Somewhere, their {spouse} just felt the faintest flicker of respect and immediately got over it.",
       "events": [
         "score.derived.escaped_last"
       ],
