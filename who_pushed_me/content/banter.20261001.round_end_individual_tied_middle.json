@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.01",
+      "text": "{subject} tied in the middle. Not good enough to matter, not bad enough to mock properly.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.02",
+      "text": "Middle tie: {subject}. Congratulations on achieving competitive irrelevance.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.03",
+      "text": "{subject} finished tied in the middle. The leaderboard equivalent of beige.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.04",
+      "text": "{subject} shares a middle spot. Even mediocrity needed company today.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.06",
+      "text": "{subject} landed in the middle with company. Perfectly average bullshit.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.07",
+      "text": "Middle tie for {subject}. The scorecard basically shrugged.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.08",
+      "text": "{subject} tied in the middle. Too decent for last, too useless for anything interesting.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.09",
+      "text": "{subject} tied in the middle. Have a beer and celebrate being aggressively average.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.tied_middle.20261001.10",
+      "text": "{subject} tied in the middle. Their {spouse} has probably seen this exact level of effort before: technically involved, nowhere near impressive.",
+      "events": [
+        "round.end.individual.tied_middle"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
