@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.01",
+      "text": "{subject}’s bunker shot is the one we’re using. Somebody finally escaped the fucking beach.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.02",
+      "text": "Using {subject}’s bunker shot. The rest of you can stop digging.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.03",
+      "text": "{subject} got the team out of the sand. Everybody else just made the bunker look busier.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.04",
+      "text": "{subject}’s bunker shot survives. One of you apparently knows how sand works.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.05",
+      "text": "We’re taking {subject}’s bunker shot. The excavation project is officially over.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.06",
+      "text": "{subject} got us out. The rest of the bunker shots can remain buried with your dignity.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.09",
+      "text": "{subject}’s bunker shot gets used. That deserves a drink for surviving the sand and this team.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.10",
+      "text": "We’re taking {subject}’s bunker shot. Drunk enough to relax, sober enough to escape.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.11",
+      "text": "{subject}’s bunker shot is the keeper. The rest of you hit sand like you were trying to bury the fucking ball.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.12",
+      "text": "Using {subject}’s bunker shot. Three other grown adults just lost a fight with a hole full of sand.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.13",
+      "text": "{subject} got us out. The rest of you looked like you were digging shallow graves for your scorecards.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.14",
+      "text": "{subject}’s bunker shot gets used. The beer apparently gave one of you enough courage to stop chunking sand into orbit.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.bunker.20261001.15",
+      "text": "We’re taking {subject}’s bunker shot. The rest of you can drink until you forget how fucking useless those escapes were.",
+      "events": [
+        "scramble.contribution.bunker"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
