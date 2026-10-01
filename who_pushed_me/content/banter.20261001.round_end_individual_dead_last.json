@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.01",
+      "text": "{subject} finished dead last. Somebody had to be the bottom of the barrel, and they fucking volunteered.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.02",
+      "text": "Dead last: {subject}. The leaderboard has officially run out of people to put underneath them.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.03",
+      "text": "{subject} finished last. Not near last. Not tied for last. Fucking last.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.05",
+      "text": "Dead last: {subject}. The scorecard has identified the primary victim of the day.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.06",
+      "text": "{subject} finished at the bottom. At least there’s nowhere left to fall.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.07",
+      "text": "Last place belongs to {subject}. The rest of the group thanks them for the confidence boost.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.08",
+      "text": "{subject} brought up the rear so hard the leaderboard needed a tow truck.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.09",
+      "text": "{subject} finished dead last. Time to drink until the leaderboard feels less personal.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.dead_last.20261001.10",
+      "text": "{subject} finished dead last. Their {spouse} finally has statistical proof that disappointment can be quantified.",
+      "events": [
+        "round.end.individual.dead_last"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
