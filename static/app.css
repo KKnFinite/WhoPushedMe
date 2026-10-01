@@ -10156,3 +10156,83 @@ textarea,
   display: none !important;
 }
 
+/* ROUND INVITE DEEP LINKS */
+.round-invite-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+}
+
+.round-invite-button {
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid rgba(212,166,42,.72);
+  border-radius: 10px;
+  background: rgba(5,9,7,.8);
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+.round-invite-button:disabled {
+  opacity: .5;
+}
+
+.invite-join-banner {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(212,166,42,.72);
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, rgba(33,69,52,.96), rgba(7,15,10,.99));
+  color: #fff8df;
+  text-align: center;
+}
+
+.invite-join-banner[hidden] {
+  display: none !important;
+}
+
+.invite-join-banner > strong {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+.invite-join-banner > small {
+  color: rgba(233,225,200,.74);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.round-join-form.is-invite-acceptance > .join-code-panel,
+.round-join-form.is-invite-acceptance > .join-round-heckle,
+.round-join-form.is-invite-acceptance > .choice-fieldset {
+  display: none !important;
+}
+
+.round-join-form.is-invite-acceptance #join-tee-field {
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+
+@media (max-width: 390px) {
+  .round-invite-actions {
+    gap: 6px;
+  }
+
+  .round-invite-button {
+    min-height: 44px;
+    padding-inline: 7px;
+    font-size: .9rem;
+  }
+}
+
