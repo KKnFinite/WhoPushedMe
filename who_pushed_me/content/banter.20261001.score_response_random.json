@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.random.20261001.01",
+      "text": "That score is exactly the kind of shit I expected from you.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.02",
+      "text": "Amazing. You somehow made that hole look harder than it actually is.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.03",
+      "text": "You’re really committed to making golf look like a contact sport with yourself.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.04",
+      "text": "That was less “playing golf” and more “surviving a sequence of bad decisions.”",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.05",
+      "text": "Beautiful work. By beautiful, I mean fucking painful to watch.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.06",
+      "text": "You’ve got a real talent for turning simple holes into full-length documentaries.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.07",
+      "text": "That score has “don’t ask questions” energy all over it.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.09",
+      "text": "That score makes a lot more sense once you remember how much you’ve been drinking.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.11",
+      "text": "That score looked like a hostage situation with a golf ball.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.12",
+      "text": "You somehow turned one hole into a complete fucking investigation.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.14",
+      "text": "You didn’t play the hole. You negotiated with it badly and lost.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.15",
+      "text": "That score belongs in a fucking warning label.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.16",
+      "text": "You made that hole look like it personally offended you.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.17",
+      "text": "That was less golf and more a public demonstration of poor judgment.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.18",
+      "text": "You just spent an entire hole proving confidence and competence are not related.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.random.20261001.19",
+      "text": "That score has “beer was involved” written all over every fucking stroke.",
+      "events": [
+        "score.response.random"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
