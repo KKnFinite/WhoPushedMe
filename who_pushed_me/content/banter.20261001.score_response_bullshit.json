@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.bullshit.20261001.01",
+      "text": "Bullshit. Nobody watched that hole and came up with that fucking number.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.02",
+      "text": "That score is complete bullshit and everybody here knows it.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.03",
+      "text": "Bullshit. Count the strokes again and this time include the embarrassing ones.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.04",
+      "text": "That number has been rejected for being obviously full of shit.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.05",
+      "text": "Bullshit. You didn’t shoot that—you negotiated it.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.06",
+      "text": "Calling bullshit. That score has more missing strokes than your memory.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.07",
+      "text": "Bullshit. The pencil just became an accomplice.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.08",
+      "text": "That score smells like absolute fucking fiction.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.09",
+      "text": "Bullshit. Either recount the strokes or stop letting the beer do the math.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.bullshit.20261001.10",
+      "text": "Bullshit. Your {spouse} believes some of your stories, but nobody should believe this one.",
+      "events": [
+        "score.response.bullshit"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
