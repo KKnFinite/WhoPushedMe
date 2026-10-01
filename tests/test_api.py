@@ -203,6 +203,32 @@ class FakeStore:
             "participants": [],
         }
 
+    def round_invite_preview(self, round_id, *, golfer_id=None):
+        self.calls.append(("invite_preview", round_id, golfer_id))
+        return {
+            "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+            "active_code": "4321",
+            "mode": "individual",
+            "status": "setup",
+            "hole_count": 18,
+            "current_hole": 1,
+            "current_route_position": 1,
+            "course_id": UUID("6c2ce930-f82c-4de6-9dbf-4145872d496d"),
+            "free_play_name": None,
+            "course": {"name": "Provider Muni"},
+            "available_tees": [
+                {
+                    "tee_name": "White",
+                    "holes_with_tee": 18,
+                    "total_yardage": 6200,
+                }
+            ],
+            "active_players": 1,
+            "viewer_participant_id": None,
+            "viewer_role": None,
+            "viewer_tee_name": None,
+        }
+
     def set_status(
         self,
         golfer_id,
@@ -1736,3 +1762,85 @@ def test_score_response_route_accepts_quick_reaction_kind_with_comment():
         "Count that shit again.",
         None,
     )
+
+
+def test_round_invite_can_lock_spectator_role_and_accept_after_login():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+
+    created = client.post(
+        f"/api/rounds/{round_id}/invites",
+        headers={"Authorization": "Bearer session-token"},
+        json={"role": "spectator"},
+    )
+    assert created.status_code == 200
+    token = created.get_json()["token"]
+    assert created.get_json()["role"] == "spectator"
+
+    preview = client.get(f"/api/invites/{token}")
+    assert preview.status_code == 200
+    assert preview.get_json()["role"] == "spectator"
+    assert preview.get_json()["requires_tee"] is False
+
+    accepted = client.post(
+        f"/api/invites/{token}/accept",
+        headers={"Authorization": "Bearer session-token"},
+        json={},
+    )
+    assert accepted.status_code == 200
+    assert accepted.get_json()["active_code"] == "4321"
+    assert accepted.get_json()["role"] == "spectator"
+    assert (
+        "join_round",
+        store.golfer_id,
+        "4321",
+        "spectator",
+        None,
+    ) in store.calls
+
+
+def test_player_invite_requires_and_passes_tee_when_course_has_tees():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+
+    created = client.post(
+        f"/api/rounds/{round_id}/invites",
+        headers={"Authorization": "Bearer session-token"},
+        json={"role": "player"},
+    )
+    token = created.get_json()["token"]
+
+    preview = client.get(f"/api/invites/{token}")
+    assert preview.status_code == 200
+    assert preview.get_json()["requires_tee"] is True
+
+    missing_tee = client.post(
+        f"/api/invites/{token}/accept",
+        headers={"Authorization": "Bearer session-token"},
+        json={},
+    )
+    assert missing_tee.status_code == 400
+    assert "pick a tee" in missing_tee.get_json()["error"].lower()
+
+    accepted = client.post(
+        f"/api/invites/{token}/accept",
+        headers={"Authorization": "Bearer session-token"},
+        json={"tee_name": "White"},
+    )
+    assert accepted.status_code == 200
+    assert accepted.get_json()["role"] == "player"
+    assert (
+        "join_round",
+        store.golfer_id,
+        "4321",
+        "player",
+        "White",
+    ) in store.calls
+
+
+def test_round_invite_rejects_invalid_token():
+    client, _ = client_with_store()
+    response = client.get("/api/invites/not-a-real-token")
+    assert response.status_code == 400
+    assert "invalid" in response.get_json()["error"].lower()
+
