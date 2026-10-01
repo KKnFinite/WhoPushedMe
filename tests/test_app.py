@@ -2199,3 +2199,23 @@ def test_20261001_scramble_second_shot_banter_is_retrospective():
     assert "is taking shot two" not in "\n".join(text_by_id.values())
     assert "is up next" not in "\n".join(text_by_id.values())
 
+def test_spouse_placeholder_matches_message_casing():
+    from who_pushed_me.content.presentation import _relationship_text
+
+    assert _relationship_text(
+        "YOUR {spouse} IS WAITING",
+        "wife",
+    ) == "YOUR WIFE IS WAITING"
+    assert _relationship_text(
+        "YOUR {spouse} IS WAITING",
+        "husband",
+    ) == "YOUR HUSBAND IS WAITING"
+    assert _relationship_text(
+        "Your {spouse} is waiting",
+        "wife",
+    ) == "Your wife is waiting"
+    assert _relationship_text(
+        "Tell your {spouse} the truth.",
+        "husband",
+    ) == "Tell your husband the truth."
+
