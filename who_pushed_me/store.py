@@ -1673,9 +1673,9 @@ class RoundStore:
             round_row = self._round(cursor, round_uuid, lock=True)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
 
-            if round_row["status"] != "active":
+            if round_row["status"] not in {"setup", "active"}:
                 raise DomainError(
-                    "spectators can only join play during an active round"
+                    "spectators can only join play before or during an active round"
                 )
             if participant["role"] == "player":
                 return participant
@@ -1718,7 +1718,21 @@ class RoundStore:
                         selected_tee,
                     )
 
-            tracked_from = int(round_row["current_route_position"])
+            if round_row["status"] == "setup":
+                cursor.execute(
+                    """
+                    SELECT min(route_position) AS first_planned
+                    FROM round_route_positions
+                    WHERE round_id = %s
+                      AND state = 'planned'
+                    """,
+                    (round_uuid,),
+                )
+                tracked_from = int(
+                    cursor.fetchone()["first_planned"] or 1
+                )
+            else:
+                tracked_from = int(round_row["current_route_position"])
             cursor.execute(
                 "SELECT handicap_index FROM golfers WHERE id = %s",
                 (golfer_uuid,),
@@ -2630,6 +2644,90 @@ class RoundStore:
             state["round_id"] = round_uuid
             state["participant_id"] = participant["id"]
             return state
+
+    def round_invite_preview(
+        self,
+        round_id: object,
+        *,
+        golfer_id: object | None = None,
+    ) -> dict[str, Any]:
+        round_uuid = self._uuid(round_id, "round_id")
+        golfer_uuid = (
+            self._uuid(golfer_id, "golfer_id")
+            if golfer_id is not None
+            else None
+        )
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, active_code, mode, status, hole_count,
+                       current_hole, current_route_position,
+                       course_id, free_play_name
+                FROM rounds
+                WHERE id = %s
+                """,
+                (round_uuid,),
+            )
+            round_row = cursor.fetchone()
+            if not round_row:
+                raise NotFound("round not found")
+
+            round_row["course"] = None
+            round_row["available_tees"] = []
+            if round_row["course_id"]:
+                cursor.execute(
+                    """
+                    SELECT id, name
+                    FROM cached_courses
+                    WHERE id = %s
+                    """,
+                    (round_row["course_id"],),
+                )
+                round_row["course"] = cursor.fetchone()
+                round_row["available_tees"] = self._course_tees(
+                    cursor,
+                    round_row["course_id"],
+                    hole_count=18,
+                )
+
+            cursor.execute(
+                """
+                SELECT count(*) AS active_players
+                FROM round_participants
+                WHERE round_id = %s
+                  AND role = 'player'
+                  AND participation_state = 'active'
+                """,
+                (round_uuid,),
+            )
+            round_row["active_players"] = int(
+                cursor.fetchone()["active_players"] or 0
+            )
+
+            round_row["viewer_participant_id"] = None
+            round_row["viewer_role"] = None
+            round_row["viewer_tee_name"] = None
+            if golfer_uuid is not None:
+                cursor.execute(
+                    """
+                    SELECT id, role, tee_name, participation_state
+                    FROM round_participants
+                    WHERE round_id = %s
+                      AND golfer_id = %s
+                    """,
+                    (round_uuid, golfer_uuid),
+                )
+                participant = cursor.fetchone()
+                if participant:
+                    round_row["viewer_participant_id"] = participant["id"]
+                    round_row["viewer_role"] = participant["role"]
+                    round_row["viewer_tee_name"] = participant["tee_name"]
+                    round_row["viewer_participation_state"] = (
+                        participant["participation_state"]
+                    )
+
+            return round_row
 
     def get_round(
         self,
