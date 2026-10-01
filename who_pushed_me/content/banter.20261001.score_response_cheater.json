@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.cheater.20261001.01",
+      "text": "Cheater. That score has been through more editing than a fucking résumé.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.02",
+      "text": "Nice score. Shame nobody who watched the hole believes it.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.03",
+      "text": "Cheater. You’re not keeping score—you’re writing fan fiction.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.04",
+      "text": "That number is suspicious as fuck. Count every stroke this time.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.05",
+      "text": "Cheater. The only thing lower than that score is your commitment to reality.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.06",
+      "text": "Congratulations on the score. Too bad the witnesses remember the hole differently.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.07",
+      "text": "Cheater. Apparently penalties become optional when nobody’s looking at the pencil.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.08",
+      "text": "That score needs an audit and probably legal representation.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.09",
+      "text": "Cheater. The beer might explain the memory loss, but it doesn’t erase fucking strokes.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.cheater.20261001.10",
+      "text": "Cheater. Your {spouse} already knows you’re capable of lying with a straight face.",
+      "events": [
+        "score.response.cheater"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
