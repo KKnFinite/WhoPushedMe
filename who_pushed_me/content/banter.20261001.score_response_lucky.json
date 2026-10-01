@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.lucky.20261001.01",
+      "text": "Lucky as fuck. Don’t confuse that with skill.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.02",
+      "text": "That wasn’t good golf. That was a statistical accident.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.03",
+      "text": "Lucky. Even your bad decisions occasionally survive contact with reality.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.04",
+      "text": "Pure luck. Try that shit again and see what happens.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.05",
+      "text": "That result had absolutely no business working.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.06",
+      "text": "Lucky bastard. The golf gods clearly weren’t paying attention.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.07",
+      "text": "You got away with one. Don’t start acting like you planned it.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.08",
+      "text": "That shot worked by accident and everybody knows it.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.09",
+      "text": "Lucky. The beer deserves as much credit as you do.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.lucky.20261001.10",
+      "text": "Lucky. Your {spouse} has probably seen you succeed by accident before.",
+      "events": [
+        "score.response.lucky"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
