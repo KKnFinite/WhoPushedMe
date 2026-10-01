@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.scramble.complete.20261001.02",
+      "text": "That’s the scramble. Congratulations on proving it takes an entire fucking team to hide everyone’s mistakes.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.03",
+      "text": "Scramble finished. Every good shot belongs to the team. Every terrible one still belongs to whoever hit it.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.04",
+      "text": "Round complete. You spent eighteen holes selecting the least shitty option. Inspiring teamwork.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.05",
+      "text": "Scramble over. Nothing builds friendship like watching three people pick up their balls after somebody else actually hits a good shot.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.06",
+      "text": "That’s eighteen. The team survived despite repeatedly being made up of all of you.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.07",
+      "text": "Scramble complete. Somehow combining four questionable golf games produced something resembling one real one.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.08",
+      "text": "Round finished. Everybody contributed—some with good shots, others by knowing when to pick their fucking ball up.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.scramble.complete.20261001.10",
+      "text": "That’s the round. Four golfers, eighteen holes, and enough beer to make the teamwork look intentional.",
+      "events": [
+        "round.end.scramble.complete"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
