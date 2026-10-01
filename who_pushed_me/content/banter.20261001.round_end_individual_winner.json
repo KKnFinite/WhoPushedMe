@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.winner.20261001.01",
+      "text": "{subject} wins the round. Try to enjoy it before everyone starts explaining why it shouldn’t count.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.02",
+      "text": "{subject} takes the win. Apparently one of you actually knew how to play golf today.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.03",
+      "text": "Winner: {subject}. Everybody else can begin revising history immediately.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.04",
+      "text": "{subject} finished on top. The rest of you spent four hours building their highlight reel.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.05",
+      "text": "{subject} wins. Congratulations on being the least fucked-up golfer in the group today.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.06",
+      "text": "Round winner: {subject}. Everybody else can shut the fuck up and look at the numbers.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.07",
+      "text": "{subject} takes it. The leaderboard has officially chosen its least embarrassing adult.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.08",
+      "text": "{subject} won the round. Enjoy the victory lap before the excuses start breeding.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.09",
+      "text": "{subject} wins. Somebody hand them a beer before they start pretending this was all skill.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.10",
+      "text": "{subject} wins. Their {spouse} is probably wondering why this level of focus never shows up when there’s shit to do at home.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.11",
+      "text": "{subject} takes the win. Apparently they can perform under pressure as long as their {spouse} isn’t the one waiting for a satisfying finish.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.12",
+      "text": "{subject} wins the round. Their {spouse} just learned the secret to getting their best effort: put a flag in the hole and make their friends watch.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.13",
+      "text": "{subject} finished on top. Their {spouse} would probably like proof this position is still available at home.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.winner.20261001.14",
+      "text": "{subject} wins. Four hours of concentration, patience, and follow-through. Their {spouse} is going to be fucking furious they knew how all along.",
+      "events": [
+        "round.end.individual.winner"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
