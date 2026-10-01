@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.blame.20261001.01",
+      "text": "Blame whatever you want. You’re still the one who hit the fucking shot.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.02",
+      "text": "Sure, blame the wind. It definitely swung the club for you.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.03",
+      "text": "Excellent excuse. Unfortunately, the scorecard only records strokes.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.04",
+      "text": "Blame accepted emotionally, rejected statistically.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.05",
+      "text": "That excuse was almost better than the shot. Almost.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.07",
+      "text": "The course, the clubs, the lie, the weather—anything except the person holding the fucking club.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.08",
+      "text": "That explanation has been filed under “desperate bullshit.”",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.09",
+      "text": "Blame the beer if you want. It still didn’t choose the club.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.blame.20261001.10",
+      "text": "Blame somebody else. Your {spouse} has probably heard this routine before.",
+      "events": [
+        "score.response.blame"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
