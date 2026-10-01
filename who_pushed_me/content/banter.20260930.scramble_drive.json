@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.drive.20260930.01",
+      "text": "{subject}’s drive is the one we’re using. Nice to see somebody finally contribute.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.02",
+      "text": "Drive selected: {subject}. The rest of you can stop pretending your tee shots mattered.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.03",
+      "text": "{subject} put the team in play. Everybody else just provided alternate routes to disaster.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.04",
+      "text": "Using {subject}’s drive. Apparently one of you knows which direction the hole is.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.05",
+      "text": "{subject} wins the tee box. The other drives have been entered into evidence and dismissed.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.06",
+      "text": "Team drive: {subject}. Congratulations on carrying three other idiots for one shot.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.07",
+      "text": "{subject}’s drive survives. Everybody else can go retrieve their fucking balls.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.08",
+      "text": "Using {subject} off the tee. The team has officially found its least embarrassing option.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.09",
+      "text": "{subject}’s drive gets the nod. Somebody buy them a beer before the talent disappears.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.11",
+      "text": "{subject}’s drive is in play. Three other tee shots just became range balls.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.12",
+      "text": "Using {subject}’s drive. Everyone else can stop acting like they meant to hit theirs there.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.13",
+      "text": "{subject} just carried the opening shot. The rest of the team contributed emotional support.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.14",
+      "text": "Drive goes to {subject}. The committee has rejected the other three applications.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.15",
+      "text": "{subject} found the fairway—or at least something usable. Good enough for this circus.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.16",
+      "text": "Team’s taking {subject}’s ball. Everybody else gets to enjoy the walk of shame.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.17",
+      "text": "{subject} wins the drive. That’s one useful shot and three fucking anecdotes.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.18",
+      "text": "Using {subject} off the tee. The other drives have been classified as recreational.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.19",
+      "text": "{subject} gave the team a chance. Try not to ruin it immediately.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.20",
+      "text": "{subject}’s drive is the keeper. Everybody else can start blaming the beer now.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.21",
+      "text": "{subject}’s drive is the one. Apparently somebody can still swing after all those beers.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.22",
+      "text": "Using {subject} off the tee. The rest of you should probably stop pretending the beer is the problem.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.23",
+      "text": "{subject} wins the drive. Somebody hand them a beer before competence becomes a habit.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.24",
+      "text": "Team’s taking {subject}’s ball. The other three drives look like the beer hit them.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.drive.20260930.25",
+      "text": "{subject} just saved the hole off the tee. Drink up, you’ve peaked early.",
+      "events": [
+        "scramble.contribution.drive"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
