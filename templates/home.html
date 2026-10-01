@@ -421,6 +421,12 @@
       </form>
 
       <form id="join-round-form" class="round-flow-form round-join-form" data-round-panel="join" hidden>
+        <section id="invite-join-banner" class="invite-join-banner" hidden>
+          <div class="live-round-kicker">ROUND INVITE</div>
+          <strong id="invite-join-title">YOU'RE INVITED</strong>
+          <small id="invite-join-copy">Sign in, pick what the round needs, and get in.</small>
+        </section>
+
         <section class="join-code-panel" aria-labelledby="join-code-label">
           <div id="join-code-label" class="join-code-label">4-DIGIT ROUND CODE</div>
           <input id="join-round-code" name="code" type="hidden" value="">
@@ -506,6 +512,14 @@
         </section>
 
         <button id="lobby-start" class="settings-save" type="button">START THE SHITSHOW</button>
+        <div class="round-invite-actions" aria-label="Round invite actions">
+          <button class="round-invite-button" data-invite-role="player" type="button">
+            INVITE PLAYER
+          </button>
+          <button class="round-invite-button" data-invite-role="spectator" type="button">
+            INVITE SPECTATOR
+          </button>
+        </div>
         <button id="lobby-home" class="lobby-home" type="button">BACK HOME</button>
       </section>
 
@@ -684,6 +698,15 @@
           <div class="live-more-heading">
             <span>ROUND CONTROL</span>
             <strong>MORE BULLSHIT</strong>
+          </div>
+
+          <div class="round-invite-actions" aria-label="Round invite actions">
+            <button class="round-invite-button" data-invite-role="player" type="button">
+              INVITE PLAYER
+            </button>
+            <button class="round-invite-button" data-invite-role="spectator" type="button">
+              INVITE SPECTATOR
+            </button>
           </div>
 
           <button id="live-edit-par" class="lobby-home" type="button" hidden>
