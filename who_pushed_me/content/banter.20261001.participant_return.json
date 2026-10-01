@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.return.20261001.01",
+      "text": "{subject} is back. Apparently quitting didn’t take.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.02",
+      "text": "{subject} returned to the round. The bad decisions have resumed.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.03",
+      "text": "Return confirmed: {subject}. The course thought it had gotten rid of them.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.04",
+      "text": "{subject} came back. Either that’s resilience or a complete lack of self-preservation.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.05",
+      "text": "{subject} is playing again. The comeback nobody requested is officially underway.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.06",
+      "text": "Back in the round: {subject}. Pride apparently recovered faster than the golf game.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.07",
+      "text": "{subject} returned. The remaining holes have been warned.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.08",
+      "text": "{subject} is back from the dead. Unfortunately, so is the scorecard.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.09",
+      "text": "{subject} returned to the round. Apparently the beer restored enough confidence to make this mistake again.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.return.20261001.10",
+      "text": "{subject} is back. A few drinks and suddenly quitting seemed premature.",
+      "events": [
+        "participant.return"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
