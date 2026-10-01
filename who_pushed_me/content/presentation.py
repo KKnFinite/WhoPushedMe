@@ -200,7 +200,15 @@ def _relationship_text(text: object, spouse_type: object) -> str:
     relationship = str(spouse_type or "").strip().lower()
     if relationship not in {"wife", "husband"}:
         return value
-    return value.replace("{spouse}", relationship)
+
+    visible_copy = value.replace("{spouse}", "")
+    letters = "".join(char for char in visible_copy if char.isalpha())
+    replacement = (
+        relationship.upper()
+        if letters and letters == letters.upper()
+        else relationship
+    )
+    return value.replace("{spouse}", replacement)
 
 
 def _content_item(row: Mapping[str, Any] | None, *, text: str | None = None) -> dict[str, Any] | None:
