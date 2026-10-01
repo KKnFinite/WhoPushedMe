@@ -72,6 +72,10 @@
   const joinCtaMini = document.getElementById('join-cta-mini');
   const joinTeeField = document.getElementById('join-tee-field');
   const joinTeeSelect = document.getElementById('join-tee-select');
+  const inviteJoinBanner = document.getElementById('invite-join-banner');
+  const inviteJoinTitle = document.getElementById('invite-join-title');
+  const inviteJoinCopy = document.getElementById('invite-join-copy');
+  const roundInviteButtons = [...document.querySelectorAll('[data-invite-role]')];
   const claimPlayerPanel = document.getElementById('claim-player-panel');
   const claimPlayerList = document.getElementById('claim-player-list');
   const claimPlayerNone = document.getElementById('claim-player-none');
@@ -268,6 +272,19 @@
   let transitionAssetsPromise = null;
   let pendingClaimJoin = null;
   let pendingJoinPreview = null;
+  let pendingRoundInvitePreview = null;
+  let roundInviteProcessing = false;
+  const invitePathMatch = window.location.pathname.match(
+    /^\/invite\/([^/]+)\/?$/
+  );
+  let pendingRoundInviteToken = '';
+  if (invitePathMatch) {
+    try {
+      pendingRoundInviteToken = decodeURIComponent(invitePathMatch[1]);
+    } catch (_error) {
+      pendingRoundInviteToken = '';
+    }
+  }
   let lobbyBanterTimer = null;
   let lobbyBanterRoundId = '';
   let lobbyIdleRows = [];
@@ -1019,7 +1036,13 @@
       }, 5500);
     });
 
-    window.setTimeout(() => maybeShowInstallOnboarding(account), 0);
+    if (pendingRoundInviteToken) {
+      window.setTimeout(() => {
+        void processPendingRoundInvite();
+      }, 0);
+    } else {
+      window.setTimeout(() => maybeShowInstallOnboarding(account), 0);
+    }
   };
 
   const showRecoveryKey = (
@@ -1090,6 +1113,9 @@
     const token = sessionToken();
     if (!token) {
       showAuth('login');
+      if (pendingRoundInviteToken) {
+        setAuthMessage('ROUND INVITE WAITING. SIGN IN OR CREATE AN ACCOUNT.');
+      }
       return;
     }
 
@@ -1620,6 +1646,204 @@
       option.selected = tee.tee_name === selected;
       select.append(option);
     });
+  };
+
+  const resetInviteJoinUi = ({ clearToken = false } = {}) => {
+    pendingRoundInvitePreview = null;
+    joinRoundForm?.classList.remove('is-invite-acceptance');
+    if (inviteJoinBanner) inviteJoinBanner.hidden = true;
+    if (inviteJoinTitle) inviteJoinTitle.textContent = "YOU'RE INVITED";
+    if (inviteJoinCopy) {
+      inviteJoinCopy.textContent = 'Sign in, pick what the round needs, and get in.';
+    }
+    if (clearToken) {
+      pendingRoundInviteToken = '';
+      if (window.location.pathname.startsWith('/invite/')) {
+        window.history.replaceState({}, '', '/');
+      }
+    }
+  };
+
+  const configureInviteJoinUi = (preview) => {
+    if (!joinRoundForm) return;
+    joinRoundForm.classList.add('is-invite-acceptance');
+    if (inviteJoinBanner) inviteJoinBanner.hidden = false;
+    if (inviteJoinTitle) {
+      inviteJoinTitle.textContent =
+        preview.role === 'spectator'
+          ? 'INVITED AS SPECTATOR'
+          : 'INVITED AS PLAYER';
+    }
+    if (inviteJoinCopy) {
+      const place = preview.course_name || preview.free_play_name || 'this round';
+      inviteJoinCopy.textContent =
+        preview.role === 'spectator'
+          ? `You’re watching ${place}. Sign in and get straight into the damage.`
+          : `You’re playing ${place}. Pick a tee only if the course needs one.`;
+    }
+
+    const roleRadio = joinRoundForm.querySelector(
+      `input[name="role"][value="${preview.role}"]`
+    );
+    if (roleRadio) roleRadio.checked = true;
+
+    if (joinRoundSubmit) {
+      joinRoundSubmit.hidden = false;
+      joinRoundSubmit.textContent = 'JOIN THIS ROUND';
+    }
+  };
+
+  const acceptPendingRoundInvite = async (teeName = '') => {
+    if (!pendingRoundInviteToken) return false;
+    const accepted = await requestJson(
+      `/api/invites/${encodeURIComponent(pendingRoundInviteToken)}/accept`,
+      {
+        method: 'POST',
+        body: { tee_name: teeName || null },
+      }
+    );
+
+    pendingRoundInviteToken = '';
+    pendingRoundInvitePreview = null;
+    joinRoundForm?.classList.remove('is-invite-acceptance');
+    if (inviteJoinBanner) inviteJoinBanner.hidden = true;
+    window.history.replaceState({}, '', '/');
+    await enterJoinedRound(accepted.active_code);
+    return true;
+  };
+
+  const processPendingRoundInvite = async () => {
+    if (
+      !pendingRoundInviteToken
+      || !sessionToken()
+      || roundInviteProcessing
+    ) return;
+
+    roundInviteProcessing = true;
+    try {
+      const preview = await requestJson(
+        `/api/invites/${encodeURIComponent(pendingRoundInviteToken)}`,
+        { authenticated: false }
+      );
+      pendingRoundInvitePreview = preview;
+      showRoundPanel('join');
+      configureInviteJoinUi(preview);
+
+      if (joinTeeField) joinTeeField.hidden = true;
+      if (joinTeeSelect) joinTeeSelect.replaceChildren();
+
+      if (preview.requires_tee) {
+        try {
+          setFormBusy(joinRoundForm, true);
+          await acceptPendingRoundInvite('');
+          return;
+        } catch (error) {
+          if (!/pick a tee/i.test(String(error?.message || ''))) {
+            throw error;
+          }
+        } finally {
+          setFormBusy(joinRoundForm, false);
+        }
+
+        fillTeeSelect(joinTeeSelect, preview.available_tees || []);
+        if (joinTeeField) joinTeeField.hidden = false;
+        joinTeeSelect?.focus();
+        return;
+      }
+
+      setFormBusy(joinRoundForm, true);
+      try {
+        await acceptPendingRoundInvite('');
+      } finally {
+        setFormBusy(joinRoundForm, false);
+      }
+    } catch (error) {
+      showRoundPanel('join');
+      configureInviteJoinUi({
+        role: pendingRoundInvitePreview?.role || 'player',
+        course_name: null,
+        free_play_name: null,
+      });
+      if (joinRoundSubmit) joinRoundSubmit.hidden = true;
+      setRoundFlowMessage(error.message);
+    } finally {
+      roundInviteProcessing = false;
+    }
+  };
+
+  const copyRoundInvite = async (url) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      return true;
+    } catch (_error) {
+      const input = document.createElement('textarea');
+      input.value = url;
+      input.setAttribute('readonly', '');
+      input.style.position = 'fixed';
+      input.style.opacity = '0';
+      document.body.append(input);
+      input.select();
+      const copied = document.execCommand('copy');
+      input.remove();
+      return copied;
+    }
+  };
+
+  const shareRoundInvite = async (role, button) => {
+    if (
+      !currentLobbyRound
+      || !['setup', 'active'].includes(currentLobbyRound.status)
+    ) return;
+
+    if (button) button.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      const invite = await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/invites`,
+        {
+          method: 'POST',
+          body: { role },
+        }
+      );
+      const url =
+        `${window.location.origin}/invite/${encodeURIComponent(invite.token)}`;
+      const shareText = role === 'spectator'
+        ? 'Come watch this golf disaster.'
+        : 'Get in this round and bring your worst golf.';
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Who Pushed Me?!',
+            text: shareText,
+            url,
+          });
+          setRoundFlowMessage(
+            role === 'spectator'
+              ? 'SPECTATOR INVITE READY.'
+              : 'PLAYER INVITE READY.'
+          );
+          return;
+        } catch (error) {
+          if (error?.name === 'AbortError') return;
+        }
+      }
+
+      const copied = await copyRoundInvite(url);
+      setRoundFlowMessage(
+        copied
+          ? (
+              role === 'spectator'
+                ? 'SPECTATOR INVITE COPIED.'
+                : 'PLAYER INVITE COPIED.'
+            )
+          : 'COULD NOT COPY THE INVITE LINK.'
+      );
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    } finally {
+      if (button) button.disabled = false;
+    }
   };
 
   const renderRoundHandicapEditor = (container, round) => {
@@ -5508,7 +5732,10 @@
   };
 
   startRoundButton?.addEventListener('click', () => showRoundPanel('start'));
-  joinRoundButton?.addEventListener('click', () => showRoundPanel('join'));
+  joinRoundButton?.addEventListener('click', () => {
+    resetInviteJoinUi({ clearToken: true });
+    showRoundPanel('join');
+  });
   roundFlowClose?.addEventListener('click', closeRoundFlow);
   lobbyHome?.addEventListener('click', closeRoundFlow);
   roundFlowModal?.addEventListener('click', (event) => {
@@ -5827,6 +6054,30 @@
   joinRoundForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     setRoundFlowMessage('');
+
+    if (
+      pendingRoundInviteToken
+      && pendingRoundInvitePreview
+      && joinRoundForm.classList.contains('is-invite-acceptance')
+    ) {
+      const teeName = String(joinTeeSelect?.value || '').trim();
+      if (pendingRoundInvitePreview.requires_tee && !teeName) {
+        setRoundFlowMessage('Pick your tee before joining this round.');
+        joinTeeSelect?.focus();
+        return;
+      }
+
+      setFormBusy(joinRoundForm, true);
+      try {
+        await acceptPendingRoundInvite(teeName);
+      } catch (error) {
+        setRoundFlowMessage(error.message);
+      } finally {
+        setFormBusy(joinRoundForm, false);
+      }
+      return;
+    }
+
     const values = new FormData(joinRoundForm);
     const code = String(values.get('code') || '').trim();
     const role = String(values.get('role') || 'player');
@@ -5869,6 +6120,14 @@
     } finally {
       setFormBusy(joinRoundForm, false);
     }
+  });
+
+  roundInviteButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const role = String(button.dataset.inviteRole || '');
+      if (!['player', 'spectator'].includes(role)) return;
+      void shareRoundInvite(role, button);
+    });
   });
 
   claimPlayerNone?.addEventListener('click', async () => {
