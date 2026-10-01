@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end_early.vote_no.20261001.01",
+      "text": "{subject} voted no. Apparently the suffering isn’t complete yet.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.02",
+      "text": "NO from {subject}. Somebody still believes there’s golf worth saving here.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.03",
+      "text": "{subject} wants to keep going. Delusion remains undefeated.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.04",
+      "text": "{subject} voted no. The rest of you are being dragged back into the crime scene.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.05",
+      "text": "Vote recorded: NO. {subject} has chosen more golf over common sense.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.06",
+      "text": "{subject} refuses to quit. Stubbornness has officially entered the scorecard.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.07",
+      "text": "{subject} voted no. Apparently rock bottom still has a few holes left.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.08",
+      "text": "{subject} wants to finish this thing. Whether that’s courage or stupidity is still under review.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.09",
+      "text": "{subject} voted no. Apparently there’s still enough beer left to keep this mistake going.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_no.20261001.10",
+      "text": "NO from {subject}. The round continues because bad golf and alcohol apparently need more time together.",
+      "events": [
+        "round.end_early.vote_no"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
