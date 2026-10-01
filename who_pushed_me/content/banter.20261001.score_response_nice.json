@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.score.response.nice.20261001.01",
+      "text": "Nice. Don’t get used to hearing that.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.02",
+      "text": "Okay, that was actually fucking solid.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.03",
+      "text": "Nice shot. Hate to admit it, but that worked.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.04",
+      "text": "That was clean. Suspiciously clean.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.05",
+      "text": "Nice. Somebody finally did something worth watching.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.06",
+      "text": "Good shit. Try not to ruin the moment immediately.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.07",
+      "text": "That one deserves credit. Unfortunately, now you’ll be insufferable about it.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.08",
+      "text": "Nice work. The rest of the group may now pretend they’re happy for you.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.09",
+      "text": "Nice. Somebody earned the next beer instead of just opening it.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.score.response.nice.20261001.10",
+      "text": "Nice. Your {spouse} is going to hear about this one way too many fucking times.",
+      "events": [
+        "score.response.nice"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
