@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.second.20260930.01",
+      "text": "{subject} gets the second shot. Try not to waste the only decent drive we had.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.02",
+      "text": "Second shot goes to {subject}. No pressure—just the entire fucking hole.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.03",
+      "text": "{subject} is taking shot two. Everybody else can offer useless advice from the cart.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.04",
+      "text": "Using {subject} for the second. This is where the plan usually starts falling apart.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.05",
+      "text": "{subject} gets the next swing. Please continue pretending this team has a strategy.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.06",
+      "text": "Second shot: {subject}. Somebody has to move this disaster closer to the hole.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.07",
+      "text": "{subject} takes shot two. The rest of you are now officially spectators with clubs.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.08",
+      "text": "Using {subject} for the second shot. Try not to turn a decent position into a fucking crime scene.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.09",
+      "text": "{subject} gets the second shot. Take a sip and pretend that counts as preparation.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.10",
+      "text": "Second shot goes to {subject}. Let’s see if the beer improved the swing or just the confidence.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.11",
+      "text": "{subject} is up for shot two. The alcohol says hero shot; the scorecard says calm the fuck down.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.12",
+      "text": "Using {subject} on the second. Someone hold the beer and lower expectations.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.13",
+      "text": "{subject} gets another chance to be useful. Don’t fucking blow it.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.14",
+      "text": "Second shot belongs to {subject}. The team’s future is briefly in questionable hands.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.17",
+      "text": "Second shot goes to {subject}. Everybody else can start preparing their excuses.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.18",
+      "text": "{subject} takes the next swing. This is either progress or the beginning of another fucking mess.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.19",
+      "text": "Using {subject} on shot two. Try to advance the ball without creating a new problem.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.20",
+      "text": "{subject} gets the second. The team has officially entrusted the situation to another questionable adult.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.21",
+      "text": "Second shot: {subject}. Please convert this position into something resembling golf.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.22",
+      "text": "{subject} is up next. The bar is low and somehow still feels dangerous.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.23",
+      "text": "Using {subject} for shot two. One useful swing here could really confuse everybody.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.25",
+      "text": "Second shot belongs to {subject}. Time to find out whether competence can happen twice in one hole.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.28",
+      "text": "{subject} is taking the second. If this goes badly, blame the beer before anyone checks the swing.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.29",
+      "text": "Using {subject} for shot two. The team strategy appears to be drink first, aim later.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.second.20260930.30",
+      "text": "{subject} gets the second. Somebody keep the cooler open; we may need immediate emotional support.",
+      "events": [
+        "scramble.contribution.second"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
