@@ -109,7 +109,7 @@ def test_old_round_routes_are_parked():
 def test_service_worker_is_served_from_root_scope():
     response = client().get("/service-worker.js")
     assert response.status_code == 200
-    assert b"wpm-shell-v87" in response.data
+    assert b"wpm-shell-v108" in response.data
     assert response.headers["Cache-Control"] == "no-cache"
 
 
@@ -2263,4 +2263,38 @@ def test_loaded_course_pars_skip_par_tracking_choice():
     assert "setupParTracking.hidden = loadedCourseHasPars;" in script
     assert '#setup-par-tracking[hidden]' in css
     assert 'display: none !important;' in css
+
+
+def test_round_invite_entry_uses_main_app_shell():
+    response = client().get("/invite/test-token")
+    assert response.status_code == 200
+    assert b"START A ROUND" in response.data
+    assert b"INVITE PLAYER" in response.data
+    assert b"INVITE SPECTATOR" in response.data
+
+
+def test_round_invite_ui_preserves_role_and_login_deep_link():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    manifest = client().get("/static/manifest.webmanifest")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert manifest.status_code == 200
+
+    assert page.data.count(b'data-invite-role="player"') == 2
+    assert page.data.count(b'data-invite-role="spectator"') == 2
+    assert b'id="invite-join-banner"' in page.data
+
+    source = script.data.decode("utf-8")
+    assert "pendingRoundInviteToken" in source
+    assert "processPendingRoundInvite" in source
+    assert "/api/invites/" in source
+    assert "INVITED AS PLAYER" in source
+    assert "INVITED AS SPECTATOR" in source
+    assert "navigator.share" in source
+    assert "ROUND INVITE WAITING. SIGN IN OR CREATE AN ACCOUNT." in source
+
+    manifest_payload = manifest.get_json()
+    assert manifest_payload["scope"] == "/"
+    assert manifest_payload["launch_handler"]["client_mode"][0] == "navigate-existing"
 
