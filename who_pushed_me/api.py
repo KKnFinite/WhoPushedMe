@@ -6,6 +6,7 @@ from typing import Any, Callable
 
 import psycopg
 from flask import Blueprint, current_app, g, jsonify, request, send_file
+from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.content.preferences import blocked_themes
@@ -36,6 +37,65 @@ def _body() -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise DomainError("request body must be a JSON object")
     return payload
+
+INVITE_MAX_AGE_SECONDS = 7 * 24 * 60 * 60
+
+
+def _invite_serializer() -> URLSafeTimedSerializer:
+    secret = str(current_app.config.get("INVITE_SIGNING_SECRET") or "")
+    if not secret:
+        raise RuntimeError("round invite signing secret is not configured")
+    return URLSafeTimedSerializer(secret, salt="wpm-round-invite-v1")
+
+
+def _decode_round_invite(token: object) -> dict[str, str]:
+    encoded = str(token or "").strip()
+    if not encoded:
+        raise DomainError("round invite is required")
+    try:
+        payload = _invite_serializer().loads(
+            encoded,
+            max_age=INVITE_MAX_AGE_SECONDS,
+        )
+    except SignatureExpired as error:
+        raise DomainError("round invite has expired") from error
+    except BadSignature as error:
+        raise DomainError("round invite is invalid") from error
+
+    if not isinstance(payload, dict):
+        raise DomainError("round invite is invalid")
+    round_id = str(payload.get("round_id") or "").strip()
+    role = str(payload.get("role") or "").strip().lower()
+    if not round_id or role not in {"player", "spectator"}:
+        raise DomainError("round invite is invalid")
+    return {"round_id": round_id, "role": role}
+
+
+def _round_invite_response(
+    preview: dict[str, Any],
+    *,
+    role: str,
+) -> dict[str, Any]:
+    active = preview.get("status") in {"setup", "active"}
+    tees = preview.get("available_tees") or []
+    course = preview.get("course") or {}
+    return {
+        "round_id": str(preview["id"]),
+        "role": role,
+        "active": active,
+        "status": preview.get("status"),
+        "mode": preview.get("mode"),
+        "hole_count": preview.get("hole_count"),
+        "current_hole": preview.get("current_hole"),
+        "course_name": course.get("name"),
+        "free_play_name": preview.get("free_play_name"),
+        "available_tees": tees,
+        "requires_tee": bool(
+            role == "player"
+            and preview.get("mode") == "individual"
+            and tees
+        ),
+    }
 
 
 def session_authenticated(view: Callable[..., Any]) -> Callable[..., Any]:
@@ -388,6 +448,112 @@ def create_round():
         **kwargs,
     )
     return jsonify(round_row), 201
+
+
+
+@api.post("/rounds/<round_id>/invites")
+@session_authenticated
+def create_round_invite(round_id: str):
+    payload = _body()
+    role = str(payload.get("role") or "").strip().lower()
+    if role not in {"player", "spectator"}:
+        raise DomainError("invite role must be player or spectator")
+
+    store = _store()
+    round_row = store.get_round(
+        g.golfer["id"],
+        round_id=round_id,
+        event_limit=1,
+    )
+    if round_row["status"] not in {"setup", "active"}:
+        raise DomainError("round invites are only available for a live round")
+
+    if role == "player":
+        active_players = sum(
+            1
+            for participant in round_row.get("participants") or []
+            if (
+                participant.get("role") == "player"
+                and participant.get("participation_state") == "active"
+            )
+        )
+        if active_players >= 4:
+            raise DomainError("this round already has 4 active golfers")
+
+    token = _invite_serializer().dumps(
+        {
+            "round_id": str(round_row["id"]),
+            "role": role,
+        }
+    )
+    return jsonify(token=token, role=role)
+
+
+@api.get("/invites/<token>")
+def preview_round_invite(token: str):
+    invite = _decode_round_invite(token)
+    preview = _store().round_invite_preview(invite["round_id"])
+    response = _round_invite_response(preview, role=invite["role"])
+    if not response["active"]:
+        raise DomainError("that round invite is no longer active")
+    return jsonify(response)
+
+
+@api.post("/invites/<token>/accept")
+@session_authenticated
+def accept_round_invite(token: str):
+    invite = _decode_round_invite(token)
+    payload = _body()
+    store = _store()
+    preview = store.round_invite_preview(
+        invite["round_id"],
+        golfer_id=g.golfer["id"],
+    )
+    response = _round_invite_response(preview, role=invite["role"])
+    if not response["active"]:
+        raise DomainError("that round invite is no longer active")
+
+    desired_role = invite["role"]
+    tee_name = payload.get("tee_name")
+    existing_role = preview.get("viewer_role")
+    existing_state = preview.get("viewer_participation_state")
+
+    if existing_role == "player":
+        if preview["status"] == "active" and existing_state != "active":
+            store.set_participation_state(
+                g.golfer["id"],
+                preview["id"],
+                "active",
+            )
+        effective_role = "player"
+    elif existing_role == "spectator" and desired_role == "player":
+        if response["requires_tee"] and not str(tee_name or "").strip():
+            raise DomainError("pick a tee before joining as a player")
+        store.promote_spectator_to_player(
+            g.golfer["id"],
+            preview["id"],
+            tee_name=tee_name,
+        )
+        effective_role = "player"
+    elif existing_role == "spectator":
+        effective_role = "spectator"
+    else:
+        if response["requires_tee"] and not str(tee_name or "").strip():
+            raise DomainError("pick a tee before joining as a player")
+        participant = store.join_round(
+            g.golfer["id"],
+            code=preview["active_code"],
+            role=desired_role,
+            tee_name=tee_name,
+        )
+        effective_role = participant["role"]
+
+    return jsonify(
+        round_id=str(preview["id"]),
+        active_code=preview["active_code"],
+        role=effective_role,
+        status=preview["status"],
+    )
 
 
 @api.post("/rounds/join")
