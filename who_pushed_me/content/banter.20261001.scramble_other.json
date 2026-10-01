@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.other.20261001.01",
+      "text": "We’re using {subject}’s shot. Whatever the hell it was, it worked.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.02",
+      "text": "{subject}’s shot gets the nod. The rest of you can stop explaining yours.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.03",
+      "text": "Using {subject}’s ball. One of these disasters had to be the least bad.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.04",
+      "text": "{subject}’s shot survives. Everybody else just contributed alternatives nobody asked for.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.05",
+      "text": "We’re taking {subject}’s shot. Somehow that became the responsible choice.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.06",
+      "text": "{subject} gave the team the usable ball. The rest of you mostly provided comic relief.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.07",
+      "text": "Using {subject}’s shot. Apparently the beer didn’t ruin every decision today.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.09",
+      "text": "{subject}’s shot is the keeper. The rest of you can stop pretending your fucking disasters were strategic.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.10",
+      "text": "Using {subject}’s shot. Three other adults just failed an open-book test with golf clubs.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.11",
+      "text": "{subject} gave us the only ball worth keeping. The rest belong in a fucking evidence bag.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.12",
+      "text": "We’re taking {subject}’s shot. Everybody else can go apologize to the grass.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.13",
+      "text": "{subject}’s shot survives. The others looked like four separate ways to get banned from golf.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.14",
+      "text": "Using {subject}’s ball. The rest of you just turned one simple shot into a fucking committee hearing.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.15",
+      "text": "{subject}’s shot gets picked. Everybody else can shut up before someone asks what the hell you were aiming at.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.16",
+      "text": "Using {subject}’s shot. Apparently one of you can still make a decent decision while half in the bag.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.17",
+      "text": "{subject}’s shot is the keeper. The rest of you should drink until those other swings stop being memories.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.other.20261001.18",
+      "text": "{subject}’s shot gets used. Your {spouse} would be stunned to see you contribute something this useful.",
+      "events": [
+        "scramble.contribution.other"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
