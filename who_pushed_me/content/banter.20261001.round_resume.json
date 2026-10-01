@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.resume.20261001.01",
+      "text": "Round resumed. Apparently somebody decided quitting was too easy.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.02",
+      "text": "We’re back. The golf was already bad, but now it gets a second act.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.03",
+      "text": "Round resumed. Time to pick up exactly where the damage left off.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.04",
+      "text": "{subject} is back in the round. The course was briefly enjoying the peace.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.05",
+      "text": "Play resumed. Whatever dignity survived earlier is now in immediate danger.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.06",
+      "text": "We’re playing again. The scorecard has unfinished business with all of you.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.07",
+      "text": "Round back on. Somebody’s about to make the same mistake with renewed confidence.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.08",
+      "text": "Resuming play. Because apparently the first half of this shitshow wasn’t enough.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.09",
+      "text": "Round resumed. Somebody refill the beer and prepare for another round of bad decisions.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.resume.20261001.10",
+      "text": "We’re back at it. The drinks are ready and the golf is still questionable.",
+      "events": [
+        "round.resume"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
