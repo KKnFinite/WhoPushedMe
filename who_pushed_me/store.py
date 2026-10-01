@@ -5426,6 +5426,7 @@ class RoundStore:
                 9 if 1 <= max_hole <= 9
                 else (18 if max_hole >= 10 else None)
             )
+            course["has_pars"] = cached_pars > 0
             course["has_complete_pars"] = (
                 cached_holes > 0
                 and cached_pars == cached_holes
