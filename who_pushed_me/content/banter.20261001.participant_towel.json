@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.towel.20261001.01",
+      "text": "{subject} threw in the towel. The course has officially broken another adult.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.02",
+      "text": "{subject} is done. Somewhere, the scorecard just breathed a sigh of relief.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.03",
+      "text": "Towel thrown: {subject}. The round wins by technical knockout.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.04",
+      "text": "{subject} quit the fight. Honestly, the golf had been winning for a while.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.05",
+      "text": "{subject} tapped out. The remaining holes have been spared further abuse.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.06",
+      "text": "Round over for {subject}. Pride has left the premises.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.07",
+      "text": "{subject} is finished. The comeback has been cancelled due to lack of evidence.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.08",
+      "text": "{subject} threw in the towel. Even denial has its limits.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.09",
+      "text": "{subject} tapped out. Apparently there wasn’t enough beer in the cart to fix this shit.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.towel.20261001.10",
+      "text": "{subject} is done. Time to stop scoring and start drinking with purpose.",
+      "events": [
+        "participant.towel"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
