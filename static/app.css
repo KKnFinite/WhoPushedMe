@@ -2287,6 +2287,10 @@ body.app-ready .app-shell {
   display: none;
 }
 
+#bag-form .round-text-field[hidden] {
+  display: none !important;
+}
+
 .bag-form-heading {
   display: flex;
   align-items: center;
