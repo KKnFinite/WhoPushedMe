@@ -2250,3 +2250,17 @@ def test_make_excuse_is_self_only_without_target_picker():
     assert "#bag-form .round-text-field[hidden]" in css_source
     assert "display: none !important;" in css_source
 
+def test_loaded_course_pars_skip_par_tracking_choice():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    script = (root / "static" / "app.js").read_text(encoding="utf-8")
+    css = (root / "static" / "app.css").read_text(encoding="utf-8")
+    store = (root / "who_pushed_me" / "store.py").read_text(encoding="utf-8")
+
+    assert 'course["has_pars"] = cached_pars > 0' in store
+    assert "selectedCourse?.has_pars" in script
+    assert "setupParTracking.hidden = loadedCourseHasPars;" in script
+    assert '#setup-par-tracking[hidden]' in css
+    assert 'display: none !important;' in css
+
