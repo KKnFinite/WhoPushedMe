@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.completed.20261001.01",
+      "text": "Round complete. Eighteen holes of evidence are now officially admissible.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.02",
+      "text": "That’s the round. Somehow everybody survived and the scorecard has receipts.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.03",
+      "text": "Finished. The golf is over, but the shit-talking has plenty of life left.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.04",
+      "text": "Round complete. Every excuse has now been permanently attached to a number.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.05",
+      "text": "That’s it. No more “I’ll get it back next hole.” There are no more fucking holes.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.06",
+      "text": "Round finished. Time to review exactly where everything went wrong.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.07",
+      "text": "The scorecard is closed. Your dignity may now appeal the decision.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.08",
+      "text": "Round complete. Somebody won, somebody sucked, and everybody has a story that gets better with every retelling.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.09",
+      "text": "Round finished. Golf is officially over; drinking no longer needs to pretend it has a secondary purpose.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.10",
+      "text": "That’s eighteen. The scorecard can rest while the lies get progressively drunker.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.11",
+      "text": "Round complete. The final numbers are in and several of you should probably avoid eye contact.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.12",
+      "text": "That’s a wrap. The course kept the scars; you kept the excuses.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.13",
+      "text": "Finished. Every bad bounce, bad swing, and worse decision is officially part of the record now.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.14",
+      "text": "Round complete. Time to stop saying “almost” and look at what actually fucking happened.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.15",
+      "text": "That’s eighteen. Some of you played golf. Some of you just occupied tee times.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.16",
+      "text": "Round finished. The comeback window is closed and the bullshit window is wide open.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.17",
+      "text": "Scorecard complete. There is nowhere left to hide and no next hole to blame.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.18",
+      "text": "That’s the round. Congratulations on turning several hours of free time into permanent statistical evidence.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.completed.20261001.19",
+      "text": "Round complete. Start drinking like the score can still be negotiated.",
+      "events": [
+        "round.completed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
