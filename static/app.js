@@ -1852,7 +1852,10 @@
     )?.value || 'course';
     const loadedCourseHasPars = Boolean(
       courseMode === 'course'
-      && selectedCourse?.has_complete_pars
+      && (
+        selectedCourse?.has_pars
+        || selectedCourse?.has_complete_pars
+      )
     );
 
     setupParTracking.hidden = loadedCourseHasPars;
