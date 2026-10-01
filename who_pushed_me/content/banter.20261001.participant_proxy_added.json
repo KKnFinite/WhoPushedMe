@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.proxy_added.20261001.01",
+      "text": "{subject} got added without even showing up. Somehow they’re already contributing more than expected.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.02",
+      "text": "Proxy golfer added: {subject}. Nothing says friendship like entering scores for someone who couldn’t be bothered to connect.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.03",
+      "text": "{subject} is officially in the round now. Digitally present, physically questionable.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.04",
+      "text": "Added {subject} as a proxy. Apparently attendance is optional but humiliation is mandatory.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.05",
+      "text": "{subject} made the roster without touching the app. That’s either efficient or lazy as fuck.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.06",
+      "text": "Proxy added: {subject}. Somebody else now gets the privilege of recording their disasters.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.07",
+      "text": "{subject} is in. They don’t even need the app to start becoming everyone else’s problem.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.08",
+      "text": "Added {subject} manually. Technology has officially given up waiting for them.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.proxy_added.20261001.09",
+      "text": "{subject} got added as a proxy. Apparently holding a beer was already enough responsibility.",
+      "events": [
+        "participant.proxy_added"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
