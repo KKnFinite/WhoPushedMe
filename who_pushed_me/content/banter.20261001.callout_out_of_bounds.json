@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.01",
+      "text": "{target} sent that one out of bounds. Apparently the golf course wasn’t big enough.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.03",
+      "text": "Out of bounds by {target}. Nice of them to involve the neighboring property.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.04",
+      "text": "{target} missed the entire fucking golf course. That takes commitment.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.05",
+      "text": "{target} put one OB. The fairway has filed a missing-person report.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.06",
+      "text": "Out of bounds. {target} aimed for grass and chose another ZIP code.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.07",
+      "text": "{target} just gave the course boundary a stress test.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.08",
+      "text": "OB by {target}. Somewhere, a homeowner just heard a very expensive fucking noise.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.09",
+      "text": "{target} sent it out of bounds. Apparently the beer widened the fairway in their head.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.out_of_bounds.20261001.10",
+      "text": "{target} missed the entire course. Their {spouse} already knows they have trouble keeping things where they belong.",
+      "events": [
+        "mid_hole.callout.out_of_bounds"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
