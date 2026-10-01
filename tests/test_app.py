@@ -2169,3 +2169,33 @@ def test_20260930_approved_old_hole_score_push_banter_is_loaded():
     assert "banter.score.push.old_hole_raised.20260930.drinking.09" in raised_ids
     assert "banter.score.push.old_hole_raised.20260930.spouse.10" not in raised_ids
 
+def test_20261001_scramble_second_shot_banter_is_retrospective():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    data = json.loads(
+        (
+            root
+            / "who_pushed_me"
+            / "content"
+            / "banter.20260930.scramble_second.json"
+        ).read_text(encoding="utf-8")
+    )
+    rows = data["banter"]
+    assert len(rows) == 20
+
+    ids = {row["id"] for row in rows}
+    for suffix in ("10", "11", "20", "21", "23"):
+        assert (
+            "banter.scramble.contribution.second.20260930." + suffix
+        ) not in ids
+
+    text_by_id = {row["id"]: row["text"] for row in rows}
+    assert text_by_id[
+        "banter.scramble.contribution.second.20260930.01"
+    ].startswith("We’re using")
+    assert "gets the second shot" not in "\n".join(text_by_id.values())
+    assert "is taking shot two" not in "\n".join(text_by_id.values())
+    assert "is up next" not in "\n".join(text_by_id.values())
+
