@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.ended_early.20261001.01",
+      "text": "Round ended early. The golf has officially been euthanized.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.02",
+      "text": "That’s it. Somebody finally pulled the plug on this fucking mess.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.03",
+      "text": "Round over. The remaining holes have been spared.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.04",
+      "text": "Ended early. Apparently everyone agreed enough damage had been done.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.05",
+      "text": "That’s all. The scorecard has been released from further suffering.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.06",
+      "text": "Round ended early. Whatever comeback was supposedly coming can stay imaginary.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.07",
+      "text": "It’s over. The course wins by mercy rule.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.08",
+      "text": "Round terminated. Dignity recovery operations may now begin.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.ended_early.20261001.10",
+      "text": "That’s enough golf. The rest of the bad decisions can happen without a scorecard.",
+      "events": [
+        "round.ended_early"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
