@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.start.20261001.01",
+      "text": "Round started. Time to turn confidence into evidence.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.02",
+      "text": "We’re live. Somebody’s about to find out their warm-up swing was lying.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.03",
+      "text": "Round underway. The scorecard is officially taking names.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.04",
+      "text": "It has begun. Bad golf, worse decisions, zero excuses.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.05",
+      "text": "Round started. Try to keep the damage contained to the course.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.06",
+      "text": "We’re off. Everybody still thinks they’re going to play well. Adorable.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.07",
+      "text": "First tee is live. Confidence is high and completely unsupported.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.08",
+      "text": "Round started. The lies about “feeling good today” can end now.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.09",
+      "text": "Round started. Crack one open before the scorecard gives you a reason.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.10",
+      "text": "We’re live. Golf first, drinking second, regrettable decisions everywhere.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.11",
+      "text": "Round started. Time to find out which one of you has been lying the hardest about your fucking game.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.12",
+      "text": "We’re live. Every bad swing from here on out is officially admissible evidence.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.13",
+      "text": "Round started. Stretch, swear, and prepare to spend four hours proving you should’ve stayed home.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.14",
+      "text": "First tee is live. Somebody’s confidence is about to get beaten to death in public.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.17",
+      "text": "Round started. Time to turn all that shit-talking into measurable disappointment.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.18",
+      "text": "First tee is open. Go ahead and hit that first fucking lie into the trees.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.19",
+      "text": "Round started. Every excuse from this point forward will be entered into the permanent record.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.start.20261001.20",
+      "text": "We’re live. Someone is about to lose a golf ball, a temper, and what little dignity they arrived with.",
+      "events": [
+        "round.start"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
