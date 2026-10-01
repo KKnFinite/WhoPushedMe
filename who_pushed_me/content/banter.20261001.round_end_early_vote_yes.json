@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.01",
+      "text": "{subject} voted yes. Apparently they’ve suffered enough.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.02",
+      "text": "{subject} wants out. The golf has officially broken another voter.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.03",
+      "text": "YES from {subject}. Somebody has seen enough fucking evidence.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.04",
+      "text": "{subject} voted to end it. The comeback speech has been cancelled.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.05",
+      "text": "{subject} wants this round put out of its misery.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.06",
+      "text": "Vote recorded: YES. {subject} has chosen dignity preservation over more golf.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.07",
+      "text": "{subject} voted yes. Even denial eventually runs out of holes.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.08",
+      "text": "{subject} is ready to call it. The course wins another psychological victory.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.09",
+      "text": "{subject} voted yes. Apparently it’s time to stop golfing and focus on the drinking.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end_early.vote_yes.20261001.10",
+      "text": "YES from {subject}. The golf can end; the bad decisions clearly don’t have to.",
+      "events": [
+        "round.end_early.vote_yes"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
