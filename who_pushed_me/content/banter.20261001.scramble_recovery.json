@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.01",
+      "text": "{subject}’s recovery shot is the one we’re using. Somebody finally cleaned up this fucking mess.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.02",
+      "text": "Using {subject}’s recovery. The rest of you can stop pretending your escape attempts were intentional.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.03",
+      "text": "{subject} got the team out of trouble. Everybody else just documented how bad it was.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.05",
+      "text": "{subject}’s recovery survives. The disaster has officially been reduced from catastrophic to manageable.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.06",
+      "text": "We’re taking {subject}’s recovery shot. Somehow the ball is back in civilization.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.07",
+      "text": "{subject} just saved the team from its own stupidity. That shot is the keeper.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.08",
+      "text": "Using {subject}’s recovery. Apparently the beer finally produced something useful.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.09",
+      "text": "{subject}’s recovery gets the nod. Somebody reward the rescue with another terrible decision.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.11",
+      "text": "{subject}’s recovery is the keeper. Somebody finally found a way out that didn’t involve a search party.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.12",
+      "text": "Using {subject}’s recovery. The team has officially escaped whatever the hell that was.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.13",
+      "text": "{subject} cleaned up the mess. Everybody else can stop explaining how they got us there.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.14",
+      "text": "{subject}’s recovery gets used. Even the beer looked surprised that worked.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.16",
+      "text": "{subject}’s recovery is the one. The team finally found a way out without making things worse.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.17",
+      "text": "Using {subject}’s recovery. Somehow the escape plan actually worked.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.18",
+      "text": "{subject} got us back in play. The rest of you can stop contributing to the crime scene.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.recovery.20261001.19",
+      "text": "{subject}’s recovery gets used. Turns out the beer didn’t erase every useful instinct.",
+      "events": [
+        "scramble.contribution.recovery"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
