@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.participant.claimed.20261001.01",
+      "text": "{subject} finally claimed their spot. Welcome to handling your own fucking problems.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.02",
+      "text": "Proxy claimed: {subject}. Somebody else can stop babysitting their score now.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.03",
+      "text": "{subject} has taken over their own golfer. Responsibility has reluctantly entered the chat.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.04",
+      "text": "Claim complete: {subject}. Congratulations on finally operating your own damn round.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.05",
+      "text": "{subject} just claimed the proxy slot. The training wheels are officially off.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.06",
+      "text": "That proxy now belongs to {subject}. No more blaming the person entering the scores.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.07",
+      "text": "{subject} is officially controlling their own golfer now. This should go terribly.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.08",
+      "text": "Proxy claimed. {subject} has arrived just in time to personally own every bad decision.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.09",
+      "text": "{subject} finally claimed their golfer. Apparently one hand was free between beers.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.participant.claimed.20261001.10",
+      "text": "Claim complete: {subject}. They can now mismanage the scorecard and the drinking themselves.",
+      "events": [
+        "participant.claimed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
