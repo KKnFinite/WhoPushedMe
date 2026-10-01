@@ -8905,9 +8905,13 @@ textarea,
 }
 
 .round-join-form .join-round-heckle,
-.round-join-form > .choice-fieldset,
 #join-round-submit {
   align-self: start;
+}
+
+.round-join-form > .choice-fieldset {
+  align-self: center;
+  margin-inline: auto !important;
 }
 
 .round-join-form .join-round-heckle {
@@ -8978,12 +8982,12 @@ textarea,
   --join-mini-y: 0px;
   position: absolute;
   z-index: 1;
-  left: 8px;
+  left: 50%;
   bottom: calc(62px + max(8px, env(safe-area-inset-bottom)));
   width: min(44%, 188px);
   height: 164px;
   pointer-events: none;
-  transform: translateY(var(--join-mini-y));
+  transform: translate(-50%, var(--join-mini-y));
 }
 
 .join-cta-mini-stage[hidden] {
