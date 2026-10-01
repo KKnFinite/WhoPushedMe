@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.putt.20261001.01",
+      "text": "{subject}’s putt is the one that counts. Everybody else can stop pretending their read was close.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.02",
+      "text": "Using {subject}’s putt. The rest of you just demonstrated several creative ways to miss the same hole.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.03",
+      "text": "{subject} drained it. Everybody else can pick up their emotional support balls.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.04",
+      "text": "{subject}’s putt gets used. One person finally figured out where the fucking cup was.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.05",
+      "text": "We’re taking {subject}’s putt. The rest of the team apparently just came to roll balls near the hole.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.06",
+      "text": "{subject} finished the job. Everybody else was just auditioning for the comeback putt.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.07",
+      "text": "{subject}’s putt is the keeper. Three other reads have officially been declared bullshit.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.08",
+      "text": "Using {subject} on the green. Somebody finally stopped negotiating with the hole and made the damn putt.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.09",
+      "text": "{subject}’s putt gets used. Apparently the beer finally loosened up something useful.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.10",
+      "text": "We’re taking {subject}’s putt. The rest of you can drink until your reads start looking correct.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.11",
+      "text": "{subject}’s putt is the one. The rest of you missed like the cup owed you money.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.12",
+      "text": "Using {subject}’s putt. Everybody else just took turns disrespecting the hole.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.13",
+      "text": "{subject} made the putt. The rest of you can stop blaming the fucking break now.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.14",
+      "text": "{subject}’s putt gets the nod. Three other attempts just proved confidence is not a skill.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.15",
+      "text": "We’re taking {subject}’s putt. The rest of you rolled yours like you were afraid of making it.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.16",
+      "text": "{subject} cleaned it up. Everybody else apparently needed directions to the cup.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.17",
+      "text": "{subject}’s putt counts. The other three were just expensive warm-up strokes.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.18",
+      "text": "Using {subject}’s putt. The rest of the team can officially shut the fuck up about their reads.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.19",
+      "text": "{subject}’s putt is the keeper. Apparently beer confidence finally matched actual ability.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.20",
+      "text": "We’re taking {subject}’s putt. Everybody else can have another drink and pretend theirs was close.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.21",
+      "text": "{subject}’s putt is the one. Your {spouse} can finally hear about one stroke that didn’t end in disappointment.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.22",
+      "text": "Using {subject}’s putt. Your {spouse} is going to be shocked you actually finished something successfully.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.23",
+      "text": "{subject} drained it. Tell your {spouse} to enjoy this rare evidence that you can find the hole.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.24",
+      "text": "{subject}’s putt gets used. Your {spouse} finally has proof your touch isn’t completely fucking useless.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.putt.20261001.25",
+      "text": "We’re taking {subject}’s putt. Your {spouse} can stop wondering why you spend so much time practicing something you usually suck at.",
+      "events": [
+        "scramble.contribution.putt"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
