@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.20261001.01",
+      "text": "Individual round complete. Every one of you now owns your fucking score.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.02",
+      "text": "That’s it. No teammates to blame, no scramble partner to save you. Those numbers are all yours.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.03",
+      "text": "Individual play is over. Time to find out who actually played golf and who just wandered around with clubs.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.04",
+      "text": "Final scores are in. Every disaster is now attached to the person responsible.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.05",
+      "text": "Round finished. Nobody carried you, nobody rescued you, and the scorecard remembers everything.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.06",
+      "text": "Individual round complete. Your excuses may now begin their appeals process.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.07",
+      "text": "That’s the round. Eighteen holes of personal accountability just became permanent.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.09",
+      "text": "Individual round complete. The golf is over, so the drinking can finally stop pretending it was helping.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.11",
+      "text": "Individual round complete. No partner to hide behind. Every ugly fucking number belongs to the person who earned it.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.12",
+      "text": "That’s eighteen holes of personal responsibility. Some of you should probably start blaming the rental clubs now.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.13",
+      "text": "Final scores are posted. If yours looks worse than you remember, congratulations—your memory was lying to you too.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.14",
+      "text": "Round over. You had eighteen chances to fix your shit and somehow kept finding new ways to make it worse.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.15",
+      "text": "Individual play is finished. The only teamwork today was everybody agreeing to watch each other suffer.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.16",
+      "text": "Scores are final. Somewhere between the first tee and here, several of you completely lost the fucking plot.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.17",
+      "text": "That’s the round. No mulligans left, no next hole, no more “I’m about to turn it around.” Shut the fuck up and look at the score.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.18",
+      "text": "Individual round complete. Some of you played golf. Some of you spent four hours creating evidence for why lessons exist.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.20261001.19",
+      "text": "Round over. If your score still looks good after this many beers, either you played well or you stopped counting correctly six holes ago.",
+      "events": [
+        "round.end.individual"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
