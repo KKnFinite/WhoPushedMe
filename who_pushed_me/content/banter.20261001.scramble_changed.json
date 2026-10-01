@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.scramble.contribution.changed.20261001.01",
+      "text": "Shot credit changed. Apparently the first decision was bullshit.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.02",
+      "text": "Contribution updated. Somebody finally admitted they picked the wrong fucking ball.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.03",
+      "text": "Shot selection changed. Nice to see the committee correcting its own stupidity.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.04",
+      "text": "Contribution changed. The original choice has officially been thrown under the cart.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.05",
+      "text": "Updated the used shot. Apparently further review found the first call embarrassing.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.06",
+      "text": "Shot credit corrected. Somebody looked again and realized they fucked it up.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.07",
+      "text": "Contribution changed. The team has reconsidered its previous terrible decision.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.08",
+      "text": "Used shot updated. Amazing what happens when somebody actually pays attention.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.09",
+      "text": "Shot selection changed. Apparently the beer was handling replay review.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.scramble.contribution.changed.20261001.10",
+      "text": "Contribution corrected. Somebody sobered up just enough to notice the mistake.",
+      "events": [
+        "scramble.contribution.changed"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
