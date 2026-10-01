@@ -6577,7 +6577,11 @@
     }
 
     resetBagComposer();
-    populateBagTargets();
+    if (action === 'callout') {
+      populateBagTargets();
+    } else if (bagTargetSelect) {
+      bagTargetSelect.replaceChildren();
+    }
     bagModal.hidden = false;
     document.body.classList.add('modal-open');
     configureBagAction(action);
@@ -6771,7 +6775,11 @@
     }
 
     const data = {};
-    if (!bagTargetField?.hidden && bagTargetSelect?.value) {
+    if (
+      currentBagAction === 'callout'
+      && !bagTargetField?.hidden
+      && bagTargetSelect?.value
+    ) {
       data.target_participant_id = bagTargetSelect.value;
     }
     if (!bagSituationField?.hidden && bagSituationSelect?.value) {
