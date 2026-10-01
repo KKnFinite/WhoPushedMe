@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.01",
+      "text": "{subject} lost the head-to-head. One opponent, one job, and they still fucked it up.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.02",
+      "text": "{subject} loses. Nothing complicated here—one person beat them straight up.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.03",
+      "text": "Head-to-head loser: {subject}. No crowd to hide in, no tie to soften it.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.04",
+      "text": "{subject} got beat one-on-one. That’s about as personal as a loss gets.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.05",
+      "text": "{subject} loses the matchup. Congratulations on making one other golfer look really fucking good.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.06",
+      "text": "One opponent. One winner. Unfortunately for {subject}, it wasn’t them.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.07",
+      "text": "{subject} came up short in the head-to-head. Direct comparison was not kind.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.08",
+      "text": "{subject} lost straight up. No math, no committee, no fucking excuses.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.09",
+      "text": "{subject} lost the head-to-head. Time to drink until “close match” sounds believable.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.10",
+      "text": "{subject} lost one-on-one. Their {spouse} has definitely seen them come up short in a two-person competition before.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.11",
+      "text": "{subject} lost one-on-one. Their {spouse} is probably wondering why they can’t last long enough to finish on top anywhere.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.14",
+      "text": "{subject} came up short one-on-one. Their {spouse} is probably thinking, “Yeah, that tracks.”",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.round.end.individual.head_to_head_loser.20261001.15",
+      "text": "{subject} lost straight up. Their {spouse} knows exactly how disappointing a two-person performance can get.",
+      "events": [
+        "round.end.individual.head_to_head_loser"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
