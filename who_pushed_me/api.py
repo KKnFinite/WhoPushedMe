@@ -924,5 +924,6 @@ def add_social_event(round_id: str):
         payload.get("type"),
         hole=payload.get("hole"),
         data=payload.get("data"),
+        reply_to_event_id=payload.get("reply_to_event_id"),
     )
     return jsonify(event), 201
