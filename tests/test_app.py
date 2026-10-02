@@ -2329,3 +2329,19 @@ def test_way_short_is_removed_from_callout_system():
         "callout",
         {"situation": "way_short"},
     ) == "mid_hole.callout"
+
+
+def test_way_long_is_removed_from_callout_system():
+    from who_pushed_me.content.catalog import ContentCatalog
+    from who_pushed_me.content.presentation import social_content_event
+
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'value="way_long"' not in page.data
+
+    catalog = ContentCatalog.load()
+    assert "mid_hole.callout.way_long" not in catalog.registry.events
+    assert social_content_event(
+        "callout",
+        {"situation": "way_long"},
+    ) == "mid_hole.callout"
