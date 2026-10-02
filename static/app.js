@@ -253,6 +253,7 @@
 
   let pendingAccount = null;
   let currentLobbyRound = null;
+  let roundHistoryOpen = false;
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
@@ -2391,6 +2392,7 @@
     if (bagModal) bagModal.hidden = true;
     currentBagAction = null;
     currentLobbyRound = null;
+    roundHistoryOpen = false;
     viewedRoutePosition = null;
     finishIncompletePending = false;
     resetClaimPlayerPanel();
@@ -2447,6 +2449,7 @@
     document.body.classList.add('modal-open');
     setRoundFlowMessage('');
     currentLobbyRound = null;
+    roundHistoryOpen = false;
     resetLiveMomentState();
     resetClaimPlayerPanel();
 
@@ -4767,23 +4770,35 @@
     });
   };
 
+  const renderRoundHistoryPage = (round) => {
+    if (!roundHistoryPage) return;
+
+    currentLobbyRound = round;
+    if (startRoundForm) startRoundForm.hidden = true;
+    if (joinRoundForm) joinRoundForm.hidden = true;
+    if (lobbyPanel) lobbyPanel.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
+    if (liveMorePanel) liveMorePanel.hidden = true;
+    if (liveNavMore) liveNavMore.textContent = 'MORE';
+
+    roundHistoryPage.hidden = false;
+    if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND HISTORY';
+    renderReceipts(round);
+  };
+
   const openRoundHistoryPage = () => {
     if (!currentLobbyRound || !roundHistoryPage) return;
 
-    if (liveMorePanel) liveMorePanel.hidden = true;
-    if (liveNavMore) liveNavMore.textContent = 'MORE';
-    if (liveRoundPanel) liveRoundPanel.hidden = true;
-    if (roundEndPanel) roundEndPanel.hidden = true;
-    roundHistoryPage.hidden = false;
-    if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND HISTORY';
-
-    renderReceipts(currentLobbyRound);
+    roundHistoryOpen = true;
+    renderRoundHistoryPage(currentLobbyRound);
     receiptsList?.scrollTo({ top: 0 });
     void markReceiptsSeen(currentLobbyRound);
   };
 
   const closeRoundHistoryPage = () => {
     if (!currentLobbyRound) return;
+    roundHistoryOpen = false;
     if (roundHistoryPage) roundHistoryPage.hidden = true;
 
     if (currentLobbyRound.status === 'completed') {
@@ -4852,6 +4867,11 @@
   };
 
   const renderRoundEnd = (round) => {
+    if (roundHistoryOpen) {
+      renderRoundHistoryPage(round);
+      return;
+    }
+
     stopLobbyBanterRotation();
     currentLobbyRound = round;
     viewedRoutePosition = null;
@@ -5076,6 +5096,11 @@
   };
 
   const renderLiveRound = (round) => {
+    if (roundHistoryOpen) {
+      renderRoundHistoryPage(round);
+      return;
+    }
+
     stopLobbyBanterRotation();
     const previousRound = currentLobbyRound;
     const previousLivePosition = Number(
@@ -5600,6 +5625,11 @@
   };
 
   const renderLobby = (round) => {
+    if (roundHistoryOpen) {
+      renderRoundHistoryPage(round);
+      return;
+    }
+
     currentLobbyRound = round;
     viewedRoutePosition = null;
     stopUserHeckle('roundSetup', { hide: true });
@@ -5780,10 +5810,8 @@
   const refreshRound = async (code) => {
     const round = await requestJson(`/api/rounds/code/${encodeURIComponent(code)}`);
 
-    if (roundHistoryPage && !roundHistoryPage.hidden) {
-      currentLobbyRound = round;
-      renderReceipts(round);
-      if (roundFlowTitle) roundFlowTitle.textContent = 'ROUND HISTORY';
+    if (roundHistoryOpen) {
+      renderRoundHistoryPage(round);
       return round;
     }
 

@@ -339,13 +339,35 @@ def test_round_polling_preserves_open_history_page():
     end = source.index("const refreshLobby = refreshRound", start)
     block = source[start:end]
 
-    assert "roundHistoryPage && !roundHistoryPage.hidden" in block
-    assert "currentLobbyRound = round;" in block
-    assert "renderReceipts(round);" in block
+    assert "if (roundHistoryOpen)" in block
+    assert "renderRoundHistoryPage(round);" in block
     assert "return round;" in block
-    history_guard = block.index("roundHistoryPage && !roundHistoryPage.hidden")
+    history_guard = block.index("if (roundHistoryOpen)")
     normal_render = block.index("renderRoundState(round)")
     assert history_guard < normal_render
+
+
+def test_round_history_survives_direct_live_lobby_and_end_renders():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    assert "let roundHistoryOpen = false;" in source
+    assert "const renderRoundHistoryPage = (round) =>" in source
+    assert "roundHistoryOpen = true;" in source
+    assert "roundHistoryOpen = false;" in source
+
+    for marker in (
+        "const renderLiveRound = (round) =>",
+        "const renderLobby = (round) =>",
+        "const renderRoundEnd = (round) =>",
+    ):
+        start = source.index(marker)
+        end = source.find("\n  const ", start + len(marker))
+        block = source[start:end if end >= 0 else None]
+        assert "if (roundHistoryOpen)" in block
+        assert "renderRoundHistoryPage(round);" in block
+        assert "return;" in block
 
 def test_score_entry_auto_advances_after_required_scores_are_complete():
     from pathlib import Path
