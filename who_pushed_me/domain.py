@@ -11,7 +11,7 @@ ROUND_STATUSES: Final = frozenset({"setup", "active", "completed", "abandoned"})
 SPOUSE_TYPES: Final = frozenset({"wife", "husband", "not_married"})
 PARTICIPANT_ROLES: Final = frozenset({"player", "spectator"})
 SOCIAL_EVENT_TYPES: Final = frozenset(
-    {"callout", "excuse", "open_mic", "reaction", "shot_call", "challenge"}
+    {"callout", "excuse", "open_mic", "reaction"}
 )
 SPECTATOR_EVENT_TYPES: Final = frozenset({"open_mic", "reaction"})
 SUGGESTED_SHOT_TYPES: Final = ("drive", "second", "approach", "recovery", "putt", "other")
