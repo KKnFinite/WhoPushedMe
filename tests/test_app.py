@@ -2504,6 +2504,29 @@ def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses
     assert '"deleted": deleted' in block
 
 
+def test_previous_disasters_opens_completed_rounds_by_id_not_code():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert b'id="previous-disasters-button"' in page.data
+    assert b'id="past-rounds-panel"' in page.data
+    assert b'id="past-rounds-list"' in page.data
+
+    source = script.data.decode("utf-8")
+    assert "const showPastRoundsPanel = async () =>" in source
+    assert "const openCompletedRoundById = async (roundId) =>" in source
+    assert "'/api/rounds/completed'" in source
+    assert "'/api/rounds/' + encodeURIComponent(roundId)" in source
+    assert "row.dataset.roundId = String(round.id);" in source
+    assert "VIEW RESULTS ›" in source
+
+    start = source.index("const showPastRoundsPanel = async () =>")
+    end = source.index("const startLobbyPolling =", start)
+    block = source[start:end]
+    assert "active_code" not in block
+
+
 def test_lobby_does_not_offer_tee_selection_controls():
     page = client().get("/")
     script = client().get("/static/app.js")

@@ -183,6 +183,18 @@ class FakeStore:
             "role": role,
         }
 
+    def list_completed_rounds(self, golfer_id, *, limit=30):
+        self.calls.append(("list_completed_rounds", golfer_id, limit))
+        return [
+            {
+                "id": UUID("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"),
+                "display_name": "Old Muni",
+                "mode": "individual",
+                "hole_count": 18,
+                "status": "completed",
+            }
+        ]
+
     def list_unfinished_rounds(self, golfer_id):
         self.calls.append(("list_unfinished_rounds", golfer_id))
         return [
@@ -655,6 +667,23 @@ def test_get_round_by_id_route_uses_exact_round_id():
         "get_round",
         store.golfer_id,
         round_id,
+    )
+
+
+def test_completed_rounds_route_lists_account_history_by_round_id():
+    client, store = client_with_store()
+    response = client.get(
+        "/api/rounds/completed",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert response.status_code == 200
+    row = response.get_json()["rounds"][0]
+    assert row["display_name"] == "Old Muni"
+    assert "active_code" not in row
+    assert store.calls[-1] == (
+        "list_completed_rounds",
+        store.golfer_id,
+        30,
     )
 
 

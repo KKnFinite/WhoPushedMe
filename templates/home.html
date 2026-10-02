@@ -179,7 +179,7 @@
       </div>
 
       <div class="home-secondary-actions">
-        <button type="button" class="home-nav-card" data-under-construction>
+        <button id="previous-disasters-button" type="button" class="home-nav-card">
           <span class="home-nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.65 4.8H2.8l3.6-3.6L10 9.8H7.43A5 5 0 1 0 12 7V5Z"/></svg>
           </span>
@@ -488,6 +488,20 @@
           <button id="join-round-submit" class="settings-save" type="submit">LET ME INTO THIS MESS</button>
         </div>
       </form>
+
+      <section id="past-rounds-panel" class="past-rounds-panel" hidden>
+        <header class="past-rounds-header">
+          <div>
+            <div class="settings-kicker">ACCOUNT HISTORY</div>
+            <h3>PREVIOUS DISASTERS</h3>
+          </div>
+          <button id="past-rounds-back" type="button">← BACK HOME</button>
+        </header>
+        <p id="past-rounds-empty" class="past-rounds-empty" hidden>
+          NO COMPLETED ROUNDS YET. GO MAKE SOME BAD DECISIONS.
+        </p>
+        <div id="past-rounds-list" class="past-rounds-list"></div>
+      </section>
 
       <section id="lobby-panel" class="lobby-panel" hidden>
         <div class="lobby-code-label">ROUND CODE</div>

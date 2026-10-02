@@ -2679,6 +2679,41 @@ class RoundStore:
             state["participant_id"] = participant["id"]
             return state
 
+    def list_completed_rounds(
+        self,
+        golfer_id: object,
+        *,
+        limit: int = 30,
+    ) -> list[dict[str, Any]]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        bounded_limit = max(1, min(int(limit), 100))
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT r.id, r.mode, r.hole_count, r.end_reason,
+                       r.updated_at, r.created_at, r.free_play_name,
+                       c.name AS course_name,
+                       rp.role, rp.participation_state
+                FROM rounds r
+                JOIN round_participants rp
+                  ON rp.round_id = r.id
+                 AND rp.golfer_id = %s
+                LEFT JOIN cached_courses c ON c.id = r.course_id
+                WHERE r.status = 'completed'
+                ORDER BY r.updated_at DESC, r.id DESC
+                LIMIT %s
+                """,
+                (golfer_uuid, bounded_limit),
+            )
+            rows = cursor.fetchall()
+            for row in rows:
+                row["display_name"] = (
+                    row.get("course_name")
+                    or row.get("free_play_name")
+                    or "Golf"
+                )
+            return rows
+
     def list_unfinished_rounds(
         self,
         golfer_id: object,

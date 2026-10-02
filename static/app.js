@@ -44,6 +44,7 @@
   const installOnboardingSkip = document.getElementById('install-onboarding-skip');
   const startRoundButton = document.getElementById('start-round-button');
   const joinRoundButton = document.getElementById('join-round-button');
+  const previousDisastersButton = document.getElementById('previous-disasters-button');
   const roundFlowModal = document.getElementById('round-flow-modal');
   const roundFlowCardGame = roundFlowModal?.querySelector('.round-flow-card-game');
   const roundFlowClose = document.getElementById('round-flow-close');
@@ -81,6 +82,10 @@
   const claimPlayerPanel = document.getElementById('claim-player-panel');
   const claimPlayerList = document.getElementById('claim-player-list');
   const claimPlayerNone = document.getElementById('claim-player-none');
+  const pastRoundsPanel = document.getElementById('past-rounds-panel');
+  const pastRoundsBack = document.getElementById('past-rounds-back');
+  const pastRoundsList = document.getElementById('past-rounds-list');
+  const pastRoundsEmpty = document.getElementById('past-rounds-empty');
   const lobbyPanel = document.getElementById('lobby-panel');
   const lobbyCode = document.getElementById('lobby-code');
   const lobbySummary = document.getElementById('lobby-summary');
@@ -2460,6 +2465,7 @@
     setCourseStepMessage('');
     if (joinRoundForm) joinRoundForm.hidden = panel !== 'join';
     if (lobbyPanel) lobbyPanel.hidden = true;
+    if (pastRoundsPanel) pastRoundsPanel.hidden = true;
     if (liveRoundPanel) liveRoundPanel.hidden = true;
     roundFlowCardGame?.classList.remove('is-live-round');
     if (roundEndPanel) roundEndPanel.hidden = true;
@@ -5886,6 +5892,95 @@
     );
   };
 
+  const openCompletedRoundById = async (roundId) => {
+    if (!roundId) return;
+    setRoundFlowMessage('');
+    try {
+      const round = await requestJson(
+        '/api/rounds/' + encodeURIComponent(roundId)
+      );
+      if (round.status !== 'completed') {
+        throw new Error('That round is not completed.');
+      }
+      if (pastRoundsPanel) pastRoundsPanel.hidden = true;
+      currentLobbyRound = round;
+      renderRoundEnd(round);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    }
+  };
+
+  const showPastRoundsPanel = async () => {
+    if (!roundFlowModal || !pastRoundsPanel || !pastRoundsList) return;
+
+    stopUserHeckle('home');
+    stopLobbyBanterRotation();
+    resetLiveMomentState();
+    currentLobbyRound = null;
+    roundHistoryOpen = false;
+    viewedRoutePosition = null;
+
+    roundFlowModal.hidden = false;
+    document.body.classList.add('modal-open');
+    roundFlowCardGame?.classList.remove('is-live-round');
+    if (startRoundForm) startRoundForm.hidden = true;
+    if (joinRoundForm) joinRoundForm.hidden = true;
+    if (lobbyPanel) lobbyPanel.hidden = true;
+    if (liveRoundPanel) liveRoundPanel.hidden = true;
+    if (roundEndPanel) roundEndPanel.hidden = true;
+    if (roundHistoryPage) roundHistoryPage.hidden = true;
+    if (roundFlowTitle) roundFlowTitle.textContent = 'PREVIOUS DISASTERS';
+
+    pastRoundsPanel.hidden = false;
+    pastRoundsList.replaceChildren();
+    if (pastRoundsEmpty) pastRoundsEmpty.hidden = true;
+
+    try {
+      const payload = await requestJson('/api/rounds/completed');
+      const rounds = Array.isArray(payload?.rounds) ? payload.rounds : [];
+      if (!rounds.length) {
+        if (pastRoundsEmpty) pastRoundsEmpty.hidden = false;
+        return;
+      }
+
+      rounds.forEach((round) => {
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'past-round-card';
+        row.dataset.roundId = String(round.id);
+
+        const copy = document.createElement('div');
+        copy.className = 'past-round-copy';
+
+        const name = document.createElement('strong');
+        name.textContent = round.display_name || 'Golf';
+
+        const meta = document.createElement('small');
+        const completedAt = round.updated_at ? new Date(round.updated_at) : null;
+        const dateLabel = completedAt && !Number.isNaN(completedAt.getTime())
+          ? completedAt.toLocaleDateString()
+          : '';
+        meta.textContent = [
+          dateLabel,
+          String(round.mode || '').toUpperCase(),
+          round.hole_count ? (String(round.hole_count) + ' HOLES') : '',
+        ].filter(Boolean).join(' • ');
+
+        const action = document.createElement('span');
+        action.textContent = 'VIEW RESULTS ›';
+
+        copy.append(name, meta);
+        row.append(copy, action);
+        row.addEventListener('click', () => {
+          void openCompletedRoundById(round.id);
+        });
+        pastRoundsList.append(row);
+      });
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+    }
+  };
+
   const startLobbyPolling = (code) => {
     if (lobbyRefreshTimer) window.clearInterval(lobbyRefreshTimer);
     lobbyRefreshTimer = window.setInterval(async () => {
@@ -5907,6 +6002,10 @@
   };
 
   startRoundButton?.addEventListener('click', () => showRoundPanel('start'));
+  previousDisastersButton?.addEventListener('click', () => {
+    void showPastRoundsPanel();
+  });
+  pastRoundsBack?.addEventListener('click', closeRoundFlow);
   joinRoundButton?.addEventListener('click', () => {
     resetInviteJoinUi({ clearToken: true });
     showRoundPanel('join');

@@ -8830,6 +8830,94 @@ textarea,
 }
 
 
+/* PAST ROUNDS */
+.past-rounds-panel {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 12px;
+  min-height: 0;
+  width: 100%;
+  color: var(--wpm-cream);
+}
+.past-rounds-panel[hidden] { display: none !important; }
+.past-rounds-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.past-rounds-header h3 {
+  margin: 0;
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+#past-rounds-back {
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid rgba(78,122,93,.6);
+  border-radius: 10px;
+  background: rgba(5,9,7,.82);
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-weight: 800;
+}
+.past-rounds-empty {
+  margin: 0;
+  padding: 14px;
+  border: 1px dashed rgba(78,122,93,.55);
+  border-radius: 12px;
+  color: rgba(233,225,200,.7);
+  text-align: center;
+}
+.past-rounds-list {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.past-round-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 12px;
+  border: 1px solid rgba(78,122,93,.55);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(18,29,22,.97), rgba(7,15,10,.99));
+  color: #fff8df;
+  text-align: left;
+}
+.past-round-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.past-round-copy strong {
+  overflow: hidden;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .98rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.past-round-copy small {
+  color: rgba(233,225,200,.62);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.past-round-card > span {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
 /* JOIN ROUND UNFINISHED ROUNDS */
 .unfinished-rounds-panel {
   display: grid;
