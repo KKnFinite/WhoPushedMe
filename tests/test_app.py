@@ -3680,3 +3680,21 @@ def test_mobile_join_cta_is_pinned_below_scrollable_content():
     assert "width: min(calc(100% - 34px), 520px);" in source
     assert ".join-cta-dock.has-mini" in source
     assert ".join-cta-mini-stage" in source
+
+
+def test_final_setup_mini_aligns_visible_feet_to_create_button():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    assert "const alignSetupMiniToPrimaryButton = (step) =>" in source
+    assert "numericStep === 3" in source
+    assert "querySelector('.round-create-button')" in source
+    assert "setupMiniOpaqueBottomRatio(mini)" in source
+    assert "alignSetupMiniToPrimaryButton(step);" in source
+
+    css_source = css.data.decode("utf-8")
+    assert '.setup-step[data-setup-step="3"] .setup-mini-stage' in css_source
+    assert "var(--setup-mini-y, 0px)" in css_source
