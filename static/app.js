@@ -334,6 +334,34 @@
     '/static/assets/mascots/onboarding/install/WPM_Onboarding_Install_47OtherUselessApps.webp',
   ];
 
+  const updateVisualViewportVars = () => {
+    const viewport = window.visualViewport;
+    const root = document.documentElement;
+    if (!viewport) {
+      root.style.setProperty('--wpm-keyboard-inset', '0px');
+      root.style.setProperty('--wpm-visual-viewport-height', '100dvh');
+      return;
+    }
+
+    const keyboardInset = Math.max(
+      0,
+      window.innerHeight - viewport.height - viewport.offsetTop
+    );
+    root.style.setProperty(
+      '--wpm-keyboard-inset',
+      `${Math.round(keyboardInset)}px`
+    );
+    root.style.setProperty(
+      '--wpm-visual-viewport-height',
+      `${Math.round(viewport.height)}px`
+    );
+  };
+
+  updateVisualViewportVars();
+  window.visualViewport?.addEventListener('resize', updateVisualViewportVars);
+  window.visualViewport?.addEventListener('scroll', updateVisualViewportVars);
+  window.addEventListener('orientationchange', updateVisualViewportVars);
+
   const sessionToken = () => window.localStorage.getItem(SESSION_KEY) || '';
 
   const saveSession = (token) => {
