@@ -2078,17 +2078,20 @@
     const courseMode = startRoundForm?.querySelector(
       'input[name="course_mode"]:checked'
     )?.value || 'course';
-    const loadedCourseHasPars = Boolean(
+    const loadedCourseHasCompletePars = Boolean(
       courseMode === 'course'
       && (
-        selectedCourse?.has_pars
-        || selectedCourse?.has_complete_pars
+        selectedCourse?.has_complete_pars === true
+        || (
+          selectedCourse?.has_complete_pars == null
+          && selectedCourse?.has_pars === true
+        )
       )
     );
 
-    setupParTracking.hidden = loadedCourseHasPars;
+    setupParTracking.hidden = loadedCourseHasCompletePars;
 
-    if (loadedCourseHasPars && startRoundForm) {
+    if (loadedCourseHasCompletePars && startRoundForm) {
       const asGo = startRoundForm.querySelector(
         'input[name="par_setup"][value="as_go"]'
       );

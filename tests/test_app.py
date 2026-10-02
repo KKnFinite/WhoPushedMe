@@ -760,8 +760,8 @@ def test_loaded_course_with_complete_pars_hides_par_tracking_setup():
     script = client().get("/static/app.js")
     assert script.status_code == 200
     assert b"syncSetupParTrackingVisibility" in script.data
-    assert b"selectedCourse?.has_complete_pars" in script.data
-    assert b"setupParTracking.hidden = loadedCourseHasPars" in script.data
+    assert b"selectedCourse?.has_complete_pars === true" in script.data
+    assert b"setupParTracking.hidden = loadedCourseHasCompletePars" in script.data
 
     from pathlib import Path
     root = Path(__file__).resolve().parents[1]
@@ -770,6 +770,21 @@ def test_loaded_course_with_complete_pars_hides_par_tracking_setup():
     )
     assert 'course["has_complete_pars"]' in store_source
     assert "count(par) AS par_count" in store_source
+
+
+def test_partial_course_par_data_does_not_hide_par_setup_choice():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index("const syncSetupParTrackingVisibility = () =>")
+    end = source.index("const updateRoundHolesHint = () =>", start)
+    block = source[start:end]
+
+    assert "selectedCourse?.has_complete_pars === true" in block
+    assert "selectedCourse?.has_complete_pars == null" in block
+    assert "selectedCourse?.has_pars === true" in block
+    assert "selectedCourse?.has_pars\n        ||" not in block
 
 
 def test_cached_external_course_selection_returns_full_course_metadata():
@@ -2407,8 +2422,11 @@ def test_loaded_course_pars_skip_par_tracking_choice():
     store = (root / "who_pushed_me" / "store.py").read_text(encoding="utf-8")
 
     assert 'course["has_pars"] = cached_pars > 0' in store
-    assert "selectedCourse?.has_pars" in script
-    assert "setupParTracking.hidden = loadedCourseHasPars;" in script
+    assert 'course["has_complete_pars"]' in store
+    assert "selectedCourse?.has_complete_pars === true" in script
+    assert "selectedCourse?.has_complete_pars == null" in script
+    assert "selectedCourse?.has_pars === true" in script
+    assert "setupParTracking.hidden = loadedCourseHasCompletePars;" in script
     assert '#setup-par-tracking[hidden]' in css
     assert 'display: none !important;' in css
 
