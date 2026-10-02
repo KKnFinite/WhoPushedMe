@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.01",
+      "text": "{target} swung and missed the entire fucking ball. Not part of it. All of it.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.02",
+      "text": "Complete whiff from {target}. The ball survived without moving an inch.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.03",
+      "text": "{target} just took a full golf swing at absolutely fucking nothing.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.04",
+      "text": "That was a practice swing with consequences, {target}.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.05",
+      "text": "{target} missed the ball completely. Even the ball looked confused.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.07",
+      "text": "{target} swung through empty space like the ball was optional.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.08",
+      "text": "Whiff by {target}. The ball remains undefeated and untouched.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.09",
+      "text": "{target} missed the whole fucking ball. Apparently depth perception called it a night before they did.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.whiff.20261001.10",
+      "text": "{target} swung hard and completely missed what was right in front of them. Their {spouse} has definitely seen that before.",
+      "events": ["mid_hole.callout.whiff"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
