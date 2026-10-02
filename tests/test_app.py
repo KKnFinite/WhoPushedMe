@@ -695,6 +695,49 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_withdrawing_last_missing_player_can_auto_advance_current_hole():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_participation_state(")
+    end = store_source.index("    def promote_spectator_to_player(", start)
+    block = store_source[start:end]
+
+    assert "SET participation_state = %s" in block
+    assert "SET required = false" in block
+    assert 'requested == "withdrew"' in block
+    assert 'round_row["mode"] == "individual"' in block
+    assert "self._maybe_advance_active_route(" in block
+    assert "scored_route_position=current_position" in block
+    assert "if auto_advance:" in block
+    assert "response.update(auto_advance)" in block
+
+
+def test_returning_player_does_not_rewind_or_auto_advance_round():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_participation_state(")
+    end = store_source.index("    def promote_spectator_to_player(", start)
+    block = store_source[start:end]
+
+    auto_start = block.index("auto_advance = None")
+    auto_end = block.index("event = self._event(", auto_start)
+    auto_block = block[auto_start:auto_end]
+    assert 'requested == "withdrew"' in auto_block
+    assert 'requested == "active"' not in auto_block
+    assert "SET current_route_position" not in block
+    assert "SET current_hole" not in block
+
+
 def test_score_correction_and_removal_keep_same_edit_boundary():
     from pathlib import Path
 

@@ -1659,6 +1659,18 @@ class RoundStore:
                 round_uuid,
                 current_position,
             )
+            auto_advance = None
+            if (
+                requested == "withdrew"
+                and round_row["mode"] == "individual"
+            ):
+                auto_advance = self._maybe_advance_active_route(
+                    cursor,
+                    round_row=round_row,
+                    actor_participant_id=participant["id"],
+                    scored_route_position=current_position,
+                )
+
             event = self._event(
                 cursor,
                 round_id=round_uuid,
@@ -1685,12 +1697,15 @@ class RoundStore:
                     "reason": surrender_reason,
                 },
             )
-            return {
+            response = {
                 "round_id": round_uuid,
                 "participant_id": participant["id"],
                 "participation_state": requested,
                 "event": event,
             }
+            if auto_advance:
+                response.update(auto_advance)
+            return response
 
     def promote_spectator_to_player(
         self,
