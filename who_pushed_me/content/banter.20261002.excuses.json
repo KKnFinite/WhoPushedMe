@@ -1,0 +1,1211 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.01",
+      "text": "{subject} is blaming the clubs. Bold move blaming the equipment when everybody watched the swing.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.02",
+      "text": "Apparently it’s the clubs’ fault. Somebody tell {subject} they don’t come with talent installed.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.03",
+      "text": "{subject} says it’s the clubs. Those poor bastards have been taking the blame all fucking day.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.04",
+      "text": "Bad clubs, huh? Weird how they worked fine right up until {subject} touched them.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.05",
+      "text": "{subject} would like the record to show the clubs are responsible for that fucking disaster.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.06",
+      "text": "Blaming the clubs is perfect. They’re the only ones here who can’t defend themselves.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.07",
+      "text": "{subject} says the equipment failed. The equipment would like a second opinion.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.08",
+      "text": "Sure, {subject}. It was the clubs. Definitely not the asshole swinging them.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.09",
+      "text": "{subject} is blaming the clubs. After enough drinks, apparently even the equipment starts looking guilty.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.clubs.20261002.10",
+      "text": "{subject} is blaming the equipment again. Their {spouse} is probably thrilled something else finally got blamed for poor performance.",
+      "events": [
+        "mid_hole.excuse.clubs"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.01",
+      "text": "{subject} is blaming the wind. Convenient how it only seems to attack the shitty shots.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.02",
+      "text": "The wind did it, says {subject}. Apparently weather now swings the fucking club too.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.03",
+      "text": "{subject} says the wind moved it. Sure. The swing had absolutely nothing to do with that disaster.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.04",
+      "text": "Blame the wind, {subject}. It can’t laugh at you like the rest of us can.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.05",
+      "text": "{subject} has filed an official complaint against moving air.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.06",
+      "text": "Apparently the breeze singled out {subject} personally and ruined an otherwise flawless masterpiece.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.07",
+      "text": "{subject} says the wind took it. The ball looked doomed before the wind got involved.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.08",
+      "text": "Wind excuse accepted for review. Verdict: still a shitty shot, {subject}.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.09",
+      "text": "{subject} is blaming the wind. After a few drinks, standing still probably feels windy too.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.wind.20261002.10",
+      "text": "{subject} blames the wind for pushing it off course. Their {spouse} has heard that kind of outside-blame bullshit before.",
+      "events": [
+        "mid_hole.excuse.wind"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.01",
+      "text": "{subject} is blaming the weather. Apparently the forecast forgot to include shitty golf.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.02",
+      "text": "Too hot, too cold, too wet — pick one, {subject}. The swing still sucked.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.03",
+      "text": "{subject} says conditions are the problem. Everyone else somehow got the same fucking sky.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.04",
+      "text": "Weather excuse from {subject}. Mother Nature has declined responsibility.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.05",
+      "text": "{subject} would like to blame the entire atmosphere for that one.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.06",
+      "text": "Bad conditions, huh? Weird how they only become unbearable after {subject} fucks up.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.07",
+      "text": "{subject} is blaming the weather like the clouds personally grabbed the club.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.08",
+      "text": "The forecast called for golf. {subject} delivered a fucking natural disaster.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.09",
+      "text": "{subject} says the weather ruined the shot. A few drinks in and apparently climate science gets very personal.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.weather.20261002.10",
+      "text": "{subject} is blaming conditions outside their control. Their {spouse} has definitely heard that defense before.",
+      "events": [
+        "mid_hole.excuse.weather"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.01",
+      "text": "{subject} is blaming the lie. Funny how the ball keeps finding bad lies around the same golfer.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.02",
+      "text": "Bad lie, says {subject}. The ball would probably like better company too.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.03",
+      "text": "{subject} says the lie was impossible. The swing made a strong case for impossible.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.04",
+      "text": "Blaming the lie is fair. It had to sit there and watch that whole fucking swing coming.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.05",
+      "text": "{subject} got a bad lie and somehow made the situation even worse.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.06",
+      "text": "The lie was ugly. Then {subject} swung and gave it competition.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.07",
+      "text": "{subject} says the ball was sitting badly. At least one thing out there has an excuse.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.08",
+      "text": "Bad lie excuse from {subject}. The ground has requested legal representation.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.09",
+      "text": "{subject} is blaming the lie. After a few drinks, every patch of grass starts looking suspicious.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.bad_lie.20261002.10",
+      "text": "{subject} says the position was terrible and there was nothing they could do. Their {spouse} has heard that one in other situations.",
+      "events": [
+        "mid_hole.excuse.bad_lie"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.01",
+      "text": "{subject} is blaming the green. Apparently the putting surface reached up and moved the fucking ball.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.02",
+      "text": "Bad green, says {subject}. The putter would like to remain anonymous.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.03",
+      "text": "{subject} says the green fooled them. It didn’t exactly have to work very hard.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.04",
+      "text": "Blaming the green is easier than admitting that read was complete bullshit.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.05",
+      "text": "{subject} got outsmarted by grass cut shorter than their confidence.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.06",
+      "text": "The green is being blamed. Somewhere a groundskeeper just felt personally insulted.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.07",
+      "text": "{subject} says the break was impossible to read. Everyone else saw the same fucking slope.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.08",
+      "text": "Green excuse filed. The cup remains unconvinced, {subject}.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.09",
+      "text": "{subject} is blaming the green. A few drinks in and every putt probably looks like it breaks three directions.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.green.20261002.10",
+      "text": "{subject} says they misread the line completely. Their {spouse} is familiar with them missing obvious signals.",
+      "events": [
+        "mid_hole.excuse.green"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.01",
+      "text": "{subject} is blaming the noise. Apparently concentration was the only thing holding that swing together.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.02",
+      "text": "Too much distraction, says {subject}. Everybody else heard the same shit and survived.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.03",
+      "text": "{subject} says somebody made noise. Good thing the excuse arrived louder than the shot.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.04",
+      "text": "Blaming a distraction is ambitious when the swing was already headed for disaster.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.05",
+      "text": "{subject} needed perfect silence to produce that garbage. Good to know.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.06",
+      "text": "Apparently one little distraction was enough to collapse {subject}’s entire golf game.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.07",
+      "text": "{subject} says the noise ruined it. The rest of us thought the swing handled that part.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.08",
+      "text": "Noise excuse from {subject}. Next shot we’ll shut down the fucking course for them.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.09",
+      "text": "{subject} is blaming the distraction. After a few drinks, a bird chirping probably sounds like a marching band.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.noise.20261002.10",
+      "text": "{subject} says they can’t perform with distractions around. Their {spouse} just laughed somewhere.",
+      "events": [
+        "mid_hole.excuse.noise"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.01",
+      "text": "{subject} is blaming the alcohol. Finally, an excuse with at least one believable witness.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.02",
+      "text": "Too many drinks, says {subject}. The scorecard had already figured that out.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.03",
+      "text": "{subject} says the booze ruined the shot. Bold strategy bringing the culprit to every hole.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.04",
+      "text": "Alcohol excuse from {subject}. The beer refuses to accept sole responsibility.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.05",
+      "text": "{subject} is blaming the drinks like somebody forced them to keep ordering.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.06",
+      "text": "Apparently the alcohol took over the swing. It still wants no credit for the technique.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.07",
+      "text": "{subject} says coordination left with the last drink. Nobody noticed much of a before-and-after.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.08",
+      "text": "The booze did it, says {subject}. Convenient little liquid scapegoat.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.09",
+      "text": "{subject} is officially blaming the drinks. At this point the drinks may be the best golfer in the group.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.alcohol.20261002.10",
+      "text": "{subject} says the alcohol caused the poor performance. Their {spouse} is absolutely saving that excuse for later.",
+      "events": [
+        "mid_hole.excuse.alcohol"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.01",
+      "text": "{subject} is blaming the hangover. Yesterday’s bad decisions just posted today’s score.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.02",
+      "text": "Hangover excuse from {subject}. Apparently the round started before their brain did.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.03",
+      "text": "{subject} says they’re hungover. The swing looks like it needs fluids and an exorcism.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.04",
+      "text": "Too hungover to play well, says {subject}. Still somehow healthy enough to keep fucking up holes.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.05",
+      "text": "{subject} brought yesterday’s drinking problem onto today’s scorecard.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.06",
+      "text": "The hangover did it. Great — now the headache has a handicap too.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.07",
+      "text": "{subject} says the body isn’t cooperating. The club appears to have joined the strike.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.08",
+      "text": "Hangover defense entered. The score remains ugly and legally binding.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.09",
+      "text": "{subject} is blaming the hangover. Nothing says athletic preparation like still fighting last night on the back nine.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.hangover.20261002.10",
+      "text": "{subject} says last night ruined today. Their {spouse} probably has a much longer version of that story.",
+      "events": [
+        "mid_hole.excuse.hangover"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.01",
+      "text": "{subject} is blaming the pace of play. Apparently waiting around erased the ability to swing a club.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.02",
+      "text": "Too slow out here, says {subject}. The shot still managed to suck immediately.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.03",
+      "text": "{subject} says the waiting killed their rhythm. Hard to kill something nobody saw alive.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.04",
+      "text": "Pace excuse from {subject}. Apparently golf only works if everyone moves at their exact fucking speed.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.05",
+      "text": "{subject} blames the delay. The extra thinking time clearly didn’t help.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.06",
+      "text": "Too much waiting, huh? {subject} had all that time and still chose that swing.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.07",
+      "text": "{subject} says they got cold waiting. The scorecard has been cold on them all round.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.08",
+      "text": "Blaming pace is perfect. It explains the waiting, not the fucking shot.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.09",
+      "text": "{subject} says the slow pace ruined them. A few drinks in, time probably stopped making sense anyway.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.excuse.pace.20261002.10",
+      "text": "{subject} is blaming how long everything takes. Their {spouse} is probably enjoying the irony.",
+      "events": [
+        "mid_hole.excuse.pace"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
