@@ -695,6 +695,61 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_spectators_are_reaction_only_for_round_mutations():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    guarded_operations = (
+        ("def set_current_hole(", "change the current hole"),
+        ("def set_par_tracking_mode(", "change par tracking"),
+        ("def set_par(", "change par"),
+        ("def set_score(", "change scores"),
+        ("def remove_score(", "change scores"),
+        ("def set_scramble_contribution(", "change contributions"),
+        ("def set_score_challenge(", "challenge scores"),
+        ("def withdraw_score_challenge(", "withdraw score challenges"),
+        ("def add_score_response(", "respond to scores"),
+    )
+
+    for marker, operation in guarded_operations:
+        start = store_source.index(marker)
+        end = store_source.find("\n    def ", start + len(marker))
+        block = store_source[start:end if end >= 0 else None]
+        assert "_require_active_player(" in block
+        assert operation in block
+
+    participation_start = store_source.index("def set_participation_state(")
+    participation_end = store_source.index(
+        "def promote_spectator_to_player(",
+        participation_start,
+    )
+    participation_block = store_source[
+        participation_start:participation_end
+    ]
+    assert 'require_player(participant["role"], "change participation state")' in participation_block
+
+
+def test_spectators_can_still_use_normal_reactions():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    for marker in ("def set_event_reaction(", "def remove_event_reaction("):
+        start = store_source.index(marker)
+        end = store_source.find("\n    def ", start + len(marker))
+        block = store_source[start:end if end >= 0 else None]
+        assert "self._participant(cursor, round_uuid, golfer_uuid)" in block
+        assert "_require_active_player(" not in block
+        assert 'round_row["status"] not in {"active", "completed"}' in block
+
+
 def test_withdrawing_last_missing_player_can_auto_advance_current_hole():
     from pathlib import Path
 
