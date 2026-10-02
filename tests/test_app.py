@@ -212,6 +212,25 @@ def test_launch_splash_uses_approved_art_for_three_seconds_then_login_overlay():
     assert b"splash.classList.add('splash-auth-ready')" in script.data
 
 
+def test_round_end_clears_live_overlays_before_showing_results():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index("const renderRoundEnd = (round) =>")
+    end = source.index("const renderLiveRound = (round) =>", start)
+    block = source[start:end]
+
+    assert "resetLiveMomentState();" in block
+    assert "closeScoreResponseSheet();" in block
+    assert "if (bagModal) bagModal.hidden = true;" in block
+    assert "if (scrambleContributionPanel) scrambleContributionPanel.hidden = true;" in block
+    assert "if (advanceWarningPanel) advanceWarningPanel.hidden = true;" in block
+    assert "if (finishIncompletePanel) finishIncompletePanel.hidden = true;" in block
+    assert "if (roundSettingsPanel) roundSettingsPanel.hidden = true;" in block
+    assert "roundEndPanel.hidden = false" in block
+
+
 def test_incomplete_finish_confirmation_is_not_buried_in_more():
     page = client().get("/")
     assert page.status_code == 200

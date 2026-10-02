@@ -4910,6 +4910,15 @@
     }
 
     stopLobbyBanterRotation();
+    resetLiveMomentState();
+    closeScoreResponseSheet();
+    if (bagModal) bagModal.hidden = true;
+    if (scrambleContributionPanel) scrambleContributionPanel.hidden = true;
+    if (advanceWarningPanel) advanceWarningPanel.hidden = true;
+    if (finishIncompletePanel) finishIncompletePanel.hidden = true;
+    if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+    document.body.classList.remove('score-response-open');
+
     currentLobbyRound = round;
     viewedRoutePosition = null;
     finishIncompletePending = false;
