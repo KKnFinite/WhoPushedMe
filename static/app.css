@@ -10166,6 +10166,7 @@ textarea,
 #live-banter-panel.is-fullscreen {
   position: fixed;
   inset: 0;
+  bottom: var(--wpm-keyboard-inset, 0px);
   z-index: 132;
   display: flex;
   flex-direction: column;
@@ -10193,6 +10194,7 @@ textarea,
 .score-response-modal {
   position: fixed;
   inset: 0;
+  bottom: var(--wpm-keyboard-inset, 0px);
   z-index: 140;
   display: flex;
   align-items: flex-end;
@@ -10308,7 +10310,10 @@ textarea,
   position: fixed;
   left: 8px;
   right: 8px;
-  bottom: max(8px, env(safe-area-inset-bottom));
+  bottom: calc(
+    var(--wpm-keyboard-inset, 0px)
+    + max(8px, env(safe-area-inset-bottom))
+  );
   z-index: 128;
   width: auto;
   max-height: 72dvh;
