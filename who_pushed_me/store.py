@@ -1354,6 +1354,41 @@ class RoundStore:
             if not round_row:
                 raise NotFound("active round not found")
 
+            cursor.execute(
+                """
+                SELECT id, round_id, golfer_id, role, tee_name,
+                       participation_state, tracked_from_position, joined_at
+                FROM round_participants
+                WHERE round_id = %s AND golfer_id = %s
+                """,
+                (round_row["id"], golfer_uuid),
+            )
+            existing_participant = cursor.fetchone()
+            if existing_participant:
+                if existing_participant["role"] != participant_role:
+                    raise DomainError(
+                        "this account is already joined to the round as "
+                        + existing_participant["role"]
+                        + "; reconnect using that role"
+                    )
+
+                reconnect_event = (
+                    "lobby.reconnect.spectator"
+                    if existing_participant["role"] == "spectator"
+                    else "lobby.reconnect.player"
+                )
+                self._event(
+                    cursor,
+                    round_id=round_row["id"],
+                    actor_participant_id=existing_participant["id"],
+                    event_type="participant_reconnect",
+                    route_position=round_row["current_route_position"],
+                    data={"role": existing_participant["role"]},
+                    content_event_key=reconnect_event,
+                    presentation_context={"mode": round_row["mode"]},
+                )
+                return existing_participant
+
             if participant_role == "spectator":
                 selected_tee = None
             else:
@@ -1529,39 +1564,9 @@ class RoundStore:
                 )
                 return participant
 
-            cursor.execute(
-                """
-                SELECT id, round_id, golfer_id, role, tee_name,
-                       participation_state, tracked_from_position, joined_at
-                FROM round_participants
-                WHERE round_id = %s AND golfer_id = %s
-                """,
-                (round_row["id"], golfer_uuid),
+            raise DomainError(
+                "could not join round; participant state changed during join"
             )
-            participant = cursor.fetchone()
-            if participant["role"] != participant_role:
-                raise DomainError(
-                    "this account is already joined to the round as "
-                    + participant["role"]
-                    + "; reconnect using that role"
-                )
-
-            reconnect_event = (
-                "lobby.reconnect.spectator"
-                if participant["role"] == "spectator"
-                else "lobby.reconnect.player"
-            )
-            self._event(
-                cursor,
-                round_id=round_row["id"],
-                actor_participant_id=participant["id"],
-                event_type="participant_reconnect",
-                route_position=round_row["current_route_position"],
-                data={"role": participant["role"]},
-                content_event_key=reconnect_event,
-                presentation_context={"mode": round_row["mode"]},
-            )
-            return participant
 
     def set_participation_state(
         self,
