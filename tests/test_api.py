@@ -1824,6 +1824,36 @@ def test_signed_in_content_messages_respect_user_preferences():
     assert all("vulgarity" not in row for row in payload["messages"])
 
 
+def test_home_idle_spouse_placeholder_matches_uppercase_message_copy():
+    client, store = client_with_store()
+
+    def spouse_preferences(golfer_id):
+        store.calls.append(("get_preferences", golfer_id))
+        return {
+            "mini_mascots_enabled": True,
+            "trash_talk_enabled": True,
+            "themes": {"drinking": True, "wife": True},
+            "spouse_type": "wife",
+        }
+
+    store.get_content_preferences = spouse_preferences
+
+    response = client.get(
+        "/api/content/messages/user?event=home.idle",
+        headers={"Authorization": "Bearer session-token"},
+    )
+    assert response.status_code == 200
+
+    rows = {
+        row["id"]: row["text"]
+        for row in response.get_json()["messages"]
+    }
+    assert rows["banter.home_idle.brutal.016"] == (
+        "YOUR WIFE GOT YOU OUT OF THE HOUSE AND YOUR BUDDIES BROUGHT BEER. "
+        "EVERYONE HAS CONTRIBUTED EXCEPT YOU. PRESS A BUTTON."
+    )
+
+
 def test_admin_status_requires_admin_flag():
     client, _ = client_with_store()
     response = client.get(
