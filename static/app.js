@@ -178,7 +178,6 @@
   const liveBanterPanel = document.getElementById('live-banter-panel');
   const liveBanterExpand = document.getElementById('live-banter-expand');
   const liveCalloutButton = document.getElementById('live-callout-button');
-  const liveExcuseButton = document.getElementById('live-excuse-button');
   const scrambleContributionOpen = document.getElementById('scramble-contribution-open');
   const liveHoleStats = document.getElementById('live-hole-stats');
   const liveMorePanel = document.getElementById('live-more-panel');
@@ -258,6 +257,9 @@
   let lobbyRefreshTimer = null;
   let viewedRoutePosition = null;
   let currentBagAction = null;
+  let currentBagReplyToEventId = null;
+  let currentBagRoutePosition = null;
+  let currentBagLockedTargetId = null;
   let scrambleContributionComposerOpen = false;
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
@@ -3172,6 +3174,37 @@
       responseButtons
     );
 
+    const scoreTargetId = String(
+      scoreEvent.data?.player_participant_id || ''
+    );
+    const canCallOutScore = (
+      round.viewer_role === 'player'
+      && (
+        round.mode === 'scramble'
+        || (
+          scoreTargetId
+          && scoreTargetId !== viewerId
+        )
+      )
+    );
+    if (canCallOutScore) {
+      const calloutButton = document.createElement('button');
+      calloutButton.type = 'button';
+      calloutButton.className = 'score-response-callout';
+      calloutButton.textContent = 'CALL OUT';
+      calloutButton.addEventListener('click', () => {
+        closeScoreResponseSheet();
+        openBag('callout', {
+          replyToEventId: scoreEvent.id,
+          routePosition: scoreEvent.route_position,
+          targetParticipantId: round.mode === 'individual'
+            ? scoreTargetId
+            : null,
+        });
+      });
+      responsePanel.append(calloutButton);
+    }
+
     if (round.mode === 'scramble') {
       const blameWrap = document.createElement('div');
       blameWrap.className = 'score-response-blame';
@@ -4109,15 +4142,34 @@
           event.data?.player_participant_id || ''
         );
         const viewerId = String(round.viewer_participant_id || '');
-        const canRespond = (
+        const viewerOwnsScore = (
           round.viewer_role === 'player'
           && (
             round.mode === 'scramble'
-            || !scoreTargetId
-            || scoreTargetId !== viewerId
+            || (
+              scoreTargetId
+              && scoreTargetId === viewerId
+            )
           )
         );
-        if (canRespond) {
+        const canRespond = (
+          round.viewer_role === 'player'
+          && !viewerOwnsScore
+        );
+
+        if (viewerOwnsScore) {
+          const excuse = document.createElement('button');
+          excuse.type = 'button';
+          excuse.className = 'live-score-respond';
+          excuse.textContent = 'MAKE EXCUSE';
+          excuse.addEventListener('click', () => {
+            openBag('excuse', {
+              replyToEventId: event.id,
+              routePosition: event.route_position,
+            });
+          });
+          content.append(excuse);
+        } else if (canRespond) {
           const respond = document.createElement('button');
           respond.type = 'button';
           respond.className = 'live-score-respond';
@@ -4127,6 +4179,25 @@
           });
           content.append(respond);
         }
+      }
+
+      if (
+        eventType === 'callout'
+        && round.viewer_role === 'player'
+        && String(event.data?.target_participant_id || '')
+          === String(round.viewer_participant_id || '')
+      ) {
+        const excuse = document.createElement('button');
+        excuse.type = 'button';
+        excuse.className = 'live-score-respond';
+        excuse.textContent = 'MAKE EXCUSE';
+        excuse.addEventListener('click', () => {
+          openBag('excuse', {
+            replyToEventId: event.id,
+            routePosition: event.route_position,
+          });
+        });
+        content.append(excuse);
       }
 
       row.append(avatar, content);
@@ -5057,7 +5128,6 @@
       && viewingLive
     );
     if (liveCalloutButton) liveCalloutButton.hidden = !canUseLiveSocial;
-    if (liveExcuseButton) liveExcuseButton.hidden = !canUseLiveSocial;
     if (scrambleContributionOpen) {
       scrambleContributionOpen.hidden = !(
         canUseLiveSocial && round.mode === 'scramble'
@@ -6804,6 +6874,9 @@
 
   const resetBagComposer = () => {
     currentBagAction = null;
+    currentBagReplyToEventId = null;
+    currentBagRoutePosition = null;
+    currentBagLockedTargetId = null;
     if (bagForm) bagForm.hidden = true;
     if (bagActions) bagActions.hidden = false;
     if (bagTargetField) bagTargetField.hidden = true;
@@ -6818,23 +6891,42 @@
     if (bagSituationSelect) bagSituationSelect.value = '';
     if (bagShotSelect) bagShotSelect.value = '';
     if (bagExcuseSelect) bagExcuseSelect.value = '';
+    if (bagTargetSelect) bagTargetSelect.disabled = false;
     setBagMessage('');
   };
 
-  const openBag = (action) => {
+  const openBag = (
+    action,
+    {
+      replyToEventId = null,
+      routePosition = null,
+      targetParticipantId = null,
+    } = {}
+  ) => {
     if (
       !bagModal
       || !currentLobbyRound
       || currentLobbyRound.status !== 'active'
       || !viewerIsActivePlayer(currentLobbyRound)
       || !['callout', 'excuse'].includes(action)
+      || (action === 'excuse' && !replyToEventId)
     ) {
       return;
     }
 
     resetBagComposer();
+    currentBagReplyToEventId = replyToEventId ? String(replyToEventId) : null;
+    currentBagRoutePosition = routePosition ? Number(routePosition) : null;
+    currentBagLockedTargetId = targetParticipantId
+      ? String(targetParticipantId)
+      : null;
+
     if (action === 'callout') {
       populateBagTargets();
+      if (currentBagLockedTargetId && bagTargetSelect) {
+        bagTargetSelect.value = currentBagLockedTargetId;
+        bagTargetSelect.disabled = true;
+      }
     } else if (bagTargetSelect) {
       bagTargetSelect.replaceChildren();
     }
@@ -6903,20 +6995,32 @@
     }
   };
 
-  const sendSocialEvent = async (type, data = {}) => {
+  const sendSocialEvent = async (
+    type,
+    data = {},
+    {
+      replyToEventId = null,
+      routePosition = null,
+    } = {}
+  ) => {
     if (!currentLobbyRound) return;
+    const body = {
+      type,
+      hole: (
+        routePosition
+        || currentLobbyRound.current_route_position
+        || currentLobbyRound.current_hole
+      ),
+      data,
+    };
+    if (replyToEventId) {
+      body.reply_to_event_id = replyToEventId;
+    }
     return requestJson(
       `/api/rounds/${currentLobbyRound.id}/events`,
       {
         method: 'POST',
-        body: {
-          type,
-          hole: (
-            currentLobbyRound.current_route_position
-            || currentLobbyRound.current_hole
-          ),
-          data,
-        },
+        body,
       }
     );
   };
@@ -7013,7 +7117,6 @@
   });
 
   liveCalloutButton?.addEventListener('click', () => openBag('callout'));
-  liveExcuseButton?.addEventListener('click', () => openBag('excuse'));
   bagClose?.addEventListener('click', closeBag);
   bagModal?.addEventListener('click', (event) => {
     if (event.target === bagModal) closeBag();
@@ -7053,7 +7156,14 @@
     setBagMessage('');
 
     try {
-      await sendSocialEvent(currentBagAction, data);
+      await sendSocialEvent(
+        currentBagAction,
+        data,
+        {
+          replyToEventId: currentBagReplyToEventId,
+          routePosition: currentBagRoutePosition,
+        }
+      );
       closeBag();
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
