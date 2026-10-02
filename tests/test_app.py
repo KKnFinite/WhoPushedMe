@@ -1527,6 +1527,30 @@ def test_scramble_contributions_prompt_after_score_and_can_be_skipped():
 
 
 
+def test_final_scramble_contribution_done_does_not_reopen_on_last_hole():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index(
+        "scrambleContributionSkip?.addEventListener('click', async () =>"
+    )
+    end = source.index(
+        "advanceLiveHole?.addEventListener",
+        start,
+    )
+    block = source[start:end]
+
+    assert "const length = routeLength(currentLobbyRound);" in block
+    assert "if (livePosition >= length)" in block
+    final_block = block[
+        block.index("if (livePosition >= length)"):
+        block.index("if (scrambleContributionSkip) {", block.index("if (livePosition >= length)") + 1)
+    ]
+    assert "scrambleContributionComposerOpen = true" not in final_block
+    assert "renderLiveRound(currentLobbyRound);" in final_block
+
+
 def test_scramble_contribution_skip_is_styled_as_secondary_action():
     css = client().get("/static/app.css")
     assert css.status_code == 200
