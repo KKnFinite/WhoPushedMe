@@ -3666,3 +3666,17 @@ def test_app_startup_runs_pending_database_migrations():
     assert 'os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")' in source
     assert "run_pending(database_url)" in source
     assert source.index("_apply_pending_migrations()") < source.index("app = create_app()")
+
+
+def test_mobile_join_cta_is_pinned_below_scrollable_content():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    assert "padding-bottom: 230px;" in source
+    assert ".join-cta-dock {" in source
+    assert "position: fixed;" in source
+    assert "bottom: max(10px, env(safe-area-inset-bottom));" in source
+    assert "width: min(calc(100% - 34px), 520px);" in source
+    assert ".join-cta-dock.has-mini" in source
+    assert ".join-cta-mini-stage" in source
