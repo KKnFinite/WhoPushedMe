@@ -4263,6 +4263,22 @@ class RoundStore:
 
             cursor.execute(
                 """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                      AND route_position = %s
+                ) AS has_scores
+                """,
+                (round_uuid, route_position),
+            )
+            if bool(cursor.fetchone()["has_scores"]):
+                raise DomainError(
+                    "remove the score entries for this hole before correcting par, then re-enter them"
+                )
+
+            cursor.execute(
+                """
                 INSERT INTO round_route_pars (
                     round_id, route_position, par, source
                 )
