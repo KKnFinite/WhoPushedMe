@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.01",
+      "text": "{target} drilled a tree. The tree remains undefeated.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.03",
+      "text": "{target} hit the tree dead fucking center. Shame the flag wasn’t attached to it.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.04",
+      "text": "{target} found timber. Great accuracy, completely wrong target.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.05",
+      "text": "That tree had been standing there for decades waiting for {target} to fuck this up.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.06",
+      "text": "{target} just turned a golf shot into lumber inspection.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.07",
+      "text": "Tree. Ball. Immediate regret. Nice work, {target}.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.tree_shot.20261001.08",
+      "text": "{target} hit enough tree to make a woodpecker file a complaint.",
+      "events": ["mid_hole.callout.tree_shot"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
