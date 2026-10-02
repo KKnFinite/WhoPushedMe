@@ -640,6 +640,17 @@ def dismiss_unfinished_round(round_id: str):
     )
 
 
+@api.get("/rounds/<round_id>")
+@authenticated
+def get_round_by_id(round_id: str):
+    return jsonify(
+        _store().get_round(
+            g.golfer["id"],
+            round_id=round_id,
+        )
+    )
+
+
 @api.get("/rounds/code/<code>")
 @authenticated
 def get_round(code: str):

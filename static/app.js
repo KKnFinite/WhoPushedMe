@@ -6197,10 +6197,17 @@
           resume.disabled = true;
           setRoundFlowMessage('');
           try {
-            await refreshRound(round.active_code);
-            startLobbyPolling(round.active_code);
+            const exactRound = await requestJson(
+              `/api/rounds/${round.id}`
+            );
+            renderRoundState(exactRound);
+            startLobbyPolling(exactRound.active_code);
           } catch (error) {
-            setRoundFlowMessage(error.message);
+            await loadUnfinishedRounds();
+            setRoundFlowMessage(
+              error.message || 'That unfinished round is no longer available.'
+            );
+          } finally {
             resume.disabled = false;
           }
         });

@@ -641,6 +641,23 @@ def test_golf_mutation_requires_recovery_key():
     assert not store.calls
 
 
+def test_get_round_by_id_route_uses_exact_round_id():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+    response = client.get(
+        f"/api/rounds/{round_id}",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["active_code"] == "4321"
+    assert store.calls[-1] == (
+        "get_round",
+        store.golfer_id,
+        round_id,
+    )
+
+
 def test_unfinished_rounds_route_lists_signed_in_users_rounds():
     client, store = client_with_store()
     response = client.get(

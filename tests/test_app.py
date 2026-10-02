@@ -2518,8 +2518,10 @@ def test_join_round_lists_resumable_unfinished_rounds_with_delete():
     assert b"/api/rounds/unfinished" in script.data
     assert b"unfinished-round-resume" in script.data
     assert b"unfinished-round-delete" in script.data
-    assert b"await refreshRound(round.active_code);" in script.data
-    assert b"startLobbyPolling(round.active_code);" in script.data
+    assert b"/api/rounds/${round.id}" in script.data
+    assert b"renderRoundState(exactRound);" in script.data
+    assert b"startLobbyPolling(exactRound.active_code);" in script.data
+    assert b"await loadUnfinishedRounds();" in script.data
     assert b"method: 'DELETE'" in script.data
     assert b".unfinished-rounds-panel" in css.data
 
