@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.01",
+      "text": "{target} hooked that thing so hard the ball looked like it remembered it left the stove on.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.02",
+      "text": "That hook from {target} had enough curve to need a fucking turn signal.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.03",
+      "text": "{target} put so much hook on it the ball damn near tried to come back.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.04",
+      "text": "That ball started on a golf line and finished on a fucking escape route.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.05",
+      "text": "{target} bent that shot so far off line it looked remote-controlled by an idiot.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.06",
+      "text": "Hook from {target}. Straight was apparently never part of the fucking plan.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.07",
+      "text": "{target} turned a golf shot into a goddamn U-turn.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.09",
+      "text": "{target} hooked it so hard the ball staggered off line before they did.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.hook.20261001.10",
+      "text": "{target} put a nasty hook on it. Their {spouse} is used to watching things veer away from the intended hole at the last second.",
+      "events": ["mid_hole.callout.hook"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
