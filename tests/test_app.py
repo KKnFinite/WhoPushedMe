@@ -695,6 +695,44 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_end_early_votes_expire_with_connected_window():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def _end_early_state_from_cursor(")
+    end = store_source.index("    def set_end_early_vote(", start)
+    block = store_source[start:end]
+
+    assert "last_seen_at >= now() - interval '30 minutes'" in block
+    assert "updated_at >= now() - interval '30 minutes'" in block
+    assert "required_count > 0" in block
+    assert "yes_count == required_count" in block
+
+
+def test_end_early_vote_requires_active_player():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_end_early_vote(")
+    end = store_source.index(
+        "    @staticmethod\n    def _receipt_seen_state_from_cursor(",
+        start,
+    )
+    block = store_source[start:end]
+
+    assert "_require_active_player(" in block
+    assert "vote to end the round early" in block
+    assert "require_active_round(" in block
+
+
 def test_claim_undo_with_actions_preserves_account_history_access():
     from pathlib import Path
 
