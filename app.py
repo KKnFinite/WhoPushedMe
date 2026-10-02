@@ -5,9 +5,18 @@ from typing import Final
 
 from flask import Flask, jsonify, redirect, render_template, send_from_directory, url_for
 
+from migrations import run_pending
+
 from who_pushed_me.api import api
 
 APP_VERSION: Final = "0.3.0"
+
+def _apply_pending_migrations() -> None:
+    database_url = os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")
+    if not database_url:
+        return
+    run_pending(database_url)
+
 
 
 def create_app() -> Flask:
@@ -69,6 +78,7 @@ def create_app() -> Flask:
     return app
 
 
+_apply_pending_migrations()
 app = create_app()
 
 
