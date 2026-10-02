@@ -695,6 +695,32 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_abandoned_rounds_are_terminal_and_expire_after_24_hours():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    migration = (
+        root / "migrations" / "0015_unfinished_round_expiry.sql"
+    ).read_text(encoding="utf-8")
+
+    status_start = store_source.index("    def set_status(")
+    status_end = store_source.index("    def set_par_tracking_mode(", status_start)
+    status_block = store_source[status_start:status_end]
+    assert '"abandoned": set()' in status_block
+
+    purge_start = store_source.index(
+        "    def _purge_stale_unfinished_rounds("
+    )
+    purge_end = store_source.index("    def _event(", purge_start)
+    purge_block = store_source[purge_start:purge_end]
+    assert "status IN ('setup', 'active', 'abandoned')" in purge_block
+    assert "updated_at < now() - interval '24 hours'" in purge_block
+    assert "status IN ('setup', 'active', 'abandoned')" in migration
+
+
 def test_completed_rounds_cannot_be_reopened_to_active():
     from pathlib import Path
 
