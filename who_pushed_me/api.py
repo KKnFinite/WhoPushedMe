@@ -519,7 +519,11 @@ def accept_round_invite(token: str):
     existing_state = preview.get("viewer_participation_state")
 
     if existing_role == "player":
-        if preview["status"] == "active" and existing_state != "active":
+        if (
+            desired_role == "player"
+            and preview["status"] == "active"
+            and existing_state != "active"
+        ):
             store.set_participation_state(
                 g.golfer["id"],
                 preview["id"],
