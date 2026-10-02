@@ -695,6 +695,24 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_withdrawn_scramble_player_cannot_receive_current_hole_contribution():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_scramble_contribution(")
+    end = store_source.index("\n    def ", start + 20)
+    block = store_source[start:end if end >= 0 else None]
+
+    assert "rp.participation_state" in block
+    assert 'route_position == int(round_row["current_route_position"])' in block
+    assert 'target["participation_state"] != "active"' in block
+    assert "withdrawn players cannot receive new contributions on the current hole" in block
+
+
 def test_scramble_cannot_advance_without_team_score_and_contributions_lock_round():
     from pathlib import Path
 
