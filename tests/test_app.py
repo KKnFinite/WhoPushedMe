@@ -695,6 +695,39 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_mid_round_offline_player_starts_at_live_hole_and_is_partial():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    add_start = store_source.index("    def add_round_only_player(")
+    add_end = store_source.index(
+        "    def list_claimable_round_only_players(",
+        add_start,
+    )
+    add_block = store_source[add_start:add_end]
+
+    assert "tracked_from = int(round_row[\"current_route_position\"])" in add_block
+    assert "rr.route_position >= %s" in add_block
+    assert "AND rr.state = 'planned'" in add_block
+    assert "this round already has 4 active golfers" in add_block
+
+    results_start = store_source.index("    def _round_results_from_cursor(")
+    results_end = store_source.index(
+        "    @staticmethod\n    def _individual_round_end_event(",
+        results_start,
+    )
+    results_block = store_source[results_start:results_end]
+
+    assert "is_partial = required_count < route_required" in results_block
+    assert 'coverage_state = "partial"' in results_block
+    assert "required_count == route_required" in results_block
+    assert "placement_eligible = (" in results_block
+
+
 def test_tee_change_after_scoring_requires_explicit_correction():
     from pathlib import Path
 
