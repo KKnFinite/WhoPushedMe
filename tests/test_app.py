@@ -2530,6 +2530,45 @@ def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses
     assert '"deleted": deleted' in block
 
 
+def test_completed_round_reopen_stays_read_only_and_does_not_poll():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index("const openCompletedRoundById = async (roundId) =>")
+    end = source.index("const showPastRoundsPanel = async () =>", start)
+    block = source[start:end]
+
+    assert "renderRoundEnd(round);" in block
+    assert "startLobbyPolling" not in block
+    assert "renderLiveRound" not in block
+    assert "renderLobby" not in block
+
+    history_start = source.index("const closeRoundHistoryPage = () =>")
+    history_end = source.index("roundHistoryOpenButtons.forEach", history_start)
+    history_block = source[history_start:history_end]
+    assert "currentLobbyRound.status === 'completed'" in history_block
+    assert "renderRoundEnd(currentLobbyRound);" in history_block
+
+
+def test_completed_round_history_includes_any_account_participant():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def list_completed_rounds(")
+    end = store_source.index("    def list_unfinished_rounds(", start)
+    block = store_source[start:end]
+
+    assert "JOIN round_participants rp" in block
+    assert "rp.golfer_id = %s" in block
+    assert "WHERE r.status = 'completed'" in block
+    assert "rp.role = 'player'" not in block
+    assert "participation_state = 'active'" not in block
+
+
 def test_previous_disasters_opens_completed_rounds_by_id_not_code():
     page = client().get("/")
     script = client().get("/static/app.js")
