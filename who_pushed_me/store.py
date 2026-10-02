@@ -3901,6 +3901,36 @@ class RoundStore:
                 if (
                     old_status == "setup"
                     and new_status == "active"
+                    and bool(round_row["par_tracking_enabled"])
+                ):
+                    cursor.execute(
+                        """
+                        SELECT
+                            count(*) FILTER (
+                                WHERE rr.state = 'planned'
+                            ) AS required_pars,
+                            count(rp.par) FILTER (
+                                WHERE rr.state = 'planned'
+                            ) AS established_pars
+                        FROM round_route_positions rr
+                        LEFT JOIN round_route_pars rp
+                          ON rp.round_id = rr.round_id
+                         AND rp.route_position = rr.route_position
+                        WHERE rr.round_id = %s
+                        """,
+                        (round_uuid,),
+                    )
+                    par_state = cursor.fetchone()
+                    if int(par_state["established_pars"] or 0) < int(
+                        par_state["required_pars"] or 0
+                    ):
+                        raise DomainError(
+                            "every planned hole needs par before starting"
+                        )
+
+                if (
+                    old_status == "setup"
+                    and new_status == "active"
                     and round_row["course_id"]
                 ):
                     cursor.execute(
