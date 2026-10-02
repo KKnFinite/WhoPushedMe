@@ -2507,3 +2507,61 @@ def test_20261002_complete_excuse_banter_pack_is_loaded():
             and ".20261002." in row["id"]
         ]
         assert len(rows) == 10
+
+
+def test_spectator_lockdown_covers_player_only_round_mutations():
+    from pathlib import Path
+    from who_pushed_me.domain import SPECTATOR_EVENT_TYPES
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    js_source = (root / "static" / "app.js").read_text(encoding="utf-8")
+
+    assert SPECTATOR_EVENT_TYPES == frozenset({"open_mic", "reaction"})
+
+    player_only_methods = (
+        ("def set_score(", "change scores"),
+        ("def remove_score(", "change scores"),
+        ("def set_current_hole(", "change the current hole"),
+        ("def set_status(", "change round status"),
+        ("def set_par(", "change par"),
+        ("def set_par_tracking_mode(", "change par tracking"),
+        ("def set_scramble_contribution(", "change contributions"),
+        ("def set_participant_tee(", "choose a tee"),
+        ("def set_participant_round_handicap(", "change a round handicap"),
+        ("def add_round_only_player(", "add an offline golfer"),
+        ("def set_end_early_vote(", "vote to end the round early"),
+        ("def set_score_challenge(", "challenge scores"),
+        ("def withdraw_score_challenge(", "withdraw score challenges"),
+        ("def add_score_response(", "respond to scores"),
+    )
+    for method_marker, operation in player_only_methods:
+        start = store_source.index(method_marker)
+        next_method = store_source.find("\n    def ", start + len(method_marker))
+        block = store_source[start:next_method if next_method >= 0 else None]
+        assert "_require_active_player(" in block
+        assert operation in block
+
+    render_start = js_source.index("const renderLiveRound =")
+    render_end = js_source.index("const renderRoundEnd", render_start)
+    live_block = js_source[render_start:render_end]
+    assert "viewerIsActivePlayer(round)" in live_block
+    assert "advanceLiveHole.hidden = !canAdvanceLive;" in live_block
+    assert "finishRoundButton.hidden = !canFinishFromFooter" in live_block
+    assert "roundSettingsButton.hidden = !canOpenRoundSettings;" in live_block
+    assert "liveCalloutButton.hidden = !canUseLiveSocial;" in live_block
+
+    score_start = js_source.index("const renderScoreCard =")
+    score_end = js_source.index("const SCRAMBLE_SHOT_TYPES", score_start)
+    score_block = js_source[score_start:score_end]
+    assert "round.viewer_role === 'player'" in score_block
+    assert "viewerIsActivePlayer(round)" in score_block
+
+    response_start = js_source.index("const appendScoreResponsePanel =")
+    response_end = js_source.index("const closeScoreResponseSheet", response_start)
+    response_block = js_source[response_start:response_end]
+    assert "viewerIsActivePlayer(round)" in response_block
+    assert "const canChallenge = (" in response_block
+    assert "const canCallOutScore = (" in response_block
