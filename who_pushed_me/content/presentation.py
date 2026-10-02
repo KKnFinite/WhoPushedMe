@@ -39,15 +39,6 @@ _CALLOUT_SITUATIONS = {
     "foot_wedge",
 }
 
-_NICE_SHOT_TYPES = {
-    "drive",
-    "approach",
-    "recovery",
-    "bunker",
-    "putt",
-    "long_putt",
-}
-
 _EXCUSE_REASONS = {
     "clubs",
     "wind",
@@ -155,12 +146,6 @@ def social_content_event(kind: str, payload: Mapping[str, object]) -> str:
         if situation in _CALLOUT_SITUATIONS:
             return f"mid_hole.callout.{situation}"
         return "mid_hole.callout"
-
-    if kind == "praise":
-        shot_type = str(payload.get("shot_type") or "").strip().lower()
-        if shot_type in _NICE_SHOT_TYPES:
-            return f"mid_hole.nice_shot.{shot_type}"
-        return "mid_hole.nice_shot"
 
     if kind == "excuse":
         reason = str(payload.get("reason") or "").strip().lower()
