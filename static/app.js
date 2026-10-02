@@ -3995,8 +3995,6 @@
     const socialTypes = new Set([
       'open_mic',
       'callout',
-      'shot_call',
-      'challenge',
       'excuse',
       'score_response',
       'score_challenge',
@@ -4051,9 +4049,7 @@
         && [
           'open_mic',
           'callout',
-              'shot_call',
-          'challenge',
-          'excuse',
+                      'excuse',
           'score_response',
           'score_challenge',
         ].includes(eventType)
