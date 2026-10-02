@@ -2481,3 +2481,29 @@ def test_callouts_and_excuses_follow_linked_reply_flow():
     assert "targetParticipantId: round.mode === 'individual'" in js_source
     assert "currentBagReplyToEventId" in js_source
     assert "body.reply_to_event_id = replyToEventId;" in js_source
+
+
+def test_20261002_complete_excuse_banter_pack_is_loaded():
+    from who_pushed_me.content.catalog import ContentCatalog
+
+    catalog = ContentCatalog.load()
+    categories = (
+        "clubs",
+        "wind",
+        "weather",
+        "bad_lie",
+        "green",
+        "noise",
+        "alcohol",
+        "hangover",
+        "pace",
+    )
+    for category in categories:
+        event_key = f"mid_hole.excuse.{category}"
+        rows = [
+            row
+            for row in catalog.banter
+            if event_key in row.get("events", [])
+            and ".20261002." in row["id"]
+        ]
+        assert len(rows) == 10
