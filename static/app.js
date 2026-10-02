@@ -4258,6 +4258,10 @@
           viewerIsActivePlayer(round)
           && !viewerOwnsScore
         );
+        const spectatorCanReact = (
+          round.status === 'active'
+          && round.viewer_role === 'spectator'
+        );
 
         if (viewerOwnsScore) {
           const excuse = document.createElement('button');
@@ -4271,11 +4275,11 @@
             });
           });
           content.append(excuse);
-        } else if (canRespond) {
+        } else if (canRespond || spectatorCanReact) {
           const respond = document.createElement('button');
           respond.type = 'button';
           respond.className = 'live-score-respond';
-          respond.textContent = 'RESPOND';
+          respond.textContent = spectatorCanReact ? 'REACT' : 'RESPOND';
           respond.addEventListener('click', () => {
             openScoreResponseSheet(round, event);
           });
