@@ -3698,3 +3698,15 @@ def test_final_setup_mini_aligns_visible_feet_to_create_button():
     css_source = css.data.decode("utf-8")
     assert '.setup-step[data-setup-step="3"] .setup-mini-stage' in css_source
     assert "var(--setup-mini-y, 0px)" in css_source
+
+
+def test_final_setup_mini_is_lowered_onto_create_button():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    start = source.index('.setup-step[data-setup-step="3"] .setup-mini-stage')
+    end = source.index('}', start)
+    block = source[start:end]
+    assert 'bottom: calc(max(12px, env(safe-area-inset-bottom)) - 22px) !important;' in block
+    assert 'transform: translateX(-50%) !important;' in block
