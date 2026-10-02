@@ -37,7 +37,6 @@ _CALLOUT_SITUATIONS = {
     "penalty",
     "mulligan",
     "foot_wedge",
-    "lip_out",
 }
 
 _NICE_SHOT_TYPES = {
