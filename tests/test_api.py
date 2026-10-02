@@ -1936,6 +1936,87 @@ def test_player_invite_requires_and_passes_tee_when_course_has_tees():
     ) in store.calls
 
 
+def test_spectator_invite_does_not_reactivate_withdrawn_existing_player():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+
+    original_preview = store.round_invite_preview
+
+    def withdrawn_player_preview(requested_round_id, *, golfer_id=None):
+        preview = original_preview(requested_round_id, golfer_id=golfer_id)
+        preview["status"] = "active"
+        if golfer_id is not None:
+            preview["viewer_participant_id"] = "participant-1"
+            preview["viewer_role"] = "player"
+            preview["viewer_participation_state"] = "withdrew"
+        return preview
+
+    store.round_invite_preview = withdrawn_player_preview
+
+    created = client.post(
+        f"/api/rounds/{round_id}/invites",
+        headers={"Authorization": "Bearer session-token"},
+        json={"role": "spectator"},
+    )
+    assert created.status_code == 200
+    token = created.get_json()["token"]
+
+    accepted = client.post(
+        f"/api/invites/{token}/accept",
+        headers={"Authorization": "Bearer session-token"},
+        json={},
+    )
+
+    assert accepted.status_code == 200
+    assert accepted.get_json()["role"] == "player"
+    assert not any(
+        call[0] == "participation"
+        for call in store.calls
+    )
+
+
+def test_player_invite_reactivates_withdrawn_existing_player():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+
+    original_preview = store.round_invite_preview
+
+    def withdrawn_player_preview(requested_round_id, *, golfer_id=None):
+        preview = original_preview(requested_round_id, golfer_id=golfer_id)
+        preview["status"] = "active"
+        if golfer_id is not None:
+            preview["viewer_participant_id"] = "participant-1"
+            preview["viewer_role"] = "player"
+            preview["viewer_participation_state"] = "withdrew"
+        return preview
+
+    store.round_invite_preview = withdrawn_player_preview
+
+    created = client.post(
+        f"/api/rounds/{round_id}/invites",
+        headers={"Authorization": "Bearer session-token"},
+        json={"role": "player"},
+    )
+    assert created.status_code == 200
+    token = created.get_json()["token"]
+
+    accepted = client.post(
+        f"/api/invites/{token}/accept",
+        headers={"Authorization": "Bearer session-token"},
+        json={},
+    )
+
+    assert accepted.status_code == 200
+    assert accepted.get_json()["role"] == "player"
+    assert (
+        "participation",
+        store.golfer_id,
+        round_id,
+        "active",
+        None,
+    ) in store.calls
+
+
 def test_round_invite_rejects_invalid_token():
     client, _ = client_with_store()
     response = client.get("/api/invites/not-a-real-token")
