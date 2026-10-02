@@ -5206,8 +5206,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
-            if round_row["status"] not in {"active", "completed"}:
-                raise DomainError("reactions are only available on active or completed rounds")
+            if round_row["status"] != "active":
+                raise DomainError("reactions are only available during an active round")
             self._response_target_event(
                 cursor,
                 round_id=round_uuid,
@@ -5243,8 +5243,8 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
-            if round_row["status"] not in {"active", "completed"}:
-                raise DomainError("reactions are only available on active or completed rounds")
+            if round_row["status"] != "active":
+                raise DomainError("reactions are only available during an active round")
             self._response_target_event(
                 cursor,
                 round_id=round_uuid,
@@ -5300,8 +5300,8 @@ class RoundStore:
                 challenger,
                 "challenge scores",
             )
-            if round_row["status"] not in {"active", "completed"}:
-                raise DomainError("score challenges are only available on active or completed rounds")
+            if round_row["status"] != "active":
+                raise DomainError("score challenges are only available during an active round")
 
             score_event = self._response_target_event(
                 cursor,
@@ -5388,8 +5388,8 @@ class RoundStore:
                 challenger,
                 "withdraw score challenges",
             )
-            if round_row["status"] not in {"active", "completed"}:
-                raise DomainError("score challenges are only available on active or completed rounds")
+            if round_row["status"] != "active":
+                raise DomainError("score challenges are only available during an active round")
 
             score_event = self._response_target_event(
                 cursor,
@@ -5473,9 +5473,9 @@ class RoundStore:
                 actor,
                 "respond to scores",
             )
-            if round_row["status"] not in {"active", "completed"}:
+            if round_row["status"] != "active":
                 raise DomainError(
-                    "score responses are only available on active or completed rounds"
+                    "score responses are only available during an active round"
                 )
 
             cursor.execute(
