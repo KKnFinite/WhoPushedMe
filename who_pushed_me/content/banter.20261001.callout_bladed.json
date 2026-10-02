@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.01",
+      "text": "{target} bladed the shit out of that one. The ball came off like it was fired from a fucking railgun.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.02",
+      "text": "{target} caught that ball with the leading edge and launched a low screaming missile.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.04",
+      "text": "{target} bladed it so cleanly the ball skipped the part where golf is supposed to look graceful.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.05",
+      "text": "That thing came off the club like it was trying to escape the property.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.08",
+      "text": "{target} bladed that one so hard the green should probably file a restraining order.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.09",
+      "text": "{target} skulled it. Apparently a few drinks turns ‘soft hands’ into ‘fire the fucking cannon.’",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bladed.20261001.10",
+      "text": "{target} bladed it way too hard with zero touch. Their {spouse} knows that combination.",
+      "events": ["mid_hole.callout.bladed"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
