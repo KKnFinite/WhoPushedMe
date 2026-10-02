@@ -3555,3 +3555,33 @@ def test_spectator_lockdown_covers_player_only_round_mutations():
     assert "viewerIsActivePlayer(round)" in response_block
     assert "const canChallenge = (" in response_block
     assert "const canCallOutScore = (" in response_block
+
+
+def test_spectator_to_player_promotion_keeps_capacity_tee_tracking_and_handicap_rules():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def promote_spectator_to_player(")
+    end = store_source.index("    def add_round_only_player(", start)
+    block = store_source[start:end]
+
+    assert "self._round(cursor, round_uuid, lock=True)" in block
+    assert "SELECT count(*) AS active_players" in block
+    assert "this round already has 4 active golfers" in block
+    assert 'if round_row["mode"] == "scramble":' in block
+    assert "selected_tee = None" in block
+    assert "has_tees and not selected_tee" in block
+    assert "choose a tee before joining as a player" in block
+    assert 'tracked_from = int(round_row["current_route_position"])' in block
+    assert "SELECT handicap_index FROM golfers" in block
+    assert 'round_row["net_scoring_enabled"]' in block
+    assert "SET role = 'player'" in block
+    assert "tracked_from_position = %s" in block
+    assert "handicap_index = %s" in block
+    assert "self._calculated_round_handicap(" in block
+    assert "rr.route_position >= %s" in block
+    assert "rr.state = 'planned'" in block
+    assert "DO UPDATE SET required = true" in block
