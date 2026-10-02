@@ -742,11 +742,15 @@ def set_round_handicap(round_id: str):
 @api.patch("/rounds/<round_id>/tee")
 @authenticated
 def set_tee(round_id: str):
+    payload = _body()
     return jsonify(
         _store().set_participant_tee(
             g.golfer["id"],
             round_id,
-            _body().get("tee_name"),
+            payload.get("tee_name"),
+            confirm_correction=(
+                payload.get("confirm_correction") is True
+            ),
         )
     )
 
