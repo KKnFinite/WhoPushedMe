@@ -695,6 +695,31 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_completed_rounds_reject_social_mutations():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    guarded = (
+        ("def set_event_reaction(", "reactions are only available during an active round"),
+        ("def remove_event_reaction(", "reactions are only available during an active round"),
+        ("def set_score_challenge(", "score challenges are only available during an active round"),
+        ("def withdraw_score_challenge(", "score challenges are only available during an active round"),
+        ("def add_score_response(", "score responses are only available during an active round"),
+    )
+
+    for marker, message in guarded:
+        start = store_source.index(marker)
+        end = store_source.find("\n    def ", start + len(marker))
+        block = store_source[start:end if end >= 0 else None]
+        assert 'round_row["status"] != "active"' in block
+        assert message in block
+        assert '"completed"' not in block
+
+
 def test_historical_round_access_can_mark_history_seen():
     from pathlib import Path
 
