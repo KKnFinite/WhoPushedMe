@@ -2700,7 +2700,7 @@
       if (scoreAnnouncementQueue.length) {
         window.setTimeout(showNextScoreAnnouncement, 120);
       }
-    }, 1650);
+    }, 2400);
   };
 
   const queueNewScoreAnnouncements = (round) => {

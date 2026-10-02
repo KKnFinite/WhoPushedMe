@@ -441,7 +441,28 @@ def test_live_round_has_loud_score_announcement():
     assert b"TEAM SCORED" in script.data
     assert b"score_report" in script.data
     assert b"seenScoreAnnouncementEventIds" in script.data
+    assert b"}, 2400);" in script.data
     assert b".score-announcement" in css.data
+    assert b"z-index: 230;" in css.data
+    assert b"animation: wpm-score-pop 2.4s ease both;" in css.data
+    assert b"font-size: clamp(2rem, 9vw, 3rem);" in css.data
+    assert css.data.index(b"z-index: 230;") < css.data.index(b".hole-transition {")
+
+
+def test_score_announcement_sits_above_hole_transition_overlay():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    score_start = source.index(".score-announcement {")
+    score_end = source.index("}", score_start)
+    score_block = source[score_start:score_end]
+    transition_start = source.index(".hole-transition {")
+    transition_end = source.index("}", transition_start)
+    transition_block = source[transition_start:transition_end]
+
+    assert "z-index: 230;" in score_block
+    assert "z-index: 220;" in transition_block
 
 
 def test_between_hole_transition_uses_unique_deterministic_mascots():

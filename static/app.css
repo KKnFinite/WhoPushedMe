@@ -9655,7 +9655,7 @@ textarea,
 /* LIVE SCORE ANNOUNCEMENT + BETWEEN-HOLE TRANSITION */
 .score-announcement {
   position: fixed;
-  z-index: 205;
+  z-index: 230;
   top: calc(10px + env(safe-area-inset-top));
   left: 50%;
   width: min(calc(100vw - 24px), 620px);
@@ -9685,14 +9685,14 @@ textarea,
 
 .score-announcement > strong {
   font-family: "Bebas Neue", Impact, sans-serif;
-  font-size: clamp(1.8rem, 8vw, 2.65rem);
+  font-size: clamp(2rem, 9vw, 3rem);
   font-weight: 400;
   line-height: .95;
   letter-spacing: .025em;
 }
 
 .score-announcement.is-showing {
-  animation: wpm-score-pop 1.65s ease both;
+  animation: wpm-score-pop 2.4s ease both;
 }
 
 @keyframes wpm-score-pop {
