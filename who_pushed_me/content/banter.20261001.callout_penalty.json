@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.01",
+      "text": "Penalty on {target}. Nice job making a bad score worse without even taking another fucking swing.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.02",
+      "text": "{target} just added a penalty stroke. Apparently the scorecard wasn’t ugly enough yet.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.03",
+      "text": "Penalty for {target}. Golf found a way to punish them even when the club wasn’t moving.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.04",
+      "text": "{target} earned a penalty stroke. That’s talent — fucking up without needing another shot.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.05",
+      "text": "Penalty on {target}. One extra stroke, absolutely free, because apparently they needed the help.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.06",
+      "text": "{target} just donated another stroke to the scorecard. Very generous.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.09",
+      "text": "Penalty on {target}. A few drinks in and apparently the rules are starting to look optional.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.penalty.20261001.10",
+      "text": "{target} picked up a penalty for doing something they knew they shouldn’t. Their {spouse} is extremely familiar with that defense.",
+      "events": ["mid_hole.callout.penalty"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
