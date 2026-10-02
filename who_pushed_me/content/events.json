@@ -58,9 +58,6 @@
     "mid-hole/callout": {
       "prefix": "WPM_MidHole_Callout_"
     },
-    "mid-hole/nice-shot": {
-      "prefix": "WPM_MidHole_NiceShot_"
-    },
     "mid-hole/call-your-shot": {
       "prefix": "WPM_MidHole_CallYourShot_"
     },
@@ -2110,104 +2107,6 @@
         "everyone"
       ],
       "asset_family": "mid-hole/callout"
-    },
-    {
-      "key": "mid_hole.nice_shot",
-      "parent": "mid_hole",
-      "label": "Nice fucking shot",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.drive",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice drive",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.approach",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice approach",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.recovery",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice recovery",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.bunker",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice bunker shot",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.putt",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice putt",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
-    },
-    {
-      "key": "mid_hole.nice_shot.long_putt",
-      "parent": "mid_hole.nice_shot",
-      "label": "Nice long putt",
-      "phase": "mid_hole",
-      "family": "mid_hole.nice_shot",
-      "triggerable": true,
-      "default_enabled": true,
-      "admin_toggleable": true,
-      "audiences": [
-        "everyone"
-      ],
-      "asset_family": "mid-hole/nice-shot"
     },
     {
       "key": "mid_hole.call_your_shot",
