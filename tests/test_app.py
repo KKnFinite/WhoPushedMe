@@ -2298,3 +2298,18 @@ def test_round_invite_ui_preserves_role_and_login_deep_link():
     assert manifest_payload["scope"] == "/"
     assert manifest_payload["launch_handler"]["client_mode"][0] == "navigate-existing"
 
+
+def test_wrong_club_is_removed_from_callout_system():
+    from who_pushed_me.content.catalog import ContentCatalog
+    from who_pushed_me.content.presentation import social_content_event
+
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'value="wrong_club"' not in page.data
+
+    catalog = ContentCatalog.load()
+    assert "mid_hole.callout.wrong_club" not in catalog.registry.events
+    assert social_content_event(
+        "callout",
+        {"situation": "wrong_club"},
+    ) == "mid_hole.callout"
