@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.01",
+      "text": "{target} duffed it so badly the ball moved just far enough to make them walk over and fuck it up again.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.02",
+      "text": "Big swing from {target}. Tiny result. The ball looked personally unimpressed.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.03",
+      "text": "{target} barely advanced the ball. Congratulations on relocating the problem.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.04",
+      "text": "That duff from {target} had all the commitment of a full swing and none of the fucking payoff.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.05",
+      "text": "{target} hit that one like the goal was to keep the ball within shouting distance.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.07",
+      "text": "{target} swung like they meant it. The ball clearly didn’t believe them.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.08",
+      "text": "That shot from {target} accomplished almost nothing, which is honestly impressive at full speed.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.09",
+      "text": "{target} duffed it so badly the ball barely escaped the scene. Apparently coordination left a drink ago.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.duff.20261001.10",
+      "text": "{target} put everything into that swing and got almost nothing out of it. Their {spouse} knows the feeling.",
+      "events": ["mid_hole.callout.duff"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
