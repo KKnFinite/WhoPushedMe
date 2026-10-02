@@ -2416,6 +2416,28 @@ def test_spouse_placeholder_matches_message_casing():
         "husband",
     ) == "Tell your husband the truth."
 
+def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def dismiss_unfinished_round(")
+    end = store_source.index("    def round_invite_preview(", start)
+    block = store_source[start:end]
+
+    assert "count(DISTINCT rp.golfer_id) AS participant_count" in block
+    assert "g.username IS NULL" in block
+    assert "g.password_hash IS NULL" in block
+    assert "g.recovery_key_hash IS NULL" in block
+    assert "g.recovery_key IS NULL" in block
+    assert "count(*) AS dismissed_count" in block
+    assert "dismissed_count >= participant_count" in block
+    assert '"DELETE FROM rounds WHERE id = %s"' in block
+    assert '"deleted": deleted' in block
+
+
 def test_join_round_lists_resumable_unfinished_rounds_with_delete():
     page = client().get("/")
     script = client().get("/static/app.js")

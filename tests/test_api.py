@@ -199,7 +199,11 @@ class FakeStore:
 
     def dismiss_unfinished_round(self, golfer_id, round_id):
         self.calls.append(("dismiss_unfinished_round", golfer_id, round_id))
-        return {"round_id": round_id, "dismissed": True}
+        return {
+            "round_id": round_id,
+            "dismissed": True,
+            "deleted": False,
+        }
 
     def get_round(
         self,
@@ -659,6 +663,7 @@ def test_unfinished_round_delete_only_dismisses_from_users_list():
 
     assert response.status_code == 200
     assert response.get_json()["dismissed"] is True
+    assert response.get_json()["deleted"] is False
     assert store.calls[-1] == (
         "dismiss_unfinished_round",
         store.golfer_id,

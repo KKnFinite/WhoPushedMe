@@ -2725,9 +2725,52 @@ class RoundStore:
                 """,
                 (round_uuid, golfer_uuid),
             )
+
+            cursor.execute(
+                """
+                SELECT count(DISTINCT rp.golfer_id) AS participant_count
+                FROM round_participants rp
+                JOIN golfers g ON g.id = rp.golfer_id
+                WHERE rp.round_id = %s
+                  AND NOT (
+                      g.username IS NULL
+                      AND g.password_hash IS NULL
+                      AND g.recovery_key_hash IS NULL
+                      AND g.recovery_key IS NULL
+                  )
+                """,
+                (round_uuid,),
+            )
+            participant_count = int(
+                cursor.fetchone()["participant_count"] or 0
+            )
+
+            cursor.execute(
+                """
+                SELECT count(*) AS dismissed_count
+                FROM round_home_dismissals
+                WHERE round_id = %s
+                """,
+                (round_uuid,),
+            )
+            dismissed_count = int(
+                cursor.fetchone()["dismissed_count"] or 0
+            )
+
+            deleted = (
+                participant_count > 0
+                and dismissed_count >= participant_count
+            )
+            if deleted:
+                cursor.execute(
+                    "DELETE FROM rounds WHERE id = %s",
+                    (round_uuid,),
+                )
+
             return {
                 "round_id": round_uuid,
                 "dismissed": True,
+                "deleted": deleted,
             }
 
     def round_invite_preview(
