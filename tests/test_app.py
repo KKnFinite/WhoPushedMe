@@ -2377,3 +2377,19 @@ def test_missed_short_putt_is_removed_from_callout_system():
         "callout",
         {"situation": "missed_short_putt"},
     ) == "mid_hole.callout"
+
+
+def test_three_putt_is_removed_from_callout_system():
+    from who_pushed_me.content.catalog import ContentCatalog
+    from who_pushed_me.content.presentation import social_content_event
+
+    page = client().get("/")
+    assert page.status_code == 200
+    assert b'value="three_putt"' not in page.data
+
+    catalog = ContentCatalog.load()
+    assert "mid_hole.callout.three_putt" not in catalog.registry.events
+    assert social_content_event(
+        "callout",
+        {"situation": "three_putt"},
+    ) == "mid_hole.callout"
