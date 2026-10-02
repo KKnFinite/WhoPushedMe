@@ -2904,6 +2904,29 @@ def test_score_save_emits_one_factual_event_with_one_banter_presentation():
     assert "data->>'banter_event_key'" in store_source
 
 
+def test_spectators_can_reach_score_reactions_without_player_controls():
+    source = client().get("/static/app.js").data.decode("utf-8")
+
+    feed_start = source.index("const renderLiveBanter =")
+    feed_end = source.index("const appendLobbyBanterRow =", feed_start)
+    feed_block = source[feed_start:feed_end]
+
+    assert "const spectatorCanReact = (" in feed_block
+    assert "round.viewer_role === 'spectator'" in feed_block
+    assert "respond.textContent = spectatorCanReact ? 'REACT' : 'RESPOND';" in feed_block
+    assert "openScoreResponseSheet(round, event)" in feed_block
+
+    sheet_start = source.index("const appendScoreResponsePanel =")
+    sheet_end = source.index("const openScoreResponseSheet =", sheet_start)
+    sheet_block = source[sheet_start:sheet_end]
+
+    assert "/reaction" in sheet_block
+    assert "const canChallenge = (" in sheet_block
+    assert "viewerIsActivePlayer(round)" in sheet_block
+    assert "const canCallOutScore = (" in sheet_block
+    assert "viewerIsActivePlayer(round)" in sheet_block
+
+
 def test_score_responses_open_from_feed_in_separate_sheet():
     source = client().get("/static/app.js").data.decode("utf-8")
     render_start = source.index("const renderLiveBanter =")
