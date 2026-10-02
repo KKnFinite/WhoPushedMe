@@ -695,6 +695,25 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_scored_hole_par_cannot_change_until_scores_are_removed():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_par(")
+    end = store_source.index("    @staticmethod\n    def _score_series_from_cursor(", start)
+    block = store_source[start:end]
+
+    assert "FROM round_hole_scores" in block
+    assert "route_position = %s" in block
+    assert "remove the score entries for this hole before correcting par" in block
+    assert 'round_row["status"] not in {"setup", "active"}' in block
+    assert "par tracking is disabled for this round" in block
+
+
 def test_existing_player_reconnect_bypasses_new_player_capacity_check():
     from pathlib import Path
 
