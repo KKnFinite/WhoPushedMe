@@ -2409,3 +2409,19 @@ def test_lip_out_is_removed_from_callout_system():
         "callout",
         {"situation": "lip_out"},
     ) == "mid_hole.callout"
+
+
+def test_nice_shot_is_removed_from_social_system():
+    from who_pushed_me.content.catalog import ContentCatalog
+    from who_pushed_me.domain import SOCIAL_EVENT_TYPES
+
+    assert "praise" not in SOCIAL_EVENT_TYPES
+
+    catalog = ContentCatalog.load()
+    assert not any(
+        key == "mid_hole.nice_shot" or key.startswith("mid_hole.nice_shot.")
+        for key in catalog.registry.events
+    )
+
+    source = client().get("/static/app.js").data.decode("utf-8")
+    assert "'praise'" not in source
