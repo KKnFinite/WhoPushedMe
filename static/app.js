@@ -3995,7 +3995,6 @@
     const socialTypes = new Set([
       'open_mic',
       'callout',
-      'praise',
       'shot_call',
       'challenge',
       'excuse',
@@ -4052,8 +4051,7 @@
         && [
           'open_mic',
           'callout',
-          'praise',
-          'shot_call',
+              'shot_call',
           'challenge',
           'excuse',
           'score_response',
