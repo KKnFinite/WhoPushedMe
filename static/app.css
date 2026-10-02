@@ -9232,7 +9232,7 @@ textarea,
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding-bottom: 0;
+    padding-bottom: 230px;
     scrollbar-width: none;
   }
 
@@ -9241,7 +9241,31 @@ textarea,
   }
 
   .join-cta-dock {
-    flex: 0 0 auto;
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    z-index: 140;
+    width: min(calc(100% - 34px), 520px);
+    margin: 0;
+    padding: 10px 0 0;
+    transform: translateX(-50%);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5,9,7,0) 0,
+        rgba(5,9,7,.92) 24px,
+        rgba(5,9,7,1) 56px,
+        rgba(5,9,7,1) 100%
+      );
+  }
+
+  .join-cta-dock.has-mini {
+    padding-top: 126px;
+  }
+
+  .join-cta-mini-stage {
+    bottom: 58px;
   }
 }
 
