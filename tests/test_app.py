@@ -2504,6 +2504,23 @@ def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses
     assert '"deleted": deleted' in block
 
 
+def test_lobby_does_not_offer_tee_selection_controls():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    assert b'id="lobby-tee-panel"' not in page.data
+    assert b'id="lobby-tee-select"' not in page.data
+    assert b'id="lobby-tee-save"' not in page.data
+
+    source = script.data.decode("utf-8")
+    assert "lobbyTeePanel" not in source
+    assert "lobbyTeeSelect" not in source
+    assert "lobbyTeeSave" not in source
+    assert "participant.tee_name" in source
+
+
 def test_join_round_lists_resumable_unfinished_rounds_with_delete():
     page = client().get("/")
     script = client().get("/static/app.js")

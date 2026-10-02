@@ -108,10 +108,6 @@
   const trackingStartPosition = document.getElementById('tracking-start-position');
   const routePreview = document.getElementById('route-preview');
   const setupParTracking = document.getElementById('setup-par-tracking');
-  const lobbyTeePanel = document.getElementById('lobby-tee-panel');
-  const lobbyTeeLabel = document.getElementById('lobby-tee-label');
-  const lobbyTeeSelect = document.getElementById('lobby-tee-select');
-  const lobbyTeeSave = document.getElementById('lobby-tee-save');
   const lobbyParSetup = document.getElementById('lobby-par-setup');
   const lobbyParGrid = document.getElementById('lobby-par-grid');
   const lobbyParSave = document.getElementById('lobby-par-save');
@@ -6461,24 +6457,6 @@
     } catch (error) {
       setRoundFlowMessage(error.message);
       lobbyParSave.disabled = false;
-    }
-  });
-
-  lobbyTeeSave?.addEventListener('click', async () => {
-    if (!currentLobbyRound || !lobbyTeeSelect?.value) return;
-    lobbyTeeSave.disabled = true;
-    setRoundFlowMessage('');
-
-    try {
-      await requestJson(`/api/rounds/${currentLobbyRound.id}/tee`, {
-        method: 'PATCH',
-        body: { tee_name: lobbyTeeSelect.value },
-      });
-      await refreshLobby(currentLobbyRound.active_code);
-    } catch (error) {
-      setRoundFlowMessage(error.message);
-    } finally {
-      lobbyTeeSave.disabled = false;
     }
   });
 
