@@ -695,6 +695,27 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_existing_player_reconnect_bypasses_new_player_capacity_check():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def join_round(")
+    end = store_source.index("    def set_participation_state(", start)
+    block = store_source[start:end]
+
+    existing_pos = block.index("existing_participant = cursor.fetchone()")
+    capacity_pos = block.index("this round already has 4 active golfers")
+
+    assert existing_pos < capacity_pos
+    assert "return existing_participant" in block
+    assert "reconnect using that role" in block
+    assert "participant_reconnect" in block
+
+
 def test_round_start_requires_active_player_tees_and_complete_pars():
     from pathlib import Path
 
