@@ -7174,6 +7174,9 @@ body.app-ready .home-banter p {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
+  width: min(100%, 420px);
+  align-self: center;
+  margin-inline: auto !important;
 }
 
 .round-join-form > .choice-fieldset legend {
@@ -8911,11 +8914,6 @@ textarea,
 .round-join-form .join-round-heckle,
 #join-round-submit {
   align-self: start;
-}
-
-.round-join-form > .choice-fieldset {
-  align-self: center;
-  margin-inline: auto !important;
 }
 
 .round-join-form .join-round-heckle {

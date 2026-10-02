@@ -2385,6 +2385,7 @@ def test_join_round_role_and_mini_are_centered():
     role_block = role_block[:role_block.index("}") + 1]
     assert "align-self: center;" in role_block
     assert "margin-inline: auto !important;" in role_block
+    assert "width: min(100%, 420px);" in role_block
 
     mini_block = source[source.index(".join-cta-mini-stage {"):]
     mini_block = mini_block[:mini_block.index("}") + 1]
