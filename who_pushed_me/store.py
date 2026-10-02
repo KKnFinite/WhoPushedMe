@@ -2452,6 +2452,7 @@ class RoundStore:
             SELECT participant_id, vote, updated_at
             FROM round_end_early_votes
             WHERE round_id = %s
+              AND updated_at >= now() - interval '30 minutes'
             ORDER BY updated_at, participant_id
             """,
             (round_id,),
