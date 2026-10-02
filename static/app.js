@@ -261,6 +261,7 @@
   let currentBagReplyToEventId = null;
   let currentBagRoutePosition = null;
   let currentBagLockedTargetId = null;
+  let openScoreResponseEventId = '';
   let scrambleContributionComposerOpen = false;
   let finishIncompletePending = false;
   let advanceWarningPosition = null;
@@ -2390,6 +2391,7 @@
     document.body.classList.remove('modal-open');
     setRoundFlowMessage('');
     if (bagModal) bagModal.hidden = true;
+    closeScoreResponseSheet();
     currentBagAction = null;
     currentLobbyRound = null;
     roundHistoryOpen = false;
@@ -3176,6 +3178,7 @@
           );
           selectedResponseKind = wasActive ? '' : kind;
           syncReactionButtons();
+          await refreshRound(round.active_code);
         } catch (error) {
           setRoundFlowMessage(error.message);
         } finally {
@@ -3435,15 +3438,21 @@
 
   const closeScoreResponseSheet = () => {
     if (!scoreResponseModal) return;
+    openScoreResponseEventId = '';
     scoreResponseModal.hidden = true;
     if (scoreResponseSheetBody) scoreResponseSheetBody.replaceChildren();
     if (scoreResponseContext) scoreResponseContext.textContent = '';
     document.body.classList.remove('score-response-open');
   };
 
-  const openScoreResponseSheet = (round, scoreEvent) => {
+  const openScoreResponseSheet = (
+    round,
+    scoreEvent,
+    { autofocus = true } = {}
+  ) => {
     if (!scoreResponseModal || !scoreResponseSheetBody || !scoreEvent) return;
 
+    openScoreResponseEventId = String(scoreEvent.id || '');
     const participantId = scoreEvent.data?.player_participant_id || null;
     const participant = participantId
       ? (round.participants || []).find(
@@ -3471,9 +3480,34 @@
     );
     scoreResponseModal.hidden = false;
     document.body.classList.add('score-response-open');
-    window.requestAnimationFrame(() => {
-      scoreResponseSheetBody.querySelector('button, input, select')?.focus();
-    });
+    if (autofocus) {
+      window.requestAnimationFrame(() => {
+        scoreResponseSheetBody.querySelector('button, input, select')?.focus();
+      });
+    }
+  };
+
+  const refreshOpenScoreResponseSheet = (round) => {
+    if (
+      !round
+      || !openScoreResponseEventId
+      || !scoreResponseModal
+      || scoreResponseModal.hidden
+    ) return;
+
+    const freshEvent = (round.events || []).find(
+      (event) => String(event.id || '') === openScoreResponseEventId
+    );
+    if (!freshEvent) {
+      closeScoreResponseSheet();
+      return;
+    }
+
+    openScoreResponseSheet(
+      round,
+      freshEvent,
+      { autofocus: false }
+    );
   };
 
   const renderScoreCard = (round, position) => {
@@ -5816,6 +5850,7 @@
     }
 
     renderRoundState(round);
+    refreshOpenScoreResponseSheet(round);
     return round;
   };
 

@@ -1851,6 +1851,39 @@ def test_live_reaction_panel_is_always_visible():
     assert "REACTIONS / CHALLENGES" in block
 
 
+def test_score_response_sheet_refreshes_without_disappearing():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    assert "let openScoreResponseEventId = '';" in source
+    assert "const refreshOpenScoreResponseSheet = (round) =>" in source
+    assert "openScoreResponseEventId = String(scoreEvent.id || '');" in source
+    assert "{ autofocus: false }" in source
+
+    refresh_start = source.index("const refreshRound = async (code) =>")
+    refresh_end = source.index("const refreshLobby = refreshRound", refresh_start)
+    refresh_block = source[refresh_start:refresh_end]
+    assert "refreshOpenScoreResponseSheet(round);" in refresh_block
+    assert refresh_block.index("renderRoundState(round)") < refresh_block.index(
+        "refreshOpenScoreResponseSheet(round);"
+    )
+
+
+def test_score_reaction_refreshes_counts_and_keeps_sheet_current():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+    start = source.index("const appendScoreResponsePanel =")
+    end = source.index("const closeScoreResponseSheet", start)
+    block = source[start:end]
+
+    reaction_start = block.index("button.addEventListener('click', async () =>")
+    reaction_end = block.index("responseButtons.append(button);", reaction_start)
+    reaction_block = block[reaction_start:reaction_end]
+    assert "await refreshRound(round.active_code);" in reaction_block
+
+
 def test_round_banter_uses_one_score_row_per_player_hole():
     response = client().get("/static/app.js")
     assert response.status_code == 200
