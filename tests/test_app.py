@@ -2425,3 +2425,24 @@ def test_nice_shot_is_removed_from_social_system():
 
     source = client().get("/static/app.js").data.decode("utf-8")
     assert "'praise'" not in source
+
+
+def test_legacy_call_your_shot_and_you_wont_are_removed():
+    from who_pushed_me.content.catalog import ContentCatalog
+    from who_pushed_me.domain import SOCIAL_EVENT_TYPES
+
+    assert "shot_call" not in SOCIAL_EVENT_TYPES
+    assert "challenge" not in SOCIAL_EVENT_TYPES
+
+    catalog = ContentCatalog.load()
+    assert not any(
+        key == "mid_hole.call_your_shot"
+        or key.startswith("mid_hole.call_your_shot.")
+        or key == "mid_hole.you_wont"
+        or key.startswith("mid_hole.you_wont.")
+        for key in catalog.registry.events
+    )
+
+    source = client().get("/static/app.js").data.decode("utf-8")
+    assert "'shot_call'" not in source
+    assert "'score_challenge'" in source
