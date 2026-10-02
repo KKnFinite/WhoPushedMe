@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.01",
+      "text": "{target} called mulligan. Translation: that first swing was so fucking embarrassing they’re asking reality not to count it.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.02",
+      "text": "Mulligan for {target}. Nothing screams confidence like immediately begging for a do-over.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.03",
+      "text": "{target} is taking another one. Apparently consequences are optional when the first swing looks like shit.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.05",
+      "text": "Mulligan. Because apparently sucking once wasn’t enough evidence.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.06",
+      "text": "{target} wants a redo. The rest of us want the first swing erased from memory too.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.08",
+      "text": "Mulligan for {target}. New ball, same fucking liability holding the club.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.09",
+      "text": "{target} called mulligan. A few drinks in and now even the scorecard is being asked to forget what just happened.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.mulligan.20261001.10",
+      "text": "{target} wants a do-over after disappointing everybody on the first attempt. Their {spouse} is furious to learn that was an option.",
+      "events": ["mid_hole.callout.mulligan"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
