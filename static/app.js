@@ -1296,18 +1296,22 @@
     }
   };
 
-  const alignStepTwoMiniToNextButton = () => {
+  const alignSetupMiniToPrimaryButton = (step) => {
+    const numericStep = Number(step);
     const stage = [...setupMiniStages].find(
-      (item) => Number(item.dataset.setupMiniStage) === 2
+      (item) => Number(item.dataset.setupMiniStage) === numericStep
     );
     const mini = [...setupMinis].find(
-      (item) => Number(item.dataset.setupMini) === 2
+      (item) => Number(item.dataset.setupMini) === numericStep
     );
-    const nextButton = stage?.closest('.setup-step-actions')?.querySelector('.setup-next');
+    const actionRow = stage?.closest('.setup-step-actions');
+    const primaryButton = numericStep === 3
+      ? actionRow?.querySelector('.round-create-button')
+      : actionRow?.querySelector('.setup-next');
     if (
       !stage
       || !mini
-      || !nextButton
+      || !primaryButton
       || stage.hidden
       || !mini.complete
       || !mini.naturalHeight
@@ -1318,13 +1322,17 @@
     window.requestAnimationFrame(() => {
       if (stage.hidden) return;
       const miniRect = mini.getBoundingClientRect();
-      const buttonRect = nextButton.getBoundingClientRect();
+      const buttonRect = primaryButton.getBoundingClientRect();
       const transparentBottom =
         setupMiniOpaqueBottomRatio(mini) * miniRect.height;
       const visibleBottom = miniRect.bottom - transparentBottom;
       const shift = Math.round(buttonRect.top - visibleBottom);
       stage.style.setProperty('--setup-mini-y', `${shift}px`);
     });
+  };
+
+  const alignStepTwoMiniToNextButton = () => {
+    alignSetupMiniToPrimaryButton(2);
   };
 
   const loadRandomSetupMini = async (step = 1) => {
@@ -1377,8 +1385,8 @@
           stage.classList.toggle('is-suppressed', shouldHide);
           stage.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
           mini.classList.add('is-loaded');
-          if (Number(step) === 2 && !shouldHide) {
-            alignStepTwoMiniToNextButton();
+          if ([2, 3].includes(Number(step)) && !shouldHide) {
+            alignSetupMiniToPrimaryButton(step);
           }
         },
         { once: true }
