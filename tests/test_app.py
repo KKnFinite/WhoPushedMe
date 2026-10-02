@@ -695,6 +695,32 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_scramble_cannot_advance_without_team_score_and_contributions_lock_round():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    hole_start = store_source.index("    def set_current_hole(")
+    hole_end = store_source.index("    def _maybe_advance_active_route(", hole_start)
+    hole_block = store_source[hole_start:hole_end]
+
+    assert 'round_row["mode"] == "scramble"' in hole_block
+    assert "score_scope = 'team'" in hole_block
+    assert "enter the team score before advancing the scramble" in hole_block
+
+    contribution_start = store_source.index("    def set_scramble_contribution(")
+    contribution_end = store_source.index("\n    def ", contribution_start + 20)
+    contribution_block = store_source[
+        contribution_start:
+        contribution_end if contribution_end >= 0 else None
+    ]
+    assert "self._round(cursor, round_uuid, lock=True)" in contribution_block
+    assert 'route_position > int(round_row["current_route_position"])' in contribution_block
+
+
 def test_scored_hole_par_cannot_change_until_scores_are_removed():
     from pathlib import Path
 
