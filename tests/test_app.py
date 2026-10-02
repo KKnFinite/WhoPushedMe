@@ -695,6 +695,29 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_round_start_requires_active_player_tees_and_complete_pars():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_status(")
+    end = store_source.index("    def set_par_tracking_mode(", start)
+    block = store_source[start:end]
+
+    assert 'self._require_active_player(participant, "change round status")' in block
+    assert 'old_status == "setup"' in block
+    assert 'new_status == "active"' in block
+    assert 'bool(round_row["par_tracking_enabled"])' in block
+    assert "required_pars" in block
+    assert "established_pars" in block
+    assert "every planned hole needs par before starting" in block
+    assert "every player must choose a tee before starting" in block
+    assert "choose one team scoring tee before starting" in block
+
+
 def test_completed_rounds_reject_social_mutations():
     from pathlib import Path
 
