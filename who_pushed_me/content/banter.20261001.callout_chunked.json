@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.01",
+      "text": "{target} hit the ground before the ball. Excellent work attacking the fucking planet.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.02",
+      "text": "{target} chunked it so badly the divot had more distance than the ball.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.04",
+      "text": "{target} took enough turf to start a landscaping project.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.07",
+      "text": "That chunk from {target} sounded like somebody dropped a shovel.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.08",
+      "text": "{target} hit so far behind the ball the divot deserves its own score.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.09",
+      "text": "{target} hit the ground first. A few drinks in and apparently even the club is stumbling into shit early.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.chunked.20261001.10",
+      "text": "{target} made contact way too early and ruined the whole thing. Their {spouse} knows that routine.",
+      "events": ["mid_hole.callout.chunked"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
