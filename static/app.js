@@ -3178,7 +3178,7 @@
       scoreEvent.data?.player_participant_id || ''
     );
     const canCallOutScore = (
-      round.viewer_role === 'player'
+      viewerIsActivePlayer(round)
       && (
         round.mode === 'scramble'
         || (
@@ -3244,7 +3244,8 @@
     }
 
     const canChallenge = (
-      String(scoreEvent.actor_participant_id || '') !== viewerId
+      viewerIsActivePlayer(round)
+      && String(scoreEvent.actor_participant_id || '') !== viewerId
     );
     if (canChallenge) {
       const existingChallenge = activeScoreChallenges(
@@ -4143,7 +4144,7 @@
         );
         const viewerId = String(round.viewer_participant_id || '');
         const viewerOwnsScore = (
-          round.viewer_role === 'player'
+          viewerIsActivePlayer(round)
           && (
             round.mode === 'scramble'
             || (
@@ -4153,7 +4154,7 @@
           )
         );
         const canRespond = (
-          round.viewer_role === 'player'
+          viewerIsActivePlayer(round)
           && !viewerOwnsScore
         );
 
@@ -4183,7 +4184,7 @@
 
       if (
         eventType === 'callout'
-        && round.viewer_role === 'player'
+        && viewerIsActivePlayer(round)
         && String(event.data?.target_participant_id || '')
           === String(round.viewer_participant_id || '')
       ) {
