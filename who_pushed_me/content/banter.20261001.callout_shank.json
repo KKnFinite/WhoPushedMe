@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.01",
+      "text": "{target} just shanked the fuck out of it. That ball left at a ninety-degree angle like it owed somebody money.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.03",
+      "text": "{target} shanked it so hard the people beside them became the fucking gallery and the target.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.06",
+      "text": "Shank by {target}. Everybody standing sideways to them should probably start paying attention.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.07",
+      "text": "{target} just hit one so sideways the scorecard should ask which fucking hole they were playing.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.09",
+      "text": "{target} shanked it sideways. Apparently the beer finally got the swing walking as crooked as they are.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.shank.20261001.10",
+      "text": "{target} shanked it nowhere near the hole. Their {spouse} has definitely seen this level of aim before in the bedroom.",
+      "events": ["mid_hole.callout.shank"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
