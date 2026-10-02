@@ -6973,7 +6973,10 @@
         `/api/rounds/${currentLobbyRound.id}/tee`,
         {
           method: 'PATCH',
-          body: { tee_name: teeName },
+          body: {
+            tee_name: teeName,
+            confirm_correction: true,
+          },
         }
       );
       if (roundSettingsPanel) roundSettingsPanel.hidden = true;
