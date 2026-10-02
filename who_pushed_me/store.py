@@ -424,7 +424,7 @@ class RoundStore:
         cursor.execute(
             """
             DELETE FROM rounds
-            WHERE status IN ('setup', 'active')
+            WHERE status IN ('setup', 'active', 'abandoned')
               AND updated_at < now() - interval '24 hours'
             RETURNING id
             """
@@ -3790,7 +3790,7 @@ class RoundStore:
             "setup": {"active", "abandoned"},
             "active": {"completed", "abandoned"},
             "completed": set(),
-            "abandoned": {"active"},
+            "abandoned": set(),
         }
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid, lock=True)
