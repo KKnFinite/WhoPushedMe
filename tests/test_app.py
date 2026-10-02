@@ -695,6 +695,63 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_score_correction_and_removal_keep_same_edit_boundary():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    set_start = store_source.index("    def set_score(")
+    set_end = store_source.index("    def remove_score(", set_start)
+    set_block = store_source[set_start:set_end]
+
+    remove_start = set_end
+    remove_end = store_source.index(
+        "    def set_scramble_contribution(",
+        remove_start,
+    )
+    remove_block = store_source[remove_start:remove_end]
+
+    for block in (set_block, remove_block):
+        assert 'self._require_active_player(actor, "change scores")' in block
+        assert "require_active_round(round_row[\"status\"], \"change scores\")" in block
+        assert "future holes are preview-only until they become active" in block
+        assert "target_id != actor[\"id\"]" in block
+        assert 'not bool(target["round_only"])' in block
+        assert 'PermissionDenied(\n                        "players enter their own scores"' in block
+
+    assert "old_score == stroke_value" in set_block
+    assert '"event": None' in set_block
+    assert "route_position < int(round_row[\"current_route_position\"])" in set_block
+    assert "event_type=audit_event_type(\"score\", old_score)" in set_block
+
+    assert "DELETE FROM round_hole_scores WHERE id = %s" in remove_block
+    assert "event_type=\"score_removed\"" in remove_block
+    assert "SET current_route_position" not in remove_block
+    assert "SET current_hole" not in remove_block
+
+
+def test_score_remove_ui_never_bypasses_score_edit_gate():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index("const renderScoreCard =")
+    end = source.index("const SCRAMBLE_SHOT_TYPES", start)
+    block = source[start:end]
+
+    gate = block.index(
+        "if (!canScore || !targetCanReceiveScore || !targetCanBeEditedByViewer)"
+    )
+    remove = block.index("remove.className = 'live-score-remove'")
+    assert gate < remove
+    assert "round.viewer_role === 'player'" in block
+    assert "viewerIsActivePlayer(round)" in block
+    assert "Boolean(target?.round_only)" in block
+
+
 def test_live_scorecard_exposes_score_removal_control():
     response = client().get("/static/app.js")
     assert response.status_code == 200
