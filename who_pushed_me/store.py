@@ -5017,6 +5017,10 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             challenger = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(
+                challenger,
+                "challenge scores",
+            )
             if round_row["status"] not in {"active", "completed"}:
                 raise DomainError("score challenges are only available on active or completed rounds")
 
@@ -5101,6 +5105,10 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             challenger = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(
+                challenger,
+                "withdraw score challenges",
+            )
             if round_row["status"] not in {"active", "completed"}:
                 raise DomainError("score challenges are only available on active or completed rounds")
 
@@ -5182,6 +5190,10 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             actor = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(
+                actor,
+                "respond to scores",
+            )
             if round_row["status"] not in {"active", "completed"}:
                 raise DomainError(
                     "score responses are only available on active or completed rounds"
