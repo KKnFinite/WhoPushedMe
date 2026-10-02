@@ -2545,7 +2545,7 @@ def test_spectator_lockdown_covers_player_only_round_mutations():
         assert operation in block
 
     render_start = js_source.index("const renderLiveRound =")
-    render_end = js_source.index("const renderRoundEnd", render_start)
+    render_end = js_source.index("const renderLobby =", render_start)
     live_block = js_source[render_start:render_end]
     assert "viewerIsActivePlayer(round)" in live_block
     assert "advanceLiveHole.hidden = !canAdvanceLive;" in live_block
