@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.01",
+      "text": "{target} sliced that thing so hard the ball started on this hole and tried to finish on another one.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.02",
+      "text": "That slice from {target} had more curve than a fucking highway interchange.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.03",
+      "text": "{target} started it toward the target and then the ball changed its fucking mind.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.04",
+      "text": "That ball took one look at {target}’s swing and made a hard escape plan.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.07",
+      "text": "{target} put enough sideways spin on that ball to qualify it for a different sport.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.08",
+      "text": "That wasn’t a fade from {target}. That was a fucking evacuation.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.slice.20261001.10",
+      "text": "{target} sliced it nowhere near the hole. Their {spouse} has seen better aim from them in the dark.",
+      "events": ["mid_hole.callout.slice"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
