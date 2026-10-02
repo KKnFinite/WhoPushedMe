@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.01",
+      "text": "{target} topped it so badly the ball skipped the whole flying part.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.02",
+      "text": "{target} caught the top of the ball and sent it screaming along the fucking ground.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.03",
+      "text": "That shot from {target} stayed low enough to scare the worms.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.04",
+      "text": "{target} topped it. The ball got about three inches of altitude and immediately gave up.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.06",
+      "text": "{target} absolutely topped that one. Somewhere a lawn mower feels threatened.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.07",
+      "text": "That ball never got airborne. {target} basically rolled it with violence.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.08",
+      "text": "{target} topped it so hard the ball spent the whole trip looking for a runway.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.topped.20261001.09",
+      "text": "{target} topped it. The ball stayed low, just like the standards after a few drinks.",
+      "events": ["mid_hole.callout.topped"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
