@@ -695,6 +695,36 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_tee_change_after_scoring_requires_explicit_correction():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    api_source = (root / "who_pushed_me" / "api.py").read_text(
+        encoding="utf-8"
+    )
+    app_source = (root / "static" / "app.js").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_participant_tee(")
+    end = store_source.index("    def set_participant_round_handicap(", start)
+    block = store_source[start:end]
+
+    assert "confirm_correction: bool = False" in block
+    assert "FROM round_hole_scores" in block
+    assert "requires_confirmation = (" in block
+    assert "and current_tee != selected_tee" in block
+    assert "if requires_confirmation and not confirm_correction:" in block
+    assert '"proposed_tee_name": selected_tee' in block
+    assert 'updated["requires_confirmation"] = False' in block
+
+    assert "payload.get(\"confirm_correction\") is True" in api_source
+    assert "confirm_correction: true" in app_source
+
+
 def test_end_early_votes_expire_with_connected_window():
     from pathlib import Path
 
