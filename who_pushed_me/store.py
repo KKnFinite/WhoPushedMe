@@ -2663,12 +2663,35 @@ class RoundStore:
         round_uuid = self._uuid(round_id, "round_id")
 
         with self._connection() as connection, connection.cursor() as cursor:
-            self._round(cursor, round_uuid)
-            participant = self._participant(
-                cursor,
-                round_uuid,
-                golfer_uuid,
+            round_row = self._round(cursor, round_uuid)
+
+            cursor.execute(
+                """
+                SELECT id
+                FROM round_participants
+                WHERE round_id = %s
+                  AND golfer_id = %s
+                """,
+                (round_uuid, golfer_uuid),
             )
+            participant = cursor.fetchone()
+
+            if not participant and round_row["status"] == "completed":
+                cursor.execute(
+                    """
+                    SELECT participant_id AS id
+                    FROM round_history_access
+                    WHERE round_id = %s
+                      AND golfer_id = %s
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                    """,
+                    (round_uuid, golfer_uuid),
+                )
+                participant = cursor.fetchone()
+
+            if not participant:
+                raise NotFound("golfer is not a participant in this round")
 
             cursor.execute(
                 """
