@@ -695,6 +695,48 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_claim_undo_with_actions_preserves_account_history_access():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    migration = (
+        root / "migrations" / "0016_round_history_access.sql"
+    ).read_text(encoding="utf-8")
+
+    undo_start = store_source.index("    def undo_round_only_claim(")
+    undo_end = store_source.index(
+        "    @staticmethod\n    def _end_early_state_from_cursor(",
+        undo_start,
+    )
+    undo_block = store_source[undo_start:undo_end]
+    assert "INSERT INTO round_history_access" in undo_block
+    assert "claim_undo_with_history" in undo_block
+    assert 'state["actions_after_claim"]' in undo_block
+
+    completed_start = store_source.index("    def list_completed_rounds(")
+    completed_end = store_source.index(
+        "    def list_unfinished_rounds(",
+        completed_start,
+    )
+    completed_block = store_source[completed_start:completed_end]
+    assert "LEFT JOIN round_history_access access" in completed_block
+    assert "access.golfer_id = %s" in completed_block
+    assert "OR access.round_id IS NOT NULL" in completed_block
+
+    get_start = store_source.index("    def get_round(")
+    get_end = store_source.index("    def ", get_start + 20)
+    get_block = store_source[get_start:get_end]
+    assert 'round_row["status"] == "completed"' in get_block
+    assert "FROM round_history_access access" in get_block
+    assert "JOIN round_participants rp" in get_block
+
+    assert "CREATE TABLE round_history_access" in migration
+    assert "PRIMARY KEY (round_id, golfer_id, participant_id)" in migration
+
+
 def test_abandoned_rounds_are_terminal_and_expire_after_24_hours():
     from pathlib import Path
 
