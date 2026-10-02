@@ -5142,6 +5142,14 @@
       && round.status === 'active'
       && viewingLive
     );
+    const scrambleTeamScore = (
+      round.mode === 'scramble'
+      && viewingLive
+      && findScore(round, livePosition)
+    );
+    if (scrambleTeamScore && viewerIsActivePlayer(round)) {
+      scrambleContributionComposerOpen = true;
+    }
     if (liveCalloutButton) liveCalloutButton.hidden = !canUseLiveSocial;
     if (scrambleContributionOpen) {
       scrambleContributionOpen.hidden = !(
@@ -6571,7 +6579,9 @@
   });
 
   const advanceSharedLiveHole = async () => {
-    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) {
+      return false;
+    }
 
     const length = routeLength(currentLobbyRound);
     const livePosition = Number(
@@ -6579,7 +6589,7 @@
       || currentLobbyRound.current_hole
       || 1
     );
-    if (livePosition >= length) return;
+    if (livePosition >= length) return false;
 
     if (advanceLiveHole) advanceLiveHole.disabled = true;
     if (advanceWarningGo) advanceWarningGo.disabled = true;
@@ -6595,17 +6605,46 @@
       advanceWarningPosition = null;
       if (advanceWarningPanel) advanceWarningPanel.hidden = true;
       await refreshRound(currentLobbyRound.active_code);
+      return true;
     } catch (error) {
       setRoundFlowMessage(error.message);
       if (advanceLiveHole) advanceLiveHole.disabled = false;
       if (advanceWarningGo) advanceWarningGo.disabled = false;
+      return false;
     }
   };
 
-  scrambleContributionSkip?.addEventListener('click', () => {
+  scrambleContributionSkip?.addEventListener('click', async () => {
+    if (!currentLobbyRound) return;
+
+    const livePosition = Number(
+      currentLobbyRound.current_route_position
+      || currentLobbyRound.current_hole
+      || 1
+    );
+    const finishingScoredScrambleHole = (
+      currentLobbyRound.mode === 'scramble'
+      && Number(viewedRoutePosition) === livePosition
+      && Boolean(findScore(currentLobbyRound, livePosition))
+    );
+
     scrambleContributionComposerOpen = false;
     if (scrambleContributionPanel) {
       scrambleContributionPanel.hidden = true;
+    }
+
+    if (!finishingScoredScrambleHole) return;
+
+    if (scrambleContributionSkip) {
+      scrambleContributionSkip.disabled = true;
+    }
+    const advanced = await advanceSharedLiveHole();
+    if (!advanced) {
+      scrambleContributionComposerOpen = true;
+      renderScrambleContributions(currentLobbyRound, livePosition);
+      if (scrambleContributionSkip) {
+        scrambleContributionSkip.disabled = false;
+      }
     }
   });
 
