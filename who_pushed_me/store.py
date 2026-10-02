@@ -5271,15 +5271,36 @@ class RoundStore:
         *,
         hole: object | None = None,
         data: object | None = None,
+        reply_to_event_id: object | None = None,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
         kind = str(event_type or "")
-        payload = data if isinstance(data, dict) else {}
+        payload = dict(data) if isinstance(data, dict) else {}
+        reply_event_uuid = (
+            self._uuid(reply_to_event_id, "reply_to_event_id")
+            if reply_to_event_id is not None
+            else None
+        )
         with self._connection() as connection, connection.cursor() as cursor:
             round_row = self._round(cursor, round_uuid)
             participant = self._participant(cursor, round_uuid, golfer_uuid)
             validate_social_event(participant["role"], kind)
+
+            reply_event = None
+            if reply_event_uuid is not None:
+                cursor.execute(
+                    """
+                    SELECT id, actor_participant_id, event_type, hole_number,
+                           route_position, data
+                    FROM round_events
+                    WHERE id = %s AND round_id = %s
+                    """,
+                    (reply_event_uuid, round_uuid),
+                )
+                reply_event = cursor.fetchone()
+                if not reply_event:
+                    raise DomainError("reply target must be an event in this round")
 
             cursor.execute(
                 "SELECT display_name FROM golfers WHERE id = %s",
@@ -5301,11 +5322,17 @@ class RoundStore:
                         "Live social actions are only available during an active round"
                     )
 
-            route_position = (
-                int(hole)
-                if hole is not None
-                else int(round_row["current_route_position"])
-            )
+            if reply_event is not None:
+                route_position = int(
+                    reply_event.get("route_position")
+                    or round_row["current_route_position"]
+                )
+            else:
+                route_position = (
+                    int(hole)
+                    if hole is not None
+                    else int(round_row["current_route_position"])
+                )
             route_row = self._route_position(
                 cursor,
                 round_uuid,
@@ -5315,10 +5342,69 @@ class RoundStore:
                 raise DomainError(
                     "future holes are preview-only until they become active"
                 )
-            hole_number = int(route_row["hole_number"])
+            hole_number = int(
+                reply_event.get("hole_number")
+                if reply_event is not None and reply_event.get("hole_number")
+                else route_row["hole_number"]
+            )
 
             target_name = ""
             target_value = payload.get("target_participant_id")
+            reply_event_data = (
+                reply_event.get("data") or {}
+                if reply_event is not None
+                else {}
+            )
+
+            if kind == "callout":
+                if reply_event is not None:
+                    if reply_event["event_type"] not in {"score_report", "score_push"}:
+                        raise DomainError("callouts may only reply to score posts")
+                    if round_row["mode"] == "individual":
+                        score_target = reply_event_data.get(
+                            "player_participant_id"
+                        )
+                        if not score_target:
+                            raise DomainError(
+                                "score post does not identify a player"
+                            )
+                        if (
+                            target_value is not None
+                            and str(target_value) != str(score_target)
+                        ):
+                            raise DomainError(
+                                "callout target must match the score post"
+                            )
+                        target_value = score_target
+                if target_value is None:
+                    raise DomainError("callout needs a target")
+
+            if kind == "excuse":
+                if reply_event is None:
+                    raise DomainError(
+                        "excuses must reply to your score or a callout aimed at you"
+                    )
+                if reply_event["event_type"] in {"score_report", "score_push"}:
+                    if round_row["mode"] == "individual":
+                        score_target = reply_event_data.get(
+                            "player_participant_id"
+                        )
+                        if str(score_target or "") != str(participant["id"]):
+                            raise PermissionDenied(
+                                "you may only excuse your own score"
+                            )
+                elif reply_event["event_type"] == "callout":
+                    callout_target = reply_event_data.get(
+                        "target_participant_id"
+                    )
+                    if str(callout_target or "") != str(participant["id"]):
+                        raise PermissionDenied(
+                            "you may only excuse a callout aimed at you"
+                        )
+                else:
+                    raise DomainError(
+                        "excuses must reply to your score or a callout aimed at you"
+                    )
             if target_value is not None:
                 target_id = self._uuid(
                     target_value,
@@ -5338,6 +5424,11 @@ class RoundStore:
                     raise DomainError(
                         "target must be a participant in this round"
                     )
+                if (
+                    kind == "callout"
+                    and str(target_id) == str(participant["id"])
+                ):
+                    raise DomainError("you cannot call yourself out")
                 target_name = target_identity["display_name"]
                 payload["target_participant_id"] = str(target_id)
 
@@ -5373,6 +5464,7 @@ class RoundStore:
                 hole_number=hole_number,
                 route_position=route_position,
                 data=payload,
+                reply_to_event_id=reply_event_uuid,
                 content_event_key=content_event,
                 presentation_context={
                     "hole": hole_number if hole_number is not None else "",
