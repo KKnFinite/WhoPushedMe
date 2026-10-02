@@ -183,6 +183,24 @@ class FakeStore:
             "role": role,
         }
 
+    def list_unfinished_rounds(self, golfer_id):
+        self.calls.append(("list_unfinished_rounds", golfer_id))
+        return [
+            {
+                "id": UUID("08966fcb-463a-4c27-8da2-5d2f01d8502d"),
+                "active_code": "4321",
+                "display_name": "Provider Muni",
+                "mode": "individual",
+                "status": "active",
+                "current_hole": 7,
+                "current_route_position": 7,
+            }
+        ]
+
+    def dismiss_unfinished_round(self, golfer_id, round_id):
+        self.calls.append(("dismiss_unfinished_round", golfer_id, round_id))
+        return {"round_id": round_id, "dismissed": True}
+
     def get_round(
         self,
         golfer_id,
@@ -617,6 +635,35 @@ def test_golf_mutation_requires_recovery_key():
     )
     assert response.status_code == 403
     assert not store.calls
+
+
+def test_unfinished_rounds_route_lists_signed_in_users_rounds():
+    client, store = client_with_store()
+    response = client.get(
+        "/api/rounds/unfinished",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["rounds"][0]["active_code"] == "4321"
+    assert store.calls[-1] == ("list_unfinished_rounds", store.golfer_id)
+
+
+def test_unfinished_round_delete_only_dismisses_from_users_list():
+    client, store = client_with_store()
+    round_id = "08966fcb-463a-4c27-8da2-5d2f01d8502d"
+    response = client.delete(
+        f"/api/rounds/{round_id}/unfinished",
+        headers={"Authorization": "Bearer session-token"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["dismissed"] is True
+    assert store.calls[-1] == (
+        "dismiss_unfinished_round",
+        store.golfer_id,
+        round_id,
+    )
 
 
 def test_score_route_authenticates_and_passes_target_without_moving_hole():

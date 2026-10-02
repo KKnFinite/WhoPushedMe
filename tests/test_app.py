@@ -2416,6 +2416,26 @@ def test_spouse_placeholder_matches_message_casing():
         "husband",
     ) == "Tell your husband the truth."
 
+def test_join_round_lists_resumable_unfinished_rounds_with_delete():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    assert b'id="unfinished-rounds-panel"' in page.data
+    assert b'id="unfinished-rounds-list"' in page.data
+    assert b"YOUR UNFINISHED ROUNDS" in page.data
+    assert b"/api/rounds/unfinished" in script.data
+    assert b"unfinished-round-resume" in script.data
+    assert b"unfinished-round-delete" in script.data
+    assert b"await refreshRound(round.active_code);" in script.data
+    assert b"startLobbyPolling(round.active_code);" in script.data
+    assert b"method: 'DELETE'" in script.data
+    assert b".unfinished-rounds-panel" in css.data
+
+
 def test_join_round_role_and_mini_are_centered():
     css = client().get("/static/app.css")
     assert css.status_code == 200

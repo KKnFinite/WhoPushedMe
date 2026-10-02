@@ -8830,6 +8830,124 @@ textarea,
 }
 
 
+/* JOIN ROUND UNFINISHED ROUNDS */
+.unfinished-rounds-panel {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 11px;
+  border: 1px solid rgba(212,166,42,.55);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(22,34,26,.98), rgba(7,15,10,.99));
+}
+
+.unfinished-rounds-panel[hidden] {
+  display: none !important;
+}
+
+.unfinished-rounds-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+}
+
+.unfinished-rounds-heading span,
+.unfinished-rounds-heading small {
+  color: rgba(233,225,200,.64);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.unfinished-rounds-heading strong {
+  display: block;
+  color: var(--wpm-gold);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.unfinished-rounds-list {
+  display: grid;
+  gap: 7px;
+}
+
+.unfinished-round-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 9px;
+  border: 1px solid rgba(78,122,93,.52);
+  border-radius: 11px;
+  background: rgba(4,10,7,.82);
+}
+
+.unfinished-round-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.unfinished-round-copy strong {
+  overflow: hidden;
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .92rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unfinished-round-copy small {
+  color: rgba(233,225,200,.58);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.unfinished-round-actions {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 6px;
+}
+
+.unfinished-round-actions button {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.unfinished-round-resume {
+  border: 1px solid rgba(212,166,42,.8);
+  background: var(--wpm-gold);
+  color: var(--wpm-night);
+}
+
+.unfinished-round-delete {
+  border: 1px solid rgba(170,71,45,.7);
+  background: rgba(86,28,18,.55);
+  color: #fff0df;
+}
+
+@media (max-width: 520px) {
+  .unfinished-round-card {
+    grid-template-columns: 1fr;
+  }
+
+  .unfinished-round-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .unfinished-round-actions button {
+    width: 100%;
+  }
+}
+
 /* JOIN ROUND FOUR-DIGIT ENTRY */
 .round-join-form {
   align-content: start;

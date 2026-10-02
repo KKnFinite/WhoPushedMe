@@ -67,6 +67,8 @@
   const joinRoundCode = document.getElementById('join-round-code');
   const joinCodeDigits = [...document.querySelectorAll('[data-join-code-digit]')];
   const joinRoundSubmit = document.getElementById('join-round-submit');
+  const unfinishedRoundsPanel = document.getElementById('unfinished-rounds-panel');
+  const unfinishedRoundsList = document.getElementById('unfinished-rounds-list');
   const joinCtaDock = document.getElementById('join-cta-dock');
   const joinCtaMiniStage = document.getElementById('join-cta-mini-stage');
   const joinCtaMini = document.getElementById('join-cta-mini');
@@ -5912,6 +5914,7 @@
   joinRoundButton?.addEventListener('click', () => {
     resetInviteJoinUi({ clearToken: true });
     showRoundPanel('join');
+    void loadUnfinishedRounds();
   });
   roundFlowClose?.addEventListener('click', closeRoundFlow);
   lobbyHome?.addEventListener('click', closeRoundFlow);
@@ -6146,6 +6149,93 @@
     if (joinRoundSubmit) {
       joinRoundSubmit.hidden = false;
       joinRoundSubmit.textContent = 'LET ME INTO THIS MESS';
+    }
+  };
+
+  const loadUnfinishedRounds = async () => {
+    if (!unfinishedRoundsPanel || !unfinishedRoundsList) return;
+
+    unfinishedRoundsPanel.hidden = true;
+    unfinishedRoundsList.replaceChildren();
+
+    try {
+      const payload = await requestJson('/api/rounds/unfinished');
+      const rounds = Array.isArray(payload?.rounds) ? payload.rounds : [];
+      if (!rounds.length) return;
+
+      rounds.forEach((round) => {
+        const row = document.createElement('section');
+        row.className = 'unfinished-round-card';
+
+        const copy = document.createElement('div');
+        copy.className = 'unfinished-round-copy';
+
+        const name = document.createElement('strong');
+        name.textContent = round.display_name || 'Golf';
+
+        const meta = document.createElement('small');
+        const stateLabel = round.status === 'setup' ? 'LOBBY' : 'IN PROGRESS';
+        const holeLabel = round.status === 'active'
+          ? ` • HOLE ${round.current_hole || round.current_route_position || 1}`
+          : '';
+        meta.textContent = [
+          stateLabel + holeLabel,
+          `CODE ${round.active_code || '----'}`,
+          String(round.mode || '').toUpperCase(),
+        ].filter(Boolean).join(' • ');
+
+        copy.append(name, meta);
+
+        const actions = document.createElement('div');
+        actions.className = 'unfinished-round-actions';
+
+        const resume = document.createElement('button');
+        resume.type = 'button';
+        resume.className = 'unfinished-round-resume';
+        resume.textContent = 'RESUME';
+        resume.addEventListener('click', async () => {
+          resume.disabled = true;
+          setRoundFlowMessage('');
+          try {
+            await refreshRound(round.active_code);
+            startLobbyPolling(round.active_code);
+          } catch (error) {
+            setRoundFlowMessage(error.message);
+            resume.disabled = false;
+          }
+        });
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'unfinished-round-delete';
+        remove.textContent = 'DELETE';
+        remove.addEventListener('click', async () => {
+          remove.disabled = true;
+          setRoundFlowMessage('');
+          try {
+            await requestJson(
+              `/api/rounds/${round.id}/unfinished`,
+              { method: 'DELETE' }
+            );
+            row.remove();
+            if (!unfinishedRoundsList.children.length) {
+              unfinishedRoundsPanel.hidden = true;
+            }
+          } catch (error) {
+            setRoundFlowMessage(error.message);
+            remove.disabled = false;
+          }
+        });
+
+        actions.append(resume, remove);
+        row.append(copy, actions);
+        unfinishedRoundsList.append(row);
+      });
+
+      unfinishedRoundsPanel.hidden = false;
+    } catch (_error) {
+      unfinishedRoundsPanel.hidden = true;
+      unfinishedRoundsList.replaceChildren();
     }
   };
 

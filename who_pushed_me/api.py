@@ -621,6 +621,25 @@ def claim_round_only_player(round_id: str):
     )
 
 
+@api.get("/rounds/unfinished")
+@authenticated
+def list_unfinished_rounds():
+    return jsonify(
+        rounds=_store().list_unfinished_rounds(g.golfer["id"])
+    )
+
+
+@api.delete("/rounds/<round_id>/unfinished")
+@authenticated
+def dismiss_unfinished_round(round_id: str):
+    return jsonify(
+        _store().dismiss_unfinished_round(
+            g.golfer["id"],
+            round_id,
+        )
+    )
+
+
 @api.get("/rounds/code/<code>")
 @authenticated
 def get_round(code: str):

@@ -2656,6 +2656,80 @@ class RoundStore:
             state["participant_id"] = participant["id"]
             return state
 
+    def list_unfinished_rounds(
+        self,
+        golfer_id: object,
+    ) -> list[dict[str, Any]]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT r.id, r.active_code, r.mode, r.status, r.hole_count,
+                       r.current_hole, r.current_route_position,
+                       r.free_play_name, r.updated_at,
+                       c.name AS course_name,
+                       rp.role, rp.participation_state
+                FROM rounds r
+                JOIN round_participants rp
+                  ON rp.round_id = r.id
+                 AND rp.golfer_id = %s
+                LEFT JOIN cached_courses c ON c.id = r.course_id
+                LEFT JOIN round_home_dismissals d
+                  ON d.round_id = r.id
+                 AND d.golfer_id = %s
+                WHERE r.status IN ('setup', 'active')
+                  AND d.round_id IS NULL
+                ORDER BY r.updated_at DESC, r.id
+                """,
+                (golfer_uuid, golfer_uuid),
+            )
+            rows = cursor.fetchall()
+            for row in rows:
+                row["display_name"] = (
+                    row.get("course_name")
+                    or row.get("free_play_name")
+                    or "Golf"
+                )
+            return rows
+
+    def dismiss_unfinished_round(
+        self,
+        golfer_id: object,
+        round_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT r.status
+                FROM rounds r
+                JOIN round_participants rp
+                  ON rp.round_id = r.id
+                 AND rp.golfer_id = %s
+                WHERE r.id = %s
+                """,
+                (golfer_uuid, round_uuid),
+            )
+            round_row = cursor.fetchone()
+            if not round_row:
+                raise NotFound("round not found")
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError("only unfinished rounds can be removed from this list")
+
+            cursor.execute(
+                """
+                INSERT INTO round_home_dismissals (round_id, golfer_id)
+                VALUES (%s, %s)
+                ON CONFLICT (round_id, golfer_id) DO NOTHING
+                """,
+                (round_uuid, golfer_uuid),
+            )
+            return {
+                "round_id": round_uuid,
+                "dismissed": True,
+            }
+
     def round_invite_preview(
         self,
         round_id: object,
