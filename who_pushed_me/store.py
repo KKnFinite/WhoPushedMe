@@ -5098,7 +5098,7 @@ class RoundStore:
             if target_id:
                 cursor.execute(
                     """
-                    SELECT rp.role, g.display_name
+                    SELECT rp.role, rp.participation_state, g.display_name
                     FROM round_participants rp
                     JOIN golfers g ON g.id = rp.golfer_id
                     WHERE rp.id = %s AND rp.round_id = %s
@@ -5109,6 +5109,13 @@ class RoundStore:
                 if not target or target["role"] != "player":
                     raise DomainError(
                         "contribution target must be a player in this round"
+                    )
+                if (
+                    route_position == int(round_row["current_route_position"])
+                    and target["participation_state"] != "active"
+                ):
+                    raise DomainError(
+                        "withdrawn players cannot receive new contributions on the current hole"
                     )
                 target_name = target["display_name"]
 
