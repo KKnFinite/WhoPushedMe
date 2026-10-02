@@ -2365,6 +2365,23 @@ class RoundStore:
             )
             account = cursor.fetchone()
 
+            if int(state["actions_after_claim"] or 0) > 0:
+                cursor.execute(
+                    """
+                    INSERT INTO round_history_access (
+                        round_id, golfer_id, participant_id, reason
+                    )
+                    VALUES (%s, %s, %s, 'claim_undo_with_history')
+                    ON CONFLICT (round_id, golfer_id, participant_id)
+                    DO NOTHING
+                    """,
+                    (
+                        round_uuid,
+                        golfer_uuid,
+                        participant["id"],
+                    ),
+                )
+
             cursor.execute(
                 """
                 UPDATE round_participants
@@ -2705,20 +2722,39 @@ class RoundStore:
         with self._connection() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT r.id, r.mode, r.hole_count, r.end_reason,
-                       r.updated_at, r.created_at, r.free_play_name,
-                       c.name AS course_name,
-                       rp.role, rp.participation_state
-                FROM rounds r
-                JOIN round_participants rp
-                  ON rp.round_id = r.id
-                 AND rp.golfer_id = %s
-                LEFT JOIN cached_courses c ON c.id = r.course_id
-                WHERE r.status = 'completed'
-                ORDER BY r.updated_at DESC, r.id DESC
+                SELECT history.id, history.mode, history.hole_count,
+                       history.end_reason, history.updated_at,
+                       history.created_at, history.free_play_name,
+                       history.course_name, history.role,
+                       history.participation_state
+                FROM (
+                    SELECT DISTINCT ON (r.id)
+                           r.id, r.mode, r.hole_count, r.end_reason,
+                           r.updated_at, r.created_at, r.free_play_name,
+                           c.name AS course_name,
+                           rp.role, rp.participation_state,
+                           access.created_at AS access_created_at
+                    FROM rounds r
+                    LEFT JOIN round_participants rp
+                      ON rp.round_id = r.id
+                     AND rp.golfer_id = %s
+                    LEFT JOIN round_history_access access
+                      ON access.round_id = r.id
+                     AND access.golfer_id = %s
+                    LEFT JOIN cached_courses c ON c.id = r.course_id
+                    WHERE r.status = 'completed'
+                      AND (
+                          rp.id IS NOT NULL
+                          OR access.round_id IS NOT NULL
+                      )
+                    ORDER BY
+                        r.id,
+                        access.created_at DESC NULLS LAST
+                ) AS history
+                ORDER BY history.updated_at DESC, history.id DESC
                 LIMIT %s
                 """,
-                (golfer_uuid, bounded_limit),
+                (golfer_uuid, golfer_uuid, bounded_limit),
             )
             rows = cursor.fetchall()
             for row in rows:
@@ -2975,7 +3011,44 @@ class RoundStore:
             if not found:
                 raise NotFound("round not found")
             round_row = self._round(cursor, found["id"])
-            participant = self._participant(cursor, found["id"], golfer_uuid)
+            cursor.execute(
+                """
+                SELECT id, round_id, golfer_id, role, tee_name,
+                       participation_state, tracked_from_position,
+                       handicap_index, round_handicap, handicap_source
+                FROM round_participants
+                WHERE round_id = %s AND golfer_id = %s
+                """,
+                (found["id"], golfer_uuid),
+            )
+            participant = cursor.fetchone()
+
+            if (
+                not participant
+                and round_row["status"] == "completed"
+                and round_id is not None
+            ):
+                cursor.execute(
+                    """
+                    SELECT rp.id, rp.round_id, %s AS golfer_id,
+                           rp.role, rp.tee_name, rp.participation_state,
+                           rp.tracked_from_position, rp.handicap_index,
+                           rp.round_handicap, rp.handicap_source
+                    FROM round_history_access access
+                    JOIN round_participants rp
+                      ON rp.id = access.participant_id
+                     AND rp.round_id = access.round_id
+                    WHERE access.round_id = %s
+                      AND access.golfer_id = %s
+                    ORDER BY access.created_at DESC
+                    LIMIT 1
+                    """,
+                    (golfer_uuid, found["id"], golfer_uuid),
+                )
+                participant = cursor.fetchone()
+
+            if not participant:
+                raise NotFound("golfer is not a participant in this round")
 
             if round_row["status"] in {"setup", "active"}:
                 cursor.execute(
