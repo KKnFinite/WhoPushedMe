@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.01",
+      "text": "{target} just used the old foot wedge. Nothing fixes shitty golf faster than cheating with your fucking shoe.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.02",
+      "text": "Nice foot wedge, {target}. Apparently when the clubs fail, just kick the goddamn ball somewhere better.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.04",
+      "text": "Foot wedge from {target}. That lie was apparently too difficult for both their swing and their dignity.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.06",
+      "text": "Foot wedge. Because {target} finally found a clubface they can control: the bottom of their shoe.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.07",
+      "text": "{target} gave the ball a little kick. Imagine being so bad at golf you need soccer to bail you out.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.foot_wedge.20261001.09",
+      "text": "{target} just used the foot wedge. A few drinks in and apparently every body part is allowed in the fucking bag.",
+      "events": ["mid_hole.callout.foot_wedge"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
