@@ -433,21 +433,32 @@ class RoundStore:
         data: dict[str, object] | None = None,
         reply_to_event_id: UUID | None = None,
         content_event_key: str | None = None,
+        presentation_event_key: str | None = None,
         presentation_context: dict[str, object] | None = None,
     ) -> dict[str, Any]:
         presentation: dict[str, Any] = {}
         canonical_content_event: str | None = None
 
-        if content_event_key:
+        if content_event_key or presentation_event_key:
             catalog = ContentCatalog.load()
-            canonical_content_event = catalog.registry.canonical_key(content_event_key)
-            controls = self._runtime_controls_from_cursor(cursor, catalog)
-            presentation = build_shared_presentation(
-                catalog,
-                canonical_content_event,
-                controls=controls,
-                context=presentation_context,
+            if content_event_key:
+                canonical_content_event = catalog.registry.canonical_key(
+                    content_event_key
+                )
+            requested_presentation_event = (
+                presentation_event_key or content_event_key
             )
+            if requested_presentation_event:
+                canonical_presentation_event = catalog.registry.canonical_key(
+                    requested_presentation_event
+                )
+                controls = self._runtime_controls_from_cursor(cursor, catalog)
+                presentation = build_shared_presentation(
+                    catalog,
+                    canonical_presentation_event,
+                    controls=controls,
+                    context=presentation_context,
+                )
 
         event_data = dict(data or {})
         if actor_participant_id:
@@ -4135,10 +4146,13 @@ class RoundStore:
                 SELECT 1
                 FROM round_events
                 WHERE round_id = %s
-                  AND content_event_key = %s
+                  AND (
+                      content_event_key = %s
+                      OR data->>'banter_event_key' = %s
+                  )
                 LIMIT 1
                 """,
-                (round_id, event_key),
+                (round_id, event_key, event_key),
             )
         else:
             cursor.execute(
@@ -4146,11 +4160,19 @@ class RoundStore:
                 SELECT 1
                 FROM round_events
                 WHERE round_id = %s
-                  AND content_event_key = %s
+                  AND (
+                      content_event_key = %s
+                      OR data->>'banter_event_key' = %s
+                  )
                   AND data->>'player_participant_id' = %s
                 LIMIT 1
                 """,
-                (round_id, event_key, str(participant_id)),
+                (
+                    round_id,
+                    event_key,
+                    event_key,
+                    str(participant_id),
+                ),
             )
         return cursor.fetchone() is not None
 
@@ -4392,13 +4414,14 @@ class RoundStore:
                 < int(round_row["current_route_position"])
             )
 
-            if not is_backfill:
-                for derived_event in score_transition_events(
+            derived_banter_event: str | None = None
+            if old_score is None and not is_backfill:
+                for candidate in score_transition_events(
                     before_series,
                     after_series,
                 ):
                     if (
-                        derived_event
+                        candidate
                         in {
                             "score.derived.first_birdie",
                             "score.derived.first_eagle",
@@ -4406,84 +4429,28 @@ class RoundStore:
                         and self._derived_event_exists(
                             cursor,
                             round_uuid,
-                            derived_event,
+                            candidate,
                             participant_id=target_id,
                         )
                     ):
                         continue
+                    derived_banter_event = candidate
+                    break
 
-                    self._event(
-                        cursor,
-                        round_id=round_uuid,
-                        actor_participant_id=actor["id"],
-                        event_type="score_derived",
-                        hole_number=hole_number,
-                        route_position=route_position,
-                        data={
-                            "scope": scope,
-                            "player_participant_id": (
-                                str(target_id)
-                                if target_id
-                                else None
-                            ),
-                        },
-                        content_event_key=derived_event,
-                        presentation_context={
-                            "hole": hole_number,
-                            "mode": round_row["mode"],
-                            "subject": subject_name,
-                        },
-                    )
-
-                for (
-                    derived_event,
-                    participant_id,
-                ) in standing_transition_events(
-                    before_standings,
-                    after_standings,
+                if (
+                    derived_banter_event is None
+                    and target_id is not None
                 ):
-                    standing_names = (
-                        (after_standings or {}).get("names")
-                        or (before_standings or {}).get("names")
-                        or {}
-                    )
-                    standing_position = (
-                        after_standings
-                        or before_standings
-                        or {}
-                    ).get("through_hole")
-                    physical_hole = hole_number
-                    if standing_position:
-                        standing_route = self._route_position(
-                            cursor,
-                            round_uuid,
-                            standing_position,
-                        )
-                        physical_hole = int(
-                            standing_route["hole_number"]
-                        )
-
-                    self._event(
-                        cursor,
-                        round_id=round_uuid,
-                        actor_participant_id=actor["id"],
-                        event_type="score_derived",
-                        hole_number=physical_hole,
-                        route_position=standing_position,
-                        data={
-                            "scope": "player",
-                            "player_participant_id": participant_id,
-                        },
-                        content_event_key=derived_event,
-                        presentation_context={
-                            "hole": physical_hole,
-                            "mode": "individual",
-                            "subject": standing_names.get(
-                                participant_id,
-                                "Golfer",
-                            ),
-                        },
-                    )
+                    for (
+                        candidate,
+                        participant_id,
+                    ) in standing_transition_events(
+                        before_standings,
+                        after_standings,
+                    ):
+                        if str(participant_id) == str(target_id):
+                            derived_banter_event = candidate
+                            break
 
             auto_advance = self._maybe_advance_active_route(
                 cursor,
@@ -4502,6 +4469,18 @@ class RoundStore:
                     round_row["current_route_position"]
                 ),
             )
+            score_event_data = {
+                "scope": scope,
+                "player_participant_id": (
+                    str(target_id) if target_id else None
+                ),
+                "backfilled": is_backfill,
+            }
+            if derived_banter_event:
+                score_event_data["banter_event_key"] = (
+                    derived_banter_event
+                )
+
             event = self._event(
                 cursor,
                 round_id=round_uuid,
@@ -4511,14 +4490,9 @@ class RoundStore:
                 route_position=route_position,
                 old_value=old_score,
                 new_value=stroke_value,
-                data={
-                    "scope": scope,
-                    "player_participant_id": (
-                        str(target_id) if target_id else None
-                    ),
-                    "backfilled": is_backfill,
-                },
+                data=score_event_data,
                 content_event_key=content_event,
+                presentation_event_key=derived_banter_event,
                 presentation_context={
                     "hole": hole_number,
                     "par": (

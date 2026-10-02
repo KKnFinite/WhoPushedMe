@@ -534,6 +534,11 @@ def test_live_score_adjustments_require_explicit_submit():
     assert "submit.addEventListener('click', async () =>" in score_block
     assert "minus.addEventListener('click', () =>" in score_block
     assert "plus.addEventListener('click', () =>" in score_block
+    assert "let scoreSaveInFlight = false;" in score_block
+    assert "if (scoreSaveInFlight) return false;" in score_block
+    assert "scoreSaveInFlight = true;" in score_block
+    assert "const focusScoreInput = () =>" in score_block
+    assert score_block.count("focusScoreInput();") == 2
     assert "await persistScore(next)" not in score_block
     assert "input.addEventListener('change', async" not in score_block
 
@@ -1771,8 +1776,7 @@ def test_round_banter_uses_one_score_row_per_player_hole():
     banter_block = source[start:end]
 
     assert "seenScoreKeys" in banter_block
-    assert "'score_derived'" in banter_block
-    assert "if (eventType === 'score_derived') return false;" not in banter_block
+    assert "'score_derived'" not in banter_block
     assert "if (!socialTypes.has(eventType)) return false;" in banter_block
     assert "Boolean(presentation.banter?.text)" not in banter_block
     assert "Boolean(presentation.mascot?.copy)" not in banter_block
@@ -2074,6 +2078,27 @@ def test_score_entry_is_own_score_or_round_only_proxy():
     source = client().get("/static/app.js").data.decode("utf-8")
     assert "targetCanBeEditedByViewer" in source
     assert "Boolean(target?.round_only)" in source
+
+
+def test_score_save_emits_one_factual_event_with_one_banter_presentation():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def set_score(")
+    end = store_source.index("    def remove_score(", start)
+    block = store_source[start:end]
+
+    assert block.count("self._event(") == 1
+    assert 'event_type="score_derived"' not in block
+    assert "derived_banter_event" in block
+    assert 'score_event_data["banter_event_key"]' in block
+    assert "presentation_event_key=derived_banter_event" in block
+    assert "if old_score == stroke_value:" in block
+    assert '"event": None' in block
+    assert "data->>'banter_event_key'" in store_source
 
 
 def test_score_responses_open_from_feed_in_separate_sheet():

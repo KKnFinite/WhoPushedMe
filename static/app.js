@@ -3582,7 +3582,10 @@
         submit.disabled = busy;
       };
 
+      let scoreSaveInFlight = false;
+
       const persistScore = async (strokes) => {
+        if (scoreSaveInFlight) return false;
         if (!Number.isInteger(strokes) || strokes < 1 || strokes > 99) {
           setRoundFlowMessage('Strokes must be between 1 and 99.');
           return false;
@@ -3602,6 +3605,7 @@
         }
 
         pendingScoreAfterPar = null;
+        scoreSaveInFlight = true;
         setBusy(true);
         setRoundFlowMessage('');
         try {
@@ -3621,9 +3625,18 @@
           await refreshRound(round.active_code);
           return true;
         } catch (error) {
+          scoreSaveInFlight = false;
           setRoundFlowMessage(error.message);
           setBusy(false);
           return false;
+        }
+      };
+
+      const focusScoreInput = () => {
+        try {
+          input.focus({ preventScroll: true });
+        } catch (_error) {
+          input.focus();
         }
       };
 
@@ -3632,6 +3645,7 @@
         input.value = String(Math.max(1, base - 1));
         input.dataset.draftDirty = 'true';
         refreshSubmitState();
+        focusScoreInput();
       });
 
       plus.addEventListener('click', () => {
@@ -3639,6 +3653,7 @@
         input.value = String(Math.min(99, Math.max(1, base + 1)));
         input.dataset.draftDirty = 'true';
         refreshSubmitState();
+        focusScoreInput();
       });
 
       input.addEventListener('input', () => {
@@ -4034,7 +4049,6 @@
       'score_challenge',
       'score_report',
       'score_push',
-      'score_derived',
       'scramble_contribution_change',
       'round_end_result',
     ]);
