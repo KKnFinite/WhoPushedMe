@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.01",
+      "text": "{target} found the bunker. The course literally dug a hole for bad decisions and they fucking found it.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.02",
+      "text": "{target} put it in the sand. All that grass and they picked the one place you need a rake.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.03",
+      "text": "{target} buried one in the bunker. Even the ball is trying to hide from that swing.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.04",
+      "text": "Bunker for {target}. The flag was on grass, but apparently that felt too fucking easy.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.05",
+      "text": "{target} found the beach. No ocean, no vacation, just a shitty golf shot.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.06",
+      "text": "{target} is in the sand. Somewhere the course architect just whispered, ‘gotcha, asshole.’",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.07",
+      "text": "{target} hit the bunker dead center. Finally, some fucking accuracy.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.09",
+      "text": "{target} found the bunker. Apparently ‘avoid the fucking sand’ gets complicated after a few drinks.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.bunker.20261001.10",
+      "text": "{target} found the bunker. Their {spouse} already knows the routine: miss the hole, blame the conditions, and swear it usually goes better than this.",
+      "events": ["mid_hole.callout.bunker"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
