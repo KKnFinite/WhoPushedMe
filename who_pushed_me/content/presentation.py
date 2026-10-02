@@ -37,7 +37,6 @@ _CALLOUT_SITUATIONS = {
     "penalty",
     "mulligan",
     "foot_wedge",
-    "way_short",
     "way_long",
     "slow_play",
     "missed_short_putt",
