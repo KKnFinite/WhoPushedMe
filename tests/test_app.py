@@ -607,6 +607,27 @@ def test_live_score_submit_is_compact_inside_score_row():
     assert b"grid-column: auto !important" in css.data
 
 
+def test_mobile_fixed_sheets_follow_visual_keyboard_viewport():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    assert "const updateVisualViewportVars = () =>" in source
+    assert "window.visualViewport" in source
+    assert "--wpm-keyboard-inset" in source
+    assert "visualViewport?.addEventListener('resize'" in source
+    assert "visualViewport?.addEventListener('scroll'" in source
+
+    css_source = css.data.decode("utf-8")
+    assert "bottom: var(--wpm-keyboard-inset, 0px);" in css_source
+    assert "var(--wpm-keyboard-inset, 0px)" in css_source
+    assert ".social-composer-modal" in css_source
+    assert ".score-response-modal" in css_source
+    assert "#live-banter-panel.is-fullscreen" in css_source
+
+
 def test_live_score_keyboard_survives_background_polling():
     response = client().get("/static/app.js")
     assert response.status_code == 200
