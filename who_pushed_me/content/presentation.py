@@ -37,7 +37,6 @@ _CALLOUT_SITUATIONS = {
     "penalty",
     "mulligan",
     "foot_wedge",
-    "wrong_club",
     "way_short",
     "way_long",
     "slow_play",
