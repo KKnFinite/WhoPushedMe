@@ -6918,11 +6918,11 @@ body.app-ready .home-banter p {
   .setup-step[data-setup-step="3"] .setup-mini-stage {
     position: fixed !important;
     left: 50% !important;
-    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 46px) !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 20px) !important;
     z-index: 141 !important;
     width: min(58vw, 236px) !important;
     height: 156px !important;
-    transform: translateX(-50%) !important;
+    transform: translate(-50%, var(--setup-mini-y, 0px)) !important;
     display: flex;
     align-items: flex-end;
     justify-content: center;
