@@ -1966,6 +1966,32 @@ def test_live_score_banter_names_subject_and_uses_viewer_perspective():
     assert "const thirdPersonScoreComment = (text) =>" in source
 
 
+def test_old_hole_score_posts_keep_social_actions_after_advance():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    start = source.index("const renderLiveBanter =")
+    end = source.index("const appendLobbyBanterRow =", start)
+    block = source[start:end]
+
+    assert "eventType === 'score_report' || eventType === 'score_push'" in block
+    assert "openScoreResponseSheet(round, event);" in block
+    assert "openBag('excuse'" in block
+
+    score_action_start = block.index(
+        "if (eventType === 'score_report' || eventType === 'score_push')"
+    )
+    score_action_end = block.index(
+        "if (\n        eventType === 'callout'",
+        score_action_start,
+    )
+    score_action_block = block[score_action_start:score_action_end]
+    assert "viewingLive" not in score_action_block
+    assert "viewedRoutePosition" not in score_action_block
+    assert "current_route_position" not in score_action_block
+
+
 def test_live_polling_does_not_rebuild_open_reactions_challenges_panel():
     response = client().get("/static/app.js")
     assert response.status_code == 200
