@@ -695,6 +695,56 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_score_draft_survives_polling_and_late_submit_stays_on_original_hole():
+    response = client().get("/static/app.js")
+    assert response.status_code == 200
+    source = response.data.decode("utf-8")
+
+    poll_start = source.index("const startLobbyPolling = (code) =>")
+    poll_end = source.index(
+        "startRoundButton?.addEventListener",
+        poll_start,
+    )
+    poll_block = source[poll_start:poll_end]
+    assert "liveScoreDraftInProgress()" in poll_block
+    assert "liveScoreSocialInteractionInProgress()" in poll_block
+    assert "await refreshRound(code);" in poll_block
+
+    score_start = source.index("const renderScoreCard =")
+    score_end = source.index("const SCRAMBLE_SHOT_TYPES", score_start)
+    score_block = source[score_start:score_end]
+    assert "'/api/rounds/' + round.id + '/positions/' + position + '/score'" in score_block
+    assert "input.dataset.draftDirty = 'true'" in score_block
+    assert "delete input.dataset.draftDirty" in score_block
+
+
+def test_backend_serializes_score_and_hole_advance_and_allows_late_backfill():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    set_start = store_source.index("    def set_score(")
+    set_end = store_source.index("    def remove_score(", set_start)
+    set_block = store_source[set_start:set_end]
+
+    advance_start = store_source.index("    def set_current_hole(")
+    advance_end = store_source.index(
+        "    def _maybe_advance_active_route(",
+        advance_start,
+    )
+    advance_block = store_source[advance_start:advance_end]
+
+    assert "self._round(cursor, round_uuid, lock=True)" in set_block
+    assert "self._round(cursor, round_uuid, lock=True)" in advance_block
+    assert "route_position > int(round_row[\"current_route_position\"])" in set_block
+    assert "route_position < int(round_row[\"current_route_position\"])" in set_block
+    assert '"backfilled": is_backfill' in set_block
+    assert "scored_route_position=route_position" in set_block
+
+
 def test_spectators_are_reaction_only_for_round_mutations():
     from pathlib import Path
 
