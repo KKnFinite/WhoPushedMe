@@ -3789,7 +3789,7 @@ class RoundStore:
         transitions = {
             "setup": {"active", "abandoned"},
             "active": {"completed", "abandoned"},
-            "completed": {"active"},
+            "completed": set(),
             "abandoned": {"active"},
         }
         with self._connection() as connection, connection.cursor() as cursor:

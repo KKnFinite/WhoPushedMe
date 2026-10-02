@@ -695,6 +695,41 @@ def test_score_remove_button_does_not_consume_grid_row():
     assert "border-radius: 50% !important;" in block
 
 
+def test_completed_rounds_cannot_be_reopened_to_active():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_status(")
+    end = store_source.index("    def set_par_tracking_mode(", start)
+    block = store_source[start:end]
+
+    assert '"completed": set()' in block
+    assert '"active": {"completed", "abandoned"}' in block
+    assert 'raise DomainError(f"cannot change round from {old_status} to {new_status}")' in block
+
+
+def test_finish_incomplete_requires_explicit_flag_and_final_position():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def set_status(")
+    end = store_source.index("    def set_par_tracking_mode(", start)
+    block = store_source[start:end]
+
+    assert "completion_incomplete = not completion_results[\"complete\"]" in block
+    assert "if not finish_incomplete:" in block
+    assert "explicitly finish incomplete or fix the scorecard" in block
+    assert "finish incomplete is only available at the final route position" in block
+
+
 def test_score_draft_survives_polling_and_late_submit_stays_on_original_hole():
     response = client().get("/static/app.js")
     assert response.status_code == 200
