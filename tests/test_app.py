@@ -3653,3 +3653,16 @@ def test_spectator_to_player_promotion_keeps_capacity_tee_tracking_and_handicap_
     assert "rr.route_position >= %s" in block
     assert "rr.state = 'planned'" in block
     assert "DO UPDATE SET required = true" in block
+
+
+def test_app_startup_runs_pending_database_migrations():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    source = (root / "app.py").read_text(encoding="utf-8")
+
+    assert "from migrations import run_pending" in source
+    assert "def _apply_pending_migrations() -> None:" in source
+    assert 'os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")' in source
+    assert "run_pending(database_url)" in source
+    assert source.index("_apply_pending_migrations()") < source.index("app = create_app()")
