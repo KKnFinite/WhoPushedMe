@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.03",
+      "text": "{target} just hit concrete. That ball got more solid contact with the path than they got with the club.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.04",
+      "text": "{target} bounced one off the cart path. Finally got some extra distance—just nowhere they fucking wanted it.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.06",
+      "text": "{target} sent it onto the pavement. Even the ball is trying to take the cart back to the clubhouse.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.07",
+      "text": "That’s cart path for {target}. The course gave them acres of grass and they found the fucking road.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.08",
+      "text": "{target} caught the path and got a monster bounce. Best part of the shot happened after they stopped controlling it.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.09",
+      "text": "{target} hit the cart path. Their ball is following the same strategy as the drinking: get off course and let momentum handle the rest.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": ["drinking"],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.cart_path.20261001.10",
+      "text": "{target} hammered the cart path. Their {spouse} is probably pissed the concrete got a harder pounding than anything at home.",
+      "events": ["mid_hole.callout.cart_path"],
+      "audiences": ["everyone"],
+      "themes": ["wife"],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
