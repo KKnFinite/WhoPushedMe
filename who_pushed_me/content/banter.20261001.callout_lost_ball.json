@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "banter": [
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.02",
+      "text": "{target} has no fucking idea where that ball went. Strong start to the investigation.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.03",
+      "text": "Lost ball for {target}. Everybody pretend to look for thirty seconds and then move on.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.04",
+      "text": "{target} just turned a golf shot into a search-and-rescue operation.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.06",
+      "text": "{target} hit one so badly even the ball decided to leave.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.07",
+      "text": "Another missing ball from {target}. Somewhere in the rough, a dozen others are forming a support group.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.08",
+      "text": "{target} lost it. The ball, specifically. The dignity disappeared several holes ago.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.09",
+      "text": "{target} can’t find the ball. Maybe check wherever they left their sober judgment.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "drinking"
+      ],
+      "enabled": true,
+      "weight": 1
+    },
+    {
+      "id": "banter.mid_hole.callout.lost_ball.20261001.10",
+      "text": "{target} lost another ball. Their {spouse} already knows they can spend forever looking and still never find the right spot.",
+      "events": [
+        "mid_hole.callout.lost_ball"
+      ],
+      "audiences": [
+        "everyone"
+      ],
+      "themes": [
+        "wife"
+      ],
+      "enabled": true,
+      "weight": 1
+    }
+  ]
+}
