@@ -2900,6 +2900,17 @@ class RoundStore:
                 raise NotFound("round not found")
             round_row = self._round(cursor, found["id"])
             participant = self._participant(cursor, found["id"], golfer_uuid)
+
+            if round_row["status"] in {"setup", "active"}:
+                cursor.execute(
+                    """
+                    DELETE FROM round_home_dismissals
+                    WHERE round_id = %s
+                      AND golfer_id = %s
+                    """,
+                    (found["id"], golfer_uuid),
+                )
+
             cursor.execute(
                 """
                 SELECT rp.id, rp.role, rp.tee_name, rp.joined_at,

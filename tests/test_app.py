@@ -2416,6 +2416,23 @@ def test_spouse_placeholder_matches_message_casing():
         "husband",
     ) == "Tell your husband the truth."
 
+def test_accessing_unfinished_round_clears_previous_delete_marker():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    start = store_source.index("    def get_round(")
+    end = store_source.index("    def ", start + 8)
+    block = store_source[start:end]
+
+    assert 'round_row["status"] in {"setup", "active"}' in block
+    assert "DELETE FROM round_home_dismissals" in block
+    assert "WHERE round_id = %s" in block
+    assert "AND golfer_id = %s" in block
+
+
 def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses():
     from pathlib import Path
 
