@@ -5901,6 +5901,8 @@ class RoundStore:
         golfer_id: object,
         round_id: object,
         tee_name: object,
+        *,
+        confirm_correction: bool = False,
     ) -> dict[str, Any]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_uuid = self._uuid(round_id, "round_id")
@@ -5923,6 +5925,37 @@ class RoundStore:
                     round_row["course_id"],
                     selected_tee,
                 )
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                ) AS has_scores
+                """,
+                (round_uuid,),
+            )
+            has_scores = bool(cursor.fetchone()["has_scores"])
+
+            current_tee = (
+                round_row.get("scramble_tee_name")
+                if round_row["mode"] == "scramble"
+                else participant.get("tee_name")
+            )
+            requires_confirmation = (
+                has_scores
+                and current_tee is not None
+                and current_tee != selected_tee
+            )
+            if requires_confirmation and not confirm_correction:
+                return {
+                    "round_id": round_uuid,
+                    "tee_name": current_tee,
+                    "proposed_tee_name": selected_tee,
+                    "requires_confirmation": True,
+                    "changed": False,
+                }
 
             if round_row["mode"] == "scramble":
                 old_tee = round_row.get("scramble_tee_name")
@@ -6012,6 +6045,8 @@ class RoundStore:
                     },
                     presentation_context={"mode": round_row["mode"]},
                 )
+            updated["requires_confirmation"] = False
+            updated["changed"] = old_tee != selected_tee
             return updated
 
     def set_participant_round_handicap(
