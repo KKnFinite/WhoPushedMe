@@ -2582,6 +2582,20 @@ def test_loaded_course_pars_skip_par_tracking_choice():
     assert 'display: none !important;' in css
 
 
+def test_round_invites_expire_with_unfinished_round_lifecycle():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    api_source = (root / "who_pushed_me" / "api.py").read_text(
+        encoding="utf-8"
+    )
+
+    assert "INVITE_MAX_AGE_SECONDS = 24 * 60 * 60" in api_source
+    assert '"round_id": str(round_row["id"])' in api_source
+    assert 'preview = _store().round_invite_preview(invite["round_id"])' in api_source
+    assert "active = preview.get(\"status\") in {\"setup\", \"active\"}" in api_source
+
+
 def test_round_invite_entry_uses_main_app_shell():
     response = client().get("/invite/test-token")
     assert response.status_code == 200

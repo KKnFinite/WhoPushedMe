@@ -38,7 +38,7 @@ def _body() -> dict[str, Any]:
         raise DomainError("request body must be a JSON object")
     return payload
 
-INVITE_MAX_AGE_SECONDS = 7 * 24 * 60 * 60
+INVITE_MAX_AGE_SECONDS = 24 * 60 * 60
 
 
 def _invite_serializer() -> URLSafeTimedSerializer:
