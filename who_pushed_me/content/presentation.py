@@ -161,8 +161,6 @@ def social_content_event(kind: str, payload: Mapping[str, object]) -> str:
 
     return {
         "open_mic": "mid_hole.open_mic",
-        "shot_call": "mid_hole.call_your_shot.issued",
-        "challenge": "mid_hole.you_wont.issued",
     }[kind]
 
 
