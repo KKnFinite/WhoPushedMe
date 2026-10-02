@@ -6899,6 +6899,15 @@
 
     if (!finishingScoredScrambleHole) return;
 
+    const length = routeLength(currentLobbyRound);
+    if (livePosition >= length) {
+      if (scrambleContributionSkip) {
+        scrambleContributionSkip.disabled = false;
+      }
+      renderLiveRound(currentLobbyRound);
+      return;
+    }
+
     if (scrambleContributionSkip) {
       scrambleContributionSkip.disabled = true;
     }
