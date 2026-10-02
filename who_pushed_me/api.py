@@ -10,6 +10,7 @@ from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 
 from who_pushed_me.content.catalog import ContentCatalog, ContentError
 from who_pushed_me.content.preferences import blocked_themes
+from who_pushed_me.content.presentation import _relationship_text
 from who_pushed_me.courses import OpenGolfAPI
 from who_pushed_me.domain import DomainError, NotFound, PermissionDenied
 from who_pushed_me.reporting import build_round_report_pdf
@@ -236,7 +237,7 @@ def user_content_messages():
             {
                 "id": row["id"],
                 "text": (
-                    str(row["text"]).replace("{spouse}", str(spouse_type))
+                    _relationship_text(row["text"], spouse_type)
                     if "wife" in set(row.get("themes") or [])
                     and spouse_type in {"wife", "husband"}
                     else row["text"]
