@@ -2844,6 +2844,10 @@
     });
   };
 
+  const genericScoreTransitionAssets = (assets) => assets.filter(
+    (item) => normalizeTransitionToken(item.category) === 'score'
+  );
+
   const generalTransitionAssets = (assets) => assets.filter((item) => {
     const eventKey = normalizeTransitionToken(item.event_key);
     const category = normalizeTransitionToken(item.category);
@@ -2862,6 +2866,7 @@
 
   const transitionMascotForPosition = (round, targetPosition, assets) => {
     const used = new Set();
+    const genericScore = genericScoreTransitionAssets(assets);
     const general = generalTransitionAssets(assets);
     let target = null;
 
@@ -2871,18 +2876,28 @@
       const bucket = transitionScoreBucket(round, position);
       const specific = scoreSpecificTransitionAssets(assets, bucket)
         .filter((item) => !used.has(String(item.asset_id)));
+      const scoreFallback = bucket
+        ? genericScore.filter(
+            (item) => !used.has(String(item.asset_id))
+          )
+        : [];
       const fallback = general.filter(
         (item) => !used.has(String(item.asset_id))
       );
-      const pool = specific.length ? specific : fallback;
+      const pool = specific.length
+        ? specific
+        : (scoreFallback.length ? scoreFallback : fallback);
 
       if (!pool.length) {
         if (position === Number(targetPosition)) target = null;
         continue;
       }
 
+      const poolKind = specific.length
+        ? bucket
+        : (scoreFallback.length ? 'score' : 'general');
       const index = stableTransitionHash(
-        `${round.id}:${position}:${bucket || 'general'}`
+        `${round.id}:${position}:${poolKind}`
       ) % pool.length;
       const picked = pool[index];
       used.add(String(picked.asset_id));

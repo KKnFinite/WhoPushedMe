@@ -435,11 +435,49 @@ def test_between_hole_transition_uses_unique_deterministic_mascots():
     assert b"transitionMascotForPosition" in script.data
     assert b"stableTransitionHash" in script.data
     assert b"scoreSpecificTransitionAssets" in script.data
+    assert b"genericScoreTransitionAssets" in script.data
+    assert b"scoreFallback" in script.data
     assert b"generalTransitionAssets" in script.data
     assert b"used.add(String(picked.asset_id))" in script.data
     assert b"eventKey === 'round_start'" in script.data
     assert b"mascot.full_body.transparent" in script.data
     assert b".hole-transition" in css.data
+
+
+def test_between_hole_transition_uses_available_generic_score_minis():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    manifest = json.loads(
+        (
+            root
+            / "static"
+            / "assets"
+            / "_meta"
+            / "asset-manifest.json"
+        ).read_text(encoding="utf-8")
+    )
+    score_minis = [
+        row
+        for row in manifest.get("assets", [])
+        if (
+            row.get("family") == "mini-mascot"
+            and row.get("category") == "score"
+            and row.get("production")
+        )
+    ]
+    assert score_minis
+
+    source = client().get("/static/app.js").data.decode("utf-8")
+    start = source.index("const transitionMascotForPosition =")
+    end = source.index("const playHoleTransition =", start)
+    block = source[start:end]
+
+    assert "const genericScore = genericScoreTransitionAssets(assets);" in block
+    assert "const scoreFallback = bucket" in block
+    assert "scoreFallback.length ? scoreFallback : fallback" in block
+    assert "poolKind" in block
 
 
 def test_transition_only_plays_for_new_live_hole():
