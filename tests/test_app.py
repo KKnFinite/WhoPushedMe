@@ -2044,7 +2044,7 @@ def test_live_round_uses_fixed_chat_surface_and_direct_social_actions():
 
     assert b'id="live-banter-expand"' in page.data
     assert b'id="live-callout-button"' in page.data
-    assert b'id="live-excuse-button"' in page.data
+    assert b'id="live-excuse-button"' not in page.data
     assert b'id="score-response-modal"' in page.data
     assert b'id="bag-of-bullshit-button"' not in page.data
     assert b"BAG OF BULLSHIT" not in page.data
@@ -2058,7 +2058,7 @@ def test_live_round_uses_fixed_chat_surface_and_direct_social_actions():
 
     source = script.data.decode("utf-8")
     assert "openBag('callout')" in source
-    assert "openBag('excuse')" in source
+    assert "openBag('excuse', {" in source
     assert "liveBanterPanel.classList.toggle('is-fullscreen'" in source
 
 
@@ -2234,19 +2234,25 @@ def test_join_round_role_and_mini_are_centered():
     assert "left: 50%;" in mini_block
     assert "transform: translate(-50%, var(--join-mini-y));" in mini_block
 
-def test_make_excuse_is_self_only_without_target_picker():
+def test_make_excuse_is_linked_to_own_score_or_targeted_callout():
+    page = client().get("/")
     script = client().get("/static/app.js")
     css = client().get("/static/app.css")
+    assert page.status_code == 200
     assert script.status_code == 200
     assert css.status_code == 200
 
     js_source = script.data.decode("utf-8")
     css_source = css.data.decode("utf-8")
 
+    assert b'id="live-excuse-button"' not in page.data
     assert "excuse: {" in js_source
     assert "target: false," in js_source
-    assert "if (action === 'callout') {" in js_source
-    assert "currentBagAction === 'callout'" in js_source
+    assert "(action === 'excuse' && !replyToEventId)" in js_source
+    assert "currentBagReplyToEventId" in js_source
+    assert "excuse.textContent = 'MAKE EXCUSE';" in js_source
+    assert "eventType === 'callout'" in js_source
+    assert "target_participant_id" in js_source
     assert "#bag-form .round-text-field[hidden]" in css_source
     assert "display: none !important;" in css_source
 
@@ -2446,3 +2452,32 @@ def test_legacy_call_your_shot_and_you_wont_are_removed():
     source = client().get("/static/app.js").data.decode("utf-8")
     assert "'shot_call'" not in source
     assert "'score_challenge'" in source
+
+
+def test_callouts_and_excuses_follow_linked_reply_flow():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    api_source = (root / "who_pushed_me" / "api.py").read_text(
+        encoding="utf-8"
+    )
+    js_source = (root / "static" / "app.js").read_text(encoding="utf-8")
+
+    assert 'reply_to_event_id=payload.get("reply_to_event_id")' in api_source
+    assert "reply_to_event_id: object | None = None" in store_source
+    assert "callouts may only reply to score posts" in store_source
+    assert "callout target must match the score post" in store_source
+    assert "you cannot call yourself out" in store_source
+    assert "excuses must reply to your score or a callout aimed at you" in store_source
+    assert "you may only excuse your own score" in store_source
+    assert "you may only excuse a callout aimed at you" in store_source
+    assert "reply_to_event_id=reply_event_uuid" in store_source
+
+    assert "score-response-callout" in js_source
+    assert "replyToEventId: scoreEvent.id" in js_source
+    assert "targetParticipantId: round.mode === 'individual'" in js_source
+    assert "currentBagReplyToEventId" in js_source
+    assert "body.reply_to_event_id = replyToEventId;" in js_source
