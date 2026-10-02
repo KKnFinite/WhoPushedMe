@@ -3412,6 +3412,27 @@ class RoundStore:
                     "shared active hole can only advance one route position at a time"
                 )
 
+            if (
+                new_position == old_position + 1
+                and round_row["mode"] == "scramble"
+            ):
+                cursor.execute(
+                    """
+                    SELECT EXISTS (
+                        SELECT 1
+                        FROM round_hole_scores
+                        WHERE round_id = %s
+                          AND route_position = %s
+                          AND score_scope = 'team'
+                    ) AS has_team_score
+                    """,
+                    (round_uuid, old_position),
+                )
+                if not bool(cursor.fetchone()["has_team_score"]):
+                    raise DomainError(
+                        "enter the team score before advancing the scramble"
+                    )
+
             if new_position != old_position:
                 old_hole = int(round_row["current_hole"])
                 new_hole = int(route_row["hole_number"])
@@ -5039,7 +5060,7 @@ class RoundStore:
         )
 
         with self._connection() as connection, connection.cursor() as cursor:
-            round_row = self._round(cursor, round_uuid)
+            round_row = self._round(cursor, round_uuid, lock=True)
             actor = self._participant(
                 cursor,
                 round_uuid,
