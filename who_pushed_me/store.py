@@ -419,6 +419,18 @@ class RoundStore:
         )
         return public_preferences(cursor.fetchone(), catalog.theme_rows)
 
+    @staticmethod
+    def _purge_stale_unfinished_rounds(cursor: Any) -> int:
+        cursor.execute(
+            """
+            DELETE FROM rounds
+            WHERE status IN ('setup', 'active')
+              AND updated_at < now() - interval '24 hours'
+            RETURNING id
+            """
+        )
+        return len(cursor.fetchall())
+
     def _event(
         self,
         cursor: Any,
@@ -481,6 +493,15 @@ class RoundStore:
                     "actor_display_name",
                     actor_identity["display_name"],
                 )
+
+        cursor.execute(
+            """
+            UPDATE rounds
+            SET updated_at = now()
+            WHERE id = %s
+            """,
+            (round_id,),
+        )
 
         cursor.execute(
             """
@@ -1019,6 +1040,7 @@ class RoundStore:
         for _ in range(12):
             try:
                 with self._connection() as connection, connection.cursor() as cursor:
+                    self._purge_stale_unfinished_rounds(cursor)
                     physical_hole_count: int
 
                     if cached_course_id:
@@ -1315,6 +1337,7 @@ class RoundStore:
             raise DomainError("role must be player or spectator")
 
         with self._connection() as connection, connection.cursor() as cursor:
+            self._purge_stale_unfinished_rounds(cursor)
             cursor.execute(
                 """
                 SELECT id, mode, course_id, status,
@@ -2662,6 +2685,7 @@ class RoundStore:
     ) -> list[dict[str, Any]]:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         with self._connection() as connection, connection.cursor() as cursor:
+            self._purge_stale_unfinished_rounds(cursor)
             cursor.execute(
                 """
                 SELECT r.id, r.active_code, r.mode, r.status, r.hole_count,
@@ -2787,6 +2811,7 @@ class RoundStore:
         )
 
         with self._connection() as connection, connection.cursor() as cursor:
+            self._purge_stale_unfinished_rounds(cursor)
             cursor.execute(
                 """
                 SELECT id, active_code, mode, status, hole_count,
@@ -2868,6 +2893,7 @@ class RoundStore:
         golfer_uuid = self._uuid(golfer_id, "golfer_id")
         round_code = str(code or "").strip()
         with self._connection() as connection, connection.cursor() as cursor:
+            self._purge_stale_unfinished_rounds(cursor)
             if round_id is not None:
                 requested_round_id = self._uuid(round_id, "round_id")
                 cursor.execute(

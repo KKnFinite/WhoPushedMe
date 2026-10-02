@@ -2433,6 +2433,55 @@ def test_accessing_unfinished_round_clears_previous_delete_marker():
     assert "AND golfer_id = %s" in block
 
 
+def test_unfinished_rounds_expire_after_24_hours_of_inactivity():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    assert "def _purge_stale_unfinished_rounds(cursor: Any)" in store_source
+    assert "status IN ('setup', 'active')" in store_source
+    assert "updated_at < now() - interval '24 hours'" in store_source
+
+    event_start = store_source.index("    def _event(")
+    event_end = store_source.index("\n    def ", event_start + 10)
+    event_block = store_source[event_start:event_end]
+    assert "UPDATE rounds" in event_block
+    assert "SET updated_at = now()" in event_block
+
+    for marker in (
+        "def create_round(",
+        "def list_unfinished_rounds(",
+        "def join_round(",
+        "def get_round(",
+        "def round_invite_preview(",
+    ):
+        start = store_source.index(marker)
+        end = store_source.find("\n    def ", start + len(marker))
+        block = store_source[start:end if end >= 0 else None]
+        assert "self._purge_stale_unfinished_rounds(cursor)" in block
+
+
+def test_active_code_uniqueness_only_reserves_unfinished_rounds():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    migration = (
+        root / "migrations" / "0001_round_foundation.sql"
+    ).read_text(encoding="utf-8")
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    assert "CREATE UNIQUE INDEX rounds_live_code_unique" in migration
+    assert "WHERE status IN ('setup', 'active')" in migration
+    assert "except errors.UniqueViolation as error:" in store_source
+    assert 'error.diag.constraint_name != "rounds_live_code_unique"' in store_source
+    assert 'raise RuntimeError("could not allocate a unique active round code")' in store_source
+
+
 def test_unfinished_round_is_hard_deleted_after_every_real_participant_dismisses():
     from pathlib import Path
 
