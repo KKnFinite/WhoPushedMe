@@ -37,7 +37,6 @@ _CALLOUT_SITUATIONS = {
     "penalty",
     "mulligan",
     "foot_wedge",
-    "missed_short_putt",
     "three_putt",
     "lip_out",
 }
