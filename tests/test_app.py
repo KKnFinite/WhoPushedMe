@@ -942,13 +942,17 @@ def test_participant_state_events_bake_actor_name_into_presentation():
     end = store_source.index("    @staticmethod\n    def _public_account(", start)
     block = store_source[start:end]
 
+    assert '"participant_join"' in block
     assert '"spectator_joined_play"' in block
     assert '"participant_withdrew"' in block
     assert '"participant_returned"' in block
     assert 'event_data.setdefault(' in block
     assert '"actor_display_name"' in block
-    assert 'presentation_row["text"] = (' in block
-    assert 'f"{actor_name} {text_value}"' in block
+    assert 'variants = presentation.get("variants")' in block
+    assert 'for variant in variants.values()' in block
+    assert 'banter_row["text"] = (' in block
+    assert 'f"{actor_name} {banter_text}"' in block
+    assert 'fallback_row["text"] = (' in block
 
 
 def test_end_early_votes_expire_with_connected_window():
