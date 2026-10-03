@@ -1365,6 +1365,15 @@ class RoundStore:
             )
             existing_participant = cursor.fetchone()
             if existing_participant:
+                if (
+                    existing_participant["role"] == "player"
+                    and participant_role == "spectator"
+                ):
+                    return self._convert_player_to_spectator_cursor(
+                        cursor,
+                        round_row=round_row,
+                        participant=existing_participant,
+                    )
                 if existing_participant["role"] != participant_role:
                     raise DomainError(
                         "this account is already joined to the round as "
@@ -1711,6 +1720,95 @@ class RoundStore:
             if auto_advance:
                 response.update(auto_advance)
             return response
+
+    def _convert_player_to_spectator_cursor(
+        self,
+        cursor: Any,
+        *,
+        round_row: dict[str, Any],
+        participant: dict[str, Any],
+    ) -> dict[str, Any]:
+        if participant["role"] == "spectator":
+            return participant
+        if participant["role"] != "player":
+            raise DomainError("only players can switch to spectator")
+
+        if round_row["status"] not in {"setup", "active"}:
+            raise DomainError(
+                "players can only switch to spectator in an unfinished round"
+            )
+
+        current_position = int(round_row["current_route_position"])
+
+        cursor.execute(
+            """
+            UPDATE round_participants
+            SET role = 'spectator',
+                participation_state = 'withdrew'
+            WHERE id = %s
+            RETURNING id, round_id, golfer_id, role, tee_name,
+                      participation_state, tracked_from_position,
+                      handicap_index, round_handicap, handicap_source,
+                      joined_at
+            """,
+            (participant["id"],),
+        )
+        converted = cursor.fetchone()
+
+        if round_row["mode"] == "individual":
+            cursor.execute(
+                """
+                UPDATE round_participant_route_positions
+                SET required = false
+                WHERE participant_id = %s
+                  AND route_position >= %s
+                """,
+                (participant["id"], current_position),
+            )
+
+        if round_row["status"] == "active":
+            route_row = self._route_position(
+                cursor,
+                round_row["id"],
+                current_position,
+            )
+            self._event(
+                cursor,
+                round_id=round_row["id"],
+                actor_participant_id=participant["id"],
+                event_type="participant_started_spectating",
+                hole_number=int(route_row["hole_number"]),
+                route_position=current_position,
+                data={
+                    "participant_id": str(participant["id"]),
+                    "mode": round_row["mode"],
+                },
+            )
+            if round_row["mode"] == "individual":
+                self._maybe_advance_active_route(
+                    cursor,
+                    round_row=round_row,
+                    actor_participant_id=participant["id"],
+                    scored_route_position=current_position,
+                )
+
+        return converted
+
+    def spectate_round(
+        self,
+        golfer_id: object,
+        round_id: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            return self._convert_player_to_spectator_cursor(
+                cursor,
+                round_row=round_row,
+                participant=participant,
+            )
 
     def promote_spectator_to_player(
         self,
@@ -3698,8 +3796,16 @@ class RoundStore:
              AND s.score_scope = 'player'
              AND rr.route_position IS NOT NULL
             WHERE rp.round_id = %s
-              AND rp.role = 'player'
               AND rp.participation_state <> 'removed'
+              AND (
+                  rp.role = 'player'
+                  OR EXISTS (
+                      SELECT 1
+                      FROM round_participant_route_positions historical_prp
+                      WHERE historical_prp.round_id = rp.round_id
+                        AND historical_prp.participant_id = rp.id
+                  )
+              )
             GROUP BY rp.id, g.display_name, rp.joined_at,
                      rp.participation_state, rp.tracked_from_position,
                      rp.handicap_index, rp.round_handicap,
