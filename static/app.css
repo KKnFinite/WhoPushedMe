@@ -2650,64 +2650,171 @@ body.app-ready .app-shell {
   inset: 0;
   z-index: 120;
   display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(23,25,22,.78);
-  backdrop-filter: blur(5px);
+  place-items: stretch;
+  padding: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(53,91,69,.30), transparent 36rem),
+    var(--wpm-night);
 }
 
 .construction-modal[hidden] {
   display: none;
 }
 
-.construction-card {
-  width: min(100%, 410px);
-  padding: 28px 24px 24px;
-  background: var(--cream);
-  border: var(--border);
-  border-radius: 26px;
-  box-shadow: 12px 13px 0 var(--ink);
+.construction-page {
+  width: min(100%, 520px);
+  height: 100dvh;
+  margin: 0 auto;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    16px
+    max(18px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  color: var(--wpm-cream);
+  background:
+    linear-gradient(180deg, rgba(14,32,23,.98), rgba(5,9,7,1));
+  box-shadow: 0 0 50px rgba(0,0,0,.45);
+}
+
+.construction-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(78,122,93,.48);
+}
+
+.construction-kicker {
+  margin-bottom: 3px;
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.construction-header h2 {
+  margin: 0;
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2.2rem, 9vw, 3.4rem);
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: .02em;
+}
+
+.construction-x {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border: 1px solid rgba(78,122,93,.72);
+  border-radius: 12px;
+  background: rgba(5,9,7,.76);
+  color: var(--wpm-cream);
+  font-family: Arial, sans-serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.construction-main {
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 18px;
   text-align: center;
 }
 
 .construction-mascot {
-  width: 106px;
-  margin-top: -74px;
-  margin-bottom: 14px;
-  border: var(--border);
-  border-radius: 28px;
-  background: var(--yellow);
-  box-shadow: 6px 7px 0 var(--ink);
-  transform: rotate(-3deg);
+  width: min(62vw, 285px);
+  max-height: 34dvh;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgba(0,0,0,.40));
 }
 
-.construction-kicker {
-  color: var(--orange-deep);
-  font-size: .76rem;
-}
-
-.construction-card h2 {
-  margin: 8px 0 12px;
-  font-size: clamp(2rem, 9vw, 3rem);
-  line-height: .94;
-}
-
-.construction-card p {
-  margin: 0 auto 22px;
-  max-width: 28ch;
-  font-family: "Arial Black", Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.35;
-}
-
-.construction-card button {
+.construction-copy {
   width: 100%;
-  min-height: 58px;
+  padding: 18px 16px;
+  border: 1px solid rgba(78,122,93,.62);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(23,51,38,.84), rgba(5,9,7,.82));
+  box-shadow: inset 4px 0 0 var(--wpm-orange-burnt);
+}
+
+.construction-stamp {
+  margin-bottom: 8px;
+  color: var(--wpm-orange-ember);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.construction-copy h3 {
+  margin: 0 0 9px;
+  color: #fff8df;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2rem, 8.5vw, 3rem);
+  font-weight: 400;
+  line-height: .92;
+}
+
+.construction-copy p {
+  margin: 0 auto;
+  max-width: 31ch;
+  color: rgba(241,231,200,.82);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.22;
+}
+
+.construction-back {
+  width: 100%;
+  min-height: 60px;
   padding: 12px 16px;
-  background: var(--yellow);
-  border-radius: 16px;
-  box-shadow: 5px 6px 0 var(--ink);
-  font-size: 1.2rem;
+  border: 2px solid var(--wpm-gold);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, var(--wpm-orange-burnt), var(--wpm-orange-ember));
+  color: #fff8df;
+  box-shadow: none;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: .035em;
+  cursor: pointer;
+}
+
+@media (max-height: 760px) {
+  .construction-page {
+    gap: 12px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .construction-mascot {
+    width: min(48vw, 210px);
+    max-height: 26dvh;
+  }
+
+  .construction-copy {
+    padding: 14px 13px;
+  }
+
+  .construction-back {
+    min-height: 54px;
+  }
 }
 
 @media (max-width: 390px) {
