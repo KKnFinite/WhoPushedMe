@@ -5380,7 +5380,8 @@
       && window.localStorage.getItem(lateBackfillDismissKey) === '1'
     );
     const showLateBackfill = (
-      viewerIsActivePlayer(round)
+      round.mode === 'individual'
+      && viewerIsActivePlayer(round)
       && viewingLive
       && earlierBackfillable.length > 0
       && !lateBackfillDismissed
