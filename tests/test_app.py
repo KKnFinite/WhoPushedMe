@@ -3994,3 +3994,27 @@ def test_live_mobile_layout_prioritizes_banter_and_compacts_actions():
     assert "position: static !important;" in block
     assert "padding: 4px 0 !important;" in block
     assert ".live-round-v2 > .round-history-open-button:not([hidden])" in block
+
+
+def test_scramble_contribution_screen_has_mini_on_continue_button():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    html = page.data.decode("utf-8")
+    assert 'id="scramble-contribution-mini-stage"' in html
+    assert 'id="scramble-contribution-mini"' in html
+
+    source = script.data.decode("utf-8")
+    assert "const loadScrambleContributionMini = async (round, position) =>" in source
+    assert "stableTransitionHash(key) % pool.length" in source
+    assert "setupMiniOpaqueBottomRatio(scrambleContributionMini)" in source
+    assert "alignScrambleContributionMini();" in source
+
+    css_source = css.data.decode("utf-8")
+    assert "/* SCRAMBLE CONTRIBUTION MINI — STANDS ON CONTINUE */" in css_source
+    assert ".scramble-contribution-mini-stage" in css_source
+    assert "transform: translateY(var(--scramble-mini-y, 0px));" in css_source
