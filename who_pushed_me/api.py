@@ -520,17 +520,23 @@ def accept_round_invite(token: str):
     existing_state = preview.get("viewer_participation_state")
 
     if existing_role == "player":
-        if (
-            desired_role == "player"
-            and preview["status"] == "active"
-            and existing_state != "active"
-        ):
-            store.set_participation_state(
+        if desired_role == "spectator":
+            store.spectate_round(
                 g.golfer["id"],
                 preview["id"],
-                "active",
             )
-        effective_role = "player"
+            effective_role = "spectator"
+        else:
+            if (
+                preview["status"] == "active"
+                and existing_state != "active"
+            ):
+                store.set_participation_state(
+                    g.golfer["id"],
+                    preview["id"],
+                    "active",
+                )
+            effective_role = "player"
     elif existing_role == "spectator" and desired_role == "player":
         if response["requires_tee"] and not str(tee_name or "").strip():
             raise DomainError("pick a tee before joining as a player")
@@ -756,6 +762,17 @@ def set_tee(round_id: str):
             confirm_correction=(
                 payload.get("confirm_correction") is True
             ),
+        )
+    )
+
+
+@api.patch("/rounds/<round_id>/spectate")
+@authenticated
+def spectate_round(round_id: str):
+    return jsonify(
+        _store().spectate_round(
+            g.golfer["id"],
+            round_id,
         )
     )
 
