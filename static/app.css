@@ -11017,3 +11017,33 @@ textarea,
 .round-flow-card-game #round-settings-tee-field[hidden] {
   display: none !important;
 }
+
+
+/* SPECTATOR JOIN — IN FLOW, NEVER OVERLAY LIVE CONTENT */
+.round-flow-card-game.is-live-round .spectator-join-play-panel:not([hidden]) {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  box-shadow: none !important;
+}
+
+.round-flow-card-game.is-live-round .spectator-join-play-panel h4 {
+  margin: 0 !important;
+}
+
+.round-flow-card-game.is-live-round .spectator-join-play-panel p {
+  margin: 0 !important;
+}
+
+.round-flow-card-game.is-live-round #spectator-join-play-button {
+  min-height: 48px !important;
+  margin: 0 !important;
+}
