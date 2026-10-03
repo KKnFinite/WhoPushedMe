@@ -188,6 +188,14 @@
   const liveMorePanel = document.getElementById('live-more-panel');
   const liveNavMore = document.getElementById('live-nav-more');
   const liveMoreClose = document.getElementById('live-more-close');
+  const switchSpectatorButton = document.createElement('button');
+  switchSpectatorButton.type = 'button';
+  switchSpectatorButton.id = 'switch-spectator-button';
+  switchSpectatorButton.textContent = 'SWITCH TO SPECTATOR';
+  switchSpectatorButton.hidden = true;
+  if (towelButton?.parentElement) {
+    towelButton.parentElement.insertBefore(switchSpectatorButton, towelButton);
+  }
   const latestPresentation = document.getElementById('latest-presentation');
   const latestMascot = document.getElementById('latest-mascot');
   const latestBanter = document.getElementById('latest-banter');
@@ -5922,6 +5930,14 @@
       round.viewer_role === 'player'
       && ['active', 'withdrew'].includes(viewer?.participation_state)
     );
+    if (switchSpectatorButton) {
+      switchSpectatorButton.hidden = !(
+        round.status === 'active'
+        && round.viewer_role === 'player'
+        && viewer?.participation_state === 'active'
+      );
+      switchSpectatorButton.disabled = false;
+    }
     if (towelButton) {
       towelButton.hidden = !canToggleTowel;
       towelButton.textContent = viewerWithdrew
@@ -7083,6 +7099,25 @@
       if (towelConfirm) towelConfirm.disabled = false;
     }
   };
+
+  switchSpectatorButton?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+
+    switchSpectatorButton.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/spectate`,
+        { method: 'PATCH' }
+      );
+      if (liveMorePanel) liveMorePanel.hidden = true;
+      if (liveNavMore) liveNavMore.textContent = 'MORE';
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      switchSpectatorButton.disabled = false;
+    }
+  });
 
   towelButton?.addEventListener('click', async () => {
     if (!currentLobbyRound) return;
