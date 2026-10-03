@@ -4177,55 +4177,38 @@
         select.append(option);
       });
 
-      select.addEventListener('change', async () => {
+      select.addEventListener('change', () => {
         if (!currentLobbyRound) return;
-        select.disabled = true;
-        setRoundFlowMessage('');
 
-        try {
-          const saved = await requestJson(
-            `/api/rounds/${round.id}/positions/${position}/contributions/${shotType}`,
-            {
-              method: 'PUT',
-              body: {
-                player_participant_id: select.value || null,
-              },
-            }
-          );
-          const contributions = Array.isArray(currentLobbyRound?.contributions)
-            ? currentLobbyRound.contributions
-            : [];
-          const existingIndex = contributions.findIndex(
-            (item) =>
-              Number(item.route_position) === Number(position)
-              && String(item.shot_type || '') === String(shotType)
-          );
-          if (saved.player_participant_id) {
-            const localRow = {
-              route_position: Number(saved.route_position || position),
-              hole_number: Number(saved.hole || hole),
-              shot_type: String(saved.shot_type || shotType),
-              player_participant_id: saved.player_participant_id,
+        const contributions = Array.isArray(currentLobbyRound.contributions)
+          ? currentLobbyRound.contributions
+          : [];
+        const existingIndex = contributions.findIndex(
+          (item) =>
+            Number(item.route_position) === Number(position)
+            && String(item.shot_type || '') === String(shotType)
+        );
+
+        if (select.value) {
+          const localRow = {
+            route_position: Number(position),
+            hole_number: Number(hole),
+            shot_type: String(shotType),
+            player_participant_id: select.value,
+          };
+          if (existingIndex >= 0) {
+            contributions[existingIndex] = {
+              ...contributions[existingIndex],
+              ...localRow,
             };
-            if (existingIndex >= 0) {
-              contributions[existingIndex] = {
-                ...contributions[existingIndex],
-                ...localRow,
-              };
-            } else {
-              contributions.push(localRow);
-            }
-          } else if (existingIndex >= 0) {
-            contributions.splice(existingIndex, 1);
+          } else {
+            contributions.push(localRow);
           }
-          if (currentLobbyRound) {
-            currentLobbyRound.contributions = contributions;
-          }
-        } catch (error) {
-          setRoundFlowMessage(error.message);
-        } finally {
-          select.disabled = false;
+        } else if (existingIndex >= 0) {
+          contributions.splice(existingIndex, 1);
         }
+
+        currentLobbyRound.contributions = contributions;
       });
 
       row.append(select);
@@ -5715,7 +5698,13 @@
       && viewingLive
       && findScore(round, livePosition)
     );
-    if (scrambleTeamScore && viewerIsActivePlayer(round)) {
+    const scrambleContributionPromptKey =
+      `${round.id}:${Number(livePosition)}`;
+    if (
+      scrambleTeamScore
+      && viewerIsActivePlayer(round)
+      && skippedScrambleContributionPromptKey !== scrambleContributionPromptKey
+    ) {
       scrambleContributionComposerOpen = true;
     }
     if (liveCalloutButton) liveCalloutButton.hidden = !canUseLiveSocial;
@@ -7561,46 +7550,69 @@
   };
 
   scrambleContributionSkip?.addEventListener('click', async () => {
-    if (!currentLobbyRound) return;
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    if (currentLobbyRound.mode !== 'scramble') return;
 
     const livePosition = Number(
       currentLobbyRound.current_route_position
       || currentLobbyRound.current_hole
       || 1
     );
-    const finishingScoredScrambleHole = (
-      currentLobbyRound.mode === 'scramble'
-      && Number(viewedRoutePosition) === livePosition
-      && Boolean(findScore(currentLobbyRound, livePosition))
-    );
-
-    scrambleContributionComposerOpen = false;
-    roundRefreshSequence += 1;
-    if (scrambleContributionPanel) {
-      scrambleContributionPanel.hidden = true;
-    }
-
-    if (!finishingScoredScrambleHole) return;
-
-    const length = routeLength(currentLobbyRound);
-    if (livePosition >= length) {
-      if (scrambleContributionSkip) {
-        scrambleContributionSkip.disabled = false;
-      }
-      renderLiveRound(currentLobbyRound);
+    const promptKey = `${currentLobbyRound.id}:${livePosition}`;
+    const teamScore = findScore(currentLobbyRound, livePosition);
+    if (!teamScore) {
+      setRoundFlowMessage('Enter the team score before continuing.');
       return;
     }
 
-    if (scrambleContributionSkip) {
-      scrambleContributionSkip.disabled = true;
-    }
-    const advanced = await advanceSharedLiveHole();
-    if (!advanced) {
-      scrambleContributionComposerOpen = true;
-      renderScrambleContributions(currentLobbyRound, livePosition);
-      if (scrambleContributionSkip) {
-        scrambleContributionSkip.disabled = false;
+    const contributionPayload = {};
+    SCRAMBLE_SHOT_TYPES.forEach(([shotType]) => {
+      const row = (currentLobbyRound.contributions || []).find(
+        (item) =>
+          Number(item.route_position) === livePosition
+          && String(item.shot_type || '') === String(shotType)
+      );
+      contributionPayload[shotType] = row?.player_participant_id || null;
+    });
+
+    scrambleContributionSkip.disabled = true;
+    scrambleContributionSkip.textContent = 'SAVING + MOVING ON...';
+    setRoundFlowMessage('');
+
+    try {
+      roundRefreshSequence += 1;
+      const result = await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/scramble-contributions/complete`,
+        {
+          method: 'POST',
+          body: { contributions: contributionPayload },
+        }
+      );
+
+      skippedScrambleContributionPromptKey = promptKey;
+      scrambleContributionComposerOpen = false;
+      if (scrambleContributionPanel) {
+        scrambleContributionPanel.hidden = true;
       }
+
+      if (result.advanced) {
+        viewedRoutePosition = Number(result.current_route_position);
+        await refreshRound(currentLobbyRound.active_code);
+        return;
+      }
+
+      // Final hole: contributions are saved but there is nowhere to advance.
+      // Keep the composer closed and expose the normal finish-round controls.
+      renderLiveRound(currentLobbyRound);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      scrambleContributionComposerOpen = true;
+      if (scrambleContributionPanel) {
+        scrambleContributionPanel.hidden = false;
+      }
+    } finally {
+      scrambleContributionSkip.disabled = false;
+      scrambleContributionSkip.textContent = 'CONTINUE →';
     }
   });
 
