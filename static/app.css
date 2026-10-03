@@ -11007,3 +11007,13 @@ textarea,
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+
+/* HIDDEN ROUND FIELDS MUST STAY HIDDEN */
+.round-flow-card-game .round-text-field[hidden],
+.round-flow-card-game #spectator-join-tee-field[hidden],
+.round-flow-card-game #join-tee-field[hidden],
+.round-flow-card-game #offline-player-tee-field[hidden],
+.round-flow-card-game #round-settings-tee-field[hidden] {
+  display: none !important;
+}
