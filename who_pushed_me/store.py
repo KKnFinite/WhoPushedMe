@@ -473,6 +473,7 @@ class RoundStore:
                 )
 
         event_data = dict(data or {})
+        actor_identity = None
         if actor_participant_id:
             cursor.execute(
                 """
@@ -493,6 +494,37 @@ class RoundStore:
                     "actor_display_name",
                     actor_identity["display_name"],
                 )
+
+        participant_state_events = {
+            "participant_join",
+            "participant_started_spectating",
+            "spectator_joined_play",
+            "participant_withdrew",
+            "participant_returned",
+        }
+        if actor_identity and event_type in participant_state_events:
+            actor_name = str(actor_identity["display_name"] or "").strip()
+            if actor_name:
+                for presentation_key in ("banter", "fallback"):
+                    presentation_row = presentation.get(presentation_key)
+                    if not isinstance(presentation_row, dict):
+                        continue
+                    text_value = str(presentation_row.get("text") or "").strip()
+                    if (
+                        text_value
+                        and not text_value.lower().startswith(actor_name.lower())
+                    ):
+                        presentation_row["text"] = (
+                            f"{actor_name} {text_value}"
+                        )
+                mascot_row = presentation.get("mascot")
+                if isinstance(mascot_row, dict):
+                    mascot_copy = str(mascot_row.get("copy") or "").strip()
+                    if (
+                        mascot_copy
+                        and not mascot_copy.lower().startswith(actor_name.lower())
+                    ):
+                        mascot_row["copy"] = f"{actor_name} {mascot_copy}"
 
         cursor.execute(
             """
