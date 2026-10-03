@@ -185,6 +185,7 @@
   const liveHoleStats = document.getElementById('live-hole-stats');
   const liveMorePanel = document.getElementById('live-more-panel');
   const liveNavMore = document.getElementById('live-nav-more');
+  const liveMoreClose = document.getElementById('live-more-close');
   const latestPresentation = document.getElementById('latest-presentation');
   const latestMascot = document.getElementById('latest-mascot');
   const latestBanter = document.getElementById('latest-banter');
@@ -7595,6 +7596,12 @@
     if (opening) {
       liveMorePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  });
+
+  liveMoreClose?.addEventListener('click', () => {
+    if (!liveMorePanel) return;
+    liveMorePanel.hidden = true;
+    if (liveNavMore) liveNavMore.textContent = 'MORE';
   });
 
   liveEditPar?.addEventListener('click', () => {
