@@ -3806,3 +3806,15 @@ def test_late_backfill_prompt_is_individual_only():
     assert "round.mode === 'individual'" in block
     assert "viewerIsActivePlayer(round)" in block
     assert "earlierBackfillable.length > 0" in block
+
+
+def test_hole_transition_result_is_large_headline():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+    start = source.index(".hole-transition-stage > small {")
+    end = source.index("}", start)
+    block = source[start:end]
+    assert 'font-family: "Bebas Neue", Impact, sans-serif;' in block
+    assert "font-size: clamp(2.6rem, 11vw, 4.5rem);" in block
+    assert "line-height: .88;" in block
