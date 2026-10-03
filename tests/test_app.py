@@ -4073,6 +4073,24 @@ def test_beta_accounts_control_stays_hidden_until_admin_is_confirmed():
     assert 'if (adminAccountsOpen) adminAccountsOpen.hidden = true;' in source
     assert 'adminAccountsOpen.hidden = !Boolean(account?.is_admin);' in source
 
+def test_scramble_round_settings_can_correct_starting_hole_before_scoring():
+    page = client().get('/')
+    script = client().get('/static/app.js')
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    html = page.data.decode('utf-8')
+    source = script.data.decode('utf-8')
+
+    assert 'id="scramble-start-hole-panel"' in html
+    assert 'id="scramble-start-hole-select"' in html
+    assert 'id="scramble-start-hole-save"' in html
+    assert "round.mode === 'scramble'" in source
+    assert "round.course_hole_count" in source
+    assert "LOCKED AFTER THE FIRST TEAM SCORE OR AFTER THE SCRAMBLE ADVANCES." in source
+    assert "`/api/rounds/${currentLobbyRound.id}/start-hole`" in source
+    assert "body: { start_hole: startHole }" in source
+
 def test_alleged_talent_and_known_offenders_use_themed_construction_page():
     page = client().get('/')
     script = client().get('/static/app.js')
