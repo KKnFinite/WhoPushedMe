@@ -4042,8 +4042,32 @@
       .replace(/\byou\b/g, 'they');
   };
 
+  const excuseReasonLabel = (reason) => {
+    const value = String(reason || '').trim().toLowerCase();
+    const labels = {
+      clubs: 'CLUBS',
+      wind: 'WIND',
+      weather: 'WEATHER',
+      bad_lie: 'BAD LIE',
+      green: 'GREEN',
+      noise: 'NOISE / DISTRACTION',
+      alcohol: 'ALCOHOL',
+      hangover: 'HANGOVER',
+      pace: 'PACE OF PLAY',
+    };
+    return labels[value] || (value
+      ? value.replaceAll('_', ' ').toUpperCase()
+      : 'GENERIC EXCUSE');
+  };
+
   const scoreFeedText = (round, event) => {
     const eventType = String(event?.event_type || '');
+
+    if (eventType === 'excuse') {
+      const reason = excuseReasonLabel(event?.data?.reason);
+      const message = String(event?.data?.message || '').trim();
+      return message ? `EXCUSE — ${reason}: ${message}` : `EXCUSE — ${reason}`;
+    }
 
     if (eventType === 'score_response') {
       const responseKind = String(event?.data?.response_kind || '').trim();
@@ -4201,13 +4225,15 @@
         actor
         && (
           explicitMessage
+          || eventType === 'callout'
+          || eventType === 'excuse'
           || eventType === 'score_response'
           || eventType === 'score_challenge'
         )
         && [
           'open_mic',
           'callout',
-                      'excuse',
+          'excuse',
           'score_response',
           'score_challenge',
         ].includes(eventType)
@@ -4260,7 +4286,39 @@
       bubble.className = 'live-banter-bubble';
       bubble.textContent = scoreFeedText(round, event);
 
-      content.append(meta, bubble);
+      const replyToId = String(event.reply_to_event_id || '');
+      if (replyToId) {
+        const parentEvent = (round.events || []).find(
+          (candidate) => String(candidate.id || '') === replyToId
+        );
+        if (parentEvent) {
+          const replyContext = document.createElement('div');
+          replyContext.className = 'live-banter-reply-context';
+          const parentActor = (round.participants || []).find(
+            (participant) =>
+              String(participant.id) === String(
+                parentEvent.actor_participant_id || ''
+              )
+          );
+          const parentAuthor = document.createElement('strong');
+          parentAuthor.textContent = (
+            parentEvent.event_type === 'score_report'
+            || parentEvent.event_type === 'score_push'
+          )
+            ? 'REPLYING TO SCORE'
+            : `REPLYING TO ${String(
+                parentActor?.display_name || 'WPM'
+              ).toUpperCase()}`;
+          const parentText = document.createElement('span');
+          parentText.textContent = scoreFeedText(round, parentEvent);
+          replyContext.append(parentAuthor, parentText);
+          content.append(meta, replyContext, bubble);
+        } else {
+          content.append(meta, bubble);
+        }
+      } else {
+        content.append(meta, bubble);
+      }
 
       if (eventType === 'score_report' || eventType === 'score_push') {
         const scoreTargetId = String(
