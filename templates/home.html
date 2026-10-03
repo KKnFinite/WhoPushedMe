@@ -498,7 +498,7 @@
             <div class="settings-kicker">ACCOUNT HISTORY</div>
             <h3>PREVIOUS DISASTERS</h3>
           </div>
-          <button id="past-rounds-back" type="button">← BACK HOME</button>
+          <button id="past-rounds-back" class="wpm-nav-yellow" type="button">← BACK HOME</button>
         </header>
         <p id="past-rounds-empty" class="past-rounds-empty" hidden>
           NO COMPLETED ROUNDS YET. GO MAKE SOME BAD DECISIONS.
@@ -723,8 +723,13 @@
 
         <section id="live-more-panel" class="live-more-panel" hidden>
           <div class="live-more-heading">
-            <span>ROUND CONTROL</span>
-            <strong>MORE BULLSHIT</strong>
+            <div>
+              <span>ROUND CONTROL</span>
+              <strong>MORE BULLSHIT</strong>
+            </div>
+            <button id="live-more-close" class="wpm-nav-yellow" type="button">
+              CLOSE
+            </button>
           </div>
 
           <div class="round-invite-actions" aria-label="Round invite actions">
@@ -856,7 +861,7 @@
 
       <section id="round-history-page" class="round-history-page" hidden>
         <header class="round-history-page-header">
-          <button id="round-history-back" type="button">← BACK TO ROUND</button>
+          <button id="round-history-back" class="wpm-nav-yellow" type="button">← BACK TO ROUND</button>
           <div>
             <span>ROUND RECORD</span>
             <h3>ROUND HISTORY</h3>
@@ -888,7 +893,7 @@
         <small id="hole-transition-result"></small>
         <img id="hole-transition-mascot" alt="" hidden>
         <strong id="hole-transition-label"></strong>
-        <button id="hole-transition-continue" type="button">
+        <button id="hole-transition-continue" class="wpm-nav-yellow" type="button">
           CONTINUE →
         </button>
       </div>
