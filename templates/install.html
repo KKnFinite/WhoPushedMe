@@ -142,18 +142,18 @@
     <p id="platform-blurb" class="platform-blurb">LET'S FIGURE OUT WHAT KIND OF PHONE YOU'RE DRAGGING AROUND.</p>
     <h1 id="install-title">PUT THE APP ON YOUR HOME SCREEN FIRST.</h1>
     <p class="lead">
-      Install Who Pushed Me?! like an app, then sign in or create your account.
+      Install it first. Then open Who Pushed Me?! from your home screen and sign in.
       {% if invite_token %}Your round invite is saved and waiting for you.{% endif %}
     </p>
 
     <div id="ios-instructions" class="install-instructions" hidden>
-      <strong>IPHONE / IPAD</strong>
-      <span>Tap the Share button in Safari, then choose <b>Add to Home Screen</b>. Open Who Pushed Me?! from the new icon.</span>
+      <strong>IPHONE / IPAD — CHROME</strong>
+      <span>Tap the <b>three dots in the lower-right</b> → <b>Share</b> → <b>Add to Home Screen</b> → <b>Add</b>. Then open Who Pushed Me?! from the new home-screen icon.</span>
     </div>
 
     <div id="browser-instructions" class="install-instructions" hidden>
-      <strong>INSTALL IT</strong>
-      <span>Use your browser menu and choose <b>Install app</b> or <b>Add to Home screen</b>.</span>
+      <strong>ANDROID — CHROME</strong>
+      <span>Tap the <b>three dots in the upper-right</b> → <b>Install app</b>. If you see <b>Add to Home screen</b> instead, use that. Confirm <b>Install</b>, then open the new icon.</span>
     </div>
 
     <button id="install-primary" class="install-primary" type="button">INSTALL APP</button>
@@ -204,7 +204,9 @@
 
       if (isAppleMobile) {
         iosInstructions.hidden = false;
-        primary.textContent = 'SHOW ME HOW';
+        primary.hidden = true;
+      } else if (isAndroid) {
+        browserInstructions.hidden = false;
       }
 
       window.addEventListener('beforeinstallprompt', (event) => {
@@ -217,7 +219,7 @@
 
       window.addEventListener('appinstalled', () => {
         deferredInstallPrompt = null;
-        primary.textContent = 'INSTALLED — OPEN THE APP';
+        primary.textContent = 'INSTALLED';
       });
 
       primary.addEventListener('click', async () => {
@@ -227,7 +229,7 @@
           await prompt.prompt();
           const choice = await prompt.userChoice.catch(() => null);
           if (choice?.outcome === 'accepted') {
-            primary.textContent = 'INSTALLED — OPEN THE APP';
+            primary.textContent = 'INSTALLED';
           }
           return;
         }
@@ -235,7 +237,6 @@
         if (isAppleMobile) {
           iosInstructions.hidden = false;
           iosInstructions.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          primary.textContent = 'ADD IT, THEN OPEN THE NEW ICON';
           return;
         }
 
