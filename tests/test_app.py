@@ -3985,6 +3985,17 @@ def test_install_route_is_standalone_first_timer_page():
     assert 'id="register-form"' not in html
 
 
+def test_install_page_has_platform_specific_joke():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert 'id="platform-blurb"' in html
+    assert "YOU HAVE AN APPLE." in html
+    assert "YOU HAVE AN ANDROID." in html
+    assert "const isAndroid = /Android/i.test(navigator.userAgent);" in html
+
+
 def test_install_route_preserves_invite_token():
     page = client().get("/install?invite=test-token-123")
     assert page.status_code == 200
