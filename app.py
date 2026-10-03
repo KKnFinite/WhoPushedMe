@@ -46,6 +46,10 @@ def create_app() -> Flask:
     def invite_entry(token: str):
         return home()
 
+    @app.get("/install")
+    def install_entry():
+        return home()
+
     @app.get("/new-round")
     def new_round():
         return redirect(url_for("home"))
