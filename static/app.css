@@ -10905,3 +10905,48 @@ textarea,
     padding: 7px 10px !important;
   }
 }
+
+
+/* SCRAMBLE CONTRIBUTION MINI — STANDS ON CONTINUE */
+.scramble-contribution-mini-stage {
+  position: relative;
+  flex: 0 0 138px;
+  min-height: 138px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: visible;
+  pointer-events: none;
+  transform: translateY(var(--scramble-mini-y, 0px));
+  z-index: 2;
+}
+
+.scramble-contribution-mini-stage[hidden] {
+  display: none !important;
+}
+
+.scramble-contribution-mini {
+  display: block;
+  width: auto;
+  max-width: min(46vw, 205px);
+  max-height: 138px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,.42));
+}
+
+#scramble-contribution-panel #scramble-contribution-skip {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-height: 760px) {
+  .scramble-contribution-mini-stage {
+    flex-basis: 110px;
+    min-height: 110px;
+  }
+
+  .scramble-contribution-mini {
+    max-height: 110px;
+  }
+}
