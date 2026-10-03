@@ -4750,11 +4750,20 @@
         ? 'TEAM'
         : String(participant?.display_name || 'GOLFER').toUpperCase();
       const newScore = Number(event.new_value);
+      const scoreResult = String(scoreNameFromEvent(event) || '')
+        .trim()
+        .toUpperCase();
       if (eventType === 'score_push') {
         const oldScore = Number(event.old_value);
-        return `${subject} — SCORE CHANGED ${oldScore} → ${newScore} STROKES`;
+        return [
+          `${subject} — SCORE CHANGED ${oldScore} → ${newScore} STROKES`,
+          scoreResult,
+        ].filter(Boolean).join(' • ');
       }
-      return `${subject} — ${newScore} STROKES`;
+      return [
+        `${subject} — ${newScore} STROKES`,
+        scoreResult,
+      ].filter(Boolean).join(' • ');
     }
 
     if (eventType === 'par_report') {
@@ -4846,6 +4855,18 @@
       row.append(title, meta);
 
       if (['score_report', 'score_push'].includes(event.event_type)) {
+        const scoreMessage = String(scoreFeedText(round, event) || '').trim();
+        if (scoreMessage) {
+          const presentation = document.createElement('div');
+          presentation.className = 'receipt-score-presentation';
+          const label = document.createElement('span');
+          label.textContent = 'SCORE MESSAGE';
+          const copy = document.createElement('p');
+          copy.textContent = scoreMessage;
+          presentation.append(label, copy);
+          row.append(presentation);
+        }
+
         const social = document.createElement('div');
         social.className = 'receipt-social-summary';
 
