@@ -29,7 +29,7 @@
     html, body { min-height: 100%; margin: 0; background: var(--night); }
     body {
       min-height: 100dvh;
-      padding: max(22px, env(safe-area-inset-top)) 16px max(22px, env(safe-area-inset-bottom));
+      padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
       color: var(--cream);
       font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
       display: grid;
@@ -40,9 +40,11 @@
     }
     .install-page {
       width: min(100%, 520px);
+      height: min(900px, calc(100dvh - 20px));
       display: grid;
-      gap: 16px;
-      padding: 22px 20px 20px;
+      align-content: space-between;
+      gap: clamp(10px, 1.5dvh, 16px);
+      padding: clamp(14px, 2dvh, 22px) 20px;
       border: 1px solid rgba(78,122,93,.75);
       border-radius: 26px;
       background: linear-gradient(180deg, rgba(13,27,20,.98), rgba(5,9,7,.98));
@@ -51,31 +53,27 @@
     }
     .install-mascot {
       display: block;
-      width: min(56vw, 230px);
-      height: min(22dvh, 220px);
-      max-height: 220px;
+      width: min(68vw, 285px);
+      height: clamp(205px, 27dvh, 285px);
+      max-height: 285px;
       margin: 0 auto;
       object-fit: contain;
     }
-    @media (max-height: 820px) {
-      body {
-        padding-top: max(12px, env(safe-area-inset-top));
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
-      }
+    @media (max-height: 760px) {
       .install-page {
-        gap: 10px;
-        padding: 14px 16px;
+        gap: 8px;
+        padding: 10px 14px;
       }
       .install-mascot {
-        width: min(48vw, 190px);
-        height: min(17dvh, 165px);
+        width: min(58vw, 220px);
+        height: clamp(150px, 22dvh, 190px);
       }
       h1 {
-        font-size: clamp(2.25rem, 9vw, 3.4rem);
+        font-size: clamp(2.45rem, 9.5vw, 3.5rem);
       }
       .install-instructions {
         padding: 10px 12px;
-        font-size: .98rem;
+        font-size: 1rem;
       }
       .install-primary,
       .install-secondary {
@@ -84,7 +82,7 @@
     }
     .install-kicker {
       color: var(--gold);
-      font-size: .9rem;
+      font-size: 1rem;
       font-weight: 800;
       letter-spacing: .13em;
     }
@@ -92,7 +90,7 @@
       margin: -4px auto 0;
       max-width: 34ch;
       color: rgba(241,231,200,.72);
-      font-size: .98rem;
+      font-size: 1.08rem;
       font-weight: 700;
       line-height: 1.15;
     }
@@ -100,7 +98,7 @@
       margin: 0;
       color: var(--cream);
       font-family: "Bebas Neue", "Arial Narrow", Arial, sans-serif;
-      font-size: clamp(2.8rem, 11vw, 4.5rem);
+      font-size: clamp(3.15rem, 12vw, 4.8rem);
       line-height: .88;
       letter-spacing: .015em;
     }
@@ -120,21 +118,21 @@
       border-radius: 13px;
       background: rgba(212,166,42,.10);
       color: var(--cream);
-      font-size: 1.05rem;
+      font-size: 1.16rem;
       font-weight: 700;
       line-height: 1.2;
     }
     .install-instructions strong {
       color: var(--gold);
-      font-size: 1.12rem;
+      font-size: 1.25rem;
     }
     .install-primary,
     .install-secondary {
       width: 100%;
-      min-height: 62px;
+      min-height: 64px;
       border-radius: 14px;
       font-family: "Bebas Neue", "Arial Narrow", Arial, sans-serif;
-      font-size: 1.65rem;
+      font-size: 1.78rem;
       letter-spacing: .035em;
       cursor: pointer;
     }
@@ -151,7 +149,7 @@
     .install-note {
       margin: 0;
       color: rgba(241,231,200,.58);
-      font-size: .82rem;
+      font-size: .9rem;
       line-height: 1.2;
     }
     [hidden] { display: none !important; }
