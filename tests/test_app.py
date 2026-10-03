@@ -3959,3 +3959,20 @@ def test_more_menu_has_close_and_round_navigation_colors():
     assert "#lobby-home," in css_source
     assert "#live-round-home," in css_source
     assert "#round-end-home" in css_source
+
+
+def test_scramble_spectator_join_is_live_hole_only():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    html = page.data.decode("utf-8")
+    assert 'id="spectator-join-play-copy"' in html
+
+    source = script.data.decode("utf-8")
+    assert "You join the team at the current live hole." in source
+    assert "round.mode === 'scramble'" in source
+    assert "viewedRoutePosition = livePosition;" in source
+    assert "scrambleSpectatorJoinLocked" in source
+    assert "spectatorNeedsPersonalTee" in source
