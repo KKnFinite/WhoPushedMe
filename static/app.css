@@ -10847,3 +10847,61 @@ textarea,
   color: #fff8df !important;
   box-shadow: 0 6px 16px rgba(0,0,0,.32) !important;
 }
+
+
+/* LIVE ROUND — PRIORITIZE BANTER SPACE */
+@media (max-width: 680px) {
+  .live-round-v2 {
+    gap: 4px !important;
+  }
+
+  #live-banter-panel {
+    flex: 1 1 0 !important;
+    min-height: 180px !important;
+    padding: 9px !important;
+  }
+
+  #live-banter-panel .live-banter-feed {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .live-social-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .live-social-actions #live-callout-button,
+  .live-social-actions #scramble-contribution-open:not([hidden]) {
+    grid-column: auto !important;
+    width: 100% !important;
+    min-height: 36px !important;
+  }
+
+  .live-footer-actions {
+    position: static !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 4px 0 !important;
+    gap: 7px !important;
+    border-top: 1px solid rgba(78,122,93,.34) !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+
+  .live-footer-actions .live-footer-more,
+  .live-footer-actions .live-next-hole,
+  .live-footer-actions .live-finish-round {
+    min-height: 46px !important;
+    height: 46px !important;
+    margin: 0 !important;
+  }
+
+  .live-round-v2 > .round-history-open-button:not([hidden]) {
+    flex: 0 0 auto !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+    padding: 7px 10px !important;
+  }
+}
