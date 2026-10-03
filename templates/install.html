@@ -51,10 +51,36 @@
     }
     .install-mascot {
       display: block;
-      width: min(82vw, 330px);
-      max-height: 330px;
+      width: min(56vw, 230px);
+      height: min(22dvh, 220px);
+      max-height: 220px;
       margin: 0 auto;
       object-fit: contain;
+    }
+    @media (max-height: 820px) {
+      body {
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+      }
+      .install-page {
+        gap: 10px;
+        padding: 14px 16px;
+      }
+      .install-mascot {
+        width: min(48vw, 190px);
+        height: min(17dvh, 165px);
+      }
+      h1 {
+        font-size: clamp(2.25rem, 9vw, 3.4rem);
+      }
+      .install-instructions {
+        padding: 10px 12px;
+        font-size: .98rem;
+      }
+      .install-primary,
+      .install-secondary {
+        min-height: 54px;
+      }
     }
     .install-kicker {
       color: var(--gold);
