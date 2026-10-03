@@ -4141,6 +4141,27 @@ def test_threaded_reply_context_renders_above_main_reply_bubble():
     assert "content.append(meta, bubble, replyReference);" not in block
 
 
+def test_adjacent_replies_do_not_duplicate_parent_context():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    start = source.index("rows.forEach((event, rowIndex) => {")
+    end = source.index("if (eventType === 'score_report'", start)
+    block = source[start:end]
+
+    assert "const previousVisibleEvent = rows[rowIndex - 1] || null;" in block
+    assert "const parentIsImmediatelyAbove = Boolean(" in block
+    assert "if (parentEvent && !parentIsImmediatelyAbove)" in block
+    assert "row.classList.add('is-thread-attached');" in block
+
+    css_source = css.data.decode("utf-8")
+    assert ".live-banter-row.is-thread-attached" in css_source
+    assert "margin-top: -4px;" in css_source
+
+
 def test_scramble_has_no_next_hole_and_contribution_mini_is_doubled():
     script = client().get("/static/app.js")
     css = client().get("/static/app.css")
