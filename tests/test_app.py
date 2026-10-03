@@ -4016,6 +4016,16 @@ def test_first_timer_install_page_uses_random_general_mini():
     assert "WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp" not in html
 
 
+def test_ios_install_guidance_avoids_optional_safari_toggle():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "<b>SAFARI:</b> Tap the <b>Page Menu</b> or <b>Share</b> button" in html
+    assert "Open as Web App" not in html
+    assert "<b>CHROME:</b> Tap <b>Share</b>" in html
+
+
 def test_install_page_hides_redundant_apple_install_button():
     page = client().get("/install")
     assert page.status_code == 200
@@ -4026,7 +4036,6 @@ def test_install_page_hides_redundant_apple_install_button():
     assert "IPHONE / IPAD" in html
     assert "<b>SAFARI:</b>" in html
     assert "<b>CHROME:</b>" in html
-    assert "Open as Web App" in html
     assert "ANDROID — CHROME" in html
 
 
