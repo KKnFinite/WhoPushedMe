@@ -4081,6 +4081,9 @@ def test_live_chat_shows_participant_state_changes_and_preserves_scroll():
     assert "'participant_withdrew'," in source
     assert "'participant_returned'," in source
     assert "switched to spectator." in source
+    assert "const actorName = String(" in source
+    assert "event?.data?.actor_display_name" in source
+    assert "return `${actorName} ${stateText}`;" in source
 
     start = source.index("const renderLiveBanter = (round) =>")
     end = source.index("const appendLobbyBanterRow =", start)
