@@ -2457,6 +2457,7 @@
     currentBagAction = null;
     currentLobbyRound = null;
     roundHistoryOpen = false;
+    liveBanterRoutePosition = null;
     viewedRoutePosition = null;
     finishIncompletePending = false;
     resetClaimPlayerPanel();
@@ -4153,6 +4154,14 @@
   const scoreFeedText = (round, event) => {
     const eventType = String(event?.event_type || '');
 
+    if (eventType === 'participant_started_spectating') {
+      const actor = (round?.participants || []).find(
+        (participant) =>
+          String(participant.id) === String(event?.actor_participant_id || '')
+      );
+      return `${actor?.display_name || 'A player'} switched to spectator.`;
+    }
+
     if (eventType === 'excuse') {
       const reason = excuseReasonLabel(event?.data?.reason);
       const message = String(event?.data?.message || '').trim();
@@ -4289,17 +4298,28 @@
     });
   };
 
+  let liveBanterRoutePosition = null;
+
   const renderLiveBanter = (round) => {
     if (!liveBanterFeed) return;
-    const reviewingHistory = Boolean(
-      liveBanterPanel?.classList.contains('is-fullscreen')
-      && (
-        liveBanterFeed.scrollHeight
-        - liveBanterFeed.scrollTop
-        - liveBanterFeed.clientHeight
-      ) > 32
+
+    const currentRoutePosition = Number(
+      round?.current_route_position || round?.current_hole || 1
     );
+    const routeChanged = (
+      liveBanterRoutePosition !== null
+      && currentRoutePosition !== liveBanterRoutePosition
+    );
+    const hadContent = liveBanterFeed.childElementCount > 0;
+    const distanceFromNewest = (
+      liveBanterFeed.scrollHeight
+      - liveBanterFeed.scrollTop
+      - liveBanterFeed.clientHeight
+    );
+    const wasAtNewest = !hadContent || distanceFromNewest <= 32;
     const priorScrollTop = liveBanterFeed.scrollTop;
+
+    liveBanterRoutePosition = currentRoutePosition;
     liveBanterFeed.replaceChildren();
 
     const socialTypes = new Set([
@@ -4312,6 +4332,11 @@
       'score_push',
       'scramble_contribution_change',
       'round_end_result',
+      'participant_join',
+      'participant_started_spectating',
+      'spectator_joined_play',
+      'participant_withdrew',
+      'participant_returned',
     ]);
 
     const seenScoreKeys = new Set();
@@ -4509,10 +4534,10 @@
       liveBanterFeed.append(row);
     });
 
-    if (reviewingHistory) {
-      liveBanterFeed.scrollTop = priorScrollTop;
-    } else {
+    if (routeChanged || wasAtNewest) {
       liveBanterFeed.scrollTop = liveBanterFeed.scrollHeight;
+    } else {
+      liveBanterFeed.scrollTop = priorScrollTop;
     }
   };
 
