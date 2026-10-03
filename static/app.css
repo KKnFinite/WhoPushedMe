@@ -10802,3 +10802,48 @@ textarea,
   font-weight: 600;
   line-height: 1.16;
 }
+
+
+/* ROUND FLOW NAVIGATION COLORS */
+.live-more-heading {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.live-more-heading > div {
+  display: grid;
+  gap: 1px;
+}
+
+.wpm-nav-yellow,
+.setup-back,
+#round-history-back,
+#past-rounds-back,
+#hole-transition-continue,
+#scramble-contribution-skip {
+  border: 1px solid rgba(212,166,42,.9) !important;
+  background:
+    linear-gradient(145deg, #e0b337, var(--wpm-gold) 60%, #b88417) !important;
+  color: var(--wpm-night) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.34) !important;
+}
+
+#live-more-close {
+  min-width: 96px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: .04em;
+}
+
+#lobby-home,
+#live-round-home,
+#round-end-home {
+  border: 1px solid rgba(217,109,59,.92) !important;
+  background:
+    linear-gradient(145deg, #d96d3b, #b9532b 62%, #87371f) !important;
+  color: #fff8df !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,.32) !important;
+}
