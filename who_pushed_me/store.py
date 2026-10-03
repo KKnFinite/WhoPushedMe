@@ -1766,31 +1766,33 @@ class RoundStore:
                 (participant["id"], current_position),
             )
 
-        if round_row["status"] == "active":
-            route_row = self._route_position(
+        route_row = self._route_position(
+            cursor,
+            round_row["id"],
+            current_position,
+        )
+        self._event(
+            cursor,
+            round_id=round_row["id"],
+            actor_participant_id=participant["id"],
+            event_type="participant_started_spectating",
+            hole_number=int(route_row["hole_number"]),
+            route_position=current_position,
+            data={
+                "participant_id": str(participant["id"]),
+                "mode": round_row["mode"],
+            },
+        )
+        if (
+            round_row["status"] == "active"
+            and round_row["mode"] == "individual"
+        ):
+            self._maybe_advance_active_route(
                 cursor,
-                round_row["id"],
-                current_position,
-            )
-            self._event(
-                cursor,
-                round_id=round_row["id"],
+                round_row=round_row,
                 actor_participant_id=participant["id"],
-                event_type="participant_started_spectating",
-                hole_number=int(route_row["hole_number"]),
-                route_position=current_position,
-                data={
-                    "participant_id": str(participant["id"]),
-                    "mode": round_row["mode"],
-                },
+                scored_route_position=current_position,
             )
-            if round_row["mode"] == "individual":
-                self._maybe_advance_active_route(
-                    cursor,
-                    round_row=round_row,
-                    actor_participant_id=participant["id"],
-                    scored_route_position=current_position,
-                )
 
         return converted
 
