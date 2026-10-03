@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from typing import Final
 
-from flask import Flask, jsonify, redirect, render_template, send_from_directory, url_for
+from flask import Flask, jsonify, redirect, render_template, request, send_from_directory, url_for
 
 from migrations import run_pending
 
@@ -48,7 +48,13 @@ def create_app() -> Flask:
 
     @app.get("/install")
     def install_entry():
-        return home()
+        asset_version = os.getenv("RENDER_GIT_COMMIT") or APP_VERSION
+        invite_token = str(request.args.get("invite") or "").strip()
+        return render_template(
+            "install.html",
+            asset_version=asset_version,
+            invite_token=invite_token,
+        )
 
     @app.get("/new-round")
     def new_round():
