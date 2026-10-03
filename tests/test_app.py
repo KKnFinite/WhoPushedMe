@@ -3994,11 +3994,13 @@ def test_first_timer_install_page_compacts_for_short_viewports():
     assert page.status_code == 200
     html = page.data.decode("utf-8")
 
-    assert "width: min(56vw, 230px);" in html
-    assert "height: min(22dvh, 220px);" in html
-    assert "@media (max-height: 820px)" in html
-    assert "width: min(48vw, 190px);" in html
-    assert "height: min(17dvh, 165px);" in html
+    assert "height: min(900px, calc(100dvh - 20px));" in html
+    assert "align-content: space-between;" in html
+    assert "width: min(68vw, 285px);" in html
+    assert "height: clamp(205px, 27dvh, 285px);" in html
+    assert "@media (max-height: 760px)" in html
+    assert "width: min(58vw, 220px);" in html
+    assert "height: clamp(150px, 22dvh, 190px);" in html
 
 
 def test_first_timer_install_page_uses_random_general_mini():
