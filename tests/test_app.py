@@ -3838,3 +3838,26 @@ def test_social_replies_use_compact_thread_reference():
     assert "/* LIVE SOCIAL THREADED REPLY REFERENCE */" in css_source
     assert ".live-banter-reply-reference" in css_source
     assert ".live-banter-reply-arrow" in css_source
+
+
+def test_mobile_score_stepper_is_large_and_does_not_force_keyboard():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    start = source.index("minus.addEventListener('click'")
+    end = source.index("input.addEventListener('input'", start)
+    block = source[start:end]
+    assert "input.dataset.draftDirty = 'true';" in block
+    assert "refreshSubmitState();" in block
+    assert "focusScoreInput();" not in block
+
+    css_source = css.data.decode("utf-8")
+    start = css_source.index("/* LIVE SCORE ENTRY — LARGE TOUCH TARGETS */")
+    block = css_source[start:]
+    assert "grid-template-columns: 50px 64px 50px !important;" in block
+    assert "width: 50px !important;" in block
+    assert "height: 58px !important;" in block
+    assert "font-size: 2rem !important;" in block
