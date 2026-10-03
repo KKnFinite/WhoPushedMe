@@ -4128,6 +4128,19 @@ def test_live_chat_shows_participant_state_changes_and_preserves_scroll():
     assert "liveBanterFeed.scrollTop = priorScrollTop;" in block
 
 
+def test_threaded_reply_context_renders_above_main_reply_bubble():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    start = source.index("const replyToId = String(event.reply_to_event_id || '');")
+    end = source.index("if (eventType === 'score_report'", start)
+    block = source[start:end]
+
+    assert "content.append(meta, replyReference, bubble);" in block
+    assert "content.append(meta, bubble, replyReference);" not in block
+
+
 def test_scramble_has_no_next_hole_and_contribution_mini_is_doubled():
     script = client().get("/static/app.js")
     css = client().get("/static/app.css")
