@@ -3861,3 +3861,17 @@ def test_mobile_score_stepper_is_large_and_does_not_force_keyboard():
     assert "width: 50px !important;" in block
     assert "height: 58px !important;" in block
     assert "font-size: 2rem !important;" in block
+
+
+def test_polling_pauses_while_scramble_contribution_select_is_open():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    assert "const scrambleContributionInteractionInProgress = () =>" in source
+    assert "active?.closest?.('#scramble-contribution-panel')" in source
+
+    start = source.index("const startLobbyPolling = (code) =>")
+    end = source.index("startRoundButton?.addEventListener", start)
+    block = source[start:end]
+    assert "scrambleContributionInteractionInProgress()" in block
