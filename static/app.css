@@ -9964,10 +9964,11 @@ textarea,
 
 .hole-transition-stage > small {
   color: var(--wpm-gold);
-  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
-  font-size: clamp(.9rem, 4vw, 1.2rem);
-  font-weight: 700;
-  letter-spacing: .14em;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2.6rem, 11vw, 4.5rem);
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: .08em;
 }
 
 .hole-transition-stage > img {
