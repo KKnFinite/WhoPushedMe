@@ -10580,3 +10580,91 @@ textarea,
     font-size: .9rem !important;
   }
 }
+
+
+/* SCRAMBLE CONTRIBUTIONS — FOCUSED FULL-SCREEN STEP */
+@media (max-width: 680px) {
+  #scramble-contribution-panel:not([hidden]) {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 260 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding:
+      calc(22px + env(safe-area-inset-top))
+      18px
+      calc(16px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: var(--wpm-night) !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+
+  #scramble-contribution-panel > .live-round-kicker {
+    flex: 0 0 auto !important;
+    margin: 0 0 3px !important;
+    color: var(--wpm-gold) !important;
+    font-size: .82rem !important;
+    letter-spacing: .13em !important;
+  }
+
+  #scramble-contribution-panel > h4 {
+    flex: 0 0 auto !important;
+    margin: 0 0 14px !important;
+    color: #fff8df !important;
+    font-size: clamp(2rem, 9vw, 3rem) !important;
+    line-height: .92 !important;
+  }
+
+  #scramble-contribution-list {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-content: start !important;
+    gap: 10px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding: 2px 0 14px !important;
+  }
+
+  #scramble-contribution-panel .scramble-contribution-row {
+    min-width: 0 !important;
+    padding: 10px !important;
+  }
+
+  #scramble-contribution-panel .scramble-contribution-row label {
+    font-size: .78rem !important;
+  }
+
+  #scramble-contribution-panel .scramble-contribution-row select,
+  #scramble-contribution-panel .scramble-contribution-readonly {
+    min-height: 52px !important;
+    width: 100% !important;
+  }
+
+  #scramble-contribution-skip {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-height: 62px !important;
+    height: 62px !important;
+    margin: 10px 0 0 !important;
+    padding: 10px 16px !important;
+    border: 1px solid rgba(255,248,223,.4) !important;
+    border-radius: 14px !important;
+    background:
+      linear-gradient(145deg, #e0b337, var(--wpm-gold) 58%, #b88417) !important;
+    color: var(--wpm-night) !important;
+    font-family: "Bebas Neue", Impact, sans-serif !important;
+    font-size: 1.55rem !important;
+    font-weight: 400 !important;
+    letter-spacing: .04em !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,.34) !important;
+  }
+}
