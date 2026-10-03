@@ -3985,7 +3985,7 @@ def test_login_splash_asset_is_versioned_and_cache_is_bumped():
     assert "const CACHE_NAME = 'wpm-shell-v109';" in worker
 
 
-def test_direct_install_entry_preserves_round_invites():
+def test_direct_install_entry_preserves_round_invites_without_pre_auth_prompt():
     page = client().get("/install")
     script = client().get("/static/app.js")
     assert page.status_code == 200
@@ -3997,11 +3997,16 @@ def test_direct_install_entry_preserves_round_invites():
     assert "window.localStorage.setItem(INSTALL_INVITE_KEY, installInviteToken);" in source
     assert "window.localStorage.getItem(INSTALL_INVITE_KEY)" in source
     assert "window.localStorage.removeItem(INSTALL_INVITE_KEY);" in source
-    assert "configureDirectInstallEntry" in source
+    assert "configureDirectInstallEntry();" in source
+    assert "if (!isStandaloneApp()) return false;" in source
+    assert "installOnboardingModal.hidden = false;" not in source[
+        source.index("const configureDirectInstallEntry = () => {"):
+        source.index("const installOnboardingKey = (account) => {")
+    ]
+    assert "await bootSession();" in source
     assert "directInstallEntry ? 0 : 3000" in source
     assert "/install?invite=" in source
-    assert "CONTINUE IN BROWSER" in source
-    assert "Add to Home Screen" in source
+    assert "maybeShowInstallOnboarding(account)" in source
 
 
 def test_switch_spectator_button_is_created_after_towel_button_lookup():
