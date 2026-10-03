@@ -5422,6 +5422,267 @@ class RoundStore:
                 "event": event,
             }
 
+    def complete_scramble_contributions(
+        self,
+        golfer_id: object,
+        round_id: object,
+        contributions: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+        allowed_types = {
+            "drive",
+            "second",
+            "approach",
+            "recovery",
+            "bunker",
+            "putt",
+            "other",
+        }
+        if not isinstance(contributions, dict):
+            raise DomainError("contributions must be an object")
+
+        normalized: dict[str, UUID | None] = {}
+        for raw_type, raw_player_id in contributions.items():
+            shot_type = normalize_shot_type(raw_type)
+            if shot_type not in allowed_types:
+                raise DomainError("unsupported scramble contribution type")
+            normalized[shot_type] = (
+                self._uuid(raw_player_id, "player_participant_id")
+                if raw_player_id not in (None, "")
+                else None
+            )
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            actor = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(actor, "complete contributions")
+
+            if round_row["status"] != "active":
+                raise DomainError("contributions are only available during an active round")
+            if round_row["mode"] != "scramble":
+                raise DomainError("contributions are only available for scramble rounds")
+
+            current_position = int(round_row["current_route_position"])
+            route_row = self._route_position(
+                cursor,
+                round_uuid,
+                current_position,
+                lock=True,
+            )
+            current_hole = int(route_row["hole_number"])
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                      AND route_position = %s
+                      AND score_scope = 'team'
+                ) AS has_team_score
+                """,
+                (round_uuid, current_position),
+            )
+            if not bool(cursor.fetchone()["has_team_score"]):
+                raise DomainError("enter the team score before contributions")
+
+            player_names: dict[UUID, str] = {}
+            target_ids = [target for target in normalized.values() if target is not None]
+            if target_ids:
+                cursor.execute(
+                    """
+                    SELECT rp.id, g.display_name
+                    FROM round_participants rp
+                    JOIN golfers g ON g.id = rp.golfer_id
+                    WHERE rp.round_id = %s
+                      AND rp.role = 'player'
+                      AND rp.participation_state = 'active'
+                      AND rp.id = ANY(%s)
+                    """,
+                    (round_uuid, target_ids),
+                )
+                player_names = {
+                    row["id"]: row["display_name"]
+                    for row in cursor.fetchall()
+                }
+                missing = [target for target in target_ids if target not in player_names]
+                if missing:
+                    raise DomainError(
+                        "contribution target must be an active player in this round"
+                    )
+
+            for shot_type in allowed_types:
+                target_id = normalized.get(shot_type)
+                cursor.execute(
+                    """
+                    SELECT player_participant_id
+                    FROM scramble_contributions
+                    WHERE round_id = %s
+                      AND route_position = %s
+                      AND shot_type = %s
+                    FOR UPDATE
+                    """,
+                    (round_uuid, current_position, shot_type),
+                )
+                previous = cursor.fetchone()
+                old_target = (
+                    previous["player_participant_id"]
+                    if previous
+                    else None
+                )
+
+                if target_id is None:
+                    if previous:
+                        cursor.execute(
+                            """
+                            DELETE FROM scramble_contributions
+                            WHERE round_id = %s
+                              AND route_position = %s
+                              AND shot_type = %s
+                            """,
+                            (round_uuid, current_position, shot_type),
+                        )
+                else:
+                    cursor.execute(
+                        """
+                        INSERT INTO scramble_contributions (
+                            round_id, route_position, hole_number,
+                            shot_type, player_participant_id
+                        )
+                        VALUES (%s, %s, %s, %s, %s)
+                        ON CONFLICT (
+                            round_id, route_position, shot_type
+                        )
+                        DO UPDATE SET
+                            hole_number = EXCLUDED.hole_number,
+                            player_participant_id =
+                                EXCLUDED.player_participant_id,
+                            updated_at = now()
+                        """,
+                        (
+                            round_uuid,
+                            current_position,
+                            current_hole,
+                            shot_type,
+                            target_id,
+                        ),
+                    )
+
+                if old_target != target_id:
+                    content_event = scramble_contribution_content_event(
+                        old_target,
+                        target_id,
+                        shot_type,
+                    )
+                    target_name = (
+                        player_names.get(target_id, "")
+                        if target_id
+                        else ""
+                    )
+                    self._event(
+                        cursor,
+                        round_id=round_uuid,
+                        actor_participant_id=actor["id"],
+                        event_type="scramble_contribution_change",
+                        hole_number=current_hole,
+                        route_position=current_position,
+                        old_value=(
+                            str(old_target)
+                            if old_target
+                            else None
+                        ),
+                        new_value=(
+                            str(target_id)
+                            if target_id
+                            else None
+                        ),
+                        data={
+                            "shot_type": shot_type,
+                            "player_participant_id": (
+                                str(target_id)
+                                if target_id
+                                else None
+                            ),
+                            "player_display_name": (
+                                target_name if target_id else None
+                            ),
+                        },
+                        content_event_key=content_event,
+                        presentation_context={
+                            "hole": current_hole,
+                            "mode": "scramble",
+                            "subject": target_name or "Nobody",
+                            "target": target_name or "Nobody",
+                        },
+                    )
+
+            cursor.execute(
+                """
+                SELECT route_position, hole_number
+                FROM round_route_positions
+                WHERE round_id = %s
+                  AND route_position > %s
+                  AND state = 'planned'
+                ORDER BY route_position
+                LIMIT 1
+                """,
+                (round_uuid, current_position),
+            )
+            next_route = cursor.fetchone()
+
+            if not next_route:
+                return {
+                    "round_id": round_uuid,
+                    "saved": True,
+                    "advanced": False,
+                    "current_route_position": current_position,
+                    "current_hole": current_hole,
+                    "final_hole": True,
+                }
+
+            next_position = int(next_route["route_position"])
+            next_hole = int(next_route["hole_number"])
+            cursor.execute(
+                """
+                UPDATE rounds
+                SET current_route_position = %s,
+                    current_hole = %s,
+                    updated_at = now()
+                WHERE id = %s
+                """,
+                (next_position, next_hole, round_uuid),
+            )
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=actor["id"],
+                event_type="current_hole_auto_advance",
+                hole_number=next_hole,
+                route_position=next_position,
+                old_value={
+                    "route_position": current_position,
+                    "hole_number": current_hole,
+                },
+                new_value={
+                    "route_position": next_position,
+                    "hole_number": next_hole,
+                },
+                content_event_key="hole.advance",
+                presentation_context={
+                    "hole": next_hole,
+                    "mode": "scramble",
+                },
+            )
+            return {
+                "round_id": round_uuid,
+                "saved": True,
+                "advanced": True,
+                "current_route_position": next_position,
+                "current_hole": next_hole,
+                "final_hole": False,
+            }
+
     def set_scramble_contribution(
         self,
         golfer_id: object,
