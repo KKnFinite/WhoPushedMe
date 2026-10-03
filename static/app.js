@@ -5648,7 +5648,8 @@
     if (advanceLiveHole) {
       const stillMissing = missingScoresAtPosition(round, livePosition);
       const canAdvanceLive = (
-        viewerIsActivePlayer(round)
+        round.mode === 'individual'
+        && viewerIsActivePlayer(round)
         && round.status === 'active'
         && viewingLive
         && livePosition < length
@@ -7265,7 +7266,11 @@
   });
 
   advanceLiveHole?.addEventListener('click', async () => {
-    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    if (
+      !currentLobbyRound
+      || currentLobbyRound.mode === 'scramble'
+      || !viewerIsActivePlayer(currentLobbyRound)
+    ) return;
 
     const livePosition = Number(
       currentLobbyRound.current_route_position
