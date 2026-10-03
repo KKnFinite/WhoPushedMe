@@ -4021,7 +4021,10 @@ def test_install_page_hides_redundant_apple_install_button():
 
     assert "primary.hidden = true;" in html
     assert "ADD IT, THEN OPEN THE NEW ICON" not in html
-    assert "IPHONE / IPAD — CHROME" in html
+    assert "IPHONE / IPAD" in html
+    assert "<b>SAFARI:</b>" in html
+    assert "<b>CHROME:</b>" in html
+    assert "Open as Web App" in html
     assert "ANDROID — CHROME" in html
 
 
