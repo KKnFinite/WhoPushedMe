@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#050907">
+  <meta name="application-name" content="Who Pushed Me?! Scorecard">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Who Pushed Me?!">
+  <title>Install Who Pushed Me?!</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon-180.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/icon-32.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #050907;
+      --panel: #0d1b14;
+      --green: #173326;
+      --green-accent: #4e7a5d;
+      --cream: #f1e7c8;
+      --gold: #d4a62a;
+      --orange: #d96d3b;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; background: var(--night); }
+    body {
+      min-height: 100dvh;
+      padding: max(22px, env(safe-area-inset-top)) 16px max(22px, env(safe-area-inset-bottom));
+      color: var(--cream);
+      font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(78,122,93,.28), transparent 36%),
+        linear-gradient(180deg, #07100c 0%, #050907 100%);
+    }
+    .install-page {
+      width: min(100%, 520px);
+      display: grid;
+      gap: 16px;
+      padding: 22px 20px 20px;
+      border: 1px solid rgba(78,122,93,.75);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(13,27,20,.98), rgba(5,9,7,.98));
+      box-shadow: 0 24px 70px rgba(0,0,0,.5);
+      text-align: center;
+    }
+    .install-mascot {
+      display: block;
+      width: min(82vw, 330px);
+      max-height: 330px;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+    .install-kicker {
+      color: var(--gold);
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+    }
+    h1 {
+      margin: 0;
+      color: var(--cream);
+      font-family: "Bebas Neue", "Arial Narrow", Arial, sans-serif;
+      font-size: clamp(2.8rem, 11vw, 4.5rem);
+      line-height: .88;
+      letter-spacing: .015em;
+    }
+    .lead {
+      margin: 0 auto;
+      max-width: 35ch;
+      color: rgba(241,231,200,.86);
+      font-size: 1.12rem;
+      font-weight: 700;
+      line-height: 1.24;
+    }
+    .install-instructions {
+      display: grid;
+      gap: 6px;
+      padding: 13px 15px;
+      border: 1px solid rgba(212,166,42,.78);
+      border-radius: 13px;
+      background: rgba(212,166,42,.10);
+      color: var(--cream);
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .install-instructions strong {
+      color: var(--gold);
+      font-size: 1.12rem;
+    }
+    .install-primary,
+    .install-secondary {
+      width: 100%;
+      min-height: 62px;
+      border-radius: 14px;
+      font-family: "Bebas Neue", "Arial Narrow", Arial, sans-serif;
+      font-size: 1.65rem;
+      letter-spacing: .035em;
+      cursor: pointer;
+    }
+    .install-primary {
+      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, var(--gold), #e8b82d);
+      color: var(--night);
+    }
+    .install-secondary {
+      border: 1px solid rgba(78,122,93,.75);
+      background: rgba(5,9,7,.82);
+      color: var(--cream);
+    }
+    .install-note {
+      margin: 0;
+      color: rgba(241,231,200,.58);
+      font-size: .82rem;
+      line-height: 1.2;
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="install-page" aria-labelledby="install-title">
+    <img
+      class="install-mascot"
+      src="{{ url_for('static', filename='assets/mascots/onboarding/install/WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp', v=asset_version) }}"
+      alt="Who Pushed Me?! mascot holding a home screen sign"
+    >
+    <div class="install-kicker">WELCOME TO WHO PUSHED ME?!</div>
+    <h1 id="install-title">PUT THE APP ON YOUR HOME SCREEN FIRST.</h1>
+    <p class="lead">
+      Install Who Pushed Me?! like an app, then sign in or create your account.
+      {% if invite_token %}Your round invite is saved and waiting for you.{% endif %}
+    </p>
+
+    <div id="ios-instructions" class="install-instructions" hidden>
+      <strong>IPHONE / IPAD</strong>
+      <span>Tap the Share button in Safari, then choose <b>Add to Home Screen</b>. Open Who Pushed Me?! from the new icon.</span>
+    </div>
+
+    <div id="browser-instructions" class="install-instructions" hidden>
+      <strong>INSTALL IT</strong>
+      <span>Use your browser menu and choose <b>Install app</b> or <b>Add to Home screen</b>.</span>
+    </div>
+
+    <button id="install-primary" class="install-primary" type="button">INSTALL APP</button>
+    <button id="continue-browser" class="install-secondary" type="button">CONTINUE TO SIGN IN</button>
+    <p class="install-note">Already installed? Open the home-screen app instead of this browser tab.</p>
+  </main>
+
+  <script>
+    (() => {
+      const INVITE_KEY = 'wpm_pending_install_invite';
+      const inviteToken = {{ invite_token|tojson }};
+      const primary = document.getElementById('install-primary');
+      const continueBrowser = document.getElementById('continue-browser');
+      const iosInstructions = document.getElementById('ios-instructions');
+      const browserInstructions = document.getElementById('browser-instructions');
+
+      if (inviteToken) {
+        window.localStorage.setItem(INVITE_KEY, inviteToken);
+      }
+
+      const nextPath = inviteToken
+        ? '/invite/' + encodeURIComponent(inviteToken)
+        : '/';
+
+      const isStandalone = (
+        window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true
+      );
+      if (isStandalone) {
+        window.location.replace(nextPath);
+        return;
+      }
+
+      const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      let deferredInstallPrompt = null;
+
+      if (isAppleMobile) {
+        iosInstructions.hidden = false;
+        primary.textContent = 'SHOW ME HOW';
+      }
+
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        if (!isAppleMobile) {
+          primary.textContent = 'INSTALL APP';
+        }
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        primary.textContent = 'INSTALLED — OPEN THE APP';
+      });
+
+      primary.addEventListener('click', async () => {
+        if (deferredInstallPrompt) {
+          const prompt = deferredInstallPrompt;
+          deferredInstallPrompt = null;
+          await prompt.prompt();
+          const choice = await prompt.userChoice.catch(() => null);
+          if (choice?.outcome === 'accepted') {
+            primary.textContent = 'INSTALLED — OPEN THE APP';
+          }
+          return;
+        }
+
+        if (isAppleMobile) {
+          iosInstructions.hidden = false;
+          iosInstructions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          primary.textContent = 'ADD IT, THEN OPEN THE NEW ICON';
+          return;
+        }
+
+        browserInstructions.hidden = false;
+        browserInstructions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      continueBrowser.addEventListener('click', () => {
+        window.location.href = nextPath;
+      });
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
