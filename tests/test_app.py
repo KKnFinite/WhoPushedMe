@@ -4089,3 +4089,30 @@ def test_live_chat_shows_participant_state_changes_and_preserves_scroll():
     assert "const wasAtNewest = !hadContent || distanceFromNewest <= 32;" in block
     assert "if (routeChanged || wasAtNewest)" in block
     assert "liveBanterFeed.scrollTop = priorScrollTop;" in block
+
+
+def test_scramble_has_no_next_hole_and_contribution_mini_is_doubled():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    start = source.index("const canAdvanceLive = (")
+    end = source.index(");", start) + 2
+    block = source[start:end]
+    assert "round.mode === 'individual'" in block
+
+    click_start = source.index("advanceLiveHole?.addEventListener('click'")
+    click_end = source.index("const livePosition = Number(", click_start)
+    click_block = source[click_start:click_end]
+    assert "currentLobbyRound.mode === 'scramble'" in click_block
+
+    css_source = css.data.decode("utf-8")
+    start = css_source.index("/* SCRAMBLE CONTRIBUTION MINI — STANDS ON CONTINUE */")
+    block = css_source[start:]
+    assert "flex: 0 0 276px;" in block
+    assert "min-height: 276px;" in block
+    assert "max-width: min(92vw, 410px);" in block
+    assert "max-height: 276px;" in block
+    assert "transform: translateY(var(--scramble-mini-y, 0px));" in block
