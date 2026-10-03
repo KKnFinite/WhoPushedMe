@@ -3896,3 +3896,39 @@ def test_round_history_score_rows_include_result_and_score_message():
     css_source = css.data.decode("utf-8")
     assert "/* ROUND HISTORY SCORE DETAIL */" in css_source
     assert ".receipt-score-presentation" in css_source
+
+
+def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    assert "def spectate_round(" in store_source
+    assert "def _convert_player_to_spectator_cursor(" in store_source
+    assert "SET role = 'spectator'" in store_source
+    assert "participation_state = 'withdrew'" in store_source
+    assert "SET required = false" in store_source
+    assert "historical_prp.participant_id = rp.id" in store_source
+    assert "participant_started_spectating" in store_source
+
+    join_start = store_source.index("    def join_round(")
+    join_end = store_source.index("    def ", join_start + 10)
+    join_block = store_source[join_start:join_end]
+    assert 'existing_participant["role"] == "player"' in join_block
+    assert 'participant_role == "spectator"' in join_block
+    assert "_convert_player_to_spectator_cursor" in join_block
+
+    source = script.data.decode("utf-8")
+    assert "unfinished-round-spectate" in source
+    assert "spectate.textContent = 'SPECTATE';" in source
+    assert "/spectate" in source
+
+    css_source = css.data.decode("utf-8")
+    assert ".unfinished-round-spectate" in css_source
