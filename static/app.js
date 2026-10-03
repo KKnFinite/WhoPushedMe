@@ -959,42 +959,14 @@
   };
 
   const configureDirectInstallEntry = () => {
-    if (!directInstallEntry || !installOnboardingModal) return false;
+    if (!directInstallEntry) return false;
+    if (!isStandaloneApp()) return false;
 
-    if (isStandaloneApp()) {
-      const nextPath = pendingRoundInviteToken
-        ? `/invite/${encodeURIComponent(pendingRoundInviteToken)}`
-        : '/';
-      window.history.replaceState({}, '', nextPath);
-      return false;
-    }
-
-    if (splash) splash.hidden = true;
-    installOnboardingAccountKey = '';
-    installOnboardingModal.hidden = false;
-    document.body.classList.add('modal-open');
-
-    if (installOnboardingMascot) {
-      installOnboardingMascot.src = INSTALL_ONBOARDING_ASSETS[0];
-    }
-
-    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (installOnboardingInstructions) {
-      installOnboardingInstructions.textContent = isAppleMobile
-        ? 'Tap the Share button, then choose Add to Home Screen.'
-        : 'Tap INSTALL APP. If your browser does not offer it, open the browser menu and choose Install app or Add to Home screen.';
-      installOnboardingInstructions.hidden = !isAppleMobile;
-    }
-    if (installOnboardingPrimary) {
-      installOnboardingPrimary.textContent = isAppleMobile
-        ? 'SHOW ME HOW'
-        : 'INSTALL APP';
-      installOnboardingPrimary.dataset.instructionsShown = isAppleMobile ? '1' : '';
-    }
-    if (installOnboardingSkip) {
-      installOnboardingSkip.textContent = 'CONTINUE IN BROWSER';
-    }
-    return true;
+    const nextPath = pendingRoundInviteToken
+      ? `/invite/${encodeURIComponent(pendingRoundInviteToken)}`
+      : '/';
+    window.history.replaceState({}, '', nextPath);
+    return false;
   };
 
   const installOnboardingKey = (account) => {
@@ -1236,6 +1208,7 @@
   };
 
   const bootSession = async () => {
+    configureDirectInstallEntry();
     const token = sessionToken();
     if (!token) {
       showAuth('login');
@@ -1622,12 +1595,7 @@
   });
 
   const revealShell = async () => {
-    const directInstallShown = configureDirectInstallEntry();
     await bootSession();
-    if (directInstallShown && installOnboardingModal) {
-      installOnboardingModal.hidden = false;
-      document.body.classList.add('modal-open');
-    }
   };
 
   window.setTimeout(revealShell, directInstallEntry ? 0 : 3000);
