@@ -10767,3 +10767,32 @@ textarea,
     font-size: 1.9rem !important;
   }
 }
+
+
+/* ROUND HISTORY SCORE DETAIL */
+.receipt-score-presentation {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 9px 11px;
+  border-left: 3px solid var(--wpm-gold);
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+}
+
+.receipt-score-presentation span {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+
+.receipt-score-presentation p {
+  margin: 0;
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.16;
+}
