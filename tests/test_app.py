@@ -3955,6 +3955,7 @@ def test_more_menu_has_close_and_round_navigation_colors():
     css_source = css.data.decode("utf-8")
     assert "/* ROUND FLOW NAVIGATION COLORS */" in css_source
     assert ".wpm-nav-yellow" in css_source
+    assert "#past-rounds-back," in css_source
     assert "#lobby-home," in css_source
     assert "#live-round-home," in css_source
     assert "#round-end-home" in css_source
