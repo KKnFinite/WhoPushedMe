@@ -120,6 +120,7 @@
   const lobbyHandicapList = document.getElementById('lobby-handicap-list');
   const liveRoundPanel = document.getElementById('live-round-panel');
   const liveRoundPlace = document.getElementById('live-round-place');
+  const liveActivePlayers = document.getElementById('live-active-players');
   const scoreAnnouncement = document.getElementById('score-announcement');
   const scoreAnnouncementText = document.getElementById('score-announcement-text');
   const holeTransition = document.getElementById('hole-transition');
@@ -3298,8 +3299,7 @@
       blank.textContent = 'WHO SCREWED IT UP?';
       blameSelect.append(blank);
 
-      (round.participants || [])
-        .filter((participant) => participant.role === 'player')
+      activeRoundPlayers(round)
         .forEach((participant) => {
           const option = document.createElement('option');
           option.value = participant.id;
@@ -3982,9 +3982,7 @@
     scrambleContributionList.replaceChildren();
     void loadScrambleContributionMini(round, position);
 
-    const players = (round.participants || []).filter(
-      (participant) => participant.role === 'player'
-    );
+    const players = activeRoundPlayers(round);
     const canEdit = (
       round.status === 'active'
       && viewerIsActivePlayer(round)
@@ -4226,6 +4224,43 @@
 
   const APP_BANTER_AVATAR =
     '/static/assets/icons/alternates/WPM_Icon_Mascot_Alt2.webp';
+
+  const activeRoundPlayers = (round) => (
+    (round.participants || []).filter(
+      (participant) =>
+        participant.role === 'player'
+        && participant.participation_state === 'active'
+    )
+  );
+
+  const renderLiveActivePlayers = (round) => {
+    if (!liveActivePlayers) return;
+    liveActivePlayers.replaceChildren();
+
+    const players = activeRoundPlayers(round);
+    if (!players.length) {
+      liveActivePlayers.hidden = true;
+      return;
+    }
+
+    liveActivePlayers.hidden = false;
+
+    const label = document.createElement('span');
+    label.className = 'live-active-players-label';
+    label.textContent = 'ACTIVE';
+
+    const list = document.createElement('div');
+    list.className = 'live-active-players-list';
+
+    players.forEach((participant) => {
+      const chip = document.createElement('span');
+      chip.className = 'live-active-player-chip';
+      chip.textContent = participant.display_name || 'Golfer';
+      list.append(chip);
+    });
+
+    liveActivePlayers.append(label, list);
+  };
 
   const renderLiveHoleSelector = (round, viewedPosition, livePosition) => {
     if (!liveHoleSelector) return;
@@ -5430,6 +5465,7 @@
     const place = round.course?.name || round.free_play_name || 'Golf';
     if (liveRoundPlace) liveRoundPlace.textContent = place;
     if (liveRoundCode) liveRoundCode.textContent = round.active_code || '----';
+    renderLiveActivePlayers(round);
 
     const viewedRoute = routeEntry(round, viewedRoutePosition);
     const viewedPhysicalHole = Number(
@@ -7470,11 +7506,10 @@
     if (!bagTargetSelect || !currentLobbyRound) return;
     bagTargetSelect.replaceChildren();
 
-    (currentLobbyRound.participants || [])
+    activeRoundPlayers(currentLobbyRound)
       .filter(
         (participant) =>
-          participant.role === 'player'
-          && String(participant.id) !== String(currentLobbyRound.viewer_participant_id)
+          String(participant.id) !== String(currentLobbyRound.viewer_participant_id)
       )
       .forEach((participant) => {
         const option = document.createElement('option');
