@@ -3976,3 +3976,21 @@ def test_scramble_spectator_join_is_live_hole_only():
     assert "viewedRoutePosition = livePosition;" in source
     assert "scrambleSpectatorJoinLocked" in source
     assert "spectatorNeedsPersonalTee" in source
+
+
+def test_live_mobile_layout_prioritizes_banter_and_compacts_actions():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+    start = source.index("/* LIVE ROUND — PRIORITIZE BANTER SPACE */")
+    block = source[start:]
+
+    assert "#live-banter-panel" in block
+    assert "min-height: 180px !important;" in block
+    assert ".live-social-actions #live-callout-button" in block
+    assert ".live-social-actions #scramble-contribution-open:not([hidden])" in block
+    assert "grid-column: auto !important;" in block
+    assert ".live-footer-actions" in block
+    assert "position: static !important;" in block
+    assert "padding: 4px 0 !important;" in block
+    assert ".live-round-v2 > .round-history-open-button:not([hidden])" in block
