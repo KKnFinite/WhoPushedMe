@@ -10469,3 +10469,114 @@ textarea,
   }
 }
 
+
+
+/* LOBBY — SINGLE VIEWPORT, INTERNAL CHAT SCROLL ONLY */
+@media (max-width: 680px) {
+  .round-flow-card-game > .lobby-panel:not([hidden]) {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    overflow: hidden !important;
+    padding: 0 0 max(4px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .lobby-panel > .lobby-code-label,
+  .lobby-panel > .lobby-code,
+  .lobby-panel > .lobby-summary,
+  .lobby-panel > .lobby-participants,
+  .lobby-panel > #lobby-par-setup,
+  .lobby-panel > #lobby-start,
+  .lobby-panel > .round-invite-actions,
+  .lobby-panel > #lobby-home {
+    flex: 0 0 auto !important;
+  }
+
+  .lobby-code-label {
+    font-size: .64rem !important;
+    line-height: 1 !important;
+  }
+
+  .lobby-code {
+    font-size: clamp(3.5rem, 16vw, 4.8rem) !important;
+    line-height: .78 !important;
+    margin: 0 !important;
+  }
+
+  .lobby-summary {
+    font-size: .88rem !important;
+    line-height: 1.02 !important;
+  }
+
+  .lobby-participants {
+    max-height: 104px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+
+  .lobby-person {
+    min-height: 40px !important;
+    padding: 6px 9px !important;
+  }
+
+  .lobby-banter-panel {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    padding: 9px !important;
+    overflow: hidden !important;
+  }
+
+  .lobby-banter-panel .live-banter-header {
+    flex: 0 0 auto !important;
+    padding-bottom: 6px !important;
+  }
+
+  .lobby-banter-panel .lobby-banter-feed {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+
+  .lobby-banter-panel .live-banter-form {
+    flex: 0 0 auto !important;
+    min-height: 46px !important;
+    margin-top: 6px !important;
+  }
+
+  #lobby-start {
+    min-height: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 7px 12px !important;
+    font-size: 1.25rem !important;
+  }
+
+  .round-invite-actions {
+    gap: 7px !important;
+    margin: 0 !important;
+  }
+
+  .round-invite-actions .round-invite-button {
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 6px 8px !important;
+    font-size: .92rem !important;
+  }
+
+  #lobby-home {
+    min-height: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+    padding: 5px 10px !important;
+    font-size: .9rem !important;
+  }
+}
