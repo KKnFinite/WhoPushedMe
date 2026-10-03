@@ -3747,3 +3747,30 @@ def test_mobile_lobby_fits_one_viewport_and_only_chat_scrolls():
     assert "#lobby-start" in block
     assert ".round-invite-actions .round-invite-button" in block
     assert "#lobby-home" in block
+
+
+def test_scramble_contributions_take_over_mobile_screen_with_continue():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    assert b'id="scramble-contribution-panel"' in page.data
+    assert b'id="scramble-contribution-skip"' in page.data
+
+    js_source = script.data.decode("utf-8")
+    assert "scrambleContributionSkip.textContent = 'CONTINUE →';" in js_source
+
+    css_source = css.data.decode("utf-8")
+    start = css_source.index("/* SCRAMBLE CONTRIBUTIONS — FOCUSED FULL-SCREEN STEP */")
+    block = css_source[start:]
+    assert "#scramble-contribution-panel:not([hidden])" in block
+    assert "position: fixed !important;" in block
+    assert "height: 100dvh !important;" in block
+    assert "z-index: 260 !important;" in block
+    assert "#scramble-contribution-list" in block
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr)) !important;" in block
+    assert "#scramble-contribution-skip" in block
+    assert "linear-gradient(145deg, #e0b337, var(--wpm-gold) 58%, #b88417)" in block
