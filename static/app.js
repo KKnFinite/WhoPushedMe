@@ -272,6 +272,8 @@
   let openScoreResponseEventId = '';
   let scrambleContributionComposerOpen = false;
   let finishIncompletePending = false;
+  let endEarlyProposalRoundId = '';
+  let endEarlyProposalWasActive = false;
   let advanceWarningPosition = null;
   let pendingScoreAfterPar = null;
   let parEditorOpen = false;
@@ -5925,6 +5927,29 @@
     const endEarly = round.end_early || {};
     const canVoteEndEarly = viewerIsActivePlayer(round);
     const proposalActive = Boolean(endEarly.proposal_active);
+    const roundProposalId = String(round.id || '');
+    if (endEarlyProposalRoundId !== roundProposalId) {
+      endEarlyProposalRoundId = roundProposalId;
+      endEarlyProposalWasActive = false;
+    }
+
+    const eligible = endEarly.eligible || [];
+    const viewerEndEarlyRow = eligible.find(
+      (row) =>
+        String(row.participant_id || '')
+        === String(round.viewer_participant_id || '')
+    );
+    const shouldOpenEndEarlyPrompt = (
+      proposalActive
+      && !endEarlyProposalWasActive
+      && canVoteEndEarly
+      && viewerEndEarlyRow?.vote == null
+    );
+    const endEarlyProposalResolved = (
+      !proposalActive
+      && endEarlyProposalWasActive
+    );
+
     if (endEarlyButton) {
       endEarlyButton.hidden = !canVoteEndEarly || proposalActive;
       endEarlyButton.disabled = false;
@@ -5932,8 +5957,22 @@
     if (endEarlyPanel) {
       endEarlyPanel.hidden = !canVoteEndEarly || !proposalActive;
     }
+
+    if (shouldOpenEndEarlyPrompt && liveMorePanel) {
+      liveMorePanel.hidden = false;
+      if (liveNavMore) liveNavMore.textContent = 'CLOSE MORE';
+      window.requestAnimationFrame(() => {
+        endEarlyPanel?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      });
+    } else if (endEarlyProposalResolved && liveMorePanel) {
+      liveMorePanel.hidden = true;
+      if (liveNavMore) liveNavMore.textContent = 'MORE';
+    }
+
     if (proposalActive && canVoteEndEarly) {
-      const eligible = endEarly.eligible || [];
       const required = Number(endEarly.required_count || eligible.length || 0);
       const yes = Number(endEarly.yes_count || 0);
       if (endEarlyCopy) {
@@ -5961,6 +6000,8 @@
       if (endEarlyYes) endEarlyYes.disabled = false;
       if (endEarlyNo) endEarlyNo.disabled = false;
     }
+
+    endEarlyProposalWasActive = proposalActive;
 
     const canFinish = (
       viewerIsActivePlayer(round)
@@ -7062,13 +7103,22 @@
     if (endEarlyNo) endEarlyNo.disabled = true;
     setRoundFlowMessage('');
     try {
-      await requestJson(
+      const result = await requestJson(
         `/api/rounds/${currentLobbyRound.id}/end-early-vote`,
         {
           method: 'PATCH',
           body: { vote: Boolean(vote) },
         }
       );
+      if (
+        result?.status === 'active'
+        && result?.end_early
+        && !result.end_early.proposal_active
+        && liveMorePanel
+      ) {
+        liveMorePanel.hidden = true;
+        if (liveNavMore) liveNavMore.textContent = 'MORE';
+      }
       await refreshRound(currentLobbyRound.active_code);
     } catch (error) {
       setRoundFlowMessage(error.message);
