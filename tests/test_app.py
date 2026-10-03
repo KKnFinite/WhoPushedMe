@@ -4073,6 +4073,25 @@ def test_beta_accounts_control_stays_hidden_until_admin_is_confirmed():
     assert 'if (adminAccountsOpen) adminAccountsOpen.hidden = true;' in source
     assert 'adminAccountsOpen.hidden = !Boolean(account?.is_admin);' in source
 
+def test_scramble_contributions_complete_in_one_atomic_request():
+    script = client().get('/static/app.js')
+    assert script.status_code == 200
+    source = script.data.decode('utf-8')
+
+    change_start = source.index("select.addEventListener('change', () => {")
+    change_end = source.index('row.append(select);', change_start)
+    change_block = source[change_start:change_end]
+    assert 'requestJson(' not in change_block
+
+    continue_start = source.index("scrambleContributionSkip?.addEventListener('click', async () => {")
+    continue_end = source.index("advanceLiveHole?.addEventListener('click'", continue_start)
+    continue_block = source[continue_start:continue_end]
+    assert '/scramble-contributions/complete' in continue_block
+    assert "body: { contributions: contributionPayload }" in continue_block
+    assert "SAVING + MOVING ON..." in continue_block
+    assert 'advanceSharedLiveHole()' not in continue_block
+    assert 'skippedScrambleContributionPromptKey = promptKey;' in continue_block
+
 def test_scramble_contribution_screen_blocks_poll_races_and_stale_refreshes():
     script = client().get('/static/app.js')
     assert script.status_code == 200
@@ -4085,10 +4104,7 @@ def test_scramble_contribution_screen_blocks_poll_races_and_stale_refreshes():
     assert '&& !scrambleContributionPanel.hidden' in source
     assert 'if (roundPollInFlight) return;' in source
     assert 'roundRefreshSequence += 1;' in source
-    assert 'await refreshRound(round.active_code);' not in source[
-        source.index("select.addEventListener('change', async () => {"):
-        source.index("row.append(select);", source.index("select.addEventListener('change', async () => {"))
-    ]
+    assert "select.addEventListener('change', () => {" in source
 
 def test_scramble_round_settings_can_correct_starting_hole_before_scoring():
     page = client().get('/')
