@@ -505,26 +505,54 @@ class RoundStore:
         if actor_identity and event_type in participant_state_events:
             actor_name = str(actor_identity["display_name"] or "").strip()
             if actor_name:
-                for presentation_key in ("banter", "fallback"):
-                    presentation_row = presentation.get(presentation_key)
-                    if not isinstance(presentation_row, dict):
-                        continue
-                    text_value = str(presentation_row.get("text") or "").strip()
+                fallback_row = presentation.get("fallback")
+                if isinstance(fallback_row, dict):
+                    fallback_text = str(fallback_row.get("text") or "").strip()
                     if (
-                        text_value
-                        and not text_value.lower().startswith(actor_name.lower())
-                    ):
-                        presentation_row["text"] = (
-                            f"{actor_name} {text_value}"
+                        fallback_text
+                        and not fallback_text.lower().startswith(
+                            actor_name.lower()
                         )
-                mascot_row = presentation.get("mascot")
-                if isinstance(mascot_row, dict):
-                    mascot_copy = str(mascot_row.get("copy") or "").strip()
-                    if (
-                        mascot_copy
-                        and not mascot_copy.lower().startswith(actor_name.lower())
                     ):
-                        mascot_row["copy"] = f"{actor_name} {mascot_copy}"
+                        fallback_row["text"] = (
+                            f"{actor_name} {fallback_text}"
+                        )
+
+                variants = presentation.get("variants")
+                if isinstance(variants, dict):
+                    for variant in variants.values():
+                        if not isinstance(variant, dict):
+                            continue
+
+                        banter_row = variant.get("banter")
+                        if isinstance(banter_row, dict):
+                            banter_text = str(
+                                banter_row.get("text") or ""
+                            ).strip()
+                            if (
+                                banter_text
+                                and not banter_text.lower().startswith(
+                                    actor_name.lower()
+                                )
+                            ):
+                                banter_row["text"] = (
+                                    f"{actor_name} {banter_text}"
+                                )
+
+                        mascot_row = variant.get("mascot")
+                        if isinstance(mascot_row, dict):
+                            mascot_copy = str(
+                                mascot_row.get("copy") or ""
+                            ).strip()
+                            if (
+                                mascot_copy
+                                and not mascot_copy.lower().startswith(
+                                    actor_name.lower()
+                                )
+                            ):
+                                mascot_row["copy"] = (
+                                    f"{actor_name} {mascot_copy}"
+                                )
 
         cursor.execute(
             """
