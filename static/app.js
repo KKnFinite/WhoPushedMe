@@ -5995,6 +5995,15 @@
     );
   };
 
+  const scrambleContributionInteractionInProgress = () => {
+    const active = document.activeElement;
+    return Boolean(
+      scrambleContributionPanel
+      && !scrambleContributionPanel.hidden
+      && active?.closest?.('#scramble-contribution-panel')
+    );
+  };
+
   const openCompletedRoundById = async (roundId) => {
     if (!roundId) return;
     setRoundFlowMessage('');
@@ -6095,6 +6104,7 @@
       if (
         liveScoreDraftInProgress()
         || liveScoreSocialInteractionInProgress()
+        || scrambleContributionInteractionInProgress()
       ) return;
       try {
         await refreshRound(code);
