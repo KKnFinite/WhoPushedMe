@@ -4059,6 +4059,21 @@ def test_install_route_preserves_invite_token():
     assert "/invite/" in html
 
 
+def test_admin_accounts_beta_page_is_admin_only_and_hides_password_values():
+    api = client().get('/static/app.js')
+    page = client().get('/')
+    assert api.status_code == 200
+    assert page.status_code == 200
+
+    source = api.data.decode('utf-8')
+    html = page.data.decode('utf-8')
+
+    assert 'id="admin-accounts-open"' in html
+    assert 'id="admin-accounts-modal"' in html
+    assert "requestJson('/api/admin/accounts')" in source
+    assert "account?.is_admin" in source
+    assert "HASHED — NOT VIEWABLE" in source
+
 def test_home_does_not_force_extra_browser_status_bar_cover():
     css = client().get("/static/app.css")
     assert css.status_code == 200
