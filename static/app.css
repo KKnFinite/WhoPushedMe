@@ -10910,8 +10910,8 @@ textarea,
 /* SCRAMBLE CONTRIBUTION MINI — STANDS ON CONTINUE */
 .scramble-contribution-mini-stage {
   position: relative;
-  flex: 0 0 138px;
-  min-height: 138px;
+  flex: 0 0 276px;
+  min-height: 276px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -10928,8 +10928,8 @@ textarea,
 .scramble-contribution-mini {
   display: block;
   width: auto;
-  max-width: min(46vw, 205px);
-  max-height: 138px;
+  max-width: min(92vw, 410px);
+  max-height: 276px;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 10px 16px rgba(0,0,0,.42));
@@ -10942,12 +10942,13 @@ textarea,
 
 @media (max-height: 760px) {
   .scramble-contribution-mini-stage {
-    flex-basis: 110px;
-    min-height: 110px;
+    flex-basis: 220px;
+    min-height: 220px;
   }
 
   .scramble-contribution-mini {
-    max-height: 110px;
+    max-width: min(86vw, 360px);
+    max-height: 220px;
   }
 }
 
