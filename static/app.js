@@ -193,6 +193,8 @@
   const latestFallback = document.getElementById('latest-fallback');
   const scrambleContributionPanel = document.getElementById('scramble-contribution-panel');
   const scrambleContributionList = document.getElementById('scramble-contribution-list');
+  const scrambleContributionMiniStage = document.getElementById('scramble-contribution-mini-stage');
+  const scrambleContributionMini = document.getElementById('scramble-contribution-mini');
   const scrambleContributionSkip = document.getElementById('scramble-contribution-skip');
   const finishRoundButton = document.getElementById('finish-round-button');
   const finishIncompletePanel = document.getElementById('finish-incomplete-panel');
@@ -3866,6 +3868,93 @@
     ['other', 'OTHER'],
   ];
 
+  let scrambleContributionMiniKey = '';
+
+  const alignScrambleContributionMini = () => {
+    if (
+      !scrambleContributionMiniStage
+      || !scrambleContributionMini
+      || !scrambleContributionSkip
+      || scrambleContributionMiniStage.hidden
+      || !scrambleContributionMini.complete
+      || !scrambleContributionMini.naturalHeight
+    ) return;
+
+    scrambleContributionMiniStage.style.setProperty('--scramble-mini-y', '0px');
+
+    window.requestAnimationFrame(() => {
+      if (scrambleContributionMiniStage.hidden) return;
+      const miniRect = scrambleContributionMini.getBoundingClientRect();
+      const buttonRect = scrambleContributionSkip.getBoundingClientRect();
+      const transparentBottom =
+        setupMiniOpaqueBottomRatio(scrambleContributionMini) * miniRect.height;
+      const visibleBottom = miniRect.bottom - transparentBottom;
+      const shift = Math.round(buttonRect.top - visibleBottom);
+      scrambleContributionMiniStage.style.setProperty(
+        '--scramble-mini-y',
+        `${shift}px`
+      );
+    });
+  };
+
+  const loadScrambleContributionMini = async (round, position) => {
+    if (!scrambleContributionMiniStage || !scrambleContributionMini) return;
+    const key = `${round.id}:${Number(position)}`;
+    if (
+      scrambleContributionMiniKey === key
+      && scrambleContributionMini.getAttribute('src')
+    ) {
+      scrambleContributionMiniStage.hidden = false;
+      alignScrambleContributionMini();
+      return;
+    }
+
+    scrambleContributionMiniKey = key;
+    scrambleContributionMiniStage.hidden = true;
+    scrambleContributionMini.removeAttribute('src');
+    delete scrambleContributionMini.dataset.opaqueBottomRatio;
+
+    try {
+      const [manifestResponse, preferences] = await Promise.all([
+        fetch('/static/assets/_meta/asset-manifest.json'),
+        requestJson('/api/preferences'),
+      ]);
+      if (!manifestResponse.ok || !preferences?.mini_mascots_enabled) return;
+
+      const manifest = await manifestResponse.json();
+      const allMinis = (manifest.assets || []).filter(
+        (item) => item.family === 'mini-mascot' && item.production
+      );
+      const roundStartMinis = allMinis.filter(
+        (item) => item.event_key === 'round_start'
+      );
+      const pool = roundStartMinis.length ? roundStartMinis : allMinis;
+      if (!pool.length) return;
+
+      const index = stableTransitionHash(key) % pool.length;
+      const picked = pool[index];
+      const productionPath = String(picked.production).replace(/^\/+/, '');
+      const imagePath = productionPath.startsWith('static/')
+        ? `/${productionPath}`
+        : `/static/${productionPath}`;
+
+      scrambleContributionMini.addEventListener(
+        'load',
+        () => {
+          scrambleContributionMiniStage.hidden = false;
+          scrambleContributionMiniStage.setAttribute('aria-hidden', 'false');
+          alignScrambleContributionMini();
+          window.requestAnimationFrame(alignScrambleContributionMini);
+          window.setTimeout(alignScrambleContributionMini, 80);
+        },
+        { once: true }
+      );
+      scrambleContributionMini.src = imagePath;
+    } catch (_error) {
+      scrambleContributionMiniStage.hidden = true;
+    }
+  };
+
   const renderScrambleContributions = (round, position) => {
     if (!scrambleContributionPanel || !scrambleContributionList) return;
 
@@ -3876,6 +3965,7 @@
     if (round.mode !== 'scramble') {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
+      if (scrambleContributionMiniStage) scrambleContributionMiniStage.hidden = true;
       if (scrambleContributionSkip) scrambleContributionSkip.hidden = true;
       return;
     }
@@ -3883,12 +3973,14 @@
     if (!scrambleContributionComposerOpen) {
       scrambleContributionPanel.hidden = true;
       scrambleContributionList.replaceChildren();
+      if (scrambleContributionMiniStage) scrambleContributionMiniStage.hidden = true;
       if (scrambleContributionSkip) scrambleContributionSkip.hidden = true;
       return;
     }
 
     scrambleContributionPanel.hidden = false;
     scrambleContributionList.replaceChildren();
+    void loadScrambleContributionMini(round, position);
 
     const players = (round.participants || []).filter(
       (participant) => participant.role === 'player'
