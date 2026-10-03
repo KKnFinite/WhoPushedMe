@@ -8997,7 +8997,7 @@ textarea,
 
 .unfinished-round-actions {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(3, auto);
   gap: 6px;
 }
 
@@ -9016,6 +9016,12 @@ textarea,
   color: var(--wpm-night);
 }
 
+.unfinished-round-spectate {
+  border: 1px solid rgba(78,122,93,.75);
+  background: rgba(15,50,35,.82);
+  color: #fff8df;
+}
+
 .unfinished-round-delete {
   border: 1px solid rgba(170,71,45,.7);
   background: rgba(86,28,18,.55);
@@ -9028,7 +9034,7 @@ textarea,
   }
 
   .unfinished-round-actions {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .unfinished-round-actions button {
