@@ -1092,9 +1092,31 @@
           <input id="settings-handicap-index" name="handicap_index" type="number" min="-10" max="54" step="0.1" inputmode="decimal" placeholder="NONE">
         </label>
 
+        <button id="admin-accounts-open" class="settings-row settings-admin-accounts" type="button" hidden>
+          <span>
+            <strong>BETA ACCOUNTS</strong>
+            <small>Admin-only. See who actually managed to log in.</small>
+          </span>
+          <span class="settings-theme-value">OPEN</span>
+        </button>
+
         <button class="settings-save" type="submit">SAVE MY BAD DECISIONS</button>
       </form>
       <button id="logout-button" class="settings-logout" type="button">SIGN OUT</button>
+    </section>
+  </div>
+
+  <div id="admin-accounts-modal" class="admin-accounts-modal" hidden role="dialog" aria-modal="true" aria-labelledby="admin-accounts-title">
+    <section class="admin-accounts-card">
+      <div class="settings-header">
+        <div>
+          <div class="settings-kicker">BETA CONTROL ROOM</div>
+          <h2 id="admin-accounts-title">ACCOUNTS</h2>
+        </div>
+        <button id="admin-accounts-close" class="settings-close" type="button" aria-label="Close beta accounts">×</button>
+      </div>
+      <p id="admin-accounts-message" class="settings-message" hidden></p>
+      <div id="admin-accounts-list" class="admin-accounts-list"></div>
     </section>
   </div>
 
