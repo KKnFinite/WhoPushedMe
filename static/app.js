@@ -39,6 +39,9 @@
   const colorThemeTease = document.getElementById('color-theme-tease');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
+  const installOnboardingKicker = document.getElementById('install-onboarding-kicker');
+  const installOnboardingTitle = document.getElementById('install-onboarding-title');
+  const installOnboardingCopy = document.getElementById('install-onboarding-copy');
   const installOnboardingInstructions = document.getElementById('install-onboarding-instructions');
   const installOnboardingHeckle = document.getElementById('install-onboarding-heckle');
   const installOnboardingPrimary = document.getElementById('install-onboarding-primary');
@@ -958,15 +961,65 @@
     );
   };
 
-  const configureDirectInstallEntry = () => {
-    if (!directInstallEntry) return false;
-    if (!isStandaloneApp()) return false;
+  const setInstallOnboardingMode = (mode = 'returning') => {
+    const firstTimer = mode === 'first-timer';
 
-    const nextPath = pendingRoundInviteToken
-      ? `/invite/${encodeURIComponent(pendingRoundInviteToken)}`
-      : '/';
-    window.history.replaceState({}, '', nextPath);
-    return false;
+    if (installOnboardingKicker) {
+      installOnboardingKicker.textContent = firstTimer
+        ? 'WELCOME TO WHO PUSHED ME?!'
+        : 'TAKE 10 SECONDS. MAKE IT AN ACTUAL APP.';
+    }
+    if (installOnboardingTitle) {
+      installOnboardingTitle.textContent = firstTimer
+        ? 'PUT THE APP ON YOUR HOME SCREEN FIRST.'
+        : 'STOP OPENING THIS LIKE A WEBSITE.';
+    }
+    if (installOnboardingCopy) {
+      installOnboardingCopy.textContent = firstTimer
+        ? 'Install Who Pushed Me?! like an app, then sign in or create your account. If this link came from a round invite, we’ll keep it waiting for you.'
+        : 'Put Who Pushed Me?! on your home screen so getting back to the scorecard takes one tap instead of whatever nonsense you’re doing now.';
+    }
+  };
+
+  const configureDirectInstallEntry = () => {
+    if (!directInstallEntry || !installOnboardingModal) return false;
+
+    if (isStandaloneApp()) {
+      const nextPath = pendingRoundInviteToken
+        ? `/invite/${encodeURIComponent(pendingRoundInviteToken)}`
+        : '/';
+      window.history.replaceState({}, '', nextPath);
+      return false;
+    }
+
+    setInstallOnboardingMode('first-timer');
+    if (splash) splash.hidden = true;
+    installOnboardingAccountKey = '';
+    installOnboardingModal.hidden = false;
+    document.body.classList.add('modal-open');
+
+    if (installOnboardingMascot) {
+      installOnboardingMascot.src = INSTALL_ONBOARDING_ASSETS[0];
+    }
+
+    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (installOnboardingInstructions) {
+      installOnboardingInstructions.textContent = isAppleMobile
+        ? 'Tap the Share button, then choose Add to Home Screen.'
+        : 'Tap INSTALL APP. If your browser does not offer it, open the browser menu and choose Install app or Add to Home screen.';
+      installOnboardingInstructions.hidden = !isAppleMobile;
+    }
+    if (installOnboardingPrimary) {
+      installOnboardingPrimary.textContent = isAppleMobile
+        ? 'SHOW ME HOW'
+        : 'INSTALL APP';
+      installOnboardingPrimary.dataset.instructionsShown = isAppleMobile ? '1' : '';
+    }
+    if (installOnboardingSkip) {
+      installOnboardingSkip.textContent = 'CONTINUE TO SIGN IN';
+    }
+
+    return true;
   };
 
   const installOnboardingKey = (account) => {
@@ -992,6 +1045,7 @@
     if (installOnboardingSkip) {
       installOnboardingSkip.textContent = 'I ENJOY MAKING THINGS HARDER.';
     }
+    setInstallOnboardingMode('returning');
     if (sessionToken()) {
       void startUserHeckles(
         'home',
@@ -1069,6 +1123,7 @@
   const maybeShowInstallOnboarding = (account) => {
     if (!installOnboardingModal) return;
 
+    setInstallOnboardingMode('returning');
     installOnboardingAccountKey = installOnboardingKey(account);
     if (isStandaloneApp()) {
       window.localStorage.setItem(installOnboardingAccountKey, '1');
@@ -1595,7 +1650,12 @@
   });
 
   const revealShell = async () => {
+    const directInstallShown = configureDirectInstallEntry();
     await bootSession();
+    if (directInstallShown && installOnboardingModal) {
+      installOnboardingModal.hidden = false;
+      document.body.classList.add('modal-open');
+    }
   };
 
   window.setTimeout(revealShell, directInstallEntry ? 0 : 3000);
