@@ -6441,6 +6441,34 @@
           }
         });
 
+        const spectate = document.createElement('button');
+        spectate.type = 'button';
+        spectate.className = 'unfinished-round-spectate';
+        spectate.textContent = 'SPECTATE';
+        spectate.hidden = String(round.role || '') !== 'player';
+        spectate.addEventListener('click', async () => {
+          spectate.disabled = true;
+          setRoundFlowMessage('');
+          try {
+            await requestJson(
+              `/api/rounds/${round.id}/spectate`,
+              { method: 'PATCH' }
+            );
+            const exactRound = await requestJson(
+              `/api/rounds/${round.id}`
+            );
+            renderRoundState(exactRound);
+            startLobbyPolling(exactRound.active_code);
+          } catch (error) {
+            await loadUnfinishedRounds();
+            setRoundFlowMessage(
+              error.message || 'That unfinished round is no longer available.'
+            );
+          } finally {
+            spectate.disabled = false;
+          }
+        });
+
         const remove = document.createElement('button');
         remove.type = 'button';
         remove.className = 'unfinished-round-delete';
@@ -6463,7 +6491,7 @@
           }
         });
 
-        actions.append(resume, remove);
+        actions.append(resume, spectate, remove);
         row.append(copy, actions);
         unfinishedRoundsList.append(row);
       });
