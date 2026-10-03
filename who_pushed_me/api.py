@@ -259,6 +259,29 @@ def admin_status():
     )
 
 
+@api.get("/admin/accounts")
+@admin_required
+def admin_accounts():
+    accounts = _store().list_admin_accounts()
+    return jsonify(
+        accounts=[
+            {
+                "id": row["id"],
+                "username": row["username"],
+                "display_name": row["display_name"],
+                "is_admin": bool(row["is_admin"]),
+                "handicap_index": row["handicap_index"],
+                "created_at": row["created_at"],
+                "has_password": bool(row["has_password"]),
+                "active_sessions": int(row["active_sessions"] or 0),
+                "last_login_at": row["last_login_at"],
+                "last_seen_at": row["last_seen_at"],
+            }
+            for row in accounts
+        ]
+    )
+
+
 @api.post("/auth/register")
 def register_account():
     payload = _body()
