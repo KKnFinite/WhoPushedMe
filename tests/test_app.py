@@ -22,7 +22,7 @@ def test_home_loads_pwa_shell():
     assert b"TAKE 10 SECONDS. MAKE IT AN ACTUAL APP." in response.data
     assert b"FINE. INSTALL THE DAMN THING." in response.data
     assert b"I ENJOY MAKING THINGS HARDER." in response.data
-    assert b"APP UNDER CONSTRUCTION, DUMBASS." in response.data
+    assert b"THIS PART IS STILL BEING BUILT." in response.data
     assert b"SIGN IN" in response.data
     assert b'id="auth-heckle"' in response.data
     assert b"CREATE ACCOUNT" in response.data
@@ -4072,6 +4072,28 @@ def test_beta_accounts_control_stays_hidden_until_admin_is_confirmed():
     assert 'id="admin-accounts-open" class="settings-row settings-admin-accounts" type="button" hidden' in html
     assert 'if (adminAccountsOpen) adminAccountsOpen.hidden = true;' in source
     assert 'adminAccountsOpen.hidden = !Boolean(account?.is_admin);' in source
+
+def test_alleged_talent_and_known_offenders_use_themed_construction_page():
+    page = client().get('/')
+    script = client().get('/static/app.js')
+    css = client().get('/static/app.css')
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    html = page.data.decode('utf-8')
+    source = script.data.decode('utf-8')
+    styles = css.data.decode('utf-8')
+
+    assert 'data-under-construction="ALLEGED TALENT"' in html
+    assert 'data-under-construction="KNOWN OFFENDERS"' in html
+    assert 'id="construction-feature"' in html
+    assert 'BACK TO THE DAMAGE' in html
+    assert 'FINE. JESUS.' not in html
+    assert "openConstruction(button.dataset.underConstruction)" in source
+    assert "modalX?.addEventListener('click', closeConstruction);" in source
+    assert '.construction-page {' in styles
+    assert 'height: 100dvh;' in styles
 
 def test_admin_accounts_beta_page_is_admin_only_and_hides_password_values():
     api = client().get('/static/app.js')
