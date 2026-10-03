@@ -3875,3 +3875,24 @@ def test_polling_pauses_while_scramble_contribution_select_is_open():
     end = source.index("startRoundButton?.addEventListener", start)
     block = source[start:end]
     assert "scrambleContributionInteractionInProgress()" in block
+
+
+def test_round_history_score_rows_include_result_and_score_message():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    start = source.index("const roundHistoryTitle =")
+    end = source.index("const renderRoundHistoryPage =", start)
+    block = source[start:end]
+
+    assert "scoreNameFromEvent(event)" in block
+    assert "receipt-score-presentation" in block
+    assert "SCORE MESSAGE" in block
+    assert "scoreFeedText(round, event)" in block
+
+    css_source = css.data.decode("utf-8")
+    assert "/* ROUND HISTORY SCORE DETAIL */" in css_source
+    assert ".receipt-score-presentation" in css_source
