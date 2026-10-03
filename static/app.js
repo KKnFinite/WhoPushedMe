@@ -1387,6 +1387,12 @@
           mini.classList.add('is-loaded');
           if ([2, 3].includes(Number(step)) && !shouldHide) {
             alignSetupMiniToPrimaryButton(step);
+            window.requestAnimationFrame(() => {
+              alignSetupMiniToPrimaryButton(step);
+            });
+            window.setTimeout(() => {
+              alignSetupMiniToPrimaryButton(step);
+            }, 80);
           }
         },
         { once: true }
@@ -1514,6 +1520,15 @@
     });
   });
   window.addEventListener('resize', updateJoinMiniVisibility);
+  window.addEventListener('resize', () => {
+    const activeStep = [...setupSteps].find(
+      (panel) => panel.classList.contains('is-active')
+    );
+    const step = Number(activeStep?.dataset?.setupStep || 0);
+    if ([2, 3].includes(step)) {
+      alignSetupMiniToPrimaryButton(step);
+    }
+  });
 
   const revealShell = async () => {
     await bootSession();
