@@ -928,6 +928,19 @@ def remove_score(round_id: str, position: int):
     )
 
 
+@api.post("/rounds/<round_id>/scramble-contributions/complete")
+@authenticated
+def complete_scramble_contributions(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().complete_scramble_contributions(
+            g.golfer["id"],
+            round_id,
+            payload.get("contributions"),
+        )
+    )
+
+
 @api.put("/rounds/<round_id>/holes/<int:position>/contributions/<shot_type>")
 @api.put("/rounds/<round_id>/positions/<int:position>/contributions/<shot_type>")
 @authenticated
