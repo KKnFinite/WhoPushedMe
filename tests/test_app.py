@@ -4059,6 +4059,20 @@ def test_install_route_preserves_invite_token():
     assert "/invite/" in html
 
 
+def test_beta_accounts_control_stays_hidden_until_admin_is_confirmed():
+    page = client().get('/')
+    script = client().get('/static/app.js')
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    html = page.data.decode('utf-8')
+    source = script.data.decode('utf-8')
+
+    assert 'id="admin-accounts-open"' in html
+    assert 'id="admin-accounts-open" class="settings-row settings-admin-accounts" type="button" hidden' in html
+    assert 'if (adminAccountsOpen) adminAccountsOpen.hidden = true;' in source
+    assert 'adminAccountsOpen.hidden = !Boolean(account?.is_admin);' in source
+
 def test_admin_accounts_beta_page_is_admin_only_and_hides_password_values():
     api = client().get('/static/app.js')
     page = client().get('/')
