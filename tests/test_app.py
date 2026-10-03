@@ -4059,6 +4059,17 @@ def test_install_route_preserves_invite_token():
     assert "/invite/" in html
 
 
+def test_home_does_not_force_extra_browser_status_bar_cover():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    assert "body.app-ready .app-shell::before {\n  display: none;" in source
+    assert "@media (display-mode: standalone)" in source
+    assert "height: env(safe-area-inset-top, 0px);" in source
+    assert "height: max(44px, env(safe-area-inset-top));" not in source
+
+
 def test_login_splash_asset_is_versioned_and_cache_is_bumped():
     page = client().get("/")
     service_worker = client().get("/service-worker.js")
