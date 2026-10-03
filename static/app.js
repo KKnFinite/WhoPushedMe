@@ -3899,7 +3899,7 @@
     );
     if (scrambleContributionSkip) {
       scrambleContributionSkip.hidden = !canEdit;
-      scrambleContributionSkip.textContent = 'DONE';
+      scrambleContributionSkip.textContent = 'CONTINUE →';
     }
 
     SCRAMBLE_SHOT_TYPES.forEach(([shotType, labelText]) => {
