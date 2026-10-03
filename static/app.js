@@ -4292,27 +4292,18 @@
           (candidate) => String(candidate.id || '') === replyToId
         );
         if (parentEvent) {
-          const replyContext = document.createElement('div');
-          replyContext.className = 'live-banter-reply-context';
-          const parentActor = (round.participants || []).find(
-            (participant) =>
-              String(participant.id) === String(
-                parentEvent.actor_participant_id || ''
-              )
-          );
-          const parentAuthor = document.createElement('strong');
-          parentAuthor.textContent = (
-            parentEvent.event_type === 'score_report'
-            || parentEvent.event_type === 'score_push'
-          )
-            ? 'REPLYING TO SCORE'
-            : `REPLYING TO ${String(
-                parentActor?.display_name || 'WPM'
-              ).toUpperCase()}`;
+          const replyReference = document.createElement('div');
+          replyReference.className = 'live-banter-reply-reference';
+          const arrow = document.createElement('span');
+          arrow.className = 'live-banter-reply-arrow';
+          arrow.textContent = '↳';
+          const label = document.createElement('strong');
+          label.textContent = 'Reply:';
           const parentText = document.createElement('span');
+          parentText.className = 'live-banter-reply-text';
           parentText.textContent = scoreFeedText(round, parentEvent);
-          replyContext.append(parentAuthor, parentText);
-          content.append(meta, replyContext, bubble);
+          replyReference.append(arrow, label, parentText);
+          content.append(meta, bubble, replyReference);
         } else {
           content.append(meta, bubble);
         }
