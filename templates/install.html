@@ -160,7 +160,8 @@
     <img
       id="install-mini"
       class="install-mascot"
-      alt="Who Pushed Me?! mascot"
+      src="{{ url_for('static', filename='assets/mascots/mini/round/start/WPM_Round_Start_WelcomeToTheShitshow.webp', v=asset_version) }}"
+      alt="Who Pushed Me?! welcome mascot"
     >
     <div class="install-kicker">WELCOME TO WHO PUSHED ME?!</div>
     <p id="platform-blurb" class="platform-blurb">LET'S FIGURE OUT WHAT KIND OF PHONE YOU'RE DRAGGING AROUND.</p>
@@ -191,7 +192,6 @@
       const inviteToken = {{ invite_token|tojson }};
       const primary = document.getElementById('install-primary');
       const continueBrowser = document.getElementById('continue-browser');
-      const installMini = document.getElementById('install-mini');
       const platformBlurb = document.getElementById('platform-blurb');
       const iosInstructions = document.getElementById('ios-instructions');
       const browserInstructions = document.getElementById('browser-instructions');
@@ -200,35 +200,6 @@
         window.localStorage.setItem(INVITE_KEY, inviteToken);
       }
 
-      const loadRandomFirstTimerMini = async () => {
-        if (!installMini) return;
-        try {
-          const response = await fetch('/static/assets/_meta/asset-manifest.json', {
-            cache: 'no-store',
-          });
-          if (!response.ok) return;
-          const manifest = await response.json();
-          const minis = (manifest.assets || []).filter(
-            (item) => (
-              item.family === 'mini-mascot'
-              && item.production
-              && item.enabled !== false
-              && !String(item.production).includes('/onboarding/install/')
-            )
-          );
-          if (!minis.length) return;
-
-          const picked = minis[Math.floor(Math.random() * minis.length)];
-          const productionPath = String(picked.production).replace(/^\/+/, '');
-          installMini.src = productionPath.startsWith('static/')
-            ? '/' + productionPath
-            : '/static/' + productionPath;
-        } catch (_error) {
-          installMini.hidden = true;
-        }
-      };
-
-      void loadRandomFirstTimerMini();
 
       const nextPath = inviteToken
         ? '/invite/' + encodeURIComponent(inviteToken)
