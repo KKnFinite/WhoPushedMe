@@ -274,6 +274,8 @@
 
   const modal = document.getElementById('construction-modal');
   const modalClose = document.getElementById('construction-close');
+  const modalX = document.getElementById('construction-x');
+  const constructionFeature = document.getElementById('construction-feature');
   const underConstructionButtons = document.querySelectorAll('[data-under-construction]');
 
   let pendingAccount = null;
@@ -8320,8 +8322,11 @@
     }
   });
 
-  const openConstruction = () => {
+  const openConstruction = (feature = 'UNDER CONSTRUCTION') => {
     if (!modal) return;
+    if (constructionFeature) {
+      constructionFeature.textContent = String(feature || 'UNDER CONSTRUCTION').toUpperCase();
+    }
     modal.hidden = false;
     document.body.classList.add('modal-open');
     modalClose?.focus();
@@ -8334,10 +8339,13 @@
   };
 
   underConstructionButtons.forEach((button) => {
-    button.addEventListener('click', openConstruction);
+    button.addEventListener('click', () => {
+      openConstruction(button.dataset.underConstruction);
+    });
   });
 
   modalClose?.addEventListener('click', closeConstruction);
+  modalX?.addEventListener('click', closeConstruction);
   modal?.addEventListener('click', (event) => {
     if (event.target === modal) closeConstruction();
   });
