@@ -3729,3 +3729,21 @@ def test_final_setup_mini_uses_calculated_alignment_after_layout():
     end = css_source.index('}', start)
     block = css_source[start:end]
     assert "var(--setup-mini-y, 0px)" in block
+
+
+def test_mobile_lobby_fits_one_viewport_and_only_chat_scrolls():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    start = source.index("/* LOBBY — SINGLE VIEWPORT, INTERNAL CHAT SCROLL ONLY */")
+    block = source[start:]
+    assert ".round-flow-card-game > .lobby-panel:not([hidden])" in block
+    assert "flex: 1 1 0 !important;" in block
+    assert "height: 0 !important;" in block
+    assert "overflow: hidden !important;" in block
+    assert ".lobby-banter-panel .lobby-banter-feed" in block
+    assert "overflow-y: auto !important;" in block
+    assert "#lobby-start" in block
+    assert ".round-invite-actions .round-invite-button" in block
+    assert "#lobby-home" in block
