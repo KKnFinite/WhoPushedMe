@@ -4154,12 +4154,36 @@
   const scoreFeedText = (round, event) => {
     const eventType = String(event?.event_type || '');
 
-    if (eventType === 'participant_started_spectating') {
+    const participantStateTypes = new Set([
+      'participant_join',
+      'participant_started_spectating',
+      'spectator_joined_play',
+      'participant_withdrew',
+      'participant_returned',
+    ]);
+    if (participantStateTypes.has(eventType)) {
       const actor = (round?.participants || []).find(
         (participant) =>
           String(participant.id) === String(event?.actor_participant_id || '')
       );
-      return `${actor?.display_name || 'A player'} switched to spectator.`;
+      const actorName = String(
+        event?.data?.actor_display_name
+        || event?.data?.display_name
+        || event?.data?.player_name
+        || actor?.display_name
+        || 'A player'
+      ).trim();
+
+      if (eventType === 'participant_started_spectating') {
+        return `${actorName} switched to spectator.`;
+      }
+
+      const stateText = String(presentationText(event) || '').trim();
+      if (!stateText) return actorName;
+      if (stateText.toLowerCase().startsWith(actorName.toLowerCase())) {
+        return stateText;
+      }
+      return `${actorName} ${stateText}`;
     }
 
     if (eventType === 'excuse') {
