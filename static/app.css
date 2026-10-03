@@ -4804,17 +4804,26 @@ body.app-ready .home-banter p {
 }
 
 
-/* MOBILE STATUS BAR COVER */
+/* MOBILE STATUS BAR COVER
+   Browser chrome already owns its status-bar area. Only reserve the actual
+   safe-area inset when WPM is running as the installed standalone PWA. */
 body.app-ready .app-shell::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: max(44px, env(safe-area-inset-top));
-  z-index: 8;
-  background: #000;
-  pointer-events: none;
+  display: none;
+}
+
+@media (display-mode: standalone) {
+  body.app-ready .app-shell::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 8;
+    background: #000;
+    pointer-events: none;
+  }
 }
 
 body.app-ready .home-banter p {
