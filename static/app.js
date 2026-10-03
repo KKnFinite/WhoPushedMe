@@ -287,6 +287,8 @@
   let roundHistoryOpen = false;
   let selectedCourse = null;
   let lobbyRefreshTimer = null;
+  let roundRefreshSequence = 0;
+  let roundPollInFlight = false;
   let viewedRoutePosition = null;
   let currentBagAction = null;
   let currentBagReplyToEventId = null;
@@ -4181,7 +4183,7 @@
         setRoundFlowMessage('');
 
         try {
-          await requestJson(
+          const saved = await requestJson(
             `/api/rounds/${round.id}/positions/${position}/contributions/${shotType}`,
             {
               method: 'PUT',
@@ -4190,7 +4192,35 @@
               },
             }
           );
-          await refreshRound(round.active_code);
+          const contributions = Array.isArray(currentLobbyRound?.contributions)
+            ? currentLobbyRound.contributions
+            : [];
+          const existingIndex = contributions.findIndex(
+            (item) =>
+              Number(item.route_position) === Number(position)
+              && String(item.shot_type || '') === String(shotType)
+          );
+          if (saved.player_participant_id) {
+            const localRow = {
+              route_position: Number(saved.route_position || position),
+              hole_number: Number(saved.hole || hole),
+              shot_type: String(saved.shot_type || shotType),
+              player_participant_id: saved.player_participant_id,
+            };
+            if (existingIndex >= 0) {
+              contributions[existingIndex] = {
+                ...contributions[existingIndex],
+                ...localRow,
+              };
+            } else {
+              contributions.push(localRow);
+            }
+          } else if (existingIndex >= 0) {
+            contributions.splice(existingIndex, 1);
+          }
+          if (currentLobbyRound) {
+            currentLobbyRound.contributions = contributions;
+          }
         } catch (error) {
           setRoundFlowMessage(error.message);
         } finally {
@@ -6436,7 +6466,12 @@
   };
 
   const refreshRound = async (code) => {
+    const refreshSequence = ++roundRefreshSequence;
     const round = await requestJson(`/api/rounds/code/${encodeURIComponent(code)}`);
+
+    if (refreshSequence !== roundRefreshSequence) {
+      return currentLobbyRound || round;
+    }
 
     if (roundHistoryOpen) {
       renderRoundHistoryPage(round);
@@ -6471,11 +6506,10 @@
   };
 
   const scrambleContributionInteractionInProgress = () => {
-    const active = document.activeElement;
     return Boolean(
-      scrambleContributionPanel
+      scrambleContributionComposerOpen
+      && scrambleContributionPanel
       && !scrambleContributionPanel.hidden
-      && active?.closest?.('#scramble-contribution-panel')
     );
   };
 
@@ -6581,10 +6615,14 @@
         || liveScoreSocialInteractionInProgress()
         || scrambleContributionInteractionInProgress()
       ) return;
+      if (roundPollInFlight) return;
+      roundPollInFlight = true;
       try {
         await refreshRound(code);
       } catch (_error) {
         // A manual action will surface useful errors. Polling stays quiet.
+      } finally {
+        roundPollInFlight = false;
       }
     }, 3000);
   };
@@ -7537,6 +7575,7 @@
     );
 
     scrambleContributionComposerOpen = false;
+    roundRefreshSequence += 1;
     if (scrambleContributionPanel) {
       scrambleContributionPanel.hidden = true;
     }
