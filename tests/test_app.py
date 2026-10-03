@@ -4068,3 +4068,24 @@ def test_spectator_join_panel_stays_in_live_flow():
     assert "bottom: auto !important;" in block
     assert "width: 100% !important;" in block
     assert "box-shadow: none !important;" in block
+
+
+def test_live_chat_shows_participant_state_changes_and_preserves_scroll():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    assert "'participant_join'," in source
+    assert "'participant_started_spectating'," in source
+    assert "'spectator_joined_play'," in source
+    assert "'participant_withdrew'," in source
+    assert "'participant_returned'," in source
+    assert "switched to spectator." in source
+
+    start = source.index("const renderLiveBanter = (round) =>")
+    end = source.index("const appendLobbyBanterRow =", start)
+    block = source[start:end]
+    assert "const distanceFromNewest" in block
+    assert "const wasAtNewest = !hadContent || distanceFromNewest <= 32;" in block
+    assert "if (routeChanged || wasAtNewest)" in block
+    assert "liveBanterFeed.scrollTop = priorScrollTop;" in block
