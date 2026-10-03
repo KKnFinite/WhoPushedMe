@@ -62,6 +62,14 @@
       font-weight: 800;
       letter-spacing: .13em;
     }
+    .platform-blurb {
+      margin: -4px auto 0;
+      max-width: 34ch;
+      color: rgba(241,231,200,.72);
+      font-size: .98rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
     h1 {
       margin: 0;
       color: var(--cream);
@@ -131,6 +139,7 @@
       alt="Who Pushed Me?! mascot holding a home screen sign"
     >
     <div class="install-kicker">WELCOME TO WHO PUSHED ME?!</div>
+    <p id="platform-blurb" class="platform-blurb">LET'S FIGURE OUT WHAT KIND OF PHONE YOU'RE DRAGGING AROUND.</p>
     <h1 id="install-title">PUT THE APP ON YOUR HOME SCREEN FIRST.</h1>
     <p class="lead">
       Install Who Pushed Me?! like an app, then sign in or create your account.
@@ -158,6 +167,7 @@
       const inviteToken = {{ invite_token|tojson }};
       const primary = document.getElementById('install-primary');
       const continueBrowser = document.getElementById('continue-browser');
+      const platformBlurb = document.getElementById('platform-blurb');
       const iosInstructions = document.getElementById('ios-instructions');
       const browserInstructions = document.getElementById('browser-instructions');
 
@@ -179,7 +189,18 @@
       }
 
       const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/i.test(navigator.userAgent);
       let deferredInstallPrompt = null;
+
+      if (platformBlurb) {
+        platformBlurb.textContent = isAppleMobile
+          ? 'YOU HAVE AN APPLE. CONGRATS — THEY STILL MAKE YOU DO THIS THE FANCY WAY.'
+          : (
+              isAndroid
+                ? 'YOU HAVE AN ANDROID. GOOD NEWS — IT MAY ACTUALLY LET US INSTALL THIS LIKE A NORMAL APP.'
+                : 'WHATEVER DEVICE THIS IS, WE’LL DO OUR BEST TO MAKE IT ACT LIKE AN APP.'
+            );
+      }
 
       if (isAppleMobile) {
         iosInstructions.hidden = false;
