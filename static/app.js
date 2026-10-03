@@ -160,6 +160,10 @@
   const roundSettingsTeeLabel = document.getElementById('round-settings-tee-label');
   const roundSettingsTeeSelect = document.getElementById('round-settings-tee-select');
   const roundSettingsTeeSave = document.getElementById('round-settings-tee-save');
+  const scrambleStartHolePanel = document.getElementById('scramble-start-hole-panel');
+  const scrambleStartHoleCopy = document.getElementById('scramble-start-hole-copy');
+  const scrambleStartHoleSelect = document.getElementById('scramble-start-hole-select');
+  const scrambleStartHoleSave = document.getElementById('scramble-start-hole-save');
   const roundParTrackingPanel = document.getElementById('round-par-tracking-panel');
   const roundParTrackingCopy = document.getElementById('round-par-tracking-copy');
   const roundParTrackingOn = document.getElementById('round-par-tracking-on');
@@ -5901,6 +5905,61 @@
         roundSettingsTeeSave.disabled = false;
       }
 
+      const showScrambleStartHole = round.mode === 'scramble';
+      if (scrambleStartHolePanel) {
+        scrambleStartHolePanel.hidden = !showScrambleStartHole;
+      }
+      if (showScrambleStartHole) {
+        const startHoleLocked = (
+          (round.scores || []).some(
+            (score) => String(score.score_scope || '') === 'team'
+          )
+          || Number(round.current_route_position || 1) !== 1
+        );
+        const physicalHoleCount = Number(
+          round.course_hole_count
+          || (Number(round.hole_count || 0) > 9 ? 18 : 9)
+        );
+        const currentStartHole = Number(
+          (round.route || []).find(
+            (item) => Number(item.route_position) === 1
+          )?.hole_number
+          || round.current_hole
+          || 1
+        );
+
+        if (
+          scrambleStartHoleSelect
+          && (
+            !settingsOpen
+            || scrambleStartHoleSelect.options.length !== physicalHoleCount
+          )
+        ) {
+          scrambleStartHoleSelect.replaceChildren();
+          for (let hole = 1; hole <= physicalHoleCount; hole += 1) {
+            const option = document.createElement('option');
+            option.value = String(hole);
+            option.textContent = 'HOLE ' + hole;
+            option.selected = hole === currentStartHole;
+            scrambleStartHoleSelect.append(option);
+          }
+        } else if (scrambleStartHoleSelect) {
+          scrambleStartHoleSelect.value = String(currentStartHole);
+        }
+
+        if (scrambleStartHoleCopy) {
+          scrambleStartHoleCopy.textContent = startHoleLocked
+            ? 'LOCKED AFTER THE FIRST TEAM SCORE OR AFTER THE SCRAMBLE ADVANCES.'
+            : 'FIX THE STARTING HOLE BEFORE THE FIRST TEAM SCORE.';
+        }
+        if (scrambleStartHoleSelect) {
+          scrambleStartHoleSelect.disabled = startHoleLocked;
+        }
+        if (scrambleStartHoleSave) {
+          scrambleStartHoleSave.disabled = startHoleLocked;
+        }
+      }
+
       const parTrackingLocked = (round.scores || []).length > 0;
       if (roundParTrackingPanel) roundParTrackingPanel.hidden = false;
       if (roundParTrackingCopy) {
@@ -7552,7 +7611,11 @@
   roundSettingsButton?.addEventListener('click', () => {
     if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
     if (roundSettingsPanel) roundSettingsPanel.hidden = false;
-    roundSettingsTeeSelect?.focus();
+    if (currentLobbyRound.mode === 'scramble') {
+      scrambleStartHoleSelect?.focus();
+    } else {
+      roundSettingsTeeSelect?.focus();
+    }
   });
 
   roundSettingsClose?.addEventListener('click', () => {
@@ -7582,6 +7645,35 @@
     } catch (error) {
       setRoundFlowMessage(error.message);
       roundSettingsTeeSave.disabled = false;
+    }
+  });
+
+  scrambleStartHoleSave?.addEventListener('click', async () => {
+    if (!currentLobbyRound || !viewerIsActivePlayer(currentLobbyRound)) return;
+    if (currentLobbyRound.mode !== 'scramble') return;
+
+    const startHole = Number(scrambleStartHoleSelect?.value || 0);
+    if (!Number.isInteger(startHole) || startHole < 1) {
+      setRoundFlowMessage('Pick a valid starting hole.');
+      return;
+    }
+
+    scrambleStartHoleSave.disabled = true;
+    setRoundFlowMessage('');
+    try {
+      await requestJson(
+        `/api/rounds/${currentLobbyRound.id}/start-hole`,
+        {
+          method: 'PATCH',
+          body: { start_hole: startHole },
+        }
+      );
+      if (roundSettingsPanel) roundSettingsPanel.hidden = true;
+      viewedRoutePosition = 1;
+      await refreshRound(currentLobbyRound.active_code);
+    } catch (error) {
+      setRoundFlowMessage(error.message);
+      scrambleStartHoleSave.disabled = false;
     }
   });
 
