@@ -128,6 +128,7 @@
   const holeTransitionResult = document.getElementById('hole-transition-result');
   const holeTransitionContinue = document.getElementById('hole-transition-continue');
   const spectatorJoinPlayPanel = document.getElementById('spectator-join-play-panel');
+  const spectatorJoinPlayCopy = document.getElementById('spectator-join-play-copy');
   const spectatorJoinTeeField = document.getElementById('spectator-join-tee-field');
   const spectatorJoinTeeSelect = document.getElementById('spectator-join-tee-select');
   const spectatorJoinPlayButton = document.getElementById('spectator-join-play-button');
@@ -5419,6 +5420,22 @@
     if (spectatorJoinPlayPanel) {
       spectatorJoinPlayPanel.hidden = !spectatorCanJoinPlay;
     }
+    if (spectatorJoinPlayCopy) {
+      spectatorJoinPlayCopy.textContent = round.mode === 'scramble'
+        ? 'You join the team at the current live hole. Earlier holes stay exactly as they happened.'
+        : 'You start counting from the live hole. Earlier holes stay partial unless you backfill them.';
+    }
+    if (
+      spectatorCanJoinPlay
+      && round.mode === 'scramble'
+      && !viewingLive
+    ) {
+      viewedRoutePosition = livePosition;
+      window.requestAnimationFrame(() => {
+        if (currentLobbyRound) renderLiveRound(currentLobbyRound);
+      });
+      return;
+    }
     const spectatorNeedsPersonalTee = (
       spectatorCanJoinPlay
       && round.mode === 'individual'
@@ -5456,11 +5473,21 @@
       }
     }
 
+    const scrambleSpectatorJoinLocked = (
+      spectatorCanJoinPlay
+      && round.mode === 'scramble'
+    );
     if (holePrev) {
-      holePrev.disabled = Number(viewedRoutePosition) <= 1;
+      holePrev.disabled = (
+        scrambleSpectatorJoinLocked
+        || Number(viewedRoutePosition) <= 1
+      );
     }
     if (holeNext) {
-      holeNext.disabled = Number(viewedRoutePosition) >= length;
+      holeNext.disabled = (
+        scrambleSpectatorJoinLocked
+        || Number(viewedRoutePosition) >= length
+      );
     }
     if (backToLive) {
       backToLive.hidden = viewingLive;
