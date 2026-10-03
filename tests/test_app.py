@@ -3989,6 +3989,19 @@ def test_install_route_is_standalone_first_timer_page():
     assert 'id="register-form"' not in html
 
 
+def test_first_timer_install_page_uses_random_general_mini():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert 'id="install-mini"' in html
+    assert "loadRandomFirstTimerMini" in html
+    assert "item.family === 'mini-mascot'" in html
+    assert "!String(item.production).includes('/onboarding/install/')" in html
+    assert "Install it first. Then open Who Pushed Me?!" not in html
+    assert "WPM_Onboarding_Install_StopOpeningThisLikeAPsychopath.webp" not in html
+
+
 def test_install_page_hides_redundant_apple_install_button():
     page = client().get("/install")
     assert page.status_code == 200
