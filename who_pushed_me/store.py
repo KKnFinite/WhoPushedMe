@@ -833,6 +833,40 @@ class RoundStore:
             account["session_expires_at"] = golfer["expires_at"]
             return account
 
+    def list_admin_accounts(self) -> list[dict[str, Any]]:
+        with self._connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    g.id,
+                    g.username,
+                    g.display_name,
+                    g.is_admin,
+                    g.handicap_index,
+                    g.created_at,
+                    (g.password_hash IS NOT NULL) AS has_password,
+                    count(s.id) FILTER (
+                        WHERE s.revoked_at IS NULL
+                          AND s.expires_at > now()
+                    ) AS active_sessions,
+                    max(s.created_at) AS last_login_at,
+                    max(s.last_seen_at) AS last_seen_at
+                FROM golfers g
+                LEFT JOIN auth_sessions s ON s.golfer_id = g.id
+                WHERE g.username IS NOT NULL
+                GROUP BY
+                    g.id,
+                    g.username,
+                    g.display_name,
+                    g.is_admin,
+                    g.handicap_index,
+                    g.created_at,
+                    g.password_hash
+                ORDER BY g.created_at DESC, lower(g.username)
+                """
+            )
+            return cursor.fetchall()
+
     def set_profile_handicap_index(
         self,
         golfer_id: object,
