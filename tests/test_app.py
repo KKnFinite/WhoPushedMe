@@ -930,6 +930,27 @@ def test_tee_change_after_scoring_requires_explicit_correction():
     assert "confirm_correction: true" in app_source
 
 
+def test_participant_state_events_bake_actor_name_into_presentation():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    store_source = (root / "who_pushed_me" / "store.py").read_text(
+        encoding="utf-8"
+    )
+
+    start = store_source.index("    def _event(")
+    end = store_source.index("    @staticmethod\n    def _public_account(", start)
+    block = store_source[start:end]
+
+    assert '"spectator_joined_play"' in block
+    assert '"participant_withdrew"' in block
+    assert '"participant_returned"' in block
+    assert 'event_data.setdefault(' in block
+    assert '"actor_display_name"' in block
+    assert 'presentation_row["text"] = (' in block
+    assert 'f"{actor_name} {text_value}"' in block
+
+
 def test_end_early_votes_expire_with_connected_window():
     from pathlib import Path
 
