@@ -3981,8 +3981,23 @@ def test_install_route_is_standalone_first_timer_page():
     assert "PUT THE APP ON YOUR HOME SCREEN FIRST." in html
     assert 'id="install-primary"' in html
     assert 'id="continue-browser"' in html
+    assert "three dots in the lower-right" in html
+    assert "three dots in the upper-right" in html
+    assert "Add to Home Screen" in html
+    assert "Install app" in html
     assert 'id="login-form"' not in html
     assert 'id="register-form"' not in html
+
+
+def test_install_page_hides_redundant_apple_install_button():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "primary.hidden = true;" in html
+    assert "ADD IT, THEN OPEN THE NEW ICON" not in html
+    assert "IPHONE / IPAD — CHROME" in html
+    assert "ANDROID — CHROME" in html
 
 
 def test_install_page_has_platform_specific_joke():
