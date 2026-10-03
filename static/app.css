@@ -10950,3 +10950,60 @@ textarea,
     max-height: 110px;
   }
 }
+
+
+/* LIVE ACTIVE PLAYER STRIP */
+.live-active-players {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 4px 8px;
+  border-top: 1px solid rgba(78,122,93,.34);
+  border-bottom: 1px solid rgba(78,122,93,.34);
+  background: rgba(5,9,7,.54);
+  overflow: hidden;
+}
+
+.live-active-players[hidden] {
+  display: none !important;
+}
+
+.live-active-players-label {
+  flex: 0 0 auto;
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .11em;
+}
+
+.live-active-players-list {
+  display: flex;
+  gap: 5px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.live-active-players-list::-webkit-scrollbar {
+  display: none;
+}
+
+.live-active-player-chip {
+  flex: 0 0 auto;
+  max-width: 150px;
+  overflow: hidden;
+  padding: 3px 7px;
+  border: 1px solid rgba(78,122,93,.7);
+  border-radius: 999px;
+  background: rgba(20,48,34,.76);
+  color: #fff8df;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
