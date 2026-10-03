@@ -8147,6 +8147,10 @@ body.app-ready .home-banter p {
   align-items: start;
 }
 
+.live-banter-row.is-thread-attached {
+  margin-top: -4px;
+}
+
 .live-banter-avatar {
   position: relative;
   display: grid;
