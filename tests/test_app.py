@@ -3991,8 +3991,8 @@ def test_install_page_has_platform_specific_joke():
     html = page.data.decode("utf-8")
 
     assert 'id="platform-blurb"' in html
-    assert "YOU HAVE AN APPLE." in html
-    assert "YOU HAVE AN ANDROID." in html
+    assert "YOU HAVE AN APPLE. OF COURSE YOU DO." in html
+    assert "YOU HAVE AN ANDROID. FINALLY," in html
     assert "const isAndroid = /Android/i.test(navigator.userAgent);" in html
 
 
