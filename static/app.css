@@ -2397,6 +2397,122 @@ body.app-ready .app-shell {
   margin-top: 0;
 }
 
+.settings-admin-accounts {
+  width: 100%;
+}
+
+.admin-accounts-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 122;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
+  background: rgba(2,7,5,.94);
+  backdrop-filter: blur(8px);
+}
+
+.admin-accounts-modal[hidden] {
+  display: none;
+}
+
+.admin-accounts-card {
+  width: min(100%, 620px);
+  max-height: 92dvh;
+  overflow: auto;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(17,22,17,.99), rgba(5,9,7,.995));
+  color: var(--wpm-cream);
+  border: 1px solid rgba(78,122,93,.68);
+  border-radius: 24px;
+  box-shadow: 0 22px 70px rgba(0,0,0,.58);
+}
+
+.admin-accounts-card .settings-header {
+  margin-bottom: 12px;
+}
+
+.admin-accounts-list {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-account-row {
+  display: grid;
+  gap: 8px;
+  padding: 13px 14px;
+  border: 1px solid rgba(78,122,93,.55);
+  border-radius: 13px;
+  background: rgba(5,9,7,.72);
+}
+
+.admin-account-row.is-admin {
+  border-color: rgba(212,166,42,.82);
+}
+
+.admin-account-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-account-head strong {
+  color: #fff8df;
+  font-family: var(--font-wpm-bold);
+  font-size: 1.1rem;
+}
+
+.admin-account-head small {
+  color: var(--wpm-gold);
+  font-family: var(--font-wpm-bold);
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+
+.admin-account-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 12px;
+}
+
+.admin-account-field {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-account-field span {
+  color: rgba(241,231,200,.58);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.admin-account-field b,
+.admin-account-field code {
+  color: var(--wpm-cream);
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.admin-account-field code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .82rem;
+}
+
+@media (max-width: 390px) {
+  .admin-accounts-card {
+    padding: 16px 13px;
+  }
+
+  .admin-account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .settings-modal {
   position: fixed;
   inset: 0;
