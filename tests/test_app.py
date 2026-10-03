@@ -3968,6 +3968,20 @@ def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history(
     assert ".unfinished-round-spectate" in css_source
 
 
+def test_more_menu_can_switch_active_player_to_spectator():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    assert "switchSpectatorButton.textContent = 'SWITCH TO SPECTATOR';" in source
+    assert "towelButton.parentElement.insertBefore(switchSpectatorButton, towelButton);" in source
+    assert "round.viewer_role === 'player'" in source
+    assert "viewer?.participation_state === 'active'" in source
+    assert "switchSpectatorButton?.addEventListener('click'" in source
+    assert "/spectate" in source
+    assert "{ method: 'PATCH' }" in source
+
+
 def test_more_menu_has_close_and_round_navigation_colors():
     page = client().get("/")
     script = client().get("/static/app.js")
