@@ -1802,6 +1802,8 @@
       }
     }
     clearSession();
+    if (adminAccountsOpen) adminAccountsOpen.hidden = true;
+    if (adminAccountsModal) adminAccountsModal.hidden = true;
     stopUserHeckle('home', { hide: true });
     stopUserHeckle('roundSetup', { hide: true });
     stopUserHeckle('install', { hide: true });
@@ -8096,6 +8098,8 @@
   const openSettings = async () => {
     if (!settingsModal || !settingsForm) return;
     setSettingsMessage('');
+    if (adminAccountsOpen) adminAccountsOpen.hidden = true;
+    if (adminAccountsModal) adminAccountsModal.hidden = true;
     settingsModal.hidden = false;
     document.body.classList.add('modal-open');
 
@@ -8119,6 +8123,8 @@
   const closeSettings = () => {
     if (!settingsModal) return;
     settingsModal.hidden = true;
+    if (adminAccountsOpen) adminAccountsOpen.hidden = true;
+    if (adminAccountsModal) adminAccountsModal.hidden = true;
     document.body.classList.remove('modal-open');
     if (sessionToken()) {
       void startUserHeckles(
