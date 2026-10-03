@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wpm-shell-v108';
+const CACHE_NAME = 'wpm-shell-v109';
 
 const CRITICAL_FRONTEND_PATHS = new Set([
   '/static/app.css',
