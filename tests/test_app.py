@@ -3818,3 +3818,23 @@ def test_hole_transition_result_is_large_headline():
     assert 'font-family: "Bebas Neue", Impact, sans-serif;' in block
     assert "font-size: clamp(2.6rem, 11vw, 4.5rem);" in block
     assert "line-height: .88;" in block
+
+
+def test_social_replies_use_compact_thread_reference():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    assert "live-banter-reply-reference" in source
+    assert "live-banter-reply-arrow" in source
+    assert "label.textContent = 'Reply:';" in source
+    assert "replyReference.append(arrow, label, parentText);" in source
+    assert "content.append(meta, bubble, replyReference);" in source
+    assert "live-banter-reply-context" not in source
+
+    css_source = css.data.decode("utf-8")
+    assert "/* LIVE SOCIAL THREADED REPLY REFERENCE */" in css_source
+    assert ".live-banter-reply-reference" in css_source
+    assert ".live-banter-reply-arrow" in css_source
