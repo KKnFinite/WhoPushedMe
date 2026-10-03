@@ -3345,6 +3345,16 @@ class RoundStore:
                 round_row["course"] = cursor.fetchone()
                 cursor.execute(
                     """
+                    SELECT max(hole_number) AS max_hole
+                    FROM cached_course_holes
+                    WHERE course_id = %s
+                    """,
+                    (round_row["course_id"],),
+                )
+                max_hole = int(cursor.fetchone()["max_hole"] or 0)
+                round_row["course_hole_count"] = 9 if max_hole <= 9 else 18
+                cursor.execute(
+                    """
                     SELECT tee_name,
                            count(*) AS holes_with_tee,
                            sum(yardage) FILTER (WHERE yardage IS NOT NULL) AS total_yardage
@@ -3365,6 +3375,9 @@ class RoundStore:
             else:
                 round_row["course"] = None
                 round_row["available_tees"] = []
+                round_row["course_hole_count"] = (
+                    18 if int(round_row["hole_count"] or 0) > 9 else 9
+                )
 
             cursor.execute(
                 """
