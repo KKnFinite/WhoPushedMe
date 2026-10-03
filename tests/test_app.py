@@ -3985,24 +3985,27 @@ def test_login_splash_asset_is_versioned_and_cache_is_bumped():
     assert "const CACHE_NAME = 'wpm-shell-v109';" in worker
 
 
-def test_direct_install_entry_preserves_round_invites_without_pre_auth_prompt():
+def test_direct_install_entry_shows_first_timer_welcome_before_auth():
     page = client().get("/install")
     script = client().get("/static/app.js")
     assert page.status_code == 200
     assert script.status_code == 200
 
+    html = page.data.decode("utf-8")
     source = script.data.decode("utf-8")
+
+    assert 'id="install-onboarding-kicker"' in html
+    assert 'id="install-onboarding-copy"' in html
     assert "const directInstallEntry = window.location.pathname === '/install';" in source
     assert "INSTALL_INVITE_KEY = 'wpm_pending_install_invite'" in source
     assert "window.localStorage.setItem(INSTALL_INVITE_KEY, installInviteToken);" in source
     assert "window.localStorage.getItem(INSTALL_INVITE_KEY)" in source
     assert "window.localStorage.removeItem(INSTALL_INVITE_KEY);" in source
-    assert "configureDirectInstallEntry();" in source
-    assert "if (!isStandaloneApp()) return false;" in source
-    assert "installOnboardingModal.hidden = false;" not in source[
-        source.index("const configureDirectInstallEntry = () => {"):
-        source.index("const installOnboardingKey = (account) => {")
-    ]
+    assert "setInstallOnboardingMode('first-timer');" in source
+    assert "WELCOME TO WHO PUSHED ME?!" in source
+    assert "PUT THE APP ON YOUR HOME SCREEN FIRST." in source
+    assert "CONTINUE TO SIGN IN" in source
+    assert "const directInstallShown = configureDirectInstallEntry();" in source
     assert "await bootSession();" in source
     assert "directInstallEntry ? 0 : 3000" in source
     assert "/install?invite=" in source
