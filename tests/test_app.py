@@ -4018,3 +4018,28 @@ def test_scramble_contribution_screen_has_mini_on_continue_button():
     assert "/* SCRAMBLE CONTRIBUTION MINI — STANDS ON CONTINUE */" in css_source
     assert ".scramble-contribution-mini-stage" in css_source
     assert "transform: translateY(var(--scramble-mini-y, 0px));" in css_source
+
+
+def test_live_active_players_strip_and_targeting_use_round_state_not_connection():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    html = page.data.decode("utf-8")
+    assert 'id="live-active-players"' in html
+
+    source = script.data.decode("utf-8")
+    assert "const activeRoundPlayers = (round) =>" in source
+    assert "participant.role === 'player'" in source
+    assert "participant.participation_state === 'active'" in source
+    assert "const renderLiveActivePlayers = (round) =>" in source
+    assert "renderLiveActivePlayers(round);" in source
+    assert "const players = activeRoundPlayers(round);" in source
+    assert "activeRoundPlayers(currentLobbyRound)" in source
+
+    css_source = css.data.decode("utf-8")
+    assert "/* LIVE ACTIVE PLAYER STRIP */" in css_source
+    assert ".live-active-player-chip" in css_source
