@@ -3793,3 +3793,16 @@ def test_excuse_feed_shows_reason_optional_text_and_reply_context():
     css_source = css.data.decode("utf-8")
     assert "/* LIVE SOCIAL REPLY CONTEXT */" in css_source
     assert ".live-banter-reply-context" in css_source
+
+
+def test_late_backfill_prompt_is_individual_only():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    start = source.index("const showLateBackfill = (")
+    end = source.index(");", start) + 2
+    block = source[start:end]
+    assert "round.mode === 'individual'" in block
+    assert "viewerIsActivePlayer(round)" in block
+    assert "earlierBackfillable.length > 0" in block
