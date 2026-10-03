@@ -3932,3 +3932,29 @@ def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history(
 
     css_source = css.data.decode("utf-8")
     assert ".unfinished-round-spectate" in css_source
+
+
+def test_more_menu_has_close_and_round_navigation_colors():
+    page = client().get("/")
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert page.status_code == 200
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    html = page.data.decode("utf-8")
+    assert 'id="live-more-close"' in html
+    assert '>CLOSE<' in html
+    assert 'class="wpm-nav-yellow"' in html
+
+    source = script.data.decode("utf-8")
+    assert "const liveMoreClose = document.getElementById('live-more-close');" in source
+    assert "liveMoreClose?.addEventListener('click'" in source
+    assert "liveMorePanel.hidden = true;" in source
+
+    css_source = css.data.decode("utf-8")
+    assert "/* ROUND FLOW NAVIGATION COLORS */" in css_source
+    assert ".wpm-nav-yellow" in css_source
+    assert "#lobby-home," in css_source
+    assert "#live-round-home," in css_source
+    assert "#round-end-home" in css_source
