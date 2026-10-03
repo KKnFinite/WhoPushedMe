@@ -4043,3 +4043,14 @@ def test_live_active_players_strip_and_targeting_use_round_state_not_connection(
     css_source = css.data.decode("utf-8")
     assert "/* LIVE ACTIVE PLAYER STRIP */" in css_source
     assert ".live-active-player-chip" in css_source
+
+
+def test_hidden_round_tee_fields_are_not_forced_visible():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    assert "/* HIDDEN ROUND FIELDS MUST STAY HIDDEN */" in source
+    assert ".round-flow-card-game .round-text-field[hidden]" in source
+    assert ".round-flow-card-game #spectator-join-tee-field[hidden]" in source
+    assert "display: none !important;" in source
