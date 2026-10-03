@@ -2,6 +2,7 @@
   const SESSION_KEY = 'wpm_session_token';
   const PAR_SETUP_NOW_KEY = 'wpm_par_setup_now_round';
   const HOME_HERO_SESSION_KEY = 'wpm_home_hero_asset';
+  const INSTALL_INVITE_KEY = 'wpm_pending_install_invite';
 
   const splash = document.getElementById('launch-splash');
   const splashMini = document.getElementById('launch-splash-mini');
@@ -188,14 +189,6 @@
   const liveMorePanel = document.getElementById('live-more-panel');
   const liveNavMore = document.getElementById('live-nav-more');
   const liveMoreClose = document.getElementById('live-more-close');
-  const switchSpectatorButton = document.createElement('button');
-  switchSpectatorButton.type = 'button';
-  switchSpectatorButton.id = 'switch-spectator-button';
-  switchSpectatorButton.textContent = 'SWITCH TO SPECTATOR';
-  switchSpectatorButton.hidden = true;
-  if (towelButton?.parentElement) {
-    towelButton.parentElement.insertBefore(switchSpectatorButton, towelButton);
-  }
   const latestPresentation = document.getElementById('latest-presentation');
   const latestMascot = document.getElementById('latest-mascot');
   const latestBanter = document.getElementById('latest-banter');
@@ -232,6 +225,14 @@
   const towelReason = document.getElementById('towel-reason');
   const towelConfirm = document.getElementById('towel-confirm');
   const towelCancel = document.getElementById('towel-cancel');
+  const switchSpectatorButton = document.createElement('button');
+  switchSpectatorButton.type = 'button';
+  switchSpectatorButton.id = 'switch-spectator-button';
+  switchSpectatorButton.textContent = 'SWITCH TO SPECTATOR';
+  switchSpectatorButton.hidden = true;
+  if (towelButton?.parentElement) {
+    towelButton.parentElement.insertBefore(switchSpectatorButton, towelButton);
+  }
   const endEarlyButton = document.getElementById('end-early-button');
   const endEarlyPanel = document.getElementById('end-early-panel');
   const endEarlyCopy = document.getElementById('end-early-copy');
@@ -299,6 +300,16 @@
   const invitePathMatch = window.location.pathname.match(
     /^\/invite\/([^/]+)\/?$/
   );
+  const directInstallEntry = window.location.pathname === '/install';
+  const installEntryParams = new URLSearchParams(window.location.search);
+  const installInviteToken = directInstallEntry
+    ? String(installEntryParams.get('invite') || '').trim()
+    : '';
+
+  if (installInviteToken) {
+    window.localStorage.setItem(INSTALL_INVITE_KEY, installInviteToken);
+  }
+
   let pendingRoundInviteToken = '';
   if (invitePathMatch) {
     try {
@@ -306,6 +317,11 @@
     } catch (_error) {
       pendingRoundInviteToken = '';
     }
+  } else {
+    pendingRoundInviteToken =
+      installInviteToken
+      || window.localStorage.getItem(INSTALL_INVITE_KEY)
+      || '';
   }
   let lobbyBanterTimer = null;
   let lobbyBanterRoundId = '';
@@ -942,6 +958,45 @@
     );
   };
 
+  const configureDirectInstallEntry = () => {
+    if (!directInstallEntry || !installOnboardingModal) return false;
+
+    if (isStandaloneApp()) {
+      const nextPath = pendingRoundInviteToken
+        ? `/invite/${encodeURIComponent(pendingRoundInviteToken)}`
+        : '/';
+      window.history.replaceState({}, '', nextPath);
+      return false;
+    }
+
+    if (splash) splash.hidden = true;
+    installOnboardingAccountKey = '';
+    installOnboardingModal.hidden = false;
+    document.body.classList.add('modal-open');
+
+    if (installOnboardingMascot) {
+      installOnboardingMascot.src = INSTALL_ONBOARDING_ASSETS[0];
+    }
+
+    const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (installOnboardingInstructions) {
+      installOnboardingInstructions.textContent = isAppleMobile
+        ? 'Tap the Share button, then choose Add to Home Screen.'
+        : 'Tap INSTALL APP. If your browser does not offer it, open the browser menu and choose Install app or Add to Home screen.';
+      installOnboardingInstructions.hidden = !isAppleMobile;
+    }
+    if (installOnboardingPrimary) {
+      installOnboardingPrimary.textContent = isAppleMobile
+        ? 'SHOW ME HOW'
+        : 'INSTALL APP';
+      installOnboardingPrimary.dataset.instructionsShown = isAppleMobile ? '1' : '';
+    }
+    if (installOnboardingSkip) {
+      installOnboardingSkip.textContent = 'CONTINUE IN BROWSER';
+    }
+    return true;
+  };
+
   const installOnboardingKey = (account) => {
     const identity = String(account?.id || account?.username || 'account');
     return `wpm_install_onboarding_seen:${identity}`;
@@ -961,6 +1016,9 @@
     if (installOnboardingPrimary) {
       installOnboardingPrimary.textContent = 'FINE. INSTALL THE DAMN THING.';
       installOnboardingPrimary.dataset.instructionsShown = '';
+    }
+    if (installOnboardingSkip) {
+      installOnboardingSkip.textContent = 'I ENJOY MAKING THINGS HARDER.';
     }
     if (sessionToken()) {
       void startUserHeckles(
@@ -999,7 +1057,25 @@
     }
 
     if (installOnboardingPrimary.dataset.instructionsShown === '1') {
+      if (directInstallEntry && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        if (installOnboardingInstructions) {
+          installOnboardingInstructions.textContent =
+            'Tap Share, choose Add to Home Screen, then launch Who Pushed Me?! from the new icon.';
+          installOnboardingInstructions.hidden = false;
+        }
+        installOnboardingPrimary.textContent = 'GOT IT';
+        installOnboardingPrimary.dataset.instructionsShown = '2';
+        return;
+      }
       closeInstallOnboarding({ remember: true });
+      return;
+    }
+
+    if (
+      installOnboardingPrimary.dataset.instructionsShown === '2'
+      && directInstallEntry
+    ) {
+      closeInstallOnboarding({ remember: false });
       return;
     }
 
@@ -1546,10 +1622,15 @@
   });
 
   const revealShell = async () => {
+    const directInstallShown = configureDirectInstallEntry();
     await bootSession();
+    if (directInstallShown && installOnboardingModal) {
+      installOnboardingModal.hidden = false;
+      document.body.classList.add('modal-open');
+    }
   };
 
-  window.setTimeout(revealShell, 3000);
+  window.setTimeout(revealShell, directInstallEntry ? 0 : 3000);
 
   authViewButtons.forEach((button) => {
     button.addEventListener('click', () => switchAuthView(button.dataset.authView));
@@ -1731,7 +1812,11 @@
     }
     if (clearToken) {
       pendingRoundInviteToken = '';
-      if (window.location.pathname.startsWith('/invite/')) {
+      window.localStorage.removeItem(INSTALL_INVITE_KEY);
+      if (
+        window.location.pathname.startsWith('/invite/')
+        || window.location.pathname === '/install'
+      ) {
         window.history.replaceState({}, '', '/');
       }
     }
@@ -1777,6 +1862,7 @@
     );
 
     pendingRoundInviteToken = '';
+    window.localStorage.removeItem(INSTALL_INVITE_KEY);
     pendingRoundInvitePreview = null;
     joinRoundForm?.classList.remove('is-invite-acceptance');
     if (inviteJoinBanner) inviteJoinBanner.hidden = true;
@@ -1879,7 +1965,7 @@
         }
       );
       const url =
-        `${window.location.origin}/invite/${encodeURIComponent(invite.token)}`;
+        `${window.location.origin}/install?invite=${encodeURIComponent(invite.token)}`;
       const shareText = role === 'spectator'
         ? 'Come watch this golf disaster.'
         : 'Get in this round and bring your worst golf.';
