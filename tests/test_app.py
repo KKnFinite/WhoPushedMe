@@ -3989,6 +3989,18 @@ def test_install_route_is_standalone_first_timer_page():
     assert 'id="register-form"' not in html
 
 
+def test_first_timer_install_page_compacts_for_short_viewports():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "width: min(56vw, 230px);" in html
+    assert "height: min(22dvh, 220px);" in html
+    assert "@media (max-height: 820px)" in html
+    assert "width: min(48vw, 190px);" in html
+    assert "height: min(17dvh, 165px);" in html
+
+
 def test_first_timer_install_page_uses_random_general_mini():
     page = client().get("/install")
     assert page.status_code == 200
