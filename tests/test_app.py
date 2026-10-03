@@ -3972,6 +3972,19 @@ def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history(
     assert ".unfinished-round-spectate" in css_source
 
 
+def test_login_splash_asset_is_versioned_and_cache_is_bumped():
+    page = client().get("/")
+    service_worker = client().get("/service-worker.js")
+    assert page.status_code == 200
+    assert service_worker.status_code == 200
+
+    html = page.data.decode("utf-8")
+    assert "WPM_Splash_Login.webp?v=" in html
+
+    worker = service_worker.data.decode("utf-8")
+    assert "const CACHE_NAME = 'wpm-shell-v109';" in worker
+
+
 def test_direct_install_entry_preserves_round_invites():
     page = client().get("/install")
     script = client().get("/static/app.js")
