@@ -10668,3 +10668,36 @@ textarea,
     box-shadow: 0 6px 16px rgba(0,0,0,.34) !important;
   }
 }
+
+
+/* LIVE SOCIAL REPLY CONTEXT */
+.live-banter-reply-context {
+  display: grid;
+  gap: 3px;
+  margin: 0 0 6px;
+  padding: 7px 9px;
+  border-left: 3px solid var(--wpm-gold);
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+}
+
+.live-banter-reply-context strong {
+  color: var(--wpm-gold);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .08em;
+}
+
+.live-banter-reply-context span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: rgba(255,248,223,.72);
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.12;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
