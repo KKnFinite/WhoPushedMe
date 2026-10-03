@@ -3972,6 +3972,29 @@ def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history(
     assert ".unfinished-round-spectate" in css_source
 
 
+def test_install_route_is_standalone_first_timer_page():
+    page = client().get("/install")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "WELCOME TO WHO PUSHED ME?!" in html
+    assert "PUT THE APP ON YOUR HOME SCREEN FIRST." in html
+    assert 'id="install-primary"' in html
+    assert 'id="continue-browser"' in html
+    assert 'id="login-form"' not in html
+    assert 'id="register-form"' not in html
+
+
+def test_install_route_preserves_invite_token():
+    page = client().get("/install?invite=test-token-123")
+    assert page.status_code == 200
+    html = page.data.decode("utf-8")
+
+    assert "test-token-123" in html
+    assert "wpm_pending_install_invite" in html
+    assert "/invite/" in html
+
+
 def test_login_splash_asset_is_versioned_and_cache_is_bumped():
     page = client().get("/")
     service_worker = client().get("/service-worker.js")
