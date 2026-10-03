@@ -3582,6 +3582,155 @@ class RoundStore:
             round_row["viewer_participant_id"] = participant["id"]
             return round_row
 
+    def set_scramble_start_hole(
+        self,
+        golfer_id: object,
+        round_id: object,
+        start_hole: object,
+    ) -> dict[str, Any]:
+        golfer_uuid = self._uuid(golfer_id, "golfer_id")
+        round_uuid = self._uuid(round_id, "round_id")
+
+        try:
+            requested_start = int(start_hole)
+        except (TypeError, ValueError) as error:
+            raise DomainError("start_hole must be a valid course hole") from error
+
+        with self._connection() as connection, connection.cursor() as cursor:
+            round_row = self._round(cursor, round_uuid, lock=True)
+            participant = self._participant(cursor, round_uuid, golfer_uuid)
+            self._require_active_player(participant, "change the scramble starting hole")
+
+            if round_row["mode"] != "scramble":
+                raise DomainError("starting hole correction is only available for scramble rounds")
+            if round_row["status"] not in {"setup", "active"}:
+                raise DomainError("starting hole can only be changed on an unfinished scramble")
+            if int(round_row["current_route_position"] or 1) != 1:
+                raise DomainError("starting hole is locked after the scramble advances")
+
+            cursor.execute(
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM round_hole_scores
+                    WHERE round_id = %s
+                      AND score_scope = 'team'
+                ) AS has_score
+                """,
+                (round_uuid,),
+            )
+            if bool(cursor.fetchone()["has_score"]):
+                raise DomainError("starting hole is locked after the first team score")
+
+            physical_hole_count = 9
+            if round_row["course_id"]:
+                cursor.execute(
+                    """
+                    SELECT max(hole_number) AS max_hole
+                    FROM cached_course_holes
+                    WHERE course_id = %s
+                    """,
+                    (round_row["course_id"],),
+                )
+                max_hole = int(cursor.fetchone()["max_hole"] or 0)
+                if max_hole < 1:
+                    raise NotFound("cached course has no hole data")
+                physical_hole_count = 9 if max_hole <= 9 else 18
+            elif int(round_row["hole_count"] or 0) > 9:
+                physical_hole_count = 18
+
+            route = build_route(
+                course_hole_count=physical_hole_count,
+                start_hole=requested_start,
+                hole_count=int(round_row["hole_count"]),
+            )
+
+            cursor.executemany(
+                """
+                UPDATE round_route_positions
+                SET hole_number = %s
+                WHERE round_id = %s
+                  AND route_position = %s
+                """,
+                [
+                    (item.hole_number, round_uuid, item.route_position)
+                    for item in route
+                ],
+            )
+
+            new_current_hole = int(route[0].hole_number)
+            old_current_hole = int(round_row["current_hole"])
+            cursor.execute(
+                """
+                UPDATE rounds
+                SET current_hole = %s,
+                    current_route_position = 1,
+                    updated_at = now()
+                WHERE id = %s
+                """,
+                (new_current_hole, round_uuid),
+            )
+
+            cursor.execute(
+                "DELETE FROM round_route_pars WHERE round_id = %s",
+                (round_uuid,),
+            )
+            if round_row["par_tracking_enabled"]:
+                if round_row["course_id"]:
+                    cursor.execute(
+                        """
+                        INSERT INTO round_route_pars (
+                            round_id, route_position, par, source
+                        )
+                        SELECT rr.round_id, rr.route_position, ch.par, 'course'
+                        FROM round_route_positions rr
+                        JOIN cached_course_holes ch
+                          ON ch.course_id = %s
+                         AND ch.hole_number = rr.hole_number
+                        WHERE rr.round_id = %s
+                          AND ch.par IS NOT NULL
+                        """,
+                        (round_row["course_id"], round_uuid),
+                    )
+                else:
+                    cursor.execute(
+                        """
+                        INSERT INTO round_route_pars (
+                            round_id, route_position, par, source
+                        )
+                        SELECT rr.round_id, rr.route_position, hp.par, 'manual'
+                        FROM round_route_positions rr
+                        JOIN round_hole_pars hp
+                          ON hp.round_id = rr.round_id
+                         AND hp.hole_number = rr.hole_number
+                        WHERE rr.round_id = %s
+                        """,
+                        (round_uuid,),
+                    )
+
+            self._event(
+                cursor,
+                round_id=round_uuid,
+                actor_participant_id=participant["id"],
+                event_type="scramble_start_hole_changed",
+                hole_number=new_current_hole,
+                route_position=1,
+                old_value={"hole_number": old_current_hole},
+                new_value={"hole_number": new_current_hole},
+                data={
+                    "start_hole": new_current_hole,
+                    "physical_hole_count": physical_hole_count,
+                },
+            )
+
+            return {
+                "round_id": round_uuid,
+                "start_hole": new_current_hole,
+                "current_hole": new_current_hole,
+                "current_route_position": 1,
+                "route": [item.as_dict() for item in route],
+            }
+
     def set_current_hole(
         self,
         golfer_id: object,
