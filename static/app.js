@@ -37,6 +37,11 @@
   const settingsHandicapIndex = document.getElementById('settings-handicap-index');
   const settingsSpouseType = document.getElementById('settings-spouse-type');
   const colorThemeTease = document.getElementById('color-theme-tease');
+  const adminAccountsOpen = document.getElementById('admin-accounts-open');
+  const adminAccountsModal = document.getElementById('admin-accounts-modal');
+  const adminAccountsClose = document.getElementById('admin-accounts-close');
+  const adminAccountsMessage = document.getElementById('admin-accounts-message');
+  const adminAccountsList = document.getElementById('admin-accounts-list');
   const installOnboardingModal = document.getElementById('install-onboarding-modal');
   const installOnboardingMascot = document.getElementById('install-onboarding-mascot');
   const installOnboardingKicker = document.getElementById('install-onboarding-kicker');
@@ -8102,6 +8107,9 @@
       populateSettings(preferences);
       populateProfileRelationship(preferences);
       populateProfileHandicap(account);
+      if (adminAccountsOpen) {
+        adminAccountsOpen.hidden = !Boolean(account?.is_admin);
+      }
       settingsClose?.focus();
     } catch (error) {
       setSettingsMessage(error.message);
@@ -8126,6 +8134,99 @@
     }
   };
 
+  const formatAdminAccountTime = (value) => {
+    if (!value) return 'NEVER';
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return 'UNKNOWN';
+    return parsed.toLocaleString([], {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+  };
+
+  const setAdminAccountsMessage = (message = '') => {
+    if (!adminAccountsMessage) return;
+    adminAccountsMessage.textContent = message;
+    adminAccountsMessage.hidden = !message;
+  };
+
+  const renderAdminAccounts = (accounts = []) => {
+    if (!adminAccountsList) return;
+    adminAccountsList.replaceChildren();
+
+    accounts.forEach((account) => {
+      const row = document.createElement('section');
+      row.className = 'admin-account-row';
+      row.classList.toggle('is-admin', Boolean(account.is_admin));
+
+      const head = document.createElement('div');
+      head.className = 'admin-account-head';
+
+      const name = document.createElement('strong');
+      name.textContent = account.display_name || account.username || 'Unknown golfer';
+
+      const badge = document.createElement('small');
+      badge.textContent = account.is_admin ? 'ADMIN' : 'BETA USER';
+
+      head.append(name, badge);
+
+      const grid = document.createElement('div');
+      grid.className = 'admin-account-grid';
+
+      const addField = (label, value, options = {}) => {
+        const field = document.createElement('div');
+        field.className = 'admin-account-field';
+        const fieldLabel = document.createElement('span');
+        fieldLabel.textContent = label;
+        const fieldValue = document.createElement(options.code ? 'code' : 'b');
+        fieldValue.textContent = String(value ?? '—');
+        field.append(fieldLabel, fieldValue);
+        grid.append(field);
+      };
+
+      addField('USERNAME', account.username || '—', { code: true });
+      addField('PASSWORD', account.has_password ? 'HASHED — NOT VIEWABLE' : 'NO PASSWORD');
+      addField('ACTIVE SESSIONS', Number(account.active_sessions || 0));
+      addField('LAST LOGIN', formatAdminAccountTime(account.last_login_at));
+      addField('LAST ACTIVITY', formatAdminAccountTime(account.last_seen_at));
+      addField('CREATED', formatAdminAccountTime(account.created_at));
+
+      row.append(head, grid);
+      adminAccountsList.append(row);
+    });
+  };
+
+  const openAdminAccounts = async () => {
+    if (!adminAccountsModal || !adminAccountsList) return;
+    setAdminAccountsMessage('LOADING THE SUSPECT LIST...');
+    adminAccountsList.replaceChildren();
+    adminAccountsModal.hidden = false;
+    document.body.classList.add('modal-open');
+    try {
+      const payload = await requestJson('/api/admin/accounts');
+      const accounts = payload.accounts || [];
+      renderAdminAccounts(accounts);
+      setAdminAccountsMessage(String(accounts.length) + ' ACCOUNT' + (accounts.length === 1 ? '' : 'S') + ' FOUND.');
+    } catch (error) {
+      setAdminAccountsMessage(error.message);
+    }
+  };
+
+  const closeAdminAccounts = () => {
+    if (!adminAccountsModal) return;
+    adminAccountsModal.hidden = true;
+    document.body.classList.remove('modal-open');
+  };
+
+  adminAccountsOpen?.addEventListener('click', () => {
+    void openAdminAccounts();
+  });
+  adminAccountsClose?.addEventListener('click', closeAdminAccounts);
+  adminAccountsModal?.addEventListener('click', (event) => {
+    if (event.target === adminAccountsModal) closeAdminAccounts();
+  });
   colorThemeTease?.addEventListener('click', () => {
     const messages = [
       'STFU, snowflake. You get the color I chose. Stop being needy.',
@@ -8243,6 +8344,10 @@
     }
     if (roundFlowModal && !roundFlowModal.hidden) {
       closeRoundFlow();
+      return;
+    }
+    if (adminAccountsModal && !adminAccountsModal.hidden) {
+      closeAdminAccounts();
       return;
     }
     if (settingsModal && !settingsModal.hidden) {
