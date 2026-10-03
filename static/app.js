@@ -3755,7 +3755,6 @@
         input.value = String(Math.max(1, base - 1));
         input.dataset.draftDirty = 'true';
         refreshSubmitState();
-        focusScoreInput();
       });
 
       plus.addEventListener('click', () => {
@@ -3763,7 +3762,6 @@
         input.value = String(Math.min(99, Math.max(1, base + 1)));
         input.dataset.draftDirty = 'true';
         refreshSubmitState();
-        focusScoreInput();
       });
 
       input.addEventListener('input', () => {
