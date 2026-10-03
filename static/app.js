@@ -4481,7 +4481,7 @@
           parentText.className = 'live-banter-reply-text';
           parentText.textContent = scoreFeedText(round, parentEvent);
           replyReference.append(arrow, label, parentText);
-          content.append(meta, bubble, replyReference);
+          content.append(meta, replyReference, bubble);
         } else {
           content.append(meta, bubble);
         }
