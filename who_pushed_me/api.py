@@ -827,6 +827,19 @@ def set_participation_state(round_id: str):
     )
 
 
+@api.patch("/rounds/<round_id>/start-hole")
+@authenticated
+def set_scramble_start_hole(round_id: str):
+    payload = _body()
+    return jsonify(
+        _store().set_scramble_start_hole(
+            g.golfer["id"],
+            round_id,
+            payload.get("start_hole"),
+        )
+    )
+
+
 @api.patch("/rounds/<round_id>/current-hole")
 @authenticated
 def set_current_hole(round_id: str):
