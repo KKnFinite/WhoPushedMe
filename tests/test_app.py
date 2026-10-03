@@ -3774,3 +3774,22 @@ def test_scramble_contributions_take_over_mobile_screen_with_continue():
     assert "grid-template-columns: repeat(2, minmax(0, 1fr)) !important;" in block
     assert "#scramble-contribution-skip" in block
     assert "linear-gradient(145deg, #e0b337, var(--wpm-gold) 58%, #b88417)" in block
+
+
+def test_excuse_feed_shows_reason_optional_text_and_reply_context():
+    script = client().get("/static/app.js")
+    css = client().get("/static/app.css")
+    assert script.status_code == 200
+    assert css.status_code == 200
+
+    source = script.data.decode("utf-8")
+    assert "const excuseReasonLabel = (reason) =>" in source
+    assert "EXCUSE — ${reason}" in source
+    assert "event.reply_to_event_id" in source
+    assert "live-banter-reply-context" in source
+    assert "REPLYING TO SCORE" in source
+    assert "eventType === 'excuse'" in source
+
+    css_source = css.data.decode("utf-8")
+    assert "/* LIVE SOCIAL REPLY CONTEXT */" in css_source
+    assert ".live-banter-reply-context" in css_source
