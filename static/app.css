@@ -10818,7 +10818,6 @@ textarea,
 .wpm-nav-yellow,
 .setup-back,
 #round-history-back,
-#past-rounds-back,
 #hole-transition-continue,
 #scramble-contribution-skip {
   border: 1px solid rgba(212,166,42,.9) !important;
@@ -10838,6 +10837,7 @@ textarea,
   letter-spacing: .04em;
 }
 
+#past-rounds-back,
 #lobby-home,
 #live-round-home,
 #round-end-home {
