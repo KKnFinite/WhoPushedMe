@@ -947,6 +947,16 @@ def test_end_early_votes_expire_with_connected_window():
     assert "required_count > 0" in block
     assert "yes_count == required_count" in block
 
+    vote_start = store_source.index("    def set_end_early_vote(")
+    vote_end = store_source.index(
+        "    @staticmethod\n    def _receipt_seen_state_from_cursor(",
+        vote_start,
+    )
+    vote_block = store_source[vote_start:vote_end]
+    assert "all_voted = (" in vote_block
+    assert 'row["vote"] is not None' in vote_block
+    assert "DELETE FROM round_end_early_votes" in vote_block
+
 
 def test_end_early_vote_requires_active_player():
     from pathlib import Path
@@ -1670,6 +1680,9 @@ def test_end_early_vote_uses_connected_eligible_players():
     assert b"/end-early-vote" in response.data
     assert b"CONNECTED GOLFER" in response.data
     assert b"NO. KEEP SUFFERING." in client().get("/").data
+    assert b"shouldOpenEndEarlyPrompt" in response.data
+    assert b"viewerEndEarlyRow?.vote == null" in response.data
+    assert b"endEarlyProposalResolved" in response.data
 
 
 def test_end_early_vote_migration_is_present():
