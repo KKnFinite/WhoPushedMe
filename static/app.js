@@ -4392,7 +4392,7 @@
       return;
     }
 
-    rows.forEach((event) => {
+    rows.forEach((event, rowIndex) => {
       const actor = (round.participants || []).find(
         (participant) =>
           String(participant.id) === String(event.actor_participant_id || '')
@@ -4469,7 +4469,13 @@
         const parentEvent = (round.events || []).find(
           (candidate) => String(candidate.id || '') === replyToId
         );
-        if (parentEvent) {
+        const previousVisibleEvent = rows[rowIndex - 1] || null;
+        const parentIsImmediatelyAbove = Boolean(
+          previousVisibleEvent
+          && String(previousVisibleEvent.id || '') === replyToId
+        );
+
+        if (parentEvent && !parentIsImmediatelyAbove) {
           const replyReference = document.createElement('div');
           replyReference.className = 'live-banter-reply-reference';
           const arrow = document.createElement('span');
@@ -4483,6 +4489,9 @@
           replyReference.append(arrow, label, parentText);
           content.append(meta, replyReference, bubble);
         } else {
+          if (parentIsImmediatelyAbove) {
+            row.classList.add('is-thread-attached');
+          }
           content.append(meta, bubble);
         }
       } else {
