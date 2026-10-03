@@ -4054,3 +4054,17 @@ def test_hidden_round_tee_fields_are_not_forced_visible():
     assert ".round-flow-card-game .round-text-field[hidden]" in source
     assert ".round-flow-card-game #spectator-join-tee-field[hidden]" in source
     assert "display: none !important;" in source
+
+
+def test_spectator_join_panel_stays_in_live_flow():
+    css = client().get("/static/app.css")
+    assert css.status_code == 200
+    source = css.data.decode("utf-8")
+
+    start = source.index("/* SPECTATOR JOIN — IN FLOW, NEVER OVERLAY LIVE CONTENT */")
+    block = source[start:]
+    assert ".spectator-join-play-panel:not([hidden])" in block
+    assert "position: static !important;" in block
+    assert "bottom: auto !important;" in block
+    assert "width: 100% !important;" in block
+    assert "box-shadow: none !important;" in block
