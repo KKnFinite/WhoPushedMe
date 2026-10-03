@@ -2651,6 +2651,25 @@ class RoundStore:
                 round_uuid,
             )
             if not state["unanimous"]:
+                all_voted = (
+                    state["required_count"] > 0
+                    and all(
+                        row["vote"] is not None
+                        for row in state["eligible"]
+                    )
+                )
+                if all_voted:
+                    cursor.execute(
+                        """
+                        DELETE FROM round_end_early_votes
+                        WHERE round_id = %s
+                        """,
+                        (round_uuid,),
+                    )
+                    state = self._end_early_state_from_cursor(
+                        cursor,
+                        round_uuid,
+                    )
                 return {
                     "round_id": round_uuid,
                     "status": "active",
