@@ -3972,6 +3972,35 @@ def test_former_player_can_switch_to_spectator_and_remains_dnf_eligible_history(
     assert ".unfinished-round-spectate" in css_source
 
 
+def test_direct_install_entry_preserves_round_invites():
+    page = client().get("/install")
+    script = client().get("/static/app.js")
+    assert page.status_code == 200
+    assert script.status_code == 200
+
+    source = script.data.decode("utf-8")
+    assert "const directInstallEntry = window.location.pathname === '/install';" in source
+    assert "INSTALL_INVITE_KEY = 'wpm_pending_install_invite'" in source
+    assert "window.localStorage.setItem(INSTALL_INVITE_KEY, installInviteToken);" in source
+    assert "window.localStorage.getItem(INSTALL_INVITE_KEY)" in source
+    assert "window.localStorage.removeItem(INSTALL_INVITE_KEY);" in source
+    assert "configureDirectInstallEntry" in source
+    assert "directInstallEntry ? 0 : 3000" in source
+    assert "/install?invite=" in source
+    assert "CONTINUE IN BROWSER" in source
+    assert "Add to Home Screen" in source
+
+
+def test_switch_spectator_button_is_created_after_towel_button_lookup():
+    script = client().get("/static/app.js")
+    assert script.status_code == 200
+    source = script.data.decode("utf-8")
+
+    towel_index = source.index("const towelButton = document.getElementById('towel-button');")
+    switch_index = source.index("const switchSpectatorButton = document.createElement('button');")
+    assert towel_index < switch_index
+
+
 def test_more_menu_can_switch_active_player_to_spectator():
     script = client().get("/static/app.js")
     assert script.status_code == 200
